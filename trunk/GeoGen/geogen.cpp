@@ -248,6 +248,12 @@ void GGen_Data_1D::Scale(double ratio, bool scale_values){
 	ScaleTo((uint16) ((double) length * ratio), scale_values);
 }
 
+/*
+ * Crops all indices outside given interval from the array. The border points will
+ * remain in the area.
+ * @param minimum index of the range
+ * @param maximum index of the range
+ */
 void GGen_Data_1D::Crop(uint16 left_bound, uint16 right_bound){
 	assert(right_bound < length || left_bound > right_bound);
 
@@ -266,13 +272,23 @@ void GGen_Data_1D::Crop(uint16 left_bound, uint16 right_bound){
 	length = right_bound - left_bound + 1;
 }
 
+/*
+ * Clamps all values in the array to certain range
+ * @param minimum value of the range
+ * @param maximum value of the range
+ */
 void GGen_Data_1D::Clamp(int16 min, int16 max){
+	assert(max > min);
+
 	for(uint16 i = 0; i < length; i++){
 		if(data[i] > max) data[i] = max;
 		else if(data[i] < min) data[i] = min;
 	}
 }
 
+/*
+ * Inverts order of items in the array
+ */
 void GGen_Data_1D::Flip(){
 	int16 temp;
 	
