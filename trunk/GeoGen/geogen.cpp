@@ -30,6 +30,10 @@ typedef unsigned int uint32;
 #define GGEN_MIN_HEIGHT -32767
 #define GGEN_MAX_HEIGHT 32767
 
+enum GGen_Normalization_Mode{
+	GGEN_ADDITIVE,
+	GGEN_SUBSTRACTIVE
+};
 
 template <class T>
 T Random(T min, T max){
@@ -66,6 +70,7 @@ class GGen_Data_1D{
 		void Flip();
 
 		/* Advanced operations with array data */
+		void Normalize(GGen_Normalization_Mode mode);
 		void Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat);
 		void Noise(int16 min_value, int16 max_value, uint16 num_octaves, int16 octave_skip, uint16* octaves);
 
@@ -300,6 +305,37 @@ void GGen_Data_1D::Flip(){
 	}
 }
 
+/*
+ * Reduces all slopes in the array to max. 45 degrees (=1:1)
+ * @param switch if the substract from or add values to too steep slopes
+ */
+void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode){
+	/* Additive mode */
+	if(mode == GGEN_ADDITIVE){
+		/* Fix left-to-right "downhills" */
+		for(uint16 i = 1; i < length; i++){
+			if(data[i] < data[i - 1] - 1) data[i] = data[i - 1] - 1;
+		}
+
+		/* Fix right-to-left "downhills" */
+		for(uint16 i = length - 2; i > 0; i--){
+			if(data[i] < data[i + 1] - 1) data[i] = data[i + 1] - 1;
+		}
+	}
+	/* Substractive mode */
+	else{
+		/* Fix left-to-right "uphills" */
+		for(uint16 i = 1; i < length; i++){
+			if(data[i] > data[i - 1] + 1) data[i] = data[i - 1] + 1;
+		}
+
+		/* Fix right-to-left "uphills" */
+		for(uint16 i = length - 2; i > 0; i--){
+			if(data[i] > data[i + 1] + 1) data[i] = data[i + 1] + 1;
+		}
+	}
+}
+
 /**
  * Creates a smooth gradient of values
  * @param from - where should the gradient start
@@ -416,10 +452,14 @@ int main(int argc, char *argv[]){
 	
 	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  */
 
-	GGen_Data_1D* test = new GGen_Data_1D(17, 0);
+	GGen_Data_1D* test = new GGen_Data_1D(30, 0);
 	string buf;
 	
-	test->Noise(-255, 255, 5, 0, octaves);
+	test->SetValueInRange(10, 20, 5);
+
+	//test->Noise(-255, 255, 5, 0, octaves);
+
+	test->Normalize(GGEN_SUBSTRACTIVE);
 
 	//test->ScaleTo(100, false);
 
