@@ -31,6 +31,15 @@ enum GGen_Normalization_Mode{
 	GGEN_SUBSTRACTIVE
 };
 
+enum GGen_Interpolation_Mode{
+	GGEN_LINEAR,
+	GGEN_COSINE
+};
+/*
+struct GGen_Noise_Settings{
+	int16
+}*/
+
 template <class T>
 T Random(T min, T max){
 	double random = (double)rand() / (double) RAND_MAX;
@@ -74,7 +83,7 @@ class GGen_Data_1D{
 		void Monochrome(int16 treshold);
 		void Normalize(GGen_Normalization_Mode mode);
 		void Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat);
-		void Noise(int16 min_value, int16 max_value, uint16 num_octaves, int16 octave_skip, uint16* octaves);
+		void Noise(uint16 min_feature_size, uint16 max_feature_size, uint16* amplitudes);
 
 		/* Human interface functions */
 		void Print();
@@ -430,35 +439,89 @@ void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_v
 	}
 }
 
-void GGen_Data_1D::Noise(int16 min_value, int16 max_value, uint16 num_octaves, int16 octave_skip, uint16* octaves){
+void GGen_Data_1D::Noise(uint16 min_frequency, uint16 max_frequency, uint16* amplitudes){
 	/* Make sure length is a power of two + 1 */
 	assert(((length - 1) & (length - 2)) == 0);
 
-	assert(octaves != NULL);
+	assert(amplitudes != NULL);
 
-	int amplitude = num_octaves + octave_skip;
+	//int amplitude = num_octaves + octave_skip;
 
-	int16* temp = new int16[length];
+	//uint16 max_frequency = (uint16) log2((double) max_feature_size);
+	//uint16 min_frequency = (uint16) log2((double) min_feature_size);
+
+	uint16 wave_length = (uint16) pow(2, (double) max_frequency);
+
+	int16** octaves = new int16*[max_frequency - min_frequency];
+
+	for(int frequency = min_frequency; frequency <= max_frequency; frequency++){
+		
+
+		uint16 amplitude = amplitudes[frequency];
+
+		octaves[frequency] = new int16[length];
+
+		for(uint16 i = 0; i < length; i++){
+			octaves[frequency][i] = GGEN_INVALID_HEIGHT;
+		}
+
+		/* Fill the data */
+		for(uint16 i = 0; i < length; i += wave_length){
+			octaves[frequency][i] = Random((int16) -amplitude, (int16) amplitude);
+		}
+
+		/* Interpolate */
+		for(uint16 i = 0; i < length; i++){
+			if(octaves[frequency][i] != GGEN_INVALID_HEIGHT) continue;
+			double rem = (double) (i % wave_length) / (double) wave_length;
+			uint16 prev = i - i % wave_length;
+			uint16 next = i - i % wave_length + wave_length;
+			octaves[frequency][i] = octaves[frequency][prev]*(1-rem) + octaves[frequency][next]*rem;
+			
+		}
+
+		for(uint16 i = 0; i < length; i++){
+		//cout << frequency << "-" << i << "-" << octaves[frequency][i]<<"\n";
+			//cout << octaves[frequency][i] << ";";
+		}
+		//cout << "END\n";
+
+		wave_length /= 2;
+
+		cout << amplitude << "-";
+	}
+	
+	cout << "\n";
+
+	for(uint16 i = 0; i < length; i++){
+		int16 value = 0;
+		for(int frequency = min_frequency; frequency <= max_frequency; frequency++){
+			value += octaves[frequency][i];
+		}
+		data[i] = value;
+	}
+
+	Print();
 
 	/* Clear the height array */
-	for(uint16 i = 0; i < length; i++){
+	/*for(uint16 i = 0; i < length; i++){
 		data[i] = GGEN_INVALID_HEIGHT;
 	}
 
 	while(amplitude >= octave_skip){
 		uint16 step_size = (uint16) pow(2, (double) amplitude);
 
-		memcpy(temp, data, length * sizeof int16);
+		memcpy(temp, data, length * sizeof int16);*/
 
 		/* Skip some steps if the length is too small */
-		if(step_size > length){
+		/*if(step_size > length){
 			amplitude--;
 			continue;
 		}
 
-		for(uint16 i = 0; i < length; i += step_size){
+		for(uint16 i = 0; i < length; i += step_size){*/
 			/* Do not interpolate the value during the first step */
-			if(step_size != length - 1 && data[i] == GGEN_INVALID_HEIGHT){
+			/*if(step_size != length - 1 && data[i] == GGEN_INVALID_HEIGHT){
 				data[i] = (temp[i - step_size] + temp[i + step_size]) / 2;
 				data[i] += Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
 			}
@@ -468,22 +531,22 @@ void GGen_Data_1D::Noise(int16 min_value, int16 max_value, uint16 num_octaves, i
 
 			else data[i] = Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
 			
-		}
+		}*/
 
-		cout << "NOISE"<<amplitude << "=" <<(signed) step_size << " - " << octaves[num_octaves - amplitude - 1] << "\n";
+		//cout << "NOISE"/*<<amplitude*/ << "=" <<(signed) step_size << " - " << octaves[num_octaves - amplitude - 1] << "\n";
 
 		/*for(uint16 i = 0; i < length; i++){
 			cout << data[i]<<",";
 		}*/
 
-		Print();
+		//Print();
 
-		cout << "dsf\n";
+		//cout << "dsf\n";
 
-		amplitude--;
-	}
+		//amplitude--;
+	//}
 
-	delete [] temp;
+	//delete [] temp;
 }
 
 
@@ -491,7 +554,7 @@ void GGen_Data_1D::Noise(int16 min_value, int16 max_value, uint16 num_octaves, i
 
 
 void GGen_Data_1D::Print(){
-	for(uint16 i = 0; i < length; i++) cout << i << ". :" << data[i] << "\n";
+	for(uint16 i = 0; i < length; i++) cout << /*i << ". :" << */data[i] << "\n";
 }
 
 
@@ -503,12 +566,12 @@ int main(int argc, char *argv[]){
 
 	srand((unsigned)5); 
 
-	uint16 octaves[6] = {10000, 5000, 2500, 1000, 100,50};
+	uint16 octaves[8] = {10000, 5000, 3000, 2000, 1000,750,500,250};
 
-	GGen_Data_1D* a = new GGen_Data_1D(30);
+	/*GGen_Data_1D* a = new GGen_Data_1D(30);
 	a->Gradient(0,29,-10,20,true);
 	a->Monochrome(0);
-	a->Print();
+	a->Print();*/
 
 
 	/*if( SDL_Init(SDL_INIT_VIDEO) < 0 ){
@@ -518,12 +581,12 @@ int main(int argc, char *argv[]){
 	
 	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  */
 
-	/*GGen_Data_1D* test = new GGen_Data_1D(33, 0);*/
+	GGen_Data_1D* test = new GGen_Data_1D(129, 0);
 	
 	
 	//test->SetValueInRange(10, 20, 5);
 
-	//test->Noise(-255, 255, 6, 0, octaves);
+	test->Noise(0,6, octaves);
 
 	//test->Normalize(GGEN_SUBSTRACTIVE);
 
