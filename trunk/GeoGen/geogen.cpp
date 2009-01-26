@@ -6,15 +6,11 @@
 #include <stdlib.h> 
 #include <string>
 #include <SDL/SDL.h> 
-#include <SDL/SDL_ttf.h> 
 #include <math.h>
 #include <time.h> 
-#include <SDL/SDL_gfxPrimitives.h>
-#include <list>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
 #include <assert.h>
 using namespace std;
 
@@ -38,7 +34,8 @@ enum GGen_Normalization_Mode{
 template <class T>
 T Random(T min, T max){
 	double random = (double)rand() / (double) RAND_MAX;
-	return (T) (min + random * (max - min));
+	T output = min + (T) (random * (double)(max - min));
+	return output;
 }
 
 class GGen_Data_1D{
@@ -46,8 +43,10 @@ class GGen_Data_1D{
 		int16* data;
 		uint16 length;
 
+		/* Constructors/destructors */
 		GGen_Data_1D(uint16 length);
 		GGen_Data_1D(uint16 length, int16 value);
+		GGen_Data_1D(GGen_Data_1D& victim);
 		~GGen_Data_1D();
 
 		/* Basic data I/O */
@@ -68,6 +67,8 @@ class GGen_Data_1D{
 		void Crop(uint16 left_bound, uint16 right_bound);
 		void Clamp(int16 min, int16 max);
 		void Flip();
+		int16 Min();
+		int16 Max();
 
 		/* Advanced operations with array data */
 		void Normalize(GGen_Normalization_Mode mode);
@@ -107,6 +108,22 @@ GGen_Data_1D::GGen_Data_1D(uint16 length, int16 value){
 	this->length = length;
 
 	Fill(value);
+}
+
+/*
+ * Copy constructor
+ * @param victim to be cloned
+ */
+GGen_Data_1D::GGen_Data_1D(GGen_Data_1D& victim){
+	/* Allocate the array */
+	data = new int16[length];
+
+	assert(data != NULL);
+	assert(victim.data != NULL);
+
+	/* Copy the data */
+	memcpy(data, victim.data, sizeof int16 * victim.length);
+	length = victim.length;
 }
 
 GGen_Data_1D::~GGen_Data_1D(){
@@ -304,6 +321,31 @@ void GGen_Data_1D::Flip(){
 		data[length - 1 - i] = temp;
 	}
 }
+/*
+ * Returns the lowest value in the array
+ */
+int16 GGen_Data_1D::Min(){
+	int16 temp = GGEN_MAX_HEIGHT;
+
+	for(uint16 i = 0; i < length; i++){
+		temp = temp > data[i] ? data[i] : temp;
+	}
+
+	return temp;
+}
+
+/*
+ * Returns the highest value in the array
+ */
+int16 GGen_Data_1D::Max(){
+	int16 temp = GGEN_MIN_HEIGHT;
+
+	for(uint16 i = 0; i < length; i++){
+		temp = temp < data[i] ? data[i] : temp;
+	}
+
+	return temp;
+}
 
 /*
  * Reduces all slopes in the array to max. 45 degrees (=1:1)
@@ -412,15 +454,17 @@ void GGen_Data_1D::Noise(int16 min_value, int16 max_value, uint16 num_octaves, i
 				data[i] += Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
 			}
 
-			else data[i] += Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
+			else data[i] = Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
 			
 		}
 
-		//cout << "NOISE"<<amplitude << "=" <<(signed) step_size << " - " << octaves[num_octaves - amplitude - 1] << "\n";
+		cout << "NOISE"<<amplitude << "=" <<(signed) step_size << " - " << octaves[num_octaves - amplitude - 1] << "\n";
 
-		for(uint16 i = 0; i < length; i++){
+		/*for(uint16 i = 0; i < length; i++){
 			cout << data[i]<<",";
-		}
+		}*/
+
+		Print();
 
 		cout << "dsf\n";
 
@@ -440,10 +484,15 @@ void GGen_Data_1D::Print(){
 
 
 int main(int argc, char *argv[]){ 
+/*
+	IMPORTANT: The code from this below is just example of usage
+*/
 
-	srand((unsigned)999898989); 
 
-	uint16 octaves[5] = {10000, 5000, 2500, 1000, 100};
+	srand((unsigned)5); 
+
+	uint16 octaves[6] = {10000, 5000, 2500, 1000, 100,50};
+
 
 	/*if( SDL_Init(SDL_INIT_VIDEO) < 0 ){
 		printf("Inicializace SDL se nezdaøila: %s", SDL_GetError());   
@@ -452,21 +501,22 @@ int main(int argc, char *argv[]){
 	
 	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  */
 
-	GGen_Data_1D* test = new GGen_Data_1D(30, 0);
-	string buf;
+	/*GGen_Data_1D* test = new GGen_Data_1D(33, 0);*/
 	
-	test->SetValueInRange(10, 20, 5);
+	
+	//test->SetValueInRange(10, 20, 5);
 
-	//test->Noise(-255, 255, 5, 0, octaves);
+	//test->Noise(-255, 255, 6, 0, octaves);
 
-	test->Normalize(GGEN_SUBSTRACTIVE);
+	//test->Normalize(GGEN_SUBSTRACTIVE);
 
 	//test->ScaleTo(100, false);
 
 	//test->Flip();
 
-	test->Print();
+	//test->Print();
 
+	string buf;
 	cin >> buf;
 
 	return 0;
