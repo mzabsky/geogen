@@ -71,6 +71,7 @@ class GGen_Data_1D{
 		int16 Max();
 
 		/* Advanced operations with array data */
+		void Monochrome(int16 treshold);
 		void Normalize(GGen_Normalization_Mode mode);
 		void Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat);
 		void Noise(int16 min_value, int16 max_value, uint16 num_octaves, int16 octave_skip, uint16* octaves);
@@ -348,6 +349,17 @@ int16 GGen_Data_1D::Max(){
 }
 
 /*
+ * Reduces all data in the array to only two values. Values above treshold will be ones, values below
+ * (treshold included) will be zeros.
+ * @param treshold - maximum zero value
+ */
+void GGen_Data_1D::Monochrome(int16 treshold){
+	for(uint16 i = 0; i < length; i++){
+		data[i] = data[i] > treshold ? 1 : 0;
+	}	
+}
+
+/*
  * Reduces all slopes in the array to max. 45 degrees (=1:1)
  * @param switch if the substract from or add values to too steep slopes
  */
@@ -492,6 +504,11 @@ int main(int argc, char *argv[]){
 	srand((unsigned)5); 
 
 	uint16 octaves[6] = {10000, 5000, 2500, 1000, 100,50};
+
+	GGen_Data_1D* a = new GGen_Data_1D(30);
+	a->Gradient(0,29,-10,20,true);
+	a->Monochrome(0);
+	a->Print();
 
 
 	/*if( SDL_Init(SDL_INIT_VIDEO) < 0 ){
