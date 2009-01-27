@@ -64,6 +64,7 @@ class GGen_Data_1D{
 		/* Elementary artihmetic and logic operations */
 		void Add(int16 value);
 		void Add(GGen_Data_1D* addend);
+		void AddTo(int16 offset, GGen_Data_1D* addend);
 		void Multiply(double value);
 		void Multiply(GGen_Data_1D* factor);
 		void Invert();
@@ -76,7 +77,9 @@ class GGen_Data_1D{
 		int16 Min();
 		int16 Max();
 		void Shift(int16 distance, GGen_Overflow_Mode mode);
-
+		void Union(GGen_Data_1D* unifiee);
+		void Intersection(GGen_Data_1D* intersectee);
+		
 		/* Advanced operations with array data */
 		void Monochrome(int16 treshold);
 		void Normalize(GGen_Normalization_Mode mode);
@@ -220,6 +223,19 @@ void GGen_Data_1D::Add(int16 value){
 void GGen_Data_1D::Add(GGen_Data_1D* addend){
 	/* Scale the addend as necessary */
 	for(uint16 i = 0; i < length; i++) data[i] += addend->GetValue(i, length);
+}
+
+/*
+ * Adds values from (unscaled) addend to the array
+ * @param offset of the addend coords
+ * @param addend - the second array
+ */
+void GGen_Data_1D::AddTo(int16 offset, GGen_Data_1D* addend){
+	
+	/* Walk through the items where the array and the addend with ofset intersect */
+	for(uint16 i = MAX(0, offset); i < MIN(length, offset + addend->length); i++){
+		data[i] += addend->data[i - offset];
+	}
 }
 
 /** 
@@ -427,6 +443,24 @@ void GGen_Data_1D::Shift(int16 distance, GGen_Overflow_Mode mode){
 			}				
 		}
 	}
+}
+
+/*
+ * Unifies the data with data from the other array. The other array is scaled to fit the object.
+ * Negative data are treated the same as positive - the higher value remains.
+ * @param the victim
+ */
+void GGen_Data_1D::Union(GGen_Data_1D* unifiee){
+	for(uint16 i = 0; i < length; i++) data[i] = MAX(data[i], unifiee->GetValue(i, length));
+}
+
+/*
+ * Unifies the data with data from the other array. The other array is scaled to fit the object.
+ * Negative data are treated the same as positive - the higher value remains.
+ * @param the victim
+ */
+void GGen_Data_1D::Intersection(GGen_Data_1D* intersectee){
+	for(uint16 i = 0; i < length; i++) data[i] = MIN(data[i], intersectee->GetValue(i, length));
 }
 
 /*
@@ -712,7 +746,8 @@ int main(int argc, char *argv[]){
 
 	GGen_Data_1D* test = new GGen_Data_1D(129, 0);
 	
-	
+	GGen_Data_1D* c = new GGen_Data_1D(30,5000);
+
 	//test->SetValueInRange(10, 20, 5);
 
 	test->Noise(0,6, octaves);
@@ -723,7 +758,8 @@ int main(int argc, char *argv[]){
 
 	//test->Flip();
 	//test->Normalize(GGEN_ADDITIVE);
-	//test->Smooth(2, 128);
+	test->Smooth(5, 512);
+	//test->AddTo(-10,c);
 	test->Print();
 
 	string buf;
