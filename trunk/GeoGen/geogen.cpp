@@ -647,7 +647,7 @@ void GGen_Data_1D::Noise(uint16 min_frequency, uint16 max_frequency, uint16* amp
 /*
  * Smooths the values by making weighted mean of neighbouring values
  * @param radius from which are the values caulculated into the mean
- * @power weight of individual values. The current cell hes always weight 1024
+ * @power weight of individual values. The current cell has always weight 1024
  */
 void GGen_Data_1D::Smooth(uint16 radius, uint16 power){
 	if(radius == 0 || power == 0) return;
