@@ -31,14 +31,11 @@ enum GGen_Normalization_Mode{
 	GGEN_SUBSTRACTIVE
 };
 
-enum GGen_Interpolation_Mode{
-	GGEN_LINEAR,
-	GGEN_COSINE
+enum GGen_Overflow_Mode{
+	GGEN_CYCLE,
+	GGEN_DISCARD,
+	GGEN_DISCARD_AND_FILL
 };
-/*
-struct GGen_Noise_Settings{
-	int16
-}*/
 
 template <class T>
 T Random(T min, T max){
@@ -78,10 +75,12 @@ class GGen_Data_1D{
 		void Flip();
 		int16 Min();
 		int16 Max();
+		void Shift(int16 distance, GGen_Overflow_Mode mode);
 
 		/* Advanced operations with array data */
 		void Monochrome(int16 treshold);
 		void Normalize(GGen_Normalization_Mode mode);
+		void SlopeMap();
 		void Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat);
 		void Noise(uint16 min_feature_size, uint16 max_feature_size, uint16* amplitudes);
 
@@ -358,6 +357,78 @@ int16 GGen_Data_1D::Max(){
 }
 
 /*
+ * Shifts all indices in the array left (if the distance is < 0) or right (otherwise)
+ * @param difference of original and shifted indices
+ * @param shift mode
+ */
+void GGen_Data_1D::Shift(int16 distance, GGen_Overflow_Mode mode){
+	assert(distance < length && distance != 0 && distance > -length);
+	
+	/* Cycle mode */
+	if(mode == GGEN_CYCLE){
+		/* Allocate the new array */
+		int16* new_data = new int16[length];
+
+		assert(new_data != NULL);
+
+		/* Fill the new array with shifted data */
+		for(uint16 i = 0; i < length; i++){
+			/* Some values can be just plainly shifted */
+			if((distance > 0 && i < length - distance) || (distance < 0 && (signed) i >= -distance)){
+				new_data[i + distance] = data[i];
+			}
+			/* Some must go through the right "border" */
+			else if(distance > 0){
+				new_data[i - length + distance] = data[i];
+			}
+			/* And some must go through the left "border" */
+			else{
+				new_data[i + length + distance] = data[i];
+			}
+		}
+
+		/* Relink and delete the original array data */
+		delete [] data;
+		data = new_data;
+	}
+	/* Discard and Discard&fill mode */
+	else{
+		int16 temp;
+		
+		/* positive distance -> shift right*/
+		if(distance > 0){
+			for(int16 i = length - 1; i >= 0; i--){
+				/* Some values can be just plainly shifted... */
+				if(i > distance - 1){
+					data[i] = data[i - distance];
+					if(mode == GGEN_DISCARD_AND_FILL) temp = data[i];
+				}
+				/* And some must be filled with zeros / closest value */
+				else{
+					if(mode == GGEN_DISCARD_AND_FILL) data[i] = temp;
+					else data[i] = 0;
+				}
+			}	
+		}
+		/* Negative distance -> shift left */
+		else{
+			for(int16 i = 0; i < length; i++){
+				/* Some values can be just plainly shifted... */
+				if(i < length + distance){
+					data[i] = data[i - distance];
+					if(mode == GGEN_DISCARD_AND_FILL) temp = data[i];
+				}
+				/* And some must be filled with zeros / closest value */
+				else{
+					if(mode == GGEN_DISCARD_AND_FILL) data[i] = temp;
+					else data[i] = 0;
+				}
+			}				
+		}
+	}
+}
+
+/*
  * Reduces all data in the array to only two values. Values above treshold will be ones, values below
  * (treshold included) will be zeros.
  * @param treshold - maximum zero value
@@ -366,6 +437,29 @@ void GGen_Data_1D::Monochrome(int16 treshold){
 	for(uint16 i = 0; i < length; i++){
 		data[i] = data[i] > treshold ? 1 : 0;
 	}	
+}
+
+/*
+ * Replaces the array  data with information about steepness of slopes at every point but borders
+ */
+void GGen_Data_1D::SlopeMap(){
+
+	/* Allocate the new array */
+	int16* new_data = new int16[length];
+
+	assert(new_data != NULL);
+
+	/* Calculate the slopes */
+	for(uint16 i = 1; i < length - 1; i++){
+		new_data[i] = abs(data[i - 1] - data[i + 1]);
+	}
+
+	new_data[0] = new_data[1];
+	new_data[length-1] = new_data[length-2];
+
+	/* Relink and delete the original array data */
+	delete [] data;
+	data = new_data;	
 }
 
 /*
@@ -501,7 +595,7 @@ void GGen_Data_1D::Noise(uint16 min_frequency, uint16 max_frequency, uint16* amp
 		data[i] = value;
 	}
 
-	Print();
+	//Print();
 
 	/* Clear the height array */
 	/*for(uint16 i = 0; i < length; i++){
@@ -573,6 +667,10 @@ int main(int argc, char *argv[]){
 	a->Monochrome(0);
 	a->Print();*/
 
+	/*GGen_Data_1D b(10);
+	b.Gradient(0,9,1,10,true);
+	b.Shift(-4,GGEN_DISCARD_AND_FILL);
+	b.Print();*/
 
 	/*if( SDL_Init(SDL_INIT_VIDEO) < 0 ){
 		printf("Inicializace SDL se nezdaøila: %s", SDL_GetError());   
@@ -593,8 +691,9 @@ int main(int argc, char *argv[]){
 	//test->ScaleTo(100, false);
 
 	//test->Flip();
-
-	//test->Print();
+	//test->Normalize(GGEN_ADDITIVE);
+	test->SlopeMap();
+	test->Print();
 
 	string buf;
 	cin >> buf;
