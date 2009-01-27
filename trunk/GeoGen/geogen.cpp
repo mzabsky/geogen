@@ -83,6 +83,7 @@ class GGen_Data_1D{
 		void SlopeMap();
 		void Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat);
 		void Noise(uint16 min_feature_size, uint16 max_feature_size, uint16* amplitudes);
+		void Smooth(uint16 radius, uint16 power);
 
 		/* Human interface functions */
 		void Print();
@@ -643,9 +644,39 @@ void GGen_Data_1D::Noise(uint16 min_frequency, uint16 max_frequency, uint16* amp
 	//delete [] temp;
 }
 
+/*
+ * Smooths the values by making weighted mean of neighbouring values
+ * @param radius from which are the values caulculated into the mean
+ * @power weight of individual values. The current cell hes always weight 1024
+ */
+void GGen_Data_1D::Smooth(uint16 radius, uint16 power){
+	if(radius == 0 || power == 0) return;
+	
+	/* Allocate the new array */
+	int16* new_data = new int16[length];
 
+	assert(new_data != NULL);
 
+	/* Smooth */
+	for(uint16 i = 0; i < length; i++){
+		int32 value = 0;
+		uint16 count = 0;
 
+		/* Gather data about neighbouring cells */
+		for(int16 j = -radius; j <= radius; j++){
+			if(j == 0 || i + j < 0 || i + j >= length) continue;
+			value += power * data[i + j];
+			count++;
+		}
+
+		/* Calculate the weighted mean for current cell */
+		new_data[i] = (value + data[i] * 1024) / (power * count + 1024); 
+	}
+
+	/* Relink and delete the original array data */
+	delete [] data;
+	data = new_data;	
+}
 
 void GGen_Data_1D::Print(){
 	for(uint16 i = 0; i < length; i++) cout << /*i << ". :" << */data[i] << "\n";
@@ -692,7 +723,7 @@ int main(int argc, char *argv[]){
 
 	//test->Flip();
 	//test->Normalize(GGEN_ADDITIVE);
-	test->SlopeMap();
+	//test->Smooth(2, 128);
 	test->Print();
 
 	string buf;
