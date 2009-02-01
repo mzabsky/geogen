@@ -91,6 +91,7 @@ class GGen_Data_1D{
 
 		/* Human interface functions */
 		void Print();
+		void Window(uint16 height);
 };
 
 /** 
@@ -453,7 +454,7 @@ void GGen_Data_1D::Shift(int16 distance, GGen_Overflow_Mode mode){
  * @param the victim
  */
 void GGen_Data_1D::Union(GGen_Data_1D* unifiee){
-	for(uint16 i = 0; i < length; i++) data[i] = MAX(data[i], unifiee->GetValue(i, length));
+	for(uint16 i = 0; i < length; i++) data[i] = MIN(data[i], unifiee->GetValue(i, length));
 }
 
 /*
@@ -462,7 +463,7 @@ void GGen_Data_1D::Union(GGen_Data_1D* unifiee){
  * @param the victim
  */
 void GGen_Data_1D::Intersection(GGen_Data_1D* intersectee){
-	for(uint16 i = 0; i < length; i++) data[i] = MIN(data[i], intersectee->GetValue(i, length));
+	for(uint16 i = 0; i < length; i++) data[i] = MAX(data[i], intersectee->GetValue(i, length));
 }
 
 /*
@@ -564,7 +565,7 @@ void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_v
 		if(distance_from > max_distance) data[i] = fill_flat ? to_value: data[i];
 		else if(distance_to > max_distance) data[i] = fill_flat ? from_value : data[i];
 		else{
-			double ratio = distance_from / max_distance;
+			double ratio = distance_to / max_distance;
 			data[i] = base + (int16) (ratio * offset);
 		}
 	}
@@ -757,6 +758,81 @@ void GGen_Data_1D::Print(){
 	for(uint16 i = 0; i < length; i++) cout << /*i << ". :" << */data[i] << "\n";
 }
 
+void DrawPixel(SDL_Surface *screen, int x, int y, Uint8 R, Uint8 G, Uint8 B){
+
+  Uint32 color = SDL_MapRGB(screen->format, R, G, B); 
+
+  switch (screen->format->BytesPerPixel)   
+  {   
+    case 1:   
+      {   
+        Uint8 *bufp;   
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x;   
+        *bufp = color;   
+      }   
+      break;   
+    case 2:   
+      {   
+        Uint16 *bufp;   
+        bufp = (Uint16 *)screen->pixels + y*screen->pitch/2 + x;   
+        *bufp = color;   
+      }   
+      break;   
+    case 3:   
+      {   
+        Uint8 *bufp;   
+        bufp = (Uint8 *)screen->pixels + y*screen->pitch + x * 3;   
+        if(SDL_BYTEORDER == SDL_LIL_ENDIAN)   
+        {   
+          bufp[0] = color;   
+          bufp[1] = color >> 8;   
+          bufp[2] = color >> 16;   
+        } else {   
+          bufp[2] = color;   
+          bufp[1] = color >> 8;   
+          bufp[0] = color >> 16;   
+        }   
+      }   
+      break;   
+    case 4:   
+      {   
+        Uint32 *bufp;   
+        bufp = (Uint32 *)screen->pixels + y*screen->pitch/4 + x;
+        *bufp = color;   
+      }   
+      break;   
+  }   
+}   
+
+void GGen_Data_1D::Window(uint16 height){
+
+
+	int16 min = Min();
+	int16 max = Max();
+
+	int16 total = abs(min-max);
+
+	double ratio = (double) height / (double) total;
+
+	int16 offset = (double) min * ratio;
+
+	offset = -offset;
+
+	SDL_Surface *screen;   
+	screen = SDL_SetVideoMode(length, height+1, 32, SDL_HWSURFACE|SDL_DOUBLEBUF); 
+
+	SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
+
+
+	SDL_LockSurface(screen);
+	for(uint16 i = 0; i < length; i++) {
+		DrawPixel(screen,i,data[i]*ratio + offset,255,255,255);
+		if(offset > 0) DrawPixel(screen,i,offset,125,125,125);
+	}
+	SDL_UnlockSurface(screen);
+	SDL_Flip(screen);
+}
+
 
 int main(int argc, char *argv[]){ 
 /*
@@ -778,39 +854,54 @@ int main(int argc, char *argv[]){
 	b.Shift(-4,GGEN_DISCARD_AND_FILL);
 	b.Print();*/
 
-	/*if( SDL_Init(SDL_INIT_VIDEO) < 0 ){
+	if( SDL_Init(SDL_INIT_VIDEO) < 0 ){
 		printf("Inicializace SDL se nezdaøila: %s", SDL_GetError());   
 		exit(5);   
 	}   
 	
-	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  */
+	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  
 
-	//GGen_Data_1D* test = new GGen_Data_1D(129, 0);
+	GGen_Data_1D* test = new GGen_Data_1D(513, 0);
 	
-	GGen_Data_1D* c = new GGen_Data_1D(100,5000);
+	GGen_Data_1D* c = new GGen_Data_1D(513);
 
 	//test->SetValueInRange(10, 20, 5);
 
-	//test->Noise(0,6, octaves);
+	test->Noise(0,6, octaves);
 
-	//test->Normalize(GGEN_SUBSTRACTIVE);
+	
 
 	//test->ScaleTo(100, false);
 
 	//test->Flip();
 	//test->Normalize(GGEN_ADDITIVE);
-	//test->Smooth(5, 512);
+	test->Smooth(5, 512);
+
+	//test->Add(10000);
+
+	//test->Normalize(GGEN_SUBSTRACTIVE);
 	//test->AddTo(-10,c);
-	c->Gradient(0,99,1,100,true);
+	
+	c->Gradient(0,512,test->Min(),test->Max(),true);
 
 	//c->ResizeCanvas(50,0);
 
-	c->Flood(0.75);
+	//c->Flood(0.75);
+	
+test->Window(200);
 
-	c->Print();
+	test->Union(c);
 
-	string buf;
-	cin >> buf;
+	test->Print();
+
+	test->Window(200);
+
+
+  while(1){   
+    SDL_Event event;   
+    while(SDL_PollEvent(&event)){ 
+	}
+  }
 
 	return 0;
 }
