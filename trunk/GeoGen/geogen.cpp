@@ -71,7 +71,7 @@ class GGen_Data_1D{
 		void Scale(double ratio, bool scale_values);
 		void ScaleTo(uint16 new_length, bool scale_values);
 		void Fill(int16 value);
-		void Crop(uint16 left_bound, uint16 right_bound);
+		void ResizeCanvas(int16 new_length, int16 new_zero);
 		void Clamp(int16 min, int16 max);
 		void Flip();
 		int16 Min();
@@ -87,6 +87,7 @@ class GGen_Data_1D{
 		void Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat);
 		void Noise(uint16 min_feature_size, uint16 max_feature_size, uint16* amplitudes);
 		void Smooth(uint16 radius, uint16 power);
+		void Flood(double water_amount);
 
 		/* Human interface functions */
 		void Print();
@@ -302,22 +303,23 @@ void GGen_Data_1D::Scale(double ratio, bool scale_values){
  * @param minimum index of the range
  * @param maximum index of the range
  */
-void GGen_Data_1D::Crop(uint16 left_bound, uint16 right_bound){
-	assert(right_bound < length || left_bound > right_bound);
-
+void GGen_Data_1D::ResizeCanvas(int16 new_length, int16 new_zero){
 	/* Allocate the new array */
-	int16* new_data = new int16[right_bound - left_bound + 1];
+	int16* new_data = new int16[new_length];
 
 	assert(new_data != NULL);
 
-	for(uint16 i = left_bound; i <= right_bound + 1; i++){
-		new_data[i - left_bound] = data[i];
+	for(uint16 i = 0; i < new_length; i++){
+		if(i + new_zero >= 0 && i + new_zero < length){
+			new_data[i] = data[i + new_zero];
+		}
+		else new_data[i] = 0;
 	}
 
 	/* Relink and delete the original array data */
 	delete [] data;
 	data = new_data;
-	length = right_bound - left_bound + 1;
+	length = new_length;
 }
 
 /*
@@ -712,6 +714,45 @@ void GGen_Data_1D::Smooth(uint16 radius, uint16 power){
 	data = new_data;	
 }
 
+/*
+ * Shifts the array values so given percentage of it is under zero (zero represents the water level).
+ * @param percentage of the map to be flooded
+ */
+void GGen_Data_1D::Flood(double water_amount){
+	uint16 target = (uint16) (water_amount * (double) length);
+	
+	uint16 last_amount = 0;
+
+	int16 level = this->Min();
+	int16 max = this->Max();
+
+	/* Go through the array values from bottom up and try to find the best fit to target water amount */
+	while(level < max){
+		/* Calculate the amount of waters above current level */
+		uint16 amount = 0;
+		for(uint16 i = 0; i < length; i++) {
+			if(data[i] <= level) amount++;
+		}
+
+		/* Is current level higher than the target? */
+		if(amount >= target){
+			/* Find if this level fits better than the previous (the closest fit applies) */
+			if(amount - target < target - last_amount) break;
+			else{
+				level--;
+				break;
+			}
+		}
+
+		last_amount = amount;
+
+		level++;
+	}
+
+	/* Shift the heights so given portion of the array is under zero */
+	this->Add(-level);
+}
+
 void GGen_Data_1D::Print(){
 	for(uint16 i = 0; i < length; i++) cout << /*i << ". :" << */data[i] << "\n";
 }
@@ -744,13 +785,13 @@ int main(int argc, char *argv[]){
 	
 	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  */
 
-	GGen_Data_1D* test = new GGen_Data_1D(129, 0);
+	//GGen_Data_1D* test = new GGen_Data_1D(129, 0);
 	
-	GGen_Data_1D* c = new GGen_Data_1D(30,5000);
+	GGen_Data_1D* c = new GGen_Data_1D(100,5000);
 
 	//test->SetValueInRange(10, 20, 5);
 
-	test->Noise(0,6, octaves);
+	//test->Noise(0,6, octaves);
 
 	//test->Normalize(GGEN_SUBSTRACTIVE);
 
@@ -758,9 +799,15 @@ int main(int argc, char *argv[]){
 
 	//test->Flip();
 	//test->Normalize(GGEN_ADDITIVE);
-	test->Smooth(5, 512);
+	//test->Smooth(5, 512);
 	//test->AddTo(-10,c);
-	test->Print();
+	c->Gradient(0,99,1,100,true);
+
+	//c->ResizeCanvas(50,0);
+
+	c->Flood(0.75);
+
+	c->Print();
 
 	string buf;
 	cin >> buf;
