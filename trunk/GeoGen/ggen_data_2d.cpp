@@ -13,3 +13,57 @@
 #include "ggen_support.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
+
+/** 
+ * Creates a 2D data array and fills it with zeros
+ * @param length of the array
+ */
+GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
+	length = x * y;
+	this->x = x;
+	this->y = y;
+
+	/* Allocate the array */
+	data = new int16[length];
+
+	assert(data != NULL);
+
+	Fill(0);
+}
+
+/** 
+ * Creates a 1D data array and fills it with a constant value
+ * @param width of the array
+ * @param height of the array
+ * @param value to be filled with
+ */
+GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y, int16 value){
+	length = x * y;
+	this->x = x;
+	this->y = y;
+
+	/* Allocate the array */
+	data = new int16[length];
+
+	assert(data != NULL);
+
+	Fill(value);
+}
+
+/*
+ * Copy constructor
+ * @param victim to be cloned
+ */
+GGen_Data_2D::GGen_Data_2D(GGen_Data_2D& victim){
+	/* Allocate the array */
+	data = new int16[length];
+
+	assert(data != NULL);
+	assert(victim.data != NULL);
+
+	/* Copy the data */
+	memcpy(data, victim.data, sizeof int16 * victim.length);
+	length = victim.length;
+	x = victim.x;
+	y = victim.y;
+}
