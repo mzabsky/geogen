@@ -529,6 +529,10 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode){
 			if(data[i] > data[i + 1] + 1) data[i] = data[i + 1] + 1;
 		}
 	}
+
+	data[0] = data[1];
+	data[length-1] = data[length-2];
+
 }
 
 /**
@@ -572,113 +576,27 @@ void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_v
 }
 
 void GGen_Data_1D::Noise(uint16 min_frequency, uint16 max_frequency, uint16* amplitudes){
-	/* Make sure length is a power of two + 1 */
-	assert(((length - 1) & (length - 2)) == 0);
 
 	assert(amplitudes != NULL);
 
-	//int amplitude = num_octaves + octave_skip;
-
-	//uint16 max_frequency = (uint16) log2((double) max_feature_size);
-	//uint16 min_frequency = (uint16) log2((double) min_feature_size);
-
 	uint16 wave_length = (uint16) pow(2, (double) max_frequency);
 
-	int16** octaves = new int16*[max_frequency - min_frequency];
-
 	for(int frequency = min_frequency; frequency <= max_frequency; frequency++){
-		
-
 		uint16 amplitude = amplitudes[frequency];
 
-		octaves[frequency] = new int16[length];
-
-		for(uint16 i = 0; i < length; i++){
-			octaves[frequency][i] = GGEN_INVALID_HEIGHT;
+		/* Generate "new" values (where is nothing yet) */ 
+		for(uint16 i = wave_length; i < length; i += 2*wave_length){
+			int16 interpolated = (data[i - wave_length] + data[(i + wave_length) >= length ? (i + wave_length - length) : (i + wave_length)]) / 2;
+			data[i] = interpolated + Random((int16) -amplitude, (int16) amplitude);
 		}
 
-		/* Fill the data */
-		for(uint16 i = 0; i < length; i += wave_length){
-			octaves[frequency][i] = Random((int16) -amplitude, (int16) amplitude);
+		/* Improve the "old" values */
+		for(uint16 i = 0; i < length; i += 2*wave_length){
+			data[i] += Random((int16) -amplitude, (int16) amplitude);
 		}
-
-		/* Interpolate */
-		for(uint16 i = 0; i < length; i++){
-			if(octaves[frequency][i] != GGEN_INVALID_HEIGHT) continue;
-			double rem = (double) (i % wave_length) / (double) wave_length;
-			uint16 prev = i - i % wave_length;
-			uint16 next = i - i % wave_length + wave_length;
-			octaves[frequency][i] = octaves[frequency][prev]*(1-rem) + octaves[frequency][next]*rem;
-			
-		}
-
-		for(uint16 i = 0; i < length; i++){
-		//cout << frequency << "-" << i << "-" << octaves[frequency][i]<<"\n";
-			//cout << octaves[frequency][i] << ";";
-		}
-		//cout << "END\n";
 
 		wave_length /= 2;
-
-		cout << amplitude << "-";
 	}
-	
-	cout << "\n";
-
-	for(uint16 i = 0; i < length; i++){
-		int16 value = 0;
-		for(int frequency = min_frequency; frequency <= max_frequency; frequency++){
-			value += octaves[frequency][i];
-		}
-		data[i] = value;
-	}
-
-	//Print();
-
-	/* Clear the height array */
-	/*for(uint16 i = 0; i < length; i++){
-		data[i] = GGEN_INVALID_HEIGHT;
-	}
-
-	while(amplitude >= octave_skip){
-		uint16 step_size = (uint16) pow(2, (double) amplitude);
-
-		memcpy(temp, data, length * sizeof int16);*/
-
-		/* Skip some steps if the length is too small */
-		/*if(step_size > length){
-			amplitude--;
-			continue;
-		}
-
-		for(uint16 i = 0; i < length; i += step_size){*/
-			/* Do not interpolate the value during the first step */
-			/*if(step_size != length - 1 && data[i] == GGEN_INVALID_HEIGHT){
-				data[i] = (temp[i - step_size] + temp[i + step_size]) / 2;
-				data[i] += Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
-			}
-			else if(step_size != length - 1){
-				data[i] += Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
-			}
-
-			else data[i] = Random((int16) -octaves[num_octaves - amplitude - 1], (int16) octaves[num_octaves - amplitude - 1]);
-			
-		}*/
-
-		//cout << "NOISE"/*<<amplitude*/ << "=" <<(signed) step_size << " - " << octaves[num_octaves - amplitude - 1] << "\n";
-
-		/*for(uint16 i = 0; i < length; i++){
-			cout << data[i]<<",";
-		}*/
-
-		//Print();
-
-		//cout << "dsf\n";
-
-		//amplitude--;
-	//}
-
-	//delete [] temp;
 }
 
 /*
@@ -720,6 +638,8 @@ void GGen_Data_1D::Smooth(uint16 radius, uint16 power){
  * @param percentage of the map to be flooded
  */
 void GGen_Data_1D::Flood(double water_amount){
+	assert(water_amount < 1);
+
 	uint16 target = (uint16) (water_amount * (double) length);
 	
 	uint16 last_amount = 0;
@@ -732,11 +652,11 @@ void GGen_Data_1D::Flood(double water_amount){
 		/* Calculate the amount of waters above current level */
 		uint16 amount = 0;
 		for(uint16 i = 0; i < length; i++) {
-			if(data[i] <= level) amount++;
+			if(data[i] >= level) amount++;
 		}
 
 		/* Is current level higher than the target? */
-		if(amount >= target){
+		if(amount <= target){
 			/* Find if this level fits better than the previous (the closest fit applies) */
 			if(amount - target < target - last_amount) break;
 			else{
@@ -810,24 +730,30 @@ void GGen_Data_1D::Window(uint16 height){
 	int16 min = Min();
 	int16 max = Max();
 
+	//stringstream label;
+
+	//label << min << " " << max;
+
 	int16 total = abs(min-max);
 
 	double ratio = (double) height / (double) total;
 
-	int16 offset = (double) min * ratio;
+	int16 offset = (int16) ((double) min * ratio);
 
 	offset = -offset;
 
 	SDL_Surface *screen;   
 	screen = SDL_SetVideoMode(length, height+1, 32, SDL_HWSURFACE|SDL_DOUBLEBUF); 
 
+	//SDL_WM_SetCaption(label.str, label.str);
+
 	SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
 
 
 	SDL_LockSurface(screen);
 	for(uint16 i = 0; i < length; i++) {
-		DrawPixel(screen,i,data[i]*ratio + offset,255,255,255);
-		if(offset > 0) DrawPixel(screen,i,offset,125,125,125);
+		DrawPixel(screen,i,(int) (data[i]*ratio + offset),255,255,255);
+		//if(offset > 0) DrawPixel(screen,i,offset,125,125,125);
 	}
 	SDL_UnlockSurface(screen);
 	SDL_Flip(screen);
@@ -840,7 +766,7 @@ int main(int argc, char *argv[]){
 */
 
 
-	srand((unsigned)5); 
+	srand((unsigned)6); 
 
 	uint16 octaves[8] = {10000, 5000, 3000, 2000, 1000,750,500,250};
 
@@ -861,9 +787,9 @@ int main(int argc, char *argv[]){
 	
 	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  
 
-	GGen_Data_1D* test = new GGen_Data_1D(513, 0);
+	GGen_Data_1D* test = new GGen_Data_1D(1000, 0);
 	
-	GGen_Data_1D* c = new GGen_Data_1D(513);
+	GGen_Data_1D* c = new GGen_Data_1D(550);
 
 	//test->SetValueInRange(10, 20, 5);
 
@@ -882,15 +808,17 @@ int main(int argc, char *argv[]){
 	//test->Normalize(GGEN_SUBSTRACTIVE);
 	//test->AddTo(-10,c);
 	
-	c->Gradient(0,512,test->Min(),test->Max(),true);
+	//c->Gradient(0,512,test->Min(),test->Max(),true);
 
 	//c->ResizeCanvas(50,0);
 
 	//c->Flood(0.75);
 	
-test->Window(200);
+	//test->Normalize(GGEN_SUBSTRACTIVE);
 
-	test->Union(c);
+	test->Window(200);
+
+	//test->Add(c);
 
 	test->Print();
 
