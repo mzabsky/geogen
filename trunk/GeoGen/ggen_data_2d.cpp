@@ -67,3 +67,19 @@ GGen_Data_2D::GGen_Data_2D(GGen_Data_2D& victim){
 	x = victim.x;
 	y = victim.y;
 }
+
+/** 
+ * Fills the array with value
+ * @param value to be used
+ */
+void GGen_Data_2D::Fill(int16 value){
+	for(uint32 i = 0; i < length; i++) data[i] = value;
+}
+
+/** 
+ * Adds a flat value to each value in the array
+ * @param value to be used
+ */
+void GGen_Data_2D::Add(int16 value){
+	for(uint32 i = 0; i < length; i++) data[i] += value;
+}
