@@ -175,12 +175,28 @@
 				RelativePath=".\geogen.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\ggen_data_1d.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ggen_human_interface.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\ggen_data_1d.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ggen_support.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
