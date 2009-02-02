@@ -1,3 +1,5 @@
+#pragma once
+
 // hide stupid "sprintf is deprecated function, use our better alternative" MSVS warnings
 #define _CRT_SECURE_NO_WARNINGS
 
