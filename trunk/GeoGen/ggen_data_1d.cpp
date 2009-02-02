@@ -29,7 +29,7 @@ GGen_Data_1D::GGen_Data_1D(uint16 length){
 }
 
 /** 
- * Creates a 1D data array and fills it with value
+ * Creates a 1D data array and fills it with a constant value
  * @param length of the array
  * @param value to be filled with
  */
