@@ -77,11 +77,15 @@ int16 GGen_Data_1D::GetValue(uint16 x){
 /** 
  * Reads and returns one value from the array as if its size was scale_to_x
  * @param x coordinate of the value
+ * @param target length of the array
  */
 int16 GGen_Data_1D::GetValue(uint16 x, uint16 scale_to_x){
 	// TODO: poresit polozky na zacatku a konci pole
-	assert(x < length || x < scale_to_x);
-	
+	//assert(x < length || x < scale_to_x);
+	if(!(x < length || x < scale_to_x)){
+		cout << "ha";
+	}
+
 	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == length) return data[x];
 	
@@ -269,6 +273,7 @@ void GGen_Data_1D::Flip(){
 		data[length - 1 - i] = temp;
 	}
 }
+
 /*
  * Returns the lowest value in the array
  */

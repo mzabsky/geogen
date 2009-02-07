@@ -12,6 +12,7 @@
 
 #include "ggen_support.h"
 #include "ggen_data_1d.h"
+#include "ggen_data_2d.h"
 
 int main(int argc, char *argv[]){ 
 /*
@@ -40,43 +41,21 @@ int main(int argc, char *argv[]){
 	
 	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  
 
-	GGen_Data_1D* test = new GGen_Data_1D(1000, 0);
-	
-	GGen_Data_1D* c = new GGen_Data_1D(550);
+	GGen_Data_2D* test = new GGen_Data_2D(1000,1000,100);
 
-	//test->SetValueInRange(10, 20, 5);
+	test->Gradient(500,400,600,100,255,120,true);
 
-	test->Noise(0,6, octaves);
+	GGen_Data_1D* pattern = new GGen_Data_1D(5);
 
-	
+	pattern->SetValue(0,0);
+	pattern->SetValue(1,255);
+	pattern->SetValue(2,125);
+	pattern->SetValue(3,175);
+	pattern->SetValue(4,0);
 
-	//test->ScaleTo(100, false);
+	test->RadialGradient(200,200,200,pattern,true);
 
-	//test->Flip();
-	//test->Normalize(GGEN_ADDITIVE);
-	test->Smooth(5, 512);
-
-	//test->Add(10000);
-
-	//test->Normalize(GGEN_SUBSTRACTIVE);
-	//test->AddTo(-10,c);
-	
-	//c->Gradient(0,512,test->Min(),test->Max(),true);
-
-	//c->ResizeCanvas(50,0);
-
-	//c->Flood(0.75);
-	
-	//test->Normalize(GGEN_SUBSTRACTIVE);
-
-	test->Window(200);
-
-	//test->Add(c);
-
-	test->Print();
-
-	test->Window(200);
-
+	test->Window(true);
 
   while(1){   
     SDL_Event event;   

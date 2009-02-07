@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ggen_data_2d.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ggen_human_interface.cpp"
 				>
 			</File>
@@ -191,6 +195,10 @@
 			>
 			<File
 				RelativePath=".\ggen_data_1d.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ggen_data_2d.h"
 				>
 			</File>
 			<File

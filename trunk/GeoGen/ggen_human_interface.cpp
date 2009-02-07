@@ -12,6 +12,7 @@
 
 #include "ggen_support.h"
 #include "ggen_data_1d.h"
+#include "ggen_data_2d.h"
 
 void GGen_Data_1D::Print(){
 	for(uint16 i = 0; i < length; i++) cout << /*i << ". :" << */data[i] << "\n";
@@ -94,6 +95,55 @@ void GGen_Data_1D::Window(uint16 height){
 		DrawPixel(screen,i,(int) (data[i]*ratio + offset),255,255,255);
 		//if(offset > 0) DrawPixel(screen,i,offset,125,125,125);
 	}
+	SDL_UnlockSurface(screen);
+	SDL_Flip(screen);
+}
+
+void GGen_Data_2D::Window(bool fixed){
+
+
+	int16 min = Min();
+	int16 max = Max();
+
+	//stringstream label;
+
+	//label << min << " " << max;
+
+	int16 total = abs(min-max);
+
+	double ratio = (double) 255 / (double) total;
+
+	
+
+	int16 offset = (int16) ((double) min * ratio);
+
+	offset = -offset;
+
+	if(fixed){
+		ratio = 1;
+		offset = 0;
+	}
+
+	SDL_Surface *screen;   
+	screen = SDL_SetVideoMode(x, y, 32, SDL_HWSURFACE|SDL_DOUBLEBUF); 
+
+	//SDL_WM_SetCaption(label.str, label.str);
+
+	SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
+
+
+	SDL_LockSurface(screen);
+	for(uint16 i = 0; i < y; i++) {
+		for(uint16 j = 0; j < x; j++) {
+			int value = (int)(data[j + x * i]*ratio + offset);
+			DrawPixel(screen,j,i,value,value,value);
+
+			if(i % 100 == 0 || j % 100 == 0) DrawPixel(screen,j,i,255,0,0);
+
+			DrawPixel(screen,266,0,0,255,0);
+		}
+	}
+
 	SDL_UnlockSurface(screen);
 	SDL_Flip(screen);
 }
