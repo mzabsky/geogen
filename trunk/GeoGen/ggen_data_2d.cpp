@@ -88,7 +88,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	assert(x < length || x < scale_to_x);
 
 /* No interpolation needed if the sizes are equal */
-	if(scale_to_x == x && scale_to_y == y) return data[x];
+	if(scale_to_x == this->x && scale_to_y == this->y) return data[x + this->x * y];
 
 	double ratio_x = (double) this->x / (double) scale_to_x;
 	double ratio_y = (double) this->y / (double) scale_to_y;
@@ -172,6 +172,33 @@ int16 GGen_Data_2D::Max(){
 
 	return temp;
 }
+
+/*
+ * Unifies the data with data from the other array. The other array is scaled to fit the object.
+ * Negative data are treated the same as positive - the higher value remains.
+ * @param the victim
+ */
+void GGen_Data_2D::Union(GGen_Data_2D* unifiee){
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){	
+			data[j + i * x] = MIN(data[j + i * x], unifiee->GetValue(j, i, x, y));
+		}
+	}
+}
+
+/*
+ * Unifies the data with data from the other array. The other array is scaled to fit the object.
+ * Negative data are treated the same as positive - the higher value remains.
+ * @param the victim
+ */
+void GGen_Data_2D::Intersection(GGen_Data_2D* intersectee){
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){	
+			data[j + i * x] = MIN(data[j + i * x], intersectee->GetValue(j, i, x, y));
+		}
+	}
+}
+
 
 void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
 	if(direction == GGEN_HORIZONTAL){

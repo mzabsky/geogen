@@ -23,6 +23,8 @@ class GGen_Data_2D{
 		void Fill(int16 value);
 		int16 Min();
 		int16 Max();
+		void Intersection(GGen_Data_2D* intersectee);
+		void Union(GGen_Data_2D* unifiee);
 
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);
 
