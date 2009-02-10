@@ -86,11 +86,25 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y){
 int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y){
 	// TODO: poresit polozky na zacatku a konci pole
 	assert(x < length || x < scale_to_x);
-	
-	/* No interpolation needed if the sizes are equal */
-	if(scale_to_x == length) return data[x];
-	
+
+/* No interpolation needed if the sizes are equal */
+	if(scale_to_x == x && scale_to_y == y) return data[x];
+
+	double ratio_x = (double) this->x / (double) scale_to_x;
+	double ratio_y = (double) this->y / (double) scale_to_y;
+
+	uint16 left = (uint16) floor((double)x / ratio_x);
+	uint16 right = (uint16) ceil((double)x / ratio_x);
+
+	uint16 top = (uint16) floor((double)y / ratio_y);
+	uint16 bottom = (uint16) ceil((double)y / ratio_y);
+
+	cout << left << " " << right << " " << top << " " << bottom << "\n";
+
+	return 0;
+
 	/* The target scale is larger, interpolation is necessary */
+	if(1) ;
 	else if(scale_to_x > length){
 		double ratio = (double) (scale_to_x - 1) / (double) (length - 1);
 
@@ -107,6 +121,8 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 
 		return (int16) data[(uint16) floor((double)x / ratio + 0.5)];
 	}
+
+	
 }
 
 
@@ -157,7 +173,22 @@ int16 GGen_Data_2D::Max(){
 	return temp;
 }
 
-
+void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
+	if(direction == GGEN_HORIZONTAL){
+		for(uint16 i = 0; i < y; i++){
+			for(uint16 j = 0; j < x; j++){		
+				data[j + i * x] = profile->GetValue(i, y);
+			}
+		}
+	}
+	else{
+		for(uint16 i = 0; i < y; i++){
+			for(uint16 j = 0; j < x; j++){		
+				data[j + i * x] = profile->GetValue(j, x);
+			}
+		}
+	}
+}
 
 
 void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside){

@@ -24,6 +24,8 @@ class GGen_Data_2D{
 		int16 Min();
 		int16 Max();
 
+		void Project(GGen_Data_1D* profile, GGen_Direction direction);
+
 		/* Advanced data manipulation */
 		void Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, int16 from_value, int16 to_value, bool fill_outside);
 		void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside);
