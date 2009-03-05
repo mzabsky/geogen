@@ -26,6 +26,11 @@ enum GGen_Overflow_Mode{
 	GGEN_DISCARD_AND_FILL
 };
 
+enum GGen_Direction{
+	GGEN_HORIZONTAL,
+	GGEN_VERTICAL,
+};
+
 using namespace std;
 
 template <class T>

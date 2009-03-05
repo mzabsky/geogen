@@ -26,6 +26,7 @@ class GGen_Data_2D{
 		void Intersection(GGen_Data_2D* intersectee);
 		void Union(GGen_Data_2D* unifiee);
 
+		void Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode);
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);
 
 		/* Advanced data manipulation */

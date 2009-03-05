@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
 	
 	SDL_SetVideoMode(255, 255, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);  
 
-	GGen_Data_2D* test = new GGen_Data_2D(1000,1000,100);
+	/*GGen_Data_2D* test = new GGen_Data_2D(1000,1000,100);
 
 	test->Gradient(500,400,600,100,255,120,true);
 
@@ -53,9 +53,42 @@ int main(int argc, char *argv[]){
 	pattern->SetValue(3,175);
 	pattern->SetValue(4,0);
 
-	test->RadialGradient(200,200,200,pattern,true);
+	test->RadialGradient(200,200,200,pattern,true);*/
 
-	test->Window(true);
+	GGen_Data_1D* profile_a = new GGen_Data_1D(10, 127);
+	profile_a->SetValueInRange(4, 5, 16);
+
+	GGen_Data_1D* profile_b = new GGen_Data_1D(3, 127);
+	profile_b->SetValue(0, 0);
+
+	profile_a->Print();
+
+	GGen_Data_2D* a = new GGen_Data_2D(512, 512);
+	a->Project(profile_a, GGEN_HORIZONTAL);
+
+	uint16 amplitudes[2] = {150, 40};
+
+	GGen_Data_1D* shift_map = new GGen_Data_1D(512);
+	shift_map->Noise(5, 6, amplitudes);
+	shift_map->Smooth(3,500);
+	shift_map->Print();
+
+	//a->data[0] = 255;
+
+	GGen_Data_2D* b = new GGen_Data_2D(512, 512);
+	b->Project(profile_b, GGEN_VERTICAL);
+
+	b->Intersection(a);
+
+	//b->Window(true);
+/*
+	for(uint16 i = 0; i < b->y; i++){
+		for(uint16 j = 0; j < b->x; j++){
+			b->data[j + i * 255] = a->GetValue(j,i,255,255);
+		}
+	}*/
+
+	//b->Window(true);
 
   while(1){   
     SDL_Event event;   

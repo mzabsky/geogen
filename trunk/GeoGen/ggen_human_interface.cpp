@@ -138,9 +138,9 @@ void GGen_Data_2D::Window(bool fixed){
 			int value = (int)(data[j + x * i]*ratio + offset);
 			DrawPixel(screen,j,i,value,value,value);
 
-			if(i % 100 == 0 || j % 100 == 0) DrawPixel(screen,j,i,255,0,0);
+			//if(i % 100 == 0 || j % 100 == 0) DrawPixel(screen,j,i,255,0,0);
 
-			DrawPixel(screen,266,0,0,255,0);
+			//rawPixel(screen,266,0,0,255,0);
 		}
 	}
 

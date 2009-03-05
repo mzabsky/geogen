@@ -521,6 +521,7 @@ void GGen_Data_1D::Noise(uint16 min_frequency, uint16 max_frequency, uint16* amp
 
 		wave_length /= 2;
 	}
+
 }
 
 /*
