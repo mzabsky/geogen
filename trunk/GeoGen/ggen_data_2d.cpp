@@ -82,6 +82,9 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y){
 /** 
  * Reads and returns one value from the array as if its size was scale_to_x * scale_to_y
  * @param x coordinate of the value
+ * @param y coordinate of the value
+ * @param target width
+ * @param target height
  */
 int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y){
 	// TODO: poresit polozky na zacatku a konci pole
@@ -90,9 +93,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == this->x && scale_to_y == this->y) return data[x + this->x * y];
 
-	int16 value_x, value_y;
-
-	
+	int16 value_x, value_y;	
 	
 	double ratio_x = (double) (scale_to_x - 1) / (double) (this->x - 1);
 	double ratio_y = (double) (scale_to_y - 1) / (double) (this->y - 1);
@@ -105,8 +106,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	int16 base_x = scale_to_x > this->x ? (uint16) floor((double)x / ratio_x) : (uint16) floor((double)x / ratio_x + 0.5);
 	int16 base_y = scale_to_y > this->y ? (uint16) floor((double)y / ratio_y) : (uint16) floor((double)y / ratio_y + 0.5);
 	
-	// TODO: base_x/y to uint16
-
+	/* Calculate the interpolated value for horizontal axis */
 	if(scale_to_x > this->x){
 		value_x = (int16) ((double) data[(uint16) base_x + this->x * base_y] * (1 - remainder_x) + (double) data[(uint16) base_x + 1 + this->x * base_y] * (remainder_x));
 	}
@@ -114,6 +114,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 		value_x = (int16) data[(uint16) base_x + this->x * base_y];
 	}
 
+	// Calculate the interpolated value for vertical axis
 	if(scale_to_y > this->y){
 		value_y = (int16) ((double) data[(uint16) base_x + this->x * base_y] * (1 - remainder_y) + (double) data[base_x + this->x * (base_y + 1)] * (remainder_y));
 	}
@@ -121,14 +122,9 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 		value_y = (int16) data[(uint16) base_x + this->x * base_y];
 	}
 
+	// Return the arithmetic mean of the vertical and horizontal values
 	return (value_x + value_y) / 2;
 }
-
-
-
-
-
-
 
 /** 
  * Fills the array with value
