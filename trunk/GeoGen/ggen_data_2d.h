@@ -20,6 +20,7 @@ class GGen_Data_2D{
 		int16 GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y);
 
 		void Add(int16 value);
+		void Add(GGen_Data_2D* addend);
 		void Fill(int16 value);
 		int16 Min();
 		int16 Max();

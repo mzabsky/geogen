@@ -87,42 +87,41 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	// TODO: poresit polozky na zacatku a konci pole
 	assert(x < length || x < scale_to_x);
 
-/* No interpolation needed if the sizes are equal */
+	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == this->x && scale_to_y == this->y) return data[x + this->x * y];
 
-	double ratio_x = (double) this->x / (double) scale_to_x;
-	double ratio_y = (double) this->y / (double) scale_to_y;
-
-	uint16 left = (uint16) floor((double)x / ratio_x);
-	uint16 right = (uint16) ceil((double)x / ratio_x);
-
-	uint16 top = (uint16) floor((double)y / ratio_y);
-	uint16 bottom = (uint16) ceil((double)y / ratio_y);
-
-	cout << left << " " << right << " " << top << " " << bottom << "\n";
-
-	return 0;
-
-	/* The target scale is larger, interpolation is necessary */
-	if(1) ;
-	else if(scale_to_x > length){
-		double ratio = (double) (scale_to_x - 1) / (double) (length - 1);
-
-		/* How much does the source tile overlap over the smaller grid? */
-		double remainder = (x / ratio) - floor(x / ratio);
-
-		/* Interpolate the value from two sorrounding values */
-		return (int16) ((double) data[(uint16) floor(x / ratio)] * (1 - remainder) + (double) data[(uint16) floor(x / ratio) + 1] * (remainder));
-	}
-
-	/* The target is smaller, pick the closest value */
-	else{
-		double ratio = (double) (scale_to_x - 1) / (double) (length - 1);
-
-		return (int16) data[(uint16) floor((double)x / ratio + 0.5)];
-	}
+	int16 value_x, value_y;
 
 	
+	
+	double ratio_x = (double) (scale_to_x - 1) / (double) (this->x - 1);
+	double ratio_y = (double) (scale_to_y - 1) / (double) (this->y - 1);
+
+	/* How much does the source tile overlap over the smaller grid? */
+	double remainder_x = (x / ratio_x) - floor(x / ratio_x);
+	double remainder_y = (y / ratio_y) - floor(y / ratio_y);
+
+	/* The grid anchor points */
+	int16 base_x = scale_to_x > this->x ? (uint16) floor((double)x / ratio_x) : (uint16) floor((double)x / ratio_x + 0.5);
+	int16 base_y = scale_to_y > this->y ? (uint16) floor((double)y / ratio_y) : (uint16) floor((double)y / ratio_y + 0.5);
+	
+	// TODO: base_x/y to uint16
+
+	if(scale_to_x > this->x){
+		value_x = (int16) ((double) data[(uint16) base_x + this->x * base_y] * (1 - remainder_x) + (double) data[(uint16) base_x + 1 + this->x * base_y] * (remainder_x));
+	}
+	else{
+		value_x = (int16) data[(uint16) base_x + this->x * base_y];
+	}
+
+	if(scale_to_y > this->y){
+		value_y = (int16) ((double) data[(uint16) base_x + this->x * base_y] * (1 - remainder_y) + (double) data[base_x + this->x * (base_y + 1)] * (remainder_y));
+	}
+	else{
+		value_y = (int16) data[(uint16) base_x + this->x * base_y];
+	}
+
+	return (value_x + value_y) / 2;
 }
 
 
@@ -145,6 +144,22 @@ void GGen_Data_2D::Fill(int16 value){
  */
 void GGen_Data_2D::Add(int16 value){
 	for(uint32 i = 0; i < length; i++) data[i] += value;
+}
+
+
+/** 
+ * Combines the array with second array by just adding them together
+ * @param addend to be combined with
+ */
+void GGen_Data_2D::Add(GGen_Data_2D* addend){
+	/* Scale the addend as necessary */
+	for(uint16 i = 0; i < y; i++) 
+	{
+		for(uint16 j = 0; j < x; j++)
+		{
+			data[j + i * x] += addend->GetValue(j, i , x, y);
+		}
+	}
 }
 
 /*
@@ -235,7 +250,7 @@ void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to
 			int32 cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
 
 			/* Calculate the distance from the "from" pont */
-			int32 distance = sqrt((double) (cross_x*cross_x + cross_y*cross_y));
+			int32 distance = (int32) sqrt((double) (cross_x*cross_x + cross_y*cross_y));
 	
 			/* Fill/skip the outside areas */
 			if ((cross_x < 0 == (signed)to_x-(signed)from_x > 0) || (cross_y < 0 == (signed)to_y-(signed)from_y > 0) || distance >= floor(max_dist)){
