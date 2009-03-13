@@ -26,6 +26,7 @@ class GGen_Data_1D{
 		void Invert();
 		void Scale(double ratio, bool scale_values);
 		void ScaleTo(uint16 new_length, bool scale_values);
+		void ScaleValuesTo(int16 new_min, int16 new_max);
 		void Fill(int16 value);
 		void ResizeCanvas(int16 new_length, int16 new_zero);
 		void Clamp(int16 min, int16 max);

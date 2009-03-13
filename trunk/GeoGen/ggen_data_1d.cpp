@@ -216,6 +216,20 @@ void GGen_Data_1D::ScaleTo(uint16 new_length, bool scale_values){
 	length = new_length;
 }
 
+void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
+{
+	assert(new_max > new_min);
+
+	int16 min = this->Min();
+	int16 max = this->Max() - min;
+
+	new_max -= new_min;
+
+	for(uint16 i = 0; i < length; i++){
+		data[i] = new_min + (data[i] - min) * new_max / max;
+	}
+}
+
 /**
  * Change size of the array 
  * @param ratio in scale 100% = 1, 0.5 = 50%, 2.0 = 200%
