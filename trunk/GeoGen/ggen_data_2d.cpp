@@ -234,6 +234,21 @@ void GGen_Data_2D::Add(GGen_Data_2D* addend){
 	}
 }
 
+/*
+ * Adds values from (unscaled) addend to the array
+ * @param offset of the addend coords
+ * @param addend - the second array
+ */
+void GGen_Data_2D::AddTo(int16 offset_x, int16 offset_y, GGen_Data_2D* addend){
+	/* Walk through the items where the array and the addend with ofset intersect */
+	for(uint16 i = MAX(0, offset_y); i < MIN(y, offset_y + addend->y); i++){
+		for(uint16 j = MAX(0, offset_x); j < MIN(y, offset_x + addend->x); j++){
+			data[j + i * x] += addend->data[(j - offset_x) + (i - offset_y) * addend->x];
+		}
+	}
+}
+
+
 /** 
  * Multiplies all the values in the array by a flat number
  * @param value to be used

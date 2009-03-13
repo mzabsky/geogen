@@ -22,6 +22,7 @@ class GGen_Data_2D{
 		/* Elementary data manipulation */
 		void Add(int16 value);
 		void Add(GGen_Data_2D* addend);
+		void AddTo(int16 offset_x, int16 offset_y, GGen_Data_2D* addend);
 		void Multiply(double factor);
 		void Multiply(GGen_Data_2D* factor);
 		void Invert();
