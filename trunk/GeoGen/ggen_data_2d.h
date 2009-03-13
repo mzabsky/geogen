@@ -24,6 +24,8 @@ class GGen_Data_2D{
 		void Multiply(double factor);
 		void Multiply(GGen_Data_2D* factor);
 		void Invert();
+		void Scale(double ratio, bool scale_values);
+		void ScaleTo(uint16 new_x, uint16 new_y, bool scale_values);
 		void Fill(int16 value);
 		int16 Min();
 		int16 Max();

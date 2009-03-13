@@ -92,7 +92,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y){
  */
 int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y){
 	// TODO: poresit polozky na zacatku a konci pole
-	assert(x < length || x < scale_to_x);
+	assert(y < scale_to_y && x < scale_to_x && scale_to_y > 0 && scale_to_x > 0);
 
 	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == this->x && scale_to_y == this->y) return data[x + this->x * y];
@@ -159,6 +159,47 @@ void GGen_Data_2D::SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, in
 			data[j + this->x * i] = value;
 		}
 	}
+}
+
+/**
+ * Change size of the array 
+ * @param width of the new array
+ * @param height of the new array
+ * @param scale_values - should the values be scaled too?
+ */
+void GGen_Data_2D::ScaleTo(uint16 new_x, uint16 new_y, bool scale_values){
+	assert(new_x > 1 && new_y > 1);
+
+	/* Pick the ratio for values as arithmetic average of horizontal and vertical ratios */
+	double ratio = ((double) new_x / (double) x + (double) new_y / (double) y) / 2.0;
+
+	/* Allocate the new array */
+	int16* new_data = new int16[new_x * new_y];
+
+	assert(new_data != NULL);
+
+	/* Fill the new array */
+	for(uint16 i = 0; i < new_y; i++){
+		for(uint16 j = 0; j < new_x; j++){
+			new_data[j + i * new_x] = scale_values ? (int16) ((double) GetValue(j , i, new_x, new_y) * ratio) : GetValue(j , i, new_x, new_y);
+		}
+	}
+
+	/* Relink and delete the original array data */
+	delete [] data;
+	data = new_data;
+	x = new_x;
+	y = new_y;
+	length = new_x * new_y;
+}
+
+/**
+ * Change size of the array 
+ * @param ratio in scale 100% = 1, 0.5 = 50%, 2.0 = 200%
+ * @param scale_values - should the values be scaled too?
+ */
+void GGen_Data_2D::Scale(double ratio, bool scale_values){
+	ScaleTo((uint16) ((uint16) (double) x * ratio), (uint16) ((double) y * ratio), scale_values);
 }
 
 /** 
