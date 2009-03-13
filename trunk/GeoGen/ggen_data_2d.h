@@ -19,6 +19,7 @@ class GGen_Data_2D{
 		int16 GetValue(uint16 x, uint16 y);
 		int16 GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y);
 
+		/* Elementary data manipulation */
 		void Add(int16 value);
 		void Add(GGen_Data_2D* addend);
 		void Multiply(double factor);
@@ -27,8 +28,11 @@ class GGen_Data_2D{
 		void Scale(double ratio, bool scale_values);
 		void ScaleTo(uint16 new_x, uint16 new_y, bool scale_values);
 		void Fill(int16 value);
+		void Clamp(int16 min, int16 max);
 		int16 Min();
 		int16 Max();
+		void Rotate(GGen_Angle angle);
+		void Flip(GGen_Direction direction);
 		void Intersection(GGen_Data_2D* intersectee);
 		void Union(GGen_Data_2D* unifiee);
 

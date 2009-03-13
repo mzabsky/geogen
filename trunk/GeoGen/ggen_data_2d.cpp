@@ -266,6 +266,84 @@ void GGen_Data_2D::Invert(){
 	for(uint32 i = 0; i < length; i++) data[i] = - data[i];
 }
 
+/**
+  * Rotates the array clock-wise
+  * @param angle
+  */
+void GGen_Data_2D::Rotate(GGen_Angle angle){
+	
+	uint16 new_x, new_y;
+	if(angle == GGEN_180){
+		new_x = x;
+		new_y = y;
+	}
+	else{
+		new_x = y;
+		new_y = x;		
+	}
+	
+	/* Allocate the new array */
+	int16* new_data = new int16[new_x * new_y];
+
+	assert(new_data != NULL);	
+
+	/* Fill the new array with rotated values */
+	for(uint16 i = 0; i < new_y; i++) 
+	{
+		for(uint16 j = 0; j < new_x; j++)
+		{
+			switch (angle){
+				case GGEN_90:
+					new_data[j + i * new_x] = data[i + j * x];
+					break;
+				case GGEN_180:
+					new_data[(new_x - j) + i * new_x] = data[j + i * x];
+					break;
+				case GGEN_270:
+					new_data[j + (new_y - i) * new_x] = data[i + j * x];
+					break;
+			}
+		}
+	}
+
+	/* Relink and delete the original array data */
+	delete [] data;
+	data = new_data;
+	x = new_x;
+	y = new_y;
+}
+
+/**
+  * Flips the heightmap 
+  * @param direction on which the heightmap will be flipped
+  */
+void GGen_Data_2D::Flip(GGen_Direction direction){
+	int16 temp;
+
+	if(direction == GGEN_HORIZONTAL){	
+		for(uint16 i = 0; i < y; i++) 
+		{
+			for(uint16 j = 0; j < x / 2; j++)
+			{
+				temp = data[j + i * x];
+				data[j + i * x] = data[(x - j) + i * x];
+				data[(x - j) + i * x] = temp;
+			}
+		}
+	}
+	else{
+		for(uint16 i = 0; i < y / 2; i++) 
+		{
+			for(uint16 j = 0; j < x; j++)
+			{
+				temp = data[j + i * x];
+				data[j + i * x] = data[j + (y - i) * x];
+				data[j + (y - i) * x] = temp;
+			}
+		}
+	}
+}
+
 /*
  * Returns the lowest value in the array
  */
@@ -290,6 +368,20 @@ int16 GGen_Data_2D::Max(){
 	}
 
 	return temp;
+}
+
+/*
+ * Clamps all values in the array to certain range
+ * @param minimum value of the range
+ * @param maximum value of the range
+ */
+void GGen_Data_2D::Clamp(int16 min, int16 max){
+	assert(max > min);
+
+	for(uint16 i = 0; i < length; i++){
+		if(data[i] > max) data[i] = max;
+		else if(data[i] < min) data[i] = min;
+	}
 }
 
 /*
