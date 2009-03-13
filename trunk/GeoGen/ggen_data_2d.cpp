@@ -158,6 +158,38 @@ void GGen_Data_2D::Add(GGen_Data_2D* addend){
 	}
 }
 
+/** 
+ * Multiplies all the values in the array by a flat number
+ * @param value to be used
+ */
+void GGen_Data_2D::Multiply(double factor){
+	for(uint32 i = 0; i < length; i++) data[i] = (uint16) (factor * (double) data[i]);
+}
+
+
+/** 
+ * Multiplies current array by the factor
+ * @param factor to be combined with
+ */
+void GGen_Data_2D::Multiply(GGen_Data_2D* factor){
+	/* Scale the factor as necessary */
+	for(uint16 i = 0; i < y; i++) 
+	{
+		for(uint16 j = 0; j < x; j++)
+		{
+			data[j + i * x] *= factor->GetValue(j, i , x, y);
+		}
+	}
+}
+
+/** 
+ * Multiplies all the values in the array by a flat number
+ * @param value to be used
+ */
+void GGen_Data_2D::Invert(){
+	for(uint32 i = 0; i < length; i++) data[i] = - data[i];
+}
+
 /*
  * Returns the lowest value in the array
  */
@@ -210,7 +242,11 @@ void GGen_Data_2D::Intersection(GGen_Data_2D* intersectee){
 	}
 }
 
-
+/*
+ * Projects 1D array onto a 2D array
+ * @param profile to be projected
+ * @param direction of projection
+ */
 void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
 	if(direction == GGEN_HORIZONTAL){
 		for(uint16 i = 0; i < y; i++){

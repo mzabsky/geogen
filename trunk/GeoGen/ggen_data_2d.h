@@ -21,6 +21,9 @@ class GGen_Data_2D{
 
 		void Add(int16 value);
 		void Add(GGen_Data_2D* addend);
+		void Multiply(double factor);
+		void Multiply(GGen_Data_2D* factor);
+		void Invert();
 		void Fill(int16 value);
 		int16 Min();
 		int16 Max();
@@ -32,7 +35,7 @@ class GGen_Data_2D{
 
 		/* Advanced data manipulation */
 		void Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, int16 from_value, int16 to_value, bool fill_outside);
-		void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside);
+		void Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside);
 		void RadialGradient(uint16 center_x, uint16 center_y, uint16 radius, int16 min, int16 max, bool fill_outside);
 		void RadialGradient(uint16 center_x, uint16 center_y, uint16 radius, GGen_Data_1D* pattern, bool fill_outside);
 
