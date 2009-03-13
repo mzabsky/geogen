@@ -131,6 +131,38 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 }
 
 /** 
+ * Sets value on coordinate
+ * @param x coordinate
+ * @param y coordinate
+ * @param value to use
+ */
+void GGen_Data_2D::SetValue(uint16 x, uint16 y, int16 value){
+	assert(x < this->x && y < this->y);
+	
+	data[x + this->x * y] = value;
+}
+
+/** 
+ * Sets value in rect defined by coordinates of its edges. All edges are included into the filled area.
+ * @param x coordinate of the left edge
+ * @param y coordinate of the top edge
+ * @param x coordinate of the right edge
+ * @param y coordinate of the bottom edge
+ * @param value to use
+ */
+void GGen_Data_2D::SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, int16 value){
+	assert(x2 < this->x && y2 < this->y);
+	assert(x1 < x2 && y1 < y2);
+	
+	for(uint16 i = y1; i <= y2; i++){
+		for(uint16 j = x1; j <= x2; j++){
+			data[j + this->x * i] = value;
+		}
+	}
+	
+}
+
+/** 
  * Fills the array with value
  * @param value to be used
  */

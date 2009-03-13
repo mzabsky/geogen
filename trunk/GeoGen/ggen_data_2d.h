@@ -15,7 +15,7 @@ class GGen_Data_2D{
 
 		/* Basic data I/O */
 		void SetValue(uint16 x, uint16 y, int16 value);
-		//void SetValueInRange(uint16 from, uint16 to, int16 value);
+		void SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, int16 value);
 		int16 GetValue(uint16 x, uint16 y);
 		int16 GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y);
 
