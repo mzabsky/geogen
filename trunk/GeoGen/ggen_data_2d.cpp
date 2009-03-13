@@ -194,6 +194,25 @@ void GGen_Data_2D::ScaleTo(uint16 new_x, uint16 new_y, bool scale_values){
 }
 
 /**
+ * Scales the values so they all fit to the passed range
+ * @param new minimum value
+ * @param new maximum value
+ */
+void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
+{
+	assert(new_max > new_min);
+
+	int16 min = this->Min();
+	int16 max = this->Max() - min;
+
+	new_max -= new_min;
+
+	for(uint32 i = 0; i < length; i++){
+		data[i] = new_min + (data[i] - min) * new_max / max;
+	}
+}
+
+/**
  * Change size of the array 
  * @param ratio in scale 100% = 1, 0.5 = 50%, 2.0 = 200%
  * @param scale_values - should the values be scaled too?
@@ -236,7 +255,8 @@ void GGen_Data_2D::Add(GGen_Data_2D* addend){
 
 /*
  * Adds values from (unscaled) addend to the array
- * @param offset of the addend coords
+ * @param x offset of the addend coords
+ * @param y offset of the addend coords
  * @param addend - the second array
  */
 void GGen_Data_2D::AddTo(int16 offset_x, int16 offset_y, GGen_Data_2D* addend){
@@ -244,6 +264,31 @@ void GGen_Data_2D::AddTo(int16 offset_x, int16 offset_y, GGen_Data_2D* addend){
 	for(uint16 i = MAX(0, offset_y); i < MIN(y, offset_y + addend->y); i++){
 		for(uint16 j = MAX(0, offset_x); j < MIN(y, offset_x + addend->x); j++){
 			data[j + i * x] += addend->data[(j - offset_x) + (i - offset_y) * addend->x];
+		}
+	}
+}
+
+/*
+ * Combines values from the current array and the addend by adding them together.
+ * The weight of data from the addend depends on values in the mask.
+ * @param x offset of the addend coords
+ * @param y offset of the addend coords
+ * @param addend - the second array
+ */
+void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative){
+	int16 min = 0;
+	int16 max = 255;
+
+	if(relative){
+		min = this->Min();
+		max = this->Max() - min;
+	}
+
+	for(uint16 i = 0; i < y; i++) 
+	{
+		for(uint16 j = 0; j < x; j++)
+		{
+			data[j + i * x] += addend->GetValue(j, i, x, y) * (mask->GetValue(j, i, x, y) - min) / max;
 		}
 	}
 }

@@ -23,11 +23,13 @@ class GGen_Data_2D{
 		void Add(int16 value);
 		void Add(GGen_Data_2D* addend);
 		void AddTo(int16 offset_x, int16 offset_y, GGen_Data_2D* addend);
+		void AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative);
 		void Multiply(double factor);
 		void Multiply(GGen_Data_2D* factor);
 		void Invert();
 		void Scale(double ratio, bool scale_values);
 		void ScaleTo(uint16 new_x, uint16 new_y, bool scale_values);
+		void ScaleValuesTo(int16 new_min, int16 new_max);
 		void Fill(int16 value);
 		void Clamp(int16 min, int16 max);
 		int16 Min();
