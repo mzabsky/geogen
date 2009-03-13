@@ -55,32 +55,33 @@ int main(int argc, char *argv[]){
 
 	test->RadialGradient(200,200,200,pattern,true);*/
 
+	// create a new 10-wide 1D array with values preset to 127
 	GGen_Data_1D* profile_a = new GGen_Data_1D(10, 127);
+
+	// set values in range 4-5 to 16
 	profile_a->SetValueInRange(4, 5, 16);
 
+	// create a new 3-wide 1D array with values preset to 127
 	GGen_Data_1D* profile_b = new GGen_Data_1D(3, 127);
+	
+	// set value on one edge to 0
 	profile_b->SetValue(0, 0);
 
-	profile_a->Print();
-
+	// horizontally project the first profile on a 512*512 heightmap
+	// the 1D arrays will be interpolated to create smooth transitions 
+	// between indivdual values
 	GGen_Data_2D* a = new GGen_Data_2D(512, 512);
 	a->Project(profile_a, GGEN_HORIZONTAL);
 
-	uint16 amplitudes[2] = {150, 40};
-
-	GGen_Data_1D* shift_map = new GGen_Data_1D(512);
-	shift_map->Noise(5, 6, amplitudes);
-	shift_map->Smooth(3,500);
-	shift_map->Print();
-
-	//a->data[0] = 255;
-
+	// do the same vertically for a second map
 	GGen_Data_2D* b = new GGen_Data_2D(512, 512);
 	b->Project(profile_b, GGEN_VERTICAL);
 
+	// create intersection of them
 	b->Intersection(a);
 
-	//b->Window(true);
+	// show the result in a SDL window
+	b->Window(true);
 /*
 	for(uint16 i = 0; i < b->y; i++){
 		for(uint16 j = 0; j < b->x; j++){
