@@ -142,7 +142,7 @@ void GGen_Data_1D::Add(int16 value){
 }
 
 /** 
- * Combines the array with second array by just adding the together
+ * Combines the array with second array by just adding them together
  * @param addend to be combined with
  */
 void GGen_Data_1D::Add(GGen_Data_1D* addend){
