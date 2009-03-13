@@ -19,6 +19,8 @@
  * @param length of the array
  */
 GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
+	assert(x > 2 && y > 2);
+
 	length = x * y;
 	this->x = x;
 	this->y = y;
@@ -38,6 +40,8 @@ GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
  * @param value to be filled with
  */
 GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y, int16 value){
+	assert(x > 2 && y > 2);
+	
 	length = x * y;
 	this->x = x;
 	this->y = y;
@@ -103,8 +107,8 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	double remainder_y = (y / ratio_y) - floor(y / ratio_y);
 
 	/* The grid anchor points */
-	int16 base_x = scale_to_x > this->x ? (uint16) floor((double)x / ratio_x) : (uint16) floor((double)x / ratio_x + 0.5);
-	int16 base_y = scale_to_y > this->y ? (uint16) floor((double)y / ratio_y) : (uint16) floor((double)y / ratio_y + 0.5);
+	uint16 base_x = scale_to_x > this->x ? (uint16) floor((double)x / ratio_x) : (uint16) floor((double)x / ratio_x + 0.5);
+	uint16 base_y = scale_to_y > this->y ? (uint16) floor((double)y / ratio_y) : (uint16) floor((double)y / ratio_y + 0.5);
 	
 	/* Calculate the interpolated value for horizontal axis */
 	if(scale_to_x > this->x){

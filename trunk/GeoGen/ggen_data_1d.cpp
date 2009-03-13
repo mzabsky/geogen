@@ -18,6 +18,8 @@
  * @param length of the array
  */
 GGen_Data_1D::GGen_Data_1D(uint16 length){
+	assert(length > 2);
+
 	/* Allocate the array */
 	data = new int16[length];
 
@@ -34,6 +36,8 @@ GGen_Data_1D::GGen_Data_1D(uint16 length){
  * @param value to be filled with
  */
 GGen_Data_1D::GGen_Data_1D(uint16 length, int16 value){
+	assert(length > 2);
+
 	/* Allocate the array */
 	data = new int16[length];
 
