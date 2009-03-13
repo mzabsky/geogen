@@ -19,7 +19,7 @@
  * @param length of the array
  */
 GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
-	assert(x > 2 && y > 2);
+	assert(x > 1 && y > 1);
 
 	length = x * y;
 	this->x = x;
@@ -40,7 +40,7 @@ GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
  * @param value to be filled with
  */
 GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y, int16 value){
-	assert(x > 2 && y > 2);
+	assert(x > 1 && y > 1);
 	
 	length = x * y;
 	this->x = x;
@@ -159,7 +159,6 @@ void GGen_Data_2D::SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, in
 			data[j + this->x * i] = value;
 		}
 	}
-	
 }
 
 /** 
