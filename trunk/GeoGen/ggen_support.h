@@ -31,6 +31,12 @@ enum GGen_Direction{
 	GGEN_VERTICAL,
 };
 
+enum GGen_Angle{
+	GGEN_90,
+	GGEN_180,
+	GGEN_270
+};
+
 using namespace std;
 
 template <class T>
