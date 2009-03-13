@@ -216,6 +216,11 @@ void GGen_Data_1D::ScaleTo(uint16 new_length, bool scale_values){
 	length = new_length;
 }
 
+/**
+ * Scales the values so they all fit to the passed range
+ * @param new minimum value
+ * @param new maximum value
+ */
 void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
 {
 	assert(new_max > new_min);
