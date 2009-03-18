@@ -198,7 +198,7 @@ void GGen_Data_2D::ScaleTo(uint16 new_x, uint16 new_y, bool scale_values){
  * @param new minimum value
  * @param new maximum value
  */
-void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
+void GGen_Data_2D::ScaleValuesTo(int16 new_min, int16 new_max)
 {
 	assert(new_max > new_min);
 
@@ -492,6 +492,68 @@ void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
 	}
 }
 
+void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode){
+	/* Cycle mode */
+	if(mode == GGEN_CYCLE){
+		/* Allocate the new array */
+		int16* new_data = new int16[length];
+
+		assert(new_data != NULL);
+
+		for(uint16 i = 0; i < y; i++){
+			for(uint16 j = 0; j < x; j++){		
+				if(direction == GGEN_VERTICAL){
+					/* Some values can be just plainly shifted */
+					int16 distance = profile->GetValue(j, x);
+
+					/*if(i==576 && j == 88){
+						int d = 55;
+						d++;
+					}*/
+
+					if(j + (i + distance) * x == 543288){
+						int b = 50;
+						b+=1;
+					}
+
+
+
+					if((distance >= 0 && i < y - distance) || (distance <= 0 && (signed) i >= -distance)){
+						new_data[j + (i + distance) * x] = data[j + i * x];
+					}
+					/* Some must go through the right "border" */
+					else if(distance >= 0){
+						new_data[j + (i - y + distance) * x] = data[j + i * x];
+					}
+					/* And some must go through the left "border" */
+					else{
+						new_data[j + (i + y + distance) * x] = data[j + i * x];
+					}					
+				}
+			}
+		}
+
+		/* Fill the new array with shifted data */
+	//	for(uint16 i = 0; i < length; i++){
+			/* Some values can be just plainly shifted */
+		//	if((distance > 0 && i < length - distance) || (distance < 0 && (signed) i >= -distance)){
+		//		new_data[i + distance] = data[i];
+//			}
+			/* Some must go through the right "border" */
+	//		else if(distance > 0){
+		//		new_data[i - length + distance] = data[i];
+	//		}
+			/* And some must go through the left "border" */
+	//		else{
+	//			new_data[i + length + distance] = data[i];
+	//		}
+	//	}
+
+		/* Relink and delete the original array data */
+		delete [] data;
+		data = new_data;
+	}	
+}
 
 void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside){
 	int32 target_x = to_x - from_x;
