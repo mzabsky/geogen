@@ -1,0 +1,24 @@
+GGen2d
+	- Shift (dodelat)
+	- Normalize
+	- Distort
+	- Monochrome
+	- SlopeMap
+	
+2D Flip zpusobuje heap corruption
+	
+error reporting !!!!!
+
+AddMasked nepracuje presne (225 + 100% 30 --> > 255)
+
+SetSeed
+
+poresit lip ggen_std_noise
+
+Pattern?
+
+vraceni vice map
+
+podpora description
+
+podpora argumentu
