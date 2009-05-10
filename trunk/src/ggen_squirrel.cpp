@@ -185,7 +185,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16)>(&GGen_Data_2D::Noise,_T("Noise")).
 		overloadFunc<void(GGen_Data_2D::*)(uint8, GGen_Direction)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		overloadFunc<void(GGen_Data_2D::*)(uint8)>(&GGen_Data_2D::Smooth,_T("Smooth")).
-		func(&GGen_Data_2D::Flood,_T("Flood"));
+		func(&GGen_Data_2D::Flood,_T("Flood")).
+		func(&GGen_Data_2D::Pattern,_T("Pattern"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).

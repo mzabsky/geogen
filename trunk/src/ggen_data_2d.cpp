@@ -866,3 +866,13 @@ void GGen_Data_2D::Smooth(uint8 radius, GGen_Direction direction){
 
 	return;	
 }
+
+void GGen_Data_2D::Pattern(GGen_Data_2D* pattern){
+	assert(pattern != NULL);
+	
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){
+			data[j + i * x] = pattern->data[ j % pattern->x + (i % pattern->y) * pattern->y];
+		}
+	}
+}

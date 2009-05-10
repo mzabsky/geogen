@@ -4,7 +4,7 @@ function Generate(width, height){
 	local profile = GGen_Data_1D(2);
 	
 	profile.SetValue(0, 120); 
-	profile.SetValue(1, -80); 
+	profile.SetValue(1, -110); 
 	
 	pattern.RadialGradient(width / 8, height / 8, (width > height ? height : width) / 8, profile, true);
 
