@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=windows-1250">
+  <meta name="generator" content="PSPad editor, www.pspad.com">
+  <title>GeoGen Documentation</title>
+  <style>
+    body{
+      font-family: calibri, sans-serif
+    }
+  
+    h1{
+      font-size:70px;
+      text-align:center;
+      font-weight:bold;
+    }
+    
+    h2{
+      width:100%;
+      border-top:1px black solid;
+      border-bottom:1px black solid;
+      background: #EEEEEE;
+      font-size:40px;
+      text-align:center;
+      font-weight:bold;
+    }
+    
+    h3{
+      font-size:30px;
+      width:100%;
+      border-bottom:1px gray solid;
+      font-weight:bold;
+      text-align:center;
+    }
+    
+    h4{
+      font-size: 23px;
+      font-weight:bold;
+      text-align:center;
+    }
+    
+    h5{
+      font-size: 20px;
+      padding-left:120px;
+      text-decoration:underline;
+    }
+
+    h6{
+      font-weight:bold;
+      font-size:105%;
+      padding-left:20px;
+      font-family:monospace;
+    }
+    
+    h6 a{
+      text-decoration:none;
+    }
+
+    h6 a:hover{
+      text-decoration:underline;
+    }
+  
+    pre{
+      padding-left:50px;
+    }
+    
+    a:link,a:visited{
+      color:rgb(0,153,255);
+    }
+  
+
+    
+
+  </style>
+  </head>
+  <body>
+  <h1>GeoGen Documentation</h1>
+  
+  <h2><a name="introduction">Introduction</a></h2>
+  
+  <p>
+    GeoGen (shortly GGen) is an open-source procedural heightmap generator. Scripting support is provided by <a href="http://www.squirrel-lang.org" target="blank">Squirrel</a> engine. GGen grants the scripts ability to generate the most various terrain shapes while keeping them simple and easy to read.<p>
+  </p>
+  
+  <h2><a name="contents">Contents</a></h2>
+  
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#contents">Contents</a></li>
+    <li><a href="#embedding">Embedding</a></li>
+    <li><a href="#syntax">Script syntax</a></li>
+    <li><a href="#api">Script API</a>
+      <ul>
+        <li><a href="#layout">Script layout</a></li>
+        <li><a href="#stdlib">Standard library</a></li>
+        <li><a href="#reference">API Reference</a>
+          <ul>
+            <li><a href="#ggen_data_1d">GGen_Data_1D</a>
+              <ul>
+                <li><a href="#1d_constructors">Constructors</a>
+                <li><a href="#1d_values">Basic value I/O</a>
+                <li><a href="#1d_arithmetic">Artithmetical and logical operations</a>
+                <li><a href="#1d_advanced">Advanced data manipulation</a>
+              </ul>
+            </li> 
+            <li><a href="#ggen_data_2d">GGen_Data_2D</a>
+              <ul>
+                <li><a href="#2d_constructors">Constructors</a>
+                <li><a href="#2d_values">Basic value I/O</a>
+                <li><a href="#2d_arithmetic">Artithmetical and logical operations</a>
+                <li><a href="#2d_advanced">Advanced data manipulation</a>
+              </ul>            
+            </li> 
+            <li><a href="#ggen_amplitudes">GGen_Amplitudes</a></li> 
+            <li><a href="#constants_and_enums">Support constants and enumerations</a></li> 
+          </ul>       
+        </li>  
+      </ul>      
+    </li>
+    <li><a href="#license">License</a>
+  </ul>
+  
+  <h2><a name="embedding">Embedding</a></h2>
+  <p>
+    <strike>GGen is also very easy to integrate into your application/game. All you need to start is to place its .lib files to a reachable location and add the "ggen_squirrel.h" header to a file, where you are going to use the generator.</strike> Then you have to invoke it by creating its object and calling its methods.<p>
+    
+  <p>
+    First you have to create the GGen_Squirrel object like this:   
+  </p>
+  <pre>
+GGen_Squirrel* ggen = new GGen_Squirrel();</pre>
+  <p>
+    The constructor takes no parameters. Then you have to feed it with a script. 
+  </p>
+  <pre>
+ggen->SetScript(script_string.c_str());</pre>
+  <p>
+    Standard C string (null terminated char array) pointer is expected. True is returned on success, false on failure. In script is being compiled into byte-code in this moment, so it can take a few moments.
+  </p>
+  <p>
+    Now everything is ready and the generation process can be triggered. This is done by calling the generate() method with width and height of desired heightmap.
+  </p>
+  <pre>
+data = ggen->Generate(1024, 1024);</pre>
+  <p>
+    These dimensions are passed directly to the map script. GGen itself supports dimensions in range 2-65535 points per axis, the script can be more picky though (that of course depends upon its creator). Time necessary to finish this operation depends on size of the map and complexity of the scipt.
+  </p>
+  <p>
+    On failure, NULL is returned. On success, a pointer to array of 16-bit signed integers is returned (signed short int). Length of the array is map width*map height. You can then loop through it like this:
+  </p>
+  <pre>
+for(int i = 0; i < height; i++){
+	for(int j = 0; j < width; j++){
+		do_something_with_the_data(data[j + width * i]);
+	}		
+}</pre>
+  Finally, free the GGen object:
+  <pre>
+delete ggen;
+  </pre>
+  <h2><a name="syntax">Script syntax</a></h2>
+    For Squirrel syntax, please refer to the language's <a href="http://squirrel-lang.org/doc/squirrel2.html#d0e44" target="blank">official documentation</a>.
+  <h2><a name="api">Script API</a></h2>
+    <h3><a name="layout">Script layout</a></h3>
+      <p>
+        The script must contain a function named "Generate" which takes two arguments - width and height of the map being generated. Also, the function must return one <a href="#ggen_data_2d">GGen_Data_2D</a> object with given dimensions.
+      </p>
+      <p> 
+        A very simple script "generating" an empty heightmap (all zeroes) could look like this:
+      </p>
+      <pre>
+Generate(width, height){
+  // Create a new 2D data array with given width and height
+  return GGen_Data_2D(width, height);
+<!--   -->}</pre>
+    <h3><a name="stdlib">Standard library</a></h3>
+      <p>GeoGen API utilizes the Math module from the Squirrel Standard Library, you can find reference of these functions in its <a href="http://squirrel-lang.org/doc/sqstdlib2.html#d0e1527" target="blank">documentation</a>.</p>
+    <h3><a name="reference">API Reference</a></h4>
+      <p>
+        In this section full listing of what GGen makes available to the scripts can be found.
+      <p>
+      <h4><a name="ggen_data_1d">GGen_Data_1D</a></h4>
+        <p>
+          GGen_Data_1D represents a simple 1D array of values. Though its simple nature, it can be used to create more complex 2D maps using methods like <a href="#2d_project">GGen_Data_2D::Project</a>, <a href="#2d_project">GGen_Data_2D::Gradient</a> or <a href="#2d_project">GGen_Data_2D::RadialGradient</a>. 
+        </p>
+        <h5><a name="#1d_constructors">Constructors</a></h5>
+          <h6>GGen_Data_1D(int length)</h6>
+          <p>Creates new <a href="#ggen_data_1d">GGen_Data_1D</a> object of given <em>length</em>. All values are set to 0.</p>
+          <h6>GGen_Data_1D(int length, int value)</h6>
+          <p>Creates new <a href="#ggen_data_1d">GGen_Data_1D</a> object of given <em>length</em>. All values are set to <em>value</em>.</p>
+        <h5><a name="#1d_values">Basic value I/O</a></h5>
+          <h6>GGen_Data_1D::GetValue(int x)</h6>
+          <p>Returns value on coordinate <em>x</em>.</p>
+          <h6>GGen_Data_1D::GetValue(int x, int length)</h6>
+          <p>Returns interpolated value on coordinate <em>x</em> as if the array had length <em>length</em>.</p>
+          <h6>GGen_Data_1D::SetValue(int x, int value)</h6>
+          <p>Sets value on coordinate <em>x</em> to <em>value</em>.</p>
+          <h6>GGen_Data_1D::SetValueInRange(int start, int end, int value)</h6>
+          <p>Sets value on all coordinates between <em>start</em> and <em>end</em> to <em>value</em>. Both points are included in the range.</p>
+        <h5><a name="#1d_arithmetic">Arithmetical and logical data operations</a></h5>
+          <h6>GGen_Data_1D::Add(int value)</h6>
+          <p>Adds <em>value</em> to all values in the array.</p>
+          <h6>GGen_Data_1D::Add(<a href="#ggen_data_1d">GGen_Data_1D</a> addend)</h6>
+          <p>Adds  <em>addend</em> to current array - values from respective coordinates are added together. Values from <em>addend</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_1D::AddTo(int offset, <a href="#ggen_data_1d">GGen_Data_1D</a> addend)</h6>
+          <p>Adds values from <em>addend</em> to their respective coordinates in current array offset by <em>offset</em>. <em>Addend</em> won't be interpolated.</p>
+          <h6>GGen_Data_1D::AddMasked(<a href="#ggen_data_1d">GGen_Data_1D</a> addend, <a href="#ggen_data_1d">GGen_Data_1D</a> mask, bool relative_mode)</h6>
+          <p>Adds values from <em>addend</em> to their respective coordinates in current array. The percentage of value added depends on respective value in <em>mask</em>. In <em>relative_mode</em>, the <em>mask</em> is interh6ted as <em>mask</em> minimum = 0% of value and <em>mask</em> maximum = 100%, otherwise 0 = 0% of value and 255 = 100%. Both <em>addend</em> and <em>mask</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_1D::Multiply(int value)</h6>
+          <p>Multiplies all values from the array by <em>value</em>.</p>
+          <h6>GGen_Data_1D::Multiply(<a href="#ggen_data_1d">GGen_Data_1D</a> factor)</h6>
+          <p>Multiplies all values from the current array by respective values from <em>factor</em>. Values from <em>factor</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_1D::Invert()</h6>
+          <p>Flips signs of all values in the array.</p>
+          <h6>GGen_Data_1D::Scale(double ratio, bool scale_values)</h6>
+          <p>Scales the size of the array by <em>ratio</em>. If <em>scale_values</em> is true, the values will be scaled too, otherwise they will be only interpolated.</p> 
+          <h6>GGen_Data_1D::ScaleTo(int new_length, bool scale_values)</h6>
+          <p>Scales the size of the array to new size <em>new_length</em>. If <em>scale_values</em> is true, the values will be scaled too, otherwise they will be only interpolated.</p>
+          <h6>GGen_Data_1D::Fill(int value)</h6>
+          <p>Sets all values in the array to <em>value</em>.</p>
+          <h6>GGen_Data_1D::ResizeCanvas(int new_length, int new_zero)</h6>
+          <p>Changes size of the array to <em>new_length</em>. The zero from the original array is shifted to <em>new_zero</em> (measured in the original array). Values won't be interpolated. Newly created values will be filled with zeros, values that would be outside the array will be discarded.</p>
+          <p>Example:</p>
+          <pre>
+foo = GGen_Data_1D(20, 1); // Create a 20-long array of ones
+foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 right values will be cropped  </pre>
+          <h6>GGen_Data_1D::Clamp(int new_min, int new_max)</h6>
+          <p>Clamps all values in the array so the fit iinto the range <em>new_min</em>-<em>new_max</em>. Values lower than <em>new_min</em> will be set to <em>new_min</em>, values higher than <em>new_max</em> will be set to <em>new_max</em></p>
+          <h6>GGen_Data_1D::Flip()</h6>
+          <p>Flips the array, so the original first value is the last value.</p>
+          <h6>GGen_Data_1D::Min()</h6>
+          <p>Returns the lowest value in the array.</p>
+          <h6>GGen_Data_1D::Max()</h6>
+          <p>Returns the highest value in the array.</p>
+          <h6>GGen_Data_1D::Shift(int offset, <a href="#ggen_overflow_mode">GGen_Overflow_Mode</a> overflow_mode)</h6>
+          <p>Shifts all values in the array to right (if <em>offset</em> is positive) or to left (if <em>offset</em> is negative) by <em>offset</em> values. Values shifted out from the array and newly created values shifted into the array will be dealt with according to <em>overflow_mode</em></p>
+          <h6>GGen_Data_1D::Union(<a href="#ggen_data_1d">GGen_Data_1D</a> victim)</h6>
+          <p>Performs a set union of the array graphs (higher of two respective values is applied) of the current array and <em>victim</em>. The <em>victim</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_1D::Intersection(<a href="#ggen_data_1d">GGen_Data_1D</a> victim)</h6>
+          <p>Performs a set intersection of the array graphs (lower of two respective values is applied) of the current array and <em>victim</em>. The <em>victim</em> will be interpolated to fit the current array.</p>
+        <h5><a name="#1d_advanced">Advanced data manipulation</a></h5>
+          <h6>GGen_Data_1D::Monochrome(int treshold)</h6>
+          <p>Sets all vales lower than or equal to <em>treshold</em> to 0 and all values higher than <em>treshold</em> to 1.</p>
+          <h6>GGen_Data_1D::Normalize(<a href="#ggen_normalization_mode">GGen_Normalization_Mode</a> mode)</h6>
+          <p>Makes sure that there are no slopes steeper than 45° in the array. Steeper slopes will be dealt with according to <em>mode</em>.</p>
+          <h6>GGen_Data_1D::SlopeMap()</h6>
+          <p>Replaces values in the array with information about steepness of slope (change in value) in that particular value.</p>
+          <h6>GGen_Data_1D::Gradient(int from, int to, int from_value, int to_value, bool fill_flat)</h6>
+          <p>Creates a smooth gradient between coords <em>from</em> and <em>to</em>. The values will make transition between <em>from_value</em> and <em>to_value</em>. If <em>fill_flat</em> is set to true, values with coord lower than <em>from</em> will be filled with <em>from_value</em> and value with coord higher than <em>to</em> will be filled with <em>to_value</em>.</p>
+          <h6>GGen_Data_1D::Noise(int min_feature_size, max_feature_size)</h6>
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Uses preset amplitudes, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>         
+          <h6>GGen_Data_1D::<a href="#2d_noise">Noise</a>(int min_feature_size, max_feature_size, <a href="#ggen_amplitudes">GGen_Amplitudes</a> amplitudes)</h6>
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Amplitudes are taken from <em>amplitudes</em> object, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>
+          <h6>GGen_Data_1D::Smooth(int radius)</h6>
+          <p>Smooths differences between values in the array. Uses linear smoothing algorithm with kernel radius <em>radius</em>. Speed doesn't change with radius.</p>    
+          <h6>GGen_Data_1D::Flood(double percentage)</h6>
+          <p>Changes the values in the array so only <em>percentage</em> of values is above zero. Percentage is in range 0 (everything is under 0) - 1 (everything is above 0). "Shape" of tha values won't be changed, only one number will be calculated and added to all values in the array equally.</p> 
+      <h4><a name="ggen_data_2d">GGen_Data_2D</a></h4>
+        <p>GGen_Data_2D represents 2-dimensional array of values. Most straigntforward interpretation of such array is a bitmap, where black represents some minimal value (usually 0) and white represents some maximal value (in case of 8 bit per channel bitmaps usually 255). You will probably realize many of the GGen_Data_2D functions strongly resemble functions from classical bitmap editors - <a href="#2d_add">adding</a> changes brightness, <a href="#2d_multiply">multiplying</a> changes contrast... Working with multiple 2D arrays with GGen is generally very similiar to working with layer enabled bitmap editor, just without a fancy GUI.</p>
+        <h5><a name="2d_constructors">Constructors</a></h5>
+          <h6>GGen_Data_2D(int width, int height)</h6>
+          <p>Creates new <a href="#ggen_data_2d">GGen_Data_2D</a> object of given <em>width</em> and <em>height</em>. All values are set to 0.</p>
+          <h6>GGen_Data_2D(int width, int height, int value)</h6>
+          <p>Creates new <a href="#ggen_data_2d">GGen_Data_2D</a> object of given <em>width</em> and <em>height</em>. All values are set to <em>value</em>.</p>
+        <h5><a name="2d_values">Basic value I/O</a></h5>
+          <h6>GGen_Data_2D::GetValue(int x, int y)</h6>
+          <p>Returns value on coordinates [<em>x</em>, <em>y</em>].</p>
+          <h6>GGen_Data_2D::GetValue(int x, int y, int width, int height)</h6>
+          <p>Returns interpolated value on coordinates [<em>x</em>, <em>y</em>] as if the array had width <em>width</em> and height <em>height</em>.</p>
+          <h6>GGen_Data_2D::SetValue(int x, int y, int value)</h6>
+          <p>Sets value on coordinates [<em>x</em>, <em>y</em>] to <em>value</em>.</p>
+          <h6>GGen_Data_2D::SetValueInRange(int start, int end, int value)</h6>
+          <p>Sets value on all coordinates in rect between [<em>x1</em>, <em>y1</em>] and [<em>x2</em>, <em>y2</em>] to <em>value</em>. All borders are included in the rect.</p>
+        <h5><a name="2d_arithmetic">Arithmetical and logical data operations</a></h5>
+          <h6><a name="2d_add">GGen_Data_2D::Add(int value)</a></h6>
+          <p>Adds <em>value</em> to all values in the array.</p>
+          <h6>GGen_Data_2D::Add(<a href="#ggen_data_2d">GGen_Data_2D</a> addend)</h6>
+          <p>Adds  <em>addend</em> to current array - values from respective coordinates are added together. Values from <em>addend</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_2D::AddTo(int offset_x, int offset_y, <a href="#ggen_data_2d">GGen_Data_2D</a> addend)</h6>
+          <p>Adds values from <em>addend</em> to their respective coordinates in current array offset by <em>offset_x</em> on horizontal axis and <em>y</em> on vertical axis. <em>Addend</em> won't be interpolated.</p>
+          <h6>GGen_Data_2D::AddMasked(<a href="#ggen_data_2d">GGen_Data_2D</a> addend, <a href="#ggen_data_2d">GGen_Data_2D</a> mask, bool relative_mode)</h6>
+          <p>Adds values from <em>addend</em> to their respective coordinates in current array. The percentage of value added depends on respective value in <em>mask</em>. In <em>relative_mode</em>, the <em>mask</em> is interh6ted as <em>mask</em> minimum = 0% of value and <em>mask</em> maximum = 100%, otherwise 0 = 0% of value and 255 = 100%. Both <em>addend</em> and <em>mask</em> will be interpolated to fit the current array.</p>
+          <h6><a name="2d_multiply">GGen_Data_2D::Multiply(int value)</a></h6>
+          <p>Multiplies all values from the array by <em>value</em>.</p>
+          <h6>GGen_Data_2D::Multiply(<a href="#ggen_data_2d">GGen_Data_2D</a> factor)</h6>
+          <p>Multiplies all values from the current array by respective values from <em>factor</em>. Values from <em>factor</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_2D::Invert()</h6>
+          <p>Flips signs of all values in the array.</p>
+          <h6>GGen_Data_2D::Scale(double ratio, bool scale_values)</h6>
+          <p>Scales the size of the array by <em>ratio</em>. If <em>scale_values</em> is true, the values will be scaled too, otherwise they will be only interpolated.</p> 
+          <h6>GGen_Data_2D::ScaleTo(int new_x, int new_y, bool scale_values)</h6>
+          <p>Scales the size of the array to new width <em>new_width</em> and new height <em>new_height</em>. If <em>scale_values</em> is true, the values will be scaled too, otherwise they will be only interpolated.</p>
+          <h6>GGen_Data_2D::Fill(int value)</h6>
+          <p>Sets all values in the array to <em>value</em>.</p>      
+          <h6>GGen_Data_1D::ResizeCanvas(int new_x, int new_y, int new_zero_x, int new_zero_y)</h6>
+          <p>Scales the size of the array to new width <em>new_width</em> and new height <em>new_height</em>. The zero from the original array is shifted to [<em>new_zero_x</em>, <em>new_zero_y</em>] (measured in the original array). Values won't be interpolated. Newly created values will be filled with zeros, values that would be outside the array will be discarded.</p>
+          <h6>GGen_Data_1D::Clamp(int new_min, int new_max)</h6>
+          <p>Clamps all values in the array so the fit iinto the range <em>new_min</em>-<em>new_max</em>. Values lower than <em>new_min</em> will be set to <em>new_min</em>, values higher than <em>new_max</em> will be set to <em>new_max</em></p>
+          <h6>GGen_Data_1D::Flip(<a href="#ggen_direction">GGen_Direction</a> direction)</h6>
+          <p>Flips the array along axis given by <em>direction</em>.</p>
+          <h6>GGen_Data_2D::Min()</h6>
+          <p>Returns the lowest value in the array.</p>
+          <h6>GGen_Data_2D::Max()</h6>
+          <p>Returns the highest value in the array.</p>
+          <h6>GGen_Data_2D::Shift(int offset, <a href="#ggen_overflow_mode">GGen_Overflow_Mode</a> overflow_mode)</h6>
+          <p>Shifts all values in the array to <em>direction</em> by <em>offset</em> by <em>offset</em> values. Values shifted out from the array and newly created values shifted into the array will be dealt with according to <em>overflow_mode</em></p>
+          <h6>GGen_Data_2D::Shift(<a href="#ggen_data_1d">GGen_Data_1D</a> profile, <a href="#ggen_overflow_mode">GGen_Overflow_Mode</a> overflow_mode)</h6>
+          <p>Shifts all values in the array to <em>direction</em> by <em>offset</em> by respective value from <em>profile</em>. Values shifted out from the array and newly created values shifted into the array will be dealt with according to <em>overflow_mode</em></p>
+          <h6>GGen_Data_2D::Union(<a href="#ggen_data_2d">GGen_Data_2D</a> victim)</h6>
+          <p>Performs a set union of the array graphs (higher of two respective values is applied) of the current array and <em>victim</em>. The <em>victim</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_2D::Intersection(<a href="#ggen_data_2d">GGen_Data_2D</a> victim)</h6>
+          <p>Performs a set intersection of the array graphs (lower of two respective values is applied) of the current array and <em>victim</em>. The <em>victim</em> will be interpolated to fit the current array.</p>
+          <h6>GGen_Data_2D::Rotate(<a href="#ggen_angle">GGen_Angle</a> angle)</h6>
+          <p>Rotates the array by <em>angle</em> degrees clockwise.</p>
+        <h5><a name="#2d_advanced">Advanced data manipulation</a></h5>
+          <h6>GGen_Data_2D::Gradient(int from_x, int form_y, int to_x, int to_y, int from_value, int to_value, bool fill_flat)</h6>
+          <p>Creates a smooth gradient between coords [<em>from_x</em>, <em>from_y</em>] and [<em>to_x</em>, <em>to_y</em>]. The values will make transition between <em>from_value</em> and <em>to_value</em>. If <em>fill_flat</em> is set to true, values outside the gradient strip will be filled with <em>from_value</em> or <em>to_value</em>, whichever is closer.</p>
+          <h6>GGen_Data_2D::Gradient(int from_x, int form_y, int to_x, int to_y, <a href="#ggen_data_1d">GGen_Data_1D</a> profile, bool fill_flat)</h6>
+          <p>Creates a smooth gradient between coords [<em>from_x</em>, <em>from_y</em>] and [<em>to_x</em>, <em>to_y</em>]. The values will depend on respective values from <em>profile</em>, in the "from" point will the values be taken from the <em>profile</em> from coord 0 and value for the "to" point will be taken from the last value of the <em>profile</em>. If <em>fill_flat</em> is set to true, values outside the gradient strip will be filled with values from the start or end of the <em>profile</em>.</p>
+          <h6>GGen_Data_2D::Noise(int min_feature_size, max_feature_size)</h6>
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Uses preset amplitudes, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>         
+          <h6>GGen_Data_2D::<a href="#2d_noise">Noise</a>(int min_feature_size, max_feature_size, <a href="#ggen_amplitudes">GGen_Amplitudes</a> amplitudes)</h6>
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Amplitudes are taken from <em>amplitudes</em> object, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>
+          <h6>GGen_Data_2D::Smooth(int radius)</h6>
+          <p>Smooths differences between values in the array. Uses linear smoothing algorithm with kernel radius <em>radius</em>. Speed doesn't change with radius.</p>    
+          <h6>GGen_Data_2D::Flood(double percentage)</h6>
+          <p>Changes the values in the array so only <em>percentage</em> of values is above zero. Percentage is in range 0 (everything is under 0) - 1 (everything is above 0). "Shape" of tha values won't be changed, only one number will be calculated and added to all values in the array equally.</p> 
+      <h4><a name="ggen_amplitudes">GGen_Amplitudes</a></h4>
+        <p>GGen_Amplitudes is an object storing amplitude settings for <a href="#1d_noise">GGen_Data_1D::Noise</a> and <a href="#2d_noise">GGen_Data_2D::Noise</a>.</p>
+        <p>All amplitudes are preset to 0.</p>
+        <h6>GGen_Amplitudes(int max_feature_size)</h6>
+        <p>Creates a GGen_Amplitudes object with space  for amplitudes for features size up to <em>max_feature_size</em>.</p>
+        <h6>GGen_Amplitudes::AddAmplitude(int feature_size, in amplitude)</h6>
+        <p>Adds one <em>amplitude</em> to the object. The amplitude will be paired with the <em>feature_size</em>.</p>
+      <h4><a name="constants_and_enums">Support constants and enumerations</a></h4>
+        <h5><a name="constants">Constants</a></h5>
+          <h6>GGEN_MAX_HEIGHT</h6>
+          <p>The maximum value one cell can hold, preset to 32767.</p>
+          <h6>GGEN_MIN_HEIGHT</h6>
+          <p>The minimum value one cell can hold, preset to -32767.</p>
+          <h6>GGEN_INVALID_HEIGHT</h6>
+          <p>The value used to mark an invalid cell, preset to -32768.</p>
+        <h5><a name="ggen_normalization_mode">GGen_Normalization_Mode</a></h5>
+          <h6>GGEN_SUBSTRACTIVE</h6>
+          <p>The normalization will be performed only by substracting from values (lowering steep uphills to 45°).</p>
+          <h6>GGEN_ADDITIVE</h6>
+          <p>The normalization will be performed only by adding to values (heightening steep downhills to 45°).</p>
+        <h5><a name="ggen_overflow_mode">GGen_Overflow_Mode</a></h5>
+          <h6>GGEN_CYCLE</h6>
+          <p>Values disappearing on one side of the array will appear on the other side.</p>
+          <h6>GGEN_DISCARD</h6>
+          <p>Disappearing values will be discarded, newly appearing values will be set to 0.</p>
+          <h6>GGEN_DISCARD_AND_FILL</h6>
+          <p>Disappearing values will be discarded, newly appearing values will be set to closest valid value from the original array (only along the shift axis in 2D).</p>
+        <h5><a name="ggen_direction">GGen_Direction</a></h5>
+          <h6>GGEN_HORIZONTAL</h6>
+          <p>Operation will be performed along the X axis.</p>
+          <h6>GGEN_VERTICAL</h6>
+          <p>Operation will be performed along the Y axis.</p>
+        <h5><a name="ggen_adngle">GGen_Angle</a></h5>
+          <h6>GGEN_0</h6>
+          <p>0 degrees.</p>
+          <h6>GGEN_90</h6>
+          <p>90 degrees clockwise.</p>
+          <h6>GGEN_180</h6>
+          <p>180 degrees clockwise.</p>
+          <h6>GGEN_270</h6>
+          <p>270 degrees clockwise.</p>
+  <h2><a name="license">License</a></h2>
+    <p>Copyright Matěj Zábský, 2009.</p>
+    <p>GeoGen is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+    <p>Foobar is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
+    <p>You should have received a copy of the GNU General Public License along with GeoGen.  If not, see <a href="http://www.gnu.org/licenses/" target="blank">http://www.gnu.org/licenses/</a>.</p>
+  </body>
+</html>
