@@ -73,6 +73,7 @@ class GGen_Data_2D{
 		void Smooth(uint8 radius, GGen_Direction direction);
 		void Smooth(uint8 radius);
 		void Flood(double water_amount);
+		void Pattern(GGen_Data_2D* pattern);
 
 		/* Human interface functions */
 		void Window(bool fixed);

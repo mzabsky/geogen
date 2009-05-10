@@ -6,7 +6,9 @@ GGen2d
 	- SlopeMap
 	
 2D Flip zpusobuje heap corruption
-	
+
+vyzkouset kopirovaci konstruktory
+
 error reporting !!!!!
 
 AddMasked nepracuje presne (225 + 100% 30 --> > 255)

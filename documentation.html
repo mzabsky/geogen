@@ -177,7 +177,7 @@ Generate(width, height){
       <p>GeoGen API utilizes the Math module from the Squirrel Standard Library, you can find reference of these functions in its <a href="http://squirrel-lang.org/doc/sqstdlib2.html#d0e1527" target="blank">documentation</a>.</p>
     <h3><a name="reference">API Reference</a></h4>
       <p>
-        In this section full listing of what GGen makes available to the scripts can be found.
+        This section contains full listing of everything exposed to the scripts by GeoGen.
       <p>
       <h4><a name="ggen_data_1d">GGen_Data_1D</a></h4>
         <p>
@@ -324,7 +324,9 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <h6>GGen_Data_2D::Smooth(int radius)</h6>
           <p>Smooths differences between values in the array. Uses linear smoothing algorithm with kernel radius <em>radius</em>. Speed doesn't change with radius.</p>    
           <h6>GGen_Data_2D::Flood(double percentage)</h6>
-          <p>Changes the values in the array so only <em>percentage</em> of values is above zero. Percentage is in range 0 (everything is under 0) - 1 (everything is above 0). "Shape" of tha values won't be changed, only one number will be calculated and added to all values in the array equally.</p> 
+          <p>Changes the values in the array so only <em>percentage</em> of values is above zero. Percentage is in range 0 (everything is under 0) - 1 (everything is above 0). "Shape" of tha values won't be changed, only one number will be calculated and added to all values in the array equally.</p>
+          <h6>GGen_Data_2D::Pattern(<a href="#ggen_data_2d">GGen_Data_2D</a> pattern)</h6>
+          <p>Fills the array with data from <em>pattern</em>. If <em>pattern</em> is smaller than the current array, it will be repeated as necessary to fit.</p> 
       <h4><a name="ggen_amplitudes">GGen_Amplitudes</a></h4>
         <p>GGen_Amplitudes is an object storing amplitude settings for <a href="#1d_noise">GGen_Data_1D::Noise</a> and <a href="#2d_noise">GGen_Data_2D::Noise</a>.</p>
         <p>All amplitudes are preset to 0.</p>

@@ -104,7 +104,7 @@ Have a nice day!\n";
 		seed = atoi(argv[5]);
 	}
 	else{
-		seed = time(0);
+		seed = (int) time(0);
 	}
 
 	srand((unsigned) seed);
@@ -131,7 +131,9 @@ Have a nice day!\n";
 
 	cout << "Compiling...\n";
 
-	ggen->SetScript(strTotal.c_str());
+	if(!ggen->SetScript(strTotal.c_str())){
+		cout << "Compilation failed!\n";
+	}
 
 	cout << "Executing...\n";
 
