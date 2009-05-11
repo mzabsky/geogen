@@ -1,0 +1,48 @@
+function Generate(width, height){
+  local profile_height = GGen_Data_1D(10);
+	
+	profile_height.SetValue(0, -500);
+	profile_height.SetValue(1, -250);
+	profile_height.SetValue(2, 0);
+	profile_height.SetValue(3, 250);
+	profile_height.SetValue(4, 250);
+	profile_height.SetValue(5, 500);
+	profile_height.SetValue(6, 500);
+	profile_height.SetValue(7, 1000);
+	profile_height.SetValue(8, 1500);
+	profile_height.SetValue(9, 1500);
+	
+	profile_height.Smooth(2);
+	
+	local base = GGen_Data_2D(width, height);
+	base.Project(profile_height, GGEN_VERTICAL);;
+	
+	local profile_shift = GGen_Data_1D(800);
+	profile_shift.Noise(1, 128);
+	profile_shift.Smooth(40);
+	profile_shift.ScaleValuesTo(0, width / 3);
+	
+	base.Rotate(GGEN_90);
+	
+	base.Shift(profile_shift, GGEN_VERTICAL, GGEN_DISCARD);
+	
+	base.Rotate(GGEN_270);
+	
+	local noise = GGen_Data_2D(width, height);
+	noise.Noise(1, 64);
+	
+	noise.ScaleValuesTo(-1500, 1500);
+	
+	local profile_mask = GGen_Data_1D(3, 60);
+	profile_mask.SetValue(2, 255);
+	
+	local mask = GGen_Data_2D(3, 2);
+	mask.Project(profile_mask, GGEN_VERTICAL);
+	
+	base.AddMasked(noise, mask, false);
+
+	base.Clamp(0, GGEN_MAX_HEIGHT);
+	base.ScaleValuesTo(0,255);
+	
+	return base;
+}
