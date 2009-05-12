@@ -1,3 +1,5 @@
+// Tournament style map emhasizing fair starting locations, for 16 players.
+
 function Generate(width, height){
 	local pattern = GGen_Data_2D(width / 4, height / 4);
 	

@@ -1,3 +1,5 @@
+// Tournament style map emhasizing fair starting locations, for 4 players.
+
 function Generate(width, height){
 	local quarter = GGen_Data_2D(width / 2, height / 2);
 	

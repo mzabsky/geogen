@@ -1,3 +1,5 @@
+// Creates a ring shaped formation of small islands.
+
 function Generate(width, height){
 	local size = height > width ? width / 2 : height / 2;
   

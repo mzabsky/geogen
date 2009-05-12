@@ -1,3 +1,5 @@
+// Creates a lake in middle of hilly country.
+
 function Generate(width, height){
 	local profile = GGen_Data_1D(2);
 	
