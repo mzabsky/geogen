@@ -3,13 +3,13 @@ function Generate(width, height){
 	
 	local profile = GGen_Data_1D(2);
 	
-	profile.SetValue(0, 120); 
-	profile.SetValue(1, -80); 
+	profile.SetValue(0, 100); 
+	profile.SetValue(1, -100); 
 	
 	quarter.RadialGradient(width / 4, height / 4, (width > height ? height : width) / 4, profile, true);
 
 	local noise = GGen_Data_2D(width / 2, height / 2);
-	noise.Noise(1, 64);
+	noise.Noise(1,  (width > height ? height : width) / 12);
 	
 	noise.ScaleValuesTo(-110, 110);
 	
