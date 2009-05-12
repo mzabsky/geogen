@@ -1,10 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-  <meta http-equiv="content-type" content="text/html; charset=windows-1250">
-  <meta name="generator" content="PSPad editor, www.pspad.com">
+  <meta http-equiv="content-type" content="text/html; charset=windows-1250" />
+  <meta name="generator" content="PSPad editor, www.pspad.com" />
   <title>GeoGen Documentation</title>
-  <style>
+  <style type="text/css">
     body{
       font-family: calibri, sans-serif
     }
@@ -79,7 +81,7 @@
   <h2><a name="introduction">Introduction</a></h2>
   
   <p>
-    GeoGen (shortly GGen) is an open-source procedural heightmap generator. Scripting support is provided by <a href="http://www.squirrel-lang.org" target="blank">Squirrel</a> engine. GGen grants the scripts ability to generate the most various terrain shapes while keeping them simple and easy to read.<p>
+    GeoGen (shortly GGen) is an open-source procedural heightmap generator. Scripting support is provided by <a href="http://www.squirrel-lang.org">Squirrel</a> engine. GGen grants the scripts ability to generate the most various terrain shapes while keeping them simple and easy to read.
   </p>
   
   <h2><a name="contents">Contents</a></h2>
@@ -97,18 +99,18 @@
           <ul>
             <li><a href="#ggen_data_1d">GGen_Data_1D</a>
               <ul>
-                <li><a href="#1d_constructors">Constructors</a>
-                <li><a href="#1d_values">Basic value I/O</a>
-                <li><a href="#1d_arithmetic">Artithmetical and logical operations</a>
-                <li><a href="#1d_advanced">Advanced data manipulation</a>
+                <li><a href="#1d_constructors">Constructors</a></li>
+                <li><a href="#1d_values">Basic value I/O</a></li>
+                <li><a href="#1d_arithmetic">Artithmetical and logical operations</a></li>
+                <li><a href="#1d_advanced">Advanced data manipulation</a></li>
               </ul>
             </li> 
             <li><a href="#ggen_data_2d">GGen_Data_2D</a>
               <ul>
-                <li><a href="#2d_constructors">Constructors</a>
-                <li><a href="#2d_values">Basic value I/O</a>
-                <li><a href="#2d_arithmetic">Artithmetical and logical operations</a>
-                <li><a href="#2d_advanced">Advanced data manipulation</a>
+                <li><a href="#2d_constructors">Constructors</a></li>
+                <li><a href="#2d_values">Basic value I/O</a></li>
+                <li><a href="#2d_arithmetic">Artithmetical and logical operations</a></li>
+                <li><a href="#2d_advanced">Advanced data manipulation</a></li>
               </ul>            
             </li> 
             <li><a href="#ggen_amplitudes">GGen_Amplitudes</a></li> 
@@ -117,12 +119,12 @@
         </li>  
       </ul>      
     </li>
-    <li><a href="#license">License</a>
+    <li><a href="#license">License</a></li>
   </ul>
   
   <h2><a name="embedding">Embedding</a></h2>
   <p>
-    <strike>GGen is also very easy to integrate into your application/game. All you need to start is to place its .lib files to a reachable location and add the "ggen_squirrel.h" header to a file, where you are going to use the generator.</strike> Then you have to invoke it by creating its object and calling its methods.<p>
+    GGen is also very easy to integrate into your application/game. All you need to start is to place its .lib files to a reachable location and add the "ggen_squirrel.h" header to a file, where you are going to use the generator. Then you have to invoke it by creating its object and calling its methods.</p>
     
   <p>
     First you have to create the GGen_Squirrel object like this:   
@@ -149,17 +151,17 @@ data = ggen->Generate(1024, 1024);</pre>
     On failure, NULL is returned. On success, a pointer to array of 16-bit signed integers is returned (signed short int). Length of the array is map width*map height. You can then loop through it like this:
   </p>
   <pre>
-for(int i = 0; i < height; i++){
-	for(int j = 0; j < width; j++){
+for(int i = 0; i &lt; height; i++){
+	for(int j = 0; j &lt; width; j++){
 		do_something_with_the_data(data[j + width * i]);
 	}		
 }</pre>
-  Finally, free the GGen object:
+  <p>Finally, free the GGen object:</p>
   <pre>
 delete ggen;
   </pre>
   <h2><a name="syntax">Script syntax</a></h2>
-    For Squirrel syntax, please refer to the language's <a href="http://squirrel-lang.org/doc/squirrel2.html#d0e44" target="blank">official documentation</a>.
+    <p>For Squirrel syntax, please refer to the language's <a href="http://squirrel-lang.org/doc/squirrel2.html#d0e44">official documentation</a>.</p>
   <h2><a name="api">Script API</a></h2>
     <h3><a name="layout">Script layout</a></h3>
       <p>
@@ -174,21 +176,21 @@ Generate(width, height){
   return GGen_Data_2D(width, height);
 <!--   -->}</pre>
     <h3><a name="stdlib">Standard library</a></h3>
-      <p>GeoGen API utilizes the Math module from the Squirrel Standard Library, you can find reference of these functions in its <a href="http://squirrel-lang.org/doc/sqstdlib2.html#d0e1527" target="blank">documentation</a>.</p>
-    <h3><a name="reference">API Reference</a></h4>
+      <p>GeoGen API utilizes the Math module from the Squirrel Standard Library, you can find reference of these functions in its <a href="http://squirrel-lang.org/doc/sqstdlib2.html#d0e1527">documentation</a>.</p>
+    <h3><a name="reference">API Reference</a></h3>
       <p>
         This section contains full listing of everything exposed to the scripts by GeoGen.
-      <p>
+      </p>
       <h4><a name="ggen_data_1d">GGen_Data_1D</a></h4>
         <p>
           GGen_Data_1D represents a simple 1D array of values. Though its simple nature, it can be used to create more complex 2D maps using methods like <a href="#2d_project">GGen_Data_2D::Project</a>, <a href="#2d_gradient">GGen_Data_2D::Gradient</a> or <a href="#2d_radialgradient">GGen_Data_2D::RadialGradient</a>. 
         </p>
-        <h5><a name="#1d_constructors">Constructors</a></h5>
+        <h5><a name="1d_constructors">Constructors</a></h5>
           <h6>GGen_Data_1D(int length)</h6>
           <p>Creates new <a href="#ggen_data_1d">GGen_Data_1D</a> object of given <em>length</em>. All values are set to 0.</p>
           <h6>GGen_Data_1D(int length, int value)</h6>
           <p>Creates new <a href="#ggen_data_1d">GGen_Data_1D</a> object of given <em>length</em>. All values are set to <em>value</em>.</p>
-        <h5><a name="#1d_values">Basic value I/O</a></h5>
+        <h5><a name="1d_values">Basic value I/O</a></h5>
           <h6>GGen_Data_1D::GetValue(int x)</h6>
           <p>Returns value on coordinate <em>x</em>.</p>
           <h6>GGen_Data_1D::GetValue(int x, int length)</h6>
@@ -197,7 +199,7 @@ Generate(width, height){
           <p>Sets value on coordinate <em>x</em> to <em>value</em>.</p>
           <h6>GGen_Data_1D::SetValueInRange(int start, int end, int value)</h6>
           <p>Sets value on all coordinates between <em>start</em> and <em>end</em> to <em>value</em>. Both points are included in the range.</p>
-        <h5><a name="#1d_arithmetic">Arithmetical and logical data operations</a></h5>
+        <h5><a name="1d_arithmetic">Arithmetical and logical data operations</a></h5>
           <h6>GGen_Data_1D::Add(int value)</h6>
           <p>Adds <em>value</em> to all values in the array.</p>
           <h6>GGen_Data_1D::Add(<a href="#ggen_data_1d">GGen_Data_1D</a> addend)</h6>
@@ -238,7 +240,7 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>Performs a set union of the array graphs (higher of two respective values is applied) of the current array and <em>victim</em>. The <em>victim</em> will be interpolated to fit the current array.</p>
           <h6>GGen_Data_1D::Intersection(<a href="#ggen_data_1d">GGen_Data_1D</a> victim)</h6>
           <p>Performs a set intersection of the array graphs (lower of two respective values is applied) of the current array and <em>victim</em>. The <em>victim</em> will be interpolated to fit the current array.</p>
-        <h5><a name="#1d_advanced">Advanced data manipulation</a></h5>
+        <h5><a name="1d_advanced">Advanced data manipulation</a></h5>
           <h6>GGen_Data_1D::Monochrome(int treshold)</h6>
           <p>Sets all vales lower than or equal to <em>treshold</em> to 0 and all values higher than <em>treshold</em> to 1.</p>
           <h6>GGen_Data_1D::Normalize(<a href="#ggen_normalization_mode">GGen_Normalization_Mode</a> mode)</h6>
@@ -248,9 +250,9 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <h6>GGen_Data_1D::Gradient(int from, int to, int from_value, int to_value, bool fill_flat)</h6>
           <p>Creates a smooth gradient between coords <em>from</em> and <em>to</em>. The values will make transition between <em>from_value</em> and <em>to_value</em>. If <em>fill_flat</em> is set to true, values with coord lower than <em>from</em> will be filled with <em>from_value</em> and value with coord higher than <em>to</em> will be filled with <em>to_value</em>.</p>
           <h6>GGen_Data_1D::Noise(int min_feature_size, max_feature_size)</h6>
-          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Uses preset amplitudes, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>         
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm">perlin noise</a>. Uses preset amplitudes, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>         
           <h6>GGen_Data_1D::<a href="#2d_noise">Noise</a>(int min_feature_size, max_feature_size, <a href="#ggen_amplitudes">GGen_Amplitudes</a> amplitudes)</h6>
-          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Amplitudes are taken from <em>amplitudes</em> object, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm">perlin noise</a>. Amplitudes are taken from <em>amplitudes</em> object, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>
           <h6>GGen_Data_1D::Smooth(int radius)</h6>
           <p>Smooths differences between values in the array. Uses linear smoothing algorithm with kernel radius <em>radius</em>. Speed doesn't change with radius.</p>    
           <h6>GGen_Data_1D::Flood(double percentage)</h6>
@@ -312,7 +314,7 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>Performs a set intersection of the array graphs (lower of two respective values is applied) of the current array and <em>victim</em>. The <em>victim</em> will be interpolated to fit the current array.</p>
           <h6>GGen_Data_2D::Rotate(<a href="#ggen_angle">GGen_Angle</a> angle)</h6>
           <p>Rotates the array by <em>angle</em> degrees clockwise.</p>
-        <h5><a name="#2d_advanced">Advanced data manipulation</a></h5>
+        <h5><a name="2d_advanced">Advanced data manipulation</a></h5>
           <h6>GGen_Data_2D::Gradient(int from_x, int form_y, int to_x, int to_y, int from_value, int to_value, bool fill_flat)</h6>
           <p>Creates a smooth gradient between coords [<em>from_x</em>, <em>from_y</em>] and [<em>to_x</em>, <em>to_y</em>]. The values will make transition between <em>from_value</em> and <em>to_value</em>. If <em>fill_flat</em> is set to true, values outside the gradient strip will be filled with <em>from_value</em> or <em>to_value</em>, whichever is closer.</p>
           <h6>GGen_Data_2D::<a name="2d_gradient">Gradient</a>(int from_x, int form_y, int to_x, int to_y, <a href="#ggen_data_1d">GGen_Data_1D</a> profile, bool fill_flat)</h6>
@@ -322,9 +324,9 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <h6>GGen_Data_2D::<a name="2d_radialgradient">RadialGradient</a>(int center_x, int center_y, int radius, <a href="#ggen_data_1d">GGen_Data_1D</a> profile, bool fill_flat)</h6>
           <p>Creates a smooth radial gradient centered on coord [<em>center_x</em>, <em>center_y</em>]. The values will depend on respective values from <em>profile</em>, in the center the values will be taken from the <em>profile</em> from coord 0 and values for the outer rim will be taken from the last value of the <em>profile</em>. If <em>fill_flat</em> is set to true, values outside the circle will be filled with <em>to_value</em>.</p>
           <h6>GGen_Data_2D::Noise(int min_feature_size, max_feature_size)</h6>
-          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Uses preset amplitudes, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>         
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm">perlin noise</a>. Uses preset amplitudes, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>         
           <h6>GGen_Data_2D::<a href="#2d_noise">Noise</a>(int min_feature_size, max_feature_size, <a href="#ggen_amplitudes">GGen_Amplitudes</a> amplitudes)</h6>
-          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="blank">perlin noise</a>. Amplitudes are taken from <em>amplitudes</em> object, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>
+          <p>Fills the array with random <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm">perlin noise</a>. Amplitudes are taken from <em>amplitudes</em> object, for feature sizes (size of one cell in the noise grid) larger than <em>max_feature_size</em> or lower than <em>min_feature_size</em> are treated as zero. Computational complexity increases with <em>max_feature_size</em>.</p>
           <h6>GGen_Data_2D::Smooth(int radius)</h6>
           <p>Smooths differences between values in the array. Uses linear smoothing algorithm with kernel radius <em>radius</em>. Speed doesn't change with radius.</p>    
           <h6>GGen_Data_2D::Flood(double percentage)</h6>
@@ -378,6 +380,6 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
     <p>Copyright Matěj Zábský, 2009.</p>
     <p>GeoGen is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
     <p>Foobar is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
-    <p>You should have received a copy of the GNU General Public License along with GeoGen.  If not, see <a href="http://www.gnu.org/licenses/" target="blank">http://www.gnu.org/licenses/</a>.</p>
+    <p>You should have received a copy of the GNU General Public License along with GeoGen.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
   </body>
 </html>
