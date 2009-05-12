@@ -815,6 +815,8 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 
 	}
 
+	delete [] new_data;
+
 	/* First round - generate base values */
 	//for(int i = 0; i < y; i += max_feature_size){
 	//	for(int j = 0; j < x; j += max_feature_size){
