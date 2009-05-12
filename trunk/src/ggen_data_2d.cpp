@@ -580,16 +580,33 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 					if((distance >= 0 && i < y - distance) || (distance <= 0 && (signed) i >= -distance)){
 						new_data[j + (i + distance) * x] = data[j + i * x];
 					}
-					/* Some must go through the right "border" */
+					/* Some must go through the upper "border" */
 					else if(distance >= 0){
 						if(mode == GGEN_CYCLE) new_data[j + (i - y + distance) * x] = data[j + i * x];
 						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + (i - y + distance) * x] = data[j];
 					}
-					/* And some must go through the left "border" */
+					/* And some must go through the bottom "border" */
 					else{
 						if(mode == GGEN_CYCLE) new_data[j + (i + y + distance) * x] = data[j + i * x];
-						else if(mode == GGEN_DISCARD_AND_FILL && distance > 0) new_data[j + (i + y + distance) * x] = data[j];//data[j + (y - distance) * x];
-						else if(mode == GGEN_DISCARD_AND_FILL && distance < 0) new_data[j + (i + y + distance) * x] = data[j + (y - 1) * x];
+						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + (i + y + distance) * x] = data[j + (y - 1) * x];
+					}					
+				}
+				else{ // GGEN_HORIZONTAL
+					int16 distance = profile->GetValue(i, y);
+
+					/* Some values can be just plainly shifted */
+					if((distance >= 0 && j < x - distance) || (distance <= 0 && (signed) j >= -distance)){
+						new_data[j + distance + i * x] = data[j + i * x];
+					}
+					/* Some must go through the right "border" */
+					else if(distance >= 0){
+						if(mode == GGEN_CYCLE) new_data[j - x + distance + i * x] = data[j + i * x];
+						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j - x + distance + i * x] = data[i * x];
+					}
+					/* And some must go through the left "border" */
+					else{
+						if(mode == GGEN_CYCLE) new_data[j + x + distance + i * x] = data[j + i * x];
+						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + x + distance + i * x] = data[x - 1 + i * x];
 					}					
 				}
 			}

@@ -1,3 +1,5 @@
+// This script creates a strip of of land locked between sea and high mountain range.
+
 function Generate(width, height){
   local profile_height = GGen_Data_1D(10);
 	
@@ -20,18 +22,14 @@ function Generate(width, height){
 	local profile_shift = GGen_Data_1D(800);
 	profile_shift.Noise(1, 128);
 	profile_shift.Smooth(40);
-	profile_shift.ScaleValuesTo(0, width / 3);
+	profile_shift.ScaleValuesTo(-width / 5, width / 5);
 	
-	base.Rotate(GGEN_90);
-	
-	base.Shift(profile_shift, GGEN_VERTICAL, GGEN_DISCARD);
-	
-	base.Rotate(GGEN_270);
+	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);
 	
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(1, 64);
+	noise.Noise(1, width > height ? height / 16 : width / 16);
 	
-	noise.ScaleValuesTo(-1500, 1500);
+	noise.ScaleValuesTo(-1000, 1000);
 	
 	local profile_mask = GGen_Data_1D(3, 60);
 	profile_mask.SetValue(2, 255);
