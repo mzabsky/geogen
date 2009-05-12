@@ -399,8 +399,9 @@ void GGen_Data_2D::Invert(){
   */
 void GGen_Data_2D::Rotate(GGen_Angle angle){
 	
-	if(angle = GGEN_0) return;
+	if(angle == GGEN_0) return;
 
+	// fix width and height
 	uint16 new_x, new_y;
 	if(angle == GGEN_180){
 		new_x = x;
@@ -426,10 +427,10 @@ void GGen_Data_2D::Rotate(GGen_Angle angle){
 					new_data[j + i * new_x] = data[i + j * x];
 					break;
 				case GGEN_180:
-					new_data[(new_x - j) + i * new_x] = data[j + i * x];
+					new_data[(new_x - j - 1) + i * new_x] = data[j + i * x];
 					break;
 				case GGEN_270:
-					new_data[j + (new_y - i) * new_x] = data[i + j * x];
+					new_data[j + (new_y - i - 1) * new_x] = data[i + j * x];
 					break;
 			}
 		}
@@ -564,7 +565,7 @@ void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
 
 void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode){
 	/* Cycle mode */
-	if(mode == GGEN_CYCLE){
+	//if(mode == GGEN_CYCLE){
 		/* Allocate the new array */
 		int16* new_data = new int16[length];
 
@@ -573,56 +574,31 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 		for(uint16 i = 0; i < y; i++){
 			for(uint16 j = 0; j < x; j++){		
 				if(direction == GGEN_VERTICAL){
-					/* Some values can be just plainly shifted */
 					int16 distance = profile->GetValue(j, x);
 
-					/*if(i==576 && j == 88){
-						int d = 55;
-						d++;
-					}*/
-
-					/*if(j + (i + distance) * x == 543288){
-						int b = 50;
-						b+=1;
-					}*/
-
-
-
+					/* Some values can be just plainly shifted */
 					if((distance >= 0 && i < y - distance) || (distance <= 0 && (signed) i >= -distance)){
 						new_data[j + (i + distance) * x] = data[j + i * x];
 					}
 					/* Some must go through the right "border" */
 					else if(distance >= 0){
-						new_data[j + (i - y + distance) * x] = data[j + i * x];
+						if(mode == GGEN_CYCLE) new_data[j + (i - y + distance) * x] = data[j + i * x];
+						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + (i - y + distance) * x] = data[j];
 					}
 					/* And some must go through the left "border" */
 					else{
-						new_data[j + (i + y + distance) * x] = data[j + i * x];
+						if(mode == GGEN_CYCLE) new_data[j + (i + y + distance) * x] = data[j + i * x];
+						else if(mode == GGEN_DISCARD_AND_FILL && distance > 0) new_data[j + (i + y + distance) * x] = data[j];//data[j + (y - distance) * x];
+						else if(mode == GGEN_DISCARD_AND_FILL && distance < 0) new_data[j + (i + y + distance) * x] = data[j + (y - 1) * x];
 					}					
 				}
 			}
 		}
 
-		/* Fill the new array with shifted data */
-	//	for(uint16 i = 0; i < length; i++){
-			/* Some values can be just plainly shifted */
-		//	if((distance > 0 && i < length - distance) || (distance < 0 && (signed) i >= -distance)){
-		//		new_data[i + distance] = data[i];
-//			}
-			/* Some must go through the right "border" */
-	//		else if(distance > 0){
-		//		new_data[i - length + distance] = data[i];
-	//		}
-			/* And some must go through the left "border" */
-	//		else{
-	//			new_data[i + length + distance] = data[i];
-	//		}
-	//	}
-
 		/* Relink and delete the original array data */
 		delete [] data;
 		data = new_data;
-	}	
+	//}	
 }
 
 void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside){
@@ -694,49 +670,166 @@ void GGen_Data_2D::RadialGradient(uint16 center_x, uint16 center_y, uint16 radiu
 	}
 }
 
+/*double InterpolatedNoise(uint8 octave, uint32 j, uint32 i){
+
+}*/
+
 void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes){
 
 	assert(amplitudes != NULL);
 
+	/*this->Fill(0);
+
+	double persistence = 0.5;
+
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){			
+			for(uint octave = 0; octave < 6; octave++){
+				int frequecy = pow(2, octave);
+				double amplitude = pow(persistence, octave);
+
+				data[j + x * i] += InterpolatedNoise(octave, j * frequency, i * frequency) * amplitude * 1000;
+			}
+		}
+	}*/
+
 	/* Check if feature sizes are powers of 2 */
-	assert(((min_feature_size - 1) & min_feature_size) == 0);
-	assert(((max_feature_size - 1) & max_feature_size) == 0);
+	//assert(((min_feature_size - 1) & min_feature_size) == 0);
+	//assert(((max_feature_size - 1) & max_feature_size) == 0);
 
 	uint8 frequency = log2(max_feature_size);
 	uint16 amplitude = amplitudes->data[frequency];
 
-	/* First round - generate base values */
-	for(int i = 0; i < y; i += max_feature_size){
-		for(int j = 0; j < x; j += max_feature_size){
-			data[j + i * x] = Random((int16) -amplitude, (int16) amplitude);
-		}		
-	}
+	int16* new_data = new int16[length];
 
-	
-	for(int wave_length = max_feature_size / 2; wave_length >= 1; wave_length /= 2){
+	assert(new_data != NULL);
+
+	this->Fill(0);
+
+	for(int wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
 		frequency = log2(wave_length);
 		amplitude = amplitudes->data[frequency];
 
-		for(uint16 i = 0; i < y; i += wave_length * 2){
-			for(uint16 j = 0; j < x; j += wave_length * 2){
-				if(j < x - wave_length) data[j + wave_length + i * x] = ( 
-					data[j + i * x] +
-					(j < x - wave_length * 2 ? data[j + 2 * wave_length + i * x] : 0)
-					) / 2 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
-				if(i < y - wave_length) data[j + (i + wave_length) * x] = ( 
-					data[j + i * x] +
-					(i < y - wave_length * 2 ? data[j + (i + 2 * wave_length) * x] : 0)
-					) / 2 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
-				if(j < x - wave_length && i < y - wave_length) data[j + wave_length + (i + wave_length) * x] = ( 
-					data[j + i * x] +
-					(i < y - wave_length * 2 ? data[j + (i + 2 * wave_length) * x] : 0) +
-					(j < x - wave_length * 2 ? data[j + 2 * wave_length + i * x] : 0) +
-					((j < x - wave_length * 2 && i < y - wave_length * 2) ? data[j + 2 * wave_length + (i + 2 * wave_length) * x] : 0)
-					) / 4 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
-				if(wave_length >= min_feature_size) data[j + i * x] += Random((int16) -amplitude, (int16) amplitude);
+		if(wave_length < min_feature_size) break;
+
+		for(uint16 i = 0; i < y; i += wave_length){
+			for(uint16 j = 0; j < x; j += wave_length){
+				new_data[j + i * x] = Random<int>(-amplitude, amplitude);
 			}
 		}
+
+		
+
+		if(wave_length > 1)
+		for(uint16 i = 0; i < y; i++){
+			for(uint16 j = 0; j < x; j++){
+				if(i % wave_length == 0 && j % wave_length == 0) continue;
+ 
+				uint16 nearest_horizontal = j - j % wave_length;
+				uint16 nearest_vertical = i - i % wave_length;
+
+				//double ft = (j % wave_length) * 3.1415927
+				double horizontal = (1 - cos( (j % wave_length) * 3.1415927 / wave_length)) * .5;
+				double vertical = (1 - cos( (i % wave_length) * 3.1415927 / wave_length)) * .5;
+
+
+				int16 a = new_data[
+					nearest_horizontal +
+					(nearest_vertical) * x
+				];
+
+				int16 b;
+				if(nearest_horizontal + wave_length > x - 1){
+					//b = a;
+					b = new_data[(nearest_vertical) * x];
+				}
+				else 
+				b = new_data[
+					nearest_horizontal + wave_length +
+					(nearest_vertical) * x
+				];	
+	
+				int16 c;
+				if(nearest_vertical + wave_length > y - 1){
+					c = new_data[nearest_horizontal];
+				}
+				else 
+				c = new_data[
+					nearest_horizontal +
+					(nearest_vertical + wave_length) * x
+				];	
+
+				int16 d;
+				if((nearest_horizontal + wave_length > x - 1 && nearest_vertical + wave_length > y - 1) ){
+					d = new_data[0];
+				}
+				else if(nearest_horizontal + wave_length > x - 1){
+					d = new_data[(nearest_vertical + wave_length) * x];
+				}
+				else if(nearest_vertical + wave_length > y - 1){
+					d = new_data[nearest_horizontal + wave_length];
+				}
+				else if( (nearest_horizontal + wave_length + (nearest_vertical + wave_length) * x > length - 1)){
+					d = new_data[0];
+				}
+				else 
+				d = new_data[
+					nearest_horizontal + wave_length +
+					(nearest_vertical + wave_length) * x
+				];	
+
+				// a*(1-f) + b*f
+
+				double horizontal_value = a*(1-horizontal) + b*horizontal;
+				double horizontal_value2 = c*(1-horizontal) + d*horizontal;
+				//double vertical_value = 
+
+				data[j + i * x] += horizontal_value*(1-vertical) + horizontal_value2*vertical;
+
+				//int sdf = data[j + i * x];
+			}
+		} 
+
+		for(uint16 i = 0; i < y; i += wave_length){
+			for(uint16 j = 0; j < x; j += wave_length){
+				data[j + i * x] += new_data[j + i * x];
+			}
+		}
+
 	}
+
+	/* First round - generate base values */
+	//for(int i = 0; i < y; i += max_feature_size){
+	//	for(int j = 0; j < x; j += max_feature_size){
+	//		data[j + i * x] = Random((int16) -amplitude, (int16) amplitude);
+	//	}		
+	//}
+
+	//
+	//for(int wave_length = max_feature_size / 2; wave_length >= 1; wave_length /= 2){
+	//	frequency = log2(wave_length);
+	//	amplitude = amplitudes->data[frequency];
+
+	//	for(uint16 i = 0; i < y; i += wave_length * 2){
+	//		for(uint16 j = 0; j < x; j += wave_length * 2){
+	//			if(j < x - wave_length) data[j + wave_length + i * x] = ( 
+	//				data[j + i * x] +
+	//				(j < x - wave_length * 2 ? data[j + 2 * wave_length + i * x] : 0)
+	//				) / 2 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
+	//			if(i < y - wave_length) data[j + (i + wave_length) * x] = ( 
+	//				data[j + i * x] +
+	//				(i < y - wave_length * 2 ? data[j + (i + 2 * wave_length) * x] : 0)
+	//				) / 2 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
+	//			if(j < x - wave_length && i < y - wave_length) data[j + wave_length + (i + wave_length) * x] = ( 
+	//				data[j + i * x] +
+	//				(i < y - wave_length * 2 ? data[j + (i + 2 * wave_length) * x] : 0) +
+	//				(j < x - wave_length * 2 ? data[j + 2 * wave_length + i * x] : 0) +
+	//				((j < x - wave_length * 2 && i < y - wave_length * 2) ? data[j + 2 * wave_length + (i + 2 * wave_length) * x] : 0)
+	//				) / 4 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
+	//			if(wave_length >= min_feature_size) data[j + i * x] += Random((int16) -amplitude, (int16) amplitude);
+	//		}
+	//	}
+	//}
 
 } 
 
