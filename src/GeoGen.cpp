@@ -30,8 +30,66 @@
 #include <assert.h>
 #include <time.h>
 
-#include "ggen.h"
-#include "ggen_squirrel.h"
+using namespace std;
+
+#ifdef NO_GGEN_LIB
+	#include "ggen.h"
+	#include "ggen_squirrel.h"
+#else
+	#pragma comment(lib,"../lib/GeoGen.lib")
+
+	typedef signed char int8;
+	typedef unsigned char uint8;
+	typedef signed short int16;
+	typedef unsigned short uint16;
+	typedef signed int int32;
+	typedef unsigned int uint32;
+
+
+	enum GGen_Message_Level{
+		GGEN_MESSAGE = 0,
+		GGEN_NOTICE = 1,
+		GGEN_WARNING = 2,
+		GGEN_ERROR = 3
+	};
+
+	class GGen{
+	public:
+		GGen();
+		~GGen();
+
+	//private:
+		void (*callback) (char*, GGen_Message_Level);
+
+		void ThrowMessage(char* message, GGen_Message_Level level);
+		void ThrowMessage(wchar_t message, GGen_Message_Level level);
+
+
+	public:
+		void SetMessageCallback( void (*callback) (char*, GGen_Message_Level));
+
+		virtual bool SetScript(const char* script) = 0;
+		virtual void GetProperties() = 0;
+		virtual bool GetNextOption() = 0;
+		virtual int16* Generate(uint16 width, uint16 height) = 0;
+
+	};
+
+	class GGen_Squirrel: public GGen{
+	public:	
+		//SquirrelObject sqScript;
+
+		GGen_Squirrel();
+		~GGen_Squirrel();
+
+		//void CompileErrorHandler(HSQUIRRELVM vm,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger columnn);
+
+		virtual bool SetScript(const char* script);
+		virtual void GetProperties();
+		virtual bool GetNextOption();
+		virtual int16* Generate(uint16 width, uint16 height);
+	};	
+#endif
 
 #include "EasyBMP.h"
 
@@ -133,6 +191,8 @@ Have a nice day!\n";
 
 	if(!ggen->SetScript(strTotal.c_str())){
 		cout << "Compilation failed!\n";
+		//delete ggen;
+		return -1;
 	}
 
 	cout << "Executing...\n";

@@ -723,7 +723,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 
 	this->Fill(0);
 
-	for(int wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
+	for(uint16 wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
 		frequency = log2(wave_length);
 		amplitude = amplitudes->data[frequency];
 
@@ -786,7 +786,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 				else if(nearest_vertical + wave_length > y - 1){
 					d = new_data[nearest_horizontal + wave_length];
 				}
-				else if( (nearest_horizontal + wave_length + (nearest_vertical + wave_length) * x > length - 1)){
+				else if( (unsigned)((nearest_horizontal + wave_length + (nearest_vertical + wave_length) * x) > (unsigned) (length - 1))){
 					d = new_data[0];
 				}
 				else 
@@ -801,7 +801,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 				double horizontal_value2 = c*(1-horizontal) + d*horizontal;
 				//double vertical_value = 
 
-				data[j + i * x] += horizontal_value*(1-vertical) + horizontal_value2*vertical;
+				data[j + i * x] += (int16)( horizontal_value*(1-vertical) + horizontal_value2*vertical);
 
 				//int sdf = data[j + i * x];
 			}

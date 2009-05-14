@@ -19,6 +19,7 @@
 
 #pragma once
 
+
 #include "sqplus.h"
 #include "ggen_support.h"
 
@@ -27,7 +28,7 @@ using namespace SqPlus;
 
 static void printFunc(HSQUIRRELVM v,const SQChar * s,...);
 
-#define SQ_REL_PATH "../"
+#define SQ_REL_PATH "../include/squirrel_lib/"
 
 #ifdef UNICODE
 #define LIB  "U.lib"
@@ -37,19 +38,19 @@ static void printFunc(HSQUIRRELVM v,const SQChar * s,...);
 
 #ifdef _MSC_VER
 #ifdef _DEBUG
-#pragma comment(lib,SQ_REL_PATH "lib/squirrelD" LIB)
-#pragma comment(lib,SQ_REL_PATH "lib/sqstdlibD" LIB)
+#pragma comment(lib,SQ_REL_PATH "squirrelD" LIB)
+#pragma comment(lib,SQ_REL_PATH "sqstdlibD" LIB)
 #ifdef USE_REMOTE_DEBUGGER
-#pragma comment(lib,SQ_REL_PATH "lib/sqdbglibD" LIB)
+#pragma comment(lib,SQ_REL_PATH "sqdbglibD" LIB)
 #endif
-#pragma comment(lib,SQ_REL_PATH "lib/sqplusD" LIB)
+#pragma comment(lib,SQ_REL_PATH "sqplusD" LIB)
 #else // Release
-#pragma comment(lib,SQ_REL_PATH "lib/squirrel" LIB)
-#pragma comment(lib,SQ_REL_PATH "lib/sqstdlib" LIB)
+#pragma comment(lib,SQ_REL_PATH "squirrel" LIB)
+#pragma comment(lib,SQ_REL_PATH "sqstdlib" LIB)
 #ifdef USE_REMOTE_DEBUGGER
-#pragma comment(lib,SQ_REL_PATH "lib/sqdbglib" LIB)
+#pragma comment(lib,SQ_REL_PATH "sqdbglib" LIB)
 #endif
-#pragma comment(lib,SQ_REL_PATH "lib/sqplus" LIB)
+#pragma comment(lib,SQ_REL_PATH "sqplus" LIB)
 #endif
 #endif
 
