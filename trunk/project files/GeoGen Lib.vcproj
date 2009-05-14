@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../include/squirrel;../include/EasyBMP"
+				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="0"
@@ -171,10 +171,6 @@
 				RelativePath="..\src\ggen_human_interface.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\src\ggen_support.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -211,6 +207,14 @@
 			</File>
 			<File
 				RelativePath="..\src\ggen_squirrel.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Include"
+			>
+			<File
+				RelativePath="..\include\geogen.h"
 				>
 			</File>
 		</Filter>

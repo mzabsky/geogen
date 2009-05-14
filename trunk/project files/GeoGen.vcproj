@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../include/squirrel;../include/EasyBMP"
+				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;NO_GGEN_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -193,10 +193,6 @@
 				RelativePath=".\..\src\ggen_human_interface.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\..\src\ggen_support.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -240,7 +236,7 @@
 			Name="Implementation"
 			>
 			<File
-				RelativePath="..\include\EasyBMP\EasyBMP.cpp"
+				RelativePath="..\external\EasyBMP\EasyBMP.cpp"
 				>
 			</File>
 			<File

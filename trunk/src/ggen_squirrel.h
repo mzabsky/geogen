@@ -28,7 +28,7 @@ using namespace SqPlus;
 
 static void printFunc(HSQUIRRELVM v,const SQChar * s,...);
 
-#define SQ_REL_PATH "../include/squirrel_lib/"
+#define SQ_REL_PATH "../external/squirrel_lib/"
 
 #ifdef UNICODE
 #define LIB  "U.lib"
