@@ -1,0 +1,16 @@
+GGen2d
+	- Normalize
+	- Monochrome
+	- SlopeMap
+
+error reporting !!!!!
+
+AddMasked nepracuje presne (225 + 100% 30 --> > 255)
+
+poresit lip ggen_std_noise
+
+vraceni vice map
+
+podpora description
+
+podpora argumentu
