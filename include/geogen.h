@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include "../external/squirrel/sqplus.h"
+
 typedef signed char int8;
 typedef unsigned char uint8;
 typedef signed short int16;
@@ -39,6 +41,13 @@ public:
 	GGen();
 	~GGen();
 
+//private:
+	void (*callback) (char*, GGen_Message_Level);
+
+	void ThrowMessage(char* message, GGen_Message_Level level);
+	void ThrowMessage(wchar_t message, GGen_Message_Level level);
+
+
 public:
 	void SetMessageCallback( void (*callback) (char*, GGen_Message_Level));
 
@@ -51,11 +60,15 @@ public:
 
 class GGen_Squirrel: public GGen{
 public:	
+	//SquirrelObject sqScript;
+
 	GGen_Squirrel();
 	~GGen_Squirrel();
+
+	void CompileErrorHandler(HSQUIRRELVM vm,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger columnn);
 
 	virtual bool SetScript(const char* script);
 	virtual void GetProperties();
 	virtual bool GetNextOption();
 	virtual int16* Generate(uint16 width, uint16 height);
-};	
+};
