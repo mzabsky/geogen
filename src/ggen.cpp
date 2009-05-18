@@ -64,24 +64,26 @@ GGen::~GGen(){
 	delete ggen_std_noise;
 }
 
-void GGen::ThrowMessage(char* message, GGen_Message_Level level){
+void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int column){
+	//message = "asdasda"; 
+	
 	if(callback != NULL){
-		callback(message, level);
+		callback(message, level, line, column);
 	}
 	else{
 
 		switch(level){
 			case GGEN_MESSAGE:
-				cout << "GGen Message: " << message << "\n";
+				cout << "GGen Message: " << message << " on line " << line << "\n";
 				break;
 			case GGEN_NOTICE:
-				cout << "GGen Notice: " << message << "\n";
+				cout << "GGen Notice: " << message << " on line " << line << "\n";
 				break;
 			case GGEN_WARNING:
-				cout << "GGen Warning: " << message << "\n";
+				cout << "GGen Warning: " << message << " on line " << line << "\n";
 				break;
 			case GGEN_ERROR:
-				cout << "GGen Error: " << message << "addas\n";
+				cout << "GGen Error: " << message << " on line " << line << "\n";
 				break;
 		}
 
@@ -93,15 +95,20 @@ void GGen::ThrowMessage(char* message, GGen_Message_Level level){
 	}
 }
 
-void GGen::ThrowMessage(wchar_t message, GGen_Message_Level level){
-	char* buf = new char[30];
+void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line, int column){
 
-	wctomb(buf, message); 
+	int len = wcslen(message);
+
+	char* buf = new char[len + 1];
+
+	wcstombs(buf, message, len + 1); 
 	
+	buf[len] = '\0';
+
 	ThrowMessage(buf, level);
 }
 
-void GGen::SetMessageCallback( void (*callback) (char*,GGen_Message_Level) ){
+void GGen::SetMessageCallback( void (*callback) (char* message, GGen_Message_Level, int line, int column) ){
 	this->callback = callback;
 }
 

@@ -69,8 +69,6 @@ public:
 	GGen_Squirrel();
 	~GGen_Squirrel();
 
-	void CompileErrorHandler(HSQUIRRELVM vm,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger columnn);
-
 	virtual bool SetScript(const char* script);
 	virtual void GetProperties();
 	virtual bool GetNextOption();

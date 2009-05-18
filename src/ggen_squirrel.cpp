@@ -67,14 +67,23 @@ static void printFunc(HSQUIRRELVM v,const SQChar * s,...) {
   //va_end(vl);
 }
 
+GGen_Squirrel* ggen_current_object;
+
+void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
+	ggen_current_object->ThrowMessage(desc, GGEN_ERROR);
+}
+
 GGen_Squirrel::GGen_Squirrel(){
+	ggen_current_object = this;
+
 	SquirrelVM::Init();
 
 	sqstd_register_mathlib(SquirrelVM::GetVMPtr());
 
-	//sq_setprintfunc(SquirrelVM::GetVMPtr(), printFunc);
-	//sq_setcompilererrorhandler(SquirrelVM::GetVMPtr(),  this->*(&GGen_Squirrel::CompileErrorHandler) );
-	
+	sq_setprintfunc(SquirrelVM::GetVMPtr(), printFunc);
+	sq_setcompilererrorhandler(SquirrelVM::GetVMPtr(), GGen_ErrorHandler);
+	sq_enabledebuginfo(SquirrelVM::GetVMPtr(), false);
+
 	/* Enum: GGen_Normalization_Mode */
 	BindConstant(GGEN_ADDITIVE, _SC("GGEN_ADDITIVE"));
 	BindConstant(GGEN_SUBSTRACTIVE, _SC("GGEN_SUBSTRACTIVE"));
@@ -218,7 +227,7 @@ bool GGen_Squirrel::SetScript(const char* script){
 
 		return true;
     } catch (SquirrelError & e) {
-		SCPUTS(e.desc);
+		//SCPUTS(e.desc);
 		
 		return false;
     }	
@@ -266,7 +275,7 @@ int16* GGen_Squirrel::Generate(uint16 width, uint16 height){
 		
     } catch (SquirrelError & e) {
 		//this->ThrowMessage((wchar_t) e.desc, GGEN_ERROR);
-		SCPUTS(e.desc);
+		//SCPUTS(e.desc);
 		
 		SquirrelVM::Shutdown();	
 
@@ -278,9 +287,8 @@ int16* GGen_Squirrel::Generate(uint16 width, uint16 height){
 	
 }
 
-void GGen_Squirrel::CompileErrorHandler(HSQUIRRELVM vm,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger columnn){
-	this->ThrowMessage((wchar_t) desc, GGEN_ERROR);
-}
+
+
 
 
 
