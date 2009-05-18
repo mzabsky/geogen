@@ -148,6 +148,12 @@ Have a nice day!\n";
 
 	int16* data = ggen->Generate(width, height);
 
+	if(data == NULL){
+		cout << "Map generation failed!\n";
+		//delete ggen;
+		return -1;		
+	}
+	
 	assert(data != NULL);
 
 	cout << "Saving bitmap...\n";

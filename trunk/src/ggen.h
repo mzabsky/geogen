@@ -43,14 +43,14 @@ public:
 	~GGen();
 
 //private:
-	void (*callback) (char*, GGen_Message_Level);
+	void (*callback) (char* message, GGen_Message_Level, int line, int column);
 
-	void ThrowMessage(char* message, GGen_Message_Level level);
-	void ThrowMessage(wchar_t message, GGen_Message_Level level);
+	void ThrowMessage(char* message, GGen_Message_Level level, int line = 0, int column = 0);
+	void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = 0, int column = 0);
 
 
 public:
-	void SetMessageCallback( void (*callback) (char*, GGen_Message_Level));
+	void SetMessageCallback( void (*callback) (char* message, GGen_Message_Level, int line, int column));
 
 	virtual bool SetScript(const char* script) = 0;
 	virtual void GetProperties() = 0;
