@@ -28,6 +28,7 @@
 #include <fstream>
 #include <sstream>
 #include <assert.h>
+#include <stdarg.h>
 
 
 #include "ggen.h"
@@ -59,19 +60,31 @@ DECLARE_ENUM_TYPE(GGen_Angle);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
 
 static void printFunc(HSQUIRRELVM v,const SQChar * s,...) {
-  //static SQChar temp[2048];
-  //va_list vl;
-  //va_start(vl,s);
-  //scvsprintf( temp,s,vl);
-  //SCPUTS(temp);
-  //va_end(vl);
+  static SQChar temp[2048];
+  va_list vl;
+  va_start(vl,s);
+  scvsprintf( temp,s,vl);
+  SCPUTS(temp);
+	//cout << "dsadasd";
+  va_end(vl);
 }
 
 GGen_Squirrel* ggen_current_object;
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
-	ggen_current_object->ThrowMessage(desc, GGEN_ERROR);
+	ggen_current_object->ThrowMessage(desc, GGEN_ERROR, line, column);
 }
+
+void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
+	static SQChar temp[2048];
+	va_list vl;
+	va_start(vl,s);
+	scvsprintf( temp,s,vl);
+	va_end(vl);
+
+	ggen_current_object->ThrowMessage(temp, GGEN_ERROR);
+}
+
 
 GGen_Squirrel::GGen_Squirrel(){
 	ggen_current_object = this;
@@ -80,7 +93,7 @@ GGen_Squirrel::GGen_Squirrel(){
 
 	sqstd_register_mathlib(SquirrelVM::GetVMPtr());
 
-	sq_setprintfunc(SquirrelVM::GetVMPtr(), printFunc);
+	sq_setprintfunc(SquirrelVM::GetVMPtr(), GGen_PrintHandler);
 	sq_setcompilererrorhandler(SquirrelVM::GetVMPtr(), GGen_ErrorHandler);
 	sq_enabledebuginfo(SquirrelVM::GetVMPtr(), false);
 

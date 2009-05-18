@@ -22,7 +22,7 @@ function Generate(width, height){
 	local profile_shift = GGen_Data_1D(800);
 	profile_shift.Noise(1, 128);
 	profile_shift.Smooth(40);
-	profile_shift.ScaleValuesTo(-width / 5, width / 5);
+	profile_shift.ScaleValuesTo(-width / 5, width /¡¡ 5);
 	
 	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);
 	
