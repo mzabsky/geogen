@@ -1007,9 +1007,16 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 
 	memcpy(new_data, data, sizeof(int16) * length);
 
-	char* buf = new char[name.length()];
+	char* buf = new char[name.length() + 1];
 
-	memcpy(buf, name.c_str(), sizeof(char)*name.length());
+	
+
+	//memcpy(buf, name.c_str(), sizeof(char)*name.length());
+	wcstombs(buf, name.c_str(), name.length());
+
+	buf[name.length()] = '\0';
+
+	//int l = name.length();
 
 	if(ggen_current_object->return_callback != NULL) ggen_current_object->return_callback(buf, new_data);
 	else ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
