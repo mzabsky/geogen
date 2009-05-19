@@ -41,6 +41,8 @@
 
 #include "ggen_squirrel.h"
 
+extern GGen* ggen_current_object;
+
 //int
 //
 //constructNewTestObjFixedArgs(const SQChar *s, int val, bool b, HSQUIRRELVM v)
@@ -68,8 +70,6 @@ static void printFunc(HSQUIRRELVM v,const SQChar * s,...) {
 	//cout << "dsadasd";
   va_end(vl);
 }
-
-GGen_Squirrel* ggen_current_object;
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
 	ggen_current_object->ThrowMessage(desc, GGEN_ERROR, line, column);
@@ -208,7 +208,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadFunc<void(GGen_Data_2D::*)(uint8, GGen_Direction)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		overloadFunc<void(GGen_Data_2D::*)(uint8)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		func(&GGen_Data_2D::Flood,_T("Flood")).
-		func(&GGen_Data_2D::Pattern,_T("Pattern"));
+		func(&GGen_Data_2D::Pattern,_T("Pattern"))/*.
+		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs"))*/;
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
@@ -222,19 +223,22 @@ GGen_Squirrel::GGen_Squirrel(){
 }
 
 GGen_Squirrel::~GGen_Squirrel(){
-	
+	SquirrelVM::Shutdown();	
 }
+
 
 bool GGen_Squirrel::SetScript(const char* script){
 	wchar_t* buf = new wchar_t[strlen(script)];
-	
+	SquirrelObject sqScript2;
+
+
 	mbstowcs(buf, script, 9999999);
 
 	try {
 		{
-		SquirrelObject sqScript2 = SquirrelVM::CompileBuffer(buf);
+			sqScript2 = SquirrelVM::CompileBuffer(buf);
 
-		SquirrelVM::RunScript(sqScript2);
+			SquirrelVM::RunScript(sqScript2);
 		}
 		
 
