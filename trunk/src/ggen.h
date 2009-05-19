@@ -52,7 +52,7 @@ public:
 
 public:
 	void SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column));
-	void SetReturnCallback( void (*return_callback) (char* name, int16* map));
+	virtual void SetReturnCallback( void (*return_callback) (char* name, int16* map) );
 
 	virtual bool SetScript(const char* script) = 0;
 	virtual void GetProperties() = 0;

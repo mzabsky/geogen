@@ -42,6 +42,45 @@ using namespace std;
 
 #include "EasyBMP.h"
 
+
+int _width = 0;
+int _height = 0;
+
+bool SaveAsBMP(int16* data, int width, int height, const char* implicit_path, const char* name = NULL){
+	stringstream path_out;
+
+	if(name == NULL){
+		path_out << implicit_path;
+		cout << "Saving main bitmap...\n";
+	}
+	else{
+		path_out << "../temp/" << name << ".bmp";
+		cout << "Saving map \"" << name << "\"...\n";
+	}
+	
+	BMP output;
+
+	output.SetBitDepth(32);
+
+	output.SetSize(width, height);
+
+	for(int i = 0; i < height; i++){
+		for(int j = 0; j < width; j++){
+			output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
+		}		
+	}
+
+	output.WriteToFile(path_out.str().c_str());
+
+	if(name != NULL) cout << "Executing...\n";
+
+	return true;
+}
+
+void ReturnHandler(char* name, int16* map){
+	SaveAsBMP(map, _width, _height, "", name); 
+}
+
 int main(int argc,char * argv[]){
 
 	char* path_out;
@@ -114,6 +153,9 @@ Have a nice day!\n";
 		seed = (int) time(0);
 	}
 
+	_width = width;
+	_height = height;
+
 	srand((unsigned) seed);
 
 	// Load the script from file
@@ -138,6 +180,8 @@ Have a nice day!\n";
 
 	cout << "Compiling...\n";
 
+	ggen->SetReturnCallback(ReturnHandler);
+
 	if(!ggen->SetScript(strTotal.c_str())){
 		cout << "Compilation failed!\n";
 		delete ggen;
@@ -156,21 +200,7 @@ Have a nice day!\n";
 	
 	assert(data != NULL);
 
-	cout << "Saving bitmap...\n";
-
-	BMP output;
-
-	output.SetBitDepth(32);
-
-	output.SetSize(width, height);
-
-	for(int i = 0; i < height; i++){
-		for(int j = 0; j < width; j++){
-			output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
-		}		
-	}
-
-	output.WriteToFile(path_out);
+	SaveAsBMP(data, width, height, path_out);
 
 	cout << "Cleanup...\n";
 
