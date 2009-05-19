@@ -208,8 +208,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadFunc<void(GGen_Data_2D::*)(uint8, GGen_Direction)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		overloadFunc<void(GGen_Data_2D::*)(uint8)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		func(&GGen_Data_2D::Flood,_T("Flood")).
-		func(&GGen_Data_2D::Pattern,_T("Pattern"))/*.
-		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs"))*/;
+		func(&GGen_Data_2D::Pattern,_T("Pattern")).
+		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
@@ -284,7 +284,7 @@ int16* GGen_Squirrel::Generate(uint16 width, uint16 height){
 		//sq_close(SquirrelVM::GetVMPtr());
 
 
-		SquirrelVM::Shutdown();
+		//SquirrelVM::Shutdown();
 
 		//Squi
 
@@ -294,7 +294,7 @@ int16* GGen_Squirrel::Generate(uint16 width, uint16 height){
 		//this->ThrowMessage((wchar_t) e.desc, GGEN_ERROR);
 		//SCPUTS(e.desc);
 		
-		SquirrelVM::Shutdown();	
+		//::Shutdown();	
 
 		return NULL;
     }	

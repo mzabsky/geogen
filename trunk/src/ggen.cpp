@@ -37,9 +37,11 @@
 #include "ggen_squirrel.h"
 
 GGen_Amplitudes* ggen_std_noise;
+GGen* ggen_current_object;
 
 GGen::GGen(){
-	callback = NULL;
+	message_callback = NULL;
+	return_callback = NULL;
 
 	ggen_std_noise = new GGen_Amplitudes(16384);
 
@@ -67,8 +69,8 @@ GGen::~GGen(){
 void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int column){
 	//message = "asdasda"; 
 	
-	if(callback != NULL){
-		callback(message, level, line, column);
+	if(message_callback != NULL){
+		message_callback(message, level, line, column);
 	}
 	else{
 
@@ -105,11 +107,15 @@ void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int li
 	
 	buf[len] = '\0';
 
-	ThrowMessage(buf, level);
+	ThrowMessage(buf, level, line, column);
 }
 
-void GGen::SetMessageCallback( void (*callback) (char* message, GGen_Message_Level, int line, int column) ){
-	this->callback = callback;
+void GGen::SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column) ){
+	this->message_callback = message_callback;
+}
+
+void GGen::SetReturnCallback( void (*return_callback) (char* name, int16* map) ){
+	this->return_callback = return_callback;
 }
 
 

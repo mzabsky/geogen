@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include "sqplus.h"
+
 class GGen_Data_2D{
 	public:
 		int16* data;
@@ -77,5 +79,8 @@ class GGen_Data_2D{
 
 		/* Human interface functions */
 		void Window(bool fixed);
+
+		/* Externnal communication functions */
+		void ReturnAs(const SqPlus::sq_std_string &name);
 };
 

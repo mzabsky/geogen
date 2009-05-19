@@ -140,7 +140,7 @@ Have a nice day!\n";
 
 	if(!ggen->SetScript(strTotal.c_str())){
 		cout << "Compilation failed!\n";
-		//delete ggen;
+		delete ggen;
 		return -1;
 	}
 
@@ -150,7 +150,7 @@ Have a nice day!\n";
 
 	if(data == NULL){
 		cout << "Map generation failed!\n";
-		//delete ggen;
+		delete ggen;
 		return -1;		
 	}
 	

@@ -29,12 +29,14 @@
 #include <sstream>
 #include <assert.h>
 
+#include "ggen.h"
+#include "ggen_squirrel.h"
 #include "ggen_support.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 
 extern GGen_Amplitudes* ggen_std_noise;
-
+extern GGen* ggen_current_object;
 /** 
  * Creates a 2D data array and fills it with zeros
  * @param length of the array
@@ -987,4 +989,28 @@ void GGen_Data_2D::Pattern(GGen_Data_2D* pattern){
 			data[j + i * x] = pattern->data[ j % pattern->x + (i % pattern->y) * pattern->y];
 		}
 	}
+}
+
+void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
+	//int len = wcslen(name);
+
+	//char* buf = new char[len + 1];
+
+	//wcstombs(buf, name, len + 1); 
+	
+	//buf[len] = '\0';
+
+	/* Allocate the new array */
+	int16* new_data = new int16[length];
+
+	assert(new_data != NULL);
+
+	memcpy(new_data, data, sizeof(int16) * length);
+
+	char* buf = new char[name.length()];
+
+	memcpy(buf, name.c_str(), sizeof(char)*name.length());
+
+	if(ggen_current_object->return_callback != NULL) ggen_current_object->return_callback(buf, new_data);
+	else ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
 }
