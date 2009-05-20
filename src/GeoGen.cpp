@@ -188,6 +188,30 @@ Have a nice day!\n";
 		return -1;
 	}
 
+	cout << "Loading map info...\n";
+
+	if(width > ggen->GetInfoInt("max_width")){
+		cout << "Passed width exceeds map's max width!\n";
+		delete ggen;
+		return -1;
+	}
+
+	if(height > ggen->GetInfoInt("max_height")){
+		cout << "Passed height exceeds map's max height!\ns"; 
+		delete ggen;
+		return -1;
+	}
+
+	//char* name = ggen->GetInfo("description");
+
+/*	if(name == NULL){
+		cout << "Map info not found...\n";
+		delete ggen;
+		return -1;
+	}*/
+
+	//cout << name;
+
 	cout << "Executing...\n";
 
 	int16* data = ggen->Generate(width, height);

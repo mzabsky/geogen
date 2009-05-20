@@ -69,7 +69,8 @@ public:
 	~GGen_Squirrel();
 
 	virtual bool SetScript(const char* script);
-	virtual void GetProperties();
+	virtual char* GetInfo(char* label);
+	virtual int GetInfoInt(char* label);
 	virtual bool GetNextOption();
 	virtual int16* Generate(uint16 width, uint16 height);
 };
