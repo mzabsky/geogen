@@ -1,5 +1,18 @@
 // This script creates a strip of of land locked between sea and high mountain range.
 
+function GetInfo(info_type){
+	switch(info_type){
+		case "name":
+			return "Seaside country";
+		case "description":
+			return "kghvfmhvfhmvmgh\nkfjhcmhcmcmhch\nhjgvhghg";
+		case "max_width":
+			return 1024;
+		case "max_height":
+			return 1024;
+	}
+}
+
 function Generate(width, height){
   local profile_height = GGen_Data_1D(10);
 	

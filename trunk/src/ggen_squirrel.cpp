@@ -250,7 +250,62 @@ bool GGen_Squirrel::SetScript(const char* script){
     }	
 }
 
-void GGen_Squirrel::GetProperties(){};
+char* GGen_Squirrel::GetInfo(char* label){
+	try{
+			SQChar* in_buf = new SQChar[strlen(label)];
+
+			mbstowcs(in_buf, label, strlen(label) + 1);
+
+			in_buf[strlen(label)]=_SC('\0');
+
+			SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
+
+			SquirrelFunction<const SQChar*> callFunc(_SC("GetInfo"));
+			const SQChar* output =  callFunc(in_buf);
+
+			char* out_buf = new char[wcslen(output) + 1];
+
+			wcstombs(out_buf, output, wcslen(output));
+
+			out_buf[wcslen(output)] = '\0';
+
+			return out_buf;
+	}
+	catch(SquirrelError & e){
+		return NULL;
+	}
+}
+
+int GGen_Squirrel::GetInfoInt(char* label){
+	try{
+			SQChar* in_buf = new SQChar[strlen(label)];
+
+			mbstowcs(in_buf, label, strlen(label) + 1);
+
+			in_buf[strlen(label)]=_SC('\0');
+
+			SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
+
+			SquirrelFunction<int> callFunc(_SC("GetInfo"));
+			return callFunc(in_buf);
+
+			//retur_wtoi(output);
+			/*
+
+			char* out_buf = new char[wcslen(output) + 1];
+
+			wcstombs(out_buf, output, wcslen(output));
+
+			out_buf[wcslen(output)] = '\0';
+
+			return out_buf;*/
+	}
+	catch(SquirrelError & e){
+		return NULL;
+	}
+}
+
+
 bool GGen_Squirrel::GetNextOption(){return false;};
 
 int16* GGen_Squirrel::Generate(uint16 width, uint16 height){		

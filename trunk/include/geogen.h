@@ -54,7 +54,8 @@ public:
 	virtual void SetReturnCallback( void (*return_callback) (char* name, int16* map) );
 
 	virtual bool SetScript(const char* script) = 0;
-	virtual void GetProperties() = 0;
+	virtual char* GetInfo(char* label) = 0;
+	virtual int GetInfoInt(char* label) = 0;
 	virtual bool GetNextOption() = 0;
 	virtual int16* Generate(uint16 width, uint16 height) = 0;
 
@@ -68,7 +69,8 @@ public:
 	~GGen_Squirrel();
 
 	virtual bool SetScript(const char* script);
-	virtual void GetProperties();
+	virtual char* GetInfo(char* label);
+	virtual int GetInfoInt(char* label);
 	virtual bool GetNextOption();
 	virtual int16* Generate(uint16 width, uint16 height);
 };
