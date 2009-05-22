@@ -244,6 +244,30 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Examples"
+			>
+			<File
+				RelativePath="..\examples\atoll.nut"
+				>
+			</File>
+			<File
+				RelativePath="..\examples\highlands lake.nut"
+				>
+			</File>
+			<File
+				RelativePath="..\examples\seaside country.nut"
+				>
+			</File>
+			<File
+				RelativePath="..\examples\tournament islands I.nut"
+				>
+			</File>
+			<File
+				RelativePath="..\examples\tournament islands II.nut"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\..\src\example.nut"
 			>
