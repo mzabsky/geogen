@@ -1,4 +1,19 @@
-// Tournament style map emhasizing fair starting locations, for 4 players.
+function GetInfo(info_type){
+	switch(info_type){
+		case "name":
+			return "Tournament Islands I";
+		case "description":
+			return "Tournament style map emhasizing fair starting locations, for 4 players.";
+		case "min_width":
+			return 256;
+		case "min_height":
+			return 256;
+		case "max_width":
+			return 99999999;
+		case "max_height":
+			return 99999999;
+	}
+}
 
 function Generate(width, height){
 	local quarter = GGen_Data_2D(width / 2, height / 2);
@@ -11,7 +26,7 @@ function Generate(width, height){
 	quarter.RadialGradient(width / 4, height / 4, (width > height ? height : width) / 4, profile, true);
 
 	local noise = GGen_Data_2D(width / 2, height / 2);
-	noise.Noise(1,  (width > height ? height : width) / 12);
+	noise.Noise(2,  (width > height ? height : width) / 6);
 	
 	noise.ScaleValuesTo(-110, 110);
 	
@@ -34,7 +49,7 @@ function Generate(width, height){
 	base.AddTo(width / 2, 0, quarter);
 	
 	base.Clamp(0, GGEN_MAX_HEIGHT);
-	base.ScaleValuesTo(0,255);
+	base.ScaleValuesTo(0,120);
 	
 	return base;
 

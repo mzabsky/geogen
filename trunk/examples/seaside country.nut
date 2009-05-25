@@ -1,16 +1,31 @@
-// This script creates a strip of of land locked between sea and high mountain range.
+function GetInfo(info_type){
+	switch(info_type){
+		case "name":
+			return "Seaside country";
+		case "description":
+			return "This script creates a strip of of land locked between sea and high mountain range.";
+		case "min_width":
+			return 128;
+		case "min_height":
+			return 128;
+		case "max_width":
+			return 99999999;
+		case "max_height":
+			return 99999999;
+	}
+}
 
 function Generate(width, height){
   local profile_height = GGen_Data_1D(10);
 	
 	profile_height.SetValue(0, -500);
 	profile_height.SetValue(1, -250);
-	profile_height.SetValue(2, 0);
-	profile_height.SetValue(3, 250);
+	profile_height.SetValue(2, -250);
+	profile_height.SetValue(3, 0);
 	profile_height.SetValue(4, 250);
-	profile_height.SetValue(5, 500);
-	profile_height.SetValue(6, 500);
-	profile_height.SetValue(7, 1000);
+	profile_height.SetValue(5, 250);
+	profile_height.SetValue(6, 250);
+	profile_height.SetValue(7, 500);
 	profile_height.SetValue(8, 1500);
 	profile_height.SetValue(9, 1500);
 	
@@ -22,20 +37,18 @@ function Generate(width, height){
 	local profile_shift = GGen_Data_1D(800);
 	profile_shift.Noise(1, 128);
 	profile_shift.Smooth(40);
-	profile_shift.ScaleValuesTo(-width / 5, width / 5);
+	profile_shift.ScaleValuesTo(-width / 5, width / 8);
 	
 	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);
 	
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(1, width > height ? height / 16 : width / 16);
+	noise.Noise(1, width > height ? height / 8 : width / 8);
 	
 	noise.ScaleValuesTo(-1000, 1000);
 	
-	local profile_mask = GGen_Data_1D(3, 60);
-	profile_mask.SetValue(2, 255);
 	
-	local mask = GGen_Data_2D(3, 2);
-	mask.Project(profile_mask, GGEN_VERTICAL);
+	local mask = GGen_Data_2D(3, 2, 30);
+	mask.SetValueInRect(2, 0, 2, 1, 154);
 	
 	base.AddMasked(noise, mask, false);
 
