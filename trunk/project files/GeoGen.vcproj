@@ -252,6 +252,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\examples\double pass.nut"
+				>
+			</File>
+			<File
 				RelativePath="..\examples\highlands lake.nut"
 				>
 			</File>
@@ -267,11 +271,11 @@
 				RelativePath="..\examples\tournament islands II.nut"
 				>
 			</File>
-			<File
-				RelativePath="..\examples\twin peaks.nut"
-				>
-			</File>
 		</Filter>
+		<File
+			RelativePath="..\documentation.html"
+			>
+		</File>
 		<File
 			RelativePath=".\..\src\example.nut"
 			>
