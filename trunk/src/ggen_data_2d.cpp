@@ -124,7 +124,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == this->x && scale_to_y == this->y) return data[x + this->x * y];
 
-	int16 value_x, value_y;	
+	int16 value_x, value_y_left, value_y_right;	
 	
 	double ratio_x = (double) (scale_to_x - 1) / (double) (this->x - 1);
 	double ratio_y = (double) (scale_to_y - 1) / (double) (this->y - 1);
@@ -136,25 +136,34 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	/* The grid anchor points */
 	uint16 base_x = scale_to_x > this->x ? (uint16) floor((double)x / ratio_x) : (uint16) floor((double)x / ratio_x + 0.5);
 	uint16 base_y = scale_to_y > this->y ? (uint16) floor((double)y / ratio_y) : (uint16) floor((double)y / ratio_y + 0.5);
-	
-	/* Calculate the interpolated value for horizontal axis */
-	if(scale_to_x > this->x){
-		value_x = (int16) ((double) data[(uint16) base_x + this->x * base_y] * (1 - remainder_x) + (double) data[(uint16) base_x + 1 + this->x * base_y] * (remainder_x));
-	}
-	else{
-		value_x = (int16) data[(uint16) base_x + this->x * base_y];
-	}
 
 	// Calculate the interpolated value for vertical axis
 	if(scale_to_y > this->y){
-		value_y = (int16) ((double) data[(uint16) base_x + this->x * base_y] * (1 - remainder_y) + (double) data[base_x + this->x * (base_y + 1)] * (remainder_y));
+		if(remainder_y == 0){
+			value_y_left = data[base_x + this->x * base_y];
+			value_y_right = data[base_x + 1 + this->x * base_y];
+		}
+
+		else{
+			value_y_left = (int16) ((double) data[(uint16) base_x + this->x * base_y] * (1 - remainder_y) + (double) data[base_x + this->x * (base_y + 1)] * (remainder_y));
+			value_y_right = (int16) ((double) data[(uint16) base_x + 1 + this->x * base_y] * (1 - remainder_y) + (double) data[base_x + 1 + this->x * (base_y + 1)] * (remainder_y));
+		}
 	}
 	else{
-		value_y = (int16) data[(uint16) base_x + this->x * base_y];
+		value_y_left = value_y_right = (int16) data[(uint16) base_x + this->x * base_y];
 	}
 
-	// Return the arithmetic mean of the vertical and horizontal values
-	return (value_x + value_y) / 2;
+	/* Calculate the interpolated value for horizontal axis */
+	if(scale_to_x > this->x){
+		if(remainder_x == 0) return value_y_left;
+
+		return (int16) ((double) value_y_left * (1 - remainder_x) + (double) value_y_right * (remainder_x));
+
+		
+	}
+	else{
+		return ((int16) data[(uint16) base_x + this->x * base_y] + value_y_left) /2;
+	}
 }
 
 /** 
@@ -179,13 +188,14 @@ void GGen_Data_2D::SetValue(uint16 x, uint16 y, int16 value){
  */
 void GGen_Data_2D::SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, int16 value){
 	assert(x2 < this->x && y2 < this->y);
-	assert(x1 < x2 && y1 < y2);
-	
+	assert(x1 <= x2 && y1 <= y2);
+
 	for(uint16 i = y1; i <= y2; i++){
 		for(uint16 j = x1; j <= x2; j++){
 			data[j + this->x * i] = value;
 		}
 	}
+
 }
 
 /**
@@ -522,10 +532,19 @@ void GGen_Data_2D::Clamp(int16 min, int16 max){
  * Negative data are treated the same as positive - the higher value remains.
  * @param the victim
  */
-void GGen_Data_2D::Union(GGen_Data_2D* unifiee){
+void GGen_Data_2D::Union(GGen_Data_2D* victim){
 	for(uint16 i = 0; i < y; i++){
 		for(uint16 j = 0; j < x; j++){	
-			data[j + i * x] = MIN(data[j + i * x], unifiee->GetValue(j, i, x, y));
+			data[j + i * x] = MIN(data[j + i * x], victim->GetValue(j, i, x, y));
+		}
+	}
+}
+
+void GGen_Data_2D::UnionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim){
+	/* Walk through the items where the array and the victim with offset intersect */
+	for(uint16 i = MAX(0, offset_y); i < MIN(y, offset_y + victim->y); i++){
+		for(uint16 j = MAX(0, offset_x); j < MIN(x, offset_x + victim->x); j++){
+			data[j + i * x] = MIN(victim->data[(j - offset_x) + (i - offset_y) * victim->x], data[j + i * x]);
 		}
 	}
 }
@@ -535,10 +554,19 @@ void GGen_Data_2D::Union(GGen_Data_2D* unifiee){
  * Negative data are treated the same as positive - the higher value remains.
  * @param the victim
  */
-void GGen_Data_2D::Intersection(GGen_Data_2D* intersectee){
+void GGen_Data_2D::Intersection(GGen_Data_2D* victim){
 	for(uint16 i = 0; i < y; i++){
 		for(uint16 j = 0; j < x; j++){	
-			data[j + i * x] = MIN(data[j + i * x], intersectee->GetValue(j, i, x, y));
+			data[j + i * x] = MIN(data[j + i * x], victim->GetValue(j, i, x, y));
+		}
+	}
+}
+
+void GGen_Data_2D::IntersectionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim){
+	/* Walk through the items where the array and the addend with offset intersect */
+	for(uint16 i = MAX(0, offset_y); i < MIN(y, offset_y + victim->y); i++){
+		for(uint16 j = MAX(0, offset_x); j < MIN(x, offset_x + victim->x); j++){
+			data[j + i * x] = MAX(victim->data[(j - offset_x) + (i - offset_y) * victim->x], data[j + i * x]);
 		}
 	}
 }
@@ -563,6 +591,8 @@ void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
 			}
 		}
 	}
+
+
 }
 
 void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode){

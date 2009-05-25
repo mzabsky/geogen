@@ -59,8 +59,10 @@ class GGen_Data_2D{
 		int16 Max();
 		void Rotate(GGen_Angle angle);
 		void Flip(GGen_Direction direction);
-		void Intersection(GGen_Data_2D* intersectee);
-		void Union(GGen_Data_2D* unifiee);
+		void Intersection(GGen_Data_2D* victim);
+		void IntersectionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim);
+		void Union(GGen_Data_2D* victim);
+		void UnionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim);
 
 		void Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode);
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);

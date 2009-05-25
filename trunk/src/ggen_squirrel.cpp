@@ -194,7 +194,9 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Rotate,_T("Rotate")).
 		func(&GGen_Data_2D::Flip,_T("Flip")).
 		func(&GGen_Data_2D::Union,_T("Union")).
+		func(&GGen_Data_2D::UnionTo,_T("UnionTo")).
 		func(&GGen_Data_2D::Intersection,_T("Intersection")).
+		func(&GGen_Data_2D::IntersectionTo,_T("IntersectionTo")).
 		
 		func(&GGen_Data_2D::Shift,_T("Shift")).
 		func(&GGen_Data_2D::Project,_T("Project")).
