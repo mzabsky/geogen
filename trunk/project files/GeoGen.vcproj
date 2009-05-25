@@ -267,6 +267,10 @@
 				RelativePath="..\examples\tournament islands II.nut"
 				>
 			</File>
+			<File
+				RelativePath="..\examples\twin peaks.nut"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\..\src\example.nut"
