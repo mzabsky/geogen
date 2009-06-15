@@ -160,6 +160,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ggen_amplitudes.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ggen_data_1d.cpp"
 				>
 			</File>
@@ -179,6 +183,10 @@
 			>
 			<File
 				RelativePath="..\src\ggen.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_amplitudes.h"
 				>
 			</File>
 			<File
