@@ -17,6 +17,9 @@
 
 */
 
+// dissable the "e is defined but not used" warnings for the catch sections
+#pragma warning(disable:4101)
+
 // system and SDL headers
 #include <stdio.h>   
 #include <stdlib.h> 
@@ -33,6 +36,7 @@
 
 #include "ggen.h"
 #include "ggen_support.h"
+#include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 
@@ -211,6 +215,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadFunc<void(GGen_Data_2D::*)(uint8)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		func(&GGen_Data_2D::Flood,_T("Flood")).
 		func(&GGen_Data_2D::Pattern,_T("Pattern")).
+		func(&GGen_Data_2D::Monochrome,_T("Monochrome")).
+		func(&GGen_Data_2D::SlopeMap,_T("SlopeMap")).
 		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs"));
 
 	/* Class: GGen_Amplitudes */
@@ -322,11 +328,13 @@ int16* GGen_Squirrel::Generate(uint16 width, uint16 height){
 			data =  callFunc(width, height);	
 		}
 
-		assert(data != NULL && data->data != NULL);
+		GGen_Script_Assert(data != NULL && data->data != NULL);
+
+		if(post_callback != NULL) post_callback(data);
 
 		return_data = new int16[width*height];
 
-		assert(return_data != NULL);
+		GGen_Script_Assert(return_data != NULL);
 
 		memcpy(return_data, data->data, sizeof(int16) * width * height);
 

@@ -35,8 +35,8 @@ function Generate(width, height){
 	base.Project(profile_height, GGEN_VERTICAL);;
 	
 	local profile_shift = GGen_Data_1D(800);
-	profile_shift.Noise(1, 128);
-	profile_shift.Smooth(40);
+	profile_shift.Noise(1, height / 8);
+	profile_shift.Smooth(height / 8);
 	profile_shift.ScaleValuesTo(-width / 5, width / 8);
 	
 	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);
@@ -47,7 +47,7 @@ function Generate(width, height){
 	noise.ScaleValuesTo(-1000, 1000);
 	
 	
-	local mask = GGen_Data_2D(3, 2, 30);
+	local mask = GGen_Data_2D(3, 2, 40);
 	mask.SetValueInRect(2, 0, 2, 1, 154);
 	
 	base.AddMasked(noise, mask, false);

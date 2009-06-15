@@ -19,18 +19,6 @@
 
 #pragma once
 
-// system and SDL headers
-#include <stdio.h>   
-#include <stdlib.h> 
-#include <string>
-//#include <SDL/SDL.h> 
-#include <math.h>
-#include <time.h> 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <assert.h>
-
 #include "ggen_support.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
@@ -42,15 +30,13 @@ public:
 	GGen();
 	~GGen();
 
-//private:
 	void (*message_callback) (char* message, GGen_Message_Level, int line, int column);
 	void (*return_callback) (char* name, int16* map);
+	void (*post_callback) (GGen_Data_2D* map);
 
-	void ThrowMessage(char* message, GGen_Message_Level level, int line = 0, int column = 0);
-	void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = 0, int column = 0);
+	void ThrowMessage(char* message, GGen_Message_Level level, int line = -1, int column = -1);
+	void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
 
-
-public:
 	void SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column));
 	virtual void SetReturnCallback( void (*return_callback) (char* name, int16* map) );
 

@@ -37,6 +37,9 @@ typedef unsigned int uint32;
 #define GGEN_MIN_HEIGHT -32767
 #define GGEN_MAX_HEIGHT 32767
 
+// Custom GGen_Script_Assertion handler. Invoke messaage callback and shut down the script execution.
+#define GGen_Script_Assert(_Expression) {if(!(_Expression)) {ggen_current_object->ThrowMessage(#_Expression, GGEN_ERROR, -1); throw SquirrelError();} }
+
 enum GGen_Normalization_Mode{
 	GGEN_ADDITIVE,
 	GGEN_SUBSTRACTIVE
@@ -81,31 +84,5 @@ inline int log2(int x){
 	return (int16) (log10((double) x)/ base);
 }
 
-class GGen_Amplitudes{
-public:
-	uint16* data;
-	uint8 length;
-
-	GGen_Amplitudes(uint16 max_feature_size){ 
-		uint8 size = log2(max_feature_size);
-		
-		data = new uint16[size];
-
-		assert(data != NULL);
-
-		for(uint8 i = 0; i < size; i++){
-			data[i] = 0;
-		}
-
-	};
-
-	~GGen_Amplitudes(){ 
-		//delete [] data; 
-	}
-
-	void AddAmplitude(uint16 feature_size, uint16 amplitude){
-		data[log2(feature_size)] = amplitude;
-	}
-};
 
 #endif

@@ -32,6 +32,7 @@
 #include "ggen.h"
 #include "ggen_squirrel.h"
 #include "ggen_support.h"
+#include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 
@@ -42,7 +43,7 @@ extern GGen* ggen_current_object;
  * @param length of the array
  */
 GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
-	assert(x > 1 && y > 1);
+	GGen_Script_Assert(x > 1 && y > 1);
 
 	length = x * y;
 	this->x = x;
@@ -51,7 +52,7 @@ GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
 	/* Allocate the array */
 	data = new int16[length];
 
-	assert(data != NULL);
+	GGen_Script_Assert(data != NULL);
 
 	Fill(0);
 }
@@ -63,7 +64,7 @@ GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y){
  * @param value to be filled with
  */
 GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y, int16 value){
-	assert(x > 1 && y > 1);
+	GGen_Script_Assert(x > 1 && y > 1);
 	
 	length = x * y;
 	this->x = x;
@@ -72,7 +73,7 @@ GGen_Data_2D::GGen_Data_2D(uint16 x, uint16 y, int16 value){
 	/* Allocate the array */
 	data = new int16[length];
 
-	assert(data != NULL);
+	GGen_Script_Assert(data != NULL);
 
 	Fill(value);
 }
@@ -85,8 +86,8 @@ GGen_Data_2D::GGen_Data_2D(GGen_Data_2D& victim){
 	/* Allocate the array */
 	data = new int16[victim.length];
 
-	assert(data != NULL);
-	assert(victim.data != NULL);
+	GGen_Script_Assert(data != NULL);
+	GGen_Script_Assert(victim.data != NULL);
 
 	/* Copy the data */
 	memcpy(data, victim.data, sizeof int16 * victim.length);
@@ -105,7 +106,7 @@ GGen_Data_2D::~GGen_Data_2D(){
  * @param y coordinate of the value
  */
 int16 GGen_Data_2D::GetValue(uint16 x, uint16 y){
-	assert(x < this->x && y < this->y);
+	GGen_Script_Assert(x < this->x && y < this->y);
 	
 	return data[x + this->x * y];
 }
@@ -119,7 +120,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y){
  */
 int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y){
 	// TODO: poresit polozky na zacatku a konci pole
-	assert(y < scale_to_y && x < scale_to_x && scale_to_y > 0 && scale_to_x > 0);
+	GGen_Script_Assert(y < scale_to_y && x < scale_to_x && scale_to_y > 0 && scale_to_x > 0);
 
 	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == this->x && scale_to_y == this->y) return data[x + this->x * y];
@@ -173,7 +174,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
  * @param value to use
  */
 void GGen_Data_2D::SetValue(uint16 x, uint16 y, int16 value){
-	assert(x < this->x && y < this->y);
+	GGen_Script_Assert(x < this->x && y < this->y);
 	
 	data[x + this->x * y] = value;
 }
@@ -187,8 +188,8 @@ void GGen_Data_2D::SetValue(uint16 x, uint16 y, int16 value){
  * @param value to use
  */
 void GGen_Data_2D::SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, int16 value){
-	assert(x2 < this->x && y2 < this->y);
-	assert(x1 <= x2 && y1 <= y2);
+	GGen_Script_Assert(x2 < this->x && y2 < this->y);
+	GGen_Script_Assert(x1 <= x2 && y1 <= y2);
 
 	for(uint16 i = y1; i <= y2; i++){
 		for(uint16 j = x1; j <= x2; j++){
@@ -205,7 +206,7 @@ void GGen_Data_2D::SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, in
  * @param scale_values - should the values be scaled too?
  */
 void GGen_Data_2D::ScaleTo(uint16 new_x, uint16 new_y, bool scale_values){
-	assert(new_x > 1 && new_y > 1);
+	GGen_Script_Assert(new_x > 1 && new_y > 1);
 
 	/* Pick the ratio for values as arithmetic average of horizontal and vertical ratios */
 	double ratio = ((double) new_x / (double) x + (double) new_y / (double) y) / 2.0;
@@ -213,7 +214,7 @@ void GGen_Data_2D::ScaleTo(uint16 new_x, uint16 new_y, bool scale_values){
 	/* Allocate the new array */
 	int16* new_data = new int16[new_x * new_y];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	/* Fill the new array */
 	for(uint16 i = 0; i < new_y; i++){
@@ -237,7 +238,7 @@ void GGen_Data_2D::ScaleTo(uint16 new_x, uint16 new_y, bool scale_values){
  */
 void GGen_Data_2D::ScaleValuesTo(int16 new_min, int16 new_max)
 {
-	assert(new_max > new_min);
+	GGen_Script_Assert(new_max > new_min);
 
 	int16 min = this->Min();
 	int16 max = this->Max() - min;
@@ -264,7 +265,7 @@ void GGen_Data_2D::ResizeCanvas(int16 new_x, int16 new_y, int16 new_zero_x, int1
 	/* Allocate the new array */
 	int16* new_data = new int16[new_x * new_y];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	for(uint16 i = 0; i < new_y; i++){
 		for(uint16 j = 0; j < new_x; j++){
@@ -427,7 +428,7 @@ void GGen_Data_2D::Rotate(GGen_Angle angle){
 	/* Allocate the new array */
 	int16* new_data = new int16[new_x * new_y];
 
-	assert(new_data != NULL);	
+	GGen_Script_Assert(new_data != NULL);	
 
 	/* Fill the new array with rotated values */
 	for(uint16 i = 0; i < new_y; i++) 
@@ -519,7 +520,7 @@ int16 GGen_Data_2D::Max(){
  * @param maximum value of the range
  */
 void GGen_Data_2D::Clamp(int16 min, int16 max){
-	assert(max > min);
+	GGen_Script_Assert(max > min);
 
 	for(uint32 i = 0; i < length; i++){
 		if(data[i] > max) data[i] = max;
@@ -535,7 +536,7 @@ void GGen_Data_2D::Clamp(int16 min, int16 max){
 void GGen_Data_2D::Union(GGen_Data_2D* victim){
 	for(uint16 i = 0; i < y; i++){
 		for(uint16 j = 0; j < x; j++){	
-			data[j + i * x] = MIN(data[j + i * x], victim->GetValue(j, i, x, y));
+			data[j + i * x] = MAX(data[j + i * x], victim->GetValue(j, i, x, y));
 		}
 	}
 }
@@ -544,7 +545,7 @@ void GGen_Data_2D::UnionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim)
 	/* Walk through the items where the array and the victim with offset intersect */
 	for(uint16 i = MAX(0, offset_y); i < MIN(y, offset_y + victim->y); i++){
 		for(uint16 j = MAX(0, offset_x); j < MIN(x, offset_x + victim->x); j++){
-			data[j + i * x] = MIN(victim->data[(j - offset_x) + (i - offset_y) * victim->x], data[j + i * x]);
+			data[j + i * x] = MAX(victim->data[(j - offset_x) + (i - offset_y) * victim->x], data[j + i * x]);
 		}
 	}
 }
@@ -566,7 +567,7 @@ void GGen_Data_2D::IntersectionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* 
 	/* Walk through the items where the array and the addend with offset intersect */
 	for(uint16 i = MAX(0, offset_y); i < MIN(y, offset_y + victim->y); i++){
 		for(uint16 j = MAX(0, offset_x); j < MIN(x, offset_x + victim->x); j++){
-			data[j + i * x] = MAX(victim->data[(j - offset_x) + (i - offset_y) * victim->x], data[j + i * x]);
+			data[j + i * x] = MIN(victim->data[(j - offset_x) + (i - offset_y) * victim->x], data[j + i * x]);
 		}
 	}
 }
@@ -601,7 +602,7 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 		/* Allocate the new array */
 		int16* new_data = new int16[length];
 
-		assert(new_data != NULL);
+		GGen_Script_Assert(new_data != NULL);
 
 		for(uint16 i = 0; i < y; i++){
 			for(uint16 j = 0; j < x; j++){		
@@ -692,7 +693,7 @@ void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to
 }
 
 void GGen_Data_2D::RadialGradient(uint16 center_x, uint16 center_y, uint16 radius, GGen_Data_1D* pattern, bool fill_outside){
-	assert(radius > 0 && pattern != NULL);
+	GGen_Script_Assert(radius > 0 && pattern != NULL);
 
 	for(uint16 i = 0; i < y; i++){
 		for(uint16 j = 0; j < x; j++){
@@ -705,7 +706,7 @@ void GGen_Data_2D::RadialGradient(uint16 center_x, uint16 center_y, uint16 radiu
 }
 
 void GGen_Data_2D::RadialGradient(uint16 center_x, uint16 center_y, uint16 radius, int16 min, int16 max, bool fill_outside){
-	assert(radius > 0);
+	GGen_Script_Assert(radius > 0);
 	
 	max = max - min;
 
@@ -725,7 +726,7 @@ void GGen_Data_2D::RadialGradient(uint16 center_x, uint16 center_y, uint16 radiu
 
 void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes){
 
-	assert(amplitudes != NULL);
+	GGen_Script_Assert(amplitudes != NULL);
 
 	/*this->Fill(0);
 
@@ -743,15 +744,15 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 	}*/
 
 	/* Check if feature sizes are powers of 2 */
-	//assert(((min_feature_size - 1) & min_feature_size) == 0);
-	//assert(((max_feature_size - 1) & max_feature_size) == 0);
+	//GGen_Script_Assert(((min_feature_size - 1) & min_feature_size) == 0);
+	//GGen_Script_Assert(((max_feature_size - 1) & max_feature_size) == 0);
 
 	uint8 frequency = log2(max_feature_size);
 	uint16 amplitude = amplitudes->data[frequency];
 
 	int16* new_data = new int16[length];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	this->Fill(0);
 
@@ -893,7 +894,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size){
  * @param percentage of the map to be flooded
  */
 void GGen_Data_2D::Flood(double water_amount){
-	assert(water_amount < 1);
+	GGen_Script_Assert(water_amount < 1);
 
 	uint32 target = (uint32) (water_amount * (double) length);
 	
@@ -935,12 +936,12 @@ void GGen_Data_2D::Smooth(uint8 radius){
 }
 
 void GGen_Data_2D::Smooth(uint8 radius, GGen_Direction direction){
-	assert(radius > 0 && radius < x && radius < y);
+	GGen_Script_Assert(radius > 0 && radius < x && radius < y);
 	
 	/* Allocate the new array */
 	int16* new_data = new int16[length];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	/* Calculate size of the filter window */
 	uint16 window_size = radius * 2 + 1;
@@ -1012,7 +1013,7 @@ void GGen_Data_2D::Smooth(uint8 radius, GGen_Direction direction){
 }
 
 void GGen_Data_2D::Pattern(GGen_Data_2D* pattern){
-	assert(pattern != NULL);
+	GGen_Script_Assert(pattern != NULL);
 	
 	for(uint16 i = 0; i < y; i++){
 		for(uint16 j = 0; j < x; j++){
@@ -1033,7 +1034,7 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 	/* Allocate the new array */
 	int16* new_data = new int16[length];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	memcpy(new_data, data, sizeof(int16) * length);
 
@@ -1050,4 +1051,69 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 
 	if(ggen_current_object->return_callback != NULL) ggen_current_object->return_callback(buf, new_data);
 	else ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
+}
+
+void GGen_Data_2D::Monochrome(int16 treshold){
+	for(uint32 i = 0; i < length; i++){
+		data[i] = data[i] > treshold ? 1 : 0;
+	}	
+}
+
+void GGen_Data_2D::SlopeMap(){
+
+	/* Allocate the new array */
+	int16* new_data = new int16[length];
+
+	GGen_Script_Assert(new_data != NULL);
+	GGen_Script_Assert(x > 2 && y > 2);
+
+	/* Calculate the slopes */
+	/*for(uint16 i = 1; i < length - 1; i++){
+		new_data[i] = abs(data[i - 1] - data[i + 1]);
+	}*/
+
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){		
+			new_data[j + i * x] = 255;
+		}
+	}
+
+	for(uint16 i = 1; i < y - 1; i++){
+		for(uint16 j = 1; j < x - 1; j++){		
+			new_data[j + i * x] = MAX(abs(data[j + i * x - 1] - data[j + i * x + 1]),abs(data[j + i * x - x] - data[j + i * x + x]));
+		}
+	}
+
+	new_data[0] =  new_data[x + 1];
+	new_data[x - 1] = new_data[2 * x - 2];
+	new_data[length - x] = new_data[length - 2 * x + 1];
+	new_data[length - 1] = new_data[length - x - 2];
+
+	// upper border
+	for(uint16 i = 1; i < x - 1; i++){
+		new_data[i] = new_data[i + x];
+	}
+
+	// bottom border
+	for(uint16 i = 1; i < x - 1; i++){
+		new_data[length - x + i] = new_data[length - 2 * x + i];
+	}
+
+	// left border
+	for(uint16 i = 1; i < y - 1; i++){
+		new_data[i * x] = new_data[i * x + 1];
+	}
+
+	// right border
+	for(uint16 i = 1; i < y - 1; i++){
+		new_data[i * x + x - 1] = new_data[i * x + x - 2];
+	}
+	
+
+	//new_data[0] = new_data[1];
+	//new_data[length-1] = new_data[length-2];
+
+	/* Relink and delete the original array data */
+	delete [] data;
+	data = new_data;	
 }

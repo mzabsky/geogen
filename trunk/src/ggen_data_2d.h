@@ -78,6 +78,8 @@ class GGen_Data_2D{
 		void Smooth(uint8 radius);
 		void Flood(double water_amount);
 		void Pattern(GGen_Data_2D* pattern);
+		void Monochrome(int16 treshold);
+		void SlopeMap();
 
 		/* Human interface functions */
 		void Window(bool fixed);

@@ -17,6 +17,8 @@
 
 */
 
+#pragma once;
+
 // system and SDL headers
 #include <stdio.h>   
 #include <stdlib.h> 
@@ -28,12 +30,12 @@
 #include <fstream>
 #include <sstream>
 #include <assert.h>
-
 #include "ggen_support.h"
+#include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 
-#include "ggen.h"
+
 #include "ggen_squirrel.h"
 
 GGen_Amplitudes* ggen_std_noise;
@@ -42,6 +44,7 @@ GGen* ggen_current_object;
 GGen::GGen(){
 	message_callback = NULL;
 	return_callback = NULL;
+	post_callback = NULL;
 
 	ggen_std_noise = new GGen_Amplitudes(16384);
 
@@ -76,25 +79,30 @@ void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int c
 
 		switch(level){
 			case GGEN_MESSAGE:
-				cout << "GGen Message: " << message << " on line " << line << "\n";
+				if(line != -1) cout << "GGen Message: " << message << " on line " << line << "\n";
+				else cout << "GGen Message: " << message <<  "\n";
 				break;
 			case GGEN_NOTICE:
-				cout << "GGen Notice: " << message << " on line " << line << "\n";
+				if(line != -1) cout << "GGen Notice: " << message << " on line " << line << "\n";
+				else cout << "GGen Notice: " << message <<  "\n";
 				break;
 			case GGEN_WARNING:
-				cout << "GGen Warning: " << message << " on line " << line << "\n";
+				if(line != -1) cout << "GGen Warning: " << message << " on line " << line << "\n";
+				else cout << "GGen Warning: " << message <<  "\n";
 				break;
 			case GGEN_ERROR:
-				cout << "GGen Error: " << message << " on line " << line << "\n";
+				if(line != -1) cout << "GGen Error: " << message << " on line " << line << "\n";
+				else cout << "GGen Error: " << message <<  "\n";
 				break;
 		}
 
-		//assert(buf != NULL);
+		//GGen_Script_Assert(buf != NULL);
 
 		
 
 		//delete buf;
 	}
+
 }
 
 void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line, int column){
