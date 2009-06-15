@@ -29,22 +29,28 @@
 #include <sstream>
 #include <assert.h>
 
+#include "sqplus.h"
+
+
 #include "ggen_support.h"
+#include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
+#include "ggen.h"
 
 extern GGen_Amplitudes* ggen_std_noise;
+extern GGen* ggen_current_object;
 
 /** 
  * Creates a 1D data array and fills it with zeros
  * @param length of the array
  */
 GGen_Data_1D::GGen_Data_1D(uint16 length){
-	assert(length > 1);
+	GGen_Script_Assert(length > 1);
 
 	/* Allocate the array */
 	data = new int16[length];
 
-	assert(data != NULL);
+	GGen_Script_Assert(data != NULL);
 
 	this->length = length;
 
@@ -57,12 +63,12 @@ GGen_Data_1D::GGen_Data_1D(uint16 length){
  * @param value to be filled with
  */
 GGen_Data_1D::GGen_Data_1D(uint16 length, int16 value){
-	assert(length > 1);
+	GGen_Script_Assert(length > 1);
 
 	/* Allocate the array */
 	data = new int16[length];
 
-	assert(data != NULL);
+	GGen_Script_Assert(data != NULL);
 
 	this->length = length;
 
@@ -77,8 +83,8 @@ GGen_Data_1D::GGen_Data_1D(GGen_Data_1D& victim){
 	/* Allocate the array */
 	data = new int16[victim.length];
 
-	assert(data != NULL);
-	assert(victim.data != NULL);
+	GGen_Script_Assert(data != NULL);
+	GGen_Script_Assert(victim.data != NULL);
 
 	/* Copy the data */
 	memcpy(data, victim.data, sizeof int16 * victim.length);
@@ -94,7 +100,7 @@ GGen_Data_1D::~GGen_Data_1D(){
  * @param x coordinate of the value
  */
 int16 GGen_Data_1D::GetValue(uint16 x){
-	assert(x < length);
+	GGen_Script_Assert(x < length);
 	
 	return data[x];
 }
@@ -106,7 +112,7 @@ int16 GGen_Data_1D::GetValue(uint16 x){
  */
 int16 GGen_Data_1D::GetValue(uint16 x, uint16 scale_to_x){
 	// TODO: poresit polozky na zacatku a konci pole
-	//assert(x < length || x < scale_to_x);
+	//GGen_Script_Assert(x < length || x < scale_to_x);
 	if(!(x < length || x < scale_to_x)){
 		cout << "ha";
 	}
@@ -139,13 +145,13 @@ int16 GGen_Data_1D::GetValue(uint16 x, uint16 scale_to_x){
  * @param value to use
  */
 void GGen_Data_1D::SetValue(uint16 x, int16 value){
-	assert(x < length);
+	GGen_Script_Assert(x < length);
 
 	data[x] = value;
 }
 
 void GGen_Data_1D::SetValueInRange(uint16 from, uint16 to, int16 value){
-	assert(from < length || to < length);
+	GGen_Script_Assert(from < length || to < length);
 
 	for(uint16 i = from; i <= to; i++) data[i] = value;
 }
@@ -247,14 +253,14 @@ void GGen_Data_1D::Invert(){
  * @param scale_values - should the values be scaled too?
  */
 void GGen_Data_1D::ScaleTo(uint16 new_length, bool scale_values){
-	assert(new_length > 0);
+	GGen_Script_Assert(new_length > 0);
 
 	double ratio = new_length / length;
 
 	/* Allocate the new array */
 	int16* new_data = new int16[new_length];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	/* Fill the new array */
 	for(uint16 i = 0; i < new_length; i++){
@@ -274,7 +280,7 @@ void GGen_Data_1D::ScaleTo(uint16 new_length, bool scale_values){
  */
 void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
 {
-	assert(new_max > new_min);
+	GGen_Script_Assert(new_max > new_min);
 
 	int16 min = this->Min();
 	int16 max = this->Max() - min;
@@ -305,7 +311,7 @@ void GGen_Data_1D::ResizeCanvas(int16 new_length, int16 new_zero){
 	/* Allocate the new array */
 	int16* new_data = new int16[new_length];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	for(uint16 i = 0; i < new_length; i++){
 		if(i + new_zero >= 0 && i + new_zero < length){
@@ -326,7 +332,7 @@ void GGen_Data_1D::ResizeCanvas(int16 new_length, int16 new_zero){
  * @param maximum value of the range
  */
 void GGen_Data_1D::Clamp(int16 min, int16 max){
-	assert(max > min);
+	GGen_Script_Assert(max > min);
 
 	for(uint16 i = 0; i < length; i++){
 		if(data[i] > max) data[i] = max;
@@ -380,14 +386,14 @@ int16 GGen_Data_1D::Max(){
  * @param shift mode
  */
 void GGen_Data_1D::Shift(int16 distance, GGen_Overflow_Mode mode){
-	assert(distance < length && distance != 0 && distance > -length);
+	GGen_Script_Assert(distance < length && distance != 0 && distance > -length);
 	
 	/* Cycle mode */
 	if(mode == GGEN_CYCLE){
 		/* Allocate the new array */
 		int16* new_data = new int16[length];
 
-		assert(new_data != NULL);
+		GGen_Script_Assert(new_data != NULL);
 
 		/* Fill the new array with shifted data */
 		for(uint16 i = 0; i < length; i++){
@@ -483,7 +489,7 @@ void GGen_Data_1D::SlopeMap(){
 	/* Allocate the new array */
 	int16* new_data = new int16[length];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	/* Calculate the slopes */
 	for(uint16 i = 1; i < length - 1; i++){
@@ -542,7 +548,7 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode){
  * @param fill_flat - should be the areas outside the gradient area be filled with min/max values?
  */
 void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat){
-	assert(from < length || to < length);
+	GGen_Script_Assert(from < length || to < length);
 	
 	/* Swap values if necessary */
 	if(from > to){
@@ -575,11 +581,11 @@ void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_v
 
 void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes){
 
-	assert(amplitudes != NULL);
+	GGen_Script_Assert(amplitudes != NULL);
 
 	/* Check if feature sizes are powers of 2 */
-	assert(((min_feature_size - 1) & min_feature_size) == 0);
-	assert(((max_feature_size - 1) & max_feature_size) == 0);
+	//GGen_Script_Assert(((min_feature_size - 1) & min_feature_size) == 0);
+	//GGen_Script_Assert(((max_feature_size - 1) & max_feature_size) == 0);
 
 	for(int wave_length = max_feature_size; wave_length >= min_feature_size; wave_length /= 2){
 		uint8 frequency= log2(wave_length);
@@ -609,12 +615,12 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size){
  * @power weight of individual values. The current cell has always weight 1024
  */
 void GGen_Data_1D::Smooth(uint8 radius){
-	assert(radius > 0 && radius < length);
+	GGen_Script_Assert(radius > 0 && radius < length);
 	
 	/* Allocate the new array */
 	int16* new_data = new int16[length];
 
-	assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
 	/* Calculate size of the filter window */
 	uint16 window_size = radius * 2 + 1;
@@ -656,7 +662,7 @@ void GGen_Data_1D::Smooth(uint8 radius){
  * @param percentage of the map to be flooded
  */
 void GGen_Data_1D::Flood(double water_amount){
-	assert(water_amount < 1);
+	GGen_Script_Assert(water_amount < 1);
 
 	uint16 target = (uint16) (water_amount * (double) length);
 	

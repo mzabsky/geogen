@@ -21,6 +21,7 @@
 
 #include "sqplus.h"
 #include "ggen_support.h"
+#include "ggen.h"
 
 using namespace SqPlus;
 

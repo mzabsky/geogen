@@ -30,6 +30,7 @@
 #include <assert.h>
 
 #include "ggen_support.h"
+#include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 

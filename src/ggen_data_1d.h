@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include "ggen_amplitudes.h"
+
 class GGen_Data_1D{
 	public:
 		int16* data;
