@@ -271,13 +271,7 @@ char* GGen_Squirrel::GetInfo(char* label){
 			SquirrelFunction<const SQChar*> callFunc(_SC("GetInfo"));
 			const SQChar* output =  callFunc(in_buf);
 
-			char* out_buf = new char[wcslen(output) + 1];
-
-			wcstombs(out_buf, output, wcslen(output));
-
-			out_buf[wcslen(output)] = '\0';
-
-			return out_buf;
+			return GGen_ToCString(output);
 	}
 	catch(SquirrelError & e){
 		return NULL;
@@ -296,17 +290,6 @@ int GGen_Squirrel::GetInfoInt(char* label){
 
 			SquirrelFunction<int> callFunc(_SC("GetInfo"));
 			return callFunc(in_buf);
-
-			//retur_wtoi(output);
-			/*
-
-			char* out_buf = new char[wcslen(output) + 1];
-
-			wcstombs(out_buf, output, wcslen(output));
-
-			out_buf[wcslen(output)] = '\0';
-
-			return out_buf;*/
 	}
 	catch(SquirrelError & e){
 		return NULL;

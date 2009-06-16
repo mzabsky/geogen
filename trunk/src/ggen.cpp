@@ -70,7 +70,6 @@ GGen::~GGen(){
 }
 
 void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int column){
-	//message = "asdasda"; 
 	
 	if(message_callback != NULL){
 		message_callback(message, level, line, column);

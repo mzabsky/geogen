@@ -1023,14 +1023,6 @@ void GGen_Data_2D::Pattern(GGen_Data_2D* pattern){
 }
 
 void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
-	//int len = wcslen(name);
-
-	//char* buf = new char[len + 1];
-
-	//wcstombs(buf, name, len + 1); 
-	
-	//buf[len] = '\0';
-
 	/* Allocate the new array */
 	int16* new_data = new int16[length];
 
@@ -1038,14 +1030,7 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 
 	memcpy(new_data, data, sizeof(int16) * length);
 
-	char* buf = new char[name.length() + 1];
-
-	
-
-	//memcpy(buf, name.c_str(), sizeof(char)*name.length());
-	wcstombs(buf, name.c_str(), name.length());
-
-	buf[name.length()] = '\0';
+	char* buf = GGen_ToCString(name);
 
 	//int l = name.length();
 

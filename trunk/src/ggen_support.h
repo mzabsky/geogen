@@ -20,6 +20,8 @@
 #ifndef GGEN_SUPPORT
 #define GGEN_SUPPORT
 
+#include "sqplus.h"
+
 // hide stupid "sprintf is deprecated function, use our better alternative" MSVS warnings
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -70,6 +72,12 @@ enum GGen_Message_Level{
 	GGEN_ERROR = 3
 };
 
+enum GGen_Arg_Type{
+	GGEN_BOOL,
+	GGEN_INT,
+	GGEN_ENUM
+};
+
 using namespace std;
 
 template <class T>
@@ -83,6 +91,10 @@ inline int log2(int x){
 	static double base = log10((double) 2);
 	return (int16) (log10((double) x)/ base);
 }
+
+char* GGen_ToCString(const char* string);
+char* GGen_ToCString(const wchar_t* string);
+char* GGen_ToCString(const SqPlus::sq_std_string &string);
 
 
 #endif
