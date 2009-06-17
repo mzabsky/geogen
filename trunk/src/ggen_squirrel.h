@@ -61,6 +61,7 @@ static void printFunc(HSQUIRRELVM v,const SQChar * s,...);
 DECLARE_INSTANCE_TYPE(GGen_Data_1D)
 DECLARE_INSTANCE_TYPE(GGen_Data_2D)
 DECLARE_INSTANCE_TYPE(GGen_Amplitudes)
+//DECLARE_INSTANCE_TYPE(GGen_Args)
 
 class GGen_Squirrel: public GGen{
 public:	
@@ -72,7 +73,6 @@ public:
 	virtual bool SetScript(const char* script);
 	virtual char* GetInfo(char* label);
 	virtual int GetInfoInt(char* label);
-	virtual bool GetNextOption();
 	virtual int16* Generate(uint16 width, uint16 height);
 };
 

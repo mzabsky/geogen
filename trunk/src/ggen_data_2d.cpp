@@ -894,7 +894,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size){
  * @param percentage of the map to be flooded
  */
 void GGen_Data_2D::Flood(double water_amount){
-	GGen_Script_Assert(water_amount < 1);
+	GGen_Script_Assert(water_amount < 1 && water_amount > 0);
 
 	uint32 target = (uint32) (water_amount * (double) length);
 	
@@ -1034,7 +1034,7 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 
 	//int l = name.length();
 
-	if(ggen_current_object->return_callback != NULL) ggen_current_object->return_callback(buf, new_data);
+	if(ggen_current_object->return_callback != NULL) ggen_current_object->return_callback(buf, new_data, x, y);
 	else ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
 }
 

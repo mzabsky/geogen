@@ -46,6 +46,9 @@ GGen::GGen(){
 	return_callback = NULL;
 	post_callback = NULL;
 
+	//args = NULL;
+	num_args = 0;
+
 	ggen_std_noise = new GGen_Amplitudes(16384);
 
 	ggen_std_noise->AddAmplitude(1, 3);
@@ -121,7 +124,7 @@ void GGen::SetMessageCallback( void (*message_callback) (char* message, GGen_Mes
 	this->message_callback = message_callback;
 }
 
-void GGen::SetReturnCallback( void (*return_callback) (char* name, int16* map) ){
+void GGen::SetReturnCallback( void (*return_callback) (char* name, int16* map, int width, int height) ){
 	this->return_callback = return_callback;
 }
 
@@ -134,3 +137,18 @@ static void printFunc(HSQUIRRELVM v,const SQChar * s,...) {
   SCPUTS(temp);
   va_end(vl);*/
 } // pri
+
+GGen_ScriptArg** GGen::LoadArgs(){
+	// free current array of args
+	if(args != NULL){
+		for(uint8 i = 0; i < num_args; i++){
+			delete args[i];
+		}
+
+		//delete [] args;
+	}
+
+	GetInfoInt("args");
+
+	return args;
+}

@@ -39,6 +39,7 @@
 #include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
+#include "ggen_scriptarg.h"
 
 #include "sqplus.h"
 #include "sqstdmath.h"
@@ -100,6 +101,11 @@ GGen_Squirrel::GGen_Squirrel(){
 	sq_setprintfunc(SquirrelVM::GetVMPtr(), GGen_PrintHandler);
 	sq_setcompilererrorhandler(SquirrelVM::GetVMPtr(), GGen_ErrorHandler);
 	sq_enabledebuginfo(SquirrelVM::GetVMPtr(), false);
+
+	RegisterGlobal(&GGen_ScriptArg::GGen_AddIntArg, _SC("GGen_AddIntArg"));
+	RegisterGlobal(&GGen_ScriptArg::GGen_AddBoolArg, _SC("GGen_AddBoolArg"));
+	RegisterGlobal(&GGen_ScriptArg::GGen_AddEnumArg, _SC("GGen_AddEnumArg"));
+	RegisterGlobal(&GGen_GetParam, _SC("GGen_GetParam"));
 
 	/* Enum: GGen_Normalization_Mode */
 	BindConstant(GGEN_ADDITIVE, _SC("GGEN_ADDITIVE"));
@@ -296,45 +302,52 @@ int GGen_Squirrel::GetInfoInt(char* label){
 	}
 }
 
-
-bool GGen_Squirrel::GetNextOption(){return false;};
-
 int16* GGen_Squirrel::Generate(uint16 width, uint16 height){		
+	//SQClassDefNoConstructor<GGen_Args> args_object = SQClassDefNoConstructor<GGen_Args>(_SC("GGen_Args"));
 	
-	
+	//int* args_link = new int[num_args];
+
+	/*for(uint8 i = 0; i < num_args; i++){
+		GGen_ScriptArg* a = args[i];
+
+		SQChar* in_buf = new SQChar[strlen(args[i]->name)];
+
+		mbstowcs(in_buf, args[i]->name, strlen(args[i]->name) + 1);
+
+		in_buf[strlen(args[i]->name)]=_SC('\0');
+
+		//args_object.varAsUserPointer(&args_link, in_buf);
+
+		RegisterInstanceVariable(args_object.newClass,ClassType<GGen_Args>::type(),*(SQAnything **) &GGen_Args::dummy,in_buf,VAR_ACCESS_READ_ONLY);
+
+		args_link[i] = args[i]->value;
+
+		//RegisterInstanceVariable<>(newClass,ClassType<TClassType>::type(),*(VarType **)&cv,name,access);
+	}*/
+
 	try {
 		int16* return_data;
 		GGen_Data_2D* data;
 
 		{
+			//GGen_Args a = GGen_Args();
+
 			SquirrelFunction<GGen_Data_2D*> callFunc(_SC("Generate"));
-			data =  callFunc(width, height);	
+			data =  callFunc();	
 		}
 
 		GGen_Script_Assert(data != NULL && data->data != NULL);
 
 		if(post_callback != NULL) post_callback(data);
 
-		return_data = new int16[width*height];
+		output_width = data->x;
+		output_height = data->y;
+
+		return_data = new int16[output_width * output_height];
 
 		GGen_Script_Assert(return_data != NULL);
 
-		memcpy(return_data, data->data, sizeof(int16) * width * height);
-
-		//callFunc.reset();
-		//sqScript.Reset();
-
-		//callFunc.reset();
-
-		//sq_collectgarbage( SquirrelVM::GetVMPtr() ); 
-		//SquirrelVM::Shutdown();
-
-		//sq_close(SquirrelVM::GetVMPtr());
-
-
-		//SquirrelVM::Shutdown();
-
-		//Squi
+		memcpy(return_data, data->data, sizeof(int16) * output_width * output_height);
 
 		return return_data;
 		
