@@ -197,6 +197,14 @@
 				RelativePath=".\..\src\ggen_human_interface.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\src\ggen_scriptarg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_string.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -221,6 +229,10 @@
 			</File>
 			<File
 				RelativePath=".\..\src\ggen_human_interface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_scriptarg.h"
 				>
 			</File>
 			<File
