@@ -81,13 +81,13 @@ enum GGen_Arg_Type{
 using namespace std;
 
 template <class T>
-T Random(T min, T max){
+T GGen_Random(T min, T max){
 	double random = (double)rand() / (double) RAND_MAX;
 	T output = min + (T) (random * (double)(max - min));
 	return output;
 }
 
-inline int log2(int x){
+inline int GGen_log2(int x){
 	static double base = log10((double) 2);
 	return (int16) (log10((double) x)/ base);
 }

@@ -747,7 +747,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 	//GGen_Script_Assert(((min_feature_size - 1) & min_feature_size) == 0);
 	//GGen_Script_Assert(((max_feature_size - 1) & max_feature_size) == 0);
 
-	uint8 frequency = log2(max_feature_size);
+	uint8 frequency = GGen_log2(max_feature_size);
 	uint16 amplitude = amplitudes->data[frequency];
 
 	int16* new_data = new int16[length];
@@ -757,14 +757,14 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 	this->Fill(0);
 
 	for(uint16 wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
-		frequency = log2(wave_length);
+		frequency = GGen_log2(wave_length);
 		amplitude = amplitudes->data[frequency];
 
 		if(wave_length < min_feature_size) break;
 
 		for(uint16 i = 0; i < y; i += wave_length){
 			for(uint16 j = 0; j < x; j += wave_length){
-				new_data[j + i * x] = Random<int>(-amplitude, amplitude);
+				new_data[j + i * x] = GGen_Random<int>(-amplitude, amplitude);
 			}
 		}
 
@@ -1023,6 +1023,8 @@ void GGen_Data_2D::Pattern(GGen_Data_2D* pattern){
 }
 
 void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
+	if(ggen_current_object->return_callback == NULL) ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
+	
 	/* Allocate the new array */
 	int16* new_data = new int16[length];
 
@@ -1032,10 +1034,7 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 
 	char* buf = GGen_ToCString(name);
 
-	//int l = name.length();
-
-	if(ggen_current_object->return_callback != NULL) ggen_current_object->return_callback(buf, new_data, x, y);
-	else ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
+	ggen_current_object->return_callback(buf, new_data, x, y);
 }
 
 void GGen_Data_2D::Monochrome(int16 treshold){
@@ -1051,17 +1050,6 @@ void GGen_Data_2D::SlopeMap(){
 
 	GGen_Script_Assert(new_data != NULL);
 	GGen_Script_Assert(x > 2 && y > 2);
-
-	/* Calculate the slopes */
-	/*for(uint16 i = 1; i < length - 1; i++){
-		new_data[i] = abs(data[i - 1] - data[i + 1]);
-	}*/
-
-	for(uint16 i = 0; i < y; i++){
-		for(uint16 j = 0; j < x; j++){		
-			new_data[j + i * x] = 255;
-		}
-	}
 
 	for(uint16 i = 1; i < y - 1; i++){
 		for(uint16 j = 1; j < x - 1; j++){		
@@ -1093,12 +1081,42 @@ void GGen_Data_2D::SlopeMap(){
 	for(uint16 i = 1; i < y - 1; i++){
 		new_data[i * x + x - 1] = new_data[i * x + x - 2];
 	}
-	
-
-	//new_data[0] = new_data[1];
-	//new_data[length-1] = new_data[length-2];
 
 	/* Relink and delete the original array data */
 	delete [] data;
 	data = new_data;	
+}
+
+void GGen_Data_2D::Scatter(bool relative){
+	int16 min = 0;
+	int16 max = 255;
+
+	if(relative){
+		min = this->Min();
+		max = this->Max() - min;
+	}
+
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){		
+			data[j + i * x] = GGen_Random(min, max) > data[j + i * x] ? 0 : 1;
+		}
+	}
+}
+
+void GGen_Data_2D::TransformValues(GGen_Data_1D* profile){
+	relative = true; 
+	
+	int16 min = 0;
+	int16 max = 255;
+
+	if(relative){
+		min = this->Min();
+		max = this->Max() - min;
+	}
+
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){		
+			data[j + i * x] = profile->GetValue(data[j + i * x] - min,max - min);
+		}
+	}
 }

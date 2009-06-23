@@ -80,6 +80,8 @@ class GGen_Data_2D{
 		void Pattern(GGen_Data_2D* pattern);
 		void Monochrome(int16 treshold);
 		void SlopeMap();
+		void Scatter(bool relative);
+		void TransformValues(GGen_Data_1D* profile, bool relative);
 
 		/* Human interface functions */
 		void Window(bool fixed);

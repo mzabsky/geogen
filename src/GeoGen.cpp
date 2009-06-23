@@ -245,6 +245,17 @@ Have a nice day!\n";
 		}
 	}
 
+	if(argc > 2 + ggen->num_args){
+		//seed = atoi(argv[2 + ggen->num_args]);
+		seed = (int) time(0);
+	}
+	else{
+		seed = (int) time(0);
+	}
+
+
+	//srand((unsigned) seed);
+
 	//char* name = ggen->GetInfo("description");
 
 /*	if(name == NULL){

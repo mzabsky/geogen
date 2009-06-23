@@ -272,6 +272,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\examples\basic.nut"
+				>
+			</File>
+			<File
 				RelativePath="..\examples\double pass.nut"
 				>
 			</File>
