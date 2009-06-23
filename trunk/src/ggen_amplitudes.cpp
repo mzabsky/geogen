@@ -37,7 +37,7 @@
 extern GGen* ggen_current_object;
 
 GGen_Amplitudes::GGen_Amplitudes(uint16 max_feature_size){ 
-	uint8 size = log2(max_feature_size);
+	uint8 size = GGen_log2(max_feature_size);
 	
 	data = new uint16[size];
 
@@ -50,5 +50,5 @@ GGen_Amplitudes::GGen_Amplitudes(uint16 max_feature_size){
 };
 
 void GGen_Amplitudes::AddAmplitude(uint16 feature_size, uint16 amplitude){
-	data[log2(feature_size)] = amplitude;
+	data[GGen_log2(feature_size)] = amplitude;
 }

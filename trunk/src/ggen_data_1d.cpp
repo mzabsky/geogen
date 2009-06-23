@@ -588,18 +588,18 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 	//GGen_Script_Assert(((max_feature_size - 1) & max_feature_size) == 0);
 
 	for(int wave_length = max_feature_size; wave_length >= min_feature_size; wave_length /= 2){
-		uint8 frequency= log2(wave_length);
+		uint8 frequency= GGen_log2(wave_length);
 		uint16 amplitude = amplitudes->data[frequency];
 
 		/* Generate "new" values (where is nothing yet) */ 
 		for(uint16 i = wave_length; i < length; i += 2*wave_length){
 			int16 interpolated = (data[i - wave_length] + data[(i + wave_length) >= length ? (i + wave_length - length) : (i + wave_length)]) / 2;
-			data[i] = interpolated + Random((int16) -amplitude, (int16) amplitude);
+			data[i] = interpolated + GGen_Random((int16) -amplitude, (int16) amplitude);
 		}
 
 		/* Improve the "old" values */
 		for(uint16 i = 0; i < length; i += 2*wave_length){
-			data[i] += Random((int16) -amplitude, (int16) amplitude);
+			data[i] += GGen_Random((int16) -amplitude, (int16) amplitude);
 		}
 	}
 
