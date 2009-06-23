@@ -63,6 +63,7 @@ class GGen_Data_2D{
 		void IntersectionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim);
 		void Union(GGen_Data_2D* victim);
 		void UnionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim);
+		void Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative);
 
 		void Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode);
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);
@@ -81,7 +82,7 @@ class GGen_Data_2D{
 		void Monochrome(int16 treshold);
 		void SlopeMap();
 		void Scatter(bool relative);
-		void TransformValues(GGen_Data_1D* profile, bool relative);
+		void TransformValues(GGen_Data_1D* profile);
 
 		/* Human interface functions */
 		void Window(bool fixed);

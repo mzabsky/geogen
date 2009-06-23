@@ -572,6 +572,22 @@ void GGen_Data_2D::IntersectionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* 
 	}
 }
 
+void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative){
+	int16 min = 0;
+	int16 max = 255;
+
+	if(relative){
+		min = this->Min();
+		max = this->Max() - min;
+	}
+	
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){	
+			data[j + i * x] = ( data[j + i * x] * (mask->GetValue(j, i, x, y) - min) + victim->GetValue(j, i, x, y) * (max - mask->GetValue(j, i, x, y) + min))/ max;
+		}
+	}
+}
+
 /*
  * Projects 1D array onto a 2D array
  * @param profile to be projected
@@ -1104,7 +1120,7 @@ void GGen_Data_2D::Scatter(bool relative){
 }
 
 void GGen_Data_2D::TransformValues(GGen_Data_1D* profile){
-	relative = true; 
+	bool relative = true; 
 	
 	int16 min = 0;
 	int16 max = 255;
