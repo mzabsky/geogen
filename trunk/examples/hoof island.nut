@@ -4,18 +4,18 @@ function GetInfo(info_type){
 			return "Hoof island";
 		case "description":
 			return "This script creates a hilly hoof shaped island.";
-		case "min_width":
-			return 256;
-		case "min_height":
-			return 256;
-		case "max_width":
-			return 99999999;
-		case "max_height":
-			return 99999999;
+		case "args":
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			
+			return 0;
 	}
 }
 
-function Generate(width, height){
+function Generate(){
+	local width = GGen_GetParam("width");
+	local height = GGen_GetParam("height");
+
 	local base = GGen_Data_2D(width, height);
 	
 	base.SetValueInRect(1 * width / 7, 1 * width / 7, 2 * width / 7, 6 * width / 7, 2000);

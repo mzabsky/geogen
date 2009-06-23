@@ -4,20 +4,20 @@ function GetInfo(info_type){
 			return "Atoll";
 		case "description":
 			return "A ring shaped archipelago of small islands.";
-		case "min_width":
-			return 128;
-		case "min_height":
-			return 128;
-		case "max_width":
-			return 99999999;
-		case "max_height":
-			return 99999999;
+		case "args":
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			
+			return 0;
 	}
 }
-function Generate(width, height){
+function Generate(){
+	local width = GGen_GetParam("width");
+	local height = GGen_GetParam("height");
+
 	local size = height > width ? width / 2 : height / 2;
   
-  local profile = GGen_Data_1D(35);
+	local profile = GGen_Data_1D(35);
 	
 	profile.SetValueInRange(23, 27, 1250);
 	profile.SetValueInRange(0, 23, 350);

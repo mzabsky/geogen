@@ -4,18 +4,18 @@ function GetInfo(info_type){
 			return "Double Pass";
 		case "description":
 			return "Creates massive mountain range with three huge peaks separated by two passes.";
-		case "min_width":
-			return 512;
-		case "min_height":
-			return 512;
-		case "max_width":
-			return 99999999;
-		case "max_height":
-			return 99999999;
+		case "args":
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			
+			return 0;
 	}
 }
 
-function Generate(width, height){
+function Generate(){
+	local width = GGen_GetParam("width");
+	local height = GGen_GetParam("height");
+
 	local base = GGen_Data_2D(width, height);
 	
 	// create one peak into the middle of the map
