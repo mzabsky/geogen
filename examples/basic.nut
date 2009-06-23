@@ -6,20 +6,12 @@ function GetInfo(info_type){
 			return "Basic";
 		case "description":
 			return "Elementary script generating just a random noise with given parameters.";
-		case "min_width":
-			return 64;
-		case "min_height":
-			return 64;
-		case "max_width":
-			return 99999999;
-		case "max_height":
-			return 99999999;
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 2048, 1, false);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 2048, 1, false);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
-			GGen_AddIntArg("water_level","Water percentage","How much of the map should  be covered by sea.", 60, 5, 95, 5, false);
+			GGen_AddIntArg("water_level","Water percentage","How much of the map should  be covered by sea.", 60, 5, 95, 5);
 			
 			return 0;
 	}

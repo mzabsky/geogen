@@ -4,18 +4,18 @@ function GetInfo(info_type){
 			return "Highlands lake";
 		case "description":
 			return "Creates a lake in middle of hilly country.";
-		case "min_width":
-			return 128;
-		case "min_height":
-			return 128;
-		case "max_width":
-			return 99999999;
-		case "max_height":
-			return 99999999;
+		case "args":
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			
+			return 0;
 	}
 }
 
-function Generate(width, height){
+function Generate(){
+	local width = GGen_GetParam("width");
+	local height = GGen_GetParam("height");
+
 	local profile = GGen_Data_1D(2);
 	
 	profile.SetValue(1, 1200); 

@@ -4,19 +4,19 @@ function GetInfo(info_type){
 			return "Seaside country";
 		case "description":
 			return "This script creates a strip of of land locked between sea and high mountain range.";
-		case "min_width":
-			return 128;
-		case "min_height":
-			return 128;
-		case "max_width":
-			return 99999999;
-		case "max_height":
-			return 99999999;
+		case "args":
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			
+			return 0;
 	}
 }
 
-function Generate(width, height){
-  local profile_height = GGen_Data_1D(10);
+function Generate(){
+	local width = GGen_GetParam("width");
+	local height = GGen_GetParam("height");
+
+	local profile_height = GGen_Data_1D(10);
 	
 	profile_height.SetValue(0, -500);
 	profile_height.SetValue(1, -250);

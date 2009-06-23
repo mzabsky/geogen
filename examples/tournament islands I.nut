@@ -4,18 +4,18 @@ function GetInfo(info_type){
 			return "Tournament Islands I";
 		case "description":
 			return "Tournament style map emhasizing fair starting locations, for 4 players.";
-		case "min_width":
-			return 256;
-		case "min_height":
-			return 256;
-		case "max_width":
-			return 99999999;
-		case "max_height":
-			return 99999999;
+		case "args":
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			
+			return 0;
 	}
 }
 
-function Generate(width, height){
+function Generate(){
+	local width = GGen_GetParam("width");
+	local height = GGen_GetParam("height");
+
 	local quarter = GGen_Data_2D(width / 2, height / 2);
 	
 	local profile = GGen_Data_1D(2);
