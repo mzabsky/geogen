@@ -205,8 +205,13 @@ Have a nice day!\n";
 
 	ggen->LoadArgs();
 
+	// what if the map doesn't get args at all?
+	if(ggen->num_args == 0){
+		if(argc >= 4) seed = atoi(argv[3]);
+	}
+
 	// manual mode
-	if(argv[3][0] == '?'){
+	else if(argc > 3 && argv[3][0] == '?'){
 		cout << "	Please set map parameters:\n";
 		for(uint8 i = 0; i < ggen->num_args; i++){
 			GGen_ScriptArg* a = ggen->args[i];
