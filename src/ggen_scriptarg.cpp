@@ -176,6 +176,7 @@ int GGen_GetParam(const SqPlus::sq_std_string &name){
 	}
 
 	ggen_current_object->ThrowMessage("Current map doesn't support requested argument.",GGEN_ERROR);
+
 	return 0;
 }
 
