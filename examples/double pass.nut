@@ -1,9 +1,9 @@
 function GetInfo(info_type){
 	switch(info_type){
 		case "name":
-			return "Double Pass";
+			return "The Clutch";
 		case "description":
-			return "Creates massive mountain range with three huge peaks separated by two passes.";
+			return "Two mountainous regions are separated only by a narrow land bridge.";
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
