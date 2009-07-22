@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -24,9 +24,6 @@
 #include "ggen.h"
 
 using namespace SqPlus;
-
-
-static void printFunc(HSQUIRRELVM v,const SQChar * s,...);
 
 #define SQ_REL_PATH "../external/squirrel_lib/"
 
@@ -54,25 +51,18 @@ static void printFunc(HSQUIRRELVM v,const SQChar * s,...);
 #endif
 #endif
 
-
-
-
-
 DECLARE_INSTANCE_TYPE(GGen_Data_1D)
 DECLARE_INSTANCE_TYPE(GGen_Data_2D)
 DECLARE_INSTANCE_TYPE(GGen_Amplitudes)
-//DECLARE_INSTANCE_TYPE(GGen_Args)
 
 class GGen_Squirrel: public GGen{
 public:	
-	//SquirrelObject sqScript;
-
 	GGen_Squirrel();
 	~GGen_Squirrel();
 
 	virtual bool SetScript(const char* script);
 	virtual char* GetInfo(char* label);
 	virtual int GetInfoInt(char* label);
-	virtual int16* Generate(uint16 width, uint16 height);
+	virtual int16* Generate();
 };
 

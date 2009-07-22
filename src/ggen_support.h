@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -40,7 +40,17 @@ typedef unsigned int uint32;
 #define GGEN_MAX_HEIGHT 32767
 
 // Custom GGen_Script_Assertion handler. Invoke messaage callback and shut down the script execution.
-#define GGen_Script_Assert(_Expression) {if(!(_Expression)) {ggen_current_object->ThrowMessage(#_Expression, GGEN_ERROR, -1); throw SquirrelError();} }
+#define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
+	char* as_buf = new char[400]; \
+	as_buf[0] = '\0'; \
+	as_buf = strcat(as_buf, "Assertion in function "); \
+	as_buf = strcat(as_buf, __FUNCTION__); \
+	as_buf = strcat(as_buf, " failed: "); \
+	as_buf = strcat(as_buf, #_Expression); \
+	ggen_current_object->ThrowMessage(as_buf, GGEN_ERROR, -1); \
+	delete as_buf; \
+	throw SquirrelError(); \
+}}
 
 enum GGen_Normalization_Mode{
 	GGEN_ADDITIVE,

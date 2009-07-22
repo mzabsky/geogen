@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -50,6 +50,6 @@ public:
 	virtual char* GetInfo(char* label) = 0;
 	virtual int GetInfoInt(char* label) = 0;
 	virtual GGen_ScriptArg** LoadArgs();
-	virtual int16* Generate(uint16 width, uint16 height) = 0;
+	virtual int16* Generate() = 0;
 
 };

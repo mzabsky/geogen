@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -78,7 +78,6 @@ void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int c
 		message_callback(message, level, line, column);
 	}
 	else{
-
 		switch(level){
 			case GGEN_MESSAGE:
 				if(line != -1) cout << "GGen Message: " << message << " on line " << line << "\n";
@@ -97,14 +96,31 @@ void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int c
 				else cout << "GGen Error: " << message <<  "\n";
 				break;
 		}
-
-		//GGen_Script_Assert(buf != NULL);
-
-		
-
-		//delete buf;
 	}
 
+}
+
+void GGen::SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column) ){
+	this->message_callback = message_callback;
+}
+
+void GGen::SetReturnCallback( void (*return_callback) (char* name, int16* map, int width, int height) ){
+	this->return_callback = return_callback;
+}
+
+GGen_ScriptArg** GGen::LoadArgs(){
+	// free current array of args
+	if(args != NULL){
+		for(uint8 i = 0; i < num_args; i++){
+			delete args[i];
+		}
+
+		delete [] *args;
+	}
+
+	GetInfoInt("args");
+
+	return args;
 }
 
 void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line, int column){
@@ -118,37 +134,4 @@ void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int li
 	buf[len] = '\0';
 
 	ThrowMessage(buf, level, line, column);
-}
-
-void GGen::SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column) ){
-	this->message_callback = message_callback;
-}
-
-void GGen::SetReturnCallback( void (*return_callback) (char* name, int16* map, int width, int height) ){
-	this->return_callback = return_callback;
-}
-
-
-static void printFunc(HSQUIRRELVM v,const SQChar * s,...) {
-  /*static SQChar temp[2048];
-  va_list vl;
-  va_start(vl,s);
-  scvsprintf( temp,s,vl);
-  SCPUTS(temp);
-  va_end(vl);*/
-} // pri
-
-GGen_ScriptArg** GGen::LoadArgs(){
-	// free current array of args
-	if(args != NULL){
-		for(uint8 i = 0; i < num_args; i++){
-			delete args[i];
-		}
-
-		//delete [] args;
-	}
-
-	GetInfoInt("args");
-
-	return args;
 }

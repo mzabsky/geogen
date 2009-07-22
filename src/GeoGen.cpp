@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -91,7 +91,7 @@ int main(int argc,char * argv[]){
 	// Parse arguments
 
 	// Display help text if requested
-	if(argc == 2 && (argv[1][0] == '-' || argv[1][0] == '/') && argv[1][1] == '?'){
+	if(argc == 1 || (argc == 2 && (argv[1][0] == '-' || argv[1][0] == '/') && argv[1][1] == '?')){
 		cout << "\n\
 GeoGen - open-source procedural heightmap generator			\n\
 \n\
@@ -107,12 +107,9 @@ Have a nice day!\n";
 
 	cout << "Initializing...\n";
 
+	// in and out paths
 	if(argc >= 2){
 		path_in = argv[1];
-	}
-	else{
-		path_in = new char[12];
-		strcpy(path_in, "example.nut");
 	}
 
 	if(argc >= 3){
@@ -122,42 +119,7 @@ Have a nice day!\n";
 		path_out = "out.bmp";
 	}
 
-	/*if(argc >= 4){
-		width = atoi(argv[3]);
-
-		if(width < 2){
-			cout << "Invalid width!\n";
-			return -1;
-		}
-	}
-	else{
-		width = 1024;
-	}
-
-	if(argc >= 5){
-		height = atoi(argv[4]);
-
-		if(height < 2){
-			cout << "Invalid height!\n";
-			return -1;
-		}
-	}
-	else{
-		height = 1024;
-	}
-
-	if(argc >= 6){
-		seed = atoi(argv[5]);
-	}
-	else{
-		seed = (int) time(0);
-	}*/
-
-
-	//srand((unsigned) seed);
-	srand(234);
-
-	// Load the script from file
+	// load the script from file
 	string str,strTotal;
 	ifstream in;
 	in.open(path_in);
@@ -175,12 +137,14 @@ Have a nice day!\n";
 
 	in.close();
 
+	// create the primary GeoGen object (use Squirrel script interface)
 	GGen_Squirrel* ggen = new GGen_Squirrel();
 
 	cout << "Compiling...\n";
 
 	ggen->SetReturnCallback(ReturnHandler);
 
+	// pump the script into the engine and compile it
 	if(!ggen->SetScript(strTotal.c_str())){
 		cout << "Compilation failed!\n";
 		delete ggen;
@@ -189,30 +153,24 @@ Have a nice day!\n";
 
 	cout << "Loading map info...\n";
 
-	/*
-	if(width > ggen->GetInfoInt("max_width")){
-		cout << "Passed width exceeds map's max width!\n";
-		delete ggen;
-		return -1;
-	}
-
-	if(height > ggen->GetInfoInt("max_height")){
-		cout << "Passed height exceeds map's max height!\ns"; 
-		delete ggen;
-		return -1;
-	}
-	*/
-
+	// fetch the list of arguments from the script file
 	ggen->LoadArgs();
 
-	// what if the map doesn't get args at all?
-	if(ggen->num_args == 0){
-		if(argc >= 4) seed = atoi(argv[3]);
+	// prepepare random seed
+	if(argc > 3 + ggen->num_args){
+		// random seed from command line argument	
+		seed = atoi(argv[3 + ggen->num_args]);
+	}
+	else{
+		// random random seed
+		seed = (int) time(0);
 	}
 
 	// manual mode
-	else if(argc > 3 && argv[3][0] == '?'){
+	if(argc > 3 && argv[3][0] == '?'){
 		cout << "	Please set map parameters:\n";
+		
+		// loop through all the map arguments 
 		for(uint8 i = 0; i < ggen->num_args; i++){
 			GGen_ScriptArg* a = ggen->args[i];
 
@@ -230,7 +188,6 @@ Have a nice day!\n";
 				cout << "): ";
 			}
 			
-
 			cin >> buf;
 
 			// use default value if fist char of the input is not number
@@ -241,39 +198,35 @@ Have a nice day!\n";
 	}
 	// auto mode
 	else{
-		for(uint8 i = 0; i < ggen->num_args; i++){
-			GGen_ScriptArg* a = ggen->args[i];
+		bool allrandom = false;
 
-			if(argc - 3 > i){
+		// loop through all the map arguments 
+		for(uint8 i = 0; i < ggen->num_args; i++){
+
+			// allrandom mode?
+			if(argc - 3 > i && argv[i + 3][0] == 'R'){
+				allrandom = true;
+			}
+
+			// should the value be generated randomly?
+			if(allrandom || (argc - 3 > i && argv[i + 3][0] == 'r')){
+				//cout << "random:";
+				ggen->args[i]->SetValue(GGen_Random(ggen->args[i]->min_value, ggen->args[i]->max_value));
+				//cout << ggen->args[i]->value;
+			}
+
+			// load the argument from the command line
+			else if(argc - 3 > i){
+				//cout << "manual\n";
 				ggen->args[i]->SetValue(atoi(argv[i + 3]));
 			}
 		}
 	}
 
-	if(argc > 2 + ggen->num_args){
-		//seed = atoi(argv[2 + ggen->num_args]);
-		seed = (int) time(0);
-	}
-	else{
-		seed = (int) time(0);
-	}
-
-
-	//srand((unsigned) seed);
-
-	//char* name = ggen->GetInfo("description");
-
-/*	if(name == NULL){
-		cout << "Map info not found...\n";
-		delete ggen;
-		return -1;
-	}*/
-
-	//cout << name;
-
 	cout << "Executing...\n";
 
-	int16* data = ggen->Generate(123, 132);
+	// execute the main part of the script
+	int16* data = ggen->Generate();
 
 	if(data == NULL){
 		cout << "Map generation failed!\n";
@@ -283,6 +236,7 @@ Have a nice day!\n";
 	
 	assert(data != NULL);
 
+	// flush the bitmap
 	SaveAsBMP(data, ggen->output_width, ggen->output_height, path_out);
 
 	cout << "Cleanup...\n";

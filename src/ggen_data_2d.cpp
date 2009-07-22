@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -125,7 +125,7 @@ int16 GGen_Data_2D::GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale
 	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == this->x && scale_to_y == this->y) return data[x + this->x * y];
 
-	int16 value_x, value_y_left, value_y_right;	
+	int16 value_y_left, value_y_right;	
 	
 	double ratio_x = (double) (scale_to_x - 1) / (double) (this->x - 1);
 	double ratio_y = (double) (scale_to_y - 1) / (double) (this->y - 1);
@@ -835,7 +835,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 				else if(nearest_vertical + wave_length > y - 1){
 					d = new_data[nearest_horizontal + wave_length];
 				}
-				else if( (unsigned)((nearest_horizontal + wave_length + (nearest_vertical + wave_length) * x) > (unsigned) (length - 1))){
+				else if( nearest_horizontal + wave_length + (nearest_vertical + wave_length) * x > (signed) (length - 1)){
 					d = new_data[0];
 				}
 				else 

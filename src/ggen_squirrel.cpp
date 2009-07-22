@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -66,15 +66,7 @@ DECLARE_ENUM_TYPE(GGen_Direction);
 DECLARE_ENUM_TYPE(GGen_Angle);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
 
-static void printFunc(HSQUIRRELVM v,const SQChar * s,...) {
-  static SQChar temp[2048];
-  va_list vl;
-  va_start(vl,s);
-  scvsprintf( temp,s,vl);
-  SCPUTS(temp);
-	//cout << "dsadasd";
-  va_end(vl);
-}
+
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
 	ggen_current_object->ThrowMessage(desc, GGEN_ERROR, line, column);
@@ -303,36 +295,12 @@ int GGen_Squirrel::GetInfoInt(char* label){
 	}
 }
 
-int16* GGen_Squirrel::Generate(uint16 width, uint16 height){		
-	//SQClassDefNoConstructor<GGen_Args> args_object = SQClassDefNoConstructor<GGen_Args>(_SC("GGen_Args"));
-	
-	//int* args_link = new int[num_args];
-
-	/*for(uint8 i = 0; i < num_args; i++){
-		GGen_ScriptArg* a = args[i];
-
-		SQChar* in_buf = new SQChar[strlen(args[i]->name)];
-
-		mbstowcs(in_buf, args[i]->name, strlen(args[i]->name) + 1);
-
-		in_buf[strlen(args[i]->name)]=_SC('\0');
-
-		//args_object.varAsUserPointer(&args_link, in_buf);
-
-		RegisterInstanceVariable(args_object.newClass,ClassType<GGen_Args>::type(),*(SQAnything **) &GGen_Args::dummy,in_buf,VAR_ACCESS_READ_ONLY);
-
-		args_link[i] = args[i]->value;
-
-		//RegisterInstanceVariable<>(newClass,ClassType<TClassType>::type(),*(VarType **)&cv,name,access);
-	}*/
-
+int16* GGen_Squirrel::Generate(){		
 	try {
 		int16* return_data;
 		GGen_Data_2D* data;
 
 		{
-			//GGen_Args a = GGen_Args();
-
 			SquirrelFunction<GGen_Data_2D*> callFunc(_SC("Generate"));
 			data =  callFunc();	
 		}
