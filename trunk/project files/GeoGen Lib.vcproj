@@ -21,6 +21,7 @@
 			IntermediateDirectory="$(SolutionDir)/temp/lib"
 			ConfigurationType="4"
 			CharacterSet="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,11 +42,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="0"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="1"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -59,6 +60,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="$(OutDir)\GeoGen.lib"
+				IgnoreAllDefaultLibraries="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -176,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ggen_scriptarg.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ggen_string.cpp"
 				>
 			</File>
@@ -203,6 +209,10 @@
 			</File>
 			<File
 				RelativePath="..\src\ggen_human_interface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_scriptarg.h"
 				>
 			</File>
 			<File

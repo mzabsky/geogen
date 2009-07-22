@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "../external/squirrel/sqplus.h"
+//#include "../external/squirrel/sqplus.h"
 
 typedef signed char int8;
 typedef unsigned char uint8;
@@ -36,41 +36,69 @@ enum GGen_Message_Level{
 	GGEN_ERROR = 3
 };
 
+enum GGen_Arg_Type{
+	GGEN_BOOL,
+	GGEN_INT,
+	GGEN_ENUM
+};
+
+class GGen_ScriptArg{
+public:
+	int value;
+	char* name;
+	char* label;
+	char* description;
+	GGen_Arg_Type type;
+	int min_value;
+	int max_value;
+	int default_value;
+	int step_size;
+	char** options;
+	int num_options;
+	bool strict_steps;
+
+	bool SetValue(int new_value);
+
+	/*static void GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, int min_value, int max_value, int step_size);
+	static void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, bool default_value);
+	static void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, const SqPlus::sq_std_string &options);*/
+};
+
 class GGen{
 public:
 	GGen();
 	~GGen();
 
-//private:
 	void (*message_callback) (char* message, GGen_Message_Level, int line, int column);
-	void (*return_callback) (char* name, int16* map);
+	void (*return_callback) (char* name, int16* map, int width, int height);
+	//void (*post_callback) (GGen_Data_2D* map);
 
-	void ThrowMessage(char* message, GGen_Message_Level level, int line = 0, int column = 0);
-	void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = 0, int column = 0);
+	GGen_ScriptArg* args[255];
+	uint8 num_args;
 
+	uint16 output_width, output_height;
 
-public:
+	void ThrowMessage(char* message, GGen_Message_Level level, int line = -1, int column = -1);
+	void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
+
 	void SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column));
-	virtual void SetReturnCallback( void (*return_callback) (char* name, int16* map) );
+	virtual void SetReturnCallback( void (*return_callback) (char* name, int16* map, int width, int height) );
 
 	virtual bool SetScript(const char* script) = 0;
 	virtual char* GetInfo(char* label) = 0;
 	virtual int GetInfoInt(char* label) = 0;
-	virtual bool GetNextOption() = 0;
-	virtual int16* Generate(uint16 width, uint16 height) = 0;
+	virtual GGen_ScriptArg** LoadArgs();
+	virtual int16* Generate() = 0;
 
 };
 
 class GGen_Squirrel: public GGen{
 public:	
-	//SquirrelObject sqScript;
-
 	GGen_Squirrel();
 	~GGen_Squirrel();
 
 	virtual bool SetScript(const char* script);
 	virtual char* GetInfo(char* label);
 	virtual int GetInfoInt(char* label);
-	virtual bool GetNextOption();
-	virtual int16* Generate(uint16 width, uint16 height);
+	virtual int16* Generate();
 };

@@ -44,7 +44,7 @@ GGen* ggen_current_object;
 GGen::GGen(){
 	message_callback = NULL;
 	return_callback = NULL;
-	post_callback = NULL;
+	//post_callback = NULL;
 
 	//args = NULL;
 	num_args = 0;
@@ -115,7 +115,7 @@ GGen_ScriptArg** GGen::LoadArgs(){
 			delete args[i];
 		}
 
-		delete [] *args;
+		//delete [] *args;
 	}
 
 	GetInfoInt("args");
