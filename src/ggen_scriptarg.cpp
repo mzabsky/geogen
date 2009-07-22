@@ -63,7 +63,7 @@ bool GGen_ScriptArg::SetValue(int new_value){
 	return true;
 }
 
-void GGen_ScriptArg::GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, int min_value, int max_value, int step_size){
+void GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, int min_value, int max_value, int step_size){
 	GGen_ScriptArg* arg = new GGen_ScriptArg();
 
 	arg->type = GGEN_INT;
@@ -98,7 +98,7 @@ void GGen_ScriptArg::GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqP
 	}*/
 };
 
-void GGen_ScriptArg::GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, bool default_value){
+void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, bool default_value){
 	GGen_ScriptArg* arg = new GGen_ScriptArg();
 
 	arg->type = GGEN_BOOL;
@@ -120,7 +120,7 @@ void GGen_ScriptArg::GGen_AddBoolArg(const SqPlus::sq_std_string &name, const Sq
 	ggen_current_object->num_args++;
 };
 
-void GGen_ScriptArg::GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, const SqPlus::sq_std_string &options){
+void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, const SqPlus::sq_std_string &options){
 	GGen_ScriptArg* arg = new GGen_ScriptArg();
 
 	arg->type = GGEN_ENUM;

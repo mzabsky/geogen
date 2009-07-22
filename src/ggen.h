@@ -33,7 +33,7 @@ public:
 
 	void (*message_callback) (char* message, GGen_Message_Level, int line, int column);
 	void (*return_callback) (char* name, int16* map, int width, int height);
-	void (*post_callback) (GGen_Data_2D* map);
+	//void (*post_callback) (GGen_Data_2D* map);
 
 	GGen_ScriptArg* args[255];
 	uint8 num_args;

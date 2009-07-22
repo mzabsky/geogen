@@ -94,9 +94,9 @@ GGen_Squirrel::GGen_Squirrel(){
 	sq_setcompilererrorhandler(SquirrelVM::GetVMPtr(), GGen_ErrorHandler);
 	sq_enabledebuginfo(SquirrelVM::GetVMPtr(), false);
 
-	RegisterGlobal(&GGen_ScriptArg::GGen_AddIntArg, _SC("GGen_AddIntArg"));
-	RegisterGlobal(&GGen_ScriptArg::GGen_AddBoolArg, _SC("GGen_AddBoolArg"));
-	RegisterGlobal(&GGen_ScriptArg::GGen_AddEnumArg, _SC("GGen_AddEnumArg"));
+	RegisterGlobal(&GGen_AddIntArg, _SC("GGen_AddIntArg"));
+	RegisterGlobal(&GGen_AddBoolArg, _SC("GGen_AddBoolArg"));
+	RegisterGlobal(&GGen_AddEnumArg, _SC("GGen_AddEnumArg"));
 	RegisterGlobal(&GGen_GetParam, _SC("GGen_GetParam"));
 
 	/* Enum: GGen_Normalization_Mode */
@@ -307,7 +307,7 @@ int16* GGen_Squirrel::Generate(){
 
 		GGen_Script_Assert(data != NULL && data->data != NULL);
 
-		if(post_callback != NULL) post_callback(data);
+		//if(post_callback != NULL) post_callback(data);
 
 		output_width = data->x;
 		output_height = data->y;
