@@ -276,6 +276,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\examples\clutch.nut"
+				>
+			</File>
+			<File
 				RelativePath="..\examples\double pass.nut"
 				>
 			</File>
