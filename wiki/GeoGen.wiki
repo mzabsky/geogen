@@ -1,0 +1,5 @@
+GeoGen (shortly GGen) is an open-source procedural heightmap generator using the Squirrel scripting language. GGen grants the scripts ability to generate the most various terrain shapes while keeping them simple and easy to read.
+
+How does it work?
+
+http://www.fileden.com/getfile.php?file_path=http://www.fileden.com/files/2009/7/28/2524806/scheme.png
