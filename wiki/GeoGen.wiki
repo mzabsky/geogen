@@ -2,4 +2,4 @@ GeoGen (shortly GGen) is an open-source procedural heightmap generator using the
 
 How does it work?
 
-http://www.fileden.com/getfile.php?file_path=http://www.fileden.com/files/2009/7/28/2524806/scheme.png
+http://www.fileden.com/files/2009/7/28/2524806/scheme.png
