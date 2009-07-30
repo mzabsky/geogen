@@ -1,9 +1,9 @@
 function GetInfo(info_type){
 	switch(info_type){
 		case "name":
-			return "The Clutch";
+			return "Double pass";
 		case "description":
-			return "Two mountainous regions are separated only by a narrow land bridge.";
+			return "Two valley areas separated by a massive mountain range.";
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
@@ -25,8 +25,8 @@ function Generate(){
 	local peak = GGen_Data_2D(base);
 
 	// copy the peak to two more places
-	base.IntersectionTo( - width / 3, 0, peak);
-	base.IntersectionTo(   width / 3, 0, peak);
+	base.UnionTo( - width / 3, 0, peak);
+	base.UnionTo(   width / 3, 0, peak);
 
 	base.Smooth((width > height ? height : width) / 10); 
 
@@ -39,8 +39,6 @@ function Generate(){
 	noise.ScaleValuesTo(-300, 300);
 	
 	base.AddMasked(noise, mask, true);
-	
-	base.ScaleValuesTo(0,255);
 	
 	return base;
 

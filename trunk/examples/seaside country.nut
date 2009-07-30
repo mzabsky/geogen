@@ -16,6 +16,7 @@ function Generate(){
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
 
+	// set up height profile of the map
 	local profile_height = GGen_Data_1D(10);
 	
 	profile_height.SetValue(0, -500);
@@ -31,29 +32,28 @@ function Generate(){
 	
 	profile_height.Smooth(2);
 	
+	// project the profile
 	local base = GGen_Data_2D(width, height);
-	base.Project(profile_height, GGEN_VERTICAL);;
+	base.Project(profile_height, GGEN_VERTICAL);
 	
+	// create the "wavy" profile along the vertical axis (creating the illusion of long valleys separated by hill ranges)
 	local profile_shift = GGen_Data_1D(800);
-	profile_shift.Noise(1, height / 8);
-	profile_shift.Smooth(height / 8);
-	profile_shift.ScaleValuesTo(-width / 5, width / 8);
+	profile_shift.Noise(height / 15, height / 8);
+	profile_shift.ScaleValuesTo(-width / 8, width / 8);
 	
 	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);
 	
+	// create the noise overlay
 	local noise = GGen_Data_2D(width, height);
 	noise.Noise(1, width > height ? height / 8 : width / 8);
 	
 	noise.ScaleValuesTo(-1000, 1000);
 	
-	
+	// make the noise be more significant in the higher mountainous part of the map than on the coast
 	local mask = GGen_Data_2D(3, 2, 40);
 	mask.SetValueInRect(2, 0, 2, 1, 154);
 	
 	base.AddMasked(noise, mask, false);
-
-	base.Clamp(0, GGEN_MAX_HEIGHT);
-	base.ScaleValuesTo(0,255);
 	
 	return base;
 }

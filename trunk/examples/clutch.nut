@@ -25,9 +25,9 @@ function Generate(){
 
 	local base = GGen_Data_2D(dimension, dimension);
 	
-	local radial_profile = GGen_Data_1D(4, -1200);
+	local radial_profile = GGen_Data_1D(4, -12000);
 	
-	radial_profile.SetValue(2, -500);
+	radial_profile.SetValue(2, -5000);
 	radial_profile.SetValue(3, 0);
 	
 	// create the upper radial basin
@@ -35,7 +35,7 @@ function Generate(){
 
 	// create the land bridge
 	local bridge = GGen_Data_2D(dimension, dimension);
-	bridge.Gradient(3* dimension / 7, 3 * dimension / 7, 45 * dimension / 100, 45 * dimension / 100, -1200, -650, true);
+	bridge.Gradient(3* dimension / 7, 3 * dimension / 7, 45 * dimension / 100, 45 * dimension / 100, -12000, -6500, true);
 	
 	base.Union(bridge);
 	
@@ -50,7 +50,7 @@ function Generate(){
 	base.Smooth(100);
 	
 	local mask = GGen_Data_2D(base);
-	mask.Clamp(-800, GGEN_MAX_HEIGHT);
+	mask.Clamp(-8000, GGEN_MAX_HEIGHT);
 	
 	mask.ScaleValuesTo(0,255);
 	mask.Add(100);
@@ -58,7 +58,7 @@ function Generate(){
 
 	local noise = GGen_Data_2D(width, height);
 	noise.Noise(smoothness, dimension / (5 - feature_size));
-	noise.ScaleValuesTo(-200, 1200);
+	noise.ScaleValuesTo(-2000, 12000);
 	
 	base.AddMasked(noise, mask, false);
 
@@ -82,9 +82,7 @@ function Generate(){
 		if(max_min < min) max_min = min;
 	}
 
-	base.Clamp(max_min - 10, GGEN_MAX_HEIGHT);
-		
-	base.ScaleValuesTo(0,255);
+	base.Add(-max_min + 10);
 	
 	base.SetValueInRect(0, 0, width / 4, height / 4, 0);
 	base.SetValueInRect(3 * width / 4, 3 * width / 4, width - 1, height - 1, 0);
