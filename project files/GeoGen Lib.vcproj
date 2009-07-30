@@ -174,10 +174,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\ggen_human_interface.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\src\ggen_scriptarg.cpp"
 				>
 			</File>
@@ -205,10 +201,6 @@
 			</File>
 			<File
 				RelativePath="..\src\ggen_data_2d.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_human_interface.h"
 				>
 			</File>
 			<File
