@@ -913,37 +913,26 @@ void GGen_Data_2D::Flood(double water_amount){
 	GGen_Script_Assert(water_amount < 1 && water_amount > 0);
 
 	uint32 target = (uint32) (water_amount * (double) length);
-	
-	uint32 last_amount = 0;
 
-	int16 level = this->Min();
+	int16 min = this->Min();
 	int16 max = this->Max();
 
-	/* Go through the array values from bottom up and try to find the best fit to target water amount */
-	while(level < max){
-		/* Calculate the amount of waters above current level */
+	// Use the binary search algorithm to find the correct water level
+	int16 middle;
+	while(max - min > 1){
+		middle = min + (max - min) / 2;
+
 		uint32 amount = 0;
 		for(uint32 i = 0; i < length; i++) {
-			if(data[i] >= level) amount++;
+			if(data[i] >= middle) amount++;
 		}
 
-		/* Is current level higher than the target? */
-		if(amount <= target){
-			/* Find if this level fits better than the previous (the closest fit applies) */
-			if(amount - target < target - last_amount) break;
-			else{
-				level--;
-				break;
-			}
-		}
-
-		last_amount = amount;
-
-		level++;
+		if(amount > target) min = middle;
+		else max = middle;
 	}
 
 	/* Shift the heights so given portion of the array is under zero */
-	this->Add(-level);
+	this->Add(-middle);
 }
 
 void GGen_Data_2D::Smooth(uint8 radius){
