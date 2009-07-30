@@ -58,6 +58,22 @@ bool SaveAsBMP(int16* data, int width, int height, const char* implicit_path, co
 		cout << "Saving map \"" << name << "\"...\n";
 	}
 	
+	int32 max = 0;
+	int32 min = 0;
+	for(uint32 i = 0; i < width * height; i++){
+		if(data[i] < 0) data[i] = 0;
+		if(data[i] > max) max = data[i];
+		if(data[i] < min) min = data[i];
+	}
+
+	max = max - min;
+
+	//cout << min << "-" << max << "\n";
+
+	for(uint32 i = 0; i < width * height; i++){
+		data[i] = (data[i] - min) * 255 / max;
+	}
+
 	BMP output;
 
 	output.SetBitDepth(32);
@@ -77,6 +93,13 @@ bool SaveAsBMP(int16* data, int width, int height, const char* implicit_path, co
 	return true;
 }
 
+template <class T>
+T random(T min, T max){
+	double random = (double)rand() / (double) RAND_MAX;
+	T output = min + (T) (random * (double)(max - min));
+	return output;
+}
+
 void ReturnHandler(char* name, int16* map, int width, int height){
 	SaveAsBMP(map, width, height, "", name); 
 }
@@ -86,17 +109,19 @@ int main(int argc,char * argv[]){
 	char* path_out;
 	char* path_in;
 	int seed;
+	bool stupid_mode = false;
+	char* buf = new char[2000];
 
 
 	// Parse arguments
 
 	// Display help text if requested
-	if(argc == 1 || (argc == 2 && (argv[1][0] == '-' || argv[1][0] == '/') && argv[1][1] == '?')){
+	if(argc == 2 && (argv[1][0] == '-' || argv[1][0] == '/') && argv[1][1] == '?'){
 		cout << "\n\
 GeoGen - open-source procedural heightmap generator			\n\
 \n\
 Syntax:\n\
-geogen path_to_script output_file result_width result_height\n\
+geogen script_file output_file [script_arguments] [random_seed]\n\
 \n\
 Example:\n\
 geogen ../examples/atoll.nut out.bmp 2048 2048\n\
@@ -111,12 +136,21 @@ Have a nice day!\n";
 	if(argc >= 2){
 		path_in = argv[1];
 	}
+	else{
+		path_in = new char[2000];
+		cout << "Please enter path to a script file: ";
+		cin >> path_in;
+
+		// mode for dummies who can't handle command line
+		stupid_mode = true;
+	}
 
 	if(argc >= 3){
 		path_out = argv[2];
 	}
 	else{
 		path_out = "out.bmp";
+		if(stupid_mode) cout << "Output will be saved as ./out.bmp\n";
 	}
 
 	// load the script from file
@@ -126,6 +160,7 @@ Have a nice day!\n";
 
 	if(!in.is_open()){
 		cout << "Could not open the script file!\n";
+		if(stupid_mode) cin >> buf;
 		return -1;
 	}
 
@@ -148,6 +183,7 @@ Have a nice day!\n";
 	if(!ggen->SetScript(strTotal.c_str())){
 		cout << "Compilation failed!\n";
 		delete ggen;
+		if(stupid_mode) cin >> buf;
 		return -1;
 	}
 
@@ -166,8 +202,10 @@ Have a nice day!\n";
 		seed = (int) time(0);
 	}
 
-	// manual mode
-	if(argc > 3 && argv[3][0] == '?'){
+	srand(seed);
+
+	// manual/stupid mode
+	if((argc > 3 && argv[3][0] == '?') || stupid_mode){
 		cout << "	Please set map parameters:\n";
 		
 		// loop through all the map arguments 
@@ -211,7 +249,7 @@ Have a nice day!\n";
 			// should the value be generated randomly?
 			if(allrandom || (argc - 3 > i && argv[i + 3][0] == 'r')){
 				//cout << "random:";
-				ggen->args[i]->SetValue(GGen_Random(ggen->args[i]->min_value, ggen->args[i]->max_value));
+				ggen->args[i]->SetValue(random(ggen->args[i]->min_value, ggen->args[i]->max_value));
 				//cout << ggen->args[i]->value;
 			}
 
@@ -223,7 +261,7 @@ Have a nice day!\n";
 		}
 	}
 
-	cout << "Executing...\n";
+	cout << "Executing with seed " << seed << "...\n";
 
 	// execute the main part of the script
 	int16* data = ggen->Generate();
@@ -231,6 +269,7 @@ Have a nice day!\n";
 	if(data == NULL){
 		cout << "Map generation failed!\n";
 		delete ggen;
+		if(stupid_mode) cin >> buf;
 		return -1;		
 	}
 	
