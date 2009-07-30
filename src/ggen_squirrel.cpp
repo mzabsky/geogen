@@ -160,9 +160,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadFunc<void(GGen_Data_1D::*)(uint16, uint16, GGen_Amplitudes*)>(&GGen_Data_1D::Noise,_T("Noise")).
 		overloadFunc<void(GGen_Data_1D::*)(uint16, uint16)>(&GGen_Data_1D::Noise,_T("Noise")).
 		func(&GGen_Data_1D::Smooth,_T("Smooth")).
-		func(&GGen_Data_1D::Flood,_T("Flood")).
-		
-		func(&GGen_Data_1D::Print,_T("Print"));
+		func(&GGen_Data_1D::Flood,_T("Flood"));
 	
 
 	/* Class: GGen_Data_2D */
