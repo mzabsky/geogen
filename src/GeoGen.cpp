@@ -132,6 +132,8 @@ Have a nice day!\n";
 
 	cout << "Initializing...\n";
 
+	
+
 	// in and out paths
 	if(argc >= 2){
 		path_in = argv[1];
@@ -139,7 +141,7 @@ Have a nice day!\n";
 	else{
 		path_in = new char[2000];
 		cout << "Please enter path to a script file: ";
-		cin >> path_in;
+		gets(path_in);
 
 		// mode for dummies who can't handle command line
 		stupid_mode = true;
@@ -159,6 +161,7 @@ Have a nice day!\n";
 	in.open(path_in);
 
 	if(!in.is_open()){
+		cout << path_in << "\n";
 		cout << "Could not open the script file!\n";
 		if(stupid_mode) system("pause");
 		return -1;
