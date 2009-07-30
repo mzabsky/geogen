@@ -160,7 +160,7 @@ Have a nice day!\n";
 
 	if(!in.is_open()){
 		cout << "Could not open the script file!\n";
-		if(stupid_mode) cin >> buf;
+		if(stupid_mode) system("pause");
 		return -1;
 	}
 
@@ -183,7 +183,7 @@ Have a nice day!\n";
 	if(!ggen->SetScript(strTotal.c_str())){
 		cout << "Compilation failed!\n";
 		delete ggen;
-		if(stupid_mode) cin >> buf;
+		if(stupid_mode) system("pause");
 		return -1;
 	}
 
@@ -269,7 +269,7 @@ Have a nice day!\n";
 	if(data == NULL){
 		cout << "Map generation failed!\n";
 		delete ggen;
-		if(stupid_mode) cin >> buf;
+		if(stupid_mode) system("pause");
 		return -1;		
 	}
 	
@@ -283,6 +283,8 @@ Have a nice day!\n";
 	delete ggen;
 
 	cout << "Done!\n";
+
+	if(stupid_mode) system("pause");
 
 	return 0;
 }
