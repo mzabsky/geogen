@@ -587,21 +587,67 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 	//GGen_Script_Assert(((min_feature_size - 1) & min_feature_size) == 0);
 	//GGen_Script_Assert(((max_feature_size - 1) & max_feature_size) == 0);
 
+	/*
+
 	for(int wave_length = max_feature_size; wave_length >= min_feature_size; wave_length /= 2){
 		uint8 frequency= GGen_log2(wave_length);
 		uint16 amplitude = amplitudes->data[frequency];
 
-		/* Generate "new" values (where is nothing yet) */ 
+		// Generate "new" values (where is nothing yet) 
 		for(uint16 i = wave_length; i < length; i += 2*wave_length){
 			int16 interpolated = (data[i - wave_length] + data[(i + wave_length) >= length ? (i + wave_length - length) : (i + wave_length)]) / 2;
 			data[i] = interpolated + GGen_Random((int16) -amplitude, (int16) amplitude);
 		}
 
-		/* Improve the "old" values */
+		// Improve the "old" values 
 		for(uint16 i = 0; i < length; i += 2*wave_length){
 			data[i] += GGen_Random((int16) -amplitude, (int16) amplitude);
 		}
 	}
+
+*/
+
+	uint8 frequency = GGen_log2(max_feature_size);
+	uint16 amplitude = amplitudes->data[frequency];
+
+	int16* new_data = new int16[length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	this->Fill(0);
+
+	for(uint16 wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
+		frequency = GGen_log2(wave_length);
+		amplitude = amplitudes->data[frequency];
+
+		if(wave_length < min_feature_size) break;
+
+		for(uint16 i = 0; i < length; i += wave_length){
+				new_data[i] = GGen_Random<int>(-amplitude, amplitude);
+		}
+
+		if(wave_length > 1)
+		for(uint16 i = 0; i < length; i++){
+			if(i % wave_length == 0) continue;
+
+			uint16 nearest = i - i % wave_length;
+
+			uint16 next = i - i % wave_length + wave_length;
+
+			next = next >= length ? 0 : next;
+
+			double vertical = (1 - cos( (i % wave_length) * 3.1415927 / wave_length)) * .5;
+
+			data[i] += ( (double) new_data[nearest] * (1 - vertical) + (double) new_data[next] * vertical);
+		} 
+
+		for(uint16 i = 0; i < length; i += wave_length){
+			data[i] += new_data[i];
+		}
+
+	}
+
+	delete [] new_data;
 
 }
 
