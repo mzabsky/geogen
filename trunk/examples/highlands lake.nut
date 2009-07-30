@@ -35,5 +35,4 @@ function Generate(){
 	base.Flood(0.91);
 
 	return base;
-
 }
