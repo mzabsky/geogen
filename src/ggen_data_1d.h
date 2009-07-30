@@ -69,8 +69,4 @@ class GGen_Data_1D{
 		void Noise(uint16 min_feature_size, uint16 max_feature_size);
 		void Smooth(uint8 radius);
 		void Flood(double water_amount);
-
-		/* Human interface functions */
-		void Print();
-		void Window(uint16 height);
 };

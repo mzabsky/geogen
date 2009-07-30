@@ -84,9 +84,6 @@ class GGen_Data_2D{
 		void Scatter(bool relative);
 		void TransformValues(GGen_Data_1D* profile);
 
-		/* Human interface functions */
-		void Window(bool fixed);
-
 		/* Externnal communication functions */
 		void ReturnAs(const SqPlus::sq_std_string &name);
 };
