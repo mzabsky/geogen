@@ -48,25 +48,11 @@
 
 extern GGen* ggen_current_object;
 
-//int
-//
-//constructNewTestObjFixedArgs(const SQChar *s, int val, bool b, HSQUIRRELVM v)
-//{
-//    using namespace SqPlus;
-//    StackHandler sa(v);
-//    //int paramCount = sa.GetParamCount();
-//    return PostConstruct<NewTestObj>(v,
-//                                     new NewTestObj(s,val,b),
-//                                     NULL);
-//}
-
 DECLARE_ENUM_TYPE(GGen_Normalization_Mode);
 DECLARE_ENUM_TYPE(GGen_Overflow_Mode);
 DECLARE_ENUM_TYPE(GGen_Direction);
 DECLARE_ENUM_TYPE(GGen_Angle);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
-
-
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
 	ggen_current_object->ThrowMessage(desc, GGEN_ERROR, line, column);
@@ -81,7 +67,6 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 
 	ggen_current_object->ThrowMessage(temp, GGEN_ERROR);
 }
-
 
 GGen_Squirrel::GGen_Squirrel(){
 	ggen_current_object = this;
@@ -270,7 +255,7 @@ char* GGen_Squirrel::GetInfo(char* label){
 
 			return GGen_ToCString(output);
 	}
-	catch(SquirrelError & e){
+	catch(SquirrelError &e){
 		return NULL;
 	}
 }
@@ -305,7 +290,6 @@ int16* GGen_Squirrel::Generate(){
 
 		GGen_Script_Assert(data != NULL && data->data != NULL);
 
-		//if(post_callback != NULL) post_callback(data);
 
 		output_width = data->x;
 		output_height = data->y;
@@ -319,11 +303,6 @@ int16* GGen_Squirrel::Generate(){
 		return return_data;
 		
     } catch (SquirrelError & e) {
-		//this->ThrowMessage((wchar_t) e.desc, GGEN_ERROR);
-		//SCPUTS(e.desc);
-		
-		//::Shutdown();	
-
 		return NULL;
     }	
 

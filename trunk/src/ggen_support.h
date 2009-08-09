@@ -39,7 +39,7 @@ typedef unsigned int uint32;
 #define GGEN_MIN_HEIGHT -32767
 #define GGEN_MAX_HEIGHT 32767
 
-// Custom GGen_Script_Assertion handler. Invoke messaage callback and shut down the script execution.
+// Custom assertion handler. Invoke messaage callback and shut down the script execution.
 #define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
 	char* as_buf = new char[400]; \
 	as_buf[0] = '\0'; \
