@@ -285,6 +285,8 @@ void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
 	int16 min = this->Min();
 	int16 max = this->Max() - min;
 
+	if(max == 0) Fill(min);
+
 	new_max -= new_min;
 
 	for(uint16 i = 0; i < length; i++){
@@ -580,32 +582,7 @@ void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_v
 }
 
 void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes){
-
 	GGen_Script_Assert(amplitudes != NULL);
-
-	/* Check if feature sizes are powers of 2 */
-	//GGen_Script_Assert(((min_feature_size - 1) & min_feature_size) == 0);
-	//GGen_Script_Assert(((max_feature_size - 1) & max_feature_size) == 0);
-
-	/*
-
-	for(int wave_length = max_feature_size; wave_length >= min_feature_size; wave_length /= 2){
-		uint8 frequency= GGen_log2(wave_length);
-		uint16 amplitude = amplitudes->data[frequency];
-
-		// Generate "new" values (where is nothing yet) 
-		for(uint16 i = wave_length; i < length; i += 2*wave_length){
-			int16 interpolated = (data[i - wave_length] + data[(i + wave_length) >= length ? (i + wave_length - length) : (i + wave_length)]) / 2;
-			data[i] = interpolated + GGen_Random((int16) -amplitude, (int16) amplitude);
-		}
-
-		// Improve the "old" values 
-		for(uint16 i = 0; i < length; i += 2*wave_length){
-			data[i] += GGen_Random((int16) -amplitude, (int16) amplitude);
-		}
-	}
-
-*/
 
 	uint8 frequency = GGen_log2(max_feature_size);
 	uint16 amplitude = amplitudes->data[frequency];
@@ -638,7 +615,7 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 
 			double vertical = (1 - cos( (i % wave_length) * 3.1415927 / wave_length)) * .5;
 
-			data[i] += ( (double) new_data[nearest] * (1 - vertical) + (double) new_data[next] * vertical);
+			data[i] +=  (int16) ( (double) new_data[nearest] * (1 - vertical) + (double) new_data[next] * vertical);
 		} 
 
 		for(uint16 i = 0; i < length; i += wave_length){

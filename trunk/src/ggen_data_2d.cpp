@@ -613,62 +613,60 @@ void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
 }
 
 void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode){
-	/* Cycle mode */
-	//if(mode == GGEN_CYCLE){
-		/* Allocate the new array */
-		int16* new_data = new int16[length];
+	/* Allocate the new array */
+	int16* new_data = new int16[length];
 
-		GGen_Script_Assert(new_data != NULL);
+	GGen_Script_Assert(new_data != NULL);
 
-		for(uint16 i = 0; i < y; i++){
-			for(uint16 j = 0; j < x; j++){		
-				if(direction == GGEN_VERTICAL){
-					int16 distance = profile->GetValue(j, x);
+	for(uint16 i = 0; i < y; i++){
+		for(uint16 j = 0; j < x; j++){		
+			if(direction == GGEN_VERTICAL){
+				int16 distance = profile->GetValue(j, x);
 
-					/* Some values can be just plainly shifted */
-					if((distance >= 0 && i < y - distance) || (distance <= 0 && (signed) i >= -distance)){
-						new_data[j + (i + distance) * x] = data[j + i * x];
-					}
-					/* Some must go through the upper "border" */
-					else if(distance >= 0){
-						if(mode == GGEN_CYCLE) new_data[j + (i - y + distance) * x] = data[j + i * x];
-						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + (i - y + distance) * x] = data[j];
-					}
-					/* And some must go through the bottom "border" */
-					else{
-						if(mode == GGEN_CYCLE) new_data[j + (i + y + distance) * x] = data[j + i * x];
-						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + (i + y + distance) * x] = data[j + (y - 1) * x];
-					}					
+				/* Some values can be just plainly shifted */
+				if((distance >= 0 && i < y - distance) || (distance <= 0 && (signed) i >= -distance)){
+					new_data[j + (i + distance) * x] = data[j + i * x];
 				}
-				else{ // GGEN_HORIZONTAL
-					int16 distance = profile->GetValue(i, y);
-
-					/* Some values can be just plainly shifted */
-					if((distance >= 0 && j < x - distance) || (distance <= 0 && (signed) j >= -distance)){
-						new_data[j + distance + i * x] = data[j + i * x];
-					}
-					/* Some must go through the right "border" */
-					else if(distance >= 0){
-						if(mode == GGEN_CYCLE) new_data[j - x + distance + i * x] = data[j + i * x];
-						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j - x + distance + i * x] = data[i * x];
-					}
-					/* And some must go through the left "border" */
-					else{
-						if(mode == GGEN_CYCLE) new_data[j + x + distance + i * x] = data[j + i * x];
-						else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + x + distance + i * x] = data[x - 1 + i * x];
-					}					
+				/* Some must go through the upper "border" */
+				else if(distance >= 0){
+					if(mode == GGEN_CYCLE) new_data[j + (i - y + distance) * x] = data[j + i * x];
+					else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + (i - y + distance) * x] = data[j];
 				}
+				/* And some must go through the bottom "border" */
+				else{
+					if(mode == GGEN_CYCLE) new_data[j + (i + y + distance) * x] = data[j + i * x];
+					else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + (i + y + distance) * x] = data[j + (y - 1) * x];
+				}					
+			}
+			else{ // GGEN_HORIZONTAL
+				int16 distance = profile->GetValue(i, y);
+
+				/* Some values can be just plainly shifted */
+				if((distance >= 0 && j < x - distance) || (distance <= 0 && (signed) j >= -distance)){
+					new_data[j + distance + i * x] = data[j + i * x];
+				}
+				/* Some must go through the right "border" */
+				else if(distance >= 0){
+					if(mode == GGEN_CYCLE) new_data[j - x + distance + i * x] = data[j + i * x];
+					else if(mode == GGEN_DISCARD_AND_FILL) new_data[j - x + distance + i * x] = data[i * x];
+				}
+				/* And some must go through the left "border" */
+				else{
+					if(mode == GGEN_CYCLE) new_data[j + x + distance + i * x] = data[j + i * x];
+					else if(mode == GGEN_DISCARD_AND_FILL) new_data[j + x + distance + i * x] = data[x - 1 + i * x];
+				}					
 			}
 		}
+	}
 
-		/* Relink and delete the original array data */
-		delete [] data;
-		data = new_data;
-	//}	
+	/* Relink and delete the original array data */
+	delete [] data;
+	data = new_data;
 }
 
 void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside){
-	int32 target_x = to_x - from_x;
+	/* Relative target point coordinates respective to the starting point */
+	int32 target_x = to_x - from_x; 
 	int32 target_y = to_y - from_y;
 
 	/* Width of the gradient strip */
@@ -676,6 +674,7 @@ void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to
 
 	for(uint16 i = 0; i < y; i++){
 		for(uint16 j = 0; j < x; j++){
+			/* Relative current point coordinates respective to the starting point */
 			int32 point_x = j - from_x;
 			int32 point_y = i - from_y;
 
@@ -686,6 +685,7 @@ void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to
 			/* Calculate the distance from the "from" pont */
 			int32 distance = (int32) sqrt((double) (cross_x*cross_x + cross_y*cross_y));
 	
+			// TODO: fill_outside pred tu silenou podminku
 			/* Fill/skip the outside areas */
 			if ((cross_x < 0 == (signed)to_x-(signed)from_x > 0) || (cross_y < 0 == (signed)to_y-(signed)from_y > 0) || distance >= floor(max_dist)){
 				if(fill_outside){
@@ -736,32 +736,9 @@ void GGen_Data_2D::RadialGradient(uint16 center_x, uint16 center_y, uint16 radiu
 	}
 }
 
-/*double InterpolatedNoise(uint8 octave, uint32 j, uint32 i){
-
-}*/
-
 void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes){
 
 	GGen_Script_Assert(amplitudes != NULL);
-
-	/*this->Fill(0);
-
-	double persistence = 0.5;
-
-	for(uint16 i = 0; i < y; i++){
-		for(uint16 j = 0; j < x; j++){			
-			for(uint octave = 0; octave < 6; octave++){
-				int frequecy = pow(2, octave);
-				double amplitude = pow(persistence, octave);
-
-				data[j + x * i] += InterpolatedNoise(octave, j * frequency, i * frequency) * amplitude * 1000;
-			}
-		}
-	}*/
-
-	/* Check if feature sizes are powers of 2 */
-	//GGen_Script_Assert(((min_feature_size - 1) & min_feature_size) == 0);
-	//GGen_Script_Assert(((max_feature_size - 1) & max_feature_size) == 0);
 
 	uint8 frequency = GGen_log2(max_feature_size);
 	uint16 amplitude = amplitudes->data[frequency];
@@ -1124,4 +1101,32 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile){
 			data[j + i * x] = profile->GetValue(data[j + i * x] - min,max - min);
 		}
 	}
+}
+
+void GGen_Data_2D::Normalize(GGen_Direction direction){
+	if(direction == GGEN_HORIZONTAL){
+		for(uint16 i = 0; i < y; i++){
+			uint16 last = data[i * x];
+			for(uint16 j = 0; j < x; j++){
+				if(data[j + i * x] > last + 1) data[j + i * x] = last + 1;
+				else if(data[j + i * x] < last - 1) data[j + i * x] = last - 1;
+				last = data[j + i * x];
+			}
+		}
+	}
+	else if(direction == GGEN_VERTICAL){
+		for(uint16 i = 0; i < x; i++){
+			uint16 last = data[i];
+			for(uint16 j = 0; j < y; j++){
+				if(data[i + j * x] > last + 1) data[i + j * x] = last + 1;
+				else if(data[i + j * x] < last - 1) data[i + j * x] = last - 1;
+				last = data[i + j * x];
+			}
+		}
+	}
+}
+
+void GGen_Data_2D::Normalize(){
+	Normalize(GGEN_HORIZONTAL);
+	Normalize(GGEN_VERTICAL);
 }

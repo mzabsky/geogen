@@ -199,7 +199,9 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Monochrome,_T("Monochrome")).
 		func(&GGen_Data_2D::SlopeMap,_T("SlopeMap")).
 		func(&GGen_Data_2D::Scatter,_T("Scatter")).
-		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs"));
+		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs")).
+		overloadFunc<void(GGen_Data_2D::*)(GGen_Direction)>(&GGen_Data_2D::Normalize,_T("Normalize")).
+		overloadFunc<void(GGen_Data_2D::*)(void)>(&GGen_Data_2D::Normalize,_T("Normalize"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
