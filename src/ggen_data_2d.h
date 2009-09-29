@@ -24,13 +24,13 @@
 class GGen_Data_2D{
 	public:
 		int16* data;
-		uint16 x;
-		uint16 y;
+		uint16 width;
+		uint16 height;
 		uint32 length;
 
 		/* Constructors/destructors */
-		GGen_Data_2D(uint16 x, uint16 y);
-		GGen_Data_2D(uint16 x, uint16 y, int16 value);
+		GGen_Data_2D(uint16 width, uint16 height);
+		GGen_Data_2D(uint16 width, uint16 height, int16 value);
 		GGen_Data_2D(GGen_Data_2D& victim);
 		~GGen_Data_2D();
 
@@ -38,7 +38,7 @@ class GGen_Data_2D{
 		void SetValue(uint16 x, uint16 y, int16 value);
 		void SetValueInRect(uint16 x1, uint16 y1, uint16 x2, uint16 y2, int16 value);
 		int16 GetValue(uint16 x, uint16 y);
-		int16 GetValue(uint16 x, uint16 y, uint16 scale_to_x, uint16 scale_to_y);
+		int16 GetValue(uint16 x, uint16 y, uint16 scale_to_width, uint16 scale_to_height);
 
 		/* Elementary data manipulation */
 		void Add(int16 value);
@@ -50,9 +50,9 @@ class GGen_Data_2D{
 		void Multiply(GGen_Data_2D* factor);
 		void Invert();
 		void Scale(double ratio, bool scale_values);
-		void ScaleTo(uint16 new_x, uint16 new_y, bool scale_values);
+		void ScaleTo(uint16 new_width, uint16 new_height, bool scale_values);
 		void ScaleValuesTo(int16 new_min, int16 new_max);
-		void ResizeCanvas(int16 new_x, int16 new_y, int16 new_zero_x, int16 new_zero_y);
+		void ResizeCanvas(int16 new_width, int16 new_height, int16 new_zero_x, int16 new_zero_y);
 		void Fill(int16 value);
 		void Clamp(int16 min, int16 max);
 		int16 Min();

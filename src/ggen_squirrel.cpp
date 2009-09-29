@@ -283,8 +283,8 @@ int16* GGen_Squirrel::Generate(){
 		GGen_Script_Assert(data != NULL && data->data != NULL);
 
 
-		output_width = data->x;
-		output_height = data->y;
+		output_width = data->width;
+		output_height = data->height;
 
 		return_data = new int16[output_width * output_height];
 
