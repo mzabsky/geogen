@@ -186,8 +186,8 @@ void GGen_Data_1D::AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool rela
 	int16 max = 255;
 
 	if(relative){
-		min = this->Min();
-		max = this->Max() - min;
+		min = Min();
+		max = Max() - min;
 	}
 
 	for(uint16 i = 0; i < length; i++) 
@@ -201,8 +201,8 @@ void GGen_Data_1D::AddMasked(int value, GGen_Data_1D* mask, bool relative){
 	int16 max = 255;
 
 	if(relative){
-		min = this->Min();
-		max = this->Max() - min;
+		min = Min();
+		max = Max() - min;
 	}
 
 	for(uint16 i = 0; i < length; i++) 
@@ -269,8 +269,8 @@ void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
 {
 	GGen_Script_Assert(new_max > new_min);
 
-	int16 min = this->Min();
-	int16 max = this->Max() - min;
+	int16 min = Min();
+	int16 max = Max() - min;
 
 	if(max == 0) Fill(min);
 
@@ -578,7 +578,7 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 
 	GGen_Script_Assert(new_data != NULL);
 
-	this->Fill(0);
+	Fill(0);
 
 	for(uint16 wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
 		frequency = GGen_log2(wave_length);
@@ -678,8 +678,8 @@ void GGen_Data_1D::Flood(double water_amount){
 	
 	uint16 last_amount = 0;
 
-	int16 level = this->Min();
-	int16 max = this->Max();
+	int16 level = Min();
+	int16 max = Max();
 
 	/* Go through the array values from bottom up and try to find the best fit to target water amount */
 	while(level < max){
@@ -705,5 +705,5 @@ void GGen_Data_1D::Flood(double water_amount){
 	}
 
 	/* Shift the heights so given portion of the array is under zero */
-	this->Add(-level);
+	Add(-level);
 }
