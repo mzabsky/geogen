@@ -20,19 +20,9 @@
 // dissable the "e is defined but not used" warnings for the catch sections
 #pragma warning(disable:4101)
 
-// system and SDL headers
-#include <stdio.h>   
-#include <stdlib.h> 
 #include <string>
-//#include <SDL/SDL.h> 
 #include <math.h>
-#include <time.h> 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <assert.h>
 #include <stdarg.h>
-
 
 #include "ggen.h"
 #include "ggen_support.h"

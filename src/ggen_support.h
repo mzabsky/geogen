@@ -20,6 +20,7 @@
 #ifndef GGEN_SUPPORT
 #define GGEN_SUPPORT
 
+#include "math.h"
 #include "sqplus.h"
 
 // hide stupid "sprintf is deprecated function, use our better alternative" MSVS warnings
