@@ -35,7 +35,7 @@
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 
-
+#include "ggen.h"
 #include "ggen_squirrel.h"
 
 GGen_Amplitudes* ggen_std_noise;

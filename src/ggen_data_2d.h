@@ -83,8 +83,10 @@ class GGen_Data_2D{
 		void SlopeMap();
 		void Scatter(bool relative);
 		void TransformValues(GGen_Data_1D* profile);
+		void Normalize();
+		void Normalize(GGen_Direction direction);
 
-		/* Externnal communication functions */
+		/* External communication functions */
 		void ReturnAs(const SqPlus::sq_std_string &name);
 };
 

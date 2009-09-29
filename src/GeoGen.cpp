@@ -46,7 +46,7 @@ using namespace std;
 int _width = 0;
 int _height = 0;
 
-bool SaveAsBMP(int16* data, int width, int height, const char* implicit_path, const char* name = NULL){
+bool SaveAsBMP(int16* data, unsigned int width, unsigned int height, const char* implicit_path, const char* name = NULL){
 	stringstream path_out;
 
 	if(name == NULL){
@@ -80,8 +80,8 @@ bool SaveAsBMP(int16* data, int width, int height, const char* implicit_path, co
 
 	output.SetSize(width, height);
 
-	for(int i = 0; i < height; i++){
-		for(int j = 0; j < width; j++){
+	for(unsigned int i = 0; i < height; i++){
+		for(unsigned int j = 0; j < width; j++){
 			output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
 		}		
 	}

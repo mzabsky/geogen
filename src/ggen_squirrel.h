@@ -51,6 +51,9 @@ using namespace SqPlus;
 #endif
 #endif
 
+//typedef GGEN_SCRIPT_API_CALL_ARG_STRING_TYPE SqPlus::sq_std_string &
+//typedef GGEN_API_SCRIPT_CALL_ARG_STRING_TYPE SqString &
+
 DECLARE_INSTANCE_TYPE(GGen_Data_1D)
 DECLARE_INSTANCE_TYPE(GGen_Data_2D)
 DECLARE_INSTANCE_TYPE(GGen_Amplitudes)
