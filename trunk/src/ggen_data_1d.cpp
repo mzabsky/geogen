@@ -17,17 +17,7 @@
 
 */
 
-// system and SDL headers
-#include <stdio.h>   
-#include <stdlib.h> 
-#include <string>
-//#include <SDL/SDL.h> 
-#include <math.h>
-#include <time.h> 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <assert.h>
+//#include <iostream>
 
 #include "sqplus.h"
 
@@ -113,9 +103,6 @@ int16 GGen_Data_1D::GetValue(uint16 x){
 int16 GGen_Data_1D::GetValue(uint16 x, uint16 scale_to_x){
 	// TODO: poresit polozky na zacatku a konci pole
 	//GGen_Script_Assert(x < length || x < scale_to_x);
-	if(!(x < length || x < scale_to_x)){
-		cout << "ha";
-	}
 
 	/* No interpolation needed if the sizes are equal */
 	if(scale_to_x == length) return data[x];
