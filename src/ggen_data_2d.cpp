@@ -17,6 +17,8 @@
 
 */
 
+#include <iostream> // for debugging purposes
+
 #include "ggen.h"
 #include "ggen_squirrel.h"
 #include "ggen_support.h"
@@ -723,145 +725,130 @@ void GGen_Data_2D::RadialGradient(uint16 center_x, uint16 center_y, uint16 radiu
 }
 
 void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes){
-
 	GGen_Script_Assert(amplitudes != NULL);
 
-	uint8 frequency = GGen_log2(max_feature_size);
-	uint16 amplitude = amplitudes->data[frequency];
-
+	/* Prepare empty space for the work data */ 
 	int16* new_data = new int16[length];
 
 	GGen_Script_Assert(new_data != NULL);
 
 	Fill(0);
 
+	/* For each octave (goind from the higher wave lengths to the shorter)... */
 	for(uint16 wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
-		frequency = GGen_log2(wave_length);
-		amplitude = amplitudes->data[frequency];
-
+		uint16 frequency = GGen_log2(wave_length);
+		uint16 amplitude = amplitudes->data[frequency];
+		double pi_by_wave_length = 3.1415927 / wave_length;
+		
+		/* The wave length is shorter than the minimum desired wave length => done */
 		if(wave_length < min_feature_size) break;
 
+		/* Set up base noise grid values for  this round */
 		for(uint16 y = 0; y < height; y += wave_length){
 			for(uint16 x = 0; x < width; x += wave_length){
 				new_data[x + y * width] = GGen_Random<int>(-amplitude, amplitude);
 			}
-		}
-
-		
+		}		
 
 		if(wave_length > 1)
 		for(uint16 y = 0; y < height; y++){
+			/* Precalculate some interpolation related values that are the same for whole */
+			uint16 vertical_remainder = y % wave_length;
+			uint16 nearest_vertical = y - vertical_remainder;
+			double vertical_fraction = (1 - cos(vertical_remainder * pi_by_wave_length)) * .5;
+		
+			uint32 vertical_offset = nearest_vertical * width;
+			uint32 vertical_offset_next = (nearest_vertical + wave_length) * width;
+		
 			for(uint16 x = 0; x < width; x++){
-				if(y % wave_length == 0 && x % wave_length == 0) continue;
+				/* We are on the grid ==> no need for the interpolation */
+				if(vertical_remainder == 0 && x % wave_length == 0) continue;
  
+				/* Nearest horizontal noise grid coordinates */
 				uint16 nearest_horizontal = x - x % wave_length;
-				uint16 nearest_vertical = y - y % wave_length;
 
-				//double ft = (j % wave_length) * 3.1415927
-				double horizontal = (1 - cos( (x % wave_length) * 3.1415927 / wave_length)) * .5;
-				double vertical = (1 - cos( (y % wave_length) * 3.1415927 / wave_length)) * .5;
-
-
-				int16 a = new_data[
+				/* Fetch values of four corners so we can interpolate the correct value. If such points don't 
+				exist, wrap to the opposite border and pick a point from the opposite part of the array. This is
+				not an attempt to create seamlessly repeatable noise (which has no point while creating terrains).
+				The source points are picked just to have some data to interpolate with (to prevent cretion of
+				unpretty unnatural artifacts) */
+				
+				/* Upper left corner */
+				int16 upper_left = new_data[
 					nearest_horizontal +
-					(nearest_vertical) * width
+					vertical_offset
 				];
 
-				int16 b;
+				/* Upper right corner */
+				int16 upper_right;
 				if(nearest_horizontal + wave_length > width - 1){
-					//b = a;
-					b = new_data[(nearest_vertical) * width];
+					upper_right = new_data[vertical_offset];
 				}
-				else 
-				b = new_data[
-					nearest_horizontal + wave_length +
-					(nearest_vertical) * width
-				];	
-	
-				int16 c;
+				/* The X coord of the point overflows the right border of the map */
+				else{ 
+					upper_right = new_data[
+						nearest_horizontal + wave_length +
+						vertical_offset
+					];	
+				}
+				
+				/* Bottom left corner */
+				int16 bottom_left;
 				if(nearest_vertical + wave_length > height - 1){
-					c = new_data[nearest_horizontal];
+					bottom_left = new_data[nearest_horizontal];
 				}
-				else 
-				c = new_data[
-					nearest_horizontal +
-					(nearest_vertical + wave_length) * width
-				];	
+				/* The Y coord of the point overflows the bottom border of the map */
+				else{
+					bottom_left = new_data[
+						nearest_horizontal +
+						vertical_offset_next
+					];	
+				}
 
-				int16 d;
+				/* Bottom right corner */
+				int16 bottom_right;
+				/* Both coords of the point overflow the borders of the map */
 				if((nearest_horizontal + wave_length > width - 1 && nearest_vertical + wave_length > height - 1) ){
-					d = new_data[0];
+					bottom_right = new_data[0];
 				}
+				/* The X coord of the point overflows the right border of the map */
 				else if(nearest_horizontal + wave_length > width - 1){
-					d = new_data[(nearest_vertical + wave_length) * width];
+					bottom_right = new_data[vertical_offset_next];
 				}
+				/* The Y coord of the point overflows the bottom border of the map */
 				else if(nearest_vertical + wave_length > height - 1){
-					d = new_data[nearest_horizontal + wave_length];
+					bottom_right = new_data[nearest_horizontal + wave_length];
 				}
-				else if( nearest_horizontal + wave_length + (nearest_vertical + wave_length) * width > (signed) (length - 1)){
-					d = new_data[0];
+				/* Product of the coords owerflows the length of the array */
+				else if( nearest_horizontal + wave_length + vertical_offset_next > (signed) (length - 1)){
+					bottom_right = new_data[0];
 				}
-				else 
-				d = new_data[
-					nearest_horizontal + wave_length +
-					(nearest_vertical + wave_length) * width
-				];	
+				else{
+					bottom_right = new_data[
+						nearest_horizontal + wave_length +
+						vertical_offset_next
+					];	
+				}
 
-				// a*(1-f) + b*f
+				/* Interpolate the value for the current tile from values of the four corners (using cosine interpolation) */
+				double horizontal_fraction = (1 - cos( (x % wave_length) * pi_by_wave_length)) * .5;
+				
+				double interpolated_top = upper_left * (1 - horizontal_fraction) +  upper_right* horizontal_fraction;
+				double interpolated_bottom = bottom_left * (1 - horizontal_fraction) + bottom_right * horizontal_fraction;
 
-				double horizontal_value = a*(1-horizontal) + b*horizontal;
-				double horizontal_value2 = c*(1-horizontal) + d*horizontal;
-				//double vertical_value = 
-
-				data[x + y * width] += (int16)( horizontal_value * ( 1 - vertical) + horizontal_value2 * vertical);
-
-				//int sdf = data[j + i * x];
+				data[x + y * width] += (int16) (interpolated_top * ( 1 - vertical_fraction) + interpolated_bottom * vertical_fraction);
 			}
 		} 
-
+		
+		
 		for(uint16 y = 0; y < height; y += wave_length){
 			for(uint16 x = 0; x < width; x += wave_length){
 				data[x + y * width] += new_data[x + y * width];
 			}
 		}
-
 	}
 
 	delete [] new_data;
-
-	/* First round - generate base values */
-	//for(int i = 0; i < y; i += max_feature_size){
-	//	for(int j = 0; j < x; j += max_feature_size){
-	//		data[j + i * x] = Random((int16) -amplitude, (int16) amplitude);
-	//	}		
-	//}
-
-	//
-	//for(int wave_length = max_feature_size / 2; wave_length >= 1; wave_length /= 2){
-	//	frequency = log2(wave_length);
-	//	amplitude = amplitudes->data[frequency];
-
-	//	for(uint16 i = 0; i < y; i += wave_length * 2){
-	//		for(uint16 j = 0; j < x; j += wave_length * 2){
-	//			if(j < x - wave_length) data[j + wave_length + i * x] = ( 
-	//				data[j + i * x] +
-	//				(j < x - wave_length * 2 ? data[j + 2 * wave_length + i * x] : 0)
-	//				) / 2 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
-	//			if(i < y - wave_length) data[j + (i + wave_length) * x] = ( 
-	//				data[j + i * x] +
-	//				(i < y - wave_length * 2 ? data[j + (i + 2 * wave_length) * x] : 0)
-	//				) / 2 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
-	//			if(j < x - wave_length && i < y - wave_length) data[j + wave_length + (i + wave_length) * x] = ( 
-	//				data[j + i * x] +
-	//				(i < y - wave_length * 2 ? data[j + (i + 2 * wave_length) * x] : 0) +
-	//				(j < x - wave_length * 2 ? data[j + 2 * wave_length + i * x] : 0) +
-	//				((j < x - wave_length * 2 && i < y - wave_length * 2) ? data[j + 2 * wave_length + (i + 2 * wave_length) * x] : 0)
-	//				) / 4 + (wave_length >= min_feature_size ? Random((int16) -amplitude, (int16) amplitude) : 0);
-	//			if(wave_length >= min_feature_size) data[j + i * x] += Random((int16) -amplitude, (int16) amplitude);
-	//		}
-	//	}
-	//}
-
 } 
 
 void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size){
