@@ -104,6 +104,10 @@ void ReturnHandler(char* name, int16* map, int width, int height){
 	SaveAsBMP(map, width, height, "", name); 
 }
 
+void ProgressHandler(int current_progress, int max_progress){
+	cout << (int) (( (double) current_progress / (double) max_progress) * 100) <<  "% Done...\n";
+}
+
 int main(int argc,char * argv[]){
 
 	char* path_out;
@@ -181,6 +185,7 @@ Have a nice day!\n";
 	cout << "Compiling...\n";
 
 	ggen->SetReturnCallback(ReturnHandler);
+	ggen->SetProgressCallback(ProgressHandler);
 
 	// pump the script into the engine and compile it
 	if(!ggen->SetScript(strTotal.c_str())){

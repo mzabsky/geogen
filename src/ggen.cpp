@@ -35,7 +35,11 @@ GGen* ggen_current_object;
 GGen::GGen(){
 	message_callback = NULL;
 	return_callback = NULL;
+	progress_callback = NULL;
+	
 	//post_callback = NULL;
+
+	max_progress = current_progress = 0;
 
 	//args = NULL;
 	num_args = 0;
@@ -99,6 +103,10 @@ void GGen::SetReturnCallback( void (*return_callback) (char* name, int16* map, i
 	this->return_callback = return_callback;
 }
 
+void GGen::SetProgressCallback( void (*progress_callback) (int current_progress, int max_progress) ){
+	this->progress_callback = progress_callback;
+}
+
 GGen_ScriptArg** GGen::LoadArgs(){
 	// free current array of args
 	if(args != NULL){
@@ -125,4 +133,26 @@ void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int li
 	buf[len] = '\0';
 
 	ThrowMessage(buf, level, line, column);
+}
+
+void GGen::InitProgress(uint32 max_progress){
+	ggen_current_object->max_progress = max_progress;
+	
+	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(0, max_progress);
+}
+
+void GGen::SetProgress(uint32 current_progress){
+	GGen_Script_Assert(current_progress <= ggen_current_object->max_progress);
+	
+	ggen_current_object->current_progress = current_progress;
+
+	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(current_progress, ggen_current_object->max_progress);
+}
+
+void GGen::IncreaseProgress(){
+	GGen_Script_Assert(ggen_current_object->current_progress + 1 < ggen_current_object->max_progress);
+	
+	ggen_current_object->current_progress++;
+	
+	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(ggen_current_object->current_progress, ggen_current_object->max_progress);
 }

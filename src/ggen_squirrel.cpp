@@ -69,10 +69,16 @@ GGen_Squirrel::GGen_Squirrel(){
 	sq_setcompilererrorhandler(SquirrelVM::GetVMPtr(), GGen_ErrorHandler);
 	sq_enabledebuginfo(SquirrelVM::GetVMPtr(), false);
 
+	/* Arguments */
 	RegisterGlobal(&GGen_AddIntArg, _SC("GGen_AddIntArg"));
 	RegisterGlobal(&GGen_AddBoolArg, _SC("GGen_AddBoolArg"));
 	RegisterGlobal(&GGen_AddEnumArg, _SC("GGen_AddEnumArg"));
 	RegisterGlobal(&GGen_GetParam, _SC("GGen_GetParam"));
+
+	/* Progress */
+	RegisterGlobal(&GGen::InitProgress, _SC("GGen_InitProgress"));
+	RegisterGlobal(&GGen::SetProgress, _SC("GGen_SetProgress"));
+	RegisterGlobal(&GGen::IncreaseProgress, _SC("GGen_IncreaseProgress"));
 
 	/* Enum: GGen_Normalization_Mode */
 	BindConstant(GGEN_ADDITIVE, _SC("GGEN_ADDITIVE"));
@@ -190,6 +196,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::SlopeMap,_T("SlopeMap")).
 		func(&GGen_Data_2D::Scatter,_T("Scatter")).
 		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs")).
+		//func(&GGen_Data_2D::Transform,_T("Transform")).
 		overloadFunc<void(GGen_Data_2D::*)(GGen_Direction)>(&GGen_Data_2D::Normalize,_T("Normalize")).
 		overloadFunc<void(GGen_Data_2D::*)(void)>(&GGen_Data_2D::Normalize,_T("Normalize"));
 
