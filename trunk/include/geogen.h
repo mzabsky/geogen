@@ -72,18 +72,22 @@ public:
 	void (*message_callback) (char* message, GGen_Message_Level, int line, int column);
 	void (*return_callback) (char* name, int16* map, int width, int height);
 	//void (*post_callback) (GGen_Data_2D* map);
+	void (*progress_callback) (int current_progress, int max_progress);
 
 	GGen_ScriptArg* args[255];
 	uint8 num_args;
 
 	uint16 output_width, output_height;
 
+	uint32 max_progress, current_progress;
+
 	void ThrowMessage(char* message, GGen_Message_Level level, int line = -1, int column = -1);
 	void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
 
 	void SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column));
-	virtual void SetReturnCallback( void (*return_callback) (char* name, int16* map, int width, int height) );
-
+	void SetReturnCallback( void (*return_callback) (char* name, int16* map, int width, int height) );
+	void SetProgressCallback( void (*return_callback) (int current_progress, int max_progress));
+	
 	virtual bool SetScript(const char* script) = 0;
 	virtual char* GetInfo(char* label) = 0;
 	virtual int GetInfoInt(char* label) = 0;
