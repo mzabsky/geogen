@@ -41,7 +41,6 @@ extern GGen* ggen_current_object;
 DECLARE_ENUM_TYPE(GGen_Normalization_Mode);
 DECLARE_ENUM_TYPE(GGen_Overflow_Mode);
 DECLARE_ENUM_TYPE(GGen_Direction);
-DECLARE_ENUM_TYPE(GGen_Angle);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
@@ -92,12 +91,6 @@ GGen_Squirrel::GGen_Squirrel(){
 	/* Enum: GGen_Direction */
 	BindConstant(GGEN_HORIZONTAL, _SC("GGEN_HORIZONTAL"));
 	BindConstant(GGEN_VERTICAL, _SC("GGEN_VERTICAL"));
-
-	/* Enum: GGen_Angle */
-	BindConstant(GGEN_0, _SC("GGEN_0"));
-	BindConstant(GGEN_90, _SC("GGEN_90"));
-	BindConstant(GGEN_180, _SC("GGEN_180"));
-	BindConstant(GGEN_270, _SC("GGEN_270"));
 
 	/* Enum: GGen_Message_Mode */
 	BindConstant(GGEN_MESSAGE, _SC("GGEN_MESSAGE"));
@@ -172,7 +165,6 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Clamp,_T("Clamp")).
 		func(&GGen_Data_2D::Min,_T("Min")).
 		func(&GGen_Data_2D::Max,_T("Max")).
-		func(&GGen_Data_2D::Rotate,_T("Rotate")).
 		func(&GGen_Data_2D::Flip,_T("Flip")).
 		func(&GGen_Data_2D::Union,_T("Union")).
 		func(&GGen_Data_2D::UnionTo,_T("UnionTo")).
@@ -196,7 +188,9 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::SlopeMap,_T("SlopeMap")).
 		func(&GGen_Data_2D::Scatter,_T("Scatter")).
 		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs")).
-		//func(&GGen_Data_2D::Transform,_T("Transform")).
+		func(&GGen_Data_2D::Transform,_T("Transform")).
+		func(&GGen_Data_2D::Rotate,_T("Rotate")).
+		func(&GGen_Data_2D::Shear,_T("Shear")).
 		overloadFunc<void(GGen_Data_2D::*)(GGen_Direction)>(&GGen_Data_2D::Normalize,_T("Normalize")).
 		overloadFunc<void(GGen_Data_2D::*)(void)>(&GGen_Data_2D::Normalize,_T("Normalize"));
 
