@@ -57,8 +57,6 @@ class GGen_Data_2D{
 		void Clamp(int16 min, int16 max);
 		int16 Min();
 		int16 Max();
-		void Rotate(GGen_Angle angle);
-		void Flip(GGen_Direction direction);
 		void Intersection(GGen_Data_2D* victim);
 		void IntersectionTo(int16 offset_x, int16 offset_y, GGen_Data_2D* victim);
 		void Union(GGen_Data_2D* victim);
@@ -85,6 +83,13 @@ class GGen_Data_2D{
 		void TransformValues(GGen_Data_1D* profile);
 		void Normalize();
 		void Normalize(GGen_Direction direction);
+		
+		/* Matrix operations */
+		void Transform(double a11, double a12, double a21, double a22, bool preserve_size);
+		void Rotate(int32 angle, bool preserve_size);
+		void Shear(int32 horizontal_shear, int32 vertical_shear, bool preserve_size);
+		void Flip(GGen_Direction direction);
+
 
 		/* External communication functions */
 		void ReturnAs(const SqPlus::sq_std_string &name);

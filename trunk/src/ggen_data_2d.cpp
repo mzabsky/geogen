@@ -394,87 +394,6 @@ void GGen_Data_2D::Invert(){
 	for(uint32 i = 0; i < length; i++) data[i] = - data[i];
 }
 
-/**
-  * Rotates the array clock-wise
-  * @param angle
-  */
-void GGen_Data_2D::Rotate(GGen_Angle angle){
-	
-	if(angle == GGEN_0) return;
-
-	// fix width and height
-	uint16 new_width, new_height;
-	if(angle == GGEN_180){
-		new_width = width;
-		new_height = height;
-	}
-	else{
-		new_width = height;
-		new_height = width;		
-	}
-	
-	/* Allocate the new array */
-	int16* new_data = new int16[new_width * new_height];
-
-	GGen_Script_Assert(new_data != NULL);	
-
-	/* Fill the new array with rotated values */
-	for(uint16 y = 0; y < new_height; y++) 
-	{
-		for(uint16 x = 0; x < new_width; x++)
-		{
-			switch (angle){
-				case GGEN_90:
-					new_data[x + y * new_width] = data[y + x * width];
-					break;
-				case GGEN_180:
-					new_data[(new_width - x - 1) + y * new_width] = data[x + y * width];
-					break;
-				case GGEN_270:
-					new_data[x + (new_height - y - 1) * new_width] = data[y + x * width];
-					break;
-			}
-		}
-	}
-
-	/* Relink and delete the original array data */
-	delete [] data;
-	data = new_data;
-	width = new_width;
-	height = new_height;
-}
-
-/**
-  * Flips the heightmap 
-  * @param direction on which the heightmap will be flipped
-  */
-void GGen_Data_2D::Flip(GGen_Direction direction){
-	int16 temp;
-
-	if(direction == GGEN_HORIZONTAL){	
-		for(uint16 y = 0; y < height; y++) 
-		{
-			for(uint16 x = 0; x < width / 2; x++)
-			{
-				temp = data[x + y * width];
-				data[x + y * width] = data[(width - 1 - x) + y * width];
-				data[(width - 1 - y) + x * width] = temp;
-			}
-		}
-		int i = 1+1;
-	}
-	else{
-		for(uint16 y = 0; y < height / 2; y++) 
-		{
-			for(uint16 x = 0; x < width; x++)
-			{
-				temp = data[x + y * width];
-				data[x + y * width] = data[x + (height - 1 - y) * width];
-				data[x + (height - 1 - y) * width] = temp;
-			}
-		}
-	}
-}
 
 /*
  * Returns the lowest value in the array
@@ -689,6 +608,8 @@ void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to
 }
 
 void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, int16 from_value, int16 to_value, bool fill_outside){
+	/* Call the profile gradient with linear profile */
+	
 	GGen_Data_1D temp(2);
 	temp.SetValue(0, from_value);
 	temp.SetValue(1, to_value);
@@ -840,7 +761,7 @@ void GGen_Data_2D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 			}
 		} 
 		
-		
+		/* Add the current octave to previous octaves */
 		for(uint16 y = 0; y < height; y += wave_length){
 			for(uint16 x = 0; x < width; x += wave_length){
 				data[x + y * width] += new_data[x + y * width];
@@ -989,6 +910,7 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 
 	char* buf = GGen_ToCString(name);
 
+	/* Call the defined return callback */
 	ggen_current_object->return_callback(buf, new_data, width, height);
 }
 
@@ -1103,3 +1025,154 @@ void GGen_Data_2D::Normalize(){
 	Normalize(GGEN_HORIZONTAL);
 	Normalize(GGEN_VERTICAL);
 }
+
+
+
+
+void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, bool preserve_size){
+	int32 origin_x = 0; int32 origin_y = 0;
+	
+	/* The matrix must be invertible (its determinant must not be 0) */
+	GGen_Script_Assert(a11 * a22 - a12 * a21 != 0);
+
+	/* Calculate output's boundaries so we can allocate the new array */
+	double new_top_left_x = -origin_x * a11 + -origin_y * a12;
+	double new_top_left_y = -origin_x * a21 + -origin_y * a22;
+	
+	double new_top_right_x = (width - origin_x) * a11 + origin_y * a12;
+	double new_top_right_y = (width - origin_x) * a21 + origin_y * a22;
+	
+	double new_bottom_left_x = -origin_x * a11 + (height - origin_y) * a12;
+	double new_bottom_left_y = -origin_x * a21 + (height - origin_y) * a22;
+	
+	double new_bottom_right_x = (width - origin_x) * a11 + (height - origin_y) * a12;
+	double new_bottom_right_y = (width - origin_x) * a21 + (height - origin_y) * a22;
+	
+	/* Find which bounding point is which (the rotations and such might change this) */
+	int32 new_left_x = floor(MIN(MIN(new_top_left_x, new_top_right_x), MIN(new_bottom_left_x, new_bottom_right_x)));
+	int32 new_right_x = ceil(MAX(MAX(new_top_left_x, new_top_right_x), MAX(new_bottom_left_x, new_bottom_right_x)));
+	
+	int new_top_y = floor(MIN(MIN(new_top_left_y, new_top_right_y), MIN(new_bottom_left_y, new_bottom_right_y)));
+	int new_bottom_y = ceil(MAX(MAX(new_top_left_y, new_top_right_y), MAX(new_bottom_left_y, new_bottom_right_y)));
+	
+	uint32 new_width = new_right_x - new_left_x;
+	uint32 new_height = new_bottom_y - new_top_y;
+	
+	/* Make sure the output dimensions fit into a 16 bit unsigned integer, so we don't have array overflows later */
+	GGen_Script_Assert(new_width < 2 << 16 && new_height < 2 << 16);
+	
+	/* New origin coordinates */
+	int new_origin_x = -new_left_x;
+	int new_origin_y = -new_top_y;
+	
+	/* Invert the transformation matrix */
+	double inverted_a11 = a22 / ( -(a12 * a21) + a11 * a22);
+	double inverted_a12 = -(a12 / (-(a12 * a21) + a11 * a22));
+	double inverted_a21 = -(a21 / (-(a12 * a21) + a11 * a22));
+	double inverted_a22 = a11 / (-(a12 * a21) + a11 * a22);
+	
+	/*
+	for(uint16 y = 0; y < height; y++){
+		for(uint16 x = 0; x < width; x++){
+			int32 new_x = (x - origin_x) * a11 + (y - origin_y) * a12;
+			int32 new_y = (x - origin_x) * a21 + (y - origin_y) * a22;
+			
+			//new_data[(new_x - new_origin_x) + (new_y - new_origin_y) * new_width] = data[x + y * width];
+			new_data[(new_x - new_origin_x) + (new_y - new_origin_y) * new_width] = data[x + y * width];
+		}
+	}*/
+
+	int from_x, to_x, from_y, to_y;
+	uint32 new_length;
+	int16* new_data;
+	
+	if(preserve_size){
+		/* Calculate boundaries of the centered box of the original size */
+		from_x = ((signed) new_width - (signed) width) / 2;
+		to_x = from_x + width;
+
+		from_y = ((signed) new_height - (signed) height) / 2;
+		to_y = from_y + height;
+		
+		new_length = length;
+		new_width = width;
+		new_height = height;
+		
+		/* Allocate the new array */
+		new_data = new int16[length];
+	}
+	else{ 
+		/* Using the new image bounding box */
+		from_x = from_y = 0;
+		
+		to_x = new_width;
+		to_y = new_height;
+		
+		new_length = new_width * new_height;
+		
+		/* Allocate the new array */
+		new_data = new int16[new_length];
+	}
+	
+	/* Go through the new array and for every tile look back into the old array (thus we need the inverted function) what is there */
+	for(int32 new_y = from_y; new_y < to_y; new_y++){
+		/* The second multiplication always stays the same for whole row */
+		int16 y_part_1 = (new_y - new_origin_y) * inverted_a12;
+		int16 y_part_2 = (new_y - new_origin_y) * inverted_a22;
+		
+		/* Offset from pointer from the first cell in the array to the first cell in current row */
+		int32 y_offset = (new_y - from_y) * new_width;
+		
+		for(int32 new_x = from_x; new_x < to_x; new_x++){
+			/* Calculate the original coordinates for the current "new point" by multiplying the coordinate vector of
+			the desired point by inverted transformation matrix */
+			int32 x = (new_x - new_origin_x) * inverted_a11 + y_part_1;
+			int32 y = (new_x - new_origin_x) * inverted_a21 + y_part_2;
+			
+			/* The original point exists => use its value */
+			if(x > 0 && y > 0 && x < width && y < height) {			
+				new_data[new_x - from_x + y_offset] = data[x + y * width];
+			}
+			
+			/* The "original point" is outside the array => such areas are filled with black */
+			else new_data[new_x - from_x + y_offset] = 0;
+		}
+	}
+	
+	/* Relink and delete the original array data */
+	delete [] data;
+	data = new_data;
+	length = new_length;
+	width = new_width;
+	height = new_height;
+}
+
+void GGen_Data_2D::Rotate(int32 angle, bool preserve_size){
+	angle = angle % 360;
+	
+	double angle_double = (double) angle * 3.14159 / 180;
+	
+	Transform(cos(angle_double), sin(angle_double), -sin(angle_double), cos(angle_double), preserve_size);
+}
+
+void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool preserve_size){
+	/* Verical and horizontal shear == 1 ==> the transformation matrix would be uninvertible */
+	GGen_Script_Assert(horizontal_shear != 1 || vertical_shear != 1);
+	
+	Transform(1, vertical_shear, horizontal_shear, 1, preserve_size);
+}
+ 
+ 
+/**
+  * Flips the heightmap 
+  * @param direction on which the heightmap will be flipped
+  */
+void GGen_Data_2D::Flip(GGen_Direction direction){
+	Transform(
+		direction == GGEN_HORIZONTAL ? -1 : 1, 
+		0,
+		0,
+		direction == GGEN_VERTICAL ? -1 : 1,
+		false
+	);
+} 

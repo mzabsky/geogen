@@ -26,6 +26,8 @@
 // hide stupid "sprintf is deprecated function, use our better alternative" MSVS warnings
 #define _CRT_SECURE_NO_WARNINGS
 
+using namespace std;
+
 typedef signed char int8;
 typedef unsigned char uint8;
 typedef signed short int16;
@@ -69,13 +71,6 @@ enum GGen_Direction{
 	GGEN_VERTICAL,
 };
 
-enum GGen_Angle{
-	GGEN_0,
-	GGEN_90,
-	GGEN_180,
-	GGEN_270
-};
-
 enum GGen_Message_Level{
 	GGEN_MESSAGE = 0,
 	GGEN_NOTICE = 1,
@@ -88,8 +83,6 @@ enum GGen_Arg_Type{
 	GGEN_INT,
 	GGEN_ENUM
 };
-
-using namespace std;
 
 template <class T>
 T GGen_Random(T min, T max){
