@@ -1169,10 +1169,10 @@ void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool pres
   */
 void GGen_Data_2D::Flip(GGen_Direction direction){
 	Transform(
-		direction == GGEN_HORIZONTAL ? -1 : 1, 
+		direction == GGEN_HORIZONTAL ? 1 : -1, 
 		0,
 		0,
-		direction == GGEN_VERTICAL ? -1 : 1,
+		direction == GGEN_VERTICAL ? 1 : -1,
 		false
 	);
 } 
