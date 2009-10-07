@@ -1030,30 +1030,26 @@ void GGen_Data_2D::Normalize(){
 
 
 void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, bool preserve_size){
-	int32 origin_x = 0; int32 origin_y = 0;
-	
 	/* The matrix must be invertible (its determinant must not be 0) */
 	GGen_Script_Assert(a11 * a22 - a12 * a21 != 0);
 
 	/* Calculate output's boundaries so we can allocate the new array */
-	double new_top_left_x = -origin_x * a11 + -origin_y * a12;
-	double new_top_left_y = -origin_x * a21 + -origin_y * a22;
+	double new_top_right_x = width * a11;
+	double new_top_right_y = width * a21;
 	
-	double new_top_right_x = (width - origin_x) * a11 + origin_y * a12;
-	double new_top_right_y = (width - origin_x) * a21 + origin_y * a22;
+	double new_bottom_left_x = height * a12;
+	double new_bottom_left_y = height * a22;
 	
-	double new_bottom_left_x = -origin_x * a11 + (height - origin_y) * a12;
-	double new_bottom_left_y = -origin_x * a21 + (height - origin_y) * a22;
+	double new_bottom_right_x = width * a11 + height * a12;
+	double new_bottom_right_y = width * a21 + height * a22;
 	
-	double new_bottom_right_x = (width - origin_x) * a11 + (height - origin_y) * a12;
-	double new_bottom_right_y = (width - origin_x) * a21 + (height - origin_y) * a22;
+	/* Find which bounding point is which (the rotations and such might change this). The zeroes
+	represent the origin (upper left corner), which always stays the same. */
+	int32 new_left_x = floor(MIN(MIN(0, new_top_right_x), MIN(new_bottom_left_x, new_bottom_right_x)));
+	int32 new_right_x = ceil(MAX(MAX(0, new_top_right_x), MAX(new_bottom_left_x, new_bottom_right_x)));
 	
-	/* Find which bounding point is which (the rotations and such might change this) */
-	int32 new_left_x = floor(MIN(MIN(new_top_left_x, new_top_right_x), MIN(new_bottom_left_x, new_bottom_right_x)));
-	int32 new_right_x = ceil(MAX(MAX(new_top_left_x, new_top_right_x), MAX(new_bottom_left_x, new_bottom_right_x)));
-	
-	int new_top_y = floor(MIN(MIN(new_top_left_y, new_top_right_y), MIN(new_bottom_left_y, new_bottom_right_y)));
-	int new_bottom_y = ceil(MAX(MAX(new_top_left_y, new_top_right_y), MAX(new_bottom_left_y, new_bottom_right_y)));
+	int new_top_y = floor(MIN(MIN(0, new_top_right_y), MIN(new_bottom_left_y, new_bottom_right_y)));
+	int new_bottom_y = ceil(MAX(MAX(0, new_top_right_y), MAX(new_bottom_left_y, new_bottom_right_y)));
 	
 	uint32 new_width = new_right_x - new_left_x;
 	uint32 new_height = new_bottom_y - new_top_y;
@@ -1070,17 +1066,6 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	double inverted_a12 = -(a12 / (-(a12 * a21) + a11 * a22));
 	double inverted_a21 = -(a21 / (-(a12 * a21) + a11 * a22));
 	double inverted_a22 = a11 / (-(a12 * a21) + a11 * a22);
-	
-	/*
-	for(uint16 y = 0; y < height; y++){
-		for(uint16 x = 0; x < width; x++){
-			int32 new_x = (x - origin_x) * a11 + (y - origin_y) * a12;
-			int32 new_y = (x - origin_x) * a21 + (y - origin_y) * a22;
-			
-			//new_data[(new_x - new_origin_x) + (new_y - new_origin_y) * new_width] = data[x + y * width];
-			new_data[(new_x - new_origin_x) + (new_y - new_origin_y) * new_width] = data[x + y * width];
-		}
-	}*/
 
 	int from_x, to_x, from_y, to_y;
 	uint32 new_length;
