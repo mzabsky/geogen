@@ -58,10 +58,10 @@ bool SaveAsBMP(int16* data, unsigned int width, unsigned int height, const char*
 		cout << "Saving map \"" << name << "\"...\n";
 	}
 	
-	int32 max = 0;
-	int32 min = 0;
+	int32 max = - 2 << 15;
+	int32 min = 2  >> 15;
 	for(uint32 i = 0; i < width * height; i++){
-		if(data[i] < 0) data[i] = 0;
+		if(data[i] < 0 && max > 0) data[i] = 0;
 		if(data[i] > max) max = data[i];
 		if(data[i] < min) min = data[i];
 	}
@@ -71,7 +71,7 @@ bool SaveAsBMP(int16* data, unsigned int width, unsigned int height, const char*
 	//cout << min << "-" << max << "\n";
 
 	for(uint32 i = 0; i < width * height; i++){
-		data[i] = (data[i] - min) * 255 / max;
+		data[i] = max > 0 ? (data[i] - min) * 255 / max : 0;
 	}
 
 	BMP output;
