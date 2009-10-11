@@ -572,37 +572,36 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 }
 
 void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, GGen_Data_1D* pattern, bool fill_outside){
-	/* Relative target point coordinates respective to the starting point */
-	int32 target_x = to_x - from_x; 
-	int32 target_y = to_y - from_y;
-
+	int64 target_x = to_x - from_x;
+	int64 target_y = to_y - from_y;
+	
 	/* Width of the gradient strip */
 	double max_dist = sqrt((double) (abs(to_x - from_x) * abs(to_x - from_x) + abs(to_y - from_y) * abs(to_y - from_y)));
 
-	for(uint16 y = 0; y < height; y++){
-		for(uint16 x = 0; x < width; x++){
-			/* Relative current point coordinates respective to the starting point */
-			int32 point_x = x - from_x;
-			int32 point_y = y - from_y;
+	for(uint16 i = 0; i < height; i++){
+		for(uint16 j = 0; j < width; j++){
+			int64 point_x = j - from_x;
+			int64 point_y = i - from_y;
 
 			/* Get the point on the gradient vector to which is the current point closest */
-			int32 cross_x = (target_x * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
-			int32 cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
-
-			/* Calculate the distance from the "from" pont */
-			int32 distance = (int32) sqrt((double) (cross_x * cross_x + cross_y * cross_y));
-	
-			// TODO: fill_outside pred tu silenou podminku
-			/* Fill/skip the outside areas */
-			if ((cross_x < 0 == (signed) to_x-(signed) from_x > 0) || (cross_y < 0 == (signed) to_y - (signed) from_y > 0) || distance >= floor(max_dist)){
-				if(fill_outside){
-					data[x + width * y] = ((cross_x < 0 == (signed) to_x - (signed) from_x >= 0) || (cross_y < 0 == (signed) to_y - (signed) from_y > 0))  ? pattern->GetValue(0) : pattern->GetValue(pattern->length - 1);
-				}
-				continue;
-			}
+			int64 cross_x = (target_x * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
+			int64 cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
+		
+			/* Calculate the distance from the "from" point to the intersection with gradient vector */
+			int32 distance = (int32) sqrt((double) (cross_x*cross_x + cross_y*cross_y));
 
 			/* Apply it to the array data */
-			data[x + width * y] = pattern->GetValue((uint16) distance, (uint16) max_dist);
+			if(distance < max_dist) {
+			
+				/* Calculate the distance between the intersection point and the "to" point */
+				int32 reverse_distance = (int32) sqrt((double) ( ABS(target_x - cross_x) * ABS(target_x - cross_x) + ABS(target_y - cross_y) * ABS(target_y - cross_y) ));
+				
+				if(reverse_distance < max_dist){
+					data[j + width * i] = pattern->GetValue((uint16) distance, (uint16) max_dist);	
+				}
+				else data[j + width * i] = pattern->GetValue(0);
+			}
+			else data[j + width * i] = pattern->GetValue(pattern->length - 1);
 		}
 	}
 }
@@ -613,6 +612,10 @@ void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to
 	GGen_Data_1D temp(2);
 	temp.SetValue(0, from_value);
 	temp.SetValue(1, to_value);
+
+	/*for(int i = 0; i < 100; i++){
+		cout << temp.GetValue(i,100) << "\n";
+	}*/
 
 	Gradient(from_x, from_y, to_x, to_y, &temp, fill_outside);
 }
@@ -980,10 +983,8 @@ void GGen_Data_2D::Scatter(bool relative){
 	}
 }
 
-void GGen_Data_2D::TransformValues(GGen_Data_1D* profile){
-	bool relative = true; 
-	
-	int16 min = 0;
+void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
+	int16 min = -255;
 	int16 max = 255;
 
 	if(relative){
