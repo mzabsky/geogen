@@ -80,7 +80,7 @@ class GGen_Data_2D{
 		void Monochrome(int16 treshold);
 		void SlopeMap();
 		void Scatter(bool relative);
-		void TransformValues(GGen_Data_1D* profile);
+		void TransformValues(GGen_Data_1D* profile, bool relative);
 		void Normalize();
 		void Normalize(GGen_Direction direction);
 		
