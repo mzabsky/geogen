@@ -34,9 +34,13 @@ typedef signed short int16;
 typedef unsigned short uint16;
 typedef signed int int32;
 typedef unsigned int uint32;
+typedef signed long long int64;
+typedef unsigned long long uint64;
+
 
 #define MAX(a,b) (a > b? a: b) 
 #define MIN(a,b) (a < b? a: b) 
+#define ABS(a) (a < 0? -a: a) 
 
 #define GGEN_INVALID_HEIGHT -32768
 #define GGEN_MIN_HEIGHT -32767
