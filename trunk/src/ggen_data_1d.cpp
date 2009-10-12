@@ -34,11 +34,11 @@ extern GGen* ggen_current_object;
  * Creates a 1D data array and fills it with zeros
  * @param length of the array
  */
-GGen_Data_1D::GGen_Data_1D(uint16 length){
+GGen_Data_1D::GGen_Data_1D(GGen_Coord length){
 	GGen_Script_Assert(length > 1);
 
 	/* Allocate the array */
-	data = new int16[length];
+	data = new GGen_Height[length];
 
 	GGen_Script_Assert(data != NULL);
 
@@ -52,11 +52,11 @@ GGen_Data_1D::GGen_Data_1D(uint16 length){
  * @param length of the array
  * @param value to be filled with
  */
-GGen_Data_1D::GGen_Data_1D(uint16 length, int16 value){
+GGen_Data_1D::GGen_Data_1D(GGen_Coord length, GGen_Height value){
 	GGen_Script_Assert(length > 1);
 
 	/* Allocate the array */
-	data = new int16[length];
+	data = new GGen_Height[length];
 
 	GGen_Script_Assert(data != NULL);
 
@@ -71,13 +71,13 @@ GGen_Data_1D::GGen_Data_1D(uint16 length, int16 value){
  */
 GGen_Data_1D::GGen_Data_1D(GGen_Data_1D& victim){
 	/* Allocate the array */
-	data = new int16[victim.length];
+	data = new GGen_Height[victim.length];
 
 	GGen_Script_Assert(data != NULL);
 	GGen_Script_Assert(victim.data != NULL);
 
 	/* Copy the data */
-	memcpy(data, victim.data, sizeof int16 * victim.length);
+	memcpy(data, victim.data, sizeof GGen_Height * victim.length);
 	length = victim.length;
 }
 
@@ -89,7 +89,7 @@ GGen_Data_1D::~GGen_Data_1D(){
  * Reads and returns one value from the array
  * @param x coordinate of the value
  */
-int16 GGen_Data_1D::GetValue(uint16 x){
+GGen_Height GGen_Data_1D::GetValue(GGen_Coord x){
 	GGen_Script_Assert(x < length);
 	
 	return data[x];
@@ -100,7 +100,7 @@ int16 GGen_Data_1D::GetValue(uint16 x){
  * @param x coordinate of the value
  * @param target length of the array
  */
-int16 GGen_Data_1D::GetValue(uint16 x, uint16 scale_to_x){
+GGen_Height GGen_Data_1D::GetValue(GGen_Coord x, GGen_Size scale_to_x){
 	// TODO: poresit polozky na zacatku a konci pole
 	//GGen_Script_Assert(x < length || x < scale_to_x);
 
@@ -115,14 +115,14 @@ int16 GGen_Data_1D::GetValue(uint16 x, uint16 scale_to_x){
 		double remainder = (x / ratio) - floor(x / ratio);
 
 		/* Interpolate the value from two sorrounding values */
-		return (int16) ((double) data[(uint16) floor(x / ratio)] * (1 - remainder) + (double) data[(uint16) floor(x / ratio) + 1] * (remainder));
+		return (GGen_Height) ((double) data[(GGen_Coord) floor(x / ratio)] * (1 - remainder) + (double) data[(GGen_Coord) floor(x / ratio) + 1] * (remainder));
 	}
 
 	/* The target is smaller, pick the closest value */
 	else{
 		double ratio = (double) (scale_to_x - 1) / (double) (length - 1);
 
-		return (int16) data[(uint16) floor((double)x / ratio + 0.5)];
+		return (GGen_Height) data[(GGen_Coord) floor((double)x / ratio + 0.5)];
 	}
 }
 
@@ -131,32 +131,32 @@ int16 GGen_Data_1D::GetValue(uint16 x, uint16 scale_to_x){
  * @param coordinate to modify
  * @param value to use
  */
-void GGen_Data_1D::SetValue(uint16 x, int16 value){
+void GGen_Data_1D::SetValue(GGen_Coord x, GGen_Height value){
 	GGen_Script_Assert(x < length);
 
 	data[x] = value;
 }
 
-void GGen_Data_1D::SetValueInRange(uint16 from, uint16 to, int16 value){
+void GGen_Data_1D::SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value){
 	GGen_Script_Assert(from < length || to < length);
 
-	for(uint16 i = from; i <= to; i++) data[i] = value;
+	for(GGen_Coord i = from; i <= to; i++) data[i] = value;
 }
 
 /** 
  * Fills the array with value
  * @param value to be used
  */
-void GGen_Data_1D::Fill(int16 value){
-	for(uint16 i = 0; i < length; i++) data[i] = value;
+void GGen_Data_1D::Fill(GGen_Height value){
+	for(GGen_Coord i = 0; i < length; i++) data[i] = value;
 }
 
 /** 
  * Adds a flat value to each value in the array
  * @param value to be used
  */
-void GGen_Data_1D::Add(int16 value){
-	for(uint16 i = 0; i < length; i++) data[i] += value;
+void GGen_Data_1D::Add(GGen_Height value){
+	for(GGen_Coord i = 0; i < length; i++) data[i] += value;
 }
 
 /** 
@@ -165,7 +165,7 @@ void GGen_Data_1D::Add(int16 value){
  */
 void GGen_Data_1D::Add(GGen_Data_1D* addend){
 	/* Scale the addend as necessary */
-	for(uint16 i = 0; i < length; i++) data[i] += addend->GetValue(i, length);
+	for(GGen_Coord i = 0; i < length; i++) data[i] += addend->GetValue(i, length);
 }
 
 /*
@@ -173,39 +173,39 @@ void GGen_Data_1D::Add(GGen_Data_1D* addend){
  * @param offset of the addend coords
  * @param addend - the second array
  */
-void GGen_Data_1D::AddTo(int16 offset, GGen_Data_1D* addend){
+void GGen_Data_1D::AddTo(GGen_Height offset, GGen_Data_1D* addend){
 	
 	/* Walk through the items where the array and the addend with ofset intersect */
-	for(uint16 i = MAX(0, offset); i < MIN(length, offset + addend->length); i++){
+	for(GGen_Coord i = MAX(0, offset); i < MIN(length, offset + addend->length); i++){
 		data[i] += addend->data[i - offset];
 	}
 }
 
 void GGen_Data_1D::AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative){
-	int16 min = 0;
-	int16 max = 255;
+	GGen_Height min = 0;
+	GGen_Height max = 255;
 
 	if(relative){
 		min = Min();
 		max = Max() - min;
 	}
 
-	for(uint16 i = 0; i < length; i++) 
+	for(GGen_Coord i = 0; i < length; i++) 
 	{
 		data[i] += addend->GetValue(i, length) * (mask->GetValue(i, length) - min) / max;
 	}
 }
 
 void GGen_Data_1D::AddMasked(int value, GGen_Data_1D* mask, bool relative){
-	int16 min = 0;
-	int16 max = 255;
+	GGen_Height min = 0;
+	GGen_Height max = 255;
 
 	if(relative){
 		min = Min();
 		max = Max() - min;
 	}
 
-	for(uint16 i = 0; i < length; i++) 
+	for(GGen_Coord i = 0; i < length; i++) 
 	{
 		data[i] += value * (mask->GetValue(i, length) - min) / max;
 	}
@@ -216,7 +216,7 @@ void GGen_Data_1D::AddMasked(int value, GGen_Data_1D* mask, bool relative){
  * @param value to be used
  */
 void GGen_Data_1D::Multiply(double value){
-	for(uint16 i = 0; i < length; i++) data[i] = (int16) ((double) data[i] * value);
+	for(GGen_Coord i = 0; i < length; i++) data[i] = (GGen_Height) ((double) data[i] * value);
 }
 
 /** 
@@ -224,14 +224,14 @@ void GGen_Data_1D::Multiply(double value){
  * @param value to be used
  */
 void GGen_Data_1D::Multiply(GGen_Data_1D* factor){
-	for(uint16 i = 0; i < length; i++) data[i] = (int16) ((double) data[i] * factor->GetValue(i, length));
+	for(GGen_Coord i = 0; i < length; i++) data[i] = (GGen_Height) ((double) data[i] * factor->GetValue(i, length));
 }
 
 /** 
  * Inverts signs of all values in the array
  */
 void GGen_Data_1D::Invert(){
-	for(uint16 i = 0; i < length; i++) data[i] = -data[i];
+	for(GGen_Coord i = 0; i < length; i++) data[i] = -data[i];
 }
 
 /**
@@ -239,19 +239,19 @@ void GGen_Data_1D::Invert(){
  * @param length of the new array
  * @param scale_values - should the values be scaled too?
  */
-void GGen_Data_1D::ScaleTo(uint16 new_length, bool scale_values){
+void GGen_Data_1D::ScaleTo(GGen_Size new_length, bool scale_values){
 	GGen_Script_Assert(new_length > 0);
 
 	double ratio = new_length / length;
 
 	/* Allocate the new array */
-	int16* new_data = new int16[new_length];
+	GGen_Height* new_data = new GGen_Height[new_length];
 
 	GGen_Script_Assert(new_data != NULL);
 
 	/* Fill the new array */
-	for(uint16 i = 0; i < new_length; i++){
-		new_data[i] = scale_values ? (int16) ((double) GetValue(i, new_length) * ratio) : GetValue(i, new_length);
+	for(GGen_Coord i = 0; i < new_length; i++){
+		new_data[i] = scale_values ? (GGen_Height) ((double) GetValue(i, new_length) * ratio) : GetValue(i, new_length);
 	}
 
 	/* Relink and delete the original array data */
@@ -265,18 +265,18 @@ void GGen_Data_1D::ScaleTo(uint16 new_length, bool scale_values){
  * @param new minimum value
  * @param new maximum value
  */
-void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
+void GGen_Data_1D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 {
 	GGen_Script_Assert(new_max > new_min);
 
-	int16 min = Min();
-	int16 max = Max() - min;
+	GGen_Height min = Min();
+	GGen_Height max = Max() - min;
 
 	if(max == 0) Fill(min);
 
 	new_max -= new_min;
 
-	for(uint16 i = 0; i < length; i++){
+	for(GGen_Coord i = 0; i < length; i++){
 		data[i] = new_min + (data[i] - min) * new_max / max;
 	}
 }
@@ -287,7 +287,7 @@ void GGen_Data_1D::ScaleValuesTo(int16 new_min, int16 new_max)
  * @param scale_values - should the values be scaled too?
  */
 void GGen_Data_1D::Scale(double ratio, bool scale_values){
-	ScaleTo((uint16) ((double) length * ratio), scale_values);
+	ScaleTo((GGen_Coord) ((double) length * ratio), scale_values);
 }
 
 /*
@@ -296,13 +296,13 @@ void GGen_Data_1D::Scale(double ratio, bool scale_values){
  * @param minimum index of the range
  * @param maximum index of the range
  */
-void GGen_Data_1D::ResizeCanvas(int16 new_length, int16 new_zero){
+void GGen_Data_1D::ResizeCanvas(GGen_Size new_length, GGen_CoordOffset new_zero){
 	/* Allocate the new array */
-	int16* new_data = new int16[new_length];
+	GGen_Height* new_data = new GGen_Height[new_length];
 
 	GGen_Script_Assert(new_data != NULL);
 
-	for(uint16 i = 0; i < new_length; i++){
+	for(GGen_Coord i = 0; i < new_length; i++){
 		if(i + new_zero >= 0 && i + new_zero < length){
 			new_data[i] = data[i + new_zero];
 		}
@@ -320,10 +320,10 @@ void GGen_Data_1D::ResizeCanvas(int16 new_length, int16 new_zero){
  * @param minimum value of the range
  * @param maximum value of the range
  */
-void GGen_Data_1D::Clamp(int16 min, int16 max){
+void GGen_Data_1D::Clamp(GGen_Height min, GGen_Height max){
 	GGen_Script_Assert(max > min);
 
-	for(uint16 i = 0; i < length; i++){
+	for(GGen_Coord i = 0; i < length; i++){
 		if(data[i] > max) data[i] = max;
 		else if(data[i] < min) data[i] = min;
 	}
@@ -333,10 +333,10 @@ void GGen_Data_1D::Clamp(int16 min, int16 max){
  * Inverts order of items in the array
  */
 void GGen_Data_1D::Flip(){
-	int16 temp;
+	GGen_Height temp;
 	
 	/* Go through the first half of the array and flip the value with its counterpart indexed from end */
-	for(uint16 i = 0; i < length / 2; i++){
+	for(GGen_Coord i = 0; i < length / 2; i++){
 		temp = data[i];
 		data[i] = data[length - 1 - i];
 		data[length - 1 - i] = temp;
@@ -346,10 +346,10 @@ void GGen_Data_1D::Flip(){
 /*
  * Returns the lowest value in the array
  */
-int16 GGen_Data_1D::Min(){
-	int16 temp = GGEN_MAX_HEIGHT;
+GGen_Height GGen_Data_1D::Min(){
+	GGen_Height temp = GGEN_MAX_HEIGHT;
 
-	for(uint16 i = 0; i < length; i++){
+	for(GGen_Coord i = 0; i < length; i++){
 		temp = temp > data[i] ? data[i] : temp;
 	}
 
@@ -359,10 +359,10 @@ int16 GGen_Data_1D::Min(){
 /*
  * Returns the highest value in the array
  */
-int16 GGen_Data_1D::Max(){
-	int16 temp = GGEN_MIN_HEIGHT;
+GGen_Height GGen_Data_1D::Max(){
+	GGen_Height temp = GGEN_MIN_HEIGHT;
 
-	for(uint16 i = 0; i < length; i++){
+	for(GGen_Coord i = 0; i < length; i++){
 		temp = temp < data[i] ? data[i] : temp;
 	}
 
@@ -374,18 +374,18 @@ int16 GGen_Data_1D::Max(){
  * @param difference of original and shifted indices
  * @param shift mode
  */
-void GGen_Data_1D::Shift(int16 distance, GGen_Overflow_Mode mode){
+void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode){
 	GGen_Script_Assert(distance < length && distance != 0 && distance > -length);
 	
 	/* Cycle mode */
 	if(mode == GGEN_CYCLE){
 		/* Allocate the new array */
-		int16* new_data = new int16[length];
+		GGen_Height* new_data = new GGen_Height[length];
 
 		GGen_Script_Assert(new_data != NULL);
 
 		/* Fill the new array with shifted data */
-		for(uint16 i = 0; i < length; i++){
+		for(GGen_Coord i = 0; i < length; i++){
 			/* Some values can be just plainly shifted */
 			if((distance > 0 && i < length - distance) || (distance < 0 && (signed) i >= -distance)){
 				new_data[i + distance] = data[i];
@@ -406,7 +406,7 @@ void GGen_Data_1D::Shift(int16 distance, GGen_Overflow_Mode mode){
 	}
 	/* Discard and Discard&fill mode */
 	else{
-		int16 temp;
+		GGen_Height temp;
 		
 		/* positive distance -> shift right*/
 		if(distance > 0){
@@ -447,7 +447,7 @@ void GGen_Data_1D::Shift(int16 distance, GGen_Overflow_Mode mode){
  * @param the victim
  */
 void GGen_Data_1D::Union(GGen_Data_1D* unifiee){
-	for(uint16 i = 0; i < length; i++) data[i] = MIN(data[i], unifiee->GetValue(i, length));
+	for(GGen_Coord i = 0; i < length; i++) data[i] = MIN(data[i], unifiee->GetValue(i, length));
 }
 
 /*
@@ -456,7 +456,7 @@ void GGen_Data_1D::Union(GGen_Data_1D* unifiee){
  * @param the victim
  */
 void GGen_Data_1D::Intersection(GGen_Data_1D* intersectee){
-	for(uint16 i = 0; i < length; i++) data[i] = MAX(data[i], intersectee->GetValue(i, length));
+	for(GGen_Coord i = 0; i < length; i++) data[i] = MAX(data[i], intersectee->GetValue(i, length));
 }
 
 /*
@@ -464,8 +464,8 @@ void GGen_Data_1D::Intersection(GGen_Data_1D* intersectee){
  * (treshold included) will be zeros.
  * @param treshold - maximum zero value
  */
-void GGen_Data_1D::Monochrome(int16 treshold){
-	for(uint16 i = 0; i < length; i++){
+void GGen_Data_1D::Monochrome(GGen_Height treshold){
+	for(GGen_Coord i = 0; i < length; i++){
 		data[i] = data[i] > treshold ? 1 : 0;
 	}	
 }
@@ -476,12 +476,12 @@ void GGen_Data_1D::Monochrome(int16 treshold){
 void GGen_Data_1D::SlopeMap(){
 
 	/* Allocate the new array */
-	int16* new_data = new int16[length];
+	GGen_Height* new_data = new GGen_Height[length];
 
 	GGen_Script_Assert(new_data != NULL);
 
 	/* Calculate the slopes */
-	for(uint16 i = 1; i < length - 1; i++){
+	for(GGen_Coord i = 1; i < length - 1; i++){
 		new_data[i] = abs(data[i - 1] - data[i + 1]);
 	}
 
@@ -501,24 +501,24 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode){
 	/* Additive mode */
 	if(mode == GGEN_ADDITIVE){
 		/* Fix left-to-right "downhills" */
-		for(uint16 i = 1; i < length; i++){
+		for(GGen_Coord i = 1; i < length; i++){
 			if(data[i] < data[i - 1] - 1) data[i] = data[i - 1] - 1;
 		}
 
 		/* Fix right-to-left "downhills" */
-		for(uint16 i = length - 2; i > 0; i--){
+		for(GGen_Coord i = length - 2; i > 0; i--){
 			if(data[i] < data[i + 1] - 1) data[i] = data[i + 1] - 1;
 		}
 	}
 	/* Substractive mode */
 	else{
 		/* Fix left-to-right "uphills" */
-		for(uint16 i = 1; i < length; i++){
+		for(GGen_Coord i = 1; i < length; i++){
 			if(data[i] > data[i - 1] + 1) data[i] = data[i - 1] + 1;
 		}
 
 		/* Fix right-to-left "uphills" */
-		for(uint16 i = length - 2; i > 0; i--){
+		for(GGen_Coord i = length - 2; i > 0; i--){
 			if(data[i] > data[i + 1] + 1) data[i] = data[i + 1] + 1;
 		}
 	}
@@ -536,25 +536,25 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode){
  * @param to - maximum value
  * @param fill_flat - should be the areas outside the gradient area be filled with min/max values?
  */
-void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat){
+void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_flat){
 	GGen_Script_Assert(from < length || to < length);
 	
 	/* Swap values if necessary */
 	if(from > to){
-		uint16 temp = to;
+		GGen_Coord temp = to;
 		to = from;
 		from = temp;
 		
-		int16 temp2 = to_value;
+		GGen_Height temp2 = to_value;
 		to_value = from_value;
 		from_value = temp2;
 	}
 
-	int16 base = from_value;
+	GGen_Height base = from_value;
 	double offset = (double) (to_value - base);
 	uint16 max_distance = to - from;
 	
-	for(uint16 i = 0; i < length; i++){
+	for(GGen_Coord i = 0; i < length; i++){
 		/* Calculate current distance from "from" and "to" */
 		double distance_from = (double) abs(i - from);
 		double distance_to = (double) abs(i - to);
@@ -563,7 +563,7 @@ void GGen_Data_1D::Gradient(uint16 from, uint16 to, int16 from_value, int16 to_v
 		else if(distance_to > max_distance) data[i] = fill_flat ? from_value : data[i];
 		else{
 			double ratio = distance_to / max_distance;
-			data[i] = base + (int16) (ratio * offset);
+			data[i] = base + (GGen_Height) (ratio * offset);
 		}
 	}
 }
@@ -574,7 +574,7 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 	uint8 frequency = GGen_log2(max_feature_size);
 	uint16 amplitude = amplitudes->data[frequency];
 
-	int16* new_data = new int16[length];
+	GGen_Height* new_data = new GGen_Height[length];
 
 	GGen_Script_Assert(new_data != NULL);
 
@@ -586,26 +586,26 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 
 		if(wave_length < min_feature_size) break;
 
-		for(uint16 i = 0; i < length; i += wave_length){
+		for(GGen_Coord i = 0; i < length; i += wave_length){
 				new_data[i] = GGen_Random<int>(-amplitude, amplitude);
 		}
 
 		if(wave_length > 1)
-		for(uint16 i = 0; i < length; i++){
+		for(GGen_Coord i = 0; i < length; i++){
 			if(i % wave_length == 0) continue;
 
-			uint16 nearest = i - i % wave_length;
+			GGen_Coord nearest = i - i % wave_length;
 
-			uint16 next = i - i % wave_length + wave_length;
+			GGen_Coord next = i - i % wave_length + wave_length;
 
 			next = next >= length ? 0 : next;
 
 			double vertical = (1 - cos( (i % wave_length) * 3.1415927 / wave_length)) * .5;
 
-			data[i] +=  (int16) ( (double) new_data[nearest] * (1 - vertical) + (double) new_data[next] * vertical);
+			data[i] +=  (GGen_Height) ( (double) new_data[nearest] * (1 - vertical) + (double) new_data[next] * vertical);
 		} 
 
-		for(uint16 i = 0; i < length; i += wave_length){
+		for(GGen_Coord i = 0; i < length; i += wave_length){
 			data[i] += new_data[i];
 		}
 
@@ -628,7 +628,7 @@ void GGen_Data_1D::Smooth(uint8 radius){
 	GGen_Script_Assert(radius > 0 && radius < length);
 	
 	/* Allocate the new array */
-	int16* new_data = new int16[length];
+	GGen_Height* new_data = new GGen_Height[length];
 
 	GGen_Script_Assert(new_data != NULL);
 
@@ -644,7 +644,7 @@ void GGen_Data_1D::Smooth(uint8 radius){
 
 	/* In every step shift the window one tile to the right  (= substract its leftmost cell and add
 	value of rightmost + 1). i represents position of the central cell of the window. */
-	for(uint16 i = 0; i < length; i++){
+	for(GGen_Coord i = 0; i < length; i++){
 		/* If the window is approaching right border, use the rightmost value as fill. */
 		if((signed)i - (signed)radius < 0){
 			window_value += data[i + radius] - data[0];
@@ -678,14 +678,14 @@ void GGen_Data_1D::Flood(double water_amount){
 	
 	uint16 last_amount = 0;
 
-	int16 level = Min();
-	int16 max = Max();
+	GGen_Height level = Min();
+	GGen_Height max = Max();
 
 	/* Go through the array values from bottom up and try to find the best fit to target water amount */
 	while(level < max){
 		/* Calculate the amount of waters above current level */
 		uint16 amount = 0;
-		for(uint16 i = 0; i < length; i++) {
+		for(GGen_Coord i = 0; i < length; i++) {
 			if(data[i] >= level) amount++;
 		}
 

@@ -23,48 +23,48 @@
 
 class GGen_Data_1D{
 	public:
-		int16* data;
-		uint16 length;
+		GGen_Height* data;
+		GGen_Size length;
 
 		/* Constructors/destructors */
-		GGen_Data_1D(uint16 length);
-		GGen_Data_1D(uint16 length, int16 value);
+		GGen_Data_1D(GGen_Size length);
+		GGen_Data_1D(GGen_Size length, GGen_Height value);
 		GGen_Data_1D(GGen_Data_1D& victim);
 		~GGen_Data_1D();
 
 		/* Basic data I/O */
-		void SetValue(uint16 x, int16 value);
-		void SetValueInRange(uint16 from, uint16 to, int16 value);
-		int16 GetValue(uint16 x);
-		int16 GetValue(uint16 x, uint16 scale_to_x);
+		void SetValue(GGen_Coord x, GGen_Height value);
+		void SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value);
+		GGen_Height GetValue(GGen_Coord x);
+		GGen_Height GetValue(GGen_Coord x, GGen_Size scale_to_length);
 
 		/* Elementary artihmetic and logic operations */
-		void Add(int16 value);
+		void Add(GGen_Height value);
 		void Add(GGen_Data_1D* addend);
-		void AddTo(int16 offset, GGen_Data_1D* addend);
+		void AddTo(GGen_CoordOffset offset, GGen_Data_1D* addend);
 		void AddMasked(int value, GGen_Data_1D* mask, bool relative);
 		void AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative);
 		void Multiply(double value);
 		void Multiply(GGen_Data_1D* factor);
 		void Invert();
 		void Scale(double ratio, bool scale_values);
-		void ScaleTo(uint16 new_length, bool scale_values);
-		void ScaleValuesTo(int16 new_min, int16 new_max);
-		void Fill(int16 value);
-		void ResizeCanvas(int16 new_length, int16 new_zero);
-		void Clamp(int16 min, int16 max);
+		void ScaleTo(GGen_Size new_length, bool scale_values);
+		void ScaleValuesTo(GGen_Height new_min, GGen_Height new_max);
+		void Fill(GGen_Height value);
+		void ResizeCanvas(GGen_Size new_length, GGen_CoordOffset new_zero);
+		void Clamp(GGen_Height min, GGen_Height max);
 		void Flip();
-		int16 Min();
-		int16 Max();
-		void Shift(int16 distance, GGen_Overflow_Mode mode);
+		GGen_Height Min();
+		GGen_Height Max();
+		void Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode);
 		void Union(GGen_Data_1D* unifiee);
 		void Intersection(GGen_Data_1D* intersectee);
 		
 		/* Advanced operations with array data */
-		void Monochrome(int16 treshold);
+		void Monochrome(GGen_Height treshold);
 		void Normalize(GGen_Normalization_Mode mode);
 		void SlopeMap();
-		void Gradient(uint16 from, uint16 to, int16 from_value, int16 to_value, bool fill_flat);
+		void Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_flat);
 		void Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes);
 		void Noise(uint16 min_feature_size, uint16 max_feature_size);
 		void Smooth(uint8 radius);
