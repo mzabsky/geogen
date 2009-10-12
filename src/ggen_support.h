@@ -37,14 +37,20 @@ typedef unsigned int uint32;
 typedef signed long long int64;
 typedef unsigned long long uint64;
 
-
-#define MAX(a,b) (a > b? a: b) 
-#define MIN(a,b) (a < b? a: b) 
-#define ABS(a) (a < 0? -a: a) 
+typedef int16 GGen_Height;
+typedef uint16 GGen_Size;
+typedef uint32 GGen_TotalSize;
+typedef uint16 GGen_Coord;
+typedef int16 GGen_CoordOffset;
+typedef uint32 GGen_Index;
 
 #define GGEN_INVALID_HEIGHT -32768
 #define GGEN_MIN_HEIGHT -32767
 #define GGEN_MAX_HEIGHT 32767
+
+#define MAX(a,b) (a > b? a: b) 
+#define MIN(a,b) (a < b? a: b) 
+#define ABS(a) (a < 0? -(a): a) 
 
 // Custom assertion handler. Invoke messaage callback and shut down the script execution.
 #define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
