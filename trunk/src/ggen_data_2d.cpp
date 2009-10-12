@@ -991,10 +991,19 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 		min = Min();
 		max = Max() - min;
 	}
-
+	
+	/* Smoothen the profile to prevent visible color jumps in the result */
+	GGen_Data_1D profile_copy(*profile);
+	profile_copy.ScaleTo(max - min + 1, false);
+	if(max - min > 80) profile_copy.Smooth((max - min) / 40);
+	
+	/* Make sure the smoothing didn't chhange the extremes */
+	profile_copy.ScaleValuesTo(profile->Min(), profile->Max());
+	
+	/* Transform the values */
 	for(uint16 y = 0; y < height; y++){
 		for(uint16 x = 0; x < width; x++){		
-			data[x + y * width] = profile->GetValue(data[x + y * width] - min,max - min);
+			data[x + y * width] = profile_copy.GetValue(data[x + y * width] - min);
 		}
 	}
 }
