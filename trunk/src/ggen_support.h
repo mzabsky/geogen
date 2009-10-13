@@ -43,6 +43,7 @@ typedef uint32 GGen_TotalSize;
 typedef uint16 GGen_Coord;
 typedef int16 GGen_CoordOffset;
 typedef uint32 GGen_Index;
+typedef uint32 GGen_Distance;
 
 #define GGEN_INVALID_HEIGHT -32768
 #define GGEN_MIN_HEIGHT -32767

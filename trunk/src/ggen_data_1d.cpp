@@ -552,7 +552,7 @@ void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_val
 
 	GGen_Height base = from_value;
 	double offset = (double) (to_value - base);
-	uint16 max_distance = to - from;
+	GGen_Distance max_distance = to - from;
 	
 	for(GGen_Coord i = 0; i < length; i++){
 		/* Calculate current distance from "from" and "to" */
@@ -568,11 +568,11 @@ void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_val
 	}
 }
 
-void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes){
+void GGen_Data_1D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes){
 	GGen_Script_Assert(amplitudes != NULL);
 
-	uint8 frequency = GGen_log2(max_feature_size);
-	uint16 amplitude = amplitudes->data[frequency];
+	uint16 frequency = GGen_log2(max_feature_size);
+	GGen_Height amplitude = amplitudes->data[frequency];
 
 	GGen_Height* new_data = new GGen_Height[length];
 
@@ -580,7 +580,7 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 
 	Fill(0);
 
-	for(uint16 wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
+	for(GGen_Size wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
 		frequency = GGen_log2(wave_length);
 		amplitude = amplitudes->data[frequency];
 
@@ -615,7 +615,7 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_
 
 }
 
-void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size){
+void GGen_Data_1D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size){
 	Noise(min_feature_size, max_feature_size, ggen_std_noise);
 }
 
@@ -624,7 +624,7 @@ void GGen_Data_1D::Noise(uint16 min_feature_size, uint16 max_feature_size){
  * @param radius from which are the values caulculated into the mean
  * @power weight of individual values. The current cell has always weight 1024
  */
-void GGen_Data_1D::Smooth(uint8 radius){
+void GGen_Data_1D::Smooth(GGen_Distance radius){
 	GGen_Script_Assert(radius > 0 && radius < length);
 	
 	/* Allocate the new array */
@@ -633,12 +633,12 @@ void GGen_Data_1D::Smooth(uint8 radius){
 	GGen_Script_Assert(new_data != NULL);
 
 	/* Calculate size of the filter window */
-	uint16 window_size = radius * 2 + 1;
+	GGen_Size window_size = radius * 2 + 1;
 
 	/* Prefill the window with value of the left edge + n leftmost values (where n is radius) */
 	int32 window_value = data[0] * radius;
 
-	for(uint8 i = 0; i < radius; i++){
+	for(GGen_Distance i = 0; i < radius; i++){
 		window_value += data[i];
 	}
 
@@ -674,9 +674,9 @@ void GGen_Data_1D::Smooth(uint8 radius){
 void GGen_Data_1D::Flood(double water_amount){
 	GGen_Script_Assert(water_amount < 1);
 
-	uint16 target = (uint16) (water_amount * (double) length);
+	GGen_Index target = (GGen_Index) (water_amount * (double) length);
 	
-	uint16 last_amount = 0;
+	GGen_Index last_amount = 0;
 
 	GGen_Height level = Min();
 	GGen_Height max = Max();
@@ -684,7 +684,7 @@ void GGen_Data_1D::Flood(double water_amount){
 	/* Go through the array values from bottom up and try to find the best fit to target water amount */
 	while(level < max){
 		/* Calculate the amount of waters above current level */
-		uint16 amount = 0;
+		GGen_Index amount = 0;
 		for(GGen_Coord i = 0; i < length; i++) {
 			if(data[i] >= level) amount++;
 		}

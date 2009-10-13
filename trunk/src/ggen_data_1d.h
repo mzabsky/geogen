@@ -57,16 +57,16 @@ class GGen_Data_1D{
 		GGen_Height Min();
 		GGen_Height Max();
 		void Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode);
-		void Union(GGen_Data_1D* unifiee);
-		void Intersection(GGen_Data_1D* intersectee);
+		void Union(GGen_Data_1D* victim);
+		void Intersection(GGen_Data_1D* victim);
 		
 		/* Advanced operations with array data */
 		void Monochrome(GGen_Height treshold);
 		void Normalize(GGen_Normalization_Mode mode);
 		void SlopeMap();
 		void Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_flat);
-		void Noise(uint16 min_feature_size, uint16 max_feature_size, GGen_Amplitudes* amplitudes);
-		void Noise(uint16 min_feature_size, uint16 max_feature_size);
-		void Smooth(uint8 radius);
+		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes);
+		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size);
+		void Smooth(GGen_Distance radius);
 		void Flood(double water_amount);
 };

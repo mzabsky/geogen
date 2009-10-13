@@ -44,23 +44,21 @@ GGen::GGen(){
 	//args = NULL;
 	num_args = 0;
 
-	ggen_std_noise = new GGen_Amplitudes(16384);
+	ggen_std_noise = new GGen_Amplitudes(4096);
 
-	ggen_std_noise->AddAmplitude(1, 3);
-	ggen_std_noise->AddAmplitude(2, 7);
-	ggen_std_noise->AddAmplitude(4, 10);
-	ggen_std_noise->AddAmplitude(8, 20);
-	ggen_std_noise->AddAmplitude(16, 50);
-	ggen_std_noise->AddAmplitude(32, 75);
-	ggen_std_noise->AddAmplitude(64, 150);
-	ggen_std_noise->AddAmplitude(128, 250);
-	ggen_std_noise->AddAmplitude(256, 400);
-	ggen_std_noise->AddAmplitude(512, 600);
-	ggen_std_noise->AddAmplitude(1024, 1000);
-	ggen_std_noise->AddAmplitude(2048, 1400);
-	ggen_std_noise->AddAmplitude(4096, 2000);
-	ggen_std_noise->AddAmplitude(8192, 2900);
-	ggen_std_noise->AddAmplitude(16384, 4000);
+	ggen_std_noise->AddAmplitude(1, 3 * 15);
+	ggen_std_noise->AddAmplitude(2, 7 * 15);
+	ggen_std_noise->AddAmplitude(4, 10 * 15);
+	ggen_std_noise->AddAmplitude(8, 20 * 15);
+	ggen_std_noise->AddAmplitude(16, 50 * 15);
+	ggen_std_noise->AddAmplitude(32, 75 * 15);
+	ggen_std_noise->AddAmplitude(64, 150 * 15);
+	ggen_std_noise->AddAmplitude(128, 250 * 15);
+	ggen_std_noise->AddAmplitude(256, 400 * 15);
+	ggen_std_noise->AddAmplitude(512, 600 * 15);
+	ggen_std_noise->AddAmplitude(1024, 1000 * 15);
+	ggen_std_noise->AddAmplitude(2048, 1400 * 15);
+	ggen_std_noise->AddAmplitude(4096, 2000 * 15);
 }
 
 GGen::~GGen(){

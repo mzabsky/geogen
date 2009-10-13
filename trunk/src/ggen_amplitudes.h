@@ -26,7 +26,7 @@ extern GGen* ggen_current_object;
 class GGen_Amplitudes{
 public:
 	uint16* data;
-	uint8 length;
+	uint16 length;
 
 	GGen_Amplitudes(uint16 max_feature_size);
 
