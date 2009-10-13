@@ -327,8 +327,8 @@ void GGen_Data_2D::AddTo(int16 offset_x, int16 offset_y, GGen_Data_2D* addend){
 
  */
 void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative){
-	int16 min = 0;
-	int16 max = 255;
+	int32 min = 0;
+	int32 max = 255;
 
 	if(relative){
 		min = Min();
@@ -339,7 +339,7 @@ void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool rela
 	{
 		for(uint16 x = 0; x < width; x++)
 		{
-			data[x + y * width] += addend->GetValue(x, y, width, height) * (mask->GetValue(x, y, width, height) - min) / max;
+			data[x + y * width] += (int32) addend->GetValue(x, y, width, height) * ((int32) mask->GetValue(x, y, width, height) - min) / max;
 		}
 	}
 }
@@ -578,32 +578,31 @@ void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to
 	/* Width of the gradient strip */
 	double max_dist = sqrt((double) (abs(to_x - from_x) * abs(to_x - from_x) + abs(to_y - from_y) * abs(to_y - from_y)));
 
-	for(uint16 i = 0; i < height; i++){
-		for(uint16 j = 0; j < width; j++){
-			int64 point_x = j - from_x;
-			int64 point_y = i - from_y;
+	for(uint16 y = 0; y < height; y++){
+		for(uint16 x = 0; x < width; x++){
+			int64 point_x = x - from_x;
+			int64 point_y = y - from_y;
 
-			/* Get the point on the gradient vector to which is the current point closest */
+			/* Get the point on the gradient vector (vector goint through both starting and target point) to which is the current point closest */
 			int64 cross_x = (target_x * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
 			int64 cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
 		
 			/* Calculate the distance from the "from" point to the intersection with gradient vector */
 			int32 distance = (int32) sqrt((double) (cross_x*cross_x + cross_y*cross_y));
-
-			/* Apply it to the array data */
-			if(distance < max_dist) {
 			
-				/* Calculate the distance between the intersection point and the "to" point */
-				int32 reverse_distance = (int32) sqrt((double) ( ABS(target_x - cross_x) * ABS(target_x - cross_x) + ABS(target_y - cross_y) * ABS(target_y - cross_y) ));
-				
-				if(reverse_distance < max_dist){
-					data[j + width * i] = pattern->GetValue((uint16) distance, (uint16) max_dist);	
-				}
-				else data[j + width * i] = pattern->GetValue(0);
+			/* Distance from  the intersection point to the target point */
+			int32 reverse_distance = (int32) sqrt((double) ( ABS(target_x - cross_x) * ABS(target_x - cross_x) + ABS(target_y - cross_y) * ABS(target_y - cross_y) ));
+			
+			/* Apply it to the array data */
+			if(distance < max_dist && reverse_distance < max_dist) {
+				data[x + width * y] = pattern->GetValue(distance, max_dist);
 			}
-			else data[j + width * i] = pattern->GetValue(pattern->length - 1);
+			else if(fill_outside && reverse_distance < distance) data[x + width * y] = pattern->GetValue(pattern->length - 1);
+			else if(fill_outside) data[x + width * y] = pattern->GetValue(0);
 		}
 	}
+	
+	
 }
 
 void GGen_Data_2D::Gradient(uint16 from_x, uint16 from_y, uint16 to_x, uint16 to_y, int16 from_value, int16 to_value, bool fill_outside){

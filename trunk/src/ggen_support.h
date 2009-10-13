@@ -46,7 +46,7 @@ typedef uint32 GGen_Index;
 
 #define GGEN_INVALID_HEIGHT -32768
 #define GGEN_MIN_HEIGHT -32767
-#define GGEN_MAX_HEIGHT 32767
+#define GGEN_MAX_HEIGHT 32766
 
 #define MAX(a,b) (a > b? a: b) 
 #define MIN(a,b) (a < b? a: b) 
