@@ -73,20 +73,20 @@ void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int c
 	else{
 		switch(level){
 			case GGEN_MESSAGE:
-				if(line != -1) cout << "GGen Message: " << message << " on line " << line << "\n";
+				if(line != -1) cout << "GGen Message: " << message << " on line " << line << "\n" << flush;
 				else cout << "GGen Message: " << message <<  "\n";
 				break;
 			case GGEN_NOTICE:
-				if(line != -1) cout << "GGen Notice: " << message << " on line " << line << "\n";
+				if(line != -1) cout << "GGen Notice: " << message << " on line " << line << "\n" << flush;
 				else cout << "GGen Notice: " << message <<  "\n";
 				break;
 			case GGEN_WARNING:
-				if(line != -1) cout << "GGen Warning: " << message << " on line " << line << "\n";
+				if(line != -1) cout << "GGen Warning: " << message << " on line " << line << "\n" << flush;
 				else cout << "GGen Warning: " << message <<  "\n";
 				break;
 			case GGEN_ERROR:
-				if(line != -1) cout << "GGen Error: " << message << " on line " << line << "\n";
-				else cout << "GGen Error: " << message <<  "\n";
+				if(line != -1) cout << "GGen Error: " << message << " on line " << line << "\n" << flush;
+				else cout << "GGen Error: " << message <<  "\n" << flush;
 				break;
 		}
 	}

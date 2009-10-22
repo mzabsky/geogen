@@ -51,27 +51,29 @@ bool SaveAsBMP(int16* data, unsigned int width, unsigned int height, const char*
 
 	if(name == NULL){
 		path_out << implicit_path;
-		cout << "Saving main bitmap...\n";
+		cout << "Saving main bitmap...\n" << flush;
 	}
 	else{
 		path_out << "../temp/" << name << ".bmp";
-		cout << "Saving map \"" << name << "\"...\n";
+		cout << "Saving map \"" << name << "\"...\n" << flush;
 	}
 	
-	int32 max = - 2 << 15;
-	int32 min = 2  >> 15;
+	int32 max = - 2 << 14;
+	int32 min = 2  << 14;
 	for(uint32 i = 0; i < width * height; i++){
-		if(data[i] < 0 && max > 0) data[i] = 0;
+		//if(data[i] < 0 && max > 0) data[i] = 0;
 		if(data[i] > max) max = data[i];
 		if(data[i] < min) min = data[i];
 	}
 
 	max = max - min;
 
+
+
 	//cout << min << "-" << max << "\n";
 
 	for(uint32 i = 0; i < width * height; i++){
-		data[i] = max > 0 ? (data[i] - min) * 255 / max : 0;
+		data[i] = (data[i] - min) * 255 / max;
 	}
 
 	BMP output;
@@ -88,7 +90,7 @@ bool SaveAsBMP(int16* data, unsigned int width, unsigned int height, const char*
 
 	output.WriteToFile(path_out.str().c_str());
 
-	if(name != NULL) cout << "Executing...\n";
+	if(name != NULL) cout << "Executing...\n" << flush;
 
 	return true;
 }
@@ -105,17 +107,16 @@ void ReturnHandler(char* name, int16* map, int width, int height){
 }
 
 void ProgressHandler(int current_progress, int max_progress){
-	cout << (int) (( (double) current_progress / (double) max_progress) * 100) <<  "% Done...\n";
+	cout << (int) (( (double) current_progress / (double) max_progress) * 100) <<  "% Done...\n" << flush;
 }
 
 int main(int argc,char * argv[]){
-
 	char* path_out;
 	char* path_in;
 	int seed;
 	bool stupid_mode = false;
 	char* buf = new char[2000];
-
+	char special_mode = 'N';
 
 	// Parse arguments
 
@@ -134,9 +135,7 @@ Have a nice day!\n";
 		return 0;
 	}
 
-	cout << "Initializing...\n";
-
-	
+	cout << "Initializing...\n" << flush;
 
 	// in and out paths
 	if(argc >= 2){
@@ -151,7 +150,13 @@ Have a nice day!\n";
 		stupid_mode = true;
 	}
 
-	if(argc >= 3){
+	if(argc >= 3 && argv[2][0] == 'p' && argv[2][1] == '\0'){
+		special_mode = 'P';
+	}
+	if(argc >= 3 && argv[2][0] == 'v' && argv[2][1] == '\0'){
+		special_mode = 'V';
+	}
+	else if(argc >= 3){
 		path_out = argv[2];
 	}
 	else{
@@ -165,8 +170,7 @@ Have a nice day!\n";
 	in.open(path_in);
 
 	if(!in.is_open()){
-		cout << path_in << "\n";
-		cout << "Could not open the script file!\n";
+		cout << "Could not open the script file!\n" << flush;
 		if(stupid_mode) system("pause");
 		return -1;
 	}
@@ -182,20 +186,26 @@ Have a nice day!\n";
 	// create the primary GeoGen object (use Squirrel script interface)
 	GGen_Squirrel* ggen = new GGen_Squirrel();
 
-	cout << "Compiling...\n";
+	cout << "Compiling...\n" << flush;
 
 	ggen->SetReturnCallback(ReturnHandler);
 	ggen->SetProgressCallback(ProgressHandler);
 
 	// pump the script into the engine and compile it
 	if(!ggen->SetScript(strTotal.c_str())){
-		cout << "Compilation failed!\n";
+		cout << "Compilation failed!\n" << flush;
 		delete ggen;
 		if(stupid_mode) system("pause");
 		return -1;
 	}
+	else if(special_mode == 'V'){
+		cout << "OKAY\n" << flush;
+		
+		delete ggen;
+		return 0;
+	}
 
-	cout << "Loading map info...\n";
+	cout << "Loading map info...\n" << flush;
 
 	// fetch the list of arguments from the script file
 	ggen->LoadArgs();
@@ -213,7 +223,39 @@ Have a nice day!\n";
 	srand(seed);
 
 	// manual/stupid mode
-	if((argc > 3 && argv[3][0] == '?') || stupid_mode){
+	if(special_mode == 'P'){
+		cout << "PARAMS\n" << flush;
+		for(uint8 i = 0; i < ggen->num_args; i++){
+			GGen_ScriptArg* a = ggen->args[i];
+			
+			char type = 'N';
+			
+			switch(a->type){
+				case GGEN_BOOL : type = 'B'; break;
+				case GGEN_INT : type = 'I'; break;
+				case GGEN_ENUM : type = 'E'; break;
+			}
+			
+			cout << a->label << ";" <<  a->description << ";" << type << ";" << ";" << a->min_value << ";" << a->max_value << ";" << a->step_size << ";" << a->num_options << ";";
+		
+			if(a->type == GGEN_ENUM){
+				for(int j = 0; j < a->num_options; j++){
+					if(j > 0) cout << ",";
+					cout << a->options[j];
+					
+				}
+				
+			}
+			
+			cout << "\n" << flush;
+		}
+		
+		cout << "END\n" << flush;
+				
+		delete ggen;
+		return 0;
+	}
+	else if((argc > 3 && argv[3][0] == '?') || stupid_mode){
 		cout << "	Please set map parameters:\n";
 		
 		// loop through all the map arguments 
@@ -269,13 +311,13 @@ Have a nice day!\n";
 		}
 	}
 
-	cout << "Executing with seed " << seed << "...\n";
+	cout << "Executing with seed " << seed << "...\n" << flush;
 
 	// execute the main part of the script
 	int16* data = ggen->Generate();
 
 	if(data == NULL){
-		cout << "Map generation failed!\n";
+		cout << "Map generation failed!\n" << flush;
 		delete ggen;
 		if(stupid_mode) system("pause");
 		return -1;		
@@ -286,11 +328,11 @@ Have a nice day!\n";
 	// flush the bitmap
 	SaveAsBMP(data, ggen->output_width, ggen->output_height, path_out);
 
-	cout << "Cleanup...\n";
+	cout << "Cleanup...\n" << flush;
 
 	delete ggen;
 
-	cout << "Done!\n";
+	cout << "Done!\n" << flush;
 
 	if(stupid_mode) system("pause");
 
