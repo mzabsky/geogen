@@ -171,6 +171,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Intersection,_T("Intersection")).
 		func(&GGen_Data_2D::IntersectionTo,_T("IntersectionTo")).
 		func(&GGen_Data_2D::TransformValues,_T("TransformValues")).
+		func(&GGen_Data_2D::ReplaceValue,_T("ReplaceValue")).
 		
 		func(&GGen_Data_2D::Shift,_T("Shift")).
 		func(&GGen_Data_2D::Project,_T("Project")).
