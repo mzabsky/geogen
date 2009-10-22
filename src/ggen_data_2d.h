@@ -63,6 +63,7 @@ class GGen_Data_2D{
 		void Union(GGen_Data_2D* victim);
 		void UnionTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* victim);
 		void Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative);
+		void ReplaceValue(GGen_Height needle, GGen_Height replace);
 
 		void Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode);
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);
