@@ -306,6 +306,16 @@ void GGen_Data_2D::Add(GGen_Data_2D* addend){
 	}
 }
 
+void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace){
+	for(GGen_Coord y = 0; y < height; y++) 
+	{
+		for(GGen_Coord x = 0; x < width; x++)
+		{
+			if(data[x + y * width] == needle) data[x + y * width] = replace;
+		}
+	}
+}
+
 /*
  * Adds values from (unscaled) addend to the array
  * @param x offset of the addend coords
@@ -994,7 +1004,7 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 	/* Smoothen the profile to prevent visible color jumps in the result */
 	GGen_Data_1D profile_copy(*profile);
 	profile_copy.ScaleTo(max - min + 1, false);
-	if(max - min > 80) profile_copy.Smooth((max - min) / 40);
+	if(profile_copy.length > 80) profile_copy.Smooth((max - min) / 40);
 	
 	/* Make sure the smoothing didn't chhange the extremes */
 	profile_copy.ScaleValuesTo(profile->Min(), profile->Max());
