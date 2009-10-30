@@ -237,7 +237,7 @@ void GGen_Data_2D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 
 	if(max == 0) return;
 
-	for(uint32 i = 0; i < length; i++){
+	for(GGen_Index i = 0; i < length; i++){
 		data[i] = new_min + (data[i] - min) * new_max / max;
 	}
 }
@@ -279,7 +279,7 @@ void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_
  * @param value to be used
  */
 void GGen_Data_2D::Fill(GGen_Height value){
-	for(uint32 i = 0; i < length; i++) data[i] = value;
+	for(GGen_Index i = 0; i < length; i++) data[i] = value;
 }
 
 /** 
@@ -287,7 +287,7 @@ void GGen_Data_2D::Fill(GGen_Height value){
  * @param value to be used
  */
 void GGen_Data_2D::Add(GGen_Height value){
-	for(uint32 i = 0; i < length; i++) data[i] += value;
+	for(GGen_Index i = 0; i < length; i++) data[i] += value;
 }
 
 
@@ -377,7 +377,7 @@ void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relativ
  * @param value to be used
  */
 void GGen_Data_2D::Multiply(double factor){
-	for(uint32 i = 0; i < length; i++) data[i] = (GGen_Coord) (factor * (double) data[i]);
+	for(GGen_Index i = 0; i < length; i++) data[i] = (GGen_Coord) (factor * (double) data[i]);
 }
 
 
@@ -401,7 +401,7 @@ void GGen_Data_2D::Multiply(GGen_Data_2D* factor){
  * @param value to be used
  */
 void GGen_Data_2D::Invert(){
-	for(uint32 i = 0; i < length; i++) data[i] = - data[i];
+	for(GGen_Index i = 0; i < length; i++) data[i] = - data[i];
 }
 
 
@@ -411,7 +411,7 @@ void GGen_Data_2D::Invert(){
 GGen_Height GGen_Data_2D::Min(){
 	GGen_Height temp = GGEN_MAX_HEIGHT;
 
-	for(uint32 i = 0; i < length; i++){
+	for(GGen_Index i = 0; i < length; i++){
 		temp = temp > data[i] ? data[i] : temp;
 	}
 
@@ -424,7 +424,7 @@ GGen_Height GGen_Data_2D::Min(){
 GGen_Height GGen_Data_2D::Max(){
 	GGen_Height temp = GGEN_MIN_HEIGHT;
 
-	for(uint32 i = 0; i < length; i++){
+	for(GGen_Index i = 0; i < length; i++){
 		temp = temp < data[i] ? data[i] : temp;
 	}
 
@@ -439,7 +439,7 @@ GGen_Height GGen_Data_2D::Max(){
 void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max){
 	GGen_Script_Assert(max > min);
 
-	for(uint32 i = 0; i < length; i++){
+	for(GGen_Index i = 0; i < length; i++){
 		if(data[i] > max) data[i] = max;
 		else if(data[i] < min) data[i] = min;
 	}
@@ -795,7 +795,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size)
 void GGen_Data_2D::Flood(double water_amount){
 	GGen_Script_Assert(water_amount < 1 && water_amount > 0);
 
-	uint32 target = (uint32) (water_amount * (double) length);
+	GGen_Index target = (uint32) (water_amount * (double) length);
 
 	GGen_Height min = Min();
 	GGen_Height max = Max();
@@ -805,8 +805,8 @@ void GGen_Data_2D::Flood(double water_amount){
 	while(max - min > 1){
 		middle = min + (max - min) / 2;
 
-		uint32 amount = 0;
-		for(uint32 i = 0; i < length; i++) {
+		GGen_Index amount = 0;
+		for(GGen_Index i = 0; i < length; i++) {
 			if(data[i] >= middle) amount++;
 		}
 
@@ -927,7 +927,7 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 }
 
 void GGen_Data_2D::Monochrome(GGen_Height treshold){
-	for(uint32 i = 0; i < length; i++){
+	for(GGen_Index i = 0; i < length; i++){
 		data[i] = data[i] > treshold ? 1 : 0;
 	}	
 }
