@@ -230,15 +230,16 @@ void GGen_Data_2D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 {
 	GGen_Script_Assert(new_max > new_min);
 
-	GGen_Height min = Min();
-	GGen_Height max = Max() - min;
+	GGen_ExtHeight min = Min();
+	GGen_ExtHeight max = Max() - min;
 
-	new_max -= new_min;
+	GGen_ExtHeight ext_new_min = new_min;
+	GGen_ExtHeight ext_new_max = (GGen_ExtHeight) new_max - ext_new_min;
 
 	if(max == 0) return;
 
 	for(GGen_Index i = 0; i < length; i++){
-		data[i] = new_min + (data[i] - min) * new_max / max;
+		data[i] = (GGen_Height) (ext_new_min + ((GGen_ExtHeight) data[i] - min) * ext_new_max / max);
 	}
 }
 

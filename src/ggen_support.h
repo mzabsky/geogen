@@ -38,6 +38,7 @@ typedef signed long long int64;
 typedef unsigned long long uint64;
 
 typedef int16 GGen_Height;
+typedef int32 GGen_ExtHeight;
 typedef uint16 GGen_Size;
 typedef uint32 GGen_TotalSize;
 typedef uint16 GGen_Coord;
