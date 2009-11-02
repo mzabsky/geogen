@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)/bin"
-			IntermediateDirectory="$(ConfigurationName)/console"
+			IntermediateDirectory="$(SolutionDir)/$(ConfigurationName)/console"
 			ConfigurationType="1"
 			CharacterSet="2"
 			>
@@ -58,7 +58,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\geogen.exe"
+				OutputFile="$(SolutionDir)/bin\geogen.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
