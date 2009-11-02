@@ -459,6 +459,12 @@ void GGen_Data_1D::Intersection(GGen_Data_1D* intersectee){
 	for(GGen_Coord i = 0; i < length; i++) data[i] = MAX(data[i], intersectee->GetValue(i, length));
 }
 
+void GGen_Data_1D::Abs(){
+	for(GGen_Index i = 0; i < length; i++){
+		if(data[i] < 0) data[i] = - data[i];
+	}
+}
+
 /*
  * Reduces all data in the array to only two values. Values above treshold will be ones, values below
  * (treshold included) will be zeros.

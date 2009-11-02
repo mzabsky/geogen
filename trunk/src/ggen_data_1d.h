@@ -59,6 +59,7 @@ class GGen_Data_1D{
 		void Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode);
 		void Union(GGen_Data_1D* victim);
 		void Intersection(GGen_Data_1D* victim);
+		void Abs();
 		
 		/* Advanced operations with array data */
 		void Monochrome(GGen_Height treshold);
