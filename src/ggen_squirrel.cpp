@@ -127,6 +127,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_1D::Shift,_T("Shift")).
 		func(&GGen_Data_1D::Union,_T("Union")).
 		func(&GGen_Data_1D::Intersection,_T("Intersection")).
+		func(&GGen_Data_1D::Abs,_T("Abs")).
 		
 		func(&GGen_Data_1D::Monochrome,_T("Monochrome")).
 		func(&GGen_Data_1D::Normalize,_T("Normalize")).
@@ -172,6 +173,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::IntersectionTo,_T("IntersectionTo")).
 		func(&GGen_Data_2D::TransformValues,_T("TransformValues")).
 		func(&GGen_Data_2D::ReplaceValue,_T("ReplaceValue")).
+		func(&GGen_Data_2D::Abs,_T("Abs")).
 		
 		func(&GGen_Data_2D::Shift,_T("Shift")).
 		func(&GGen_Data_2D::Project,_T("Project")).

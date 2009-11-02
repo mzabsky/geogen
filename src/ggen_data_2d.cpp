@@ -506,6 +506,12 @@ void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relati
 	}
 }
 
+void GGen_Data_2D::Abs(){
+	for(GGen_Index i = 0; i < length; i++){
+		if(data[i] < 0) data[i] = - data[i];
+	}
+}
+
 /*
  * Projects 1D array onto a 2D array
  * @param profile to be projected
