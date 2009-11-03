@@ -300,9 +300,14 @@ int16* GGen_Squirrel::Generate(){
 
 		return return_data;
 		
-    } catch (SquirrelError & e) {
+    } 
+    catch (SquirrelError & e) {
 		return NULL;
     }	
+    catch (bad_alloc){
+		ggen_current_object->ThrowMessage("GGen_Data memory allocation failed!", GGEN_ERROR, -1);
+		return NULL;
+    }
 
 	
 
