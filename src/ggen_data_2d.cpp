@@ -260,8 +260,8 @@ void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_
 
 	for(GGen_Coord y = 0; y < new_height; y++){
 		for(GGen_Coord x = 0; x < new_width; x++){
-			if(y + new_zero_y >= 0 && y + new_zero_y < height && x + new_zero_x >= 0 && x + new_zero_x){
-				new_data[x + y * new_width] = data[x + new_zero_x + (y + new_zero_y) * width];
+			if(y + new_zero_y >= 0 && y + new_zero_y < height && x + new_zero_x >= 0 && x + new_zero_x < width){
+				new_data[x + y * new_width] = data [x + new_zero_x + (y + new_zero_y) * width];
 			}
 			else new_data[x + y * new_width] = 0;
 		}
