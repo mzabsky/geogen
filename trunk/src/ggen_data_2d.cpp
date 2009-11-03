@@ -342,8 +342,8 @@ void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool rela
 	int32 max = 255;
 
 	if(relative){
-		min = Min();
-		max = Max() - min;
+		min = mask->Min();
+		max = mask->Max() - min;
 	}
 
 	for(GGen_Coord y = 0; y < height; y++) 
