@@ -1060,14 +1060,14 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	GGen_Script_Assert(a11 * a22 - a12 * a21 != 0);
 
 	/* Calculate output's boundaries so we can allocate the new array */
-	double new_top_right_x = width * a11;
-	double new_top_right_y = width * a21;
+	double new_top_right_x = (width - 1) * a11;
+	double new_top_right_y = (width - 1) * a21;
 	
-	double new_bottom_left_x = height * a12;
-	double new_bottom_left_y = height * a22;
+	double new_bottom_left_x = (height - 1) * a12;
+	double new_bottom_left_y = (height - 1) * a22;
 	
-	double new_bottom_right_x = width * a11 + height * a12;
-	double new_bottom_right_y = width * a21 + height * a22;
+	double new_bottom_right_x = (width - 1) * a11 + (height - 1) * a12;
+	double new_bottom_right_y = (width - 1) * a21 + (height - 1) * a22;
 	
 	/* Find which bounding point is which (the rotations and such might change this). The zeroes
 	represent the origin (upper left corner), which always stays the same. */
@@ -1077,8 +1077,8 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	int32 new_top_y = (int32)floor(MIN(MIN(0, new_top_right_y), MIN(new_bottom_left_y, new_bottom_right_y)));
 	int32 new_bottom_y = (int32) ceil(MAX(MAX(0, new_top_right_y), MAX(new_bottom_left_y, new_bottom_right_y)));
 	
-	uint32 new_width = new_right_x - new_left_x;
-	uint32 new_height = new_bottom_y - new_top_y;
+	uint32 new_width = new_right_x - new_left_x + 1;
+	uint32 new_height = new_bottom_y - new_top_y + 1;
 	
 	/* Make sure the output dimensions fit into a 16 bit unsigned integer, so we don't have array overflows later */
 	GGen_Script_Assert(new_width < 2 << 16 && new_height < 2 << 16);
@@ -1141,7 +1141,7 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 			int32 y = (int32) ((new_x - new_origin_x) * inverted_a21) + y_part_2;
 			
 			/* The original point exists => use its value */
-			if(x > 0 && y > 0 && x < width && y < height) {			
+			if(x >= 0 && y >= 0 && x < width && y < height) {			
 				new_data[new_x - from_x + y_offset] = data[x + y * width];
 			}
 			
