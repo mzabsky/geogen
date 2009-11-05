@@ -287,6 +287,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\examples\template.nut"
+				>
+			</File>
+			<File
+				RelativePath="..\examples\test.nut"
+				>
+			</File>
+			<File
 				RelativePath="..\examples\tournament islands I.nut"
 				>
 			</File>
