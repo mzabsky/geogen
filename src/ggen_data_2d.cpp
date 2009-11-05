@@ -360,8 +360,8 @@ void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relativ
 	GGen_Height max = 255;
 
 	if(relative){
-		min = Min();
-		max = Max() - min;
+		min = mask->Min();
+		max = mask->Max() - min;
 	}
 
 	for(GGen_Coord y = 0; y < height; y++) 
@@ -495,8 +495,8 @@ void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relati
 	GGen_Height max = 255;
 
 	if(relative){
-		min = Min();
-		max = Max() - min;
+		min = mask->Min();
+		max = mask->Max() - min;
 	}
 	
 	for(GGen_Coord y = 0; y < height; y++){
