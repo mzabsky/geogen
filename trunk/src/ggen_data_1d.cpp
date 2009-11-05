@@ -186,8 +186,8 @@ void GGen_Data_1D::AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool rela
 	GGen_Height max = 255;
 
 	if(relative){
-		min = Min();
-		max = Max() - min;
+		min = mask->Min();
+		max = mask->Max() - min;
 	}
 
 	for(GGen_Coord i = 0; i < length; i++) 
@@ -201,8 +201,8 @@ void GGen_Data_1D::AddMasked(int value, GGen_Data_1D* mask, bool relative){
 	GGen_Height max = 255;
 
 	if(relative){
-		min = Min();
-		max = Max() - min;
+		min = mask->Min();
+		max = mask->Max() - min;
 	}
 
 	for(GGen_Coord i = 0; i < length; i++) 
