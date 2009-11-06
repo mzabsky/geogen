@@ -652,14 +652,14 @@ void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen
 void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside){
 	GGen_Script_Assert(radius > 0);
 	
-	max = max - min;
+	GGen_ExtExtHeight rel_max = max - min;
 
 	for(GGen_Coord y = 0; y < height; y++){
 		for(GGen_Coord x = 0; x < width; x++){
 			GGen_Distance distance = (GGen_Distance) sqrt((double) (abs(x - center_x) * abs(x - center_x) + abs(y - center_y) * abs(y - center_y)));
 
-			if(distance < radius)  data[x + width * y] = min + max * distance / radius;
-			else if(fill_outside) data[x + width * y] = min + max;
+			if(distance < radius)  data[x + width * y] = (GGen_Height) ((GGen_ExtExtHeight) min + rel_max * (GGen_ExtExtHeight) distance / (GGen_ExtExtHeight) radius);
+			else if(fill_outside) data[x + width * y] = (GGen_Height) ((GGen_ExtHeight) min + rel_max);
 		}
 	}
 }
