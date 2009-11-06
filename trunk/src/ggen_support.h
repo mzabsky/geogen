@@ -37,18 +37,20 @@ typedef unsigned int uint32;
 typedef signed long long int64;
 typedef unsigned long long uint64;
 
-typedef int16 GGen_Height;
-typedef int32 GGen_ExtHeight;
-typedef uint16 GGen_Size;
-typedef uint32 GGen_TotalSize;
-typedef uint16 GGen_Coord;
-typedef int16 GGen_CoordOffset;
-typedef uint32 GGen_Index;
-typedef uint32 GGen_Distance;
+/* Type definitons. */
+typedef int16 GGen_Height; /* Holds height for one cell. Minimum and maximum height are depend on this type. Must allow negative values. */
+typedef int32 GGen_ExtHeight; /* Extended height value used for some calculations. Must be able to hold a value of 2 * GGen_Height * GGen_Height. */
+typedef int64 GGen_ExtExtHeight; /* Even more extended height value used for some calculations. Must be able to hold a value of 2 * GGen_ExtHeight * GGen_ExtHeight. */
+typedef uint16 GGen_Size; /* Size of the data array or size of an interval of coordinates in one dimension. Determines maximum dimensions of a data array. Must not allow negative values. */
+typedef uint32 GGen_TotalSize; /* Total count of elements in the data array, must be able to hold at least GGen_Size * GGen_Size. Must not allow negative values. */
+typedef GGen_Size GGen_Coord; /* Coordinate in one dimension of the data array. Should be the same as GGen_Size. */
+typedef int16 GGen_CoordOffset; /* Coordinate offset relative to an offset value. Must allow negative values. */
+typedef GGen_TotalSize GGen_Index; /* Coordinate in linearized data array. Should be the same as GGen_TotalSize. */
+typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 * GGen_Coord * GGen_Coord. */
 
 #define GGEN_INVALID_HEIGHT -32768
 #define GGEN_MIN_HEIGHT -32767
-#define GGEN_MAX_HEIGHT 32766
+#define GGEN_MAX_HEIGHT 32767
 
 #define MAX(a,b) (a > b? a: b) 
 #define MIN(a,b) (a < b? a: b) 
