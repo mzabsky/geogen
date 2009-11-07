@@ -81,6 +81,7 @@ class GGen_Data_2D{
 		void Flood(double water_amount);
 		void Pattern(GGen_Data_2D* pattern);
 		void Monochrome(GGen_Height treshold);
+		void SelectValue(GGen_Height value);
 		void SlopeMap();
 		void Scatter(bool relative);
 		void TransformValues(GGen_Data_1D* profile, bool relative);
