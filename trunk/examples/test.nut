@@ -24,42 +24,46 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	base.Gradient(width - 11, height - 11, 10, 10, 245 * value_multiplier, 10 * value_multiplier, true);
-	base.Gradient(width / 8, height / 8, 7 * width / 8, 7 * height / 8, 0, 255 * value_multiplier, false);
+	//base.Gradient(width - 11, height - 11, 10, 10, GGEN_MAX_HEIGHT, GGEN_MIN_HEIGHT, true);
+	base.Gradient(width / 8, height / 8, 7 * width / 8, 7 * height / 8, GGEN_MIN_HEIGHT, GGEN_MAX_HEIGHT, true);
 
 	GGen_IncreaseProgress();
 
-	local radial = GGen_Data_2D(width, height);
-	radial.RadialGradient(3 * width / 4, height / 4, width / 5, 50 * value_multiplier, 200 * value_multiplier, false);
+	local radial = GGen_Data_2D(width, height, GGEN_MIN_HEIGHT);
+	radial.RadialGradient(3 * width / 4, height / 4, width / 5, 0, GGEN_MAX_HEIGHT, false);
+
+	radial.ReturnAs("radial");
 
 	GGen_IncreaseProgress();
 
 	base.Union(radial);
+	
 	base.UnionTo(0, height / 2, radial);
 
 	GGen_IncreaseProgress();
-
+	
 	radial.ResizeCanvas(width, height, width / 2, 0);
+	radial.ReplaceValue(0, GGEN_MIN_HEIGHT);
 	radial.Invert();
-	radial.Add(255 * value_multiplier);
 
 	GGen_IncreaseProgress();
 
 	base.Intersection(radial);
 	base.IntersectionTo(0, height / 2, radial);
 
+	base.ReturnAs("1-gradient, set operations, canvas, replaceValue");
 	radial = null;
 
-	base.ReturnAs("1-gradient, set ops., canvas");
+	
 	GGen_IncreaseProgress();
 
 	base.ScaleValuesTo(100, 110);
 
-	base.ScaleValuesTo(0, 255 * value_multiplier);
+	base.ScaleValuesTo(GGEN_MIN_HEIGHT, GGEN_MAX_HEIGHT);
 
 	GGen_IncreaseProgress();
 
-	base.Smooth(20);
+	base.Smooth(width / 100);
 
 	base.ReturnAs("2-scaleValues, smooth")
 	GGen_IncreaseProgress();
@@ -81,24 +85,19 @@ function Generate(){
 	GGen_IncreaseProgress();
 	
 	local mask = GGen_Data_2D(base);
-	
-	mask.Monochrome(0);
-	mask.Invert();
-	mask.Add(1);
+	mask.SelectValue(0);
 	
 	GGen_IncreaseProgress();
-		
-	collectgarbage();	
 	
 	local noise = GGen_Data_2D(width, height);	
 	
 	GGen_IncreaseProgress();
 	
-	noise.Noise(4, width / 8);
+	noise.Noise(16, width / 8);
 	
 	GGen_IncreaseProgress();
 	
-	noise.ScaleValuesTo(0, 255 * value_multiplier);
+	noise.ScaleValuesTo(GGEN_MIN_HEIGHT, GGEN_MAX_HEIGHT);
 
 	base.AddMasked(noise, mask, true);
 
