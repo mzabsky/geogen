@@ -190,6 +190,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Flood,_T("Flood")).
 		func(&GGen_Data_2D::Pattern,_T("Pattern")).
 		func(&GGen_Data_2D::Monochrome,_T("Monochrome")).
+		func(&GGen_Data_2D::SelectValue,_T("SelectValue")).
 		func(&GGen_Data_2D::SlopeMap,_T("SlopeMap")).
 		func(&GGen_Data_2D::Scatter,_T("Scatter")).
 		func(&GGen_Data_2D::ReturnAs,_T("ReturnAs")).

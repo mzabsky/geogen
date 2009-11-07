@@ -633,10 +633,6 @@ void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_
 	temp.SetValue(0, from_value);
 	temp.SetValue(1, to_value);
 
-	/*for(int i = 0; i < 100; i++){
-		cout << temp.GetValue(i,100) << "\n";
-	}*/
-
 	Gradient(from_x, from_y, to_x, to_y, &temp, fill_outside);
 }
 
@@ -942,6 +938,13 @@ void GGen_Data_2D::Monochrome(GGen_Height treshold){
 		data[i] = data[i] > treshold ? 1 : 0;
 	}	
 }
+
+void GGen_Data_2D::SelectValue(GGen_Height value){
+	for(GGen_Index i = 0; i < length; i++){
+		data[i] = data[i] == value ? 1 : 0;
+	}	
+}
+
 
 void GGen_Data_2D::SlopeMap(){
 
