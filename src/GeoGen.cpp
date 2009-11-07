@@ -189,7 +189,7 @@ int main(int argc,char * argv[]){
 	args.AddBoolArg('h', "help", &_params.help);
 	args.AddBoolArg('x', "syntax-check", &_params.help);
 	args.AddBoolArg('p', "param-list", &_params.param_list_mode);
-	args.AddBoolArg('s', "simple", &_params.stupid_mode);
+	args.AddBoolArg('e', "simple", &_params.stupid_mode);
 	args.AddBoolArg('m', "manual", &_params.manual_mode);
 	args.AddBoolArg('D', "disable-secondary-maps", &_params.disable_secondary_maps);
 	
