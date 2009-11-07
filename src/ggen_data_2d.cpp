@@ -919,18 +919,13 @@ void GGen_Data_2D::Pattern(GGen_Data_2D* pattern){
 
 void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 	if(ggen_current_object->return_callback == NULL) ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
-	
-	/* Allocate the new array */
-	GGen_Height* new_data = new GGen_Height[length];
-
-	GGen_Script_Assert(new_data != NULL);
-
-	memcpy(new_data, data, sizeof(GGen_Height) * length);
 
 	char* buf = GGen_ToCString(name);
 
 	/* Call the defined return callback */
 	ggen_current_object->return_callback(buf, new_data, width, height);
+	
+	delete [] buf;
 }
 
 void GGen_Data_2D::Monochrome(GGen_Height treshold){

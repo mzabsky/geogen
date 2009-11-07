@@ -97,7 +97,7 @@ void GGen::SetMessageCallback( void (*message_callback) (char* message, GGen_Mes
 	this->message_callback = message_callback;
 }
 
-void GGen::SetReturnCallback( void (*return_callback) (char* name, int16* map, int width, int height) ){
+void GGen::SetReturnCallback( void (*return_callback) (char* name, const int16* map, int width, int height) ){
 	this->return_callback = return_callback;
 }
 
