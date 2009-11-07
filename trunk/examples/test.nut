@@ -143,8 +143,6 @@ function Generate(){
 	
 	base.ReturnAs("6-clamp, max, flood");
 	
-	collectgarbage();
-	
 	GGen_IncreaseProgress();
 
 	base.Shear(0, 1, true);
