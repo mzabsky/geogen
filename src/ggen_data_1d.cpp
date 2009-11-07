@@ -557,19 +557,18 @@ void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_val
 	}
 
 	GGen_Height base = from_value;
-	double offset = (double) (to_value - base);
+	GGen_ExtHeight offset = (GGen_ExtHeight) (to_value - base);
 	GGen_Distance max_distance = to - from;
 	
 	for(GGen_Coord i = 0; i < length; i++){
 		/* Calculate current distance from "from" and "to" */
-		double distance_from = (double) abs(i - from);
-		double distance_to = (double) abs(i - to);
+		GGen_Distance distance_from = (GGen_Distance) abs(i - from);
+		GGen_Distance distance_to = (GGen_Distance) abs(i - to);
 
 		if(distance_from > max_distance) data[i] = fill_flat ? to_value: data[i];
 		else if(distance_to > max_distance) data[i] = fill_flat ? from_value : data[i];
 		else{
-			double ratio = distance_to / max_distance;
-			data[i] = base + (GGen_Height) (ratio * offset);
+			data[i] = base + (GGen_Height) (offset * distance_to / max_distance);
 		}
 	}
 }
