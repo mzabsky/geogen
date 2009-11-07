@@ -42,7 +42,7 @@ class GGen_Data_1D{
 		void Add(GGen_Height value);
 		void Add(GGen_Data_1D* addend);
 		void AddTo(GGen_CoordOffset offset, GGen_Data_1D* addend);
-		void AddMasked(int value, GGen_Data_1D* mask, bool relative);
+		void AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative);
 		void AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative);
 		void Multiply(double value);
 		void Multiply(GGen_Data_1D* factor);

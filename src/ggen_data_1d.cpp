@@ -196,7 +196,7 @@ void GGen_Data_1D::AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool rela
 	}
 }
 
-void GGen_Data_1D::AddMasked(int value, GGen_Data_1D* mask, bool relative){
+void GGen_Data_1D::AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative){
 	GGen_Height min = 0;
 	GGen_Height max = 255;
 
@@ -410,7 +410,7 @@ void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode){
 		
 		/* positive distance -> shift right*/
 		if(distance > 0){
-			for(int16 i = length - 1; i >= 0; i--){
+			for(GGen_CoordOffset i = length - 1; i >= 0; i--){
 				/* Some values can be just plainly shifted... */
 				if(i > distance - 1){
 					data[i] = data[i - distance];
@@ -425,7 +425,7 @@ void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode){
 		}
 		/* Negative distance -> shift left */
 		else{
-			for(int16 i = 0; i < length; i++){
+			for(GGen_CoordOffset i = 0; i < length; i++){
 				/* Some values can be just plainly shifted... */
 				if(i < length + distance){
 					data[i] = data[i - distance];
@@ -592,7 +592,7 @@ void GGen_Data_1D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 		if(wave_length < min_feature_size) break;
 
 		for(GGen_Coord i = 0; i < length; i += wave_length){
-				new_data[i] = GGen_Random<int>(-amplitude, amplitude);
+				new_data[i] = GGen_Random<GGen_Height>(-amplitude, amplitude);
 		}
 
 		if(wave_length > 1)
@@ -641,7 +641,7 @@ void GGen_Data_1D::Smooth(GGen_Distance radius){
 	GGen_Size window_size = radius * 2 + 1;
 
 	/* Prefill the window with value of the left edge + n leftmost values (where n is radius) */
-	int32 window_value = data[0] * radius;
+	GGen_ExtHeight window_value = data[0] * radius;
 
 	for(GGen_Distance i = 0; i < radius; i++){
 		window_value += data[i];
