@@ -923,7 +923,7 @@ void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
 	char* buf = GGen_ToCString(name);
 
 	/* Call the defined return callback */
-	ggen_current_object->return_callback(buf, new_data, width, height);
+	ggen_current_object->return_callback(buf, data, width, height);
 	
 	delete [] buf;
 }
