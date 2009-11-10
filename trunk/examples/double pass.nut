@@ -40,6 +40,8 @@ function Generate(){
 	
 	base.AddMasked(noise, mask, true);
 	
+	base.TransformValues(GGEN_STD_PROFILE, true);
+	
 	return base;
 
 }

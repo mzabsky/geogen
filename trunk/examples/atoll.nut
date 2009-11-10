@@ -39,6 +39,8 @@ function Generate(){
 	base.Add(noise);
 	
 	base.Flood(0.05);
+
+	base.TransformValues(GGEN_STD_PROFILE, true);
 	
 	return base;
 }

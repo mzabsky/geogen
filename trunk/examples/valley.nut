@@ -42,10 +42,8 @@ function Generate(){
 
 	profile_valley.SetValueInRange(valley_profile_width / 2 - valley_width, valley_profile_width / 2 + valley_width, 50);
 
-	
 	profile_valley.Gradient(valley_profile_width / 2 - valley_profile_width / 6, valley_profile_width / 2 - valley_width - 1, 300, 1500, false);
 	profile_valley.Gradient(valley_profile_width / 2 + valley_width + 1, valley_profile_width / 2 + valley_profile_width / 6, 1500, 300, false);
-
 	
 	base.Project(profile_height, GGEN_VERTICAL);
 	
@@ -89,6 +87,8 @@ function Generate(){
 	}
 
 	base.Add(-max);
+
+	base.TransformValues(GGEN_STD_PROFILE, true);
 	
 	return base;
 }

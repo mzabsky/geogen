@@ -34,5 +34,7 @@ function Generate(){
 	// raise the water level so 9% of the map is under level 0
 	base.Flood(0.91);
 
+	base.TransformValues(GGEN_STD_PROFILE, true);
+
 	return base;
 }
