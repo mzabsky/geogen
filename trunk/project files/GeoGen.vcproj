@@ -227,6 +227,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\..\src\ggen_presets.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ggen_scriptarg.h"
 				>
 			</File>
@@ -250,6 +254,10 @@
 		<Filter
 			Name="Implementation"
 			>
+			<File
+				RelativePath="..\external\ArgDesc\ArgDesc.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\external\EasyBMP\EasyBMP.cpp"
 				>
