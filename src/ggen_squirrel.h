@@ -67,5 +67,11 @@ public:
 	virtual char* GetInfo(char* label);
 	virtual int GetInfoInt(char* label);
 	virtual int16* Generate();
+	
+	virtual void RegisterPreset(GGen_Data_1D* preset, char* label);
+	virtual void RegisterPreset(GGen_Data_2D* preset, char* label);
+	virtual void RegisterPreset(GGen_Amplitudes* preset, char* label);
+	
+	SquirrelObject* presetTarget;
 };
 
