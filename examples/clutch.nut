@@ -58,6 +58,8 @@ function Generate(){
 
 	local noise = GGen_Data_2D(width, height);
 	noise.Noise(smoothness, dimension / (5 - feature_size));
+	
+	noise.ReturnAs("09-noiseprescale");
 	noise.ScaleValuesTo(-2000, 12000);
 	
 	base.AddMasked(noise, mask, false);
@@ -82,10 +84,27 @@ function Generate(){
 		if(max_min < min) max_min = min;
 	}
 
-	base.Add(-max_min + 10);
+
+
+	base.Add(-max_min + 50);
 	
 	base.SetValueInRect(0, 0, width / 4, height / 4, 0);
 	base.SetValueInRect(3 * width / 4, 3 * width / 4, width - 1, height - 1, 0);
+
+
+
+	local profile = GGen_Data_1D(11, 0);
+	profile.SetValue(6, 18);
+	profile.SetValue(7, 43);
+	profile.SetValue(8, 91);
+	profile.SetValue(9, 163);
+	profile.SetValue(10, 255);
+
+
+	base.Clamp(0, GGEN_MAX_HEIGHT);
+	
+	base.TransformValues(GGEN_STD_PROFILE, true);
+	//base.TransformValues(profile, true);
 
 	return base;
 

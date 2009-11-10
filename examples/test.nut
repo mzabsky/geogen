@@ -32,8 +32,6 @@ function Generate(){
 	local radial = GGen_Data_2D(width, height, GGEN_MIN_HEIGHT);
 	radial.RadialGradient(3 * width / 4, height / 4, width / 5, 0, GGEN_MAX_HEIGHT, false);
 
-	radial.ReturnAs("radial");
-
 	GGen_IncreaseProgress();
 
 	base.Union(radial);
@@ -93,7 +91,9 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	noise.Noise(16, width / 8);
+	noise.Noise(4, width / 8);
+	
+	noise.ReturnAs("noise");
 	
 	GGen_IncreaseProgress();
 	
