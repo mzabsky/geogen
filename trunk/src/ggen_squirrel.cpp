@@ -250,6 +250,7 @@ char* GGen_Squirrel::GetInfo(char* label){
 			SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
 
 			SquirrelFunction<const SQChar*> callFunc(_SC("GetInfo"));
+
 			const SQChar* output =  callFunc(in_buf);
 
 			return GGen_ToCString(output);
@@ -284,6 +285,13 @@ int16* GGen_Squirrel::Generate(){
 
 		{
 			SquirrelFunction<GGen_Data_2D*> callFunc(_SC("Generate"));
+			
+			presetTarget = &callFunc.object;
+			
+			#include "ggen_presets.h"
+			
+			presetTarget = NULL;
+			
 			data =  callFunc();	
 		}
 
@@ -309,14 +317,42 @@ int16* GGen_Squirrel::Generate(){
 		ggen_current_object->ThrowMessage("GGen_Data memory allocation failed!", GGEN_ERROR, -1);
 		return NULL;
     }
-
-	
-
-	
 }
 
+void GGen_Squirrel::RegisterPreset(GGen_Data_1D* preset, char* label){
+	SQChar* in_buf = new SQChar[strlen(label) + 1];
 
+	mbstowcs(in_buf, label, strlen(label));
 
+	in_buf[strlen(label)]=_SC('\0');
 
+	BindVariable(*presetTarget, preset, in_buf, VAR_ACCESS_READ_ONLY);
+
+	delete [] in_buf;
+}
+
+void GGen_Squirrel::RegisterPreset(GGen_Data_2D* preset, char* label){
+	SQChar* in_buf = new SQChar[strlen(label) + 1];
+
+	mbstowcs(in_buf, label, strlen(label));
+
+	in_buf[strlen(label)]=_SC('\0');
+
+	BindVariable(*presetTarget, preset, in_buf, VAR_ACCESS_READ_ONLY);
+
+	delete [] in_buf;
+}
+
+void GGen_Squirrel::RegisterPreset(GGen_Amplitudes* preset, char* label){
+	SQChar* in_buf = new SQChar[strlen(label) + 1];
+
+	mbstowcs(in_buf, label, strlen(label));
+
+	in_buf[strlen(label)]=_SC('\0');
+
+	BindVariable(*presetTarget, preset, in_buf, VAR_ACCESS_READ_ONLY);
+
+	delete [] in_buf;
+}
 
 

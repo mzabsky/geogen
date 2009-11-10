@@ -154,3 +154,7 @@ void GGen::IncreaseProgress(){
 	
 	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(ggen_current_object->current_progress, ggen_current_object->max_progress);
 }
+
+void GGen::InitPresets(){
+	#include "ggen_presets.h"
+}
