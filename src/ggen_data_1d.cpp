@@ -568,7 +568,9 @@ void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_val
 		if(distance_from > max_distance) data[i] = fill_flat ? to_value: data[i];
 		else if(distance_to > max_distance) data[i] = fill_flat ? from_value : data[i];
 		else{
-			data[i] = base + (GGen_Height) (offset * distance_to / max_distance);
+			GGen_Height v;
+			data[i] = v =base + (GGen_Height) (offset * (signed) distance_to / (signed) max_distance);
+			v = v;
 		}
 	}
 }
