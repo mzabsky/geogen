@@ -1002,11 +1002,12 @@ void GGen_Data_2D::Scatter(bool relative){
 }
 
 void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
-	GGen_Height min = -255;
+	GGen_Height min = 0;
 	GGen_Height max = 255;
 
 	if(relative){
 		min = Min();
+		if(min < 0) min = 0;
 		max = Max() - min;
 	}
 	
@@ -1021,7 +1022,7 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 	/* Transform the values */
 	for(GGen_Coord y = 0; y < height; y++){
 		for(GGen_Coord x = 0; x < width; x++){		
-			data[x + y * width] = profile_copy.GetValue(data[x + y * width] - min);
+			if(data[x + y * width] > 0) data[x + y * width] = profile_copy.GetValue(data[x + y * width] - min);
 		}
 	}
 }
