@@ -169,32 +169,49 @@ void ProgressHandler(int current_progress, int max_progress){
 }
 
 int main(int argc,char * argv[]){
-	//char* buf = new char[2000];
-
-	cout << "Initializing...\n" << flush;
-
 	// initialize argument support
 	ArgDesc args(argc, argv);
 	args.SetPosArgsVector(_params.script_args);
 	
-	args.AddStringArg('i', "input", &_params.input_file); 
-	args.AddStringArg('o', "output", &_params.output_file);
-	args.AddStringArg('d', "output-directory", &_params.output_directory);
+	args.AddStringArg('i', "input", "Input squirrel script to be executed.", "FILE", &_params.input_file); 
+	args.AddStringArg('o', "output", "Output file, the extension determines file type of the output (*.bmp for Windows Bitmap and *.shd for GeoGen Short Height Data are allowed).", "FILE", &_params.output_file);
+	args.AddStringArg('d', "output-directory", "Directory where secondary maps will be saved.", "DIRECTORY", &_params.output_directory);
 	
-	args.AddIntArg('s', "seed", &_params.random_seed);
+	args.AddIntArg('s', "seed", "Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same.", "SEED", &_params.random_seed);
 	
-	args.AddBoolArg('a', "all-random", &_params.all_random);
-	args.AddBoolArg('n', "no-rescaling", &_params.no_rescaling);
-	args.AddBoolArg('z', "ignore-zero", &_params.ignore_zero);
-	args.AddBoolArg('h', "help", &_params.help);
-	args.AddBoolArg('x', "syntax-check", &_params.help);
-	args.AddBoolArg('p', "param-list", &_params.param_list_mode);
-	args.AddBoolArg('e', "simple", &_params.stupid_mode);
-	args.AddBoolArg('m', "manual", &_params.manual_mode);
-	args.AddBoolArg('D', "disable-secondary-maps", &_params.disable_secondary_maps);
+	args.AddBoolArg('a', "all-random", "All unset script arguments are generated randomly.", &_params.all_random);
+	args.AddBoolArg('z', "ignore-zero", "Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved.", &_params.ignore_zero);
+	args.AddBoolArg('n', "no-rescaling", "The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>.", &_params.no_rescaling);
+	args.AddBoolArg('?', "help", "Displays this help.", &_params.help);
+	args.AddBoolArg('x', "syntax-check", "Will print OKAY if script is compilable or descibe the error found.", &_params.help);
+	args.AddBoolArg('p', "param-list", "Lists the script's parameters in machine-readable format.", &_params.param_list_mode);
+	args.AddBoolArg('e', "simple", "Mode which allows all necessary data to be entered interactively. This mode is automatically activaded if no params were entered.", &_params.stupid_mode);
+	args.AddBoolArg('m', "manual", "Script arguments will be entered interactively.", &_params.manual_mode);
+	args.AddBoolArg('D', "disable-secondary-maps", "All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped.", &_params.disable_secondary_maps);
 	
 	// read the arguments
 	args.Scan();
+
+	// display help?
+	if(_params.help){
+		cout << "GeoGen - procedural heightmap generator.\n"
+			 << "\n"
+			 << "Usage:\n"
+			 << "       geogen -i path_to_script -o path_to_output [options] [script_arguments]\n"
+			 << "\n"
+			 << "Example:\n"
+			 << "       geogen -i \"../examples/basic.nut\" -o \"../../my_folder/map.bmp\" -zD 2000 2000\n"
+			 << "\n"
+			 << "Option list:"
+			 << "\n";
+			 
+		args.PrintHelpString();
+		
+		cout << flush;
+		return 0;
+	}
+	
+	cout << "Initializing...\n" << flush;
 
 	// no arguments->perhaps the executable was launched directly from window manager->engage stupid mode
 	if(argc == 1){
