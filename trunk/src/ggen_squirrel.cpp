@@ -17,9 +17,6 @@
 
 */
 
-// dissable the "e is defined but not used" warnings for the catch sections
-#pragma warning(disable:4101)
-
 #include <string>
 #include <math.h>
 #include <stdarg.h>
@@ -217,33 +214,30 @@ GGen_Squirrel::~GGen_Squirrel(){
 
 
 bool GGen_Squirrel::SetScript(const char* script){
-	wchar_t* buf = new wchar_t[strlen(script)];
-	SquirrelObject sqScript2;
+	wchar_t* buf = new wchar_t[strlen(script) + 1];
+	SquirrelObject sqScript;
 
 
-	mbstowcs(buf, script, 9999999);
+	mbstowcs(buf, script, strlen(script) + 1);
 
 	try {
-		{
-			sqScript2 = SquirrelVM::CompileBuffer(buf);
+		sqScript = SquirrelVM::CompileBuffer(buf);
 
-			SquirrelVM::RunScript(sqScript2);
-		}
-		
+		SquirrelVM::RunScript(sqScript);
+	
+		delete [] buf;
 
 		return true;
-    } catch (SquirrelError & e) {
-		//SCPUTS(e.desc);
-		
+    } catch (SquirrelError &) {
 		return false;
     }	
 }
 
 char* GGen_Squirrel::GetInfo(char* label){
 	try{
-			SQChar* in_buf = new SQChar[strlen(label)];
+			SQChar* in_buf = new SQChar[strlen(label) + 1];
 
-			mbstowcs(in_buf, label, strlen(label) + 1);
+			mbstowcs(in_buf, label, strlen(label));
 
 			in_buf[strlen(label)]=_SC('\0');
 
@@ -253,27 +247,33 @@ char* GGen_Squirrel::GetInfo(char* label){
 
 			const SQChar* output =  callFunc(in_buf);
 
+			delete [] in_buf;
+
 			return GGen_ToCString(output);
 	}
-	catch(SquirrelError &e){
+	catch(SquirrelError &){
 		return NULL;
 	}
 }
 
 int GGen_Squirrel::GetInfoInt(char* label){
 	try{
-			SQChar* in_buf = new SQChar[strlen(label)];
+			SQChar* in_buf = new SQChar[strlen(label) + 1];
 
-			mbstowcs(in_buf, label, strlen(label) + 1);
+			mbstowcs(in_buf, label, strlen(label));
 
 			in_buf[strlen(label)]=_SC('\0');
 
 			SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
 
 			SquirrelFunction<int> callFunc(_SC("GetInfo"));
-			return callFunc(in_buf);
+			int ret = callFunc(in_buf);
+			
+			delete [] in_buf;
+			
+			return ret;
 	}
-	catch(SquirrelError & e){
+	catch(SquirrelError &){
 		return NULL;
 	}
 }
@@ -310,7 +310,7 @@ int16* GGen_Squirrel::Generate(){
 		return return_data;
 		
     } 
-    catch (SquirrelError & e) {
+    catch (SquirrelError &) {
 		return NULL;
     }	
     catch (bad_alloc){
