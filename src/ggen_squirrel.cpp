@@ -95,6 +95,9 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_WARNING, _SC("GGEN_WARNING"));
 	BindConstant(GGEN_ERROR, _SC("GGEN_ERROR"));
 
+
+	// WARNING: I'm too lazy to replace these with the TypeDefs currently. Maybe later...
+	
 	/* Class: GGen_Data_1D */
 	SQClassDefNoConstructor<GGen_Data_1D>(_SC("GGen_Data_1D")).
 		overloadConstructor<GGen_Data_1D(*)(uint16)>().
@@ -214,14 +217,13 @@ GGen_Squirrel::~GGen_Squirrel(){
 
 
 bool GGen_Squirrel::SetScript(const char* script){
+	
 	wchar_t* buf = new wchar_t[strlen(script) + 1];
-	SquirrelObject sqScript;
-
-
+	
 	mbstowcs(buf, script, strlen(script) + 1);
 
 	try {
-		sqScript = SquirrelVM::CompileBuffer(buf);
+		SquirrelObject sqScript = SquirrelVM::CompileBuffer(buf);
 
 		SquirrelVM::RunScript(sqScript);
 	
@@ -229,52 +231,58 @@ bool GGen_Squirrel::SetScript(const char* script){
 
 		return true;
     } catch (SquirrelError &) {
+		delete [] buf;
+    
 		return false;
     }	
 }
 
 char* GGen_Squirrel::GetInfo(char* label){
+	SQChar* in_buf = new SQChar[strlen(label) + 1];
+	
 	try{
-			SQChar* in_buf = new SQChar[strlen(label) + 1];
+		mbstowcs(in_buf, label, strlen(label));
 
-			mbstowcs(in_buf, label, strlen(label));
+		in_buf[strlen(label)] = _SC('\0');
 
-			in_buf[strlen(label)]=_SC('\0');
+		SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
 
-			SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
+		SquirrelFunction<const SQChar*> callFunc(_SC("GetInfo"));
 
-			SquirrelFunction<const SQChar*> callFunc(_SC("GetInfo"));
+		const SQChar* output =  callFunc(in_buf);
 
-			const SQChar* output =  callFunc(in_buf);
+		delete [] in_buf;
 
-			delete [] in_buf;
-
-			return GGen_ToCString(output);
+		return GGen_ToCString(output);
 	}
 	catch(SquirrelError &){
+		delete [] in_buf;
+	
 		return NULL;
 	}
 }
 
 int GGen_Squirrel::GetInfoInt(char* label){
+	SQChar* in_buf = new SQChar[strlen(label) + 1];
+	
 	try{
-			SQChar* in_buf = new SQChar[strlen(label) + 1];
+		mbstowcs(in_buf, label, strlen(label));
 
-			mbstowcs(in_buf, label, strlen(label));
+		in_buf[strlen(label)]=_SC('\0');
 
-			in_buf[strlen(label)]=_SC('\0');
+		SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
 
-			SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
-
-			SquirrelFunction<int> callFunc(_SC("GetInfo"));
-			int ret = callFunc(in_buf);
-			
-			delete [] in_buf;
-			
-			return ret;
+		SquirrelFunction<int> callFunc(_SC("GetInfo"));
+		int ret = callFunc(in_buf);
+		
+		delete [] in_buf;
+		
+		return ret;
 	}
 	catch(SquirrelError &){
-		return NULL;
+		delete [] in_buf;
+	
+		return -1;
 	}
 }
 
