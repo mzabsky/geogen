@@ -47,6 +47,7 @@ struct GGen_Params{
 	string input_file;
 	string output_file;
 	string output_directory;
+	string overlay_file;
 	
 	int random_seed;
 	
@@ -59,6 +60,7 @@ struct GGen_Params{
 	bool stupid_mode;
 	bool manual_mode;
 	bool disable_secondary_maps;
+	bool overlay_as_copy;
 	
 	vector<std::string> script_args;
 	
@@ -66,6 +68,7 @@ struct GGen_Params{
 		:input_file(""),
 		output_file("out.bmp"),
 		output_directory("../temp/"),
+		overlay_file(""),
 		random_seed(-1),
 		all_random(false),
 		no_rescaling(false),
@@ -75,13 +78,33 @@ struct GGen_Params{
 		param_list_mode(false),
 		stupid_mode(false),
 		manual_mode(false),
-		disable_secondary_maps(false)
+		disable_secondary_maps(false),
+		overlay_as_copy(false)
 	{}
 };
 
 GGen_Params _params;
 
-bool SaveAsBMP(const int16* data, unsigned int width, unsigned int height, const char* implicit_path, const char* name = NULL){
+bool SaveAsBMP(const int16* data, unsigned int width, unsigned int height, const char* implicit_path, const char* name = NULL, bool enable_overlay = false){
+	// overlay is to be saved separately -> create its name	
+	if(_params.overlay_as_copy && _params.overlay_file.length() > 0 && !enable_overlay){
+		char* buf;
+		if(name != NULL){
+			buf = new char[strlen(name) + 9];
+			buf[0] = '\0';
+			buf = strcat(buf, name);
+			buf = strcat(buf, "_overlay");
+		}
+		else {
+			buf = "out_overlay";
+		}
+		
+		SaveAsBMP(data, width, height, implicit_path, buf, true);
+	}
+	else if(!_params.overlay_as_copy && _params.overlay_file.length() > 0){
+		enable_overlay = true;
+	}
+
 	stringstream path_out;
 
 	if(name == NULL){
@@ -133,16 +156,35 @@ bool SaveAsBMP(const int16* data, unsigned int width, unsigned int height, const
 		}
 	}
 
+	BMP overlay;
+	if(_params.overlay_file != ""){
+		if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
+			cout << "Could  not open overlay file!\n" << flush;
+			return false;
+		}
+	}
+
 	BMP output;
 
 	output.SetBitDepth(32);
 
 	output.SetSize(width, height);
 
-	for(unsigned int i = 0; i < height; i++){
-		for(unsigned int j = 0; j < width; j++){
-			output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
-		}		
+	if(_params.overlay_file == "" || !enable_overlay){
+		for(unsigned int i = 0; i < height; i++){
+			for(unsigned int j = 0; j < width; j++){
+				output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
+			}		
+		}
+	}
+	else{
+		for(unsigned int i = 0; i < height; i++){
+			for(unsigned int j = 0; j < width; j++){
+				output(j,i)->Red = overlay(data[j + width * i] ,0)->Red;
+				output(j,i)->Green = overlay(data[j + width * i] ,0)->Green;
+				output(j,i)->Blue = overlay(data[j + width * i] ,0)->Blue;
+			}		
+		}
 	}
 
 	output.WriteToFile(path_out.str().c_str());
@@ -176,6 +218,8 @@ int main(int argc,char * argv[]){
 	args.AddStringArg('i', "input", "Input squirrel script to be executed.", "FILE", &_params.input_file); 
 	args.AddStringArg('o', "output", "Output file, the extension determines file type of the output (*.bmp for Windows Bitmap and *.shd for GeoGen Short Height Data are allowed).", "FILE", &_params.output_file);
 	args.AddStringArg('d', "output-directory", "Directory where secondary maps will be saved.", "DIRECTORY", &_params.output_directory);
+	args.AddStringArg('v', "overlay", "Overlay file to be mapped on the output.", "FILE", &_params.overlay_file);
+	
 	
 	args.AddIntArg('s', "seed", "Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same.", "SEED", &_params.random_seed);
 	
@@ -188,6 +232,7 @@ int main(int argc,char * argv[]){
 	args.AddBoolArg('e', "simple", "Mode which allows all necessary data to be entered interactively. This mode is automatically activaded if no params were entered.", &_params.stupid_mode);
 	args.AddBoolArg('m', "manual", "Script arguments will be entered interactively.", &_params.manual_mode);
 	args.AddBoolArg('D', "disable-secondary-maps", "All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped.", &_params.disable_secondary_maps);
+	args.AddBoolArg('V', "overlay-as-copy", "Color files with overlays will be saved as copies.", &_params.overlay_as_copy);
 	
 	// read the arguments
 	args.Scan();
