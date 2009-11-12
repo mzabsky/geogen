@@ -1027,13 +1027,22 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 	}
 }
 
-void GGen_Data_2D::Normalize(GGen_Direction direction){
+void GGen_Data_2D::Normalize(GGen_Direction direction, GGen_Normalization_Mode mode){
 	if(direction == GGEN_HORIZONTAL){
 		for(GGen_Coord y = 0; y < height; y++){
 			GGen_Height last = data[y * width];
 			for(GGen_Coord x = 0; x < width; x++){
-				if(data[x + y * width] > last + 1) data[x + y * width] = last + 1;
-				else if(data[x + y * width] < last - 1) data[x + y * width] = last - 1;
+				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
+				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
+				last = data[x + y * width];
+			}
+		}
+		
+		for(GGen_Coord y = height - 1; y > 0; y--){
+			GGen_Height last = data[y * width + width - 1];
+			for(GGen_Coord x = width - 1; x > 0; x--){
+				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
+				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
 				last = data[x + y * width];
 			}
 		}
@@ -1042,17 +1051,26 @@ void GGen_Data_2D::Normalize(GGen_Direction direction){
 		for(GGen_Coord x = 0; x < width; x++){
 			GGen_Height last = data[x];
 			for(GGen_Coord y = 0; y < height; y++){
-				if(data[x + y * width] > last + 1) data[x + y * width] = last + 1;
-				else if(data[x + y * width] < last - 1) data[x + y * width] = last - 1;
+				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
+				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
+				last = data[x + y * width];
+			}
+		}
+		
+		for(GGen_Coord x = width - 1; x > 0; x--){
+			GGen_Height last = data[length - (width - x)];
+			for(GGen_Coord y = height - 1; y > 0; y--){
+				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
+				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
 				last = data[x + y * width];
 			}
 		}
 	}
 }
 
-void GGen_Data_2D::Normalize(){
-	Normalize(GGEN_HORIZONTAL);
-	Normalize(GGEN_VERTICAL);
+void GGen_Data_2D::Normalize(GGen_Normalization_Mode mode){
+	Normalize(GGEN_HORIZONTAL, mode);
+	Normalize(GGEN_VERTICAL, mode);
 }
 
 

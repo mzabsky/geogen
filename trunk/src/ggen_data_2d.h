@@ -85,8 +85,8 @@ class GGen_Data_2D{
 		void SlopeMap();
 		void Scatter(bool relative);
 		void TransformValues(GGen_Data_1D* profile, bool relative);
-		void Normalize();
-		void Normalize(GGen_Direction direction);
+		void Normalize(GGen_Normalization_Mode mode);
+		void Normalize(GGen_Direction direction, GGen_Normalization_Mode mode);
 		
 		/* Matrix operations */
 		void Transform(double a11, double a12, double a21, double a22, bool preserve_size);
