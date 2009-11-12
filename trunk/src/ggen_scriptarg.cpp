@@ -71,19 +71,6 @@ void GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_stri
 
 	ggen_current_object->args[ggen_current_object->num_args] = arg;
 	ggen_current_object->num_args++;
-
-	// add the argument to the argument array
-	/*if(ggen_current_object->num_args == 0){
-		ggen_current_object->args = new GGen_ScriptArg*[1];
-
-		ggen_current_object->args[0] = arg;
-		ggen_current_object->num_args = 1;
-	}
-	else{
-		realloc(ggen_current_object->args, ggen_current_object->num_args + 1);
-		ggen_current_object->args[ggen_current_object->num_args] = arg;
-		ggen_current_object->num_args++;
-	}*/
 };
 
 void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, bool default_value){
