@@ -7,6 +7,7 @@ function GetInfo(info_type){
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddEnumArg("lake_size","Lake size","Radius of the central lake.", 2, "Tiny;Small;Medium;Large;Huge");
 			
 			return 0;
 	}
@@ -16,6 +17,7 @@ function Generate(){
 	// load map parameters
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
+	local lake_size = GGen_GetParam("lake_size");
 
 	// create a radial gradient with height 1 in the center and height 1200 on the outer rim
 	local base = GGen_Data_2D(width, height);
@@ -32,7 +34,7 @@ function Generate(){
 	base.Add(noise);
 
 	// raise the water level so 9% of the map is under level 0
-	base.Flood(0.91);
+	base.Flood(0.93 - 0.03 * lake_size);
 
 	base.TransformValues(GGEN_STD_PROFILE, true);
 
