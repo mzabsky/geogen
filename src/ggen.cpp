@@ -111,8 +111,8 @@ GGen_ScriptArg** GGen::LoadArgs(){
 		for(uint8 i = 0; i < num_args; i++){
 			delete args[i];
 		}
-
-		//delete [] *args;
+		
+		num_args = 0;
 	}
 
 	GetInfoInt("args");
@@ -131,6 +131,8 @@ void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int li
 	buf[len] = '\0';
 
 	ThrowMessage(buf, level, line, column);
+	
+	delete [] buf;
 }
 
 void GGen::InitProgress(uint32 max_progress){
