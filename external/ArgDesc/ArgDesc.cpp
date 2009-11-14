@@ -188,23 +188,3 @@ public:
 		}
     }
 };
-
-/*
-int main(int argc, char** argv){
-
-    params p;
-
-    ArgDesc args(argc, argv);
-    args.SetPosArgsVector(p.pos_args);
-    args.AddBoolArg('b', "bold", &p.bold);
-    args.AddBoolArg('c', "cyan", &p.cyan);
-    args.AddBoolArg('i', "italic", &p.italic);
-    args.AddIntArg('e', "elements", &p.elements);
-    args.AddStringArg('d', "description", &p.desc);
-    args.AddStringArg('f', "description2", &p.desc2);
-
-    args.Scan();
-
-    std::cout << "woot";
-}*/
-
