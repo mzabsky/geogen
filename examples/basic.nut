@@ -32,28 +32,10 @@ function Generate(){
 	
 	base.Flood(1 - water_level);
 	
-	//base.NewNoise();
-	
 	GGen_IncreaseProgress();
-	
-	// rotace
-	//base.Transform(0, 0, 0.866025, 0.5, -0.5, 0.866025, false);
-	
-	// zcvrknuti
-	//base.Transform(0, 0, 0.5, 0.0, 0.0, 0.5, true);
-	
-	// zkoseni
-	//base.Transform(0, 0, 2.0, 0.0, -0.5, 1.0);
-	
-	// squeeze
-	//base.Transform(0, 0, 3.0, 0.0, 0.0, 1.0/3.0, true);
-	
-	//base.Shear(-1, 1, true
 	
 	base.Clamp(0, GGEN_MAX_HEIGHT);
 	
-	base.ScaleValuesTo(0, 255);
-
 	local profile = GGen_Data_1D(11, 0);
 	profile.SetValue(6, 18);
 	profile.SetValue(7, 43);
@@ -62,11 +44,7 @@ function Generate(){
 	profile.SetValue(10, 255);
 	
 	
-	base.TransformValues(profile, false)
-	
-	GGen_IncreaseProgress();
-	
-	//base.ScaleValuesTo(0,255);
-		
+	base.TransformValues(GGEN_STD_PROFILE, true)
+			
 	return base;
 }

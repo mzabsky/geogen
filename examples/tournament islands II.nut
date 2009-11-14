@@ -38,6 +38,8 @@ function Generate(){
 	
 	base.Pattern(pattern);
 	
+	base.TransformValues(GGEN_STD_PROFILE, true);
+	
 	return base;
 
 }

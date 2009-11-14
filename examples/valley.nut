@@ -7,6 +7,7 @@ function GetInfo(info_type){
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddEnumArg("valley_width","Valley width","Width of the central valley.", 2, "Very Narrow;Narrow;Moderate;Wide;Very Wide");
 			
 			return 0;
 	}
@@ -15,6 +16,8 @@ function GetInfo(info_type){
 function Generate(){
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
+	local valley_width = GGen_GetParam("valley_width");
+
 
 	local base = GGen_Data_2D(width, height);
 
@@ -38,7 +41,7 @@ function Generate(){
 
 	local profile_valley = GGen_Data_1D(valley_profile_width, 1500);
 
-	local valley_width = 3;
+	local valley_width = 3 + valley_width;
 
 	profile_valley.SetValueInRange(valley_profile_width / 2 - valley_width, valley_profile_width / 2 + valley_width, 50);
 

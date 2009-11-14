@@ -51,6 +51,8 @@ function Generate(){
 	base.Clamp(0, GGEN_MAX_HEIGHT);
 	base.ScaleValuesTo(0,120);
 	
+	base.TransformValues(GGEN_STD_PROFILE, true);
+	
 	return base;
 
 }
