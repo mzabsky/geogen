@@ -67,7 +67,6 @@ class GGen_Data_1D{
 		void SlopeMap();
 		void Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_flat);
 		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes);
-		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size);
 		void Smooth(GGen_Distance radius);
 		void Flood(double water_amount);
 };
