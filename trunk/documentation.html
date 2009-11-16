@@ -135,6 +135,7 @@
                 <li><a href="#progress">Proggress reporting</a></li>
               </ul>
             </li>
+            <li><a href="#presets">Presets</a></li> 
             <li><a href="#constants_and_enums">Support constants and enumerations</a></li> 
           </ul>       
         </li>  
@@ -405,7 +406,7 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>Replaces height information with only 0s and 1s. Each value has 1/(max - value) chance to become. If <em>relative</em> is true, max is 255.</p> 
           <h6>GGen_Data_2D::SlopeMap()</h6>
           <p>Replaces values in the array with information about steepness of slope (change in value) in that particular value.</p> 
-          <h6>GGen_Data_2D::Normalize()</h6>
+          <h6>GGen_Data_2D::Normalize(<a href="#ggen_normalization_mode">GGen_Normalization_Mode</a> mode)</h6>
           <p>Replaces up/downhills steeper than 1 height level per tile with 1 height level per tile slope.</p> 
           <h6>GGen_Data_2D::Transform(int a11, int a12, int a21, int a22, bool preserve_size)</h6>
           <p>Applies a linear transformation matrix on the current array using to point [0, 0] as origin. The matrix must be invertible (the first row must not be multiple of  the second, neither row must be 0). If <em>preserve_size</em> is true the result will be resized to fit the transformed array.</p> 
@@ -450,6 +451,40 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>Sets the <em>current_progress</em>.</p>
           <h6>GGen_IncreaseProgress()</h6>
           <p>Increases <em>current_progress</em> by 1.</p>
+      <h4><a name="presets">Presets</a></h4>
+      <p>Presets represent constant GeoGen objects hardcoded the source code. These objects are available in all scripts' <a href="#layout">Generate</a> function.</p>
+        <h5>GGEN_STD_NOISE</h5>
+        <p>Balanced amplitude setting suitable for most situations where you need to generate noise without too much code overhead.</p>
+        <p>Equivalent Squirrel code:</p>
+        <pre>
+local ggen_std_noise = GGen_Amplitudes(4096);
+
+ggen_std_noise.AddAmplitude(1, 3 * 15);
+ggen_std_noise.AddAmplitude(2, 7 * 15);
+ggen_std_noise.AddAmplitude(4, 10 * 15);
+ggen_std_noise.AddAmplitude(8, 20 * 15);
+ggen_std_noise.AddAmplitude(16, 50 * 15);
+ggen_std_noise.AddAmplitude(32, 75 * 15);
+ggen_std_noise.AddAmplitude(64, 150 * 15);
+ggen_std_noise.AddAmplitude(128, 250 * 15);
+ggen_std_noise.AddAmplitude(256, 400 * 15);
+ggen_std_noise.AddAmplitude(512, 600 * 15);
+ggen_std_noise.AddAmplitude(1024, 1000 * 15);
+ggen_std_noise.AddAmplitude(2048, 1400 * 15);
+ggen_std_noise.AddAmplitude(4096, 2000 * 15);        
+        </pre>
+        <h5>GGEN_STD_PROFILE</h5>
+        <p>Preset useful when used with <a href="#2d_transformvalues">TransformValues</a> function to create more natural height distribution.</p>
+        <p>Equivalent Squirrel code:</p>
+        <pre>
+local ggen_std_profile GGen_Data_1D(6);
+ggen_std_profile.SetValue(0, 1);
+ggen_std_profile.SetValue(1, 18);
+ggen_std_profile.SetValue(2, 43);
+ggen_std_profile.SetValue(3, 91);
+ggen_std_profile.SetValue(4, 163);
+ggen_std_profile.SetValue(5, 255);
+        </pre>
       <h4><a name="constants_and_enums">Support constants and enumerations</a></h4>
         <h5><a name="constants">Constants</a></h5>
           <h6>GGEN_MAX_HEIGHT</h6>
@@ -460,9 +495,9 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>The value used to mark an invalid cell, preset to -32768.</p>
         <h5><a name="ggen_normalization_mode">GGen_Normalization_Mode</a></h5>
           <h6>GGEN_SUBSTRACTIVE</h6>
-          <p>The normalization will be performed only by substracting from values (lowering steep uphills to 45).</p>
+          <p>The normalization will be performed only by substracting from values (lowering steep uphills to 45&deg;).</p>
           <h6>GGEN_ADDITIVE</h6>
-          <p>The normalization will be performed only by adding to values (heightening steep downhills to 45).</p>
+          <p>The normalization will be performed only by adding to values (heightening steep downhills to 45&deg;).</p>
         <h5><a name="ggen_overflow_mode">GGen_Overflow_Mode</a></h5>
           <h6>GGEN_CYCLE</h6>
           <p>Values disappearing on one side of the array will appear on the other side.</p>
