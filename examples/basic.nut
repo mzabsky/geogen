@@ -28,7 +28,7 @@ function Generate(){
 
 	local base = GGen_Data_2D(width, height);
 	
-	base.Noise(smoothness, ((width > height) ? height : width) / (5 * (4 - feature_size)));
+	base.Noise(smoothness, ((width > height) ? height : width) / (5 * (4 - feature_size)), GGEN_STD_NOISE);
 	
 	base.Flood(1 - water_level);
 	

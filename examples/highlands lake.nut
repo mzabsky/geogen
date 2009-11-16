@@ -25,7 +25,7 @@ function Generate(){
 
 	// create a separate noise map
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(2, width > height ? height / 8 : width / 8);
+	noise.Noise(2, width > height ? height / 8 : width / 8, GGEN_STD_NOISE);
 
 	// adjust the range of the noise
 	noise.ScaleValuesTo(-500, 500);
