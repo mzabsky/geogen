@@ -96,8 +96,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)bin"
-			IntermediateDirectory="../temp"
+			OutputDirectory="../bin"
+			IntermediateDirectory="../temp/Release"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -121,9 +121,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../include;../include/squirrel;../include/EasyBMP"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="1"
+				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
+				PreprocessorDefinitions="WIN32;_CONSOLE;NO_GGEN_LIB"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -140,6 +140,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\geogen.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				ProgramDatabaseFile="$(IntDir)/temp/$(TargetName).pdb"
@@ -317,10 +318,6 @@
 		</Filter>
 		<File
 			RelativePath="..\documentation.html"
-			>
-		</File>
-		<File
-			RelativePath=".\..\src\example.nut"
 			>
 		</File>
 		<File
