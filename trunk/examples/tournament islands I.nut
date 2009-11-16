@@ -26,7 +26,7 @@ function Generate(){
 	quarter.RadialGradient(width / 4, height / 4, (width > height ? height : width) / 4, profile, true);
 
 	local noise = GGen_Data_2D(width / 2, height / 2);
-	noise.Noise(2,  (width > height ? height : width) / 6);
+	noise.Noise(2,  (width > height ? height : width) / 6, GGEN_STD_NOISE);
 	
 	noise.ScaleValuesTo(-110, 110);
 	

@@ -58,7 +58,7 @@ function Generate(){
 
 	// create some meandres on the river using the shift with random noise profile
 	local profile_shift = GGen_Data_1D(800);
-	profile_shift.Noise(64, height / 8);
+	profile_shift.Noise(64, height / 8, GGEN_STD_NOISE);
 	profile_shift.ScaleValuesTo(-width / 11, width / 11);
 	
 	base.Shift(profile_shift, GGEN_VERTICAL, GGEN_DISCARD_AND_FILL);
@@ -73,7 +73,7 @@ function Generate(){
 
 	// noise overlay
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(4, width > height ? height / 6 : width / 6);
+	noise.Noise(4, width > height ? height / 6 : width / 6, GGEN_STD_NOISE);
 	
 	noise.ScaleValuesTo(-1400, 1400);
 	

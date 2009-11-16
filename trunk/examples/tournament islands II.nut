@@ -28,7 +28,7 @@ function Generate(){
 	pattern.RadialGradient(width / (2 * grid), height / (2 * grid), (width > height ? height : width) / (2 * grid), profile, true);
 
 	local noise = GGen_Data_2D(width / grid, height / grid);
-	noise.Noise(1,  (width > height ? height : width) / 20);
+	noise.Noise(1,  (width > height ? height : width) / 20, GGEN_STD_NOISE);
 	
 	noise.ScaleValuesTo(-11000, 11000);
 	

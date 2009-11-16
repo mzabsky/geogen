@@ -57,7 +57,7 @@ function Generate(){
 	mask.Clamp(0, 255);
 
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(smoothness, dimension / (5 - feature_size));
+	noise.Noise(smoothness, dimension / (5 - feature_size), GGEN_STD_NOISE);
 	
 	noise.ReturnAs("09-noiseprescale");
 	noise.ScaleValuesTo(-2000, 12000);

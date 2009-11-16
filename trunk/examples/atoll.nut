@@ -32,7 +32,7 @@ function Generate(){
 	
 	// noise overlay
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(1, ((width > height) ? height : width) / (6 * (4 - feature_size)));
+	noise.Noise(1, ((width > height) ? height : width) / (6 * (4 - feature_size)), GGEN_STD_NOISE);
 	
 	noise.ScaleValuesTo(-500, 500);
 	

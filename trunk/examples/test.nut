@@ -72,7 +72,7 @@ function Generate(){
 
 	local profile = GGen_Data_1D(width);
 	
-	profile.Noise(4, width / 5);
+	profile.Noise(4, width / 5, GGEN_STD_NOISE);
 	profile.ScaleValuesTo(0, height / 10);
 	
 	base.Shift(profile, GGEN_VERTICAL, GGEN_DISCARD_AND_FILL);
@@ -91,9 +91,7 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	noise.Noise(4, width / 8);
-	
-	noise.ReturnAs("noise");
+	noise.Noise(4, width / 8, GGEN_STD_NOISE);
 	
 	GGen_IncreaseProgress();
 	
