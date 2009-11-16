@@ -29,7 +29,6 @@
 #include "ggen.h"
 #include "ggen_squirrel.h"
 
-GGen_Amplitudes* ggen_std_noise;
 GGen* ggen_current_object;
 
 GGen::GGen(){
@@ -43,26 +42,9 @@ GGen::GGen(){
 
 	//args = NULL;
 	num_args = 0;
-
-	ggen_std_noise = new GGen_Amplitudes(4096);
-
-	ggen_std_noise->AddAmplitude(1, 3 * 15);
-	ggen_std_noise->AddAmplitude(2, 7 * 15);
-	ggen_std_noise->AddAmplitude(4, 10 * 15);
-	ggen_std_noise->AddAmplitude(8, 20 * 15);
-	ggen_std_noise->AddAmplitude(16, 50 * 15);
-	ggen_std_noise->AddAmplitude(32, 75 * 15);
-	ggen_std_noise->AddAmplitude(64, 150 * 15);
-	ggen_std_noise->AddAmplitude(128, 250 * 15);
-	ggen_std_noise->AddAmplitude(256, 400 * 15);
-	ggen_std_noise->AddAmplitude(512, 600 * 15);
-	ggen_std_noise->AddAmplitude(1024, 1000 * 15);
-	ggen_std_noise->AddAmplitude(2048, 1400 * 15);
-	ggen_std_noise->AddAmplitude(4096, 2000 * 15);
 }
 
 GGen::~GGen(){
-	delete ggen_std_noise;
 }
 
 void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int column){
@@ -155,8 +137,4 @@ void GGen::IncreaseProgress(){
 	ggen_current_object->current_progress++;
 	
 	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(ggen_current_object->current_progress, ggen_current_object->max_progress);
-}
-
-void GGen::InitPresets(){
-	#include "ggen_presets.h"
 }

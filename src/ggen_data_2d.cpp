@@ -26,7 +26,6 @@
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 
-extern GGen_Amplitudes* ggen_std_noise;
 extern GGen* ggen_current_object;
 /** 
  * Creates a 2D data array and fills it with zeros
@@ -790,10 +789,6 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 
 	delete [] new_data;
 } 
-
-void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size){
-	Noise(min_feature_size, max_feature_size, ggen_std_noise);
-}
 
 /*
  * Shifts the array values so given percentage of it is under zero (zero represents the water level).

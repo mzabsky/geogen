@@ -132,8 +132,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_1D::Monochrome,_T("Monochrome")).
 		func(&GGen_Data_1D::Normalize,_T("Normalize")).
 		func(&GGen_Data_1D::Gradient,_T("Gradient")).
-		overloadFunc<void(GGen_Data_1D::*)(uint16, uint16, GGen_Amplitudes*)>(&GGen_Data_1D::Noise,_T("Noise")).
-		overloadFunc<void(GGen_Data_1D::*)(uint16, uint16)>(&GGen_Data_1D::Noise,_T("Noise")).
+		func(&GGen_Data_1D::Noise,_T("Noise")).
 		func(&GGen_Data_1D::Smooth,_T("Smooth")).
 		func(&GGen_Data_1D::Flood,_T("Flood"));
 	
@@ -183,10 +182,9 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint16, uint16, GGen_Data_1D*, bool)>(&GGen_Data_2D::Gradient, _SC("Gradient")).
 		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint16, int16, int16, bool)>(&GGen_Data_2D::RadialGradient, _SC("RadialGradient")).
 		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint32, GGen_Data_1D*, bool)>(&GGen_Data_2D::RadialGradient, _SC("RadialGradient")).
-		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, GGen_Amplitudes*)>(&GGen_Data_2D::Noise,_T("Noise")).
-		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16)>(&GGen_Data_2D::Noise,_T("Noise")).
 		overloadFunc<void(GGen_Data_2D::*)(uint32, GGen_Direction)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		overloadFunc<void(GGen_Data_2D::*)(uint32)>(&GGen_Data_2D::Smooth,_T("Smooth")).
+		func(&GGen_Data_2D::Noise,_T("Noise")).		
 		func(&GGen_Data_2D::Flood,_T("Flood")).
 		func(&GGen_Data_2D::Pattern,_T("Pattern")).
 		func(&GGen_Data_2D::Monochrome,_T("Monochrome")).
