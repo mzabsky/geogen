@@ -43,7 +43,25 @@ using namespace std;
 #include "EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
+
+struct OutputFormat{
+	string suffix;
+	string name;
+	long long int min;
+	long long int max;
+	bool apply_overlay;
+};
+
+#define NUM_FORMATS 2
+
+OutputFormat _formats[] = {
+	{"bmp", "Windows Bitmap", 0, 255, true},
+	{"shd", "GeoGen Short Data", -2 << 14, 2 << 14, false},
+};
+
 struct GGen_Params{
+	OutputFormat* output_format;
+
 	string input_file;
 	string output_file;
 	string output_directory;
@@ -65,7 +83,8 @@ struct GGen_Params{
 	vector<std::string> script_args;
 	
 	GGen_Params()
-		:input_file(""),
+		:output_format(&_formats[0]),
+		input_file(""),
 		output_file("out.bmp"),
 		output_directory("../temp/"),
 		overlay_file(""),
@@ -85,7 +104,7 @@ struct GGen_Params{
 
 GGen_Params _params;
 
-bool SaveAsBMP(const int16* data, unsigned int width, unsigned int height, const char* implicit_path, const char* name = NULL, bool enable_overlay = false){
+bool Save(const int16* data, unsigned int width, unsigned int height, const char* implicit_path, const char* name = NULL, bool enable_overlay = false){
 	// overlay is to be saved separately -> create its name	
 	if(_params.overlay_as_copy && _params.overlay_file.length() > 0 && !enable_overlay){
 		char* buf;
@@ -99,7 +118,7 @@ bool SaveAsBMP(const int16* data, unsigned int width, unsigned int height, const
 			buf = "out_overlay";
 		}
 		
-		SaveAsBMP(data, width, height, implicit_path, buf, true);
+		Save(data, width, height, implicit_path, buf, true);
 	}
 	else if(!_params.overlay_as_copy && _params.overlay_file.length() > 0){
 		enable_overlay = true;
@@ -115,14 +134,9 @@ bool SaveAsBMP(const int16* data, unsigned int width, unsigned int height, const
 		return false;
 	}
 	else{
-		path_out << _params.output_directory << name << ".bmp";
-		cout << "Saving map \"" << name << "\"...\n" << flush;
+		path_out << _params.output_directory << name << "." << _params.output_format->suffix;
+		cout << "Saving map \"" << name << "\" as \"" << path_out.str() <<"\"...\n" << flush;
 	}
-	
-	//
-	
-	int format_max_value = 255;
-	int format_min_value = 0;
 	
 	// is scaling wanted?
 	if(_params.no_rescaling == false){
@@ -135,59 +149,93 @@ bool SaveAsBMP(const int16* data, unsigned int width, unsigned int height, const
 			if(data[i] > max) max = data[i];
 			if(data[i] < min) min = data[i];
 		}
+		
+		double ratio = 0;
+		if(_params.output_format->min != 0){
+			ratio = 
+				(double) max / (double) _params.output_format->max > (double) min / (double) _params.output_format->min ? 
+				(double) max / (double) _params.output_format->max :
+				(double) min / (double) _params.output_format->min;
+		}
 
 		// if max == min, then whole map is black, scaling would be useless
 		if(max - min > 0){
 			if(_params.ignore_zero) max = max - min;
-			else if(!format_min_value == 0){
+			/*else if(!_params.output_format->min == 0){
 				cout << "SYMMETRIC SCALING IS NOT IMPLEMENTED YET!";
 				return false;
-			}
+			}*/
 
-			if(max > 0){
+			//if(max > 0){
 				for(uint32 i = 0; i < width * height; i++){
-					if(_params.ignore_zero) new_data[i] = (data[i] - min) * format_max_value / max;
-					else if(data[i] > 0) new_data[i] = data[i] * format_max_value / max;
+					if(_params.ignore_zero) new_data[i] = (int16) _params.output_format->min + (data[i] - min) * (int16) _params.output_format->max / max;
+					else if(_params.output_format->min == 0 && data[i] > 0) new_data[i] = data[i] * (int16) _params.output_format->max / max;
+					else if(data[i] > 0 || (_params.output_format->min < 0 && data[i] < 0)) new_data[i] = (int16) ((double) data[i] * ratio);
 					else new_data[i] = 0;
 				}
-			}
+			//}
 			
 			data = new_data;
 		}
 	}
 
-	BMP overlay;
-	if(_params.overlay_file != ""){
-		if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
-			cout << "Could  not open overlay file!\n" << flush;
-			return false;
+	if(_params.output_format->suffix == "bmp"){
+		BMP overlay;
+		if(_params.overlay_file != ""){
+			if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
+				cout << "Could  not open overlay file!\n" << flush;
+				return false;
+			}
+			
+			
 		}
-	}
 
-	BMP output;
+		BMP output;
 
-	output.SetBitDepth(32);
+		output.SetBitDepth(32);
 
-	output.SetSize(width, height);
+		output.SetSize(width, height);
 
-	if(_params.overlay_file == "" || !enable_overlay){
-		for(unsigned int i = 0; i < height; i++){
-			for(unsigned int j = 0; j < width; j++){
-				output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
-			}		
+		if(_params.overlay_file == "" || !enable_overlay){
+			for(unsigned int i = 0; i < height; i++){
+				for(unsigned int j = 0; j < width; j++){
+					output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
+				}		
+			}
 		}
-	}
-	else{
-		for(unsigned int i = 0; i < height; i++){
-			for(unsigned int j = 0; j < width; j++){
-				output(j,i)->Red = overlay(data[j + width * i] ,0)->Red;
-				output(j,i)->Green = overlay(data[j + width * i] ,0)->Green;
-				output(j,i)->Blue = overlay(data[j + width * i] ,0)->Blue;
-			}		
+		else{
+			for(unsigned int i = 0; i < height; i++){
+				for(unsigned int j = 0; j < width; j++){
+					output(j,i)->Red = overlay(data[j + width * i] ,0)->Red;
+					output(j,i)->Green = overlay(data[j + width * i] ,0)->Green;
+					output(j,i)->Blue = overlay(data[j + width * i] ,0)->Blue;
+				}		
+			}
 		}
-	}
 
-	output.WriteToFile(path_out.str().c_str());
+		output.WriteToFile(path_out.str().c_str());
+	}
+	else if(_params.output_format->suffix == "shd"){
+		ofstream out(path_out.str().c_str(), ios_base::out | ios_base::binary | ios::ate);
+		
+		if(out.bad()){
+			cout << "Could not write " << path_out.str() << "!\n" << flush;
+		}
+		else{
+			out.write((char*) &width, sizeof(width));
+			out.write((char*) &height, sizeof(height));
+			
+			out.write((char*) data, 2 * width * height);
+			
+			/*for(unsigned int i = 0; i < width * height; i++){
+				//out << data[i];
+				out.write((char*) &data[i], sizeof(data[i]) * );
+				
+			}*/
+		}
+		
+		out.close();
+	}
 
 	if(name != NULL) cout << "Executing...\n" << flush;
 
@@ -203,7 +251,7 @@ T random(T min, T max){
 }
 
 void ReturnHandler(char* name, const int16* map, int width, int height){
-	SaveAsBMP(map, width, height, "", name); 
+	Save(map, width, height, "", name); 
 }
 
 void ProgressHandler(int current_progress, int max_progress){
@@ -216,10 +264,9 @@ int main(int argc,char * argv[]){
 	args.SetPosArgsVector(_params.script_args);
 	
 	args.AddStringArg('i', "input", "Input squirrel script to be executed.", "FILE", &_params.input_file); 
-	args.AddStringArg('o', "output", "Output file, the extension determines file type of the output (*.bmp for Windows Bitmap and *.shd for GeoGen Short Height Data are allowed).", "FILE", &_params.output_file);
-	args.AddStringArg('d', "output-directory", "Directory where secondary maps will be saved.", "DIRECTORY", &_params.output_directory);
-	args.AddStringArg('v', "overlay", "Overlay file to be mapped on the output.", "FILE", &_params.overlay_file);
-	
+	args.AddStringArg('o', "output", "Output file, the extension determines file type of the output (*.bmp for Windows Bitmap and *.shd for GeoGen Short Height Data are allowed). Set to \"../temp/out.bmp\" by default.", "FILE", &_params.output_file);
+	args.AddStringArg('d', "output-directory", "Directory where secondary maps will be saved. Set to \"../temp/\" by default.", "DIRECTORY", &_params.output_directory);
+	args.AddStringArg('v', "overlay", "Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and 256 pixels wide.", "FILE", &_params.overlay_file);
 	
 	args.AddIntArg('s', "seed", "Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same.", "SEED", &_params.random_seed);
 	
@@ -273,7 +320,15 @@ int main(int argc,char * argv[]){
 	if(_params.stupid_mode){
 		cout << "Output will be saved as ./out.bmp\n";
 	}
-
+	
+	for(int i = 0; i < NUM_FORMATS; i++){
+		if(_params.output_file.length() < 5) continue;
+		else if(_params.output_file.substr(_params.output_file.length() - 3, 3) == _formats[i].suffix){
+			_params.output_format = &_formats[i];
+			break;
+		}
+	}	
+	
 	// load the script from file
 	ifstream in_stream;
 	in_stream.open(_params.input_file.c_str());
@@ -427,7 +482,7 @@ int main(int argc,char * argv[]){
 	assert(data != NULL);
 
 	// flush the bitmap
-	SaveAsBMP(data, ggen->output_width, ggen->output_height, _params.output_file.c_str());
+	Save(data, ggen->output_width, ggen->output_height, _params.output_file.c_str());
 
 	cout << "Cleanup...\n" << flush;
 
