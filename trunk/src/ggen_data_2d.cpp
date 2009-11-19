@@ -535,8 +535,30 @@ void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
 			}
 		}
 	}
+}
 
-
+GGen_Data_1D* GGen_Data_2D::GetProfile(GGen_Direction direction, GGen_Coord coordinate){
+	GGen_Script_Assert(direction == GGEN_VERTICAL || coordinate < width);
+	GGen_Script_Assert(direction == GGEN_HORIZONTAL || coordinate < height);
+	
+	GGen_Data_1D* output;
+	
+	if(direction == GGEN_HORIZONTAL){
+		output = new GGen_Data_1D(width);
+		
+		for(GGen_Coord x = 0; x < width; x++){		
+			output->data[x] = data[x + coordinate * width];
+		}
+	}
+	else{
+		output = new GGen_Data_1D(height);
+	
+		for(GGen_Coord y = 0; y < height; y++){
+			output->data[y] = data[coordinate + y * width];
+		}
+	}
+	
+	return output;
 }
 
 void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode){

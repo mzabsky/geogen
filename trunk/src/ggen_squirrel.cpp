@@ -177,6 +177,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		
 		func(&GGen_Data_2D::Shift,_T("Shift")).
 		func(&GGen_Data_2D::Project,_T("Project")).
+		func(&GGen_Data_2D::GetProfile,_T("GetProfile")).
 
 		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint16, uint16, int16, int16, bool)>(&GGen_Data_2D::Gradient, _SC("Gradient")).
 		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint16, uint16, GGen_Data_1D*, bool)>(&GGen_Data_2D::Gradient, _SC("Gradient")).
