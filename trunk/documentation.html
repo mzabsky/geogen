@@ -475,17 +475,17 @@ ggen_std_noise.AddAmplitude(1024, 1000 * 15);
 ggen_std_noise.AddAmplitude(2048, 1400 * 15);
 ggen_std_noise.AddAmplitude(4096, 2000 * 15);        
         </pre>
-        <h5>GGEN_STD_PROFILE</h5>
+        <h5>GGEN_NATURAL_PROFILE</h5>
         <p>Preset useful when used with <a href="#2d_transformvalues">TransformValues</a> function to create more natural height distribution.</p>
         <p>Equivalent Squirrel code:</p>
         <pre>
-local ggen_std_profile GGen_Data_1D(6);
-ggen_std_profile.SetValue(0, 1);
-ggen_std_profile.SetValue(1, 18);
-ggen_std_profile.SetValue(2, 43);
-ggen_std_profile.SetValue(3, 91);
-ggen_std_profile.SetValue(4, 163);
-ggen_std_profile.SetValue(5, 255);
+local ggen_natural_profile GGen_Data_1D(6);
+ggen_natural_profile.SetValue(0, 1);
+ggen_natural_profile.SetValue(1, 18 * 15);
+ggen_natural_profile.SetValue(2, 43 * 15);
+ggen_natural_profile.SetValue(3, 91 * 15);
+ggen_natural_profile.SetValue(4, 163 * 15);
+ggen_natural_profile.SetValue(5, 255 * 15);
         </pre>
       <h4><a name="constants_and_enums">Support constants and enumerations</a></h4>
         <h5><a name="constants">Constants</a></h5>
