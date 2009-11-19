@@ -68,6 +68,7 @@ class GGen_Data_2D{
 
 		void Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode);
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);
+		GGen_Data_1D* GetProfile(GGen_Direction direction, GGen_Coord coordinate);
 
 		/* Advanced data manipulation */
 		void Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside);
