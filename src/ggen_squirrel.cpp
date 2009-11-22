@@ -143,6 +143,9 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadConstructor<GGen_Data_2D(*)(uint16, uint16, int16)>().
 		overloadConstructor<GGen_Data_2D(*)(GGen_Data_2D&)>().
 
+		func(&GGen_Data_2D::GetWidth, _T("GetWidth")).
+		func(&GGen_Data_2D::GetWidth, _T("GetHeight")).
+		func(&GGen_Data_2D::GetWidth, _T("GetLength")).
 		func(&GGen_Data_2D::SetValue, _T("SetValue")).
 		func(&GGen_Data_2D::SetValueInRect, _T("SetValueInRect")).
 		overloadFunc<int16(GGen_Data_2D::*)(uint16, uint16)>(&GGen_Data_2D::GetValue, _SC("GetValue")).

@@ -36,6 +36,9 @@ class GGen_Data_2D{
 		~GGen_Data_2D();
 
 		/* Basic data I/O */
+		GGen_Size GetWidth();
+		GGen_Size GetHeight();
+		GGen_Index GetLength();
 		void SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value);
 		void SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, GGen_Coord y2, GGen_Height value);
 		GGen_Height GetValue(GGen_Coord x, GGen_Coord y);

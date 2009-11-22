@@ -89,6 +89,14 @@ GGen_Data_2D::~GGen_Data_2D(){
 	delete [] data;
 }
 
+GGen_Size GGen_Data_2D::GetWidth(){
+	return width;
+}
+
+GGen_Size GGen_Data_2D::GetHeight(){
+	return length;
+}
+
 /** 
  * Reads and returns one value from the array
  * @param x coordinate of the value
@@ -856,12 +864,13 @@ void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction){
 	GGen_Script_Assert(new_data != NULL);
 
 	/* Calculate size of the filter window */
-	GGen_Size window_size = radius * 2 + 1;
+	//GGen_Size window_size = radius * 2 + 1;
 
 	if(direction == GGEN_HORIZONTAL){
 		for(GGen_Coord y = 0; y < height; y++){
 			/* Prefill the window with value of the left edge + n leftmost values (where n is radius) */
-			int32 window_value = data[width * y] * radius;
+			GGen_Size window_size = radius * 2 + 1;
+			GGen_ExtHeight window_value = data[width * y] * radius;
 
 			for(GGen_Distance x = 0; x < radius; x++){
 				window_value += data[x + width * y];
@@ -890,28 +899,36 @@ void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction){
 
 		for(GGen_Coord x = 0; x < width; x++){
 			/* Prefill the window with value of the left edge + n topmost values (where n is radius) */
-			int32 window_value = data[x] * radius;
+			GGen_ExtHeight window_value = 0;
+			GGen_Size window_size = 1;
+			GGen_Size current_window_size = window_size;
+				
 
-			for(GGen_Distance y = 0; y < radius; y++){
+			/*for(GGen_Distance y = 0; y < radius; y++){
 				window_value += data[x + y * width];
-			}
+			}*/
 
 			/* In every step shift the window one tile to the bottom  (= substract its topmost cell and add
 			value of bottommost + 1). i represents position of the central cell of the window. */
 			for(GGen_Coord y = 0; y < height; y++){
+				
 				/* If the window is approaching right border, use the rightmost value as fill. */
-				if((signed) y - (signed) radius < 0){
-					window_value += data[x + (y + radius) * width] - data[x];
+				if(y < radius){
+					window_value += data[x + (y + radius) * width];
+					
+					current_window_size++;
 				}
 				else if(y + radius < height){
 					window_value += data[x + (y + radius) * width] - data[x + (y - radius) * width];
 				}
 				else{
+					current_window_size--;
+				
 					window_value += data[x + (height - 1) * width] - data[x + (y - radius) * width];
 				}
 
 				/* Set the value of current tile to arithmetic average of window tiles. */
-				new_data[x + width * y] = window_value / window_size;
+				new_data[x + width * y] = window_value / current_window_size;
 			}
 		}
 	}
