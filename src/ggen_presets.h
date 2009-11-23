@@ -1,4 +1,4 @@
-/* Presets are defined as locals, so there is no 
+/* Presets are defined as locals, so there is no need to free the objects manually. */
 
 /* GGEN_STD_NOISE */
 
