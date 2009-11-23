@@ -104,6 +104,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadConstructor<GGen_Data_1D(*)(uint16, int16)>().
 		overloadConstructor<GGen_Data_1D(*)(GGen_Data_1D&)>().
 
+		func(&GGen_Data_1D::GetLength, _T("GetLength")).
 		func(&GGen_Data_1D::SetValue, _T("SetValue")).
 		func(&GGen_Data_1D::SetValueInRange, _T("SetValueInRange")).
 		overloadFunc<int16(GGen_Data_1D::*)(uint16)>(&GGen_Data_1D::GetValue, _SC("GetValue")).
