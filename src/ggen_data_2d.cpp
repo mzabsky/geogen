@@ -638,21 +638,19 @@ void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_
 			int64 cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
 		
 			/* Calculate the distance from the "from" point to the intersection with gradient vector */
-			int32 distance = (int32) sqrt((double) (cross_x*cross_x + cross_y*cross_y));
+			double distance = sqrt((double) (cross_x*cross_x + cross_y*cross_y));
 			
 			/* Distance from  the intersection point to the target point */
-			int32 reverse_distance = (int32) sqrt((double) ( ABS(target_x - cross_x) * ABS(target_x - cross_x) + ABS(target_y - cross_y) * ABS(target_y - cross_y) ));
+			double reverse_distance = sqrt((double) ( ABS(target_x - cross_x) * ABS(target_x - cross_x) + ABS(target_y - cross_y) * ABS(target_y - cross_y) ));
 			
 			/* Apply it to the array data */
-			if(distance < max_dist && reverse_distance < max_dist) {
-				data[x + width * y] = pattern->GetValue(distance, (GGen_Size) max_dist);
+			if(distance <= max_dist && reverse_distance <= max_dist) {
+				data[x + width * y] = pattern->GetValue((GGen_Distance) distance, (GGen_Size) max_dist);
 			} 
 			else if(fill_outside && reverse_distance < distance) data[x + width * y] = pattern->GetValue(pattern->length - 1);
 			else if(fill_outside) data[x + width * y] = pattern->GetValue(0);
 		}
 	}
-	
-	
 }
 
 void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside){
@@ -863,9 +861,6 @@ void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction){
 
 	GGen_Script_Assert(new_data != NULL);
 
-	/* Calculate size of the filter window */
-	//GGen_Size window_size = radius * 2 + 1;
-
 	if(direction == GGEN_HORIZONTAL){
 		for(GGen_Coord y = 0; y < height; y++){
 			/* Prefill the window with value of the left edge + n leftmost values (where n is radius) */
@@ -880,7 +875,7 @@ void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction){
 			value of rightmost + 1). i represents position of the central cell of the window. */
 			for(GGen_Coord x = 0; x < width; x++){
 				/* If the window is approaching right border, use the rightmost value as fill. */
-				if((signed) x - (signed)radius < 0){
+				if(x < radius){
 					window_value += data[x + radius + width * y] - data[width * y];
 				}
 				else if(x + radius < width){
@@ -896,42 +891,34 @@ void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction){
 		}
 	}
 	else{ // vertical
-
 		for(GGen_Coord x = 0; x < width; x++){
 			/* Prefill the window with value of the left edge + n topmost values (where n is radius) */
-			GGen_ExtHeight window_value = 0;
-			GGen_Size window_size = 1;
-			GGen_Size current_window_size = window_size;
-				
+			GGen_Size window_size = radius * 2 + 1;
+			GGen_ExtHeight window_value = data[x] * radius;
 
-			/*for(GGen_Distance y = 0; y < radius; y++){
+			for(GGen_Distance y = 0; y < radius; y++){
 				window_value += data[x + y * width];
-			}*/
+			}
 
 			/* In every step shift the window one tile to the bottom  (= substract its topmost cell and add
 			value of bottommost + 1). i represents position of the central cell of the window. */
 			for(GGen_Coord y = 0; y < height; y++){
-				
 				/* If the window is approaching right border, use the rightmost value as fill. */
 				if(y < radius){
-					window_value += data[x + (y + radius) * width];
-					
-					current_window_size++;
+					window_value += data[x + (y + radius) * width] - data[x];
 				}
 				else if(y + radius < height){
 					window_value += data[x + (y + radius) * width] - data[x + (y - radius) * width];
 				}
 				else{
-					current_window_size--;
-				
 					window_value += data[x + (height - 1) * width] - data[x + (y - radius) * width];
 				}
 
 				/* Set the value of current tile to arithmetic average of window tiles. */
-				new_data[x + width * y] = window_value / current_window_size;
+				new_data[x + width * y] = window_value / window_size;
 			}
 		}
-	}
+	}	
 	
 
 	/* Relink and delete the original array data */
@@ -1045,9 +1032,11 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 		max = Max() - min;
 	}
 	
+	//cout << max << " " << min << "\n";
+	
 	/* Smoothen the profile to prevent visible color jumps in the result */
 	GGen_Data_1D profile_copy(*profile);
-	profile_copy.ScaleTo(max - min + 1, false);
+	profile_copy.ScaleTo(max - min + , false);
 	if(profile_copy.length > 80) profile_copy.Smooth((max - min) / 40);
 	
 	/* Make sure the smoothing didn't chhange the extremes */
@@ -1055,7 +1044,8 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 	
 	/* Transform the values */
 	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){		
+		for(GGen_Coord x = 0; x < width; x++){	
+			//if(data[x + y * width] - min >= profile_copy.length) cout << "W" << data[x + y * width] - min << "\n";
 			if(data[x + y * width] > 0) data[x + y * width] = profile_copy.GetValue(data[x + y * width] - min);
 		}
 	}
