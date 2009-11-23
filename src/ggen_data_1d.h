@@ -33,6 +33,7 @@ class GGen_Data_1D{
 		~GGen_Data_1D();
 
 		/* Basic data I/O */
+		GGen_Size GetLength();
 		void SetValue(GGen_Coord x, GGen_Height value);
 		void SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value);
 		GGen_Height GetValue(GGen_Coord x);
