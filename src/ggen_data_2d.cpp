@@ -345,12 +345,10 @@ void GGen_Data_2D::AddTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, G
 
  */
 void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative){
-	int32 min = 0;
-	int32 max = 255;
+	GGen_ExtHeight max = 255;
 
 	if(relative){
-		min = mask->Min();
-		max = mask->Max() - min;
+		max = mask->Max();
 	}
 	
 	if(max == 0) return;
@@ -359,18 +357,16 @@ void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool rela
 	{
 		for(GGen_Coord x = 0; x < width; x++)
 		{
-			data[x + y * width] += (int32) addend->GetValue(x, y, width, height) * ((int32) mask->GetValue(x, y, width, height) - min) / max;
+			data[x + y * width] += (GGen_ExtHeight) addend->GetValue(x, y, width, height) * (GGen_ExtHeight) mask->GetValue(x, y, width, height) / max;
 		}
 	}
 }
 
 void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative){
-	GGen_Height min = 0;
-	GGen_Height max = 255;
+	GGen_ExtHeight max = 255;
 
 	if(relative){
-		min = mask->Min();
-		max = mask->Max() - min;
+		max = mask->Max();
 	}
 
 	if(max == 0) return;
@@ -379,7 +375,7 @@ void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relativ
 	{
 		for(GGen_Coord x = 0; x < width; x++)
 		{
-			data[x + y * width] += value * (mask->GetValue(x, y, width, height) - min) / max;
+			data[x + y * width] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValue(x, y, width, height) / max;
 		}
 	}
 }
@@ -502,17 +498,15 @@ void GGen_Data_2D::IntersectionTo(GGen_CoordOffset offset_x, GGen_CoordOffset of
 }
 
 void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative){
-	GGen_Height min = 0;
 	GGen_Height max = 255;
 
 	if(relative){
-		min = mask->Min();
-		max = mask->Max() - min;
+		max = mask->Max();
 	}
 	
 	for(GGen_Coord y = 0; y < height; y++){
 		for(GGen_Coord x = 0; x < width; x++){	
-			data[x + y * width] = ( data[x + y * width] * (mask->GetValue(x, y, width, height) - min) + victim->GetValue(x, y, width, height) * (max - mask->GetValue(x, y, width, height) + min))/ max;
+			data[x + y * width] = (GGen_ExtHeight) data[x + y * width] * (GGen_ExtHeight) mask->GetValue(x, y, width, height + (GGen_ExtHeight) victim->GetValue(x, y, width, height) * (GGen_ExtHeight) (max - mask->GetValue(x, y, width, height)))/ max;
 		}
 	}
 }
@@ -1007,17 +1001,15 @@ void GGen_Data_2D::SlopeMap(){
 }
 
 void GGen_Data_2D::Scatter(bool relative){
-	GGen_Height min = 0;
 	GGen_Height max = 255;
 
 	if(relative){
-		min = Min();
-		max = Max() - min;
+		max = Max();
 	}
 
 	for(GGen_Coord y = 0; y < height; y++){
 		for(GGen_Coord x = 0; x < width; x++){		
-			data[x + y * width] = GGen_Random(min, max) > data[x + y * width] ? 0 : 1;
+			data[x + y * width] = GGen_Random((GGen_Height) 0, max) > data[x + y * width] ? 0 : 1;
 		}
 	}
 }
@@ -1027,26 +1019,21 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 	GGen_Height max = 255;
 
 	if(relative){
-		min = Min();
-		if(min < 0) min = 0;
-		max = Max() - min;
+		max = Max();
 	}
-	
-	//cout << max << " " << min << "\n";
 	
 	/* Smoothen the profile to prevent visible color jumps in the result */
 	GGen_Data_1D profile_copy(*profile);
-	profile_copy.ScaleTo(max - min + , false);
-	if(profile_copy.length > 80) profile_copy.Smooth((max - min) / 40);
+	profile_copy.ScaleTo(max + 1, false);
+	if(profile_copy.length > 80) profile_copy.Smooth(max / 40);
 	
-	/* Make sure the smoothing didn't chhange the extremes */
+	/* Make sure the smoothing didn't change the extremes */
 	profile_copy.ScaleValuesTo(profile->Min(), profile->Max());
 	
 	/* Transform the values */
 	for(GGen_Coord y = 0; y < height; y++){
 		for(GGen_Coord x = 0; x < width; x++){	
-			//if(data[x + y * width] - min >= profile_copy.length) cout << "W" << data[x + y * width] - min << "\n";
-			if(data[x + y * width] > 0) data[x + y * width] = profile_copy.GetValue(data[x + y * width] - min);
+			if(data[x + y * width] > 0) data[x + y * width] = profile_copy.GetValue(data[x + y * width]);
 		}
 	}
 }
