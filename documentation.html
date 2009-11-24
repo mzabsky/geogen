@@ -95,7 +95,7 @@
   <h2><a name="introduction">Introduction</a></h2>
   
   <p>
-    GeoGen (shortly GGen) is an open-source procedural heightmap generator. Scripting support is provided by <a href="http://www.squirrel-lang.org">Squirrel</a> engine. GGen grants the scripts ability to generate the most various terrain shapes while keeping them simple and easy to read.
+    GeoGen (shortly GGen) is an open-source procedural heightmap generator. Scripting support is provided by <a href="http://www.squirrel-lang.org">Squirrel</a> engine. GeoGen grants the scripts ability to generate the most various terrain shapes while keeping them simple and easy to read.
   </p>
   
   <h2><a name="contents">Contents</a></h2>
@@ -114,7 +114,7 @@
             <li><a href="#ggen_data_1d">GGen_Data_1D</a>
               <ul>
                 <li><a href="#1d_constructors">Constructors</a></li>
-                <li><a href="#1d_values">Basic value I/O</a></li>
+                <li><a href="#1d_values">Basic I/O</a></li>
                 <li><a href="#1d_arithmetic">Artithmetical and logical operations</a></li>
                 <li><a href="#1d_advanced">Advanced data manipulation</a></li>
               </ul>
@@ -122,7 +122,7 @@
             <li><a href="#ggen_data_2d">GGen_Data_2D</a>
               <ul>
                 <li><a href="#2d_constructors">Constructors</a></li>
-                <li><a href="#2d_values">Basic value I/O</a></li>
+                <li><a href="#2d_values">Basic I/O</a></li>
                 <li><a href="#2d_arithmetic">Artithmetical and logical operations</a></li>
                 <li><a href="#2d_advanced">Advanced data manipulation</a></li>
                 <li><a href="#2d_interaction">API interaction</a></li>
@@ -204,7 +204,7 @@
 	return 0;
 }</pre>
       <p>
-        For information about the argument manipulation functions refer the <a href="#interaction_args">Script argument support</a> section.
+        For information about the argument manipulation functions refer to the <a href="#interaction_args">Script argument support</a> section.
       </p>
       <p>
         The script must also contain a function named "Generate" with body of the script logic. The function must return one <a href="#ggen_data_2d">GGen_Data_2D</a> object.
@@ -212,7 +212,7 @@
       <p> 
         A very simple function "generating" an empty heightmap (all zeroes) could look like this:
       </p>
-      <pre>Generate(){
+      <pre>function Generate(){
 	// load values of the arguments
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
@@ -237,7 +237,9 @@
           <p>Creates new <a href="#ggen_data_1d">GGen_Data_1D</a> object of given <em>length</em>. All values are set to <em>value</em>.</p>
           <h6>GGen_Data_1D(<a href="#ggen_data_1d">GGen_Data_1D</a> original)</h6>
           <p>Creates a 1:1 copy of <em>original</em>.</p>
-        <h5><a name="1d_values">Basic value I/O</a></h5>
+        <h5><a name="1d_values">Basic I/O</a></h5>
+          <h6>GGen_Data_1D::GetLength()</h6>
+          <p>Returns length of the array.</p>
           <h6>GGen_Data_1D::GetValue(int x)</h6>
           <p>Returns value on coordinate <em>x</em>.</p>
           <h6>GGen_Data_1D::GetValue(int x, int length)</h6>
@@ -315,7 +317,13 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>Creates new <a href="#ggen_data_2d">GGen_Data_2D</a> object of given <em>width</em> and <em>height</em>. All values are set to <em>value</em>.</p>
           <h6>GGen_Data_2D(<a href="#ggen_data_2d">GGen_Data_2D</a> original)</h6>
           <p>Creates a 1:1 copy of <em>original</em>.</p>
-        <h5><a name="2d_values">Basic value I/O</a></h5>
+        <h5><a name="2d_values">Basic I/O</a></h5>
+          <h6>GGen_Data_2D::GetWidth()</h6>
+          <p>Returns width of the array.</p>
+          <h6>GGen_Data_2D::GetHeight()</h6>
+          <p>Returns height of the array.</p>
+          <h6>GGen_Data_2D::GetLength()</h6>
+          <p>Returns length of the array (which is always equal to width*length).</p>
           <h6>GGen_Data_2D::GetValue(int x, int y)</h6>
           <p>Returns value on coordinates [<em>x</em>, <em>y</em>].</p>
           <h6>GGen_Data_2D::GetValue(int x, int y, int width, int height)</h6>
@@ -381,6 +389,10 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>Sets all values lower than or equal to <em>treshold</em> to 0 and all values higher than <em>treshold</em> to 1.</p>
           <h6>GGen_Data_2D::SelectValue(int value)</h6>
           <p>Sets all values equal to <em>value</em> to 1 and all other values to 0.</p>
+          <h6>GGen_Data_2D::<a name="2d_project">Project</a>(<a href="#ggen_data_1d">GGen_Data_1D</a> profile, <a href="#ggen_direction">GGen_Direction</a> direction)</h6>
+          <p>Extrudes <em>profile</em> across whole array in <em>direction</em>.</p> 
+          <h6><a href="#ggen_data_1d">GGen_Data_1D</a> GGen_Data_2D::GetProfile(<a href="#ggen_direction">GGen_Direction</a> direction)</h6>
+          <p>Returns one row (if <em>direction</em> is GGEN_HORIZONTAL) or one column (otherwise) as separate <a href="#ggen_data_1d">GGen_Data_1D</a> array (changing the returned array won't change the current object).</p> 
         <h5><a name="2d_advanced">Advanced data manipulation</a></h5>
           <h6>GGen_Data_2D::<a name="2d_transformvalues">TransformValues</a>(<a href="#ggen_data_1d">GGen_Data_1D</a> profile, bool relative)</h6>
           <p>Replaces each value with a corresponding value from <em>profile</em>. Coordinate of the corresponding value is determined by the original value - the higher the value, the higher the coordinate is. Only values higher than zero are affected. If <em>relative</em> is false, then maximum value corresponds to the rightmost coordinate (0 always corresponds to 0), else the values are treated in range &lt;0, 255&gt; only. The input profile will be smoothed to prevent sharp steps on the transformed terrain.</p>
@@ -402,8 +414,6 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
           <p>Changes the values in the array so only <em>percentage</em> of values is above zero. Percentage is in range 0 (everything is under 0) - 1 (everything is above 0). "Shape" of tha values won't be changed, only one number will be calculated and added to all values in the array equally.</p>
           <h6>GGen_Data_2D::Pattern(<a href="#ggen_data_2d">GGen_Data_2D</a> pattern)</h6>
           <p>Fills the array with data from <em>pattern</em>. If <em>pattern</em> is smaller than the current array, it will be repeated as necessary to fit.</p> 
-          <h6>GGen_Data_2D::<a name="2d_project">Project</a>(<a href="#ggen_data_1d">GGen_Data_1D</a> profile, <a href="#ggen_direction">GGen_Direction</a> direction)</h6>
-          <p>Extrudes <em>profile</em> across whole array in <em>direction</em>.</p> 
           <h6>GGen_Data_2D::Scatter(bool relative)</h6>
           <p>Replaces height information with only 0s and 1s. Each value has 1/(max - value) chance to become. If <em>relative</em> is true, max is 255.</p> 
           <h6>GGen_Data_2D::SlopeMap()</h6>
@@ -448,7 +458,7 @@ foo.ResizeCanvas(10, 5); // Only middle 10 values will remain, 5 left and 5 righ
         <h5><a name="progress">Progress reporting</a></h5>
           <p>Scripts might sometimes take a lot of time to process. Showing some sort of progress to the user may help to mitigate the "what is happening in the magic box?" effect. Progress in GeoGen is defined by two integers: the <em>max_progress</em> and the <em>current_progress</em>. The <em>max_progress</em> represents the total length of the "progress bar" while the <em>current_progress</em> represents its finished portion.</p>
           <h6>GGen_InitProgress(int max_progress)</h6>
-          <p>Sets the <em>max_progress</em>.</p>
+          <p>Sets the <em>max_progress</em>. If you are using only GGen_IncreaseProgress to change the counter, <em>max_progress</em> should be equal to number of GGen_IncreaseProgress calls + 1.</p>
           <h6>GGen_SetProgress(int current_progress)</h6>
           <p>Sets the <em>current_progress</em>.</p>
           <h6>GGen_IncreaseProgress()</h6>
