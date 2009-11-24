@@ -24,7 +24,7 @@ function Generate(){
 	local feature_size = GGen_GetParam("feature_size");
 	local water_level = GGen_GetParam("water_level") / 100.;
 
-	GGen_InitProgress(3);
+	GGen_InitProgress(2);
 
 	local base = GGen_Data_2D(width, height);
 	
@@ -36,15 +36,7 @@ function Generate(){
 	
 	base.Clamp(0, GGEN_MAX_HEIGHT);
 	
-	local profile = GGen_Data_1D(11, 0);
-	profile.SetValue(6, 18);
-	profile.SetValue(7, 43);
-	profile.SetValue(8, 91);
-	profile.SetValue(9, 163);
-	profile.SetValue(10, 255);
-	
-	
-	base.TransformValues(GGEN_STD_PROFILE, true)
+	base.TransformValues(GGEN_NATURAL_PROFILE, true)
 			
 	return base;
 }

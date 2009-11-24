@@ -8,6 +8,8 @@ function GetInfo(info_type){
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddEnumArg("valley_width","Valley width","Width of the central valley.", 2, "Very Narrow;Narrow;Moderate;Wide;Very Wide");
+			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
+			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			
 			return 0;
 	}
@@ -17,7 +19,10 @@ function Generate(){
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
 	local valley_width = GGen_GetParam("valley_width");
+	local smoothness = 1 << GGen_GetParam("smoothness");
+	local feature_size = GGen_GetParam("feature_size");
 
+	GGen_InitProgress(9);
 
 	local base = GGen_Data_2D(width, height);
 
@@ -35,6 +40,7 @@ function Generate(){
 	profile_height.SetValue(8, 1500);
 	profile_height.SetValue(9, 1500);
 
+	GGen_IncreaseProgress();
 
 	// assemble the valley profile from several parts
 	local valley_profile_width = 100;
@@ -50,11 +56,15 @@ function Generate(){
 	
 	base.Project(profile_height, GGEN_VERTICAL);
 	
+	GGen_IncreaseProgress();
+	
 	local valley = GGen_Data_2D(width, height);
 	valley.Project(profile_valley, GGEN_HORIZONTAL);
 
 	// combine the two profiles
 	base.Intersection(valley);
+
+	GGen_IncreaseProgress();
 
 	// create some meandres on the river using the shift with random noise profile
 	local profile_shift = GGen_Data_1D(800);
@@ -66,20 +76,28 @@ function Generate(){
 	// keep the original valley for later use as mask
 	valley.Shift(profile_shift, GGEN_VERTICAL, GGEN_DISCARD_AND_FILL);
 	
+	GGen_IncreaseProgress();
+	
 	// meld the shapes a little bit
 	base.Smooth(width > height ? height / 50 : width / 50);
 	
 	valley.Smooth(width > height ? height / 50 : width / 50);
 
+	GGen_IncreaseProgress();
+
 	// noise overlay
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(4, width > height ? height / 6 : width / 6, GGEN_STD_NOISE);
+	noise.Noise(smoothness, width > height ? height / (18 - 4 * feature_size) : width / (18 - 4 * feature_size), GGEN_STD_NOISE);
+	
+	GGen_IncreaseProgress();
 	
 	noise.ScaleValuesTo(-1400, 1400);
 	
 	valley.ScaleValuesTo(20, 255);
 	
 	base.AddMasked(noise, valley, false);
+	
+	GGen_IncreaseProgress();
 	
 	// balance the water level so the valley is just filled with water
 	local max = 0;
@@ -88,10 +106,12 @@ function Generate(){
 		now = base.GetValue(i, height / 2 + profile_shift.GetValue(i, width));
 		if(now > max) max = now;
 	}
+	
+	GGen_IncreaseProgress();
 
 	base.Add(-max);
 
-	base.TransformValues(GGEN_STD_PROFILE, true);
+	base.TransformValues(GGEN_NATURAL_PROFILE, true);
 	
 	return base;
 }

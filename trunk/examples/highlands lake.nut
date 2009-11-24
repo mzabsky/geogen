@@ -8,7 +8,8 @@ function GetInfo(info_type){
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddEnumArg("lake_size","Lake size","Radius of the central lake.", 2, "Tiny;Small;Medium;Large;Huge");
-			
+			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
+			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			return 0;
 	}
 }
@@ -18,6 +19,8 @@ function Generate(){
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
 	local lake_size = GGen_GetParam("lake_size");
+	local smoothness = 1 << GGen_GetParam("smoothness");
+	local feature_size = GGen_GetParam("feature_size");
 
 	// create a radial gradient with height 1 in the center and height 1200 on the outer rim
 	local base = GGen_Data_2D(width, height);
@@ -25,7 +28,7 @@ function Generate(){
 
 	// create a separate noise map
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(2, width > height ? height / 8 : width / 8, GGEN_STD_NOISE);
+	noise.Noise(smoothness, width > height ? height / (17 - 4 * feature_size) : width / (14 - 3 * feature_size), GGEN_STD_NOISE);
 
 	// adjust the range of the noise
 	noise.ScaleValuesTo(-500, 500);
@@ -36,7 +39,7 @@ function Generate(){
 	// raise the water level so 9% of the map is under level 0
 	base.Flood(0.93 - 0.03 * lake_size);
 
-	base.TransformValues(GGEN_STD_PROFILE, true);
+	base.TransformValues(GGEN_NATURAL_PROFILE, true);
 
 	return base;
 }
