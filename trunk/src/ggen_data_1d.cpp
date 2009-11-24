@@ -187,32 +187,28 @@ void GGen_Data_1D::AddTo(GGen_Height offset, GGen_Data_1D* addend){
 }
 
 void GGen_Data_1D::AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative){
-	GGen_Height min = 0;
-	GGen_Height max = 255;
+	GGen_ExtHeight max = 255;
 
 	if(relative){
-		min = mask->Min();
-		max = mask->Max() - min;
+		max = mask->Max();
 	}
 
 	for(GGen_Coord i = 0; i < length; i++) 
 	{
-		data[i] += addend->GetValue(i, length) * (mask->GetValue(i, length) - min) / max;
+		data[i] += (GGen_ExtHeight) addend->GetValue(i, length) * (GGen_ExtHeight) mask->GetValue(i, length) / max;
 	}
 }
 
 void GGen_Data_1D::AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative){
-	GGen_Height min = 0;
 	GGen_Height max = 255;
 
 	if(relative){
-		min = mask->Min();
-		max = mask->Max() - min;
+		max = mask->Max();
 	}
 
 	for(GGen_Coord i = 0; i < length; i++) 
 	{
-		data[i] += value * (mask->GetValue(i, length) - min) / max;
+		data[i] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValue(i, length) / max;
 	}
 }
 
