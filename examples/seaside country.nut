@@ -7,7 +7,7 @@ function GetInfo(info_type){
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
-			
+			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			return 0;
 	}
 }
@@ -15,6 +15,9 @@ function GetInfo(info_type){
 function Generate(){
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
+	local feature_size = GGen_GetParam("feature_size");
+
+	GGen_InitProgress(5);
 
 	// set up height profile of the map
 	local profile_height = GGen_Data_1D(10);
@@ -32,9 +35,13 @@ function Generate(){
 	
 	profile_height.Smooth(2);
 	
+	GGen_IncreaseProgress();
+	
 	// project the profile
 	local base = GGen_Data_2D(width, height);
 	base.Project(profile_height, GGEN_VERTICAL);
+	
+	GGen_IncreaseProgress();
 	
 	// create the "wavy" profile along the vertical axis (creating the illusion of long valleys separated by hill ranges)
 	local profile_shift = GGen_Data_1D(800);
@@ -43,9 +50,13 @@ function Generate(){
 	
 	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);
 	
+	GGen_IncreaseProgress();
+	
 	// create the noise overlay
 	local noise = GGen_Data_2D(width, height);
-	noise.Noise(1, width > height ? height / 8 : width / 8, GGEN_STD_NOISE);
+	noise.Noise(smoothness, width > height ? height / 8 : width / 8, GGEN_STD_NOISE);
+
+	GGen_IncreaseProgress();
 	
 	noise.ScaleValuesTo(-1000, 1000);
 	
