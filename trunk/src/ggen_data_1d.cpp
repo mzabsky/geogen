@@ -178,8 +178,7 @@ void GGen_Data_1D::Add(GGen_Data_1D* addend){
  * @param offset of the addend coords
  * @param addend - the second array
  */
-void GGen_Data_1D::AddTo(GGen_Height offset, GGen_Data_1D* addend){
-	
+void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset){
 	/* Walk through the items where the array and the addend with ofset intersect */
 	for(GGen_Coord i = MAX(0, offset); i < MIN(length, offset + addend->length); i++){
 		data[i] += addend->data[i - offset];
