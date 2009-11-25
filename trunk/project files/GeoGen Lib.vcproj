@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)/lib"
-			IntermediateDirectory="$(SolutionDir)/temp/lib"
+			IntermediateDirectory="$(SolutionDir)/temp/lib/"
 			ConfigurationType="4"
 			CharacterSet="1"
 			ManagedExtensions="0"
@@ -81,7 +81,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)/temp/lib/Release"
+			IntermediateDirectory="$(SolutionDir)/temp/lib/Release/"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"

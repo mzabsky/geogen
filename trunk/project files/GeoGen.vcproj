@@ -19,7 +19,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)temp"
-			IntermediateDirectory="$(SolutionDir)/temp/dev"
+			IntermediateDirectory="$(SolutionDir)/temp/dev/"
 			ConfigurationType="1"
 			CharacterSet="1"
 			ManagedExtensions="0"
@@ -97,7 +97,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="../bin"
-			IntermediateDirectory="../temp/dev/Release"
+			IntermediateDirectory="../temp/dev/Release/"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
