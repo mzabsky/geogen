@@ -85,7 +85,7 @@ struct GGen_Params{
 	GGen_Params()
 		:output_format(&_formats[0]),
 		input_file(""),
-		output_file("out.bmp"),
+		output_file("../temp/out.bmp"),
 		output_directory("../temp/"),
 		overlay_file(""),
 		random_seed(-1),
@@ -128,7 +128,7 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 
 	if(name == NULL){
 		path_out << implicit_path;
-		cout << "Saving main bitmap...\n" << flush;
+		cout << "Saving main bitmap as \"" << implicit_path << "\" ...\n" << flush;
 	}
 	else if(_params.disable_secondary_maps){
 		return false;
