@@ -271,7 +271,7 @@ int main(int argc,char * argv[]){
 	args.AddIntArg('s', "seed", "Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same.", "SEED", &_params.random_seed);
 	
 	args.AddBoolArg('a', "all-random", "All unset script arguments are generated randomly.", &_params.all_random);
-	args.AddBoolArg('z', "ignore-zero", "Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved.", &_params.ignore_zero);
+	args.AddBoolArg('z', "ignore-zero", "Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap).", &_params.ignore_zero);
 	args.AddBoolArg('n', "no-rescaling", "The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>.", &_params.no_rescaling);
 	args.AddBoolArg('?', "help", "Displays this help.", &_params.help);
 	args.AddBoolArg('x', "syntax-check", "Will print OKAY if script is compilable or descibe the error found.", &_params.help);

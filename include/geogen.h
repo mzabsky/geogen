@@ -66,7 +66,7 @@ typedef int64 GGen_ExtExtHeight; /* Even more extended height value used for som
 typedef uint16 GGen_Size; /* Size of the data array or size of an interval of coordinates in one dimension. Determines maximum dimensions of a data array. Must not allow negative values. */
 typedef uint32 GGen_TotalSize; /* Total count of elements in the data array, must be able to hold at least GGen_Size * GGen_Size. Must not allow negative values. */
 typedef GGen_Size GGen_Coord; /* Coordinate in one dimension of the data array. Should be the same as GGen_Size. */
-typedef int16 GGen_CoordOffset; /* Coordinate offset relative to an offset value. Must allow negative values. */
+typedef int32 GGen_CoordOffset; /* Coordinate offset relative to an offset value. Must allow negative values. */
 typedef GGen_TotalSize GGen_Index; /* Coordinate in linearized data array. Should be the same as GGen_TotalSize. */
 typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 * GGen_Coord * GGen_Coord. */
 
@@ -118,6 +118,7 @@ class GGen_Data_1D{
 		~GGen_Data_1D();
 
 		/* Basic data I/O */
+		GGen_Size GetLength();
 		void SetValue(GGen_Coord x, GGen_Height value);
 		void SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value);
 		GGen_Height GetValue(GGen_Coord x);
@@ -126,7 +127,7 @@ class GGen_Data_1D{
 		/* Elementary artihmetic and logic operations */
 		void Add(GGen_Height value);
 		void Add(GGen_Data_1D* addend);
-		void AddTo(GGen_CoordOffset offset, GGen_Data_1D* addend);
+		void AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset);
 		void AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative);
 		void AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative);
 		void Multiply(double value);
@@ -156,7 +157,6 @@ class GGen_Data_1D{
 		void Flood(double water_amount);
 };
 
-
 class GGen_Data_2D{
 	public:
 		GGen_Height* data;
@@ -171,6 +171,9 @@ class GGen_Data_2D{
 		~GGen_Data_2D();
 
 		/* Basic data I/O */
+		GGen_Size GetWidth();
+		GGen_Size GetHeight();
+		GGen_Index GetLength();
 		void SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value);
 		void SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, GGen_Coord y2, GGen_Height value);
 		GGen_Height GetValue(GGen_Coord x, GGen_Coord y);
@@ -179,7 +182,7 @@ class GGen_Data_2D{
 		/* Elementary data manipulation */
 		void Add(GGen_Height value);
 		void Add(GGen_Data_2D* addend);
-		void AddTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* addend);
+		void AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		void AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative);
 		void AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 		void Multiply(double factor);
@@ -194,15 +197,16 @@ class GGen_Data_2D{
 		GGen_Height Min();
 		GGen_Height Max();
 		void Intersection(GGen_Data_2D* victim);
-		void IntersectionTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* victim);
+		void IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		void Union(GGen_Data_2D* victim);
-		void UnionTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* victim);
+		void UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		void Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative);
 		void ReplaceValue(GGen_Height needle, GGen_Height replace);
 		void Abs();
 
 		void Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode);
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);
+		GGen_Data_1D* GetProfile(GGen_Direction direction, GGen_Coord coordinate);
 
 		/* Advanced data manipulation */
 		void Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside);
