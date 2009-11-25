@@ -60,8 +60,8 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	base.IntersectionTo(width / 3 - pass.GetWidth() / 2, 0, pass);
-	base.IntersectionTo(2 * width / 3 - pass.GetWidth() / 2, 0, pass);
+	base.IntersectionTo(pass, width / 3 - pass.GetWidth() / 2, 0);
+	base.IntersectionTo(pass, 2 * width / 3 - pass.GetWidth() / 2, 0);
 	
 	pass = null;
 
