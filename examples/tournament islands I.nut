@@ -48,25 +48,25 @@ function Generate(){
 	
 	local base = GGen_Data_2D(width, height);
 	
-	base.AddTo(0, 0, quarter);
+	base.AddTo(quarter, 0, 0);
 	
 	GGen_IncreaseProgress();
 	
 	quarter.Flip(GGEN_VERTICAL);
 	
-	base.AddTo(0, height / 2, quarter);
+	base.AddTo(quarter, 0, height / 2);
 	
 	GGen_IncreaseProgress();
 	
 	quarter.Flip(GGEN_HORIZONTAL);
 	
-	base.AddTo(width / 2, height / 2, quarter);
+	base.AddTo(quarter, width / 2, height / 2);
 	
 	GGen_IncreaseProgress();
 	
 	quarter.Flip(GGEN_VERTICAL);
 	
-	base.AddTo(width / 2, 0, quarter);
+	base.AddTo(quarter, width / 2, 0);
 	
 	GGen_IncreaseProgress();
 	

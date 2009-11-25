@@ -36,7 +36,7 @@ function Generate(){
 
 	base.Union(radial);
 	
-	base.UnionTo(0, height / 2, radial);
+	base.UnionTo(radial, 0, height / 2);
 
 	GGen_IncreaseProgress();
 	
@@ -47,7 +47,7 @@ function Generate(){
 	GGen_IncreaseProgress();
 
 	base.Intersection(radial);
-	base.IntersectionTo(0, height / 2, radial);
+	base.IntersectionTo(radial, 0, height / 2);
 
 	base.ReturnAs("1-gradient, set operations, canvas, replaceValue");
 	radial = null;
@@ -126,7 +126,7 @@ function Generate(){
 	
 	base2.Flip(GGEN_VERTICAL);
 	
-	base.AddTo(0, height / 2, base2);
+	base.AddTo(base2, 0, height / 2);
 
 	base2 = null;
 
