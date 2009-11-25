@@ -272,7 +272,10 @@ void GGen_Data_1D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 	GGen_Height min = Min();
 	GGen_Height max = Max() - min;
 
-	if(max == 0) Fill(min);
+	if(max == 0) {
+		Fill(min);
+		return;
+	}
 
 	new_max -= new_min;
 
