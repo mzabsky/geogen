@@ -44,7 +44,7 @@ typedef int64 GGen_ExtExtHeight; /* Even more extended height value used for som
 typedef uint16 GGen_Size; /* Size of the data array or size of an interval of coordinates in one dimension. Determines maximum dimensions of a data array. Must not allow negative values. */
 typedef uint32 GGen_TotalSize; /* Total count of elements in the data array, must be able to hold at least GGen_Size * GGen_Size. Must not allow negative values. */
 typedef GGen_Size GGen_Coord; /* Coordinate in one dimension of the data array. Should be the same as GGen_Size. */
-typedef int16 GGen_CoordOffset; /* Coordinate offset relative to an offset value. Must allow negative values. */
+typedef int32 GGen_CoordOffset; /* Coordinate offset relative to an offset value. Must allow negative values. */
 typedef GGen_TotalSize GGen_Index; /* Coordinate in linearized data array. Should be the same as GGen_TotalSize. */
 typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 * GGen_Coord * GGen_Coord. */
 

@@ -259,7 +259,7 @@ void GGen_Data_2D::Scale(double ratio, bool scale_values){
 	ScaleTo((GGen_Size) ((GGen_Size) (double) width * ratio), (GGen_Size) ((double) height * ratio), scale_values);
 }
 
-void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_Height new_zero_x, GGen_Height new_zero_y){
+void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_CoordOffset new_zero_x, GGen_CoordOffset new_zero_y){
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[new_width * new_height];
 
@@ -330,7 +330,7 @@ void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace){
  * @param y offset of the addend coords
  * @param addend - the second array
  */
-void GGen_Data_2D::AddTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* addend){
+void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y){
 	/* Walk through the items where the array and the addend with offset intersect */
 	for(GGen_Coord y = MAX(0, offset_y); y < MIN(height, offset_y + addend->height); y++){
 		for(GGen_Coord x = MAX(0, offset_x); x < MIN(width, offset_x + addend->width); x++){
@@ -466,7 +466,7 @@ void GGen_Data_2D::Union(GGen_Data_2D* victim){
 	}
 }
 
-void GGen_Data_2D::UnionTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* victim){
+void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y){
 	/* Walk through the items where the array and the victim with offset intersect */
 	for(GGen_Coord y = MAX(0, offset_y); y < MIN(height, offset_y + victim->height); y++){
 		for(GGen_Coord x = MAX(0, offset_x); x < MIN(width, offset_x + victim->width); x++){
@@ -488,7 +488,7 @@ void GGen_Data_2D::Intersection(GGen_Data_2D* victim){
 	}
 }
 
-void GGen_Data_2D::IntersectionTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* victim){
+void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y){
 	/* Walk through the items where the array and the addend with offset intersect */
 	for(GGen_Coord y = MAX(0, offset_y); y < MIN(height, offset_y + victim->height); y++){
 		for(GGen_Coord x = MAX(0, offset_x); x < MIN(width, offset_x + victim->width); x++){
@@ -616,20 +616,20 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 }
 
 void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside){
-	int64 target_x = to_x - from_x;
-	int64 target_y = to_y - from_y;
+	GGen_ExtExtHeight target_x = to_x - from_x;
+	GGen_ExtExtHeight target_y = to_y - from_y;
 	
 	/* Width of the gradient strip */
 	double max_dist = sqrt((double) (abs(to_x - from_x) * abs(to_x - from_x) + abs(to_y - from_y) * abs(to_y - from_y)));
 
 	for(GGen_Coord y = 0; y < height; y++){
 		for(GGen_Coord x = 0; x < width; x++){
-			int64 point_x = x - from_x;
-			int64 point_y = y - from_y;
+			GGen_ExtExtHeight point_x = x - from_x;
+			GGen_ExtExtHeight point_y = y - from_y;
 
 			/* Get the point on the gradient vector (vector goint through both starting and target point) to which is the current point closest */
-			int64 cross_x = (target_x * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
-			int64 cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
+			GGen_ExtExtHeight cross_x = (target_x * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
+			GGen_ExtExtHeight cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
 		
 			/* Calculate the distance from the "from" point to the intersection with gradient vector */
 			double distance = sqrt((double) (cross_x*cross_x + cross_y*cross_y));
@@ -697,7 +697,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 
 	/* For each octave (goind from the higher wave lengths to the shorter)... */
 	for(GGen_Size wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
-		uint16 frequency = GGen_log2(wave_length);
+		GGen_Size frequency = GGen_log2(wave_length);
 		GGen_Height amplitude = amplitudes->data[frequency];
 		double pi_by_wave_length = 3.1415927 / wave_length;
 		
@@ -707,7 +707,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 		/* Set up base noise grid values for  this round */
 		for(GGen_Coord y = 0; y < height; y += wave_length){
 			for(GGen_Coord x = 0; x < width; x += wave_length){
-				new_data[x + y * width] = GGen_Random<int>(-amplitude, amplitude);
+				new_data[x + y * width] = GGen_Random<GGen_Height>(-amplitude, amplitude);
 			}
 		}		
 
@@ -718,8 +718,8 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 			GGen_Coord nearest_vertical = y - vertical_remainder;
 			double vertical_fraction = (1 - cos(vertical_remainder * pi_by_wave_length)) * .5;
 		
-			uint32 vertical_offset = nearest_vertical * width;
-			uint32 vertical_offset_next = (nearest_vertical + wave_length) * width;
+			GGen_Index vertical_offset = nearest_vertical * width;
+			GGen_Index vertical_offset_next = (nearest_vertical + wave_length) * width;
 		
 			for(GGen_Coord x = 0; x < width; x++){
 				/* We are on the grid ==> no need for the interpolation */
@@ -819,7 +819,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 void GGen_Data_2D::Flood(double water_amount){
 	GGen_Script_Assert(water_amount < 1 && water_amount > 0);
 
-	GGen_Index target = (uint32) (water_amount * (double) length);
+	GGen_Index target = (GGen_Index) (water_amount * (double) length);
 
 	GGen_Height min = Min();
 	GGen_Height max = Max();
@@ -1103,14 +1103,14 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	
 	/* Find which bounding point is which (the rotations and such might change this). The zeroes
 	represent the origin (upper left corner), which always stays the same. */
-	int32 new_left_x = (int32) floor(MIN(MIN(0, new_top_right_x), MIN(new_bottom_left_x, new_bottom_right_x)));
-	int32 new_right_x = (int32) ceil(MAX(MAX(0, new_top_right_x), MAX(new_bottom_left_x, new_bottom_right_x)));
+	GGen_CoordOffset new_left_x = (int32) floor(MIN(MIN(0, new_top_right_x), MIN(new_bottom_left_x, new_bottom_right_x)));
+	GGen_CoordOffset new_right_x = (int32) ceil(MAX(MAX(0, new_top_right_x), MAX(new_bottom_left_x, new_bottom_right_x)));
 	
-	int32 new_top_y = (int32)floor(MIN(MIN(0, new_top_right_y), MIN(new_bottom_left_y, new_bottom_right_y)));
-	int32 new_bottom_y = (int32) ceil(MAX(MAX(0, new_top_right_y), MAX(new_bottom_left_y, new_bottom_right_y)));
+	GGen_CoordOffset new_top_y = (int32)floor(MIN(MIN(0, new_top_right_y), MIN(new_bottom_left_y, new_bottom_right_y)));
+	GGen_CoordOffset new_bottom_y = (int32) ceil(MAX(MAX(0, new_top_right_y), MAX(new_bottom_left_y, new_bottom_right_y)));
 	
-	uint32 new_width = new_right_x - new_left_x + 1;
-	uint32 new_height = new_bottom_y - new_top_y + 1;
+	GGen_CoordOffset new_width = new_right_x - new_left_x + 1;
+	GGen_CoordOffset new_height = new_bottom_y - new_top_y + 1;
 	
 	/* Make sure the output dimensions fit into a 16 bit unsigned integer, so we don't have array overflows later */
 	GGen_Script_Assert(new_width < 2 << 16 && new_height < 2 << 16);
@@ -1126,7 +1126,7 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	double inverted_a22 = a11 / (-(a12 * a21) + a11 * a22);
 
 	int from_x, to_x, from_y, to_y;
-	uint32 new_length;
+	GGen_Index new_length;
 	GGen_Height* new_data;
 	
 	if(preserve_size){
@@ -1158,19 +1158,19 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	}
 	
 	/* Go through the new array and for every tile look back into the old array (thus we need the inverted function) what is there */
-	for(int32 new_y = from_y; new_y < to_y; new_y++){
+	for(GGen_CoordOffset new_y = from_y; new_y < to_y; new_y++){
 		/* The second multiplication always stays the same for whole row */
 		GGen_Index y_part_1 = (GGen_Height) ((new_y - new_origin_y) * inverted_a12);
 		GGen_Index y_part_2 = (GGen_Height) ((new_y - new_origin_y) * inverted_a22);
 		
 		/* Offset from pointer from the first cell in the array to the first cell in current row */
-		int32 y_offset = (new_y - from_y) * new_width;
+		GGen_CoordOffset y_offset = (new_y - from_y) * new_width;
 		
-		for(int32 new_x = from_x; new_x < to_x; new_x++){
+		for(GGen_CoordOffset new_x = from_x; new_x < to_x; new_x++){
 			/* Calculate the original coordinates for the current "new point" by multiplying the coordinate vector of
 			the desired point by inverted transformation matrix */
-			int32 x = (int32) ((new_x - new_origin_x) * inverted_a11) + y_part_1;
-			int32 y = (int32) ((new_x - new_origin_x) * inverted_a21) + y_part_2;
+			GGen_CoordOffset x = (GGen_CoordOffset) ((new_x - new_origin_x) * inverted_a11) + y_part_1;
+			GGen_CoordOffset y = (GGen_CoordOffset) ((new_x - new_origin_x) * inverted_a21) + y_part_2;
 			
 			/* The original point exists => use its value */
 			if(x >= 0 && y >= 0 && x < width && y < height) {			

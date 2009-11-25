@@ -47,7 +47,7 @@ class GGen_Data_2D{
 		/* Elementary data manipulation */
 		void Add(GGen_Height value);
 		void Add(GGen_Data_2D* addend);
-		void AddTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* addend);
+		void AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		void AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative);
 		void AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 		void Multiply(double factor);
@@ -62,9 +62,9 @@ class GGen_Data_2D{
 		GGen_Height Min();
 		GGen_Height Max();
 		void Intersection(GGen_Data_2D* victim);
-		void IntersectionTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* victim);
+		void IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		void Union(GGen_Data_2D* victim);
-		void UnionTo(GGen_CoordOffset offset_x, GGen_CoordOffset offset_y, GGen_Data_2D* victim);
+		void UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		void Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative);
 		void ReplaceValue(GGen_Height needle, GGen_Height replace);
 		void Abs();
