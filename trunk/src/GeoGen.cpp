@@ -467,6 +467,8 @@ int main(int argc,char * argv[]){
 		}
 	}
 
+	time_t start = time(NULL);
+	
 	cout << "Executing with seed " << _params.random_seed << "...\n" << flush;
 
 	// execute the main part of the script
@@ -488,7 +490,9 @@ int main(int argc,char * argv[]){
 
 	delete ggen;
 
-	cout << "Done!\n" << flush;
+	int seconds = difftime(time(NULL), start);
+
+	cout << "Finished after " << seconds << " seconds!\n" << flush;
 
 	if(_params.stupid_mode) system("pause");
 
