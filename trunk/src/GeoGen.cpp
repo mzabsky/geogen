@@ -274,7 +274,7 @@ int main(int argc,char * argv[]){
 	args.AddBoolArg('z', "ignore-zero", "Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap).", &_params.ignore_zero);
 	args.AddBoolArg('n', "no-rescaling", "The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>.", &_params.no_rescaling);
 	args.AddBoolArg('?', "help", "Displays this help.", &_params.help);
-	args.AddBoolArg('x', "syntax-check", "Will print OKAY if script is compilable or descibe the error found.", &_params.help);
+	args.AddBoolArg('x', "syntax-check", "Will print OKAY if script is compilable or descibe the error found.", &_params.syntax_check_mode);
 	args.AddBoolArg('p', "param-list", "Lists the script's parameters in machine-readable format.", &_params.param_list_mode);
 	args.AddBoolArg('e', "simple", "Mode which allows all necessary data to be entered interactively. This mode is automatically activaded if no params were entered.", &_params.stupid_mode);
 	args.AddBoolArg('m', "manual", "Script arguments will be entered interactively.", &_params.manual_mode);
@@ -467,7 +467,7 @@ int main(int argc,char * argv[]){
 		}
 	}
 
-	time_t start = time(NULL);
+	clock_t start = clock();
 	
 	cout << "Executing with seed " << _params.random_seed << "...\n" << flush;
 
@@ -490,7 +490,7 @@ int main(int argc,char * argv[]){
 
 	delete ggen;
 
-	int seconds = difftime(time(NULL), start);
+	double seconds = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
 
 	cout << "Finished after " << seconds << " seconds!\n" << flush;
 
