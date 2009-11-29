@@ -52,11 +52,12 @@ struct OutputFormat{
 	bool apply_overlay;
 };
 
-#define NUM_FORMATS 2
+#define NUM_FORMATS 3
 
 OutputFormat _formats[] = {
 	{"bmp", "Windows Bitmap", 0, 255, true},
 	{"shd", "GeoGen Short Data", -2 << 14, 2 << 14, false},
+	{"pgm", "Portable Gray Map", 0, 2 << 13, false}
 };
 
 struct GGen_Params{
@@ -79,6 +80,7 @@ struct GGen_Params{
 	bool manual_mode;
 	bool disable_secondary_maps;
 	bool overlay_as_copy;
+	int grid_size;
 	
 	vector<std::string> script_args;
 	
@@ -98,7 +100,8 @@ struct GGen_Params{
 		stupid_mode(false),
 		manual_mode(false),
 		disable_secondary_maps(false),
-		overlay_as_copy(false)
+		overlay_as_copy(false),
+		grid_size(0)
 	{}
 };
 
@@ -206,6 +209,14 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		else{
 			for(unsigned int i = 0; i < height; i++){
 				for(unsigned int j = 0; j < width; j++){
+					if(_params.grid_size > 1 && (j % _params.grid_size == 0 || i % _params.grid_size == 0)){
+						output(j,i)->Red = 128;
+						output(j,i)->Green = 128;
+						output(j,i)->Blue = 128;					
+						
+						continue;
+					}
+				
 					output(j,i)->Red = overlay(data[j + width * i] ,0)->Red;
 					output(j,i)->Green = overlay(data[j + width * i] ,0)->Green;
 					output(j,i)->Blue = overlay(data[j + width * i] ,0)->Blue;
@@ -236,6 +247,25 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		
 		out.close();
 	}
+	else if(_params.output_format->suffix == "pgm"){
+		ofstream out(path_out.str().c_str(), ios_base::out);
+		if(out.bad()){
+			cout << "Could not write " << path_out.str() << "!\n" << flush;
+		}
+		else{
+			out << "P2" << endl;
+			out << width << " " << height << endl << _params.output_format->max << endl;
+			
+			for(unsigned y = 0; y < height; y++){
+				for(unsigned x = 0; x < width; x++){
+					out << data[x + width * y];
+					
+					if(x < width - 1) out << " ";
+				}
+				if(y < height - 1) out << endl;
+			}
+		}		
+	}
 
 	if(name != NULL) cout << "Executing...\n" << flush;
 
@@ -264,7 +294,7 @@ int main(int argc,char * argv[]){
 	args.SetPosArgsVector(_params.script_args);
 	
 	args.AddStringArg('i', "input", "Input squirrel script to be executed.", "FILE", &_params.input_file); 
-	args.AddStringArg('o', "output", "Output file, the extension determines file type of the output (*.bmp for Windows Bitmap and *.shd for GeoGen Short Height Data are allowed). Set to \"../temp/out.bmp\" by default.", "FILE", &_params.output_file);
+	args.AddStringArg('o', "output", "Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default.", "FILE", &_params.output_file);
 	args.AddStringArg('d', "output-directory", "Directory where secondary maps will be saved. Set to \"../temp/\" by default.", "DIRECTORY", &_params.output_directory);
 	args.AddStringArg('v', "overlay", "Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and 256 pixels wide.", "FILE", &_params.overlay_file);
 	
@@ -280,6 +310,8 @@ int main(int argc,char * argv[]){
 	args.AddBoolArg('m', "manual", "Script arguments will be entered interactively.", &_params.manual_mode);
 	args.AddBoolArg('D', "disable-secondary-maps", "All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped.", &_params.disable_secondary_maps);
 	args.AddBoolArg('V', "overlay-as-copy", "Color files with overlays will be saved as copies.", &_params.overlay_as_copy);
+	args.AddIntArg( 'g', "grid", "Renders a grid onto the overlay file.", "SIZE", &_params.grid_size);
+	
 	
 	// read the arguments
 	args.Scan();
