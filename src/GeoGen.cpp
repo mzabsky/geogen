@@ -52,12 +52,14 @@ struct OutputFormat{
 	bool apply_overlay;
 };
 
-#define NUM_FORMATS 3
+#define NUM_FORMATS 3 // overlay virtual formats are not included
 
 OutputFormat _formats[] = {
 	{"bmp", "Windows Bitmap", 0, 255, true},
 	{"shd", "GeoGen Short Data", -2 << 14, 2 << 14, false},
-	{"pgm", "Portable Gray Map", 0, 2 << 13, false}
+	{"pgm", "Portable Gray Map", 0, 2 << 13, false},
+	{"bmp", "Overlay", 0, 255, true},
+	{"bmp", "Ext overlay", -255, 254, true}
 };
 
 struct GGen_Params{
@@ -81,6 +83,7 @@ struct GGen_Params{
 	bool disable_secondary_maps;
 	bool overlay_as_copy;
 	int grid_size;
+	bool split_range;
 	
 	vector<std::string> script_args;
 	
@@ -101,7 +104,8 @@ struct GGen_Params{
 		manual_mode(false),
 		disable_secondary_maps(false),
 		overlay_as_copy(false),
-		grid_size(0)
+		grid_size(0),
+		split_range(false)
 	{}
 };
 
@@ -127,6 +131,31 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		enable_overlay = true;
 	}
 
+	OutputFormat* format = _params.output_format;
+
+	BMP overlay;
+	if(((_params.overlay_as_copy && enable_overlay) || (!_params.overlay_as_copy))  && _params.overlay_file.length() > 0){
+		if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
+			cout << "Could  not open overlay file!\n" << flush;
+			return false;
+		}
+		
+		if(overlay.TellWidth() == 256) format = &_formats[NUM_FORMATS];
+		else if(overlay.TellWidth() == 511) format = &_formats[NUM_FORMATS + 1];
+		else{
+			cout << "Incorrect overlay size!" << endl;
+			return false;
+		}
+	}
+
+	long long int format_max = format->max;
+	long long int format_min = format->min;
+	
+	if(_params.split_range && format->min == 0){
+		format_max = (format->max + 1) / 2;
+		format_min = - (format->max + 1) / 2 - 1;
+	}
+
 	stringstream path_out;
 
 	if(name == NULL){
@@ -137,7 +166,7 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		return false;
 	}
 	else{
-		path_out << _params.output_directory << name << "." << _params.output_format->suffix;
+		path_out << _params.output_directory << name << "." << format->suffix;
 		cout << "Saving map \"" << name << "\" as \"" << path_out.str() <<"\"...\n" << flush;
 	}
 	
@@ -154,45 +183,35 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		}
 		
 		double ratio = 0;
-		if(_params.output_format->min != 0){
+		if(format_min != 0){
 			ratio = 
-				(double) max / (double) _params.output_format->max > (double) min / (double) _params.output_format->min ? 
-				(double) max / (double) _params.output_format->max :
-				(double) min / (double) _params.output_format->min;
+				(double) format_max / (double) max < (double) format_min / (double) min ? 
+				(double) format_max / (double) max :
+				(double) format_min / (double) min;
 		}
 
 		// if max == min, then whole map is black, scaling would be useless
 		if(max - min > 0){
 			if(_params.ignore_zero) max = max - min;
-			/*else if(!_params.output_format->min == 0){
-				cout << "SYMMETRIC SCALING IS NOT IMPLEMENTED YET!";
-				return false;
-			}*/
-
-			//if(max > 0){
-				for(uint32 i = 0; i < width * height; i++){
-					if(_params.ignore_zero) new_data[i] = (int16) _params.output_format->min + (data[i] - min) * (int16) _params.output_format->max / max;
-					else if(_params.output_format->min == 0 && data[i] > 0) new_data[i] = data[i] * (int16) _params.output_format->max / max;
-					else if(data[i] > 0 || (_params.output_format->min < 0 && data[i] < 0)) new_data[i] = (int16) ((double) data[i] * ratio);
-					else new_data[i] = 0;
+			
+			for(uint32 i = 0; i < width * height; i++){
+				if(_params.ignore_zero) new_data[i] = (int16) format_min + (data[i] - min) * (int16) format_max / max;
+				else if(format_min == 0 && data[i] > 0) new_data[i] = data[i] * (int16) format_max / max;
+				else if(format_min < 0) new_data[i] = (int16) ((double) data[i] * ratio);
+				else new_data[i] = 0;
+			}
+		
+			if(_params.split_range && format->min == 0){
+				for(unsigned int i = 0; i < width * height; i++){
+					new_data[i] = new_data[i] += (int16) ((format->max + 1) / 2);
 				}
-			//}
+			}
 			
 			data = new_data;
 		}
 	}
 
-	if(_params.output_format->suffix == "bmp"){
-		BMP overlay;
-		if(_params.overlay_file != ""){
-			if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
-				cout << "Could  not open overlay file!\n" << flush;
-				return false;
-			}
-			
-			
-		}
-
+	if(format->suffix == "bmp"){
 		BMP output;
 
 		output.SetBitDepth(32);
@@ -217,16 +236,20 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 						continue;
 					}
 				
-					output(j,i)->Red = overlay(data[j + width * i] ,0)->Red;
-					output(j,i)->Green = overlay(data[j + width * i] ,0)->Green;
-					output(j,i)->Blue = overlay(data[j + width * i] ,0)->Blue;
+					int xInOverlay = data[j + width * i];
+					
+					if(overlay.TellWidth() == 511) xInOverlay += 255;
+				
+					output(j,i)->Red = overlay(xInOverlay ,0)->Red;
+					output(j,i)->Green = overlay(xInOverlay ,0)->Green;
+					output(j,i)->Blue = overlay(xInOverlay ,0)->Blue;
 				}		
 			}
 		}
 
 		output.WriteToFile(path_out.str().c_str());
 	}
-	else if(_params.output_format->suffix == "shd"){
+	else if(format->suffix == "shd"){
 		ofstream out(path_out.str().c_str(), ios_base::out | ios_base::binary | ios::ate);
 		
 		if(out.bad()){
@@ -237,17 +260,11 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 			out.write((char*) &height, sizeof(height));
 			
 			out.write((char*) data, 2 * width * height);
-			
-			/*for(unsigned int i = 0; i < width * height; i++){
-				//out << data[i];
-				out.write((char*) &data[i], sizeof(data[i]) * );
-				
-			}*/
 		}
 		
 		out.close();
 	}
-	else if(_params.output_format->suffix == "pgm"){
+	else if(format->suffix == "pgm"){
 		ofstream out(path_out.str().c_str(), ios_base::out);
 		if(out.bad()){
 			cout << "Could not write " << path_out.str() << "!\n" << flush;
@@ -311,6 +328,7 @@ int main(int argc,char * argv[]){
 	args.AddBoolArg('D', "disable-secondary-maps", "All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped.", &_params.disable_secondary_maps);
 	args.AddBoolArg('V', "overlay-as-copy", "Color files with overlays will be saved as copies.", &_params.overlay_as_copy);
 	args.AddIntArg( 'g', "grid", "Renders a grid onto the overlay file.", "SIZE", &_params.grid_size);
+	args.AddBoolArg('h', "split-range", "Splits the value range of a file format, which doesn't support negative values, so lower half of the range covers negaive values and upper half covers positive values. Value \"(max + 1) / 2\" will be treated as zero.", &_params.split_range);
 	
 	
 	// read the arguments
