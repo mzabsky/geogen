@@ -812,6 +812,75 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 	delete [] new_data;
 } 
 
+// NOT REALLY FINISHED!! NEEDS A LOT OF POLISH!!!
+void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, bool ridge_style){
+	struct Point{
+		GGen_Coord x, y;
+	};
+	
+	int num_cells_x = num_cells;
+	int num_cells_y = num_cells;
+	int cell_width = width / num_cells_x;
+	int cell_height = height / num_cells_y;
+	GGen_ExtExtHeight max_dist = cell_width * cell_width + cell_height * cell_height;
+	
+	Point* points = new Point[num_cells_x * num_cells_y * points_per_cell];
+	
+#define GET_POINT(x, y, i) points[i + (x) * points_per_cell + (y) * num_cells_x * points_per_cell]
+	
+	for(int y = 0; y < num_cells_y; y++){
+		for(int x = 0; x < num_cells_x; x++){
+			for(int i = 0; i < points_per_cell; i++){
+				GET_POINT(x, y, i).x = x * cell_width + GGen_Random<int>(0, width / num_cells_x);
+				GET_POINT(x, y, i).y = y * cell_height + GGen_Random<int>(0, height / num_cells_y);
+			}	
+		}
+	}
+	
+	Point* points_waiting[9];
+	
+	for(GGen_Coord y = 0; y < height; y++){
+		for(GGen_Coord x = 0; x < width; x++){
+			uint8 num_points_waiting = 1;
+			
+			GGen_Coord cell_x = x / cell_width;
+			GGen_Coord cell_y = y / cell_height;
+			
+			Point* closest_point = NULL;
+			GGen_ExtExtHeight current_min_dist = INT_MAX;
+			GGen_ExtExtHeight current_second_min_dist = LONG_MAX;
+			
+			points_waiting[0] = &GET_POINT(cell_x, cell_y, 0);
+			
+			if(cell_y > 0 && cell_x > 0)							{points_waiting[num_points_waiting] = &GET_POINT(cell_x - 1, cell_y - 1, 0); ++num_points_waiting;}
+			if(cell_y > 0)											{points_waiting[num_points_waiting] = &GET_POINT(cell_x,	 cell_y - 1, 0); ++num_points_waiting;}
+			if(cell_y > 0 && cell_x < num_cells_x - 1)				{points_waiting[num_points_waiting] = &GET_POINT(cell_x + 1, cell_y - 1, 0); ++num_points_waiting;}
+			if(cell_x > 0)											{points_waiting[num_points_waiting] = &GET_POINT(cell_x - 1, cell_y	   , 0); ++num_points_waiting;}
+			if(cell_x < num_cells_x - 1)							{points_waiting[num_points_waiting] = &GET_POINT(cell_x + 1, cell_y	   , 0); ++num_points_waiting;}
+			if(cell_x > 0 && cell_y < num_cells_y - 1)				{points_waiting[num_points_waiting] = &GET_POINT(cell_x - 1, cell_y + 1, 0); ++num_points_waiting;}
+			if(cell_y < num_cells_y - 1)							{points_waiting[num_points_waiting] = &GET_POINT(cell_x	   , cell_y + 1, 0); ++num_points_waiting;}
+			if(cell_x < num_cells_x - 1 && cell_y < num_cells_y - 1){points_waiting[num_points_waiting] = &GET_POINT(cell_x + 1, cell_y + 1, 0); ++num_points_waiting;}
+			
+			for(int i = 0; i < num_points_waiting; i++){
+				for(int j = 0; j < points_per_cell; j++){
+					Point* current_point = points_waiting[i] + j;
+					
+					int64 current_distance = (x - current_point->x) * (x - current_point->x) + (y - current_point->y) * (y - current_point->y);
+					
+					if(current_distance < current_min_dist){
+						current_min_dist = current_distance;
+						//closest_point = current_point;
+					}
+				}
+			}
+			
+			data[x + y * width] = current_min_dist * GGEN_MAX_HEIGHT / max_dist;// / 200;
+			
+			assert(current_min_dist * GGEN_MAX_HEIGHT / max_dist < GGEN_MAX_HEIGHT);
+		}
+	}	
+}
+
 /*
  * Shifts the array values so given percentage of it is under zero (zero represents the water level).
  * @param percentage of the map to be flooded
