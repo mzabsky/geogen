@@ -190,6 +190,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadFunc<void(GGen_Data_2D::*)(uint32, GGen_Direction)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		overloadFunc<void(GGen_Data_2D::*)(uint32)>(&GGen_Data_2D::Smooth,_T("Smooth")).
 		func(&GGen_Data_2D::Noise,_T("Noise")).		
+		func(&GGen_Data_2D::VoronoiNoise,_T("VoronoiNoise")).		
 		func(&GGen_Data_2D::Flood,_T("Flood")).
 		func(&GGen_Data_2D::Pattern,_T("Pattern")).
 		func(&GGen_Data_2D::Monochrome,_T("Monochrome")).
