@@ -24,19 +24,21 @@
 
 extern GGen* ggen_current_object;
 
-GGen_Amplitudes::GGen_Amplitudes(uint16 max_feature_size){ 
+GGen_Amplitudes::GGen_Amplitudes(uint16 max_feature_size)
+{ 
 	uint8 size = GGen_log2(max_feature_size);
 	
-	data = new uint16[size];
+	this->data = new uint16[size];
 
-	GGen_Script_Assert(data != NULL);
+	GGen_Script_Assert(this->data != NULL);
 
 	for(uint8 i = 0; i < size; i++){
-		data[i] = 0;
+		this->data[i] = 0;
 	}
 
 };
 
-void GGen_Amplitudes::AddAmplitude(uint16 feature_size, uint16 amplitude){
-	data[GGen_log2(feature_size)] = amplitude;
+void GGen_Amplitudes::AddAmplitude(uint16 feature_size, uint16 amplitude)
+{
+	this->data[GGen_log2(feature_size)] = amplitude;
 }
