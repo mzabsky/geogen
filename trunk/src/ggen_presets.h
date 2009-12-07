@@ -22,8 +22,7 @@ RegisterPreset(&ggen_std_noise, "GGEN_STD_NOISE");
 
 /* GGEN_NATURAL_PROFILE */
 
-GGen_Data_1D ggen_natural_profile(6);
-ggen_natural_profile.SetValue(0, 1);
+GGen_Data_1D ggen_natural_profile(6, 0);
 ggen_natural_profile.SetValue(1, 18 * 15);
 ggen_natural_profile.SetValue(2, 43 * 15);
 ggen_natural_profile.SetValue(3, 91 * 15);

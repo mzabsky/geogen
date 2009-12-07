@@ -27,25 +27,6 @@
 #include "ggen_data_2d.h"
 
 extern GGen* ggen_current_object;
-/** 
- * Creates a 2D data array and fills it with zeros
- * @param length of the array
- */
-GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height)
-{
-	GGen_Script_Assert(width > 1 && height > 1);
-
-	this->length = width * height;
-	this->width = width;
-	this->height = height;
-
-	/* Allocate the array */
-	this->data = new GGen_Height[this->length];
-
-	GGen_Script_Assert(this->data != NULL);
-
-	this->Fill(0);
-}
 
 /** 
  * Creates a 2D data array and fills it with a constant value
@@ -69,25 +50,14 @@ GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 	this->Fill(value);
 }
 
-/*
- * Copy constructor
- * @param victim to be cloned
- */
-GGen_Data_2D::GGen_Data_2D(GGen_Data_2D& victim)
+GGen_Data_2D* GGen_Data_2D::Clone()
 {
-	GGen_Script_Assert(victim.data != NULL);
+	GGen_Data_2D* victim = new GGen_Data_2D(this->width, this->height, 0);
 	
-	/* Allocate the array */
-	this->data = new GGen_Height[victim.length];
-
-	GGen_Script_Assert(this->data != NULL);
-
 	/* Copy the data */
-	memcpy(this->data, victim.data, sizeof GGen_Height * victim.length);
+	memcpy(victim->data, this->data, sizeof GGen_Height * this->length);
 
-	this->length = victim.length;
-	this->width = victim.width;
-	this->height = victim.height;
+	return victim;
 }
 
 GGen_Data_2D::~GGen_Data_2D()
@@ -101,6 +71,11 @@ GGen_Size GGen_Data_2D::GetWidth()
 }
 
 GGen_Size GGen_Data_2D::GetHeight()
+{
+	return this->height;
+}
+
+GGen_Index GGen_Data_2D::GetLength()
 {
 	return this->length;
 }
@@ -124,7 +99,7 @@ GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
  * @param target width
  * @param target height
  */
-GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height)
+GGen_Height GGen_Data_2D::GetValueInterpolated(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height)
 {
 	GGen_Script_Assert(y < scale_to_height && x < scale_to_width);
 
@@ -224,7 +199,7 @@ void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale
 	/* Fill the new array */
 	for (GGen_Coord y = 0; y < new_height; y++) {
 		for (GGen_Coord x = 0; x < new_width; x++) {
-			new_data[x + y * new_width] = scale_values ? (GGen_Height) ((double) this->GetValue(x , y, new_width, new_height) * ratio) : this->GetValue(x , y, new_width, new_height);
+			new_data[x + y * new_width] = scale_values ? (GGen_Height) ((double) this->GetValueInterpolated(x , y, new_width, new_height) * ratio) : this->GetValueInterpolated(x , y, new_width, new_height);
 		}
 	}
 
@@ -320,12 +295,12 @@ void GGen_Data_2D::Add(GGen_Height value)
  * Combines the array with second array by just adding them together
  * @param addend to be combined with
  */
-void GGen_Data_2D::Add(GGen_Data_2D* addend)
+void GGen_Data_2D::AddMap(GGen_Data_2D* addend)
 {
 	/* Scale the addend as necessary */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++)	{
-			data[x + y * this->width] += addend->GetValue(x, y , this->width, this->height);
+			data[x + y * this->width] += addend->GetValueInterpolated(x, y , this->width, this->height);
 		}
 	}
 }
@@ -362,7 +337,7 @@ void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_C
  * The weight of data from the addend depends on values in the mask.
 
  */
-void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative)
+void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative)
 {
 	GGen_ExtHeight max = 255;
 
@@ -374,7 +349,7 @@ void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool rela
 
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
-			this->data[x + y * this->width] += (GGen_ExtHeight) addend->GetValue(x, y, this->width, this->height) * (GGen_ExtHeight) mask->GetValue(x, y, this->width, this->height) / max;
+			this->data[x + y * this->width] += (GGen_ExtHeight) addend->GetValueInterpolated(x, y, this->width, this->height) * (GGen_ExtHeight) mask->GetValueInterpolated(x, y, this->width, this->height) / max;
 		}
 	}
 }
@@ -391,7 +366,7 @@ void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relativ
 
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++)	{
-			this->data[x + y * width] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValue(x, y, this->width, this->height) / max;
+			this->data[x + y * width] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValueInterpolated(x, y, this->width, this->height) / max;
 		}
 	}
 }
@@ -412,12 +387,12 @@ void GGen_Data_2D::Multiply(double factor)
  * Multiplies current array by the factor
  * @param factor to be combined with
  */
-void GGen_Data_2D::Multiply(GGen_Data_2D* factor)
+void GGen_Data_2D::MultiplyMap(GGen_Data_2D* factor)
 {
 	/* Scale the factor as necessary */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++)	{
-			this->data[x + y * this->width] *= factor->GetValue(x, y , this->width, this->height);
+			this->data[x + y * this->width] *= factor->GetValueInterpolated(x, y , this->width, this->height);
 		}
 	}
 }
@@ -489,7 +464,7 @@ void GGen_Data_2D::Union(GGen_Data_2D* victim)
 {
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
-			this->data[x + y * width] = MAX(this->data[x + y * this->width], victim->GetValue(x, y, this->width, this->height));
+			this->data[x + y * width] = MAX(this->data[x + y * this->width], victim->GetValueInterpolated(x, y, this->width, this->height));
 		}
 	}
 }
@@ -513,7 +488,7 @@ void GGen_Data_2D::Intersection(GGen_Data_2D* victim)
 {
 	for(GGen_Coord y = 0; y < this->height; y++) {
 		for(GGen_Coord x = 0; x < this->width; x++) {	
-			this->data[x + y * this->width] = MIN(this->data[x + y * this->width], victim->GetValue(x, y, this->width, this->height));
+			this->data[x + y * this->width] = MIN(this->data[x + y * this->width], victim->GetValueInterpolated(x, y, this->width, this->height));
 		}
 	}
 }
@@ -538,7 +513,7 @@ void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relati
 	
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
-			this->data[x + y * this->width] = (GGen_ExtHeight) this->data[x + y * this->width] * (GGen_ExtHeight) mask->GetValue(x, y, this->width, this->height + (GGen_ExtHeight) victim->GetValue(x, y, this->width, this->height) * (GGen_ExtHeight) (max - mask->GetValue(x, y, this->width, this->height)))/ max;
+			this->data[x + y * this->width] = (GGen_ExtHeight) this->data[x + y * this->width] * (GGen_ExtHeight) mask->GetValueInterpolated(x, y, this->width, this->height + (GGen_ExtHeight) victim->GetValueInterpolated(x, y, this->width, this->height) * (GGen_ExtHeight) (max - mask->GetValueInterpolated(x, y, this->width, this->height)))/ max;
 		}
 	}
 }
@@ -562,13 +537,13 @@ void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction)
 	if (direction == GGEN_HORIZONTAL) {
 		for(GGen_Coord y = 0; y < this->height; y++) {
 			for(GGen_Coord x = 0; x < this->width; x++) {		
-				this->data[x + y * this->width] = profile->GetValue(y, this->height);
+				this->data[x + y * this->width] = profile->GetValueInterpolated(y, this->height);
 			}
 		}
 	} else {
 		for (GGen_Coord y = 0; y < this->height; y++) {
 			for (GGen_Coord x = 0; x < this->width; x++) {		
-				this->data[x + y * this->width] = profile->GetValue(x, this->width);
+				this->data[x + y * this->width] = profile->GetValueInterpolated(x, this->width);
 			}
 		}
 	}
@@ -582,13 +557,13 @@ GGen_Data_1D* GGen_Data_2D::GetProfile(GGen_Direction direction, GGen_Coord coor
 	GGen_Data_1D* output;
 	
 	if (direction == GGEN_HORIZONTAL) {
-		output = new GGen_Data_1D(this->width);
+		output = new GGen_Data_1D(this->width, 0);
 		
 		for  (GGen_Coord x = 0; x < this->width; x++) {		
 			output->data[x] = this->data[x + coordinate * this->width];
 		}
 	} else {
-		output = new GGen_Data_1D(this->height);
+		output = new GGen_Data_1D(this->height, 0);
 	
 		for (GGen_Coord y = 0; y < this->height; y++) {
 			output->data[y] = this->data[coordinate + y * this->width];
@@ -608,7 +583,7 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {		
 			if (direction == GGEN_VERTICAL) {
-				GGen_Height distance = profile->GetValue(x, this->width);
+				GGen_Height distance = profile->GetValueInterpolated(x, this->width);
 
 				/* Some values can be just plainly shifted */
 				if ((distance >= 0 && y < this->height - distance) || (distance <= 0 && (signed) y >= -distance)) {
@@ -629,7 +604,7 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 					}
 				}					
 			} else { /* GGEN_HORIZONTAL */
-				GGen_Height distance = profile->GetValue(y, this->height);
+				GGen_Height distance = profile->GetValueInterpolated(y, this->height);
 
 				/* Some values can be just plainly shifted */
 				if ((distance >= 0 && x < this->width - distance) || (distance <= 0 && (signed) x >= -distance)) {
@@ -658,7 +633,7 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 	this->data = new_data;
 }
 
-void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside)
+void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside)
 {
 	GGen_ExtExtHeight target_x = to_x - from_x;
 	GGen_ExtExtHeight target_y = to_y - from_y;
@@ -683,7 +658,7 @@ void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_
 			
 			/* Apply it to the array data */
 			if(distance <= max_dist && reverse_distance <= max_dist) {
-				this->data[x + this->width * y] = pattern->GetValue((GGen_Distance) distance, (GGen_Size) max_dist + 1);
+				this->data[x + this->width * y] = pattern->GetValueInterpolated((GGen_Distance) distance, (GGen_Size) max_dist + 1);
 			} else if (fill_outside && reverse_distance < distance) {
 				this->data[x + this->width * y] = pattern->GetValue(pattern->length - 1);
 			} else if(fill_outside) {
@@ -697,14 +672,14 @@ void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_
 {
 	/* Call the profile gradient with linear profile */
 	
-	GGen_Data_1D temp(2);
+	GGen_Data_1D temp(2, 0);
 	temp.SetValue(0, from_value);
 	temp.SetValue(1, to_value);
 
-	this->Gradient(from_x, from_y, to_x, to_y, &temp, fill_outside);
+	this->GradientFromProfile(from_x, from_y, to_x, to_y, &temp, fill_outside);
 }
 
-void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside)
+void GGen_Data_2D::RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside)
 {
 	GGen_Script_Assert(radius > 0 && pattern != NULL);
 
@@ -713,7 +688,7 @@ void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen
 			GGen_Distance distance = (GGen_Distance) sqrt((double) (abs(x - center_x) * abs(x - center_x) + abs(y - center_y) * abs(y - center_y)));
 		 
 			if (distance < radius) {
-				this->data[x + this->width * y] = pattern->GetValue(distance, radius);
+				this->data[x + this->width * y] = pattern->GetValueInterpolated(distance, radius);
 			} else if (fill_outside) {
 				this->data[x + this->width * y] = pattern->GetValue(pattern->length - 1);
 			}
@@ -969,11 +944,11 @@ void GGen_Data_2D::Flood(double water_amount)
 
 void GGen_Data_2D::Smooth(GGen_Distance radius)
 {
-	this->Smooth(radius, GGEN_HORIZONTAL);
-	this->Smooth(radius, GGEN_VERTICAL);
+	this->SmoothDirection(radius, GGEN_HORIZONTAL);
+	this->SmoothDirection(radius, GGEN_VERTICAL);
 }
 
-void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction)
+void GGen_Data_2D::SmoothDirection(GGen_Distance radius, GGen_Direction direction)
 {
 	GGen_Script_Assert(radius > 0 && radius < this->width && radius < this->height);
 	
@@ -1171,7 +1146,7 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 	}
 }
 
-void GGen_Data_2D::Normalize(GGen_Direction direction, GGen_Normalization_Mode mode)
+void GGen_Data_2D::NormalizeDirection(GGen_Direction direction, GGen_Normalization_Mode mode)
 {
 	if (direction == GGEN_HORIZONTAL) {
 		for (GGen_Coord y = 0; y < this->height; y++){
@@ -1234,8 +1209,8 @@ void GGen_Data_2D::Normalize(GGen_Direction direction, GGen_Normalization_Mode m
 
 void GGen_Data_2D::Normalize(GGen_Normalization_Mode mode) 
 {
-	this->Normalize(GGEN_HORIZONTAL, mode);
-	this->Normalize(GGEN_VERTICAL, mode);
+	this->NormalizeDirection(GGEN_HORIZONTAL, mode);
+	this->NormalizeDirection(GGEN_VERTICAL, mode);
 }
 
 
@@ -1385,4 +1360,4 @@ void GGen_Data_2D::Flip(GGen_Direction direction){
 		direction == GGEN_VERTICAL ? 1 : -1,
 		false
 	);
-} 
+}

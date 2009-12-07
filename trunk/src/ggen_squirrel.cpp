@@ -100,21 +100,20 @@ GGen_Squirrel::GGen_Squirrel(){
 	
 	/* Class: GGen_Data_1D */
 	SQClassDefNoConstructor<GGen_Data_1D>(_SC("GGen_Data_1D")).
-		overloadConstructor<GGen_Data_1D(*)(uint16)>().
 		overloadConstructor<GGen_Data_1D(*)(uint16, int16)>().
-		overloadConstructor<GGen_Data_1D(*)(GGen_Data_1D&)>().
+		func(&GGen_Data_1D::Clone, _T("Clone")).
 
 		func(&GGen_Data_1D::GetLength, _T("GetLength")).
 		func(&GGen_Data_1D::SetValue, _T("SetValue")).
 		func(&GGen_Data_1D::SetValueInRange, _T("SetValueInRange")).
-		overloadFunc<int16(GGen_Data_1D::*)(uint16)>(&GGen_Data_1D::GetValue, _SC("GetValue")).
-		overloadFunc<int16(GGen_Data_1D::*)(uint16, uint16)>(&GGen_Data_1D::GetValue,_T("GetValue")).
+		func(&GGen_Data_1D::GetValue, _T("GetValue")).
+		func(&GGen_Data_1D::GetValueInterpolated, _T("GetValueInterpolated")).
 		
-		overloadFunc<void(GGen_Data_1D::*)(int16)>(&GGen_Data_1D::Add, _SC("Add")).
-		overloadFunc<void(GGen_Data_1D::*)(GGen_Data_1D*)>(&GGen_Data_1D::Add, _SC("Add")).
+		func(&GGen_Data_1D::Add, _T("Add")).
+		func(&GGen_Data_1D::AddArray, _T("AddArray")).
 		func(&GGen_Data_1D::AddTo, _T("AddTo")).
-		overloadFunc<void(GGen_Data_1D::*)(double)>(&GGen_Data_1D::Multiply, _SC("Multiply")).
-		overloadFunc<void(GGen_Data_1D::*)(GGen_Data_1D*)>(&GGen_Data_1D::Multiply, _SC("Multiply")).
+		func(&GGen_Data_1D::Multiply, _T("Multiply")).
+		func(&GGen_Data_1D::MultiplyArray, _T("MultiplyArray")).
 		func(&GGen_Data_1D::Invert,_T("Invert")).
 		func(&GGen_Data_1D::Scale,_T("Scale")).
 		func(&GGen_Data_1D::ScaleTo,_T("ScaleTo")).
@@ -140,25 +139,24 @@ GGen_Squirrel::GGen_Squirrel(){
 
 	/* Class: GGen_Data_2D */
 	SQClassDefNoConstructor<GGen_Data_2D>(_SC("GGen_Data_2D")).
-		overloadConstructor<GGen_Data_2D(*)(uint16, uint16)>().
 		overloadConstructor<GGen_Data_2D(*)(uint16, uint16, int16)>().
-		overloadConstructor<GGen_Data_2D(*)(GGen_Data_2D&)>().
-
+		func(&GGen_Data_2D::Clone, _T("Clone")).
+		
 		func(&GGen_Data_2D::GetWidth, _T("GetWidth")).
-		func(&GGen_Data_2D::GetWidth, _T("GetHeight")).
-		func(&GGen_Data_2D::GetWidth, _T("GetLength")).
+		func(&GGen_Data_2D::GetHeight, _T("GetHeight")).
+		func(&GGen_Data_2D::GetLength, _T("GetLength")).
 		func(&GGen_Data_2D::SetValue, _T("SetValue")).
 		func(&GGen_Data_2D::SetValueInRect, _T("SetValueInRect")).
-		overloadFunc<int16(GGen_Data_2D::*)(uint16, uint16)>(&GGen_Data_2D::GetValue, _SC("GetValue")).
-		overloadFunc<int16(GGen_Data_2D::*)(uint16, uint16, uint16, uint16)>(&GGen_Data_2D::GetValue,_T("GetValue")).
+		func(&GGen_Data_2D::GetValue, _T("GetValue")).
+		func(&GGen_Data_2D::GetValueInterpolated, _T("GetValueInterpolated")).
 		
-		overloadFunc<void(GGen_Data_2D::*)(int16)>(&GGen_Data_2D::Add, _SC("Add")).
-		overloadFunc<void(GGen_Data_2D::*)(GGen_Data_2D*)>(&GGen_Data_2D::Add, _SC("Add")).
+		func(&GGen_Data_2D::Add,_T("Add")).
+		func(&GGen_Data_2D::AddMap,_T("AddMap")).
 		func(&GGen_Data_2D::AddTo, _T("AddTo")).
-		overloadFunc<void(GGen_Data_2D::*)(int16, GGen_Data_2D*, bool)>(&GGen_Data_2D::AddMasked, _SC("AddMasked")).		
-		overloadFunc<void(GGen_Data_2D::*)(GGen_Data_2D*, GGen_Data_2D*, bool)>(&GGen_Data_2D::AddMasked, _SC("AddMasked")).		
-		overloadFunc<void(GGen_Data_2D::*)(double)>(&GGen_Data_2D::Multiply, _SC("Multiply")).
-		overloadFunc<void(GGen_Data_2D::*)(GGen_Data_2D*)>(&GGen_Data_2D::Multiply, _SC("Multiply")).
+		func(&GGen_Data_2D::AddMasked,_T("AddMasked")).
+		func(&GGen_Data_2D::AddMapMasked,_T("AddMapMasked")).
+		func(&GGen_Data_2D::Multiply,_T("Multiply")).
+		func(&GGen_Data_2D::MultiplyMap,_T("MultiplyMap")).
 		
 		func(&GGen_Data_2D::Invert,_T("Invert")).
 		func(&GGen_Data_2D::Scale,_T("Scale")).
@@ -183,12 +181,12 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Project,_T("Project")).
 		func(&GGen_Data_2D::GetProfile,_T("GetProfile")).
 
-		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint16, uint16, int16, int16, bool)>(&GGen_Data_2D::Gradient, _SC("Gradient")).
-		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint16, uint16, GGen_Data_1D*, bool)>(&GGen_Data_2D::Gradient, _SC("Gradient")).
-		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint16, int16, int16, bool)>(&GGen_Data_2D::RadialGradient, _SC("RadialGradient")).
-		overloadFunc<void(GGen_Data_2D::*)(uint16, uint16, uint32, GGen_Data_1D*, bool)>(&GGen_Data_2D::RadialGradient, _SC("RadialGradient")).
-		overloadFunc<void(GGen_Data_2D::*)(uint32, GGen_Direction)>(&GGen_Data_2D::Smooth,_T("Smooth")).
-		overloadFunc<void(GGen_Data_2D::*)(uint32)>(&GGen_Data_2D::Smooth,_T("Smooth")).
+		func(&GGen_Data_2D::Gradient,_T("Gradient")).
+		func(&GGen_Data_2D::GradientFromProfile,_T("GradientFromProfile")).
+		func(&GGen_Data_2D::RadialGradient,_T("RadialGradient")).
+		func(&GGen_Data_2D::RadialGradientFromProfile,_T("RadialGradientFromProfile")).
+		func(&GGen_Data_2D::Smooth,_T("Smooth")).	
+		func(&GGen_Data_2D::SmoothDirection,_T("SmoothDirection")).	
 		func(&GGen_Data_2D::Noise,_T("Noise")).		
 		func(&GGen_Data_2D::VoronoiNoise,_T("VoronoiNoise")).		
 		func(&GGen_Data_2D::Flood,_T("Flood")).
@@ -201,8 +199,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Transform,_T("Transform")).
 		func(&GGen_Data_2D::Rotate,_T("Rotate")).
 		func(&GGen_Data_2D::Shear,_T("Shear")).
-		overloadFunc<void(GGen_Data_2D::*)(GGen_Direction, GGen_Normalization_Mode mode)>(&GGen_Data_2D::Normalize,_T("Normalize")).
-		overloadFunc<void(GGen_Data_2D::*)(GGen_Normalization_Mode mode)>(&GGen_Data_2D::Normalize,_T("Normalize"));
+		func(&GGen_Data_2D::Normalize,_T("Normalize")).
+		func(&GGen_Data_2D::NormalizeDirection,_T("NormalizeDirection"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
