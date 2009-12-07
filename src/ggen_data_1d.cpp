@@ -30,24 +30,6 @@
 extern GGen* ggen_current_object;
 
 /** 
- * Creates a 1D data array and fills it with zeros
- * @param length of the array
- */
-GGen_Data_1D::GGen_Data_1D(GGen_Coord length)
-{
-	GGen_Script_Assert(this->length > 1);
-
-	/* Allocate the array */
-	this->data = new GGen_Height[length];
-
-	GGen_Script_Assert(this->data != NULL);
-
-	this->length = length;
-
-	Fill(0);
-}
-
-/** 
  * Creates a 1D data array and fills it with a constant value
  * @param length of the array
  * @param value to be filled with
@@ -66,26 +48,19 @@ GGen_Data_1D::GGen_Data_1D(GGen_Coord length, GGen_Height value)
 	Fill(value);
 }
 
-/*
- * Copy constructor
- * @param victim to be cloned
- */
-GGen_Data_1D::GGen_Data_1D(GGen_Data_1D& victim)
-{
-	/* Allocate the array */
-	this->data = new GGen_Height[victim.length];
-
-	GGen_Script_Assert(this->data != NULL);
-	GGen_Script_Assert(victim.data != NULL);
-
-	/* Copy the data */
-	memcpy(this->data, victim.data, sizeof GGen_Height * victim.length);
-	this->length = victim.length;
-}
-
 GGen_Data_1D::~GGen_Data_1D()
 {
 	delete [] this->data;
+}
+
+GGen_Data_1D* GGen_Data_1D::Clone()
+{
+	GGen_Data_1D* victim = new GGen_Data_1D(this->length, 0);
+	
+	/* Copy the data */
+	memcpy(victim->data, this->data, sizeof GGen_Height * victim->length);
+	
+	return victim;
 }
 
 /** 
@@ -111,7 +86,7 @@ GGen_Height GGen_Data_1D::GetValue(GGen_Coord x)
  * @param x coordinate of the value
  * @param target length of the array
  */
-GGen_Height GGen_Data_1D::GetValue(GGen_Coord x, GGen_Size scale_to_x)
+GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_x)
 {
 	GGen_Script_Assert(x < scale_to_x);
 
@@ -183,11 +158,11 @@ void GGen_Data_1D::Add(GGen_Height value)
  * Combines the array with second array by just adding them together
  * @param addend to be combined with
  */
-void GGen_Data_1D::Add(GGen_Data_1D* addend)
+void GGen_Data_1D::AddArray(GGen_Data_1D* addend)
 {
 	/* Scale the addend as necessary */
 	for (GGen_Coord i = 0; i < this->length; i++) {
-		this->data[i] += addend->GetValue(i, this->length);
+		this->data[i] += addend->GetValueInterpolated(i, this->length);
 	}
 }
 
@@ -204,7 +179,7 @@ void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset)
 	}
 }
 
-void GGen_Data_1D::AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative)
+void GGen_Data_1D::AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative)
 {
 	GGen_ExtHeight max = 255;
 
@@ -213,20 +188,20 @@ void GGen_Data_1D::AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool rela
 	}
 
 	for(GGen_Coord i = 0; i < this->length; i++) {
-		this->data[i] += (GGen_ExtHeight) addend->GetValue(i, this->length) * (GGen_ExtHeight) mask->GetValue(i, this->length) / max;
+		this->data[i] += (GGen_ExtHeight) addend->GetValueInterpolated(i, this->length) * (GGen_ExtHeight) mask->GetValueInterpolated(i, this->length) / max;
 	}
 }
 
 void GGen_Data_1D::AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative)
 {
 	GGen_Height max = 255;
-
+ 
 	if(relative){
 		max = mask->Max();
 	}
 
 	for(GGen_Coord i = 0; i < this->length; i++) {
-		this->data[i] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValue(i, this->length) / max;
+		this->data[i] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValueInterpolated(i, this->length) / max;
 	}
 }
 
@@ -245,10 +220,10 @@ void GGen_Data_1D::Multiply(double value)
  * Scales each value in the array by a value from the second array. 100% = 1, 0.5 = 50%, 2.0 = 200%
  * @param value to be used
  */
-void GGen_Data_1D::Multiply(GGen_Data_1D* factor)
+void GGen_Data_1D::MultiplyArray(GGen_Data_1D* factor)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
-		this->data[i] = (GGen_Height) ((double) this->data[i] * factor->GetValue(i, this->length));
+		this->data[i] = (GGen_Height) ((double) this->data[i] * factor->GetValueInterpolated(i, this->length));
 	}
 }
 
@@ -280,7 +255,7 @@ void GGen_Data_1D::ScaleTo(GGen_Size new_length, bool scale_values)
 
 	/* Fill the new array */
 	for (GGen_Coord i = 0; i < new_length; i++) {
-		new_data[i] = scale_values ? (GGen_Height) ((double) this->GetValue(i, new_length) * ratio) : this->GetValue(i, new_length);
+		new_data[i] = scale_values ? (GGen_Height) ((double) this->GetValueInterpolated(i, new_length) * ratio) : this->GetValueInterpolated(i, new_length);
 	}
 
 	/* Relink and delete the original array data */
@@ -498,7 +473,7 @@ void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode)
 void GGen_Data_1D::Union(GGen_Data_1D* victim)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
-		this->data[i] = MIN(this->data[i], victim->GetValue(i, this->length));
+		this->data[i] = MIN(this->data[i], victim->GetValueInterpolated(i, this->length));
 	}
 }
 
@@ -510,7 +485,7 @@ void GGen_Data_1D::Union(GGen_Data_1D* victim)
 void GGen_Data_1D::Intersection(GGen_Data_1D* victim)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
-		this->data[i] = MAX(this->data[i], victim->GetValue(i, this->length));
+		this->data[i] = MAX(this->data[i], victim->GetValueInterpolated(i, this->length));
 	}
 }
 

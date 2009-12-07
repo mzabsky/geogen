@@ -32,7 +32,7 @@ GGen_Amplitudes::GGen_Amplitudes(uint16 max_feature_size)
 
 	GGen_Script_Assert(this->data != NULL);
 
-	for(uint8 i = 0; i < size; i++){
+	for (uint8 i = 0; i < size; i++) {
 		this->data[i] = 0;
 	}
 

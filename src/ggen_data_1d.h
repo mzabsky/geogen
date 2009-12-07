@@ -26,27 +26,39 @@ class GGen_Data_1D{
 		GGen_Height* data;
 		GGen_Size length;
 
-		/* Constructors/destructors */
-		GGen_Data_1D(GGen_Size length);
+		/**
+		 * Creates new GGen_Data_1D object of given length.
+		 * @param length of the array
+		 * @param default value of all cells
+		 */
 		GGen_Data_1D(GGen_Size length, GGen_Height value);
-		GGen_Data_1D(GGen_Data_1D& victim);
+		
 		~GGen_Data_1D();
 
-		/* Basic data I/O */
+		/** 
+		 * Creates a 1:1 copy of original.
+		 * @return copy of thee object
+		 **/
+		GGen_Data_1D* Clone();
+
+		/** 
+		 * Returns length of the array.
+		 * @param length of the array
+		 **/
 		GGen_Size GetLength();
 		void SetValue(GGen_Coord x, GGen_Height value);
 		void SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value);
 		GGen_Height GetValue(GGen_Coord x);
-		GGen_Height GetValue(GGen_Coord x, GGen_Size scale_to_length);
+		GGen_Height GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_length);
 
 		/* Elementary artihmetic and logic operations */
 		void Add(GGen_Height value);
-		void Add(GGen_Data_1D* addend);
+		void AddArray(GGen_Data_1D* addend);
 		void AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset);
 		void AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative);
-		void AddMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative);
+		void AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative);
 		void Multiply(double value);
-		void Multiply(GGen_Data_1D* factor);
+		void MultiplyArray(GGen_Data_1D* factor);
 		void Invert();
 		void Scale(double ratio, bool scale_values);
 		void ScaleTo(GGen_Size new_length, bool scale_values);
