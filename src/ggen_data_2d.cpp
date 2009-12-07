@@ -31,19 +31,20 @@ extern GGen* ggen_current_object;
  * Creates a 2D data array and fills it with zeros
  * @param length of the array
  */
-GGen_Data_2D::GGen_Data_2D(GGen_Size width	, GGen_Size height){
+GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height)
+{
 	GGen_Script_Assert(width > 1 && height > 1);
 
-	length = width * height;
+	this->length = width * height;
 	this->width = width;
 	this->height = height;
 
 	/* Allocate the array */
-	data = new GGen_Height[length];
+	this->data = new GGen_Height[this->length];
 
-	GGen_Script_Assert(data != NULL);
+	GGen_Script_Assert(this->data != NULL);
 
-	Fill(0);
+	this->Fill(0);
 }
 
 /** 
@@ -52,49 +53,56 @@ GGen_Data_2D::GGen_Data_2D(GGen_Size width	, GGen_Size height){
  * @param height of the array
  * @param value to be filled with
  */
-GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value){
+GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
+{
 	GGen_Script_Assert(width > 1 && height > 1);
 	
-	length = width * height;
+	this->length = width * height;
 	this->width = width;
 	this->height = height;
 
 	/* Allocate the array */
-	data = new GGen_Height[length];
+	this->data = new GGen_Height[this->length];
 
-	GGen_Script_Assert(data != NULL);
+	GGen_Script_Assert(this->data != NULL);
 
-	Fill(value);
+	this->Fill(value);
 }
 
 /*
  * Copy constructor
  * @param victim to be cloned
  */
-GGen_Data_2D::GGen_Data_2D(GGen_Data_2D& victim){
-	/* Allocate the array */
-	data = new GGen_Height[victim.length];
-
-	GGen_Script_Assert(data != NULL);
+GGen_Data_2D::GGen_Data_2D(GGen_Data_2D& victim)
+{
 	GGen_Script_Assert(victim.data != NULL);
+	
+	/* Allocate the array */
+	this->data = new GGen_Height[victim.length];
+
+	GGen_Script_Assert(this->data != NULL);
 
 	/* Copy the data */
-	memcpy(data, victim.data, sizeof GGen_Height * victim.length);
-	length = victim.length;
-	width = victim.width;
-	height = victim.height;
+	memcpy(this->data, victim.data, sizeof GGen_Height * victim.length);
+
+	this->length = victim.length;
+	this->width = victim.width;
+	this->height = victim.height;
 }
 
-GGen_Data_2D::~GGen_Data_2D(){
-	delete [] data;
+GGen_Data_2D::~GGen_Data_2D()
+{
+	delete [] this->data;
 }
 
-GGen_Size GGen_Data_2D::GetWidth(){
-	return width;
+GGen_Size GGen_Data_2D::GetWidth()
+{
+	return this->width;
 }
 
-GGen_Size GGen_Data_2D::GetHeight(){
-	return length;
+GGen_Size GGen_Data_2D::GetHeight()
+{
+	return this->length;
 }
 
 /** 
@@ -102,10 +110,11 @@ GGen_Size GGen_Data_2D::GetHeight(){
  * @param x coordinate of the value
  * @param y coordinate of the value
  */
-GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y){
-	GGen_Script_Assert(x < width && y < height);
+GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
+{
+	GGen_Script_Assert(x < this->width && y < this->height);
 	
-	return data[x + width * y];
+	return this->data[x + this->width * y];
 }
 
 /** 
@@ -115,52 +124,48 @@ GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y){
  * @param target width
  * @param target height
  */
-GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height){
-	// TODO: poresit polozky na zacatku a konci pole
+GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height)
+{
 	GGen_Script_Assert(y < scale_to_height && x < scale_to_width);
 
 	/* No interpolation needed if the sizes are equal */
-	if(scale_to_width == width && scale_to_height == height) return data[x + width * y];
+	if (scale_to_width == width && scale_to_height == height) {
+		return data[x + width * y];
+	}
 
 	GGen_Height value_y_left, value_y_right;	
 	
-	double ratio_x = (double) (scale_to_width - 1) / (double) (width - 1);
-	double ratio_y = (double) (scale_to_height - 1) / (double) (height - 1);
+	double ratio_x = (double) (scale_to_width - 1) / (double) (this->width - 1);
+	double ratio_y = (double) (scale_to_height - 1) / (double) (this->height - 1);
 
 	/* How much does the source tile overlap over the smaller grid? */
 	double remainder_x = (x / ratio_x) - floor(x / ratio_x);
 	double remainder_y = (y / ratio_y) - floor(y / ratio_y);
 
 	/* The grid anchor points */
-	GGen_Coord base_x = scale_to_width > width ? (GGen_Coord) floor((double)x / ratio_x) : (GGen_Coord) floor((double)x / ratio_x + 0.5);
-	GGen_Coord base_y = scale_to_height > height ? (GGen_Coord) floor((double)y / ratio_y) : (GGen_Coord) floor((double)y / ratio_y + 0.5);
+	GGen_Coord base_x = scale_to_width > this->width ? (GGen_Coord) floor((double)x / ratio_x) : (GGen_Coord) floor((double)x / ratio_x + 0.5);
+	GGen_Coord base_y = scale_to_height > this->height ? (GGen_Coord) floor((double)y / ratio_y) : (GGen_Coord) floor((double)y / ratio_y + 0.5);
 
-	// Calculate the interpolated value for vertical axis using bilinear interpolation algorithm
-	if(scale_to_height > height){
-		if(remainder_y == 0){
-			value_y_left = data[base_x + width * base_y];
-			value_y_right = data[base_x + 1 + width * base_y];
+	/* Calculate the interpolated value for vertical axis using bilinear interpolation algorithm */
+	if (scale_to_height > this->height) {
+		if (remainder_y == 0) {
+			value_y_left = this->data[base_x + this->width * base_y];
+			value_y_right = this->data[base_x + 1 + this->width * base_y];
+		} else {
+			value_y_left = (GGen_Height) ((double) this->data[(GGen_Coord) base_x + this->width * base_y] * (1 - remainder_y) + (double) this->data[base_x + this->width * (base_y + 1)] * (remainder_y));
+			value_y_right = (GGen_Height) ((double) this->data[(GGen_Coord) base_x + 1 + this->width * base_y] * (1 - remainder_y) + (double)this-> data[base_x + 1 + this->width * (base_y + 1)] * (remainder_y));
 		}
-
-		else{
-			value_y_left = (GGen_Height) ((double) data[(GGen_Coord) base_x + width * base_y] * (1 - remainder_y) + (double) data[base_x + width * (base_y + 1)] * (remainder_y));
-			value_y_right = (GGen_Height) ((double) data[(GGen_Coord) base_x + 1 + width * base_y] * (1 - remainder_y) + (double) data[base_x + 1 + width * (base_y + 1)] * (remainder_y));
-		}
-	}
-	else{
-		value_y_left = value_y_right = (GGen_Height) data[(GGen_Coord) base_x + width * base_y];
+	} else {
+		value_y_left = value_y_right = (GGen_Height) this->data[(GGen_Coord) base_x + this->width * base_y];
 	}
 
 	/* Calculate the interpolated value for horizontal axis */
-	if(scale_to_width > width){
+	if (scale_to_width > this->width) {
 		if(remainder_x == 0) return value_y_left;
 
 		return (GGen_Height) ((double) value_y_left * (1 - remainder_x) + (double) value_y_right * (remainder_x));
-
-		
-	}
-	else{
-		return ((GGen_Height) data[(GGen_Coord) base_x + width * base_y] + value_y_left) /2;
+	} else {
+		return ((GGen_Height) this->data[(GGen_Coord) base_x + width * base_y] + value_y_left) /2;
 	}
 }
 
@@ -170,10 +175,11 @@ GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y, GGen_Size scale_t
  * @param y coordinate
  * @param value to use
  */
-void GGen_Data_2D::SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value){
-	GGen_Script_Assert(x < width && y < height);
+void GGen_Data_2D::SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value)
+{
+	GGen_Script_Assert(x < this->width && y < this->height);
 	
-	data[x + width * y] = value;
+	this->data[x + this->width * y] = value;
 }
 
 /** 
@@ -184,13 +190,14 @@ void GGen_Data_2D::SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value){
  * @param y coordinate of the bottom edge
  * @param value to use
  */
-void GGen_Data_2D::SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, GGen_Coord y2, GGen_Height value){
-	GGen_Script_Assert(x2 < width && y2 < height);
+void GGen_Data_2D::SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, GGen_Coord y2, GGen_Height value)
+{
+	GGen_Script_Assert(x2 < this->width && y2 < this->height);
 	GGen_Script_Assert(x1 <= x2 && y1 <= y2);
 
-	for(GGen_Coord y = y1; y <= y2; y++){
-		for(GGen_Coord x = x1; x <= x2; x++){
-			data[x + width * y] = value;
+	for (GGen_Coord y = y1; y <= y2; y++) {
+		for (GGen_Coord x = x1; x <= x2; x++) {
+			this->data[x + this->width * y] = value;
 		}
 	}
 
@@ -202,11 +209,12 @@ void GGen_Data_2D::SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, G
  * @param height of the new array
  * @param scale_values - should the values be scaled too?
  */
-void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale_values){
+void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale_values)
+{
 	GGen_Script_Assert(new_width > 1 && new_height > 1);
 
 	/* Pick the ratio for values as arithmetic average of horizontal and vertical ratios */
-	double ratio = ((double) new_width / (double) width + (double) new_height / (double) height) / 2.0;
+	double ratio = ((double) new_width / (double) this->width + (double) new_height / (double) this->height) / 2.0;
 
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[new_width * new_height];
@@ -214,18 +222,18 @@ void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale
 	GGen_Script_Assert(new_data != NULL);
 
 	/* Fill the new array */
-	for(GGen_Coord y = 0; y < new_height; y++){
-		for(GGen_Coord x = 0; x < new_width; x++){
-			new_data[x + y * new_width] = scale_values ? (GGen_Height) ((double) GetValue(x , y, new_width, new_height) * ratio) : GetValue(x , y, new_width, new_height);
+	for (GGen_Coord y = 0; y < new_height; y++) {
+		for (GGen_Coord x = 0; x < new_width; x++) {
+			new_data[x + y * new_width] = scale_values ? (GGen_Height) ((double) this->GetValue(x , y, new_width, new_height) * ratio) : this->GetValue(x , y, new_width, new_height);
 		}
 	}
 
 	/* Relink and delete the original array data */
-	delete [] data;
-	data = new_data;
-	width = new_width;
-	height = new_height;
-	length = new_width * new_height;
+	delete [] this->data;
+	this->data = new_data;
+	this->width = new_width;
+	this->height = new_height;
+	this->length = new_width * new_height;
 }
 
 /**
@@ -237,16 +245,16 @@ void GGen_Data_2D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 {
 	GGen_Script_Assert(new_max > new_min);
 
-	GGen_ExtHeight min = Min();
-	GGen_ExtHeight max = Max() - min;
+	GGen_ExtHeight min = this->Min();
+	GGen_ExtHeight max = this->Max() - min;
 
 	GGen_ExtHeight ext_new_min = new_min;
 	GGen_ExtHeight ext_new_max = (GGen_ExtHeight) new_max - ext_new_min;
 
-	if(max == 0) return;
+	if (max == 0) return;
 
-	for(GGen_Index i = 0; i < length; i++){
-		data[i] = (GGen_Height) (ext_new_min + ((GGen_ExtHeight) data[i] - min) * ext_new_max / max);
+	for (GGen_Index i = 0; i < this->length; i++) {
+		this->data[i] = (GGen_Height) (ext_new_min + ((GGen_ExtHeight) this->data[i] - min) * ext_new_max / max);
 	}
 }
 
@@ -255,47 +263,56 @@ void GGen_Data_2D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
  * @param ratio in scale 100% = 1, 0.5 = 50%, 2.0 = 200%
  * @param scale_values - should the values be scaled too?
  */
-void GGen_Data_2D::Scale(double ratio, bool scale_values){
-	ScaleTo((GGen_Size) ((GGen_Size) (double) width * ratio), (GGen_Size) ((double) height * ratio), scale_values);
+void GGen_Data_2D::Scale(double ratio, bool scale_values)
+{
+	this->ScaleTo((GGen_Size) ((GGen_Size) (double) this->width * ratio), (GGen_Size) ((double) this->height * ratio), scale_values);
 }
 
-void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_CoordOffset new_zero_x, GGen_CoordOffset new_zero_y){
+void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_CoordOffset new_zero_x, GGen_CoordOffset new_zero_y)
+{
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[new_width * new_height];
 
 	GGen_Script_Assert(new_data != NULL);
 
-	for(GGen_Coord y = 0; y < new_height; y++){
-		for(GGen_Coord x = 0; x < new_width; x++){
-			if(y + new_zero_y >= 0 && y + new_zero_y < height && x + new_zero_x >= 0 && x + new_zero_x < width){
-				new_data[x + y * new_width] = data [x + new_zero_x + (y + new_zero_y) * width];
+	for (GGen_Coord y = 0; y < new_height; y++) {
+		for (GGen_Coord x = 0; x < new_width; x++) {
+			if (y + new_zero_y >= 0 && y + new_zero_y < this->height && x + new_zero_x >= 0 && x + new_zero_x < this->width) {
+				new_data[x + y * new_width] = this->data[x + new_zero_x + (y + new_zero_y) * this->width];
+			} else {
+				new_data[x + y * new_width] = 0;
 			}
-			else new_data[x + y * new_width] = 0;
 		}
 	}
 
 	/* Relink and delete the original array data */
-	delete [] data;
-	data = new_data;
-	length = new_width * new_height;
-	width = new_width;
-	height = new_height;
+	delete [] this->data;
+	this->data = new_data;
+	this->length = new_width * new_height;
+	this->width = new_width;
+	this->height = new_height;
 }
 
 /** 
  * Fills the array with value
  * @param value to be used
  */
-void GGen_Data_2D::Fill(GGen_Height value){
-	for(GGen_Index i = 0; i < length; i++) data[i] = value;
+void GGen_Data_2D::Fill(GGen_Height value)
+{
+	for (GGen_Index i = 0; i < this->length; i++) {
+		this->data[i] = value;
+	}
 }
 
 /** 
  * Adds a flat value to each value in the array
  * @param value to be used
  */
-void GGen_Data_2D::Add(GGen_Height value){
-	for(GGen_Index i = 0; i < length; i++) data[i] += value;
+void GGen_Data_2D::Add(GGen_Height value)
+{
+	for (GGen_Index i = 0; i < this->length; i++) {
+		this->data[i] += value;
+	}
 }
 
 
@@ -303,23 +320,23 @@ void GGen_Data_2D::Add(GGen_Height value){
  * Combines the array with second array by just adding them together
  * @param addend to be combined with
  */
-void GGen_Data_2D::Add(GGen_Data_2D* addend){
+void GGen_Data_2D::Add(GGen_Data_2D* addend)
+{
 	/* Scale the addend as necessary */
-	for(GGen_Coord y = 0; y < height; y++) 
-	{
-		for(GGen_Coord x = 0; x < width; x++)
-		{
-			data[x + y * width] += addend->GetValue(x, y , width, height);
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++)	{
+			data[x + y * this->width] += addend->GetValue(x, y , this->width, this->height);
 		}
 	}
 }
 
-void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace){
-	for(GGen_Coord y = 0; y < height; y++) 
-	{
-		for(GGen_Coord x = 0; x < width; x++)
-		{
-			if(data[x + y * width] == needle) data[x + y * width] = replace;
+void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace)
+{
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++)	{
+			if (this->data[x + y * this->width] == needle) {
+				this->data[x + y * this->width] = replace;
+			}
 		}
 	}
 }
@@ -330,11 +347,12 @@ void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace){
  * @param y offset of the addend coords
  * @param addend - the second array
  */
-void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y){
+void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
+{
 	/* Walk through the items where the array and the addend with offset intersect */
-	for(GGen_Coord y = MAX(0, offset_y); y < MIN(height, offset_y + addend->height); y++){
-		for(GGen_Coord x = MAX(0, offset_x); x < MIN(width, offset_x + addend->width); x++){
-			data[x + y * width] += addend->data[(x - offset_x) + (y - offset_y) * addend->width];
+	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + addend->height); y++) {
+		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + addend->width); x++) {
+			this->data[x + y * this->width] += addend->data[(x - offset_x) + (y - offset_y) * addend->width];
 		}
 	}
 }
@@ -344,25 +362,25 @@ void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_C
  * The weight of data from the addend depends on values in the mask.
 
  */
-void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative){
+void GGen_Data_2D::AddMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative)
+{
 	GGen_ExtHeight max = 255;
 
-	if(relative){
+	if (relative){
 		max = mask->Max();
 	}
 	
-	if(max == 0) return;
+	if (max == 0) return;
 
-	for(GGen_Coord y = 0; y < height; y++) 
-	{
-		for(GGen_Coord x = 0; x < width; x++)
-		{
-			data[x + y * width] += (GGen_ExtHeight) addend->GetValue(x, y, width, height) * (GGen_ExtHeight) mask->GetValue(x, y, width, height) / max;
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			this->data[x + y * this->width] += (GGen_ExtHeight) addend->GetValue(x, y, this->width, this->height) * (GGen_ExtHeight) mask->GetValue(x, y, this->width, this->height) / max;
 		}
 	}
 }
 
-void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative){
+void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative)
+{
 	GGen_ExtHeight max = 255;
 
 	if(relative){
@@ -371,11 +389,9 @@ void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relativ
 
 	if(max == 0) return;
 
-	for(GGen_Coord y = 0; y < height; y++) 
-	{
-		for(GGen_Coord x = 0; x < width; x++)
-		{
-			data[x + y * width] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValue(x, y, width, height) / max;
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++)	{
+			this->data[x + y * width] += (GGen_ExtHeight) value * (GGen_ExtHeight) mask->GetValue(x, y, this->width, this->height) / max;
 		}
 	}
 }
@@ -384,8 +400,11 @@ void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relativ
  * Multiplies all the values in the array by a flat number
  * @param value to be used
  */
-void GGen_Data_2D::Multiply(double factor){
-	for(GGen_Index i = 0; i < length; i++) data[i] = (GGen_Coord) (factor * (double) data[i]);
+void GGen_Data_2D::Multiply(double factor)
+{
+	for (GGen_Index i = 0; i < this->length; i++) {
+		this->data[i] = (GGen_Coord) (factor * (double) this->data[i]);
+	}
 }
 
 
@@ -393,13 +412,12 @@ void GGen_Data_2D::Multiply(double factor){
  * Multiplies current array by the factor
  * @param factor to be combined with
  */
-void GGen_Data_2D::Multiply(GGen_Data_2D* factor){
+void GGen_Data_2D::Multiply(GGen_Data_2D* factor)
+{
 	/* Scale the factor as necessary */
-	for(GGen_Coord y = 0; y < height; y++) 
-	{
-		for(GGen_Coord x = 0; x < width; x++)
-		{
-			data[x + y * width] *= factor->GetValue(x, y , width, height);
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++)	{
+			this->data[x + y * this->width] *= factor->GetValue(x, y , this->width, this->height);
 		}
 	}
 }
@@ -408,19 +426,23 @@ void GGen_Data_2D::Multiply(GGen_Data_2D* factor){
  * Multiplies all the values in the array by a flat number
  * @param value to be used
  */
-void GGen_Data_2D::Invert(){
-	for(GGen_Index i = 0; i < length; i++) data[i] = - data[i];
+void GGen_Data_2D::Invert()
+{
+	for (GGen_Index i = 0; i < length; i++) {
+		this->data[i] = -this->data[i];
+	}
 }
 
 
 /*
  * Returns the lowest value in the array
  */
-GGen_Height GGen_Data_2D::Min(){
+GGen_Height GGen_Data_2D::Min()
+{
 	GGen_Height temp = GGEN_MAX_HEIGHT;
 
-	for(GGen_Index i = 0; i < length; i++){
-		temp = temp > data[i] ? data[i] : temp;
+	for (GGen_Index i = 0; i < this->length; i++) {
+		temp = temp > this->data[i] ? this->data[i] : temp;
 	}
 
 	return temp;
@@ -429,11 +451,12 @@ GGen_Height GGen_Data_2D::Min(){
 /*
  * Returns the highest value in the array
  */
-GGen_Height GGen_Data_2D::Max(){
+GGen_Height GGen_Data_2D::Max()
+{
 	GGen_Height temp = GGEN_MIN_HEIGHT;
 
-	for(GGen_Index i = 0; i < length; i++){
-		temp = temp < data[i] ? data[i] : temp;
+	for (GGen_Index i = 0; i < this->length; i++) {
+		temp = temp < this->data[i] ? this->data[i] : temp;
 	}
 
 	return temp;
@@ -444,12 +467,16 @@ GGen_Height GGen_Data_2D::Max(){
  * @param minimum value of the range
  * @param maximum value of the range
  */
-void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max){
+void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max)
+{
 	GGen_Script_Assert(max > min);
 
-	for(GGen_Index i = 0; i < length; i++){
-		if(data[i] > max) data[i] = max;
-		else if(data[i] < min) data[i] = min;
+	for (GGen_Index i = 0; i < this->length; i++) {
+		if (this->data[i] > max) {
+			this->data[i] = max;
+		} else if (data[i] < min) {
+			this->data[i] = min;
+		}
 	}
 }
 
@@ -458,19 +485,21 @@ void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max){
  * Negative data are treated the same as positive - the higher value remains.
  * @param the victim
  */
-void GGen_Data_2D::Union(GGen_Data_2D* victim){
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){	
-			data[x + y * width] = MAX(data[x + y * width], victim->GetValue(x, y, width, height));
+void GGen_Data_2D::Union(GGen_Data_2D* victim)
+{
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {	
+			this->data[x + y * width] = MAX(this->data[x + y * this->width], victim->GetValue(x, y, this->width, this->height));
 		}
 	}
 }
 
-void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y){
+void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
+{
 	/* Walk through the items where the array and the victim with offset intersect */
-	for(GGen_Coord y = MAX(0, offset_y); y < MIN(height, offset_y + victim->height); y++){
-		for(GGen_Coord x = MAX(0, offset_x); x < MIN(width, offset_x + victim->width); x++){
-			data[x + y * width] = MAX(victim->data[(x - offset_x) + (y - offset_y) * victim->width], data[x + y * width]);
+	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + victim->height); y++) {
+		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + victim->width); x++) {
+			this->data[x + y * width] = MAX(victim->data[(x - offset_x) + (y - offset_y) * victim->width], this->data[x + y * this->width]);
 		}
 	}
 }
@@ -480,40 +509,46 @@ void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen
  * Negative data are treated the same as positive - the higher value remains.
  * @param the victim
  */
-void GGen_Data_2D::Intersection(GGen_Data_2D* victim){
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){	
-			data[x + y * width] = MIN(data[x + y * width], victim->GetValue(x, y, width, height));
+void GGen_Data_2D::Intersection(GGen_Data_2D* victim)
+{
+	for(GGen_Coord y = 0; y < this->height; y++) {
+		for(GGen_Coord x = 0; x < this->width; x++) {	
+			this->data[x + y * this->width] = MIN(this->data[x + y * this->width], victim->GetValue(x, y, this->width, this->height));
 		}
 	}
 }
 
-void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y){
+void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
+{
 	/* Walk through the items where the array and the addend with offset intersect */
-	for(GGen_Coord y = MAX(0, offset_y); y < MIN(height, offset_y + victim->height); y++){
-		for(GGen_Coord x = MAX(0, offset_x); x < MIN(width, offset_x + victim->width); x++){
-			data[x + y * width] = MIN(victim->data[(x - offset_x) + (y - offset_y) * victim->width], data[x + y * width]);
+	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + victim->height); y++) {
+		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + victim->width); x++) {
+			this->data[x + y * width] = MIN(victim->data[(x - offset_x) + (y - offset_y) * victim->width], this->data[x + y * this->width]);
 		}
 	}
 }
 
-void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative){
+void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative)
+{
 	GGen_Height max = 255;
 
 	if(relative){
 		max = mask->Max();
 	}
 	
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){	
-			data[x + y * width] = (GGen_ExtHeight) data[x + y * width] * (GGen_ExtHeight) mask->GetValue(x, y, width, height + (GGen_ExtHeight) victim->GetValue(x, y, width, height) * (GGen_ExtHeight) (max - mask->GetValue(x, y, width, height)))/ max;
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {	
+			this->data[x + y * this->width] = (GGen_ExtHeight) this->data[x + y * this->width] * (GGen_ExtHeight) mask->GetValue(x, y, this->width, this->height + (GGen_ExtHeight) victim->GetValue(x, y, this->width, this->height) * (GGen_ExtHeight) (max - mask->GetValue(x, y, this->width, this->height)))/ max;
 		}
 	}
 }
 
-void GGen_Data_2D::Abs(){
-	for(GGen_Index i = 0; i < length; i++){
-		if(data[i] < 0) data[i] = - data[i];
+void GGen_Data_2D::Abs()
+{
+	for (GGen_Index i = 0; i < this->length; i++) {
+		if (this->data[i] < 0) {
+			this->data[i] = -this->data[i];
+		}
 	}
 }
 
@@ -522,108 +557,117 @@ void GGen_Data_2D::Abs(){
  * @param profile to be projected
  * @param direction of projection
  */
-void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction){
-	if(direction == GGEN_HORIZONTAL){
-		for(GGen_Coord y = 0; y < height; y++){
-			for(GGen_Coord x = 0; x < width; x++){		
-				data[x + y * width] = profile->GetValue(y, height);
+void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction)
+{
+	if (direction == GGEN_HORIZONTAL) {
+		for(GGen_Coord y = 0; y < this->height; y++) {
+			for(GGen_Coord x = 0; x < this->width; x++) {		
+				this->data[x + y * this->width] = profile->GetValue(y, this->height);
 			}
 		}
-	}
-	else{
-		for(GGen_Coord y = 0; y < height; y++){
-			for(GGen_Coord x = 0; x < width; x++){		
-				data[x + y * width] = profile->GetValue(x, width);
+	} else {
+		for (GGen_Coord y = 0; y < this->height; y++) {
+			for (GGen_Coord x = 0; x < this->width; x++) {		
+				this->data[x + y * this->width] = profile->GetValue(x, this->width);
 			}
 		}
 	}
 }
 
-GGen_Data_1D* GGen_Data_2D::GetProfile(GGen_Direction direction, GGen_Coord coordinate){
-	GGen_Script_Assert(direction == GGEN_VERTICAL || coordinate < width);
-	GGen_Script_Assert(direction == GGEN_HORIZONTAL || coordinate < height);
+GGen_Data_1D* GGen_Data_2D::GetProfile(GGen_Direction direction, GGen_Coord coordinate)
+{
+	GGen_Script_Assert(direction == GGEN_VERTICAL || coordinate < this->width);
+	GGen_Script_Assert(direction == GGEN_HORIZONTAL || coordinate < this->height);
 	
 	GGen_Data_1D* output;
 	
-	if(direction == GGEN_HORIZONTAL){
-		output = new GGen_Data_1D(width);
+	if (direction == GGEN_HORIZONTAL) {
+		output = new GGen_Data_1D(this->width);
 		
-		for(GGen_Coord x = 0; x < width; x++){		
-			output->data[x] = data[x + coordinate * width];
+		for  (GGen_Coord x = 0; x < this->width; x++) {		
+			output->data[x] = this->data[x + coordinate * this->width];
 		}
-	}
-	else{
-		output = new GGen_Data_1D(height);
+	} else {
+		output = new GGen_Data_1D(this->height);
 	
-		for(GGen_Coord y = 0; y < height; y++){
-			output->data[y] = data[coordinate + y * width];
+		for (GGen_Coord y = 0; y < this->height; y++) {
+			output->data[y] = this->data[coordinate + y * this->width];
 		}
 	}
 	
 	return output;
 }
 
-void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode){
+void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode)
+{
 	/* Allocate the new array */
-	GGen_Height* new_data = new GGen_Height[length];
+	GGen_Height* new_data = new GGen_Height[this->length];
 
 	GGen_Script_Assert(new_data != NULL);
 
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){		
-			if(direction == GGEN_VERTICAL){
-				GGen_Height distance = profile->GetValue(x, width);
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {		
+			if (direction == GGEN_VERTICAL) {
+				GGen_Height distance = profile->GetValue(x, this->width);
 
 				/* Some values can be just plainly shifted */
-				if((distance >= 0 && y < height - distance) || (distance <= 0 && (signed) y >= -distance)){
-					new_data[x + (y + distance) * width] = data[x + y * width];
-				}
-				/* Some must go through the upper "border" */
-				else if(distance >= 0){
-					if(mode == GGEN_CYCLE) new_data[x + (y - height + distance) * width] = data[x + y * width];
-					else if(mode == GGEN_DISCARD_AND_FILL) new_data[x + (y - height + distance) * width] = data[x];
-				}
-				/* And some must go through the bottom "border" */
-				else{
-					if(mode == GGEN_CYCLE) new_data[x + (y + height + distance) * width] = data[x + y * width];
-					else if(mode == GGEN_DISCARD_AND_FILL) new_data[x + (y + height + distance) * width] = data[x + (height - 1) * width];
+				if ((distance >= 0 && y < this->height - distance) || (distance <= 0 && (signed) y >= -distance)) {
+					new_data[x + (y + distance) * this->width] = this->data[x + y * this->width];
+				} else if(distance >= 0) {
+					/* Some must go through the upper "border" */
+					if (mode == GGEN_CYCLE) {
+						new_data[x + (y - this->height + distance) * this->width] = this->data[x + y * this->width];
+					} else if (mode == GGEN_DISCARD_AND_FILL) {
+						new_data[x + (y - this->height + distance) * this->width] = this->data[x];
+					}
+				} else {
+					/* And some must go through the bottom "border" */
+					if (mode == GGEN_CYCLE) {
+						new_data[x + (y + this->height + distance) * this->width] = this->data[x + y * this->width];
+					} else if ( mode == GGEN_DISCARD_AND_FILL) {
+						new_data[x + (y + this->height + distance) * this->width] = this->data[x + (this->height - 1) * this->width];
+					}
 				}					
-			}
-			else{ // GGEN_HORIZONTAL
-				GGen_Height distance = profile->GetValue(y, height);
+			} else { /* GGEN_HORIZONTAL */
+				GGen_Height distance = profile->GetValue(y, this->height);
 
 				/* Some values can be just plainly shifted */
-				if((distance >= 0 && x < width - distance) || (distance <= 0 && (signed) x >= -distance)){
-					new_data[x + distance + y * width] = data[x + y * width];
-				}
-				/* Some must go through the right "border" */
-				else if(distance >= 0){
-					if(mode == GGEN_CYCLE) new_data[x - width + distance + y * width] = data[x + y * width];
-					else if(mode == GGEN_DISCARD_AND_FILL) new_data[x - width + distance + y * width] = data[y * width];
-				}
-				/* And some must go through the left "border" */
-				else{
-					if(mode == GGEN_CYCLE) new_data[x + width + distance + y * width] = data[x + y * width];
-					else if(mode == GGEN_DISCARD_AND_FILL) new_data[x + width + distance + y * width] = data[width - 1 + y * width];
+				if ((distance >= 0 && x < this->width - distance) || (distance <= 0 && (signed) x >= -distance)) {
+					new_data[x + distance + y * this->width] = this->data[x + y * this->width];
+				} else if (distance >= 0) {
+					/* Some must go through the right "border" */
+					if (mode == GGEN_CYCLE) {
+						new_data[x - this->width + distance + y * this->width] = this->data[x + y * this->width];
+					} else if (mode == GGEN_DISCARD_AND_FILL) {
+						new_data[x - this->width + distance + y * this->width] = this->data[y * this->width];
+					}
+				} else {
+					/* And some must go through the left "border" */
+					if (mode == GGEN_CYCLE) {
+						new_data[x + this->width + distance + y * this->width] = this->data[x + y * this->width];
+					} else if (mode == GGEN_DISCARD_AND_FILL) {
+						new_data[x + this->width + distance + y * this->width] = this->data[this->width - 1 + y * this->width];
+					}
 				}					
 			}
 		}
 	}
 
 	/* Relink and delete the original array data */
-	delete [] data;
-	data = new_data;
+	delete [] this->data;
+	this->data = new_data;
 }
 
-void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside){
+void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside)
+{
 	GGen_ExtExtHeight target_x = to_x - from_x;
 	GGen_ExtExtHeight target_y = to_y - from_y;
 	
 	/* Width of the gradient strip */
 	double max_dist = sqrt((double) (abs(to_x - from_x) * abs(to_x - from_x) + abs(to_y - from_y) * abs(to_y - from_y)));
 
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
 			GGen_ExtExtHeight point_x = x - from_x;
 			GGen_ExtExtHeight point_y = y - from_y;
 
@@ -632,179 +676,187 @@ void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_
 			GGen_ExtExtHeight cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
 		
 			/* Calculate the distance from the "from" point to the intersection with gradient vector */
-			double distance = sqrt((double) (cross_x*cross_x + cross_y*cross_y));
+			double distance = sqrt((double) (cross_x * cross_x + cross_y * cross_y));
 			
 			/* Distance from  the intersection point to the target point */
 			double reverse_distance = sqrt((double) ( ABS(target_x - cross_x) * ABS(target_x - cross_x) + ABS(target_y - cross_y) * ABS(target_y - cross_y) ));
 			
 			/* Apply it to the array data */
 			if(distance <= max_dist && reverse_distance <= max_dist) {
-				data[x + width * y] = pattern->GetValue((GGen_Distance) distance, (GGen_Size) max_dist);
-			} 
-			else if(fill_outside && reverse_distance < distance) data[x + width * y] = pattern->GetValue(pattern->length - 1);
-			else if(fill_outside) data[x + width * y] = pattern->GetValue(0);
+				this->data[x + this->width * y] = pattern->GetValue((GGen_Distance) distance, (GGen_Size) max_dist + 1);
+			} else if (fill_outside && reverse_distance < distance) {
+				this->data[x + this->width * y] = pattern->GetValue(pattern->length - 1);
+			} else if(fill_outside) {
+				this->data[x + this->width * y] = pattern->GetValue(0);
+			}
 		}
 	}
 }
 
-void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside){
+void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside)
+{
 	/* Call the profile gradient with linear profile */
 	
 	GGen_Data_1D temp(2);
 	temp.SetValue(0, from_value);
 	temp.SetValue(1, to_value);
 
-	Gradient(from_x, from_y, to_x, to_y, &temp, fill_outside);
+	this->Gradient(from_x, from_y, to_x, to_y, &temp, fill_outside);
 }
 
-void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside){
+void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside)
+{
 	GGen_Script_Assert(radius > 0 && pattern != NULL);
 
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
 			GGen_Distance distance = (GGen_Distance) sqrt((double) (abs(x - center_x) * abs(x - center_x) + abs(y - center_y) * abs(y - center_y)));
 		 
-			if(distance < radius) data[x + width * y] = pattern->GetValue(distance, radius);
-			else if (fill_outside) data[x + width * y] = pattern->GetValue(pattern->length - 1);
+			if (distance < radius) {
+				this->data[x + this->width * y] = pattern->GetValue(distance, radius);
+			} else if (fill_outside) {
+				this->data[x + this->width * y] = pattern->GetValue(pattern->length - 1);
+			}
 		}
 	}
 }
 
-void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside){
+void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside)
+{
 	GGen_Script_Assert(radius > 0);
 	
 	GGen_ExtExtHeight rel_max = max - min;
 
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
 			GGen_Distance distance = (GGen_Distance) sqrt((double) (abs(x - center_x) * abs(x - center_x) + abs(y - center_y) * abs(y - center_y)));
 
-			if(distance < radius)  data[x + width * y] = (GGen_Height) ((GGen_ExtExtHeight) min + rel_max * (GGen_ExtExtHeight) distance / (GGen_ExtExtHeight) radius);
-			else if(fill_outside) data[x + width * y] = (GGen_Height) ((GGen_ExtHeight) min + rel_max);
+			if (distance < radius) {
+				this->data[x + this->width * y] = (GGen_Height) ((GGen_ExtExtHeight) min + rel_max * (GGen_ExtExtHeight) distance / (GGen_ExtExtHeight) radius);
+			} else if (fill_outside) {
+				this->data[x + this->width * y] = (GGen_Height) ((GGen_ExtHeight) min + rel_max);
+			}
 		}
 	}
 }
 
-void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes){
+void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes)
+{
 	GGen_Script_Assert(amplitudes != NULL);
 
 	/* Prepare empty space for the work data */ 
-	GGen_Height* new_data = new GGen_Height[length];
+	GGen_Height* new_data = new GGen_Height[this->length];
 
 	GGen_Script_Assert(new_data != NULL);
 
-	Fill(0);
+	this->Fill(0);
 
 	/* For each octave (goind from the higher wave lengths to the shorter)... */
-	for(GGen_Size wave_length = max_feature_size; wave_length >= 1; wave_length /= 2){
+	for (GGen_Size wave_length = max_feature_size; wave_length >= 1; wave_length /= 2) {
 		GGen_Size frequency = GGen_log2(wave_length);
 		GGen_Height amplitude = amplitudes->data[frequency];
+
 		double pi_by_wave_length = 3.1415927 / wave_length;
 		
 		/* The wave length is shorter than the minimum desired wave length => done */
-		if(wave_length < min_feature_size) break;
+		if (wave_length < min_feature_size) break;
 
 		/* Set up base noise grid values for  this round */
-		for(GGen_Coord y = 0; y < height; y += wave_length){
-			for(GGen_Coord x = 0; x < width; x += wave_length){
-				new_data[x + y * width] = GGen_Random<GGen_Height>(-amplitude, amplitude);
+		for (GGen_Coord y = 0; y < this->height; y += wave_length) {
+			for (GGen_Coord x = 0; x < this->width; x += wave_length) {
+				new_data[x + y * this->width] = GGen_Random<GGen_Height>(-amplitude, amplitude);
 			}
 		}		
 
-		if(wave_length > 1)
-		for(GGen_Coord y = 0; y < height; y++){
-			/* Precalculate some interpolation related values that are the same for whole */
-			GGen_Coord vertical_remainder = y % wave_length;
-			GGen_Coord nearest_vertical = y - vertical_remainder;
-			double vertical_fraction = (1 - cos(vertical_remainder * pi_by_wave_length)) * .5;
-		
-			GGen_Index vertical_offset = nearest_vertical * width;
-			GGen_Index vertical_offset_next = (nearest_vertical + wave_length) * width;
-		
-			for(GGen_Coord x = 0; x < width; x++){
-				/* We are on the grid ==> no need for the interpolation */
-				if(vertical_remainder == 0 && x % wave_length == 0) continue;
- 
-				/* Nearest horizontal noise grid coordinates */
-				GGen_Coord nearest_horizontal = x - x % wave_length;
+		if (wave_length > 1) {
+			for (GGen_Coord y = 0; y < this->height; y++) {
+				/* Precalculate some interpolation related values that are the same for whole */
+				GGen_Coord vertical_remainder = y % wave_length;
+				GGen_Coord nearest_vertical = y - vertical_remainder;
+				double vertical_fraction = (1 - cos(vertical_remainder * pi_by_wave_length)) * .5;
+			
+				GGen_Index vertical_offset = nearest_vertical * this->width;
+				GGen_Index vertical_offset_next = (nearest_vertical + wave_length) * this->width;
+			
+				for (GGen_Coord x = 0; x < this->width; x++) {
+					/* We are on the grid ==> no need for the interpolation */
+					if (vertical_remainder == 0 && x % wave_length == 0) continue;
+	 
+					/* Nearest horizontal noise grid coordinates */
+					GGen_Coord nearest_horizontal = x - x % wave_length;
 
-				/* Fetch values of four corners so we can interpolate the correct value. If such points don't 
-				exist, wrap to the opposite border and pick a point from the opposite part of the array. This is
-				not an attempt to create seamlessly repeatable noise (which has no point while creating terrains).
-				The source points are picked just to have some data to interpolate with (to prevent cretion of
-				unpretty unnatural artifacts) */
-				
-				/* Upper left corner */
-				GGen_Height upper_left = new_data[
-					nearest_horizontal +
-					vertical_offset
-				];
-
-				/* Upper right corner */
-				GGen_Height upper_right;
-				if(nearest_horizontal + wave_length > width - 1){
-					upper_right = new_data[vertical_offset];
-				}
-				/* The X coord of the point overflows the right border of the map */
-				else{ 
-					upper_right = new_data[
-						nearest_horizontal + wave_length +
-						vertical_offset
-					];	
-				}
-				
-				/* Bottom left corner */
-				GGen_Height bottom_left;
-				if(nearest_vertical + wave_length > height - 1){
-					bottom_left = new_data[nearest_horizontal];
-				}
-				/* The Y coord of the point overflows the bottom border of the map */
-				else{
-					bottom_left = new_data[
+					/* Fetch values of four corners so we can interpolate the correct value. If such points don't 
+					exist, wrap to the opposite border and pick a point from the opposite part of the array. This is
+					not an attempt to create seamlessly repeatable noise (which has no point while creating terrains).
+					The source points are picked just to have some data to interpolate with (to prevent creation of
+					unpretty unnatural artifacts) */
+					
+					/* Upper left corner */
+					GGen_Height upper_left = new_data[
 						nearest_horizontal +
-						vertical_offset_next
-					];	
-				}
+						vertical_offset
+					];
 
-				/* Bottom right corner */
-				GGen_Height bottom_right;
-				/* Both coords of the point overflow the borders of the map */
-				if((nearest_horizontal + wave_length > width - 1 && nearest_vertical + wave_length > height - 1) ){
-					bottom_right = new_data[0];
-				}
-				/* The X coord of the point overflows the right border of the map */
-				else if(nearest_horizontal + wave_length > width - 1){
-					bottom_right = new_data[vertical_offset_next];
-				}
-				/* The Y coord of the point overflows the bottom border of the map */
-				else if(nearest_vertical + wave_length > height - 1){
-					bottom_right = new_data[nearest_horizontal + wave_length];
-				}
-				/* Product of the coords owerflows the length of the array */
-				else if( nearest_horizontal + wave_length + vertical_offset_next > (signed) (length - 1)){
-					bottom_right = new_data[0];
-				}
-				else{
-					bottom_right = new_data[
-						nearest_horizontal + wave_length +
-						vertical_offset_next
-					];	
-				}
+					/* Upper right corner */
+					GGen_Height upper_right;
+					if (nearest_horizontal + wave_length > this->width - 1) {
+						upper_right = new_data[vertical_offset];
+					} else { 
+						/* The X coord of the point overflows the right border of the map */
+						upper_right = new_data[
+							nearest_horizontal + wave_length +
+							vertical_offset
+						];	
+					}
+					
+					/* Bottom left corner */
+					GGen_Height bottom_left;
+					if (nearest_vertical + wave_length > this->height - 1) {
+						bottom_left = new_data[nearest_horizontal];
+					} else {
+						/* The Y coord of the point overflows the bottom border of the map */
+						bottom_left = new_data[
+							nearest_horizontal +
+							vertical_offset_next
+						];	
+					}
 
-				/* Interpolate the value for the current tile from values of the four corners (using cosine interpolation) */
-				double horizontal_fraction = (1 - cos( (x % wave_length) * pi_by_wave_length)) * .5;
-				
-				double interpolated_top = upper_left * (1 - horizontal_fraction) +  upper_right* horizontal_fraction;
-				double interpolated_bottom = bottom_left * (1 - horizontal_fraction) + bottom_right * horizontal_fraction;
+					/* Bottom right corner */
+					GGen_Height bottom_right;
+					/* Both coords of the point overflow the borders of the map */
+					if ((nearest_horizontal + wave_length > this->width - 1 && nearest_vertical + wave_length > this->height - 1) ) {
+						bottom_right = new_data[0];
+					} else if(nearest_horizontal + wave_length > this->width - 1) {
+						/* The X coord of the point overflows the right border of the map */
+						bottom_right = new_data[vertical_offset_next];
+					} else if (nearest_vertical + wave_length > this->height - 1) {
+						/* The Y coord of the point overflows the bottom border of the map */
+						bottom_right = new_data[nearest_horizontal + wave_length];
+					} else if( nearest_horizontal + wave_length + vertical_offset_next > (signed) (this->length - 1)) {
+						/* Product of the coords owerflows the length of the array */
+						bottom_right = new_data[0];
+					} else {
+						bottom_right = new_data[
+							nearest_horizontal + wave_length +
+							vertical_offset_next
+						];	
+					}
 
-				data[x + y * width] +=(GGen_Height) (interpolated_top * ( 1 - vertical_fraction) + interpolated_bottom * vertical_fraction);
-			}
-		} 
-		
+					/* Interpolate the value for the current tile from values of the four corners (using cosine interpolation) */
+					double horizontal_fraction = (1 - cos( (x % wave_length) * pi_by_wave_length)) * .5;
+					
+					double interpolated_top = upper_left * (1 - horizontal_fraction) +  upper_right * horizontal_fraction;
+					double interpolated_bottom = bottom_left * (1 - horizontal_fraction) + bottom_right * horizontal_fraction;
+
+					data[x + y * this->width] +=(GGen_Height) (interpolated_top * ( 1 - vertical_fraction) + interpolated_bottom * vertical_fraction);
+				}
+			} 
+		}
+
 		/* Add the current octave to previous octaves */
-		for(GGen_Coord y = 0; y < height; y += wave_length){
-			for(GGen_Coord x = 0; x < width; x += wave_length){
-				data[x + y * width] += new_data[x + y * width];
+		for(GGen_Coord y = 0; y < this->height; y += wave_length){
+			for(GGen_Coord x = 0; x < this->width; x += wave_length){
+				this->data[x + y * this->width] += new_data[x + y * this->width];
 			}
 		}
 	}
@@ -885,210 +937,220 @@ void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, bool ri
  * Shifts the array values so given percentage of it is under zero (zero represents the water level).
  * @param percentage of the map to be flooded
  */
-void GGen_Data_2D::Flood(double water_amount){
+void GGen_Data_2D::Flood(double water_amount)
+{
 	GGen_Script_Assert(water_amount < 1 && water_amount > 0);
 
-	GGen_Index target = (GGen_Index) (water_amount * (double) length);
+	GGen_Index target = (GGen_Index) (water_amount * (double) this->length);
 
-	GGen_Height min = Min();
-	GGen_Height max = Max();
+	GGen_Height min = this->Min();
+	GGen_Height max = this->Max();
 
 	// Use the binary search algorithm to find the correct water level
 	GGen_Height middle;
-	while(max - min > 1){
+	while (max - min > 1) {
 		middle = min + (max - min) / 2;
 
 		GGen_Index amount = 0;
-		for(GGen_Index i = 0; i < length; i++) {
-			if(data[i] >= middle) amount++;
+		for (GGen_Index i = 0; i < this->length; i++) {
+			if(this->data[i] >= middle) amount++;
 		}
 
-		if(amount > target) min = middle;
-		else max = middle;
+		if (amount > target) {
+			min = middle;
+		} else {
+			max = middle;
+		}
 	}
 
 	/* Shift the heights so given portion of the array is under zero */
-	Add(-middle);
+	this->Add(-middle);
 }
 
-void GGen_Data_2D::Smooth(GGen_Distance radius){
-	Smooth(radius, GGEN_HORIZONTAL);
-	Smooth(radius, GGEN_VERTICAL);
+void GGen_Data_2D::Smooth(GGen_Distance radius)
+{
+	this->Smooth(radius, GGEN_HORIZONTAL);
+	this->Smooth(radius, GGEN_VERTICAL);
 }
 
-void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction){
-	GGen_Script_Assert(radius > 0 && radius < width && radius < height);
+void GGen_Data_2D::Smooth(GGen_Distance radius, GGen_Direction direction)
+{
+	GGen_Script_Assert(radius > 0 && radius < this->width && radius < this->height);
 	
 	/* Allocate the new array */
-	GGen_Height* new_data = new GGen_Height[length];
+	GGen_Height* new_data = new GGen_Height[this->length];
 
 	GGen_Script_Assert(new_data != NULL);
 
-	if(direction == GGEN_HORIZONTAL){
-		for(GGen_Coord y = 0; y < height; y++){
+	if (direction == GGEN_HORIZONTAL) {
+		for (GGen_Coord y = 0; y < height; y++) {
 			/* Prefill the window with value of the left edge + n leftmost values (where n is radius) */
 			GGen_Size window_size = radius * 2 + 1;
-			GGen_ExtHeight window_value = data[width * y] * radius;
+			GGen_ExtHeight window_value = this->data[this->width * y] * radius;
 
-			for(GGen_Distance x = 0; x < radius; x++){
-				window_value += data[x + width * y];
+			for (GGen_Distance x = 0; x < radius; x++) {
+				window_value += this->data[x + this->width * y];
 			}
 
 			/* In every step shift the window one tile to the right  (= substract its leftmost cell and add
 			value of rightmost + 1). i represents position of the central cell of the window. */
-			for(GGen_Coord x = 0; x < width; x++){
+			for (GGen_Coord x = 0; x < this->width; x++) {
 				/* If the window is approaching right border, use the rightmost value as fill. */
-				if(x < radius){
-					window_value += data[x + radius + width * y] - data[width * y];
-				}
-				else if(x + radius < width){
-					window_value += data[x + radius + width * y] - data[x - radius + width * y];
-				}
-				else{
-					window_value += data[width - 1 + width * y] - data[x - radius + width * y];
+				if (x < radius) {
+					window_value += this->data[x + radius + this->width * y] - this->data[this->width * y];
+				} else if (x + radius < this->width) {
+					window_value += this->data[x + radius + this->width * y] - this->data[x - radius + this->width * y];
+				} else {
+					window_value += this->data[this->width - 1 + this->width * y] - this->data[x - radius + this->width * y];
 				}
 
 				/* Set the value of current tile to arithmetic average of window tiles. */
-				new_data[x + width * y] = window_value / window_size;
+				new_data[x + this->width * y] = window_value / window_size;
 			}
 		}
-	}
-	else{ // vertical
-		for(GGen_Coord x = 0; x < width; x++){
+	} else { /* vertical */
+		for (GGen_Coord x = 0; x < this->width; x++) {
 			/* Prefill the window with value of the left edge + n topmost values (where n is radius) */
 			GGen_Size window_size = radius * 2 + 1;
-			GGen_ExtHeight window_value = data[x] * radius;
+			GGen_ExtHeight window_value = this->data[x] * radius;
 
-			for(GGen_Distance y = 0; y < radius; y++){
-				window_value += data[x + y * width];
+			for (GGen_Distance y = 0; y < radius; y++) {
+				window_value += this->data[x + y * this->width];
 			}
 
 			/* In every step shift the window one tile to the bottom  (= substract its topmost cell and add
 			value of bottommost + 1). i represents position of the central cell of the window. */
-			for(GGen_Coord y = 0; y < height; y++){
+			for (GGen_Coord y = 0; y < this->height; y++) {
 				/* If the window is approaching right border, use the rightmost value as fill. */
-				if(y < radius){
-					window_value += data[x + (y + radius) * width] - data[x];
-				}
-				else if(y + radius < height){
-					window_value += data[x + (y + radius) * width] - data[x + (y - radius) * width];
-				}
-				else{
-					window_value += data[x + (height - 1) * width] - data[x + (y - radius) * width];
+				if (y < radius) {
+					window_value += this->data[x + (y + radius) * this->width] - this->data[x];
+				} else if (y + radius < height) {
+					window_value += this->data[x + (y + radius) * this->width] - this->data[x + (y - radius) * this->width];
+				} else {
+					window_value += this->data[x + (this->height - 1) * this->width] - this->data[x + (y - radius) * this->width];
 				}
 
 				/* Set the value of current tile to arithmetic average of window tiles. */
-				new_data[x + width * y] = window_value / window_size;
+				new_data[x + this->width * y] = window_value / window_size;
 			}
 		}
 	}	
 	
 
 	/* Relink and delete the original array data */
-	delete [] data;
-	data = new_data;	
-
-	return;	
+	delete [] this->data;
+	this->data = new_data;	
 }
 
-void GGen_Data_2D::Pattern(GGen_Data_2D* pattern){
+void GGen_Data_2D::Pattern(GGen_Data_2D* pattern)
+{
 	GGen_Script_Assert(pattern != NULL);
 	
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){
-			data[x + y * width] = pattern->data[ y % pattern->width + (x % pattern->height) * pattern->height];
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			this->data[x + y * this->width] = pattern->data[ y % pattern->width + (x % pattern->height) * pattern->height];
 		}
 	}
 }
 
-void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name){
+void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name)
+{
 	if(ggen_current_object->return_callback == NULL) ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
 
 	char* buf = GGen_ToCString(name);
 
 	/* Call the defined return callback */
-	ggen_current_object->return_callback(buf, data, width, height);
+	ggen_current_object->return_callback(buf, this->data, this->width, this->height);
 	
 	delete [] buf;
 }
 
-void GGen_Data_2D::Monochrome(GGen_Height treshold){
-	for(GGen_Index i = 0; i < length; i++){
-		data[i] = data[i] > treshold ? 1 : 0;
+void GGen_Data_2D::Monochrome(GGen_Height treshold)
+{
+	for (GGen_Index i = 0; i < this->length; i++) {
+		this->data[i] = this->data[i] > treshold ? 1 : 0;
 	}	
 }
 
-void GGen_Data_2D::SelectValue(GGen_Height value){
-	for(GGen_Index i = 0; i < length; i++){
-		data[i] = data[i] == value ? 1 : 0;
+void GGen_Data_2D::SelectValue(GGen_Height value)
+{
+	for (GGen_Index i = 0; i < this->length; i++) {
+		this->data[i] = this->data[i] == value ? 1 : 0;
 	}	
 }
 
 
-void GGen_Data_2D::SlopeMap(){
-
+void GGen_Data_2D::SlopeMap()
+{
 	/* Allocate the new array */
-	GGen_Height* new_data = new GGen_Height[length];
+	GGen_Height* new_data = new GGen_Height[this->length];
 
 	GGen_Script_Assert(new_data != NULL);
-	GGen_Script_Assert(width > 2 && height > 2);
+	GGen_Script_Assert(this->width > 2 && this->height > 2);
 
-	for(GGen_Coord y = 1; y < height - 1; y++){
-		for(GGen_Coord x = 1; x < width - 1; x++){		
-			new_data[x + y * width] = MAX(abs(data[x + y * width - 1] - data[x + y * width + 1]), abs(data[x + y * width - width] - data[x + y * width + width]));
+	for (GGen_Coord y = 1; y < this->height - 1; y++) {
+		for (GGen_Coord x = 1; x < this->width - 1; x++) {		
+			new_data[x + y * this->width] = 
+				MAX(
+					abs(this->data[x + y * this->width - 1] - this->data[x + y * this->width + 1]), 
+					abs(this->data[x + y * this->width - this->width] - this->data[x + y * this->width + this->width])
+				);
 		}
 	}
 
-	new_data[0] =  new_data[width + 1];
-	new_data[width - 1] = new_data[2 * width - 2];
-	new_data[length - width] = new_data[length - 2 * width + 1];
+	/* Fixt the corners */
+	new_data[0] =  new_data[this->width + 1];
+	new_data[this->width - 1] = new_data[2 * this->width - 2];
+	new_data[this->length - this->width] = new_data[this->length - 2 * this->width + 1];
 	new_data[length - 1] = new_data[length - width - 2];
 
-	// upper border
-	for(GGen_Coord x = 1; x < width - 1; x++){
-		new_data[x] = new_data[x + width];
+	/* Upper border */
+	for (GGen_Coord x = 1; x < this->width - 1; x++) {
+		new_data[x] = new_data[x + this->width];
 	}
 
-	// bottom border
-	for(GGen_Coord x = 1; x < width - 1; x++){
-		new_data[length - width + x] = new_data[length - 2 * width + x];
+	/* Bottom corner */
+	for (GGen_Coord x = 1; x < this->width - 1; x++) {
+		new_data[this->length - this->width + x] = new_data[this->length - 2 * this->width + x];
 	}
 
-	// left border
-	for(GGen_Coord y = 1; y < height - 1; y++){
-		new_data[y * width] = new_data[y * width + 1];
+	/* Left border */
+	for (GGen_Coord y = 1; y < this->height - 1; y++) {
+		new_data[y * this->width] = new_data[y * this->width + 1];
 	}
 
-	// right border
-	for(GGen_Coord y = 1; y < height - 1; y++){
-		new_data[y * width + width - 1] = new_data[y * width + width - 2];
+	/* Right border */
+	for (GGen_Coord y = 1; y < this->height - 1; y++) {
+		new_data[y * this->width + this->width - 1] = new_data[y * this->width + this->width - 2];
 	}
 
 	/* Relink and delete the original array data */
-	delete [] data;
-	data = new_data;	
+	delete [] this->data;
+	this->data = new_data;	
 }
 
-void GGen_Data_2D::Scatter(bool relative){
+void GGen_Data_2D::Scatter(bool relative)
+{
 	GGen_Height max = 255;
 
 	if(relative){
-		max = Max();
+		max = this->Max();
 	}
 
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){		
-			data[x + y * width] = GGen_Random((GGen_Height) 0, max) > data[x + y * width] ? 0 : 1;
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {		
+			this->data[x + y * this->width] = GGen_Random<GGen_Height>(0, max) > this->data[x + y * this->width] ? 0 : 1;
 		}
 	}
 }
 
-void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
+void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
+{
 	GGen_Height min = 0;
 	GGen_Height max = 255;
 
 	if(relative){
-		max = Max();
+		max = this->Max();
 	}
 	
 	/* Smoothen the profile to prevent visible color jumps in the result */
@@ -1100,75 +1162,99 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative){
 	profile_copy.ScaleValuesTo(profile->Min(), profile->Max());
 	
 	/* Transform the values */
-	for(GGen_Coord y = 0; y < height; y++){
-		for(GGen_Coord x = 0; x < width; x++){	
-			if(data[x + y * width] > 0) data[x + y * width] = profile_copy.GetValue(data[x + y * width]);
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {	
+			if (this->data[x + y * this->width] > 0) {
+				this->data[x + y * this->width] = profile_copy.GetValue(this->data[x + y * this->width]);
+			}
 		}
 	}
 }
 
-void GGen_Data_2D::Normalize(GGen_Direction direction, GGen_Normalization_Mode mode){
-	if(direction == GGEN_HORIZONTAL){
-		for(GGen_Coord y = 0; y < height; y++){
-			GGen_Height last = data[y * width];
-			for(GGen_Coord x = 0; x < width; x++){
-				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
-				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
-				last = data[x + y * width];
+void GGen_Data_2D::Normalize(GGen_Direction direction, GGen_Normalization_Mode mode)
+{
+	if (direction == GGEN_HORIZONTAL) {
+		for (GGen_Coord y = 0; y < this->height; y++){
+			GGen_Height last = this->data[y * this->width];
+
+			for (GGen_Coord x = 0; x < this->width; x++) {
+				if (mode == GGEN_ADDITIVE && this->data[x + y * this->width] > last + 1) {
+					this->data[x + y * this->width] = last + 1;
+				} else if (mode == GGEN_SUBSTRACTIVE && this->data[x + y * this->width] < last - 1) {
+					this->data[x + y * this->width] = last - 1;
+				}
+
+				last = this->data[x + y * this->width];
 			}
 		}
 		
-		for(GGen_Coord y = height - 1; y > 0; y--){
-			GGen_Height last = data[y * width + width - 1];
-			for(GGen_Coord x = width - 1; x > 0; x--){
-				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
-				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
-				last = data[x + y * width];
+		for (GGen_Coord y = this->height - 1; y > 0; y--) {
+			GGen_Height last = this->data[y * this->width + this->width - 1];
+
+			for (GGen_Coord x = this->width - 1; x > 0; x--) {
+				if (mode == GGEN_ADDITIVE && this->data[x + y * this->width] > last + 1) {
+					this->data[x + y * this->width] = last + 1;
+				} else if (mode == GGEN_SUBSTRACTIVE && this->data[x + y * this->width] < last - 1) {
+					this->data[x + y * this->width] = last - 1;
+				}
+
+				last = this->data[x + y * this->width];
 			}
 		}
-	}
-	else if(direction == GGEN_VERTICAL){
-		for(GGen_Coord x = 0; x < width; x++){
-			GGen_Height last = data[x];
-			for(GGen_Coord y = 0; y < height; y++){
-				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
-				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
-				last = data[x + y * width];
+	} else if (direction == GGEN_VERTICAL) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			GGen_Height last = this->data[x];
+			
+			for (GGen_Coord y = 0; y < this->height; y++) {
+				if (mode == GGEN_ADDITIVE && this->data[x + y * this->width] > last + 1) {
+					this->data[x + y * this->width] = last + 1;
+				} else if (mode == GGEN_SUBSTRACTIVE && this->data[x + y * this->width] < last - 1) {
+					this->data[x + y * this->width] = last - 1;
+				}
+
+				last = this->data[x + y * this->width];
 			}
 		}
 		
-		for(GGen_Coord x = width - 1; x > 0; x--){
-			GGen_Height last = data[length - (width - x)];
-			for(GGen_Coord y = height - 1; y > 0; y--){
-				if(mode == GGEN_ADDITIVE && data[x + y * width] > last + 1) data[x + y * width] = last + 1;
-				else if(mode == GGEN_SUBSTRACTIVE && data[x + y * width] < last - 1) data[x + y * width] = last - 1;
-				last = data[x + y * width];
+		for (GGen_Coord x = this->width - 1; x > 0; x--) {
+			GGen_Height last = this->data[this->length - (this->width - x)];
+
+			for (GGen_Coord y = this->height - 1; y > 0; y--) {
+				if (mode == GGEN_ADDITIVE && this->data[x + y * this->width] > last + 1) {
+					this->data[x + y * this->width] = last + 1;
+				} else if (mode == GGEN_SUBSTRACTIVE && this->data[x + y * this->width] < last - 1) {
+					this->data[x + y * this->width] = last - 1;
+				}
+
+				last = this->data[x + y * this->width];
 			}
 		}
 	}
 }
 
-void GGen_Data_2D::Normalize(GGen_Normalization_Mode mode){
-	Normalize(GGEN_HORIZONTAL, mode);
-	Normalize(GGEN_VERTICAL, mode);
+void GGen_Data_2D::Normalize(GGen_Normalization_Mode mode) 
+{
+	this->Normalize(GGEN_HORIZONTAL, mode);
+	this->Normalize(GGEN_VERTICAL, mode);
 }
 
 
 
 
-void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, bool preserve_size){
+void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, bool preserve_size)
+{
 	/* The matrix must be invertible (its determinant must not be 0) */
 	GGen_Script_Assert(a11 * a22 - a12 * a21 != 0);
 
 	/* Calculate output's boundaries so we can allocate the new array */
-	double new_top_right_x = (width - 1) * a11;
-	double new_top_right_y = (width - 1) * a21;
+	double new_top_right_x = (this->width - 1) * a11;
+	double new_top_right_y = (this->width - 1) * a21;
 	
-	double new_bottom_left_x = (height - 1) * a12;
-	double new_bottom_left_y = (height - 1) * a22;
+	double new_bottom_left_x = (this->height - 1) * a12;
+	double new_bottom_left_y = (this->height - 1) * a22;
 	
-	double new_bottom_right_x = (width - 1) * a11 + (height - 1) * a12;
-	double new_bottom_right_y = (width - 1) * a21 + (height - 1) * a22;
+	double new_bottom_right_x = (this->width - 1) * a11 + (this->height - 1) * a12;
+	double new_bottom_right_y = (this->width - 1) * a21 + (this->height - 1) * a22;
 	
 	/* Find which bounding point is which (the rotations and such might change this). The zeroes
 	represent the origin (upper left corner), which always stays the same. */
@@ -1189,31 +1275,30 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	int new_origin_y = -new_top_y;
 	
 	/* Invert the transformation matrix */
-	double inverted_a11 = a22 / ( -(a12 * a21) + a11 * a22);
+	double inverted_a11 =   a22 / (-(a12 * a21) + a11 * a22);
 	double inverted_a12 = -(a12 / (-(a12 * a21) + a11 * a22));
 	double inverted_a21 = -(a21 / (-(a12 * a21) + a11 * a22));
-	double inverted_a22 = a11 / (-(a12 * a21) + a11 * a22);
+	double inverted_a22 =   a11 / (-(a12 * a21) + a11 * a22);
 
 	int from_x, to_x, from_y, to_y;
 	GGen_Index new_length;
 	GGen_Height* new_data;
 	
-	if(preserve_size){
+	if (preserve_size) {
 		/* Calculate boundaries of the centered box of the original size */
-		from_x = ((signed) new_width - (signed) width) / 2;
-		to_x = from_x + width;
+		from_x = ((signed) new_width - (signed) this->width) / 2;
+		to_x = from_x + this->width;
 
-		from_y = ((signed) new_height - (signed) height) / 2;
-		to_y = from_y + height;
+		from_y = ((signed) new_height - (signed) this->height) / 2;
+		to_y = from_y + this->height;
 		
-		new_length = length;
-		new_width = width;
-		new_height = height;
+		new_length = this->length;
+		new_width = this->width;
+		new_height = this->height;
 		
 		/* Allocate the new array */
-		new_data = new GGen_Height[length];
-	}
-	else{ 
+		new_data = new GGen_Height[this->length];
+	} else { 
 		/* Using the new image bounding box */
 		from_x = from_y = 0;
 		
@@ -1227,7 +1312,7 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	}
 	
 	/* Go through the new array and for every tile look back into the old array (thus we need the inverted function) what is there */
-	for(GGen_CoordOffset new_y = from_y; new_y < to_y; new_y++){
+	for (GGen_CoordOffset new_y = from_y; new_y < to_y; new_y++) {
 		/* The second multiplication always stays the same for whole row */
 		GGen_Index y_part_1 = (GGen_Height) ((new_y - new_origin_y) * inverted_a12);
 		GGen_Index y_part_2 = (GGen_Height) ((new_y - new_origin_y) * inverted_a22);
@@ -1235,43 +1320,56 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 		/* Offset from pointer from the first cell in the array to the first cell in current row */
 		GGen_CoordOffset y_offset = (new_y - from_y) * new_width;
 		
-		for(GGen_CoordOffset new_x = from_x; new_x < to_x; new_x++){
+		for (GGen_CoordOffset new_x = from_x; new_x < to_x; new_x++) {
 			/* Calculate the original coordinates for the current "new point" by multiplying the coordinate vector of
 			the desired point by inverted transformation matrix */
 			GGen_CoordOffset x = (GGen_CoordOffset) ((new_x - new_origin_x) * inverted_a11) + y_part_1;
 			GGen_CoordOffset y = (GGen_CoordOffset) ((new_x - new_origin_x) * inverted_a21) + y_part_2;
 			
 			/* The original point exists => use its value */
-			if(x >= 0 && y >= 0 && x < width && y < height) {			
-				new_data[new_x - from_x + y_offset] = data[x + y * width];
+			if (x >= 0 && y >= 0 && x < this->width && y < this->height) {			
+				new_data[new_x - from_x + y_offset] = this->data[x + y * this->width];
+			} else {
+				/* The "original point" is outside the array => such areas are filled with black */
+				new_data[new_x - from_x + y_offset] = 0;
 			}
-			
-			/* The "original point" is outside the array => such areas are filled with black */
-			else new_data[new_x - from_x + y_offset] = 0;
 		}
 	}
 	
 	/* Relink and delete the original array data */
-	delete [] data;
-	data = new_data;
-	length = new_length;
-	width = new_width;
-	height = new_height;
+	delete [] this->data;
+	this->data = new_data;
+	this->length = new_length;
+	this->width = new_width;
+	this->height = new_height;
 }
 
-void GGen_Data_2D::Rotate(int32 angle, bool preserve_size){
+void GGen_Data_2D::Rotate(int32 angle, bool preserve_size)
+{
 	angle = angle % 360;
 	
 	double angle_double = (double) angle * 3.14159 / 180;
 	
-	Transform(cos(angle_double), sin(angle_double), -sin(angle_double), cos(angle_double), preserve_size);
+	this->Transform(
+		cos(angle_double), 
+		sin(angle_double), 
+		-sin(angle_double), 
+		cos(angle_double), 
+		preserve_size
+	);
 }
 
 void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool preserve_size){
 	/* Verical and horizontal shear == 1 ==> the transformation matrix would be uninvertible */
 	GGen_Script_Assert(horizontal_shear != 1 || vertical_shear != 1);
 	
-	Transform(1, vertical_shear, horizontal_shear, 1, preserve_size);
+	this->Transform(
+		1, 
+		vertical_shear, 
+		horizontal_shear, 
+		1, 
+		preserve_size
+	);
 }
  
  
@@ -1280,7 +1378,7 @@ void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool pres
   * @param direction on which the heightmap will be flipped
   */
 void GGen_Data_2D::Flip(GGen_Direction direction){
-	Transform(
+	this->Transform(
 		direction == GGEN_HORIZONTAL ? 1 : -1, 
 		0,
 		0,
