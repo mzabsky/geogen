@@ -20,7 +20,7 @@ function Generate(){
 
 	local value_multiplier = 10;
 
-	local base = GGen_Data_2D(width, height);
+	local base = GGen_Data_2D(width, height, 0);
 
 	GGen_IncreaseProgress();
 
@@ -70,7 +70,7 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	local profile = GGen_Data_1D(width);
+	local profile = GGen_Data_1D(width, 0);
 	
 	profile.Noise(4, width / 5, GGEN_STD_NOISE);
 	profile.ScaleValuesTo(0, height / 10);
@@ -82,12 +82,12 @@ function Generate(){
 	base.ReturnAs("3-rotate, 1D noise, 1D scale, shift");
 	GGen_IncreaseProgress();
 	
-	local mask = GGen_Data_2D(base);
+	local mask = base.Clone();
 	mask.SelectValue(0);
 	
 	GGen_IncreaseProgress();
 	
-	local noise = GGen_Data_2D(width, height);	
+	local noise = GGen_Data_2D(width, height, 0);	
 	
 	GGen_IncreaseProgress();
 	
@@ -95,9 +95,11 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
+	mask.ReturnAs("mask");
+	
 	noise.ScaleValuesTo(GGEN_MIN_HEIGHT, GGEN_MAX_HEIGHT);
 
-	base.AddMasked(noise, mask, true);
+	base.AddMapMasked(noise, mask, true);
 
 	mask = noise = null;
 	
@@ -108,7 +110,7 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	local new_base = GGen_Data_2D(width, height);
+	local new_base = GGen_Data_2D(width, height, 0);
 	
 	new_base.Pattern(base);
 
@@ -118,7 +120,7 @@ function Generate(){
 
 	base.ScaleTo(width, height / 2, false);
 	
-	local base2 = GGen_Data_2D(base);
+	local base2 = base.Clone();
 	
 	base.ResizeCanvas(width, height, 0, 0);
 	

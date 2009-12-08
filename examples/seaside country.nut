@@ -47,7 +47,7 @@ function Generate(){
 	
 	// create the "wavy" profile along the vertical axis (creating the illusion of long valleys separated by hill ranges)
 	local profile_shift = GGen_Data_1D(800);
-	profile_shift.Noise(height / 15, height / 8, GGEN_STD_NOISE);
+	profile_shift.Noise(height / 25, height / 8, GGEN_STD_NOISE);
 	profile_shift.ScaleValuesTo(-width / 8, width / 8);
 	
 	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);

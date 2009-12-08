@@ -24,31 +24,31 @@ function Generate(){
 	
 	GGen_InitProgress(6);
 	
-	local pattern = GGen_Data_2D(width / grid, height / grid);
+	local pattern = GGen_Data_2D(width / grid, height / grid, 0);
 	
-	local profile = GGen_Data_1D(2);
+	local profile = GGen_Data_1D(2, 0);
 	
 	profile.SetValue(0, 10000); 
 	profile.SetValue(1, -13000); 
 	
 	GGen_IncreaseProgress();
 	
-	pattern.RadialGradient(width / (2 * grid), height / (2 * grid), (width > height ? height : width) / (2 * grid), profile, true);
+	pattern.RadialGradientFromProfile(width / (2 * grid), height / (2 * grid), (width > height ? height : width) / (2 * grid), profile, true);
 
 	GGen_IncreaseProgress();
 
-	local noise = GGen_Data_2D(width / grid, height / grid);
+	local noise = GGen_Data_2D(width / grid, height / grid, 0);
 	noise.Noise(smoothness,  (width > height ? height : width) / (32 - 4 * feature_size), GGEN_STD_NOISE);
 	
 	GGen_IncreaseProgress();
 	
 	noise.ScaleValuesTo(-11000, 11000);
 	
-	pattern.Add(noise);
+	pattern.AddMap(noise);
 	
 	GGen_IncreaseProgress();
 	
-	local base = GGen_Data_2D(width, height);
+	local base = GGen_Data_2D(width, height, 0);
 	
 	base.Pattern(pattern);
 	

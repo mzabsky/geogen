@@ -29,12 +29,12 @@ function Generate(){
 		height = temp;
 	}
 
-	local base = GGen_Data_2D(width, height);
+	local base = GGen_Data_2D(width, height, 0);
 	
 	GGen_IncreaseProgress();
 	
 	// create one peak into the middle of the map
-	local pass = GGen_Data_2D(height / 3, height);
+	local pass = GGen_Data_2D(height / 3, height, 0);
 	
 	pass.RadialGradient(1, height / 2, width > height ? height / 3 : width / 3, 1200, 0, true);
 
@@ -43,7 +43,7 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	local copy = GGen_Data_2D(pass);
+	local copy = pass.Clone();
 	copy.Flip(GGEN_VERTICAL);
 
 	pass.Union(copy);
@@ -71,7 +71,7 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	local profile_shift = GGen_Data_1D(width);
+	local profile_shift = GGen_Data_1D(width, 0);
 	profile_shift.Noise(width / 10, width / 2, GGEN_STD_NOISE);
 	profile_shift.ScaleValuesTo(-height / 24, height / 24);
 
@@ -81,21 +81,21 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	local mask = GGen_Data_2D(base);
+	local mask = base.Clone();
 	mask.Clamp(200, GGEN_MAX_HEIGHT);	
 	mask.ScaleValuesTo(0, 255);
 	mask.Clamp(60, 255);
 
 	GGen_IncreaseProgress();
 
-	local noise = GGen_Data_2D(width, height);
+	local noise = GGen_Data_2D(width, height, 0);
 	noise.Noise(smoothness, width > height ? height / 8 : width / 8, GGEN_STD_NOISE);
 	
 	GGen_IncreaseProgress();
 	
 	noise.ScaleValuesTo(-300, 300);
 		
-	base.AddMasked(noise, mask, false);
+	base.AddMapMasked(noise, mask, false);
 	
 	base.Add(-base.Min() + 1);
 
