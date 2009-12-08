@@ -26,7 +26,7 @@ function Generate(){
 
 	GGen_InitProgress(2);
 
-	local base = GGen_Data_2D(width, height);
+	local base = GGen_Data_2D(width, height, 0);
 	
 	base.Noise(smoothness, ((width > height) ? height : width) / (5 * (4 - feature_size)), GGEN_STD_NOISE);
 	

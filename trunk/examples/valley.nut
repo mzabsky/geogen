@@ -24,10 +24,10 @@ function Generate(){
 
 	GGen_InitProgress(9);
 
-	local base = GGen_Data_2D(width, height);
+	local base = GGen_Data_2D(width, height, 0);
 
 	// create the shore->sea profile
-	local profile_height = GGen_Data_1D(10);
+	local profile_height = GGen_Data_1D(10, 0);
 	
 	profile_height.SetValue(0, -800);
 	profile_height.SetValue(1, -200);

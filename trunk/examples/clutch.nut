@@ -19,7 +19,7 @@ function Generate(){
 	
 	GGen_InitProgress(9);
 	
-	local base = GGen_Data_2D(size, size);
+	local base = GGen_Data_2D(size, size, 0);
 	
 	local radial_profile = GGen_Data_1D(4, -12000);
 	
@@ -27,18 +27,18 @@ function Generate(){
 	radial_profile.SetValue(3, 0);
 	
 	// create the upper radial basin
-	base.RadialGradient(size / 4, size / 4, size / 2, radial_profile, true);
+	base.RadialGradientFromProfile(size / 4, size / 4, size / 2, radial_profile, true);
 
 	GGen_IncreaseProgress();
 
 	// create the land bridge
-	local bridge = GGen_Data_2D(size, size);
+	local bridge = GGen_Data_2D(size, size, 0);
 	bridge.Gradient(3* size / 7, 3 * size / 7, 45 * size / 100, 45 * size / 100, -12000, -6500, true);
 	
 	base.Union(bridge);
 	
 	// mirror the map along the axis going from bottom left corner to upper right corner
-	local copy = GGen_Data_2D(base);
+	local copy = base.Clone();
 	copy.Flip(GGEN_HORIZONTAL);
 	copy.Flip(GGEN_VERTICAL);
 	
@@ -56,7 +56,7 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	local mask = GGen_Data_2D(base);
+	local mask = base.Clone();
 	mask.Clamp(-8000, GGEN_MAX_HEIGHT);
 	
 	mask.ScaleValuesTo(0,255);
@@ -65,14 +65,14 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	local noise = GGen_Data_2D(size, size);
+	local noise = GGen_Data_2D(size, size, 0);
 	noise.Noise(smoothness, size / (5 - feature_size), GGEN_STD_NOISE);
 	
 	GGen_IncreaseProgress();
 	
 	noise.ScaleValuesTo(-2000, 12000);
 	
-	base.AddMasked(noise, mask, false);
+	base.AddMapMasked(noise, mask, false);
 
 	GGen_IncreaseProgress();
 
