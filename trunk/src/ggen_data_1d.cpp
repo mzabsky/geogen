@@ -36,16 +36,17 @@ extern GGen* ggen_current_object;
  */
 GGen_Data_1D::GGen_Data_1D(GGen_Coord length, GGen_Height value)
 {
+	
 	GGen_Script_Assert(length > 1);
+
+	this->length = length;
 
 	/* Allocate the array */
 	this->data = new GGen_Height[this->length];
 
 	GGen_Script_Assert(this->data != NULL);
 
-	this->length = length;
-
-	Fill(value);
+	this->Fill(value);
 }
 
 GGen_Data_1D::~GGen_Data_1D()
@@ -125,7 +126,7 @@ void GGen_Data_1D::SetValue(GGen_Coord x, GGen_Height value)
 
 void GGen_Data_1D::SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value)
 {
-	GGen_Script_Assert(from < this->length || to < this->length);
+	GGen_Script_Assert(from < this->length || to < this->length || from < to);
 
 	for (GGen_Coord i = from; i <= to; i++) {
 		this->data[i] = value;
