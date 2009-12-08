@@ -1129,7 +1129,7 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 	}
 	
 	/* Smoothen the profile to prevent visible color jumps in the result */
-	GGen_Data_1D profile_copy(*profile);
+	GGen_Data_1D profile_copy = *profile->Clone();
 	profile_copy.ScaleTo(max + 1, false);
 	if(profile_copy.length > 80) profile_copy.Smooth(max / 40);
 	
