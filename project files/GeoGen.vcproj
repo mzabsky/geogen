@@ -315,6 +315,10 @@
 				RelativePath="..\examples\valley.nut"
 				>
 			</File>
+			<File
+				RelativePath="..\examples\voronoi.nut"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\documentation.html"
