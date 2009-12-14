@@ -339,7 +339,7 @@ void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_C
  */
 void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative)
 {
-	GGen_ExtHeight max = 255;
+	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if (relative){
 		max = mask->Max();
@@ -356,7 +356,7 @@ void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool r
 
 void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative)
 {
-	GGen_ExtHeight max = 255;
+	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
 		max = mask->Max();
@@ -505,7 +505,7 @@ void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_
 
 void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative)
 {
-	GGen_Height max = 255;
+	GGen_Height max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
 		max = mask->Max();
@@ -840,7 +840,13 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 } 
 
 // NOT REALLY FINISHED!! NEEDS A LOT OF POLISH!!!
-void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, bool ridge_style){
+void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode)
+{
+	GGen_Script_Assert(num_cells > 1 && num_cells < width / 4);
+	GGen_Script_Assert(points_per_cell > 1);
+
+	#define VORONOINOISE_GET_POINT(x, y, i) points[i + (x) * points_per_cell + (y) * num_cells_x * points_per_cell]
+	
 	struct Point{
 		GGen_Coord x, y;
 	};
@@ -849,63 +855,80 @@ void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, bool ri
 	int num_cells_y = num_cells;
 	int cell_width = width / num_cells_x;
 	int cell_height = height / num_cells_y;
-	GGen_ExtExtHeight max_dist = cell_width * cell_width + cell_height * cell_height;
+	GGen_ExtExtHeight max_dist = 2 * cell_width * cell_width + cell_height * cell_height;
 	
 	Point* points = new Point[num_cells_x * num_cells_y * points_per_cell];
 	
-#define GET_POINT(x, y, i) points[i + (x) * points_per_cell + (y) * num_cells_x * points_per_cell]
-	
-	for(int y = 0; y < num_cells_y; y++){
-		for(int x = 0; x < num_cells_x; x++){
-			for(int i = 0; i < points_per_cell; i++){
-				GET_POINT(x, y, i).x = x * cell_width + GGen_Random<int>(0, width / num_cells_x);
-				GET_POINT(x, y, i).y = y * cell_height + GGen_Random<int>(0, height / num_cells_y);
+	/* Distribute the points into cells */
+	for (int y = 0; y < num_cells_y; y++) {
+		for (int x = 0; x < num_cells_x; x++) {
+			for (int i = 0; i < points_per_cell; i++) {
+				VORONOINOISE_GET_POINT(x, y, i).x = x * cell_width + GGen_Random<int>(0, width / num_cells_x);
+				VORONOINOISE_GET_POINT(x, y, i).y = y * cell_height + GGen_Random<int>(0, height / num_cells_y);
 			}	
 		}
 	}
 	
+	/* We will first collect the points from sorrounding cells of each pixel and then work them individually.
+	 * Since we know the number of points in each cell, we can hold only one pointer in this array - to the first point
+	 * in the cell (so there will be only up to 9 pointers in the array). */
 	Point* points_waiting[9];
 	
 	for(GGen_Coord y = 0; y < height; y++){
 		for(GGen_Coord x = 0; x < width; x++){
+			/* We will always use at least  one cell (the current one) */
 			uint8 num_points_waiting = 1;
 			
+			/* Coordinates in the cell grid */
 			GGen_Coord cell_x = x / cell_width;
 			GGen_Coord cell_y = y / cell_height;
+		
+			/* Distances to the nearest and second nearest point */
+			GGen_ExtExtHeight current_min_dist = max_dist - 1;
+			GGen_ExtExtHeight current_second_min_dist = max_dist - 1;
 			
-			Point* closest_point = NULL;
-			GGen_ExtExtHeight current_min_dist = INT_MAX;
-			GGen_ExtExtHeight current_second_min_dist = LONG_MAX;
+			/* The current cell */
+			points_waiting[0] = &VORONOINOISE_GET_POINT(cell_x, cell_y, 0);
+		
+			/* Collect points from the sorrounding cells */
+			if(cell_y > 0 && cell_x > 0)							{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x - 1, cell_y - 1, 0); ++num_points_waiting;}
+			if(cell_y > 0)											{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x,	 cell_y - 1, 0); ++num_points_waiting;}
+			if(cell_y > 0 && cell_x < num_cells_x - 1)				{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x + 1, cell_y - 1, 0); ++num_points_waiting;}
+			if(cell_x > 0)											{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x - 1, cell_y	   , 0); ++num_points_waiting;}
+			if(cell_x < num_cells_x - 1)							{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x + 1, cell_y	   , 0); ++num_points_waiting;}
+			if(cell_x > 0 && cell_y < num_cells_y - 1)				{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x - 1, cell_y + 1, 0); ++num_points_waiting;}
+			if(cell_y < num_cells_y - 1)							{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x	   , cell_y + 1, 0); ++num_points_waiting;}
+			if(cell_x < num_cells_x - 1 && cell_y < num_cells_y - 1){points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x + 1, cell_y + 1, 0); ++num_points_waiting;}
 			
-			points_waiting[0] = &GET_POINT(cell_x, cell_y, 0);
-			
-			if(cell_y > 0 && cell_x > 0)							{points_waiting[num_points_waiting] = &GET_POINT(cell_x - 1, cell_y - 1, 0); ++num_points_waiting;}
-			if(cell_y > 0)											{points_waiting[num_points_waiting] = &GET_POINT(cell_x,	 cell_y - 1, 0); ++num_points_waiting;}
-			if(cell_y > 0 && cell_x < num_cells_x - 1)				{points_waiting[num_points_waiting] = &GET_POINT(cell_x + 1, cell_y - 1, 0); ++num_points_waiting;}
-			if(cell_x > 0)											{points_waiting[num_points_waiting] = &GET_POINT(cell_x - 1, cell_y	   , 0); ++num_points_waiting;}
-			if(cell_x < num_cells_x - 1)							{points_waiting[num_points_waiting] = &GET_POINT(cell_x + 1, cell_y	   , 0); ++num_points_waiting;}
-			if(cell_x > 0 && cell_y < num_cells_y - 1)				{points_waiting[num_points_waiting] = &GET_POINT(cell_x - 1, cell_y + 1, 0); ++num_points_waiting;}
-			if(cell_y < num_cells_y - 1)							{points_waiting[num_points_waiting] = &GET_POINT(cell_x	   , cell_y + 1, 0); ++num_points_waiting;}
-			if(cell_x < num_cells_x - 1 && cell_y < num_cells_y - 1){points_waiting[num_points_waiting] = &GET_POINT(cell_x + 1, cell_y + 1, 0); ++num_points_waiting;}
-			
+			/* Find the closest point */
 			for(int i = 0; i < num_points_waiting; i++){
 				for(int j = 0; j < points_per_cell; j++){
 					Point* current_point = points_waiting[i] + j;
 					
-					int64 current_distance = (x - current_point->x) * (x - current_point->x) + (y - current_point->y) * (y - current_point->y);
+					double current_distance = (double) (x - current_point->x) * (double) (x - current_point->x) + (double) (y - current_point->y) * (double) (y - current_point->y);
 					
-					if(current_distance < current_min_dist){
+					/* Is the current point closer than the nearest one? */
+					if(current_distance <= current_min_dist){
+						/* The current closest point will become the second closest */
+						current_second_min_dist = current_min_dist;
+
 						current_min_dist = current_distance;
-						//closest_point = current_point;
+					}
+
+					/* The current point is closer than the second closest one, but further than the nearest one -> it can still become #2 */
+					if(current_distance > current_min_dist && current_distance < current_second_min_dist){
+						current_second_min_dist = current_distance;
 					}
 				}
 			}
 			
-			data[x + y * width] = current_min_dist * GGEN_MAX_HEIGHT / max_dist;// / 200;
-			
-			assert(current_min_dist * GGEN_MAX_HEIGHT / max_dist < GGEN_MAX_HEIGHT);
+			/* Calculate value for current point from the distances to the two closest points */
+			if(mode == GGEN_RIDGES) data[x + y * width] = (-current_min_dist + current_second_min_dist) * GGEN_MAX_HEIGHT / max_dist;
+			else if(mode == GGEN_BUBBLES) data[x + y * width] = current_min_dist * GGEN_MAX_HEIGHT / max_dist;
 		}
-	}	
+	}
+
+	#undef VORONOINOISE_GET_POINT
 }
 
 /*
@@ -1106,7 +1129,7 @@ void GGen_Data_2D::SlopeMap()
 
 void GGen_Data_2D::Scatter(bool relative)
 {
-	GGen_Height max = 255;
+	GGen_Height max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
 		max = this->Max();
@@ -1122,7 +1145,7 @@ void GGen_Data_2D::Scatter(bool relative)
 void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 {
 	GGen_Height min = 0;
-	GGen_Height max = 255;
+	GGen_Height max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
 		max = this->Max();

@@ -52,6 +52,8 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 #define GGEN_MIN_HEIGHT -32767
 #define GGEN_MAX_HEIGHT 32767
 
+#define GGEN_UNRELATIVE_CAP 255
+
 #define MAX(a,b) (a > b? a: b) 
 #define MIN(a,b) (a < b? a: b) 
 #define ABS(a) (a < 0? -(a): a) 
@@ -96,6 +98,11 @@ enum GGen_Arg_Type{
 	GGEN_BOOL,
 	GGEN_INT,
 	GGEN_ENUM
+};
+
+enum GGen_Voronoi_Noise_Mode{
+	GGEN_RIDGES,
+	GGEN_BUBBLES
 };
 
 template <class T>

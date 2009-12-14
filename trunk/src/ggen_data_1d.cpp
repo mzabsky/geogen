@@ -182,7 +182,7 @@ void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset)
 
 void GGen_Data_1D::AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative)
 {
-	GGen_ExtHeight max = 255;
+	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
 		max = mask->Max();
@@ -195,7 +195,7 @@ void GGen_Data_1D::AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool
 
 void GGen_Data_1D::AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative)
 {
-	GGen_Height max = 255;
+	GGen_Height max = GGEN_UNRELATIVE_CAP;
  
 	if(relative){
 		max = mask->Max();
