@@ -513,7 +513,9 @@ void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relati
 	
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
-			this->data[x + y * this->width] = (GGen_ExtHeight) this->data[x + y * this->width] * (GGen_ExtHeight) mask->GetValueInterpolated(x, y, this->width, this->height + (GGen_ExtHeight) victim->GetValueInterpolated(x, y, this->width, this->height) * (GGen_ExtHeight) (max - mask->GetValueInterpolated(x, y, this->width, this->height)))/ max;
+			this->data[x + y * this->width] = 
+				(GGen_ExtHeight) this->data[x + y * this->width] * (GGen_ExtHeight) mask->GetValueInterpolated(x, y, this->width, this->height) / max + 
+				(GGen_ExtHeight) victim->GetValueInterpolated(x, y, this->width, this->height) * (GGen_ExtHeight) (max - mask->GetValueInterpolated(x, y, this->width, this->height))/ max;
 		}
 	}
 }
@@ -842,8 +844,8 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 // NOT REALLY FINISHED!! NEEDS A LOT OF POLISH!!!
 void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode)
 {
-	GGen_Script_Assert(num_cells > 1 && num_cells < width / 4);
-	GGen_Script_Assert(points_per_cell > 1);
+	GGen_Script_Assert(num_cells >= 1 && num_cells < width / 4);
+	GGen_Script_Assert(points_per_cell >= 1);
 
 	#define VORONOINOISE_GET_POINT(x, y, i) points[i + (x) * points_per_cell + (y) * num_cells_x * points_per_cell]
 	
