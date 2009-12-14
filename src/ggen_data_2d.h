@@ -78,7 +78,7 @@ class GGen_Data_2D{
 		void RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside);
 		void RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside);
 		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes);
-		void VoronoiNoise(uint16 num_cells, uint8 points_per_cell, bool ridge_style);
+		void VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode);
 		void SmoothDirection(GGen_Distance radius, GGen_Direction direction);
 		void Smooth(GGen_Distance radius);
 		void Flood(double water_amount);

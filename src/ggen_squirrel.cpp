@@ -39,6 +39,7 @@ DECLARE_ENUM_TYPE(GGen_Normalization_Mode);
 DECLARE_ENUM_TYPE(GGen_Overflow_Mode);
 DECLARE_ENUM_TYPE(GGen_Direction);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
+DECLARE_ENUM_TYPE(GGen_Voronoi_Noise_Mode);
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
 	ggen_current_object->ThrowMessage(desc, GGEN_ERROR, line, column);
@@ -95,6 +96,9 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_WARNING, _SC("GGEN_WARNING"));
 	BindConstant(GGEN_ERROR, _SC("GGEN_ERROR"));
 
+	/* Enum: GGen_Vornoi_Noise_Mode */
+	BindConstant(GGEN_BUBBLES, _SC("GGEN_BUBBLES"));
+	BindConstant(GGEN_RIDGES, _SC("GGEN_RIDGES"));
 
 	// WARNING: I'm too lazy to replace these with the TypeDefs currently. Maybe later...
 	
