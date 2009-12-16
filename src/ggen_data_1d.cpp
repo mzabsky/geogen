@@ -29,11 +29,6 @@
 
 extern GGen* ggen_current_object;
 
-/** 
- * Creates a 1D data array and fills it with a constant value
- * @param length of the array
- * @param value to be filled with
- */
 GGen_Data_1D::GGen_Data_1D(GGen_Coord length, GGen_Height value)
 {
 	
@@ -64,12 +59,6 @@ GGen_Data_1D* GGen_Data_1D::Clone()
 	return victim;
 }
 
-/** 
- * Reads and returns one value from the array
- * @param x coordinate of the value
- */
- 
-
 GGen_Size GGen_Data_1D::GetLength()
 {
 	return this->length;
@@ -82,11 +71,6 @@ GGen_Height GGen_Data_1D::GetValue(GGen_Coord x)
 	return this->data[x];
 }
 
-/** 
- * Reads and returns one value from the array as if its size was scale_to_x
- * @param x coordinate of the value
- * @param target length of the array
- */
 GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_x)
 {
 	GGen_Script_Assert(x < scale_to_x);
@@ -112,11 +96,6 @@ GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_
 	return (GGen_Height) data[(GGen_Coord) floor((double)x / ratio + 0.5)];
 }
 
-/** 
- * Sets value on coordinate
- * @param coordinate to modify
- * @param value to use
- */
 void GGen_Data_1D::SetValue(GGen_Coord x, GGen_Height value)
 {
 	GGen_Script_Assert(x < this->length);
@@ -133,10 +112,6 @@ void GGen_Data_1D::SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height v
 	}
 }
 
-/** 
- * Fills the array with value
- * @param value to be used
- */
 void GGen_Data_1D::Fill(GGen_Height value)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -144,10 +119,6 @@ void GGen_Data_1D::Fill(GGen_Height value)
 	}
 }
 
-/** 
- * Adds a flat value to each value in the array
- * @param value to be used
- */
 void GGen_Data_1D::Add(GGen_Height value)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -155,10 +126,6 @@ void GGen_Data_1D::Add(GGen_Height value)
 	}
 }
 
-/** 
- * Combines the array with second array by just adding them together
- * @param addend to be combined with
- */
 void GGen_Data_1D::AddArray(GGen_Data_1D* addend)
 {
 	/* Scale the addend as necessary */
@@ -167,11 +134,6 @@ void GGen_Data_1D::AddArray(GGen_Data_1D* addend)
 	}
 }
 
-/*
- * Adds values from (unscaled) addend to the array
- * @param offset of the addend coords
- * @param addend - the second array
- */
 void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset)
 {
 	/* Walk through the items where the array and the addend with ofset intersect */
@@ -206,10 +168,6 @@ void GGen_Data_1D::AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relativ
 	}
 }
 
-/** 
- * Scales each value in the array by a number. 100% = 1, 0.5 = 50%, 2.0 = 200%
- * @param value to be used
- */
 void GGen_Data_1D::Multiply(double value)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -217,10 +175,6 @@ void GGen_Data_1D::Multiply(double value)
 	}
 }
 
-/** 
- * Scales each value in the array by a value from the second array. 100% = 1, 0.5 = 50%, 2.0 = 200%
- * @param value to be used
- */
 void GGen_Data_1D::MultiplyArray(GGen_Data_1D* factor)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -228,9 +182,6 @@ void GGen_Data_1D::MultiplyArray(GGen_Data_1D* factor)
 	}
 }
 
-/** 
- * Inverts signs of all values in the array
- */
 void GGen_Data_1D::Invert()
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -238,11 +189,6 @@ void GGen_Data_1D::Invert()
 	}
 }
 
-/**
- * Change size of the array 
- * @param length of the new array
- * @param scale_values - should the values be scaled too?
- */
 void GGen_Data_1D::ScaleTo(GGen_Size new_length, bool scale_values)
 {
 	GGen_Script_Assert(new_length > 1);
@@ -265,11 +211,6 @@ void GGen_Data_1D::ScaleTo(GGen_Size new_length, bool scale_values)
 	this->length = new_length;
 }
 
-/**
- * Scales the values so they all fit to the passed range
- * @param new minimum value
- * @param new maximum value
- */
 void GGen_Data_1D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 {
 	GGen_Script_Assert(new_max > new_min);
@@ -289,22 +230,11 @@ void GGen_Data_1D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 	}
 }
 
-/**
- * Change size of the array 
- * @param ratio in scale 100% = 1, 0.5 = 50%, 2.0 = 200%
- * @param scale_values - should the values be scaled too?
- */
 void GGen_Data_1D::Scale(double ratio, bool scale_values)
 {
 	this->ScaleTo((GGen_Coord) ((double) this->length * ratio), scale_values);
 }
 
-/*
- * Crops all indices outside given interval from the array. The border points will
- * remain in the area.
- * @param minimum index of the range
- * @param maximum index of the range
- */
 void GGen_Data_1D::ResizeCanvas(GGen_Size new_length, GGen_CoordOffset new_zero)
 {
 	/* Allocate the new array */
@@ -326,11 +256,6 @@ void GGen_Data_1D::ResizeCanvas(GGen_Size new_length, GGen_CoordOffset new_zero)
 	this->length = new_length;
 }
 
-/*
- * Clamps all values in the array to certain range
- * @param minimum value of the range
- * @param maximum value of the range
- */
 void GGen_Data_1D::Clamp(GGen_Height min, GGen_Height max)
 {
 	GGen_Script_Assert(max > min);
@@ -341,9 +266,6 @@ void GGen_Data_1D::Clamp(GGen_Height min, GGen_Height max)
 	}
 }
 
-/*
- * Inverts order of items in the array
- */
 void GGen_Data_1D::Flip()
 {
 	GGen_Height temp;
@@ -356,9 +278,6 @@ void GGen_Data_1D::Flip()
 	}
 }
 
-/*
- * Returns the lowest value in the array
- */
 GGen_Height GGen_Data_1D::Min()
 {
 	GGen_Height temp = GGEN_MAX_HEIGHT;
@@ -370,9 +289,6 @@ GGen_Height GGen_Data_1D::Min()
 	return temp;
 }
 
-/*
- * Returns the highest value in the array
- */
 GGen_Height GGen_Data_1D::Max()
 {
 	GGen_Height temp = GGEN_MIN_HEIGHT;
@@ -384,11 +300,6 @@ GGen_Height GGen_Data_1D::Max()
 	return temp;
 }
 
-/*
- * Shifts all indices in the array left (if the distance is < 0) or right (otherwise)
- * @param difference of original and shifted indices
- * @param shift mode
- */
 void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode)
 {
 	GGen_Script_Assert(distance < this->length && distance != 0 && distance > -this->length);
@@ -466,11 +377,6 @@ void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode)
 	}
 }
 
-/*
- * Unifies the data with data from the other array. The other array is scaled to fit the object.
- * Negative data are treated the same as positive - the higher value remains.
- * @param the victim
- */
 void GGen_Data_1D::Union(GGen_Data_1D* victim)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -478,11 +384,6 @@ void GGen_Data_1D::Union(GGen_Data_1D* victim)
 	}
 }
 
-/*
- * Unifies the data with data from the other array. The other array is scaled to fit the object.
- * Negative data are treated the same as positive - the higher value remains.
- * @param the victim
- */
 void GGen_Data_1D::Intersection(GGen_Data_1D* victim)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -499,11 +400,6 @@ void GGen_Data_1D::Abs()
 	}
 }
 
-/*
- * Reduces all data in the array to only two values. Values above treshold will be ones, values below
- * (treshold included) will be zeros.
- * @param treshold - maximum zero value
- */
 void GGen_Data_1D::Monochrome(GGen_Height treshold)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
@@ -511,9 +407,6 @@ void GGen_Data_1D::Monochrome(GGen_Height treshold)
 	}	
 }
 
-/*
- * Replaces the array  data with information about steepness of slopes at every point but borders
- */
 void GGen_Data_1D::SlopeMap()
 {
 	/* Allocate the new array */
@@ -535,10 +428,6 @@ void GGen_Data_1D::SlopeMap()
 	this->data = new_data;	
 }
 
-/*
- * Reduces all slopes in the array to max. 45 degrees (=1:1)
- * @param switch if the substract from or add values to too steep slopes
- */
 void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode)
 {
 	/* Additive mode */
@@ -578,14 +467,6 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode)
 	this->data[this->length-1] = this->data[this->length-2];
 }
 
-/**
- * Creates a smooth gradient of values
- * @param from - where should the gradient start
- * @param to - where should it end
- * @param from which value will the gradient start
- * @param to - maximum value
- * @param fill_flat - should be the areas outside the gradient area be filled with min/max values?
- */
 void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_flat)
 {
 	GGen_Script_Assert(from < this->length || to < this->length);
@@ -668,11 +549,6 @@ void GGen_Data_1D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 	delete [] new_data;
 }
 
-/*
- * Smooths the values using the linear blur algorithm.
- * @param radius from which are the values caulculated into the mean
- * @power weight of individual values. The current cell has always weight 1024
- */
 void GGen_Data_1D::Smooth(GGen_Distance radius)
 {
 	GGen_Script_Assert(radius > 0 && radius < this->length);
@@ -715,10 +591,6 @@ void GGen_Data_1D::Smooth(GGen_Distance radius)
 	this->data = new_data;
 }
 
-/*
- * Shifts the array values so given percentage of it is under zero (zero represents the water level).
- * @param percentage of the map to be flooded
- */
 void GGen_Data_1D::Flood(double water_amount)
 {
 	GGen_Script_Assert(water_amount < 1 && water_amount > 0);
