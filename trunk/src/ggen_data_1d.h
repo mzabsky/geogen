@@ -17,12 +17,15 @@
 
 */
 
-/** @file ggen_data_1d.h One dimensional data array. */
+/** @file ggen_data_1d.h GGen_Data_1D represents a simple 1D array of values. Though its simple nature, it can be used to create more complex 2D maps using methods like <a href="#2d_project">GGen_Data_2D::Project</a>, <a href="#2d_gradient">GGen_Data_2D::Gradient</a> or <a href="#2d_radialgradient">GGen_Data_2D::RadialGradient</a>. */
 
 #pragma once
 
 #include "ggen_amplitudes.h"
 
+/**
+ * GGen_Data_1D represents a simple 1D array of values. It can be used to create more complex 2D maps using methods like GGen_Data_2D::Project, GGen_Data_2D::Gradient or GGen_Data_2D::TransformValues.
+ */
 class GGen_Data_1D{
 	public:
 		GGen_Height* data;
@@ -66,8 +69,8 @@ class GGen_Data_1D{
 
 		/** 
 		 * Returns one value from the array.
-		 * @param tile coordinate
-		 * @return value in the tile
+		 * @param x Tile coordinate.
+		 * @return Value in the tile.
 		 **/
 		GGen_Height GetValue(GGen_Coord x);
 		
@@ -76,7 +79,7 @@ class GGen_Data_1D{
 		 * @param x Tile coordinate (in the interpolated array).
 		 * @param scale_to_length Interpolated array length.
 		 * @return Interpolated value in the tile.
-		 * @note If the interpolated size is larger than the original, the interpolated values will be calculated using the linear interpolation algorithm. Otherwise, the interpolated values will be chosen using the nearest neighbor algorithm.
+		 * @note If the interpolated size is larger than the original, interpolated values will be calculated using the linear interpolation algorithm. Otherwise, interpolated values will be chosen using the nearest neighbor algorithm.
 		 **/
 		GGen_Height GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_length);
 
@@ -185,7 +188,7 @@ class GGen_Data_1D{
 		void Flip();
 
 		/** 
-		 * Returns the mimimum of all values in the array.
+		 * Returns the minimum of all values in the array.
 		 * @return The minimum.
 		 **/
 		GGen_Height Min();
@@ -229,7 +232,7 @@ class GGen_Data_1D{
 		
 		/** 
 		 * Makes sure that there are no slopes steeper than 45° in the array. Steeper slopes will be dealt with according to mode.
-		 * @param made The normalization mode (see GGen_Normalization_Mode).
+		 * @param mode The normalization mode (see GGen_Normalization_Mode).
 		 **/
 		void Normalize(GGen_Normalization_Mode mode);
 
