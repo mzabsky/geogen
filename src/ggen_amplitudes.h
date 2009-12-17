@@ -23,16 +23,32 @@
 class GGen;
 extern GGen* ggen_current_object;
 
+/** 
+ * @file ggen_amplitudes.h GGen_Amplitudes is an object storing amplitude settings for GGen_Data_1D::Noise and GGen_Data_2D::Noise.
+ **/
+
+/**
+ * GGen_Amplitudes is an object storing amplitude settings for GGen_Data_1D::Noise and GGen_Data_2D::Noise.
+ **/
 class GGen_Amplitudes{
 public:
 	uint16* data;
 	uint16 length;
 
+	/**
+	 * Creates a new GGen_Amplitudes object.
+	 * @param max_feature_size The object will have space for amplitudes for wave lengths up to this number.
+	 **/
 	GGen_Amplitudes(uint16 max_feature_size);
 
 	~GGen_Amplitudes(){ 
 		//delete [] data; 
 	}
 
+	/**
+	 * Adds a new amplitude to the object.
+	 * @param feature_size Wave length this amplitude will be assigned to.
+	 * @param amplitude The amplitude value.
+	 **/
 	void AddAmplitude(uint16 feature_size, uint16 amplitude);
 };

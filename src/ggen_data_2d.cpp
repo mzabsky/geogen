@@ -28,12 +28,6 @@
 
 extern GGen* ggen_current_object;
 
-/** 
- * Creates a 2D data array and fills it with a constant value
- * @param width of the array
- * @param height of the array
- * @param value to be filled with
- */
 GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 {
 	GGen_Script_Assert(width > 1 && height > 1);
@@ -80,11 +74,6 @@ GGen_Index GGen_Data_2D::GetLength()
 	return this->length;
 }
 
-/** 
- * Reads and returns one value from the array
- * @param x coordinate of the value
- * @param y coordinate of the value
- */
 GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
 {
 	GGen_Script_Assert(x < this->width && y < this->height);
@@ -92,13 +81,6 @@ GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
 	return this->data[x + this->width * y];
 }
 
-/** 
- * Reads and returns one value from the array as if its size was scale_to_x * scale_to_y
- * @param x coordinate of the value
- * @param y coordinate of the value
- * @param target width
- * @param target height
- */
 GGen_Height GGen_Data_2D::GetValueInterpolated(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height)
 {
 	GGen_Script_Assert(y < scale_to_height && x < scale_to_width);
@@ -144,12 +126,6 @@ GGen_Height GGen_Data_2D::GetValueInterpolated(GGen_Coord x, GGen_Coord y, GGen_
 	}
 }
 
-/** 
- * Sets value on coordinate
- * @param x coordinate
- * @param y coordinate
- * @param value to use
- */
 void GGen_Data_2D::SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value)
 {
 	GGen_Script_Assert(x < this->width && y < this->height);
@@ -157,14 +133,6 @@ void GGen_Data_2D::SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value)
 	this->data[x + this->width * y] = value;
 }
 
-/** 
- * Sets value in rect defined by coordinates of its edges. All edges are included into the filled area.
- * @param x coordinate of the left edge
- * @param y coordinate of the top edge
- * @param x coordinate of the right edge
- * @param y coordinate of the bottom edge
- * @param value to use
- */
 void GGen_Data_2D::SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, GGen_Coord y2, GGen_Height value)
 {
 	GGen_Script_Assert(x2 < this->width && y2 < this->height);
@@ -178,12 +146,6 @@ void GGen_Data_2D::SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, G
 
 }
 
-/**
- * Change size of the array 
- * @param width of the new array
- * @param height of the new array
- * @param scale_values - should the values be scaled too?
- */
 void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale_values)
 {
 	GGen_Script_Assert(new_width > 1 && new_height > 1);
@@ -211,11 +173,6 @@ void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale
 	this->length = new_width * new_height;
 }
 
-/**
- * Scales the values so they all fit to the passed range
- * @param new minimum value
- * @param new maximum value
- */
 void GGen_Data_2D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 {
 	GGen_Script_Assert(new_max > new_min);
@@ -233,11 +190,6 @@ void GGen_Data_2D::ScaleValuesTo(GGen_Height new_min, GGen_Height new_max)
 	}
 }
 
-/**
- * Change size of the array 
- * @param ratio in scale 100% = 1, 0.5 = 50%, 2.0 = 200%
- * @param scale_values - should the values be scaled too?
- */
 void GGen_Data_2D::Scale(double ratio, bool scale_values)
 {
 	this->ScaleTo((GGen_Size) ((GGen_Size) (double) this->width * ratio), (GGen_Size) ((double) this->height * ratio), scale_values);
@@ -268,10 +220,6 @@ void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_
 	this->height = new_height;
 }
 
-/** 
- * Fills the array with value
- * @param value to be used
- */
 void GGen_Data_2D::Fill(GGen_Height value)
 {
 	for (GGen_Index i = 0; i < this->length; i++) {
@@ -279,10 +227,6 @@ void GGen_Data_2D::Fill(GGen_Height value)
 	}
 }
 
-/** 
- * Adds a flat value to each value in the array
- * @param value to be used
- */
 void GGen_Data_2D::Add(GGen_Height value)
 {
 	for (GGen_Index i = 0; i < this->length; i++) {
@@ -291,10 +235,6 @@ void GGen_Data_2D::Add(GGen_Height value)
 }
 
 
-/** 
- * Combines the array with second array by just adding them together
- * @param addend to be combined with
- */
 void GGen_Data_2D::AddMap(GGen_Data_2D* addend)
 {
 	/* Scale the addend as necessary */
@@ -316,12 +256,6 @@ void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace)
 	}
 }
 
-/*
- * Adds values from (unscaled) addend to the array
- * @param x offset of the addend coords
- * @param y offset of the addend coords
- * @param addend - the second array
- */
 void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
 {
 	/* Walk through the items where the array and the addend with offset intersect */
@@ -332,11 +266,6 @@ void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_C
 	}
 }
 
-/*
- * Combines values from the current array and the addend by adding them together.
- * The weight of data from the addend depends on values in the mask.
-
- */
 void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative)
 {
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
@@ -371,10 +300,6 @@ void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relativ
 	}
 }
 
-/** 
- * Multiplies all the values in the array by a flat number
- * @param value to be used
- */
 void GGen_Data_2D::Multiply(double factor)
 {
 	for (GGen_Index i = 0; i < this->length; i++) {
@@ -383,10 +308,6 @@ void GGen_Data_2D::Multiply(double factor)
 }
 
 
-/** 
- * Multiplies current array by the factor
- * @param factor to be combined with
- */
 void GGen_Data_2D::MultiplyMap(GGen_Data_2D* factor)
 {
 	/* Scale the factor as necessary */
@@ -397,10 +318,6 @@ void GGen_Data_2D::MultiplyMap(GGen_Data_2D* factor)
 	}
 }
 
-/** 
- * Multiplies all the values in the array by a flat number
- * @param value to be used
- */
 void GGen_Data_2D::Invert()
 {
 	for (GGen_Index i = 0; i < length; i++) {
@@ -409,9 +326,6 @@ void GGen_Data_2D::Invert()
 }
 
 
-/*
- * Returns the lowest value in the array
- */
 GGen_Height GGen_Data_2D::Min()
 {
 	GGen_Height temp = GGEN_MAX_HEIGHT;
@@ -423,9 +337,6 @@ GGen_Height GGen_Data_2D::Min()
 	return temp;
 }
 
-/*
- * Returns the highest value in the array
- */
 GGen_Height GGen_Data_2D::Max()
 {
 	GGen_Height temp = GGEN_MIN_HEIGHT;
@@ -437,11 +348,6 @@ GGen_Height GGen_Data_2D::Max()
 	return temp;
 }
 
-/*
- * Clamps all values in the array to certain range
- * @param minimum value of the range
- * @param maximum value of the range
- */
 void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max)
 {
 	GGen_Script_Assert(max > min);
@@ -455,11 +361,6 @@ void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max)
 	}
 }
 
-/*
- * Unifies the data with data from the other array. The other array is scaled to fit the object.
- * Negative data are treated the same as positive - the higher value remains.
- * @param the victim
- */
 void GGen_Data_2D::Union(GGen_Data_2D* victim)
 {
 	for (GGen_Coord y = 0; y < this->height; y++) {
@@ -479,11 +380,6 @@ void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen
 	}
 }
 
-/*
- * Unifies the data with data from the other array. The other array is scaled to fit the object.
- * Negative data are treated the same as positive - the higher value remains.
- * @param the victim
- */
 void GGen_Data_2D::Intersection(GGen_Data_2D* victim)
 {
 	for(GGen_Coord y = 0; y < this->height; y++) {
@@ -529,11 +425,6 @@ void GGen_Data_2D::Abs()
 	}
 }
 
-/*
- * Projects 1D array onto a 2D array
- * @param profile to be projected
- * @param direction of projection
- */
 void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction)
 {
 	if (direction == GGEN_HORIZONTAL) {
@@ -1372,12 +1263,7 @@ void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool pres
 	);
 }
  
- 
-/**
-  * Flips the heightmap 
-  * @param direction on which the heightmap will be flipped
-  */
-void GGen_Data_2D::Flip(GGen_Direction direction){
+ void GGen_Data_2D::Flip(GGen_Direction direction){
 	this->Transform(
 		direction == GGEN_HORIZONTAL ? 1 : -1, 
 		0,

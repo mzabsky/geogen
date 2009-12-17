@@ -224,6 +224,13 @@ class GGen_Data_2D{
 		 * @param victim The intersection map. This map will be scaled to match the original map.
 		 **/
 		void Intersection(GGen_Data_2D* victim);
+
+		/** 
+		 * Performs a set intersection of the map graphs (higher of two respective values is applied). The intersection map coordinates will be shifted by an offset.
+		 * @param victim The intersection map. This map will NOT be scaled to match the original map.
+		 * @param offset_x Coordinates of the intersection map will be shifted by this value along the X axis.
+		 * @param offset_y Coordinates of the intersection map will be shifted by this value along the Y axis.
+		 **/
 		void IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 
 		/** 
@@ -231,8 +238,30 @@ class GGen_Data_2D{
 		 * @param victim The union map. This map will be scaled to match the original map.
 		 **/
 		void Union(GGen_Data_2D* victim);
+
+		/** 
+		 * Performs a set union of the map graphs (higher of two respective values is applied). The union map coordinates will be shifted by an offset.
+		 * @param victim The union map. This map will NOT be scaled to match the original map.
+		 * @param offset_x Coordinates of the intersection map will be shifted by this value along the X axis.
+		 * @param offset_y Coordinates of the intersection map will be shifted by this value along the Y axis.
+		 **/
 		void UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
+
+		/** 
+		 * Combines the current map with another map according to corresponding values in mask.
+		 * @param victim The intersection map. This map will NOT be scaled to match the original map.
+		 * @param victim The second map. This map will be scaled to match the original map.
+		 * @param mask The mask used to determine value percentage from each map used. This map will NOT be scaled to match the original map.
+		 * @param relative Toggles relative mode.
+		 * @note 0 in the mask means the second map value will be used. In relative mode, maximum value (255 otherwise) found in the mask then means the current map value will be used. Other mask values will mean a combination of both map values (the higher the mask value, the more of the current array value will be used).
+		 **/
 		void Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative);
+
+		/**
+		 * Replaces all occurences of a value with a different value.
+		 * @param needle The replaced value.
+		 * @param replace The new value.
+		 **/
 		void ReplaceValue(GGen_Height needle, GGen_Height replace);
 		
 		/** 
@@ -240,8 +269,26 @@ class GGen_Data_2D{
 		 **/
 		void Abs();
 
+		/** 
+		 * Shifts all values in the array towards a direction by a corresponding value from profile.
+		 * @param profile The shift profile.
+		 * @param direction Direction towards which will the shiting be done.
+		 * @param mode The overflow mode (see GGen_Overflow_Mode).
+		 **/
 		void Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode);
+
+		/**
+		 * Extrudes one-dimensional profile towards a direction.
+		 * @param profile The profile to be projected.
+		 * @param direction The extrusion direction.
+		 **/
 		void Project(GGen_Data_1D* profile, GGen_Direction direction);
+
+		/**
+		 * Extracts a one-dimensional slice from the map. 
+		 * @param direction Determines if a row (GGEN_HORIZONTAL) or column will be extracted.
+		 * @param coordinate Coordinate of the row/column.
+		 **/
 		GGen_Data_1D* GetProfile(GGen_Direction direction, GGen_Coord coordinate);
 
 		/**
@@ -253,35 +300,119 @@ class GGen_Data_2D{
 		 * @param from_value The starting transition base.
 		 * @param to_value The ending transition base.
 		 * @param fill_outside Should the values outside gradient area be filled as well?
-		 * @note If fill_flat is set to true, values outside the gradient strip. Tiles closer to the starting point will be filled with from_value and tiles closer to the ending point will be filled with to_value.
+		 * @note If fill_flat is set to true, values outside the gradient strip will be filled with flat color. Tiles closer to the starting point will be filled with from_value and tiles closer to the ending point will be filled with to_value.
 		 **/
 		void Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside);
+
+		/**
+		 * Creates a smooth gradient between two coords. The values will be picked from the gradient profile according to the point's position on the gradient.
+		 * @param from_x The starting point X coordinate.
+		 * @param from_y The starting point Y coordinate.
+		 * @param to_x The ending point X coordinate.
+		 * @param to_y The starting point Y coordinate.
+		 * @param profile The gradient profile.
+		 * @param fill_outside Should the values outside gradient area be filled as well?
+		 * @note If fill_flat is set to true, values outside the gradient strip will be filled with flat color. Tiles closer to the starting point will be filled with the left-most value from the profile and tiles closer to the ending point will be filled with the right-most value from the profile.
+		 **/
 		void GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside);
+		
+		/**
+		 * Creates a radial gradient. The values will make a smooth transition between the center and the outer rim.
+		 * @param center_x X coordinate of the gradient center.
+		 * @param center_y Y coordinate of the gradient center.
+		 * @param radius The gradient radius.
+		 * @param from_value Value in the center.
+		 * @param to_value Value on the outer rim.
+		 * @param fill_outside Should the values outside gradient area be filled as well?
+		 * @note If fill_flat is set to true, values beyon the outer rim will be filled with to_value.
+		 **/
 		void RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside);
+		
+		/**
+		 * Creates a radial gradient. The values will be picked from the gradient profile according to the point's position on the gradient.
+		 * @param center_x X coordinate of the gradient center.
+		 * @param center_y Y coordinate of the gradient center.
+		 * @param radius The gradient radius.
+		 * @param profile The gradient profile.
+		 * @param fill_outside Should the values outside gradient area be filled as well?
+		 * @note If fill_flat is set to true, values beyon the outer rim will be filled with the right-most value from the profile.
+		 **/
 		void RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside);
+		
+		/**
+		 * Fills the array with random perlin noise (http://freespace.virgin.net/hugo.elias/models/m_perlin.htm).
+		 * @param min_feature_size Minimum wave length for amplitude to be used.
+		 * @param max_feature_size Maximum wave length for amplitude to be used.
+		 * @param amplitudes GGen_Amplitudes object.
+		 * @note Resulting computational complexity increases with number of amplitudes used.
+		 **/
 		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes);
+
+		/**
+		 * Fills the array with random voronoi noise.
+		 * @param cell_size Size of one cell (cells are considered to be squares).
+		 * @param points_per_cell Number of points randomly placed in each cell.
+		 * @param mode The noise mode (see GGen_Voronoi_Noise_Mode).
+		 * @note Computational complexity steeply rises with points_per_cell.
+		 * @note Ratio of the points_per_cell and cell_size determines randomness and density of the noise.
+		 **/
 		void VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode);
+
+		/**
+		 * Blurs the map in one direction. Uses linear smoothing algorithm.
+		 * @param radius The smoothing kernel radius.
+		 */
 		void SmoothDirection(GGen_Distance radius, GGen_Direction direction);
+		
+		/**
+		 * Blurs the map. Uses linear smoothing algorithm.
+		 * @param radius The smoothing kernel radius.
+		 */
 		void Smooth(GGen_Distance radius);
 		
 		/**
-		 * Changes the values so goven percentage of values is higher than 0.
+		 * Changes the values so given percentage of values is higher than 0.
 		 * @param land_amount The percentage of values to be higher than 0. 0 means no "land", 1.0 means no "water".
 		 **/
 		void Flood(double water_amount);
+
+		/** 
+		 * Fills the current map with repeating pattern.
+		 * @param pattern The pattern.
+		 **/
 		void Pattern(GGen_Data_2D* pattern);
 
 		/** 
 		 * Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.
 		 **/
 		void Monochrome(GGen_Height treshold);
+
+		/**
+		 * Replaces all occurrences of a value with 1, all other values will be replaced with 0. 
+		 * @param value The selected value.
+		 **/
 		void SelectValue(GGen_Height value);
 		
 		/**
 		 * Replaces values in the array with information about steepness of slope (change in value) in that particular value.
 		 **/
 		void SlopeMap();
+
+		/** 
+		 * Replaces each value with 1 with a probability defined by its value, all other values will be replaced with 1.
+		 * @param relative Toggles relative mode.
+		 * @note Value 0 means 0% probability to create a 1. In relative mode, maximum value (255 otherwise) found in the map then means 100% probability to create a 1.
+		 **/
 		void Scatter(bool relative);
+
+		/**
+		 * Replaces each value with a corresponding value from profile. Coordinate of the corresponding value is determined by the original value - the higher the value, the higher the coordinate in profile is. 
+		 * @param profile The transformation profile.
+		 * @param relative Toggles relative mode.
+		 * @note Only values higher than zero are affected. 
+		 * @note If relative is false, then maximum value corresponds to the rightmost coordinate (0 always corresponds to 0), else the values are used in range 0-255 only.
+		 * @note The input profile will be internally smoothed to prevent sharp steps on the transformed terrain.
+		 **/
 		void TransformValues(GGen_Data_1D* profile, bool relative);
 		
 		/** 
@@ -297,13 +428,44 @@ class GGen_Data_2D{
 		 **/
 		void NormalizeDirection(GGen_Direction direction, GGen_Normalization_Mode mode);
 		
-		/* Matrix operations */
+		/** 
+		 * Applies a linear transformation matrix onto the map.
+		 * @param a11 Matrix element (1,1).
+		 * @param a12 Matrix element (1,2).
+		 * @param a21 Matrix element (2,1).
+		 * @param a22 Matrix element (2,2).
+		 * @pre The matrix must be invertible (a11 * a22 - a12 * a21 != 0).
+		 * @param preserve_size If set to true, the result will be cropped/expandeds to match its original boundaries.
+		 * @note Do not use this function to scale the map, it uses a low-quality nearest neighbor interpolation.
+		 **/
 		void Transform(double a11, double a12, double a21, double a22, bool preserve_size);
+
+		/** 
+		 * Rotates the map by an angle counter-clockwise.
+		 * @param angle The angle in degrees.
+		 * @param preserve_size If set to true, the result will be cropped to match its original boundaries.
+		 **/
 		void Rotate(int32 angle, bool preserve_size);
+		
+		/** 
+		 * Shears the map vertically and/or horizontally.
+		 * @param horizontal_shear Horizontal shear factor (0 means no horizontal shearing).
+		 * @param vertical_shear Horizontal shear factor (1 means no horizontal shearing).
+		 * @param preserve_size If set to true, the result will be cropped to match its original boundaries.
+		 * @pre horizontal_shear != 1 or vertical_shear != 1.
+		 **/
 		void Shear(int32 horizontal_shear, int32 vertical_shear, bool preserve_size);
+
+		/** 
+		 * Flips the map along one coordinate axis.
+		 * @param direction The axis, along which the map will be flipped.
+		 **/
 		void Flip(GGen_Direction direction);
 
-		/* External communication functions */
+		/** 
+		 * Calls the API return handler.
+		 * @param label Label identifying the returned map.
+		 **/
 		void ReturnAs(const SqPlus::sq_std_string &name);
 };
 
