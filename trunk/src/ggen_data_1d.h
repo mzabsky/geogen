@@ -17,7 +17,9 @@
 
 */
 
-/** @file ggen_data_1d.h GGen_Data_1D represents a simple 1D array of values. Though its simple nature, it can be used to create more complex 2D maps using methods like <a href="#2d_project">GGen_Data_2D::Project</a>, <a href="#2d_gradient">GGen_Data_2D::Gradient</a> or <a href="#2d_radialgradient">GGen_Data_2D::RadialGradient</a>. */
+/** 
+ * @file ggen_data_1d.h GGen_Data_1D represents a simple 1D array of values. It can be used to create more complex 2D maps using methods like GGen_Data_2D::Project, GGen_Data_2D::Gradient or GGen_Data_2D::TransformValues.
+ **/
 
 #pragma once
 
@@ -25,7 +27,7 @@
 
 /**
  * GGen_Data_1D represents a simple 1D array of values. It can be used to create more complex 2D maps using methods like GGen_Data_2D::Project, GGen_Data_2D::Gradient or GGen_Data_2D::TransformValues.
- */
+ **/
 class GGen_Data_1D{
 	public:
 		GGen_Height* data;
@@ -268,7 +270,7 @@ class GGen_Data_1D{
 		void Smooth(GGen_Distance radius);
 
 		/**
-		 * Changes the values so goven percentage of values is higher than 0.
+		 * Changes the values so given percentage of values is higher than 0.
 		 * @param land_amount The percentage of values to be higher than 0. 0 means no "land", 1.0 means no "water".
 		 **/
 		void Flood(double land_amount);

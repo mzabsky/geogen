@@ -23,6 +23,10 @@
 #include "math.h"
 #include "sqplus.h"
 
+/** 
+ * @file ggen_support.h File containing basic typedefs and enums used in rest of the GeoGen.
+ **/
+
 // hide stupid "sprintf is deprecated function, use our better alternative" MSVS warnings
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -71,20 +75,29 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 	throw SquirrelError(); \
 }}
 
+/**
+ * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) definin behavior for too steep slopes.
+ */
 enum GGen_Normalization_Mode{
-	GGEN_ADDITIVE,
-	GGEN_SUBSTRACTIVE
+	GGEN_ADDITIVE, //!< Too steep slopes will be neutralized by increasing the values (going from the hill-top).
+	GGEN_SUBSTRACTIVE //!< Too steep slopes will be neutralized by decreasing the values (going from the bottom).
 };
 
+/**
+ * Overflow mode (for GGen_Data_1D::Shift and GGen_Data_2D::Shift) defining behavior for values, which would be shifted outside the array and for values which would be shifted from outside in.
+ */
 enum GGen_Overflow_Mode{
-	GGEN_CYCLE,
-	GGEN_DISCARD,
-	GGEN_DISCARD_AND_FILL
+	GGEN_CYCLE, //!< Values will be cycled through the boundary (disappearing values will appear on the opposite side).
+	GGEN_DISCARD,  //!< Disappearing values will be discarded, newly appearing values will be set to 0.
+	GGEN_DISCARD_AND_FILL  //!< Disappearing values will be discarded, newly appearing values will be set to the closest valid value (along the shift axis).
 };
 
+/**
+ * 2D axial directions.
+ */
 enum GGen_Direction{
-	GGEN_HORIZONTAL,
-	GGEN_VERTICAL,
+	GGEN_HORIZONTAL, //!< The operation will be done along the horizontal (X) axis.
+	GGEN_VERTICAL, //!< The operation will be done along the vertical (Y) axis.
 };
 
 enum GGen_Message_Level{
@@ -94,15 +107,21 @@ enum GGen_Message_Level{
 	GGEN_ERROR = 3
 };
 
+/**
+ * Script argument type.
+ */
 enum GGen_Arg_Type{
-	GGEN_BOOL,
-	GGEN_INT,
-	GGEN_ENUM
+	GGEN_BOOL, //!< Boolean value (yes/no) represented as integer from 0 to 1.
+	GGEN_INT, //!< Integer in given range.
+	GGEN_ENUM //!< Enumerated value (exactly one of listed values) represented as integer from 0 to (option count - 1).
 };
 
+/**
+ * Voronoi noise type.
+ */
 enum GGen_Voronoi_Noise_Mode{
-	GGEN_RIDGES,
-	GGEN_BUBBLES
+	GGEN_RIDGES, //!< The resulting noise will have appearance of an array of crystals. 
+	GGEN_BUBBLES //!< The resulting noise will have appearance of negative of an array of spherical bubbles.
 };
 
 template <class T>
