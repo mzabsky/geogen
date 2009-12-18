@@ -356,7 +356,7 @@ class GGen_Data_2D{
 		 * @note Computational complexity steeply rises with points_per_cell.
 		 * @note Ratio of the points_per_cell and cell_size determines randomness and density of the noise.
 		 **/
-		void VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode);
+		void VoronoiNoise(GGen_Size cell_size, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode);
 
 		/**
 		 * Blurs the map in one direction. Uses linear smoothing algorithm.

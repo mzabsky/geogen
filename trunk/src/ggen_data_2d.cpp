@@ -733,9 +733,9 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 } 
 
 // NOT REALLY FINISHED!! NEEDS A LOT OF POLISH!!!
-void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode)
+void GGen_Data_2D::VoronoiNoise(GGen_Size cell_size, uint8 points_per_cell, GGen_Voronoi_Noise_Mode mode)
 {
-	GGen_Script_Assert(num_cells >= 1 && num_cells < width / 4);
+	GGen_Script_Assert(cell_size > 2);
 	GGen_Script_Assert(points_per_cell >= 1);
 
 	#define VORONOINOISE_GET_POINT(x, y, i) points[i + (x) * points_per_cell + (y) * num_cells_x * points_per_cell]
@@ -744,20 +744,58 @@ void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Vo
 		GGen_Coord x, y;
 	};
 	
-	int num_cells_x = num_cells;
-	int num_cells_y = num_cells;
-	int cell_width = width / num_cells_x;
-	int cell_height = height / num_cells_y;
+	uint16 num_cells_x = (uint16) ceil((double) this->width / (double) cell_size);
+	uint16 num_cells_y = (uint16) ceil((double) this->width / (double) cell_size);
+	int cell_width = cell_size;
+	int cell_height = cell_size;
+	
 	GGen_ExtExtHeight max_dist = 2 * cell_width * cell_width + cell_height * cell_height;
 	
+	uint16 num_points_current_cell = 1;
+
+	GGen_Size overlap_x;
+	GGen_Size overlap_y;
+	if (this->width % cell_size == 0) {
+		num_cells_x++;
+		overlap_x = cell_size / 2;
+		
+	} else {
+		overlap_x = (this->width % cell_size) / 2;
+		num_cells_x++;
+	}
+
+	if (this->height % cell_size == 0) {
+		num_cells_y++;
+		overlap_y = cell_size / 2;
+	} else {
+		overlap_y = (this->height % cell_size) / 2;
+		num_cells_y++;
+	}
+
 	Point* points = new Point[num_cells_x * num_cells_y * points_per_cell];
 	
+	//Point points[100];
+
 	/* Distribute the points into cells */
 	for (int y = 0; y < num_cells_y; y++) {
 		for (int x = 0; x < num_cells_x; x++) {
 			for (int i = 0; i < points_per_cell; i++) {
-				VORONOINOISE_GET_POINT(x, y, i).x = x * cell_width + GGen_Random<int>(0, width / num_cells_x);
-				VORONOINOISE_GET_POINT(x, y, i).y = y * cell_height + GGen_Random<int>(0, height / num_cells_y);
+				if (x == 0) {
+					VORONOINOISE_GET_POINT(x, y, i).x = GGen_Random<int>(0, overlap_x);
+				} else if (x < num_cells_x - 1) {
+					VORONOINOISE_GET_POINT(x, y, i).x = overlap_x + (x - 1) * cell_width + GGen_Random<int>(0, cell_width);
+				} else {
+					VORONOINOISE_GET_POINT(x, y, i).x = overlap_x + (x - 1) * cell_width + GGen_Random<int>(0, overlap_x);
+				}
+
+				if (y == 0) {
+					VORONOINOISE_GET_POINT(x, y, i).y = GGen_Random<int>(0, overlap_y);
+				} else if (y < num_cells_y - 1) {
+					VORONOINOISE_GET_POINT(x, y, i).y = overlap_y + (y - 1) * cell_height + GGen_Random<int>(0, cell_height);
+				} else {
+					VORONOINOISE_GET_POINT(x, y, i).y = overlap_y + (y - 1) * cell_height + GGen_Random<int>(0, overlap_y);
+				}
+
 			}	
 		}
 	}
@@ -775,7 +813,23 @@ void GGen_Data_2D::VoronoiNoise(uint16 num_cells, uint8 points_per_cell, GGen_Vo
 			/* Coordinates in the cell grid */
 			GGen_Coord cell_x = x / cell_width;
 			GGen_Coord cell_y = y / cell_height;
+
+			if (x < overlap_x) {
+				cell_x = 0;
+			} else if (x < this->width - overlap_x) {
+				cell_x = 1 + ((x - overlap_x) / cell_width);
+			} else {
+				cell_x = num_cells_x - 1;
+			}
 		
+			if (y < overlap_y) {
+				cell_y = 0;
+			} else if (y < this->height - overlap_y) {
+				cell_y = 1 + ((y - overlap_y) / cell_height);
+			} else {
+				cell_y = num_cells_y - 1;
+			}
+
 			/* Distances to the nearest and second nearest point */
 			GGen_ExtExtHeight current_min_dist = max_dist - 1;
 			GGen_ExtExtHeight current_second_min_dist = max_dist - 1;
