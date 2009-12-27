@@ -43,6 +43,10 @@ using namespace std;
 #include "EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
+enum TestT{
+	C = -1
+};
+
 
 struct OutputFormat{
 	string suffix;
@@ -449,7 +453,7 @@ int main(int argc,char * argv[]){
 				case GGEN_ENUM : type = 'E'; break;
 			}
 			
-			cout << a->label << ";" <<  a->description << ";" << type << ";" << ";" << a->min_value << ";" << a->max_value << ";" << a->step_size << ";" << a->num_options << ";";
+			cout << a->label << ";" <<  a->description << ";" << type << ";" << a->default_value << ";" << a->min_value << ";" << a->max_value << ";" << a->step_size << ";" << a->num_options << ";";
 		
 			if(a->type == GGEN_ENUM){
 				for(int j = 0; j < a->num_options; j++){
