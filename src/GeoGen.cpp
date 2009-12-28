@@ -428,7 +428,12 @@ int main(int argc,char * argv[]){
 	cout << "Loading map info...\n" << flush;
 
 	// fetch the list of arguments from the script file
-	ggen->LoadArgs();
+	if(ggen->LoadArgs() == NULL){
+		cout << "Coould not retrieve map information!\n" << flush;
+		delete ggen;
+		if(_params.stupid_mode) system("pause");
+		return -1;		
+	}
 
 	// make sure the random seed is prepared
 	if(_params.random_seed == -1){
