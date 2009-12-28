@@ -58,7 +58,7 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	local valley = GGen_Data_2D(width, height);
+	local valley = GGen_Data_2D(width, height, 0);
 	valley.Project(profile_valley, GGEN_HORIZONTAL);
 
 	// combine the two profiles
@@ -67,7 +67,7 @@ function Generate(){
 	GGen_IncreaseProgress();
 
 	// create some meandres on the river using the shift with random noise profile
-	local profile_shift = GGen_Data_1D(800);
+	local profile_shift = GGen_Data_1D(800, 0);
 	profile_shift.Noise(64 < width / 10 ? 64 : width / 10, height / 8, GGEN_STD_NOISE);
 	profile_shift.ScaleValuesTo(-width / 11, width / 11);
 	
@@ -86,7 +86,7 @@ function Generate(){
 	GGen_IncreaseProgress();
 
 	// noise overlay
-	local noise = GGen_Data_2D(width, height);
+	local noise = GGen_Data_2D(width, height, 0);
 	noise.Noise(smoothness, width > height ? height / (18 - 4 * feature_size) : width / (18 - 4 * feature_size), GGEN_STD_NOISE);
 	
 	GGen_IncreaseProgress();
@@ -94,16 +94,16 @@ function Generate(){
 	noise.ScaleValuesTo(-1400, 1400);
 	
 	valley.ScaleValuesTo(20, 255);
-	
-	base.AddMasked(noise, valley, false);
-	
+
+	base.AddMapMasked(noise, valley, false);
+
 	GGen_IncreaseProgress();
 	
 	// balance the water level so the valley is just filled with water
 	local max = 0;
 	local now = 0;
 	for(local i = 0; i < width; i++){
-		now = base.GetValue(i, height / 2 + profile_shift.GetValue(i, width));
+		now = base.GetValue(i, height / 2 + profile_shift.GetValueInterpolated(i, width));
 		if(now > max) max = now;
 	}
 	
