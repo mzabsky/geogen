@@ -18,7 +18,9 @@ function Generate(){
 
 	local base = GGen_Data_2D(width, height, 0);
 
-	base.VoronoiNoise(8, 1, GGEN_BUBBLES);
+	base.VoronoiNoise(90, 1, GGEN_BUBBLES);
+	
+	return base;
 	
 	//base.Smooth(width / 50);
 	
