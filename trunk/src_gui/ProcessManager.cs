@@ -120,16 +120,16 @@ namespace GeoGen_Studio
             string outPath;
 
             // calculate absolute paths (geogen is not interested in paths relative to this executable nor path with a thousand /../ in th middle)
-            System.IO.DirectoryInfo inPathInfo = new System.IO.DirectoryInfo(config.geoGenWorkingDirectory + "/" + config.scriptTempFile);
+            System.IO.DirectoryInfo inPathInfo = new System.IO.DirectoryInfo(config.GeoGenWorkingDirectory + "/" + config.ScriptTempFile);
             inPath = inPathInfo.FullName;
 
-            System.IO.DirectoryInfo outPathInfo = new System.IO.DirectoryInfo(config.geoGenWorkingDirectory + "/" + config.mainMapOutputFile);
+            System.IO.DirectoryInfo outPathInfo = new System.IO.DirectoryInfo(config.GeoGenWorkingDirectory + "/" + config.MainMapOutputFile);
             outPath = outPathInfo.FullName;
 
             if(!verificationOnly) this.Prepare();
 
             // write the temporary script file
-            System.IO.File.WriteAllText(config.geoGenWorkingDirectory + "/" + config.scriptTempFile, script);
+            System.IO.File.WriteAllText(config.GeoGenWorkingDirectory + "/" + config.ScriptTempFile, script);
 
             string params_str;
 
@@ -147,12 +147,12 @@ namespace GeoGen_Studio
             }
 
             this.process = new System.Diagnostics.Process();
-            this.process.StartInfo.FileName = config.geoGenPath;
+            this.process.StartInfo.FileName = config.GeoGenPath;
             this.process.StartInfo.RedirectStandardOutput = true;
             this.process.StartInfo.RedirectStandardError = true;
             this.process.StartInfo.UseShellExecute = false;
             this.process.StartInfo.CreateNoWindow = true;
-            this.process.StartInfo.WorkingDirectory = config.geoGenWorkingDirectory + "/";
+            this.process.StartInfo.WorkingDirectory = config.GeoGenWorkingDirectory + "/";
             this.process.StartInfo.Arguments = " -i \"" + inPath + "\" -o \"" + outPath + "\" " + params_str;
             this.process.EnableRaisingEvents = true;
 

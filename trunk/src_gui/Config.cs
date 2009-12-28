@@ -1,33 +1,112 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace GeoGen_Studio
 {
     public class Config
     {
-		public string templateFile;
-        public bool openLastFileOnStartup;
-        public string lastFile;
-        public string scintillaDefinitonsFile;
 
-		/* Execution settings */
-        public string parameters;
-        public bool goToOutputViewAfterExec;
-        public string geoGenPath;
-        public string geoGenWorkingDirectory;
-        public string scriptTempFile;
-        public string mainMapOutputFile;
-		
-		/* Output Viewer settings */
-        public bool enableBitmapPreloading;
-        public string overlayDirectory;
-        public bool enableOverlayPreloading;
+        private string templateFile;
+        private bool openLastFileOnStartup;
+        private string lastFile;
+        private string scintillaDefinitonsFile;
+        private string parameters;
+        private bool goToOutputViewAfterExec;
+        private string geoGenPath;
+        private string mainMapOutputFile;
+        private string scriptTempFile;
+        private string geoGenWorkingDirectory;
+        private string overlayDirectory;
+        private string documentationPath;
 
-		/* Documentation Viewer settings */
-        public string documentationPath;
-		
 		/* Window layout settings */
         public int mainSplitter;
         public bool sidebarOrientation;
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
+        public string TemplateFile
+        {
+            get { return templateFile; }
+            set { templateFile = value; }
+        }
+
+        [CategoryAttribute("Startup"), DescriptionAttribute("Should the last opened file be opened when starting the application?"), DefaultValue(false)]
+        public bool OpenLastFileOnStartup
+        {
+            get { return openLastFileOnStartup; }
+            set { openLastFileOnStartup = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path to the last opened file."), DefaultValue("")]
+        public string LastFile
+        {
+            get { return lastFile; }
+            set { lastFile = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path to the XML file with syntax highlighting and autocompletion definitions."), DefaultValue("../config/scintilla.xml")]
+        public string ScintillaDefinitonsFile
+        {
+            get { return scintillaDefinitonsFile; }
+            set { scintillaDefinitonsFile = value; }
+        }
+
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("Last used parameter string."), DefaultValue("")]
+        public string Parameters
+        {
+            get { return parameters; }
+            set { parameters = value; }
+        }
+
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("Should the program swith to Output tab once the script is finished?"), DefaultValue(true)]
+        public bool GoToOutputViewAfterExec
+        {
+            get { return goToOutputViewAfterExec; }
+            set { goToOutputViewAfterExec = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path to a compatible GeoGen executable."), DefaultValue("../bin/geogen.exe")]
+        public string GeoGenPath
+        {
+            get { return geoGenPath; }
+            set { geoGenPath = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Base directory for all GeoGen temporary files."), DefaultValue("../temp/studio_maps/temp")]
+        public string GeoGenWorkingDirectory
+        {
+            get { return geoGenWorkingDirectory; }
+            set { geoGenWorkingDirectory = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path where temporary script will be saved, relative to GeoGenWorkingDirectory."), DefaultValue("../../studio_temp.nut")]
+        public string ScriptTempFile
+        {
+            get { return scriptTempFile; }
+            set { scriptTempFile = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path where main output map will be saved, relative to GeoGenWorkingDirectory."), DefaultValue("../main.bmp")]
+        public string MainMapOutputFile
+        {
+            get { return mainMapOutputFile; }
+            set { mainMapOutputFile = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Directory where overlays are stored."), DefaultValue("../overlays")]
+        public string OverlayDirectory
+        {
+            get { return overlayDirectory; }
+            set { overlayDirectory = value; }
+        }
+
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path to main documentation file."), DefaultValue("../documentation.html")]
+        public string DocumentationPath
+        {
+            get { return documentationPath; }
+            set { documentationPath = value; }
+        }
+		
         
         public Config()
 	    {
@@ -70,11 +149,11 @@ namespace GeoGen_Studio
             /* Basic settings */
             templateFile = "./../examples/template.nut";
             openLastFileOnStartup = false;
-            lastFile = "../examples";
+            lastFile = "";
             scintillaDefinitonsFile = "../config/scintilla.xml";
 
             /* Execution settings */
-            parameters = "2000 2000";
+            parameters = "";
             goToOutputViewAfterExec = true;
             geoGenPath = "../bin/geogen.exe";
             geoGenWorkingDirectory = "../temp/studio_maps/temp";
@@ -83,8 +162,6 @@ namespace GeoGen_Studio
 
             /* Output Viewer settings */
             overlayDirectory = "../overlays";
-            enableBitmapPreloading = true;
-            enableOverlayPreloading = true;
 
             /* Documentation Viewer settings */
             documentationPath = "../documentation.html";
