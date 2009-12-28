@@ -28,6 +28,7 @@ namespace GeoGen_Studio
         private bool scrollOutput;
         int outputLastMouseX;
         int outputLastMouseY;
+        Output3D output3d;
 
         // MSVS generated stuff
         public Main()
@@ -66,6 +67,12 @@ namespace GeoGen_Studio
             this.parameters.SelectedObject = parameters.Item;
 
             this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
+
+            this.output3d = new Output3D();
+
+            this.wpfHost.Child = this.output3d;
+
+
         }
 
         // this app's GetInstance()
@@ -92,6 +99,11 @@ namespace GeoGen_Studio
         public string GetScript()
         {
             return this.editor.Text;
+        }
+
+        public Output3D GetOutput3D()
+        {
+            return this.output3d;
         }
 
         // try to terminate the application
@@ -557,6 +569,11 @@ namespace GeoGen_Studio
         {
             Settings settings = new Settings();
             settings.ShowDialog();
+        }
+
+        private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
+        {
+
         }
 
           

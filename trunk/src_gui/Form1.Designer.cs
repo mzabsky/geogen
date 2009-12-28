@@ -117,6 +117,7 @@
             this.overlays = new System.Windows.Forms.ToolStripComboBox();
             this.toggleOverlay = new System.Windows.Forms.ToolStripButton();
             this.refreshOverlays = new System.Windows.Forms.ToolStripButton();
+            this.output3dTab = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.consoleLarge = new System.Windows.Forms.TextBox();
             this.sidebarSplitContainer = new System.Windows.Forms.SplitContainer();
@@ -125,6 +126,9 @@
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.wpfHost = new System.Windows.Forms.Integration.ElementHost();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -139,10 +143,12 @@
             this.outputContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.output)).BeginInit();
             this.outputToolStrip.SuspendLayout();
+            this.output3dTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.sidebarSplitContainer.Panel1.SuspendLayout();
             this.sidebarSplitContainer.Panel2.SuspendLayout();
             this.sidebarSplitContainer.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // codeTab
@@ -839,6 +845,7 @@
             // 
             this.tabs.Controls.Add(codeTab);
             this.tabs.Controls.Add(this.outputTab);
+            this.tabs.Controls.Add(this.output3dTab);
             this.tabs.Controls.Add(this.tabPage1);
             this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabs.Location = new System.Drawing.Point(0, 0);
@@ -986,6 +993,18 @@
             this.refreshOverlays.ToolTipText = "Refresh the list of available overlays";
             this.refreshOverlays.Click += new System.EventHandler(this.refreshOverlays_Click);
             // 
+            // output3dTab
+            // 
+            this.output3dTab.Controls.Add(this.panel1);
+            this.output3dTab.Controls.Add(this.toolStrip1);
+            this.output3dTab.Location = new System.Drawing.Point(4, 22);
+            this.output3dTab.Name = "output3dTab";
+            this.output3dTab.Padding = new System.Windows.Forms.Padding(3);
+            this.output3dTab.Size = new System.Drawing.Size(910, 541);
+            this.output3dTab.TabIndex = 3;
+            this.output3dTab.Text = "Output (3D)";
+            this.output3dTab.UseVisualStyleBackColor = true;
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.consoleLarge);
@@ -1104,6 +1123,36 @@
             this.saveOutputDialog.DefaultExt = "png";
             this.saveOutputDialog.Filter = "PNG Images|*.png|All files|*.*";
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(904, 25);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.wpfHost);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 28);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(904, 510);
+            this.panel1.TabIndex = 3;
+            // 
+            // wpfHost
+            // 
+            this.wpfHost.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("wpfHost.BackgroundImage")));
+            this.wpfHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wpfHost.Location = new System.Drawing.Point(0, 0);
+            this.wpfHost.Name = "wpfHost";
+            this.wpfHost.Size = new System.Drawing.Size(900, 506);
+            this.wpfHost.TabIndex = 0;
+            this.wpfHost.Text = "wpfHost";
+            this.wpfHost.Child = null;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1139,12 +1188,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.output)).EndInit();
             this.outputToolStrip.ResumeLayout(false);
             this.outputToolStrip.PerformLayout();
+            this.output3dTab.ResumeLayout(false);
+            this.output3dTab.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.sidebarSplitContainer.Panel1.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.PerformLayout();
             this.sidebarSplitContainer.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1246,6 +1298,10 @@
         public PropertyGridEx.PropertyGridEx parameters;
         public System.Windows.Forms.SaveFileDialog saveOutputDialog;
         private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
+        private System.Windows.Forms.TabPage output3dTab;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Integration.ElementHost wpfHost;
+        private System.Windows.Forms.ToolStrip toolStrip1;
     }
 }
 
