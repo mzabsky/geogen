@@ -212,6 +212,7 @@ namespace GeoGen_Studio
 
         public void ProcessFinished(){
             Main main = Main.Get();
+            Config config = main.GetConfig();
 
             // was this part of a benchmark?
             if (benchmarkStatus != null)
@@ -225,6 +226,8 @@ namespace GeoGen_Studio
 
             if (process.ExitCode == 0)
             {
+                //main.GetOutput3D().SetTerrain(config.GeoGenWorkingDirectory + "/" + config.MainMapOutputFile);
+
                 // let the output manager load the outputs
                 main.GetOutputManager().CaptureOutputs();
             }
