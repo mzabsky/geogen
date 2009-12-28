@@ -64,6 +64,8 @@ namespace GeoGen_Studio
             this.scrollOutput = false;
 
             this.parameters.SelectedObject = parameters.Item;
+
+            this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
         }
 
         // this app's GetInstance()
@@ -218,7 +220,7 @@ namespace GeoGen_Studio
 
             try
             {
-                this.editor.Text = System.IO.File.ReadAllText(this.config.templateFile);
+                this.editor.Text = System.IO.File.ReadAllText(this.config.TemplateFile);
             }
             catch (System.Exception)
             {
@@ -549,6 +551,12 @@ namespace GeoGen_Studio
         {
             About about = new About();
             about.ShowDialog();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.ShowDialog();
         }
 
           

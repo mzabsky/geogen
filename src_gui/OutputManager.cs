@@ -51,10 +51,10 @@ namespace GeoGen_Studio
             // make sure the intermediate data saved on the hard drive are gone as well
             try
             {
-                System.IO.File.Delete(config.geoGenWorkingDirectory + "/" + config.mainMapOutputFile);
-                if (System.IO.Directory.Exists(config.geoGenWorkingDirectory))
+                System.IO.File.Delete(config.GeoGenWorkingDirectory + "/" + config.MainMapOutputFile);
+                if (System.IO.Directory.Exists(config.GeoGenWorkingDirectory))
                 {
-                    System.IO.Directory.Delete(config.geoGenWorkingDirectory, true);
+                    System.IO.Directory.Delete(config.GeoGenWorkingDirectory, true);
                 }
             }
             // do no bug if some of the stuff being deleted is not present
@@ -62,7 +62,7 @@ namespace GeoGen_Studio
             catch (System.IO.FileNotFoundException) { };
 
             // recreate the directory
-            System.IO.Directory.CreateDirectory(config.geoGenWorkingDirectory);
+            System.IO.Directory.CreateDirectory(config.GeoGenWorkingDirectory);
         }
 
         public void CaptureOutputs()
@@ -72,7 +72,7 @@ namespace GeoGen_Studio
 
             main.OutputButtonsOn();
 
-            string[] paths = System.IO.Directory.GetFiles(config.geoGenWorkingDirectory, "*.bmp");
+            string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.bmp");
 
             main.outputs.Items.Add("[Main]");
             main.outputs.SelectedIndex = 0;
@@ -94,7 +94,7 @@ namespace GeoGen_Studio
             main.output.Left = 0;
             main.output.Top = 0;
 
-            if (config.goToOutputViewAfterExec)
+            if (config.GoToOutputViewAfterExec)
             {
                 main.SelectTab(Main.Tabs.Output2D);
             }
@@ -107,11 +107,11 @@ namespace GeoGen_Studio
 
             main.SetStatus("Loading");
 
-            string path = config.geoGenWorkingDirectory + "/";
+            string path = config.GeoGenWorkingDirectory + "/";
 
             if (main.outputs.SelectedIndex < 1)
             {
-                path += config.mainMapOutputFile;
+                path += config.MainMapOutputFile;
             }
             else
             {
@@ -129,7 +129,7 @@ namespace GeoGen_Studio
 
             if (main.overlays.SelectedIndex > 0)
             {
-                string overlayPath = config.overlayDirectory + "/" + (string)main.overlays.Items[main.overlays.SelectedIndex];
+                string overlayPath = config.OverlayDirectory + "/" + (string)main.overlays.Items[main.overlays.SelectedIndex];
 
                 // prepare byte access to the overlay bitmap
                 System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap(overlayPath);
@@ -200,7 +200,7 @@ namespace GeoGen_Studio
 
             try
             {
-                paths = System.IO.Directory.GetFiles(config.overlayDirectory, "*.bmp");
+                paths = System.IO.Directory.GetFiles(config.OverlayDirectory, "*.bmp");
             }
             catch(Exception)
             {

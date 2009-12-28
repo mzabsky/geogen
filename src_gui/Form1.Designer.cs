@@ -160,8 +160,11 @@
             // 
             this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Caret.BlinkRate = 500;
+            this.editor.ConfigurationManager.CustomLocation = "../config/scintilla.xml";
+            this.editor.ConfigurationManager.IsBuiltInEnabled = false;
+            this.editor.ConfigurationManager.IsUserEnabled = false;
+            this.editor.ConfigurationManager.Language = "cs";
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editor.Folding.IsEnabled = false;
             this.editor.Location = new System.Drawing.Point(3, 3);
             this.editor.Margins.FoldMarginColor = System.Drawing.Color.Gray;
             this.editor.Margins.FoldMarginHighlightColor = System.Drawing.Color.LightGray;
@@ -362,11 +365,11 @@
             // 
             // settingsToolStripMenuItem
             // 
-            this.settingsToolStripMenuItem.Enabled = false;
             this.settingsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("settingsToolStripMenuItem.Image")));
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
