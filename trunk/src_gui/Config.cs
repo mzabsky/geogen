@@ -6,22 +6,32 @@ namespace GeoGen_Studio
     public class Config
     {
 
-        private string templateFile;
-        private bool openLastFileOnStartup;
-        private string lastFile;
-        private string scintillaDefinitonsFile;
-        private string parameters;
-        private bool goToOutputViewAfterExec;
-        private string geoGenPath;
-        private string mainMapOutputFile;
-        private string scriptTempFile;
-        private string geoGenWorkingDirectory;
-        private string overlayDirectory;
-        private string documentationPath;
+        public string templateFile;
+        public bool openLastFileOnStartup;
+        public string lastFile;
+        public string scintillaDefinitonsFile;
+        public string parameters;
+        public bool goToOutputViewAfterExec;
+        public string geoGenPath;
+        public string mainMapOutputFile;
+        public string scriptTempFile;
+        public string geoGenWorkingDirectory;
+        public string overlayDirectory;
+        public string documentationPath;
 
 		/* Window layout settings */
         public int mainSplitter;
-        public bool sidebarOrientation;
+        public int sidebarSplitter;
+        public Main.SidebarMode sidebarMode;
+        public bool showStatusbar;
+        public bool showSidebar;
+        public bool showToolbar;
+        public bool showConsole;
+        public bool showParameters;
+        public bool wordWrap;
+        public bool lineBreaks;
+        public bool whitespace;
+        public int editorZooom;
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -133,7 +143,7 @@ namespace GeoGen_Studio
 
         private static Config Deserialize(string file)
         {
-            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(System.Type.GetType("Config"));
+            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(Config));
 
             System.IO.StreamReader reader = System.IO.File.OpenText(file);
 
@@ -169,38 +179,33 @@ namespace GeoGen_Studio
 
         public void Save()
         {
+            Main.Get().SaveInterfaceSettings();
             Serialize("../config/studio.xml", this);
         }
 
-        public static Config Load()
+        public static void Load()
         {
+            Main main = Main.Get();
+            
             // try to load the config
             try
             {
                 Config c = Deserialize("../config/studio.xml");
 
-                return c;
+                main.config = c;
+
+                main.LoadInterfaceSettings();
             }
             // something went wrong -> create a new config file
             catch (System.Exception)
             {
                 Config c = new Config();
 
+                main.config = c;
+
                 // save the newly created cofig
                 c.Save();
-
-                return c;
             }
-        }
-
-        public void LoadInterfaceSettings()
-        {
-            
-        }
-
-        public void SaveInterfaceSettings()
-        {
-            
         }
     }
 }

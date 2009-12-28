@@ -118,6 +118,9 @@
             this.toggleOverlay = new System.Windows.Forms.ToolStripButton();
             this.refreshOverlays = new System.Windows.Forms.ToolStripButton();
             this.output3dTab = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.wpfHost = new System.Windows.Forms.Integration.ElementHost();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.consoleLarge = new System.Windows.Forms.TextBox();
             this.sidebarSplitContainer = new System.Windows.Forms.SplitContainer();
@@ -126,9 +129,6 @@
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.wpfHost = new System.Windows.Forms.Integration.ElementHost();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -144,11 +144,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.output)).BeginInit();
             this.outputToolStrip.SuspendLayout();
             this.output3dTab.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.sidebarSplitContainer.Panel1.SuspendLayout();
             this.sidebarSplitContainer.Panel2.SuspendLayout();
             this.sidebarSplitContainer.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // codeTab
@@ -513,6 +513,7 @@
             // toolbarToolStripMenuItem
             // 
             this.toolbarToolStripMenuItem.Checked = true;
+            this.toolbarToolStripMenuItem.CheckOnClick = true;
             this.toolbarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolbarToolStripMenuItem.Name = "toolbarToolStripMenuItem";
             this.toolbarToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
@@ -522,6 +523,7 @@
             // statusbarToolStripMenuItem
             // 
             this.statusbarToolStripMenuItem.Checked = true;
+            this.statusbarToolStripMenuItem.CheckOnClick = true;
             this.statusbarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.statusbarToolStripMenuItem.Name = "statusbarToolStripMenuItem";
             this.statusbarToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
@@ -1005,6 +1007,36 @@
             this.output3dTab.Text = "Output (3D)";
             this.output3dTab.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.wpfHost);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 28);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(904, 510);
+            this.panel1.TabIndex = 3;
+            // 
+            // wpfHost
+            // 
+            this.wpfHost.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("wpfHost.BackgroundImage")));
+            this.wpfHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wpfHost.Location = new System.Drawing.Point(0, 0);
+            this.wpfHost.Name = "wpfHost";
+            this.wpfHost.Size = new System.Drawing.Size(900, 506);
+            this.wpfHost.TabIndex = 0;
+            this.wpfHost.Text = "wpfHost";
+            this.wpfHost.Child = null;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(904, 25);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.consoleLarge);
@@ -1123,36 +1155,6 @@
             this.saveOutputDialog.DefaultExt = "png";
             this.saveOutputDialog.Filter = "PNG Images|*.png|All files|*.*";
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Location = new System.Drawing.Point(3, 3);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(904, 25);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.wpfHost);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 28);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(904, 510);
-            this.panel1.TabIndex = 3;
-            // 
-            // wpfHost
-            // 
-            this.wpfHost.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("wpfHost.BackgroundImage")));
-            this.wpfHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wpfHost.Location = new System.Drawing.Point(0, 0);
-            this.wpfHost.Name = "wpfHost";
-            this.wpfHost.Size = new System.Drawing.Size(900, 506);
-            this.wpfHost.TabIndex = 0;
-            this.wpfHost.Text = "wpfHost";
-            this.wpfHost.Child = null;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1190,13 +1192,13 @@
             this.outputToolStrip.PerformLayout();
             this.output3dTab.ResumeLayout(false);
             this.output3dTab.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.sidebarSplitContainer.Panel1.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.PerformLayout();
             this.sidebarSplitContainer.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

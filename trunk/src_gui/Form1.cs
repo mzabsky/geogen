@@ -15,20 +15,28 @@ namespace GeoGen_Studio
         {
             Code = 0,
             Output2D = 1,
-            Log = 2,
-            Output3D = 4,
-            Docs = 5
+            Output3D = 2,
+            Log = 3,
+            Docs = 4
+        };
+
+        public enum SidebarMode
+        {
+            Left,
+            Right,
+            Bottom
         };
 
         private bool needsSaving;
         public ProcessManager processManager;
         public OutputManager outputManager;
-        private Config config;
+        public Config config;
         private string currentFileName;
         private bool scrollOutput;
         int outputLastMouseX;
         int outputLastMouseY;
         Output3D output3d;
+        SidebarMode sidebarMode = SidebarMode.Right;
 
         // MSVS generated stuff
         public Main()
@@ -41,7 +49,7 @@ namespace GeoGen_Studio
         {
             this.needsSaving = false;
 
-            this.config = Config.Load();
+            Config.Load();
 
             this.processManager = new ProcessManager();
             this.outputManager = new OutputManager();
@@ -72,7 +80,13 @@ namespace GeoGen_Studio
 
             this.wpfHost.Child = this.output3d;
 
-
+            if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
+            {
+                this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
+                this.saveFile.FileName = this.config.lastFile;
+                this.currentFileName = this.config.lastFile;
+                this.needsSaving = false;
+            }
         }
 
         // this app's GetInstance()
@@ -220,6 +234,85 @@ namespace GeoGen_Studio
                 this.verifyToolStripButton.Enabled = false;
                 this.verifyToolStripMenuItem.Enabled = false;
             }
+        }
+
+        public void SetSidebarMode(SidebarMode mode)
+        {
+            this.sidebarMode = mode;
+
+            if (mode == SidebarMode.Left)
+            {
+                this.leftToolStripMenuItem.Checked = true;
+                this.leftToolStripMenuItem.Checked = true;
+                this.rightToolStripMenuItem.Checked = false;
+                this.bottomToolStripMenuItem.Checked = false;
+
+                this.splitContainer.Orientation = Orientation.Vertical;
+                this.splitContainer.RightToLeft = RightToLeft.Yes;
+                this.sidebarSplitContainer.Orientation = Orientation.Horizontal;
+            }
+            else if (mode == SidebarMode.Right)
+            {
+                this.leftToolStripMenuItem.Checked = false;
+                this.rightToolStripMenuItem.Checked = true;
+                this.bottomToolStripMenuItem.Checked = false;
+
+                this.splitContainer.Orientation = Orientation.Vertical;
+                this.splitContainer.RightToLeft = RightToLeft.No;
+                this.sidebarSplitContainer.Orientation = Orientation.Horizontal;
+            }
+            else
+            {
+                this.leftToolStripMenuItem.Checked = false;
+                this.rightToolStripMenuItem.Checked = false;
+                this.bottomToolStripMenuItem.Checked = true;
+
+                this.splitContainer.Orientation = Orientation.Horizontal;
+                this.splitContainer.RightToLeft = RightToLeft.No;
+                this.sidebarSplitContainer.Orientation = Orientation.Vertical;
+            }
+        }
+
+        public void LoadInterfaceSettings()
+        {
+            this.splitContainer.SplitterDistance = this.config.mainSplitter;
+            this.sidebarSplitContainer.SplitterDistance = this.config.sidebarSplitter;
+            this.SetSidebarMode(this.config.sidebarMode);
+            this.statusbarToolStripMenuItem.Checked = this.config.showStatusbar;
+            this.sidebarToolStripMenuItem.Checked = this.config.showSidebar;
+            this.toolbarToolStripMenuItem.Checked = this.config.showToolbar;
+            this.consoleToolStripMenuItem.Checked = this.config.showConsole;
+            this.scriptParametersToolStripMenuItem.Checked = this.config.showParameters;
+            this.wordWrapToolStripMenuItem.Checked = this.config.wordWrap;
+            this.lineBreaksToolStripMenuItem.Checked = this.config.lineBreaks;
+            this.whiteSpaceToolStripMenuItem.Checked = this.config.whitespace;
+            this.editor.Zoom = this.config.editorZooom;
+
+            this.statusbarToolStripMenuItem_Click(null, null);
+            this.sidebarToolStripMenuItem_Click(null, null);
+            this.toolbarToolStripMenuItem_Click(null, null);
+            this.consoleToolStripMenuItem_Click(null, null);
+            this.scriptParametersToolStripMenuItem_Click(null, null);
+            this.wordWrapToolStripMenuItem_Click(null, null);
+            this.lineBreaksToolStripMenuItem_Click(null, null);
+            this.whiteSpaceToolStripMenuItem_Click(null, null);
+        }
+
+        public void SaveInterfaceSettings()
+        {
+            this.config.mainSplitter = this.splitContainer.SplitterDistance;
+            this.config.sidebarSplitter = this.sidebarSplitContainer.SplitterDistance;
+            this.config.sidebarMode = this.sidebarMode;
+            this.config.showStatusbar = this.statusbarToolStripMenuItem.Checked;
+            this.config.showSidebar = this.sidebarToolStripMenuItem.Checked;
+            this.config.showToolbar = this.toolbarToolStripMenuItem.Checked;
+            this.config.showConsole = this.consoleToolStripMenuItem.Checked;
+            this.config.showParameters = this.scriptParametersToolStripMenuItem.Checked;
+            this.config.wordWrap = this.wordWrapToolStripMenuItem.Checked;
+            this.config.lineBreaks = this.lineBreaksToolStripMenuItem.Checked;
+            this.config.whitespace = this.whiteSpaceToolStripMenuItem.Checked;
+            this.config.editorZooom = this.editor.Zoom;
+            this.config.lastFile = this.currentFileName;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -497,36 +590,17 @@ namespace GeoGen_Studio
 
         private void leftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.leftToolStripMenuItem.Checked = true;
-            this.leftToolStripMenuItem.Checked = true;
-            this.rightToolStripMenuItem.Checked = false;
-            this.bottomToolStripMenuItem.Checked = false;
-
-            this.splitContainer.Orientation = Orientation.Vertical;
-            this.splitContainer.RightToLeft = RightToLeft.Yes;
-            this.sidebarSplitContainer.Orientation = Orientation.Horizontal;
+            this.SetSidebarMode(SidebarMode.Left);
         }
 
         private void rightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.leftToolStripMenuItem.Checked = false;
-            this.rightToolStripMenuItem.Checked = true;
-            this.bottomToolStripMenuItem.Checked = false;
-
-            this.splitContainer.Orientation = Orientation.Vertical;
-            this.splitContainer.RightToLeft = RightToLeft.No;
-            this.sidebarSplitContainer.Orientation = Orientation.Horizontal;
+            this.SetSidebarMode(SidebarMode.Right);
         }
 
         private void bottomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.leftToolStripMenuItem.Checked = false;
-            this.rightToolStripMenuItem.Checked = false;
-            this.bottomToolStripMenuItem.Checked = true;
-
-            this.splitContainer.Orientation = Orientation.Horizontal;
-            this.splitContainer.RightToLeft = RightToLeft.No;
-            this.sidebarSplitContainer.Orientation = Orientation.Vertical;
+            this.SetSidebarMode(SidebarMode.Bottom);
         }
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
