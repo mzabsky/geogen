@@ -120,10 +120,12 @@ namespace GeoGen_Studio
             {
                 this.mode = Mode.Standard;
                 main.ButtonsRunMode();
+                main.AddStatus("Executing");
             }
             else{
                 this.mode = Mode.LowPriority;
                 this.lastCheckContent = "";
+                main.AddStatus("Checking syntax");
             }
 
             string inPath;
@@ -215,6 +217,8 @@ namespace GeoGen_Studio
             Main main = Main.Get();
             Config config = main.GetConfig();
 
+            main.RemoveStatus("Executing");
+
             // was this part of a benchmark?
             if (benchmarkStatus != null)
             {
@@ -249,6 +253,8 @@ namespace GeoGen_Studio
             Main main = Main.Get();
             
             main.SetErrorStatus(process.ExitCode == 0 ? false : true);
+
+            main.RemoveStatus("Checking syntax");
 
             // if everything was okay, rebuild the parameter propertygrid
             if (process.ExitCode == 0)

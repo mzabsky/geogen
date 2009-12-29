@@ -106,7 +106,7 @@ namespace GeoGen_Studio
             Main main = Main.Get();
             Config config = main.GetConfig();
 
-            main.SetStatus("Loading");
+            main.AddStatus("Loading");
 
             string path = config.GeoGenWorkingDirectory + "/";
 
@@ -185,7 +185,7 @@ namespace GeoGen_Studio
             main.output.Width = main.output.Image.Width;
             main.output.Height = main.output.Image.Height;
 
-            main.SetStatus("Ready");
+            main.RemoveStatus("Loading");
         }
 
         public void LoadOverlays()
