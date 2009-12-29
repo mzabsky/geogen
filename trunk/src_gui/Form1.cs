@@ -37,6 +37,7 @@ namespace GeoGen_Studio
         int outputLastMouseY;
         Output3D output3d;
         SidebarMode sidebarMode = SidebarMode.Right;
+        List<string> statuses = new List<string>();
 
         // MSVS generated stuff
         public Main()
@@ -217,6 +218,33 @@ namespace GeoGen_Studio
         public void SetStatus(string str)
         {
             this.status.Text = str;
+            System.Threading.Thread.Sleep(0);
+        }
+
+        public void AddStatus(string status){
+            if(!this.statuses.Contains(status)){
+                this.statuses.Add(status);
+            }
+
+            this.UpdateStatus();
+        }
+
+        public void RemoveStatus(string status)
+        {
+            if (this.statuses.Contains(status))
+            {
+                this.statuses.Remove(status);
+            }
+
+            this.UpdateStatus();
+        }
+
+        public void UpdateStatus()
+        {
+            string newstatus = String.Join(", ", statuses.ToArray());
+
+            if (newstatus == "") this.SetStatus("Ready");
+            else this.SetStatus(newstatus);
         }
 
         public void SetErrorStatus(bool isError)
@@ -355,7 +383,6 @@ namespace GeoGen_Studio
                 this.needsSaving = false;
 
                 this.editor.UndoRedo.EmptyUndoBuffer();
-                this.editor.UndoRedo.BeginUndoAction();
             }
         }
 
