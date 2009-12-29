@@ -31,6 +31,10 @@ namespace GeoGen_Studio
         private BenchmarkStatus benchmarkStatus;
         private BenchmarkForm benchmarkForm;
 
+        public System.Threading.Mutex mutex;
+
+        public DataReceivedEventHandler dataHandler;
+
         public ProcessManager()
         {
             mode = Mode.Idle;
@@ -88,7 +92,11 @@ namespace GeoGen_Studio
             // kill current syntax check in progress (if any is running)
             if (mode == Mode.LowPriority)
             {
-                process.Kill();
+                try
+                {
+                    process.Kill();
+                }
+                catch (Exception) { };
 
                 // do the check one the requested script is finished
                 this.ScheduleCheck();
@@ -110,9 +118,11 @@ namespace GeoGen_Studio
 
             if (!verificationOnly)
             {
+                this.mode = Mode.Standard;
                 main.ButtonsRunMode();
             }
             else{
+                this.mode = Mode.LowPriority;
                 this.lastCheckContent = "";
             }
 
@@ -178,36 +188,27 @@ namespace GeoGen_Studio
                 };
 
                 main.WriteToConsole("Launching 'geogen " + process.StartInfo.Arguments + "'...");
-
-                this.mode = Mode.Standard;
             }
             else
             {
-                // write every line of output to console
-                this.process.OutputDataReceived += delegate(Object sender, System.Diagnostics.DataReceivedEventArgs data)
-                {
-                    Main.Get().Invoke(new MethodInvoker(delegate()
-                    {
-                        Main.Get().GetProcessManager().lastCheckContent += data.Data + Environment.NewLine;
-                    }));
-                };
-                
                 // call the processFinished method once the generator finishes
                 this.process.Exited += delegate(object sender, EventArgs e)
                 {
-                    System.Threading.Thread.Sleep(50);
                     Main.Get().Invoke(new MethodInvoker(delegate()
                     {
                         Main.Get().GetProcessManager().SyntaxCheckFinished();
                     }));
                 };
-
-                this.mode = Mode.LowPriority;
             }
 
             this.process.Start();
 
-            process.BeginOutputReadLine();
+            // syntax checks will be executed synchronously while normal script executions asynchronously
+            // syntax checks are very fast and usually periodic, so there were problems with process/thread synchronization
+            if (!verificationOnly)
+            {
+                process.BeginOutputReadLine();
+            }
         }
 
         public void ProcessFinished(){
@@ -263,6 +264,8 @@ namespace GeoGen_Studio
                 string[] values = oldStr.Split(' ');
 
                 main.parameters.Item.Clear();
+
+                this.lastCheckContent = this.process.StandardOutput.ReadToEnd();
 
                 string[] lines = System.Text.RegularExpressions.Regex.Split(this.lastCheckContent, "\r\n");
 

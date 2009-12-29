@@ -59,7 +59,8 @@ namespace GeoGen_Studio
             }
             // do no bug if some of the stuff being deleted is not present
             catch (System.IO.DirectoryNotFoundException) { }
-            catch (System.IO.FileNotFoundException) { };
+            catch (System.IO.FileNotFoundException) { }
+            catch (System.IO.IOException) { };
 
             // recreate the directory
             System.IO.Directory.CreateDirectory(config.GeoGenWorkingDirectory);

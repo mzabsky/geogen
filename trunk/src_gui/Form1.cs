@@ -54,6 +54,8 @@ namespace GeoGen_Studio
             this.processManager = new ProcessManager();
             this.outputManager = new OutputManager();
 
+            this.parameters.SelectedObject = parameters.Item;
+
             this.currentFileName = "";
 
             this.editor.TextInserted += editor_TextInserted;
@@ -68,16 +70,15 @@ namespace GeoGen_Studio
 
             this.consoleLarge.Text = this.console.Text;
 
+            this.outputManager.ClearData();
             this.outputManager.LoadOverlays();
 
             this.scrollOutput = false;
 
-            this.parameters.SelectedObject = parameters.Item;
-
+            // load the custom syntax highlighter settings
             this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
 
             this.output3d = new Output3D();
-
             this.wpfHost.Child = this.output3d;
 
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
