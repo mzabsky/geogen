@@ -31,7 +31,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.settingsGrid = new System.Windows.Forms.PropertyGrid();
             this.save = new System.Windows.Forms.Button();
-            this.cancel = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -51,7 +50,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.cancel);
             this.splitContainer1.Panel2.Controls.Add(this.save);
             this.splitContainer1.Size = new System.Drawing.Size(917, 618);
             this.splitContainer1.SplitterDistance = 567;
@@ -68,30 +66,19 @@
             // save
             // 
             this.save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.save.Location = new System.Drawing.Point(757, 10);
+            this.save.Location = new System.Drawing.Point(847, 10);
             this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(148, 25);
+            this.save.Size = new System.Drawing.Size(58, 25);
             this.save.TabIndex = 0;
-            this.save.Text = "Save Settings";
+            this.save.Text = "OK";
             this.save.UseVisualStyleBackColor = true;
-            // 
-            // cancel
-            // 
-            this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(603, 10);
-            this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(148, 25);
-            this.cancel.TabIndex = 1;
-            this.cancel.Text = "Cancel";
-            this.cancel.UseVisualStyleBackColor = true;
+            this.save.Click += new System.EventHandler(this.save_Click);
             // 
             // Settings
             // 
             this.AcceptButton = this.save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(917, 618);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Settings";
@@ -108,7 +95,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.PropertyGrid settingsGrid;
-        private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Button save;
     }
 }
