@@ -20,5 +20,10 @@ namespace GeoGen_Studio
         {
             settingsGrid.SelectedObject = Main.Get().GetConfig();
         }
+
+        private void save_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

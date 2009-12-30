@@ -692,6 +692,16 @@ namespace GeoGen_Studio
             System.Diagnostics.Process.Start("http://code.google.com/p/geogen/");
         }
 
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.editor.Printing.Print(true);
+        }
+
+        private void previewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.editor.Printing.PrintPreview();
+        }
+
           
     }
 }
