@@ -254,6 +254,8 @@ namespace GeoGen_Studio
             
             main.SetErrorStatus(process.ExitCode == 0 ? false : true);
 
+            this.lastCheckContent = this.process.StandardOutput.ReadToEnd();
+
             main.RemoveStatus("Checking syntax");
 
             // if everything was okay, rebuild the parameter propertygrid
@@ -270,8 +272,6 @@ namespace GeoGen_Studio
                 string[] values = oldStr.Split(' ');
 
                 main.parameters.Item.Clear();
-
-                this.lastCheckContent = this.process.StandardOutput.ReadToEnd();
 
                 string[] lines = System.Text.RegularExpressions.Regex.Split(this.lastCheckContent, "\r\n");
 
@@ -444,7 +444,7 @@ namespace GeoGen_Studio
 
                     if (++this.benchmarkStatus.phase < totalPhases)
                     {
-                        main.WriteToConsole("Starting reference script...");
+                        main.WriteToConsole("Starting benchmarked script...");
                         this.ExecuteScript(main.GetScript(), false, parameters[this.benchmarkStatus.phase / 2]);
                     }
                 }
@@ -455,7 +455,7 @@ namespace GeoGen_Studio
 
                     if (++this.benchmarkStatus.phase < totalPhases)
                     {
-                        main.WriteToConsole("Starting benchmarked script...");
+                        main.WriteToConsole("Starting reference script...");
                         this.ExecuteScript(benchScript, false, parameters[this.benchmarkStatus.phase / 2]);
                     }
                 }
