@@ -35,6 +35,9 @@ namespace GeoGen_Studio
         private bool scrollOutput;
         int outputLastMouseX;
         int outputLastMouseY;
+        int mouseDownX;
+        int mouseDownY;
+        bool outputMouse;
         Output3D output3d;
         SidebarMode sidebarMode = SidebarMode.Right;
         List<string> statuses = new List<string>();
@@ -89,6 +92,9 @@ namespace GeoGen_Studio
                 this.currentFileName = this.config.lastFile;
                 this.needsSaving = false;
             }
+
+            this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
+
         }
 
         // this app's GetInstance()
@@ -490,9 +496,11 @@ namespace GeoGen_Studio
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 this.scrollOutput = true;
-                outputLastMouseX = e.X;
-                outputLastMouseY = e.Y;
+                this.mouseDownX = e.X;
+                this.mouseDownY = e.Y;
             }
+
+            this.output.Focus();
         }
 
         private void output_MouseUp(object sender, MouseEventArgs e)
@@ -507,16 +515,19 @@ namespace GeoGen_Studio
         {
             if (this.scrollOutput && this.output.Image != null)
             {
-                this.output.Left += (e.X - this.outputLastMouseX);
-                this.output.Top += (e.Y - this.outputLastMouseY);
+                this.output.Left += (e.X - this.mouseDownX);
+                this.output.Top += (e.Y - this.mouseDownY);
 
                 this.output.Update();
                 this.outputContainer.Update();
             }
 
+            this.outputLastMouseX = e.X;
+            this.outputLastMouseY = e.Y;
+
             System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)output.Image;
 
-            if(e.X > 0 && e.Y > 0 && e.X < output.Image.Width && e.Y < output.Image.Height) this.coords.Text = e.X + " x " + e.Y + " [" + bitmap.GetPixel(e.X, e.Y).R + "]";
+            if (e.X > 0 && e.Y > 0 && e.X < output.Width && e.Y < output.Height) this.coords.Text = (e.X * output.Image.Width / output.Width) + " x " + (e.Y * output.Image.Height / output.Height) + " [" + bitmap.GetPixel((e.X * output.Image.Width / output.Width), (e.Y * output.Image.Height / output.Height)).R + "]";
         }
 
         private void terminateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -701,6 +712,43 @@ namespace GeoGen_Studio
         {
             this.editor.Printing.PrintPreview();
         }
+
+        private void Form1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            // mouse is inside the output rect...
+            if (outputMouse)
+            {
+                int current_width = output.Width;
+                int current_height = output.Height;
+
+                // wheel up/down
+                if (e.Delta > 0)
+                {
+                    output.Width = (Int32) ((Double) output.Width * 1.25);
+                    output.Height = (Int32) ((Double)output.Height * 1.25);
+                }
+                else
+                {
+                    output.Width = (Int32)((Double)output.Width * 0.8);
+                    output.Height = (Int32)((Double)output.Height * 0.8);
+                }
+
+                // make sure the zooming is centered on mouse
+                output.Left -= (Int32)((Double)(output.Width - current_width) / ((Double)current_width / (Double)this.outputLastMouseX));
+                output.Top -= (Int32)((Double)(output.Height - current_height) / ((Double)current_height / (Double)this.outputLastMouseY));
+            }
+        }
+
+        private void output_MouseEnter(object sender, EventArgs e)
+        {
+            this.outputMouse = true;
+        }
+
+        private void output_MouseLeave(object sender, EventArgs e)
+        {
+            this.outputMouse = false;
+        }
+
 
           
     }

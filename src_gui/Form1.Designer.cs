@@ -890,15 +890,19 @@
             // output
             // 
             this.output.BackColor = System.Drawing.Color.Black;
+            this.output.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.output.Cursor = System.Windows.Forms.Cursors.Cross;
             this.output.Location = new System.Drawing.Point(318, 166);
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(179, 159);
+            this.output.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.output.TabIndex = 0;
             this.output.TabStop = false;
+            this.output.MouseLeave += new System.EventHandler(this.output_MouseLeave);
             this.output.MouseMove += new System.Windows.Forms.MouseEventHandler(this.output_MouseMove);
             this.output.MouseDown += new System.Windows.Forms.MouseEventHandler(this.output_MouseDown);
             this.output.MouseUp += new System.Windows.Forms.MouseEventHandler(this.output_MouseUp);
+            this.output.MouseEnter += new System.EventHandler(this.output_MouseEnter);
             // 
             // outputToolStrip
             // 
