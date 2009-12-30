@@ -176,8 +176,8 @@
             this.editor.Margins.FoldMarginColor = System.Drawing.Color.Gray;
             this.editor.Margins.FoldMarginHighlightColor = System.Drawing.Color.LightGray;
             this.editor.Margins.Margin0.Width = 30;
-            this.editor.Margins.Margin2.IsClickable = false;
-            this.editor.Margins.Margin2.IsFoldMargin = false;
+            this.editor.Margins.Margin1.Width = 0;
+            this.editor.Margins.Margin2.Width = 20;
             this.editor.Name = "editor";
             this.editor.Size = new System.Drawing.Size(904, 535);
             this.editor.Styles.Bits = 5;
@@ -642,6 +642,7 @@
             this.benchmarkToolStripMenuItem.Name = "benchmarkToolStripMenuItem";
             this.benchmarkToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.benchmarkToolStripMenuItem.Text = "Benchmark";
+            this.benchmarkToolStripMenuItem.Click += new System.EventHandler(this.benchmarkToolStripButton_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -1055,6 +1056,7 @@
             // consoleLarge
             // 
             this.consoleLarge.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.consoleLarge.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consoleLarge.Location = new System.Drawing.Point(0, 0);
             this.consoleLarge.Multiline = true;
             this.consoleLarge.Name = "consoleLarge";
@@ -1137,6 +1139,7 @@
             // 
             this.console.BackColor = System.Drawing.SystemColors.ControlLight;
             this.console.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.console.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.console.Location = new System.Drawing.Point(3, 3);
             this.console.Multiline = true;
             this.console.Name = "console";
