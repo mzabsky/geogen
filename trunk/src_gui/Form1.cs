@@ -146,6 +146,15 @@ namespace GeoGen_Studio
                     case System.Windows.Forms.DialogResult.Cancel: return false;
                     case System.Windows.Forms.DialogResult.Yes:
                         {
+                            if (this.currentFileName != "")
+                            {
+                                System.IO.File.WriteAllText(this.currentFileName, this.editor.Text);
+                                this.openFile.FileName = this.currentFileName;
+                                this.saveFile.FileName = this.currentFileName;
+
+                                break;
+                            }
+
                             if (this.saveFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
                                 System.IO.File.WriteAllText(this.saveFile.FileName, this.editor.Text);
