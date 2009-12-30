@@ -129,6 +129,7 @@
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
+            this.websiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -489,9 +490,11 @@
             // 
             // leftToolStripMenuItem
             // 
+            this.leftToolStripMenuItem.Enabled = false;
             this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
             this.leftToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.leftToolStripMenuItem.Text = "Left";
+            this.leftToolStripMenuItem.Visible = false;
             this.leftToolStripMenuItem.Click += new System.EventHandler(this.leftToolStripMenuItem_Click);
             // 
             // rightToolStripMenuItem
@@ -643,6 +646,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.websiteToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -650,6 +654,7 @@
             // 
             // aboutToolStripMenuItem
             // 
+            this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.aboutToolStripMenuItem.Text = "About GeoGen Studio";
@@ -1155,6 +1160,14 @@
             this.saveOutputDialog.DefaultExt = "png";
             this.saveOutputDialog.Filter = "PNG Images|*.png|All files|*.*";
             // 
+            // websiteToolStripMenuItem
+            // 
+            this.websiteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("websiteToolStripMenuItem.Image")));
+            this.websiteToolStripMenuItem.Name = "websiteToolStripMenuItem";
+            this.websiteToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.websiteToolStripMenuItem.Text = "Go To Website";
+            this.websiteToolStripMenuItem.Click += new System.EventHandler(this.websiteToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1304,6 +1317,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Integration.ElementHost wpfHost;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripMenuItem websiteToolStripMenuItem;
     }
 }
 
