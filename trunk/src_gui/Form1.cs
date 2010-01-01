@@ -213,6 +213,7 @@ namespace GeoGen_Studio
             this.overlays.Enabled = true;
             this.toggleOverlay.Enabled = true;
             this.refreshOverlays.Enabled = true;
+            this.resetToolStripButton.Enabled = true;
         }
 
         public void OutputButtonsOff()
@@ -223,6 +224,7 @@ namespace GeoGen_Studio
             this.overlays.Enabled = false;
             this.toggleOverlay.Enabled = false;
             this.refreshOverlays.Enabled = false;
+            this.resetToolStripButton.Enabled = false;
         }
 
         public void SelectTab(Tabs tab)
@@ -515,8 +517,8 @@ namespace GeoGen_Studio
         {
             if (this.scrollOutput && this.output.Image != null)
             {
-                this.output.Left += (e.X - this.mouseDownX);
-                this.output.Top += (e.Y - this.mouseDownY);
+                this.output.Left = Math.Min(Math.Max(this.output.Left + (e.X - this.mouseDownX), -this.output.Width + 20), this.outputContainer.Width - 20);
+                this.output.Top = Math.Min(Math.Max(this.output.Top + (e.Y - this.mouseDownY), -this.output.Height + 20), this.outputContainer.Height - 20);
 
                 this.output.Update();
                 this.outputContainer.Update();
@@ -722,16 +724,17 @@ namespace GeoGen_Studio
                 int current_height = output.Height;
 
                 // wheel up/down
-                if (e.Delta > 0)
+                if (e.Delta > 0 && this.output.Width / this.output.Image.Width < 8)
                 {
-                    output.Width = (Int32) ((Double) output.Width * 1.25);
-                    output.Height = (Int32) ((Double)output.Height * 1.25);
+                    output.Width = (Int32)((Double)output.Width * 1.25);
+                    output.Height = (Int32)((Double)output.Height * 1.25);
                 }
-                else
+                else if (e.Delta < 0 && this.output.Image.Width / this.output.Width < 16)
                 {
                     output.Width = (Int32)((Double)output.Width * 0.8);
                     output.Height = (Int32)((Double)output.Height * 0.8);
                 }
+                else return;
 
                 // make sure the zooming is centered on mouse
                 output.Left -= (Int32)((Double)(output.Width - current_width) / ((Double)current_width / (Double)this.outputLastMouseX));
@@ -747,6 +750,14 @@ namespace GeoGen_Studio
         private void output_MouseLeave(object sender, EventArgs e)
         {
             this.outputMouse = false;
+        }
+
+        private void resetToolStripButton_Click(object sender, EventArgs e)
+        {
+            this.output.Width = this.output.Image.Width;
+            this.output.Height = this.output.Image.Height;
+            this.output.Left = 0;
+            this.output.Top = 0;
         }
 
 
