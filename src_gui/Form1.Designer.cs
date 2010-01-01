@@ -83,6 +83,7 @@
             this.terminateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.benchmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.websiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -129,7 +130,8 @@
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
-            this.websiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.resetToolStripButton = new System.Windows.Forms.ToolStripButton();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -654,6 +656,14 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // websiteToolStripMenuItem
+            // 
+            this.websiteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("websiteToolStripMenuItem.Image")));
+            this.websiteToolStripMenuItem.Name = "websiteToolStripMenuItem";
+            this.websiteToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.websiteToolStripMenuItem.Text = "Go To Website";
+            this.websiteToolStripMenuItem.Click += new System.EventHandler(this.websiteToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
@@ -917,7 +927,9 @@
             this.toolStripLabel2,
             this.overlays,
             this.toggleOverlay,
-            this.refreshOverlays});
+            this.refreshOverlays,
+            this.toolStripSeparator14,
+            this.resetToolStripButton});
             this.outputToolStrip.Location = new System.Drawing.Point(3, 3);
             this.outputToolStrip.Name = "outputToolStrip";
             this.outputToolStrip.Size = new System.Drawing.Size(904, 25);
@@ -1168,13 +1180,21 @@
             this.saveOutputDialog.DefaultExt = "png";
             this.saveOutputDialog.Filter = "PNG Images|*.png|All files|*.*";
             // 
-            // websiteToolStripMenuItem
+            // toolStripSeparator14
             // 
-            this.websiteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("websiteToolStripMenuItem.Image")));
-            this.websiteToolStripMenuItem.Name = "websiteToolStripMenuItem";
-            this.websiteToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.websiteToolStripMenuItem.Text = "Go To Website";
-            this.websiteToolStripMenuItem.Click += new System.EventHandler(this.websiteToolStripMenuItem_Click);
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 25);
+            // 
+            // resetToolStripButton
+            // 
+            this.resetToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.resetToolStripButton.Enabled = false;
+            this.resetToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("resetToolStripButton.Image")));
+            this.resetToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.resetToolStripButton.Name = "resetToolStripButton";
+            this.resetToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.resetToolStripButton.Text = "Reset View";
+            this.resetToolStripButton.Click += new System.EventHandler(this.resetToolStripButton_Click);
             // 
             // Main
             // 
@@ -1326,6 +1346,8 @@
         private System.Windows.Forms.Integration.ElementHost wpfHost;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripMenuItem websiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripButton resetToolStripButton;
     }
 }
 

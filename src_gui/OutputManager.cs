@@ -110,6 +110,16 @@ namespace GeoGen_Studio
 
             string path = config.GeoGenWorkingDirectory + "/";
 
+            int oldImageWidth = 0;
+            int oldImageHeight = 0;
+
+            if (main.output.Image != null)
+            {
+                oldImageWidth = main.output.Image.Width;
+                oldImageHeight = main.output.Image.Height;
+            }
+
+
             if (main.outputs.SelectedIndex < 1)
             {
                 path += config.MainMapOutputFile;
@@ -182,9 +192,12 @@ namespace GeoGen_Studio
                 main.output.Image = this.currentImage;
             }
 
-            main.output.Width = main.output.Image.Width;
-            main.output.Height = main.output.Image.Height;
-
+            if (oldImageWidth != main.output.Image.Width || oldImageHeight != main.output.Image.Width)
+            {
+                main.output.Width = main.output.Image.Width;
+                main.output.Height = main.output.Image.Height;
+            }
+            
             main.RemoveStatus("Loading");
         }
 
