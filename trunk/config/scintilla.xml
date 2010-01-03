@@ -27,49 +27,69 @@
         GGen_AddIntArg
         GGen_AddEnumArg
         GGen_AddBoolArg
-        SetValue
+        
+        Clone
+        GetLength 
+        SetValue 
+        SetValueInRange 
+        GetValue 
+        GetValueInterpolated 
+        Add 
+        AddArray 
+        AddTo 
+        AddMasked 
+        AddArrayMasked 
+        Multiply 
+        MultiplyArray 
+        Invert 
+        Scale 
+        ScaleTo 
+        ScaleValuesTo 
+        Fill 
+        ResizeCanvas 
+        Clamp 
+        Flip 
+        Min 
+        Max 
+        Shift 
+        Union 
+        Intersection 
+        Abs 
+        Monochrome 
+        Normalize 
+        SlopeMap 
+        Gradient 
+        Noise 
+        Smooth 
+        Flood 
+              
+        GetWidth 
+        GetHeight
         SetValueInRect
-        SetValueInRange
-        GetValue
-        Add
-        AddTo
-        AddMasked
-        Multiply
-        Invert
-        Scale
-        ScaleTo
-        ScaleValuesTo
-        ResizeCanvas
-        Fill
-        Clamp
-        Min
-        Max
-        Intersection
-        IntersectionTo
-        Union
+        AddMap
+        AddMapMasked
+        MultiplyMap 
+        IntersectionTo 
         UnionTo
         Combine
-        Shift
-        Project
-        Gradient
+        ReplaceValue
+        Project 
+        GetProfile 
+        GradientFromProfile
         RadialGradient
-        RadialGradient
-        Noise
-        Smooth
-        Flood
+        RadialGradientFromProfile
+        VoronoiNoise
+        SmoothDirection
         Pattern
-        Monochrome
-        SlopeMap
+        SelectValue
         Scatter
         TransformValues
-        Normalize
-        Transform
+        NormalizeDirection
+        Transfor
         Rotate
         Shear
-        Flip
-        AddAmplitude
         ReturnAs
-        
+              
         array
         seterrorhandler
         setdebughook
@@ -180,47 +200,66 @@
         GGen_AddIntArg
         GGen_AddEnumArg
         GGen_AddBoolArg
-        SetValue
+        Clone
+        GetLength 
+        SetValue 
+        SetValueInRange 
+        GetValue 
+        GetValueInterpolated 
+        Add 
+        AddArray 
+        AddTo 
+        AddMasked 
+        AddArrayMasked 
+        Multiply 
+        MultiplyArray 
+        Invert 
+        Scale 
+        ScaleTo 
+        ScaleValuesTo 
+        Fill 
+        ResizeCanvas 
+        Clamp 
+        Flip 
+        Min 
+        Max 
+        Shift 
+        Union 
+        Intersection 
+        Abs 
+        Monochrome 
+        Normalize 
+        SlopeMap 
+        Gradient 
+        Noise 
+        Smooth 
+        Flood 
+              
+        GetWidth 
+        GetHeight
         SetValueInRect
-        SetValueInRange
-        GetValue
-        Add
-        AddTo
-        AddMasked
-        Multiply
-        Invert
-        Scale
-        ScaleTo
-        ScaleValuesTo
-        ResizeCanvas
-        Fill
-        Clamp
-        Min
-        Max
-        Intersection
-        IntersectionTo
-        Union
+        AddMap
+        AddMapMasked
+        MultiplyMap 
+        IntersectionTo 
         UnionTo
         Combine
-        Shift
-        Project
-        Gradient
+        ReplaceValue
+        Project 
+        GetProfile 
+        GradientFromProfile
         RadialGradient
-        RadialGradient
-        Noise
-        Smooth
-        Flood
+        RadialGradientFromProfile
+        VoronoiNoise
+        SmoothDirection
         Pattern
-        Monochrome
-        SlopeMap
+        SelectValue
         Scatter
         TransformValues
-        Normalize
-        Transform
+        NormalizeDirection
+        Transfor
         Rotate
         Shear
-        Flip
-        AddAmplitude
         ReturnAs
         
         array
