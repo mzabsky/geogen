@@ -4,6 +4,7 @@ using System.ComponentModel;
 namespace GeoGen_Studio
 {
     [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
+    [System.Xml.Serialization.XmlInclude(typeof(ViewportManager.ModelDetailLevel))]
     public class Config
     {
 
@@ -21,6 +22,7 @@ namespace GeoGen_Studio
         public string documentationPath;
         public int heightScale;
         public bool wireframe;
+        private ViewportManager.ModelDetailLevel modelDetailLevel;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -113,6 +115,13 @@ namespace GeoGen_Studio
             get { return documentationPath; }
             set { documentationPath = value; }
         }
+
+        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed amount of polygons for the terrain model in the 3D view. Higher settings require more powerful graphics card and the models take longer to build."), DefaultValue(ViewportManager.ModelDetailLevel.Medium_512x512Polygons)]
+        public ViewportManager.ModelDetailLevel ModelDetailLevel
+        {
+            get { return modelDetailLevel; }
+            set { modelDetailLevel = value; }
+        }
 		
         
         public Config()
@@ -172,6 +181,9 @@ namespace GeoGen_Studio
 
             /* Documentation Viewer settings */
             documentationPath = "../documentation.html";
+
+            /* 3D view */
+            modelDetailLevel = ViewportManager.ModelDetailLevel.Medium_512x512Polygons;
         }
 
         public void Save()

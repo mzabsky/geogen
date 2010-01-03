@@ -13,6 +13,16 @@ namespace GeoGen_Studio
 {
     public class ViewportManager
     {
+        public enum ModelDetailLevel
+        {
+            VeryLow_128x128Polygons = 128,
+            Low_256x256Polygons = 256,
+            Medium_512x512Polygons = 512,
+            High_1024x1024Polygons = 1024,
+            VeryHigh_2048x2048Polygons = 2048,
+            Extreme_4096x4096Plygons = 4096
+        };
+
         [StructLayout(LayoutKind.Sequential)]
         struct Vertex
         { // mimic InterleavedArrayFormat.T2fN3fV3f
@@ -97,9 +107,12 @@ namespace GeoGen_Studio
         }
 
         public void SetTerrain(string path){
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.Drawing.Bitmap(path), 500, 500);
-
             Main main = Main.Get();
+            Config config = main.GetConfig();
+
+            System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
+
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
 
             // prepare byte access to the height data
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
@@ -147,6 +160,15 @@ namespace GeoGen_Studio
             
             float fWidth = 100f / (float) this.terrainWidth;
             float fHeight = 100f / (float) this.terrainHeight;
+
+            if (original.Height > original.Width)
+            {
+                fWidth *= (float)original.Width / (float)original.Height;
+            }
+            else if (original.Height < original.Width)
+            {
+                fHeight*= (float)original.Height / (float)original.Width;
+            }
 
             if(this.heightData != null){
                 for (int y = 0; y < this.terrainHeight - 1; y++)
@@ -223,6 +245,8 @@ namespace GeoGen_Studio
             GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 6 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
 
             this.v = vertices;
+
+            this.viewport.Invalidate();
         }
 
         public void Render()
