@@ -95,9 +95,13 @@ namespace GeoGen_Studio
             main.output.Left = 0;
             main.output.Top = 0;
 
-            if (config.GoToOutputViewAfterExec)
+            if (config.ActionAfterExec == Main.ActionAfterExectution.GoTo2DOutput)
             {
                 main.SelectTab(Main.Tabs.Output2D);
+            }
+            else if (config.ActionAfterExec == Main.ActionAfterExectution.GoTo3DOutput)
+            {
+                main.SelectTab(Main.Tabs.Output3D);
             }
         }
 

@@ -235,6 +235,9 @@ namespace GeoGen_Studio
 
                 // let the output manager load the outputs
                 main.GetOutputManager().CaptureOutputs();
+
+
+                main.GetViewportManager().SetTerrain(config.GeoGenWorkingDirectory + "/" + config.MainMapOutputFile);
             }
             // exit code != 0 means error of some sort
             else

@@ -3,6 +3,7 @@ using System.ComponentModel;
 
 namespace GeoGen_Studio
 {
+    [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
     public class Config
     {
 
@@ -11,13 +12,15 @@ namespace GeoGen_Studio
         public string lastFile;
         public string scintillaDefinitonsFile;
         public string parameters;
-        public bool goToOutputViewAfterExec;
+        public Main.ActionAfterExectution actionAfterExec;
         public string geoGenPath;
         public string mainMapOutputFile;
         public string scriptTempFile;
         public string geoGenWorkingDirectory;
         public string overlayDirectory;
         public string documentationPath;
+        public int heightScale;
+        public bool wireframe;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -32,6 +35,7 @@ namespace GeoGen_Studio
         public bool lineBreaks;
         public bool whitespace;
         public int editorZooom;
+        
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -45,13 +49,6 @@ namespace GeoGen_Studio
         {
             get { return openLastFileOnStartup; }
             set { openLastFileOnStartup = value; }
-        }
-
-        [CategoryAttribute("Paths"), DescriptionAttribute("Path to the last opened file."), DefaultValue("")]
-        public string LastFile
-        {
-            get { return lastFile; }
-            set { lastFile = value; }
         }
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the XML file with syntax highlighting and autocompletion definitions."), DefaultValue("../config/scintilla.xml")]
@@ -68,11 +65,11 @@ namespace GeoGen_Studio
             set { parameters = value; }
         }
 
-        [CategoryAttribute("Script Execution"), DescriptionAttribute("Should the program swith to Output tab once the script is finished?"), DefaultValue(true)]
-        public bool GoToOutputViewAfterExec
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("What should the program do once script execution is finished?"), DefaultValue(Main.ActionAfterExectution.GoTo3DOutput)]
+        public Main.ActionAfterExectution ActionAfterExec
         {
-            get { return goToOutputViewAfterExec; }
-            set { goToOutputViewAfterExec = value; }
+            get { return actionAfterExec; }
+            set { actionAfterExec = value; }
         }
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to a compatible GeoGen executable."), DefaultValue("../bin/geogen.exe")]
@@ -164,7 +161,7 @@ namespace GeoGen_Studio
 
             /* Execution settings */
             parameters = "";
-            goToOutputViewAfterExec = true;
+            actionAfterExec = Main.ActionAfterExectution.GoTo3DOutput;
             geoGenPath = "../bin/geogen.exe";
             geoGenWorkingDirectory = "../temp/studio_maps/temp";
             scriptTempFile = "../../studio_temp.nut";
