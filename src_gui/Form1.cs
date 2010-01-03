@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+
+
 namespace GeoGen_Studio
 {
     public partial class Main : Form
@@ -27,9 +29,17 @@ namespace GeoGen_Studio
             Bottom
         };
 
+        public enum ActionAfterExectution
+        {
+            DoNothing = 0,
+            GoTo2DOutput = 1,
+            GoTo3DOutput = 2
+        };
+
         private bool needsSaving;
         public ProcessManager processManager;
         public OutputManager outputManager;
+        public ViewportManager viewportManager;
         public Config config;
         private string currentFileName;
         private bool scrollOutput;
@@ -38,7 +48,7 @@ namespace GeoGen_Studio
         int mouseDownX;
         int mouseDownY;
         bool outputMouse;
-        Output3D output3d;
+        bool viewportMouse;
         SidebarMode sidebarMode = SidebarMode.Right;
         List<string> statuses = new List<string>();
 
@@ -53,15 +63,22 @@ namespace GeoGen_Studio
         {
             this.needsSaving = false;
 
-            Config.Load();
-
             this.processManager = new ProcessManager();
             this.outputManager = new OutputManager();
+            this.viewportManager = new ViewportManager();
 
+            Config.Load();
+
+      
+
+            this.viewportManager.viewport = this.viewport;
+
+            // make sure the parameter property grid knows where to look for its items 
             this.parameters.SelectedObject = parameters.Item;
 
             this.currentFileName = "";
 
+            // ScintillaNet doesn't support the simple TextChanged ecent (not it like the visual event list)
             this.editor.TextInserted += editor_TextInserted;
             this.editor.TextDeleted += editor_TextInserted;
 
@@ -72,8 +89,6 @@ namespace GeoGen_Studio
             this.output.Width = 0;
             this.output.Height = 0;
 
-            this.consoleLarge.Text = this.console.Text;
-
             this.outputManager.ClearData();
             this.outputManager.LoadOverlays();
 
@@ -82,8 +97,9 @@ namespace GeoGen_Studio
             // load the custom syntax highlighter settings
             this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
 
-            this.output3d = new Output3D();
-            this.wpfHost.Child = this.output3d;
+            // make sure the OpenGL control is shown (so the OpenGL context is created)
+            this.SelectTab(Tabs.Output3D);
+            this.SelectTab(Tabs.Code);
 
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
             {
@@ -118,14 +134,14 @@ namespace GeoGen_Studio
             return this.outputManager;
         }
 
+        public ViewportManager GetViewportManager()
+        {
+            return this.viewportManager;
+        }
+
         public string GetScript()
         {
             return this.editor.Text;
-        }
-
-        public Output3D GetOutput3D()
-        {
-            return this.output3d;
         }
 
         // try to terminate the application
@@ -333,6 +349,8 @@ namespace GeoGen_Studio
             this.lineBreaksToolStripMenuItem.Checked = this.config.lineBreaks;
             this.whiteSpaceToolStripMenuItem.Checked = this.config.whitespace;
             this.editor.Zoom = this.config.editorZooom;
+            this.wireframe.Checked = this.config.wireframe;
+            this.heightScale.Value = this.config.heightScale;
 
             this.statusbarToolStripMenuItem_Click(null, null);
             this.sidebarToolStripMenuItem_Click(null, null);
@@ -342,6 +360,7 @@ namespace GeoGen_Studio
             this.wordWrapToolStripMenuItem_Click(null, null);
             this.lineBreaksToolStripMenuItem_Click(null, null);
             this.whiteSpaceToolStripMenuItem_Click(null, null);
+            this.heightScale_ValueChanged(null, null);
         }
 
         public void SaveInterfaceSettings()
@@ -359,6 +378,8 @@ namespace GeoGen_Studio
             this.config.whitespace = this.whiteSpaceToolStripMenuItem.Checked;
             this.config.editorZooom = this.editor.Zoom;
             this.config.lastFile = this.currentFileName;
+            this.config.wireframe = this.wireframe.Checked;
+            this.config.heightScale = this.heightScale.Value;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -758,6 +779,64 @@ namespace GeoGen_Studio
             this.output.Height = this.output.Image.Height;
             this.output.Left = 0;
             this.output.Top = 0;
+        }
+
+        private void viewport_Load(object sender, EventArgs e)
+        {
+            this.viewportManager.Init();
+        }
+
+        private void viewport_Paint(object sender, PaintEventArgs e)
+        {
+            this.viewportManager.Render();
+        }
+
+        private void viewport_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                this.viewportMouse = true;
+                this.mouseDownX = e.X;
+                this.mouseDownY = e.Y;
+            }
+        }
+
+        private void viewport_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                this.viewportMouse = false;
+            }
+        }
+
+        private void viewport_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (viewportMouse)
+            {
+                this.viewportManager.azimuth += (double) (e.X - this.mouseDownX) / (this.viewport.Width * 0.5) ;
+
+                this.viewportManager.elevation = Math.Min(Math.Max(this.viewportManager.elevation + (double)(e.Y - this.mouseDownY) / (this.viewport.Height), 0.174), 1.57); // clamp the elevation between 10 and 90 degrees
+
+                viewport.Invalidate();
+
+                this.mouseDownX = e.X;
+                this.mouseDownY = e.Y;
+            }
+        }
+
+        private void wireframe_CheckedChanged(object sender, EventArgs e)
+        {
+            this.viewportManager.SetWireframeState(this.wireframe.Checked);
+        }
+
+        private void screenshot_Click(object sender, EventArgs e)
+        {
+            this.viewportManager.SaveScreenshot();
+        }
+
+        private void heightScale_ValueChanged(object sender, EventArgs e)
+        {
+            this.viewportManager.HeightScale = this.heightScale.Value;
         }
 
 
