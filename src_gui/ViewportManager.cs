@@ -25,7 +25,7 @@ namespace GeoGen_Studio
 
         [StructLayout(LayoutKind.Sequential)]
         struct Vertex
-        { // mimic InterleavedArrayFormat.T2fN3fV3f
+        { // mimic InterleavedArrayFormat.C3fV3f
             public Vector3 Color;
             public Vector3 Position;
         }
@@ -36,9 +36,14 @@ namespace GeoGen_Studio
         private int terrainWidth;
         private bool loaded;
 
+        public System.Threading.Thread modelThread;
+
         public double azimuth = 0.785398; // 45 degrees
         public double elevation = 0.52; // 30 degrees
         public float distance = 100;
+        public float targetX = 50; // default position is square center
+        public float targetY = 50;
+        public int currentMap = -1;
 
         private int vertexBufferHandle;
 
@@ -93,11 +98,38 @@ namespace GeoGen_Studio
 
         }
 
+        public void ClearData()
+        {
+            Main main = Main.Get();
+
+            main.Output3dButtonsOff();
+
+            // terminate the model calculation worker thread
+            if (this.modelThread != null)
+            {
+                this.modelThread.Abort();
+
+                main.HideBuildingModel();
+            }
+
+            // release the height data
+            this.heightData = null;
+            this.terrainHeight = 0;
+            this.terrainWidth = 0;
+
+            main.outputs3d.Items.Clear();
+
+            // let the viewport show empty screen
+            this.viewport.Invalidate();
+        }
+
         public void SetWireframeState(bool wireframe){
+            // polygon mode
             if (!wireframe)
             {
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
             }
+            // wireframe mode
             else
             {
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
@@ -106,38 +138,68 @@ namespace GeoGen_Studio
             this.viewport.Invalidate();
         }
 
+        public void RebuildTerrain()
+        {
+            Main main = Main.Get();
+            Config config = main.GetConfig();
+
+            this.currentMap = main.outputs3d.SelectedIndex;
+
+            string path = config.GeoGenWorkingDirectory + "/";
+
+            // load main or secondary map?
+            if (main.outputs3d.SelectedIndex < 1)
+            {
+                path += config.MainMapOutputFile;
+            }
+            else
+            {
+                path += (string)main.outputs3d.Items[main.outputs3d.SelectedIndex];
+            }
+
+            main.ShowBuildingModel();
+
+            System.Threading.ThreadStart starter = delegate { this.SetTerrain(path); };
+            this.modelThread = new System.Threading.Thread(starter);
+            this.modelThread.Start();
+        }
+
         public void SetTerrain(string path){
             Main main = Main.Get();
             Config config = main.GetConfig();
 
+            // the original map (as generated)
             System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
 
+            // store original's size
+            int originalHeight = original.Height;
+            int originalWidth = original.Width;
+
+            // resized bitmap (from which the model will be generated 1:1)
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
 
             // prepare byte access to the height data
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
-            byte[] copy = new byte[data.Stride * bitmap.Height];
-
+            // load the overlay pattern
             System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
 
             Vector3[] colors = new Vector3[256];
 
+            // translate the overlay pattern bitmap into array of GL compatible color vectors
             for (int x = 0; x < 256; x++)
             {
                 colors[x] = this.ColorToVector(overlayBitmap.GetPixel(x, 0));
             }
 
-                // prepare memory space for the newly created color data
-                //this.heightData = new byte[bitmap.Width * bitmap.Height];
-
+            // prepare memory space for the newly created color data
             this.heightData = new byte[data.Stride * bitmap.Height];
 
             this.terrainWidth = bitmap.Width;
             this.terrainHeight = bitmap.Height;
 
-            viewport.MakeCurrent();
+            //viewport.MakeCurrent();
 
             // get a pointer to the to first line (=first pixel)
             IntPtr ptr = data.Scan0;
@@ -145,36 +207,37 @@ namespace GeoGen_Studio
             // create a byte copy of the heightmap data
             System.Runtime.InteropServices.Marshal.Copy(ptr, this.heightData, 0, data.Stride * bitmap.Height);
 
+            // release the lock, so this bitmap can be used elsewhere as well
             bitmap.UnlockBits(data);
 
-            /*for (int y = 0; y < this.terrainHeight; y++)
-            {
-                for (int x = 0; x < this.terrainWidth; x++)
-                {
-                    this.heightData[x + this.terrainWidth * y] = (byte) ((int)(bitmap.GetPixel(x, y).R));
-                }
-            }*/
+            // release some memory (to prevent OutOfMemory exception)
+            bitmap = null;
+            original = null;
 
+            // the vertex array for the model
             Vertex[] vertices = new Vertex[this.terrainWidth * this.terrainHeight * 6];
 
-            
+            // dimension multipliers
             float fWidth = 100f / (float) this.terrainWidth;
             float fHeight = 100f / (float) this.terrainHeight;
 
-            if (original.Height > original.Width)
+            // adjust the multipliers for non-square bitmaps
+            if (originalHeight > originalWidth)
             {
-                fWidth *= (float)original.Width / (float)original.Height;
+                fWidth *= (float)originalWidth / (float)originalHeight;
             }
-            else if (original.Height < original.Width)
+            else if (originalHeight < originalWidth)
             {
-                fHeight*= (float)original.Height / (float)original.Width;
+                fHeight*= (float)originalHeight / (float)originalWidth;
             }
 
+            // build the model
             if(this.heightData != null){
                 for (int y = 0; y < this.terrainHeight - 1; y++)
                 {
                     float fy = (float)y;
 
+                    // precalculate some stuff that stays constant for whole row
                     float yPos = fy * fHeight;
                     float yPosNext = (fy + 1) * fHeight;
 
@@ -214,39 +277,42 @@ namespace GeoGen_Studio
                         vertices[(x + this.terrainWidth * y) * 6] = a;
                         vertices[(x + this.terrainWidth * y) * 6 + 1] = b;
                         vertices[(x + this.terrainWidth * y) * 6 + 2] = c;
-
-                        //GL.Color3(1.0f, 1.0f, 1.0f); GL.Vertex3(fx * 100 / fWidth,          fy * 100 / fHeight,         this.heightData[x + this.terrainWidth * y] * 0.05);
-                        //GL.Color3(1.0f, 0.0f, 0.0f); GL.Vertex3((fx + 1) * 100 / fWidth, fy * 100 / fHeight, this.heightData[x + 1 + this.terrainWidth * y] * 0.05);
-                        //GL.Color3(0.2f, 0.9f, 1.0f); GL.Vertex3(fx * 100 / fWidth, (fy + 1) * 100 / fHeight, this.heightData[x + this.terrainWidth * (y + 1)] * 0.05);
-
-
+                        
                         // second triangle
                         vertices[(x + this.terrainWidth * y) * 6 + 3] = b;
                         vertices[(x + this.terrainWidth * y) * 6 + 4] = d;
                         vertices[(x + this.terrainWidth * y) * 6 + 5] = c;
-
-                        /*
-                        GL.Color3(1.0f, 1.0f, 1.0f); GL.Vertex3((fx + 1) * 100 / fWidth, fy * 100 / fHeight, this.heightData[x + 1 + this.terrainWidth * y] * 0.05);
-                        GL.Color3(1.0f, 0.0f, 0.0f); GL.Vertex3((fx + 1) * 100 / fWidth, (fy + 1) * 100 / fHeight, this.heightData[x + 1 + this.terrainWidth * (y + 1)] * 0.05);
-                        GL.Color3(0.2f, 0.9f, 1.0f); GL.Vertex3(fx * 100 / fWidth, (fy + 1) * 100 / fHeight, this.heightData[x + this.terrainWidth * (y + 1)] * 0.05);*/
                     }
                 }
             }
 
-            if (this.vertexBufferHandle != 0)
+            try
             {
-                GL.DeleteBuffers(1, ref this.vertexBufferHandle);
+                main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
+                {
+                    // delete the previous buffer content
+                    if (this.vertexBufferHandle != 0)
+                    {
+                        GL.DeleteBuffers(1, ref this.vertexBufferHandle);
+                    }
+
+                    // allocate the buffer
+                    GL.GenBuffers(1, out this.vertexBufferHandle);
+
+                    // tell that we are using that buffer
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
+
+                    // upload the data into the buffer into GPU
+                    GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 6 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
+
+                    main.Output3dButtonsOn();
+                    this.viewport.Invalidate();
+
+                    main.HideBuildingModel();
+                }));
             }
-
-            GL.GenBuffers(1, out this.vertexBufferHandle);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
-
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 6 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
-
-            this.v = vertices;
-
-            this.viewport.Invalidate();
+            // this might throw exceptions in case the main thread was terminated while this thread is running
+            catch (Exception) { };
         }
 
         public void Render()
@@ -257,7 +323,7 @@ namespace GeoGen_Studio
             float cosa = (float)Math.Cos(azimuth);
             float cose = (float)Math.Cos(elevation);
 
-            Matrix4 modelview = Matrix4.LookAt(this.distance * cose * sina + 50, this.distance * cose * cosa + 50, this.distance * (float)Math.Sin(this.elevation), 50, 50, 0, 0, 0, 1);
+            Matrix4 modelview = Matrix4.LookAt(this.distance * cose * sina + this.targetX, this.distance * cose * cosa + this.targetY, this.distance * (float)Math.Sin(this.elevation), this.targetX, this.targetY, 0, 0, 0, 1);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
 
@@ -276,55 +342,22 @@ namespace GeoGen_Studio
 
             //GL.Begin(BeginMode.Points);
 
-            ErrorCode err;
-
             if (this.heightData != null)
             {
-                //GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
-
-                //err = GL.GetError();
-                //GL.DrawElements(BeginMode.Triangles, this.terrainWidth * this.terrainHeight * 6, DrawElementsType.UnsignedInt, 0);
-
-                //GL.InterleavedArrays(InterleavedArrayFormat.C3fV3f, 0, IntPtr.Zero);
-
+                // tell the OpenGL which buffer are we using
                 GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
-
-                //GL.VertexPointer(3, VertexPointerType.Float, 6 * sizeof(float), IntPtr.Zero);
-                //GL.ColorPointer(3, ColorPointerType.Float, 6 * sizeof(float), 3);
-
+                
+                // tell the format of the buffered data
                 GL.InterleavedArrays(InterleavedArrayFormat.C3fV3f, 0, IntPtr.Zero);
 
+                // how to vertically scale the data
                 GL.Scale(1f, 1f, this.heightScale);
 
-                GL.DrawArrays(BeginMode.Triangles, 0, v.Length);
-
-                
-                    //err = GL.GetError();
-
-                /*for (uint i = 0; i < v.Length; i++)
-                {
-                    GL.Color3(v[i].Color);
-                    GL.Vertex3(v[i].Position);
-                }*/
-
+                // read the data from buffer
+                GL.DrawArrays(BeginMode.Triangles, 0, this.terrainWidth * this.terrainHeight * 6);
             }
 
-            /*GL.Color3(1.0f, 1.0f, 0.0f); GL.Vertex3(-1.0f, -1.0f, 4.0f);
-            GL.Color3(1.0f, 0.0f, 0.0f); GL.Vertex3(1.0f, -1.0f, 4.0f);
-            GL.Color3(0.2f, 0.9f, 1.0f); GL.Vertex3(0.0f, 1.0f, 4.0f);
-
-            GL.Color3(1.0f, 1.0f, 1.0f); GL.Vertex3(2.0f, 1.0f, 4.0f);
-            GL.Color3(1.0f, 0.0f, 0.0f); GL.Vertex3(1.0f, -1.0f, 4.0f);
-            GL.Color3(0.2f, 0.9f, 1.0f); GL.Vertex3(0.0f, 1.0f, 4.0f);*/
-
-           
-           // GL.End();
-
-            if (this.heightData != null)
-            {
-                err = GL.GetError();
-            }
-
+            // display the stuff
             viewport.SwapBuffers();
         }
 

@@ -77,6 +77,7 @@ namespace GeoGen_Studio
             try
             {
                 main.outputManager.ClearData();
+                main.viewportManager.ClearData();
             }
             catch (Exception)
             {
@@ -173,20 +174,28 @@ namespace GeoGen_Studio
                 // call the processFinished method once the generator finishes
                 this.process.Exited += delegate(object sender, EventArgs e)
                 {
-                    System.Threading.Thread.Sleep(50);
-                    Main.Get().Invoke(new MethodInvoker(delegate()
-                    {
-                        Main.Get().GetProcessManager().ProcessFinished();
-                    }));
+                    try{
+                        System.Threading.Thread.Sleep(50);
+                        Main.Get().Invoke(new MethodInvoker(delegate()
+                        {
+                            Main.Get().GetProcessManager().ProcessFinished();
+                        }));
+                    }
+                    // this might throw unpretty exception in case the program is terminated while the generator is running
+                    catch (Exception) { };
                 };
 
                 // write every line of output to console
                 this.process.OutputDataReceived += delegate(Object sender, System.Diagnostics.DataReceivedEventArgs data)
                 {
-                    Main.Get().Invoke(new MethodInvoker(delegate()
-                    {
-                        Main.Get().WriteToConsole(data.Data);
-                    }));
+                    try{
+                        Main.Get().Invoke(new MethodInvoker(delegate()
+                        {
+                            Main.Get().WriteToConsole(data.Data);
+                        }));
+                    }
+                    // this might throw unpretty exception in case the program is terminated while the generator is running
+                    catch (Exception) { };
                 };
 
                 main.WriteToConsole("Launching 'geogen " + process.StartInfo.Arguments + "'...");
@@ -196,10 +205,15 @@ namespace GeoGen_Studio
                 // call the processFinished method once the generator finishes
                 this.process.Exited += delegate(object sender, EventArgs e)
                 {
-                    Main.Get().Invoke(new MethodInvoker(delegate()
+                    try
                     {
-                        Main.Get().GetProcessManager().SyntaxCheckFinished();
-                    }));
+                        Main.Get().Invoke(new MethodInvoker(delegate()
+                        {
+                            Main.Get().GetProcessManager().SyntaxCheckFinished();
+                        }));
+                    }
+                    // this might throw unpretty exception in case the program is terminated while the syntax check is running
+                    catch (Exception) { };
                 };
             }
 
@@ -236,8 +250,7 @@ namespace GeoGen_Studio
                 // let the output manager load the outputs
                 main.GetOutputManager().CaptureOutputs();
 
-
-                main.GetViewportManager().SetTerrain(config.GeoGenWorkingDirectory + "/" + config.MainMapOutputFile);
+                main.GetViewportManager().RebuildTerrain();
             }
             // exit code != 0 means error of some sort
             else
