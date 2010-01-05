@@ -118,7 +118,6 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.overlays = new System.Windows.Forms.ToolStripComboBox();
             this.toggleOverlay = new System.Windows.Forms.ToolStripButton();
-            this.refreshOverlays = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.resetToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.output3dTab = new System.Windows.Forms.TabPage();
@@ -959,7 +958,6 @@
             this.toolStripLabel2,
             this.overlays,
             this.toggleOverlay,
-            this.refreshOverlays,
             this.toolStripSeparator14,
             this.resetToolStripButton});
             this.outputToolStrip.Location = new System.Drawing.Point(3, 3);
@@ -1041,18 +1039,6 @@
             this.toggleOverlay.Size = new System.Drawing.Size(23, 22);
             this.toggleOverlay.Text = "Toggle overlay display";
             this.toggleOverlay.Click += new System.EventHandler(this.toggleOverlay_Click);
-            // 
-            // refreshOverlays
-            // 
-            this.refreshOverlays.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.refreshOverlays.Enabled = false;
-            this.refreshOverlays.Image = ((System.Drawing.Image)(resources.GetObject("refreshOverlays.Image")));
-            this.refreshOverlays.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.refreshOverlays.Name = "refreshOverlays";
-            this.refreshOverlays.Size = new System.Drawing.Size(23, 22);
-            this.refreshOverlays.Text = "toolStripButton1";
-            this.refreshOverlays.ToolTipText = "Refresh the list of available overlays";
-            this.refreshOverlays.Click += new System.EventHandler(this.refreshOverlays_Click);
             // 
             // toolStripSeparator14
             // 
@@ -1225,6 +1211,7 @@
             this.texture.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.texture.Name = "texture";
             this.texture.Size = new System.Drawing.Size(121, 23);
+            this.texture.SelectedIndexChanged += new System.EventHandler(this.texture_SelectedIndexChanged);
             // 
             // toolStripSeparator17
             // 
@@ -1253,6 +1240,7 @@
             this.lighting.Name = "lighting";
             this.lighting.Size = new System.Drawing.Size(23, 22);
             this.lighting.Text = "Setup Lighting";
+            this.lighting.Click += new System.EventHandler(this.lighting_Click);
             // 
             // wireframe
             // 
@@ -1473,7 +1461,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.ToolStripButton refreshOverlays;
         private System.Windows.Forms.Panel outputContainer;
         private System.Windows.Forms.SplitContainer sidebarSplitContainer;
         private System.Windows.Forms.TextBox console;
@@ -1550,7 +1537,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
-        private System.Windows.Forms.ToolStripComboBox texture;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
@@ -1559,6 +1545,7 @@
         private System.Windows.Forms.Label buildingModel;
         public System.Windows.Forms.ToolStrip toolStrip1;
         public System.Windows.Forms.ToolStripComboBox outputs3d;
+        public System.Windows.Forms.ToolStripComboBox texture;
     }
 }
 

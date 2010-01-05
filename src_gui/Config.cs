@@ -5,6 +5,7 @@ namespace GeoGen_Studio
 {
     [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
     [System.Xml.Serialization.XmlInclude(typeof(ViewportManager.ModelDetailLevel))]
+    [System.Xml.Serialization.XmlInclude(typeof(OpenTK.Vector4))]
     public class Config
     {
 
@@ -37,7 +38,13 @@ namespace GeoGen_Studio
         public bool lineBreaks;
         public bool whitespace;
         public int editorZooom;
-        
+
+        /* 3D light settings */
+        public OpenTK.Vector4 ambientLightColor;
+        public OpenTK.Vector4 directionalLightColor;
+        public float lightAzimuth;
+        public float lightElevation;
+        public bool lightEnabled;
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -184,6 +191,14 @@ namespace GeoGen_Studio
 
             /* 3D view */
             modelDetailLevel = ViewportManager.ModelDetailLevel.Medium_512x512Polygons;
+
+            /* 3D light */
+            ambientLightColor = new OpenTK.Vector4(0.2f, 0.2f, 0.2f, 1.0f);
+            OpenTK.Vector4 directionalLightColor = new OpenTK.Vector4(0.6f, 0.6f, 0.6f, 1.0f);
+            lightAzimuth = 0.0f;
+            lightElevation = 0.5f;
+            lightEnabled = true;
+
         }
 
         public void Save()

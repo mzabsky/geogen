@@ -74,7 +74,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label Message;
         private System.Windows.Forms.Timer opacityTimer;
+        public System.Windows.Forms.Label Message;
     }
 }
