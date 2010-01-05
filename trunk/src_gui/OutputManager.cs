@@ -78,11 +78,15 @@ namespace GeoGen_Studio
             main.outputs.Items.Add("[Main]");
             main.outputs.SelectedIndex = 0;
 
+            main.outputs3d.Items.Add("[Main]");
+            main.outputs3d.SelectedIndex = 0;
+
             for (int i = 0; i < paths.Length; i++)
             {
                 System.IO.FileInfo info = new System.IO.FileInfo(paths[i]);
 
                 main.outputs.Items.Add(info.Name);
+                main.outputs3d.Items.Add(info.Name);
             }
 
             /*if (main.overlays.SelectedIndex != 0)
@@ -117,13 +121,14 @@ namespace GeoGen_Studio
             int oldImageWidth = 0;
             int oldImageHeight = 0;
 
+            // save original output image dimensions, so we can deetect their change
             if (main.output.Image != null)
             {
                 oldImageWidth = main.output.Image.Width;
                 oldImageHeight = main.output.Image.Height;
             }
 
-
+            // load main or secondary map?
             if (main.outputs.SelectedIndex < 1)
             {
                 path += config.MainMapOutputFile;
@@ -133,15 +138,20 @@ namespace GeoGen_Studio
                 path += (string)main.outputs.Items[main.outputs.SelectedIndex];
             }
 
+            // if the image being loaded doesn't exist, cancel
             try
             {
                 currentImage = System.Drawing.Image.FromFile(path);
             }
             catch (Exception)
             {
+                main.RemoveStatus("Loading");
+
                 return;
             }
 
+
+            // apply overlay pattern?
             if (main.overlays.SelectedIndex > 0)
             {
                 string overlayPath = config.OverlayDirectory + "/" + (string)main.overlays.Items[main.overlays.SelectedIndex];
@@ -187,6 +197,7 @@ namespace GeoGen_Studio
 
             }
 
+            // decide which image (gray or overlay) to display
             if (main.overlays.SelectedIndex > 0 && main.toggleOverlay.Checked)
             {
                 main.output.Image = this.currentImageWithOverlay;
@@ -196,7 +207,8 @@ namespace GeoGen_Studio
                 main.output.Image = this.currentImage;
             }
 
-            if (oldImageWidth != main.output.Image.Width || oldImageHeight != main.output.Image.Width)
+            // detect size change (reset the view if size changed to prevent the image shrinking avay from the screen)
+            if (oldImageWidth > main.output.Image.Width || oldImageHeight > main.output.Image.Width || oldImageHeight == 0)
             {
                 main.output.Width = main.output.Image.Width;
                 main.output.Height = main.output.Image.Height;

@@ -164,7 +164,7 @@ namespace GeoGen_Studio
         { 
             /* Basic settings */
             templateFile = "./../examples/template.nut";
-            openLastFileOnStartup = false;
+            openLastFileOnStartup = true;
             lastFile = "";
             scintillaDefinitonsFile = "../config/scintilla.xml";
 
@@ -206,8 +206,10 @@ namespace GeoGen_Studio
                 main.LoadInterfaceSettings();
             }
             // something went wrong -> create a new config file
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                main.WriteToConsole("Could not open config file, falling back to defaults.");
+
                 Config c = new Config();
 
                 main.config = c;

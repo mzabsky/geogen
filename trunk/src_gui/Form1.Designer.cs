@@ -122,9 +122,24 @@
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.resetToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.output3dTab = new System.Windows.Forms.TabPage();
+            this.heightScale = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buildingModel = new System.Windows.Forms.Label();
             this.viewport = new OpenTK.GLControl();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.screenshot = new System.Windows.Forms.ToolStripButton();
+            this.clear3d = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.outputs3d = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this.texture = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.lighting = new System.Windows.Forms.ToolStripButton();
+            this.wireframe = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.consoleLarge = new System.Windows.Forms.TextBox();
             this.sidebarSplitContainer = new System.Windows.Forms.SplitContainer();
@@ -133,21 +148,7 @@
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
-            this.heightScale = new System.Windows.Forms.TrackBar();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.screenshot = new System.Windows.Forms.ToolStripButton();
-            this.clear3d = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.outputs3d = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
-            this.lighting = new System.Windows.Forms.ToolStripButton();
-            this.wireframe = new System.Windows.Forms.ToolStripButton();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -163,13 +164,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.output)).BeginInit();
             this.outputToolStrip.SuspendLayout();
             this.output3dTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.heightScale)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.sidebarSplitContainer.Panel1.SuspendLayout();
             this.sidebarSplitContainer.Panel2.SuspendLayout();
             this.sidebarSplitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.heightScale)).BeginInit();
             this.SuspendLayout();
             // 
             // codeTab
@@ -178,7 +179,7 @@
             codeTab.Location = new System.Drawing.Point(4, 22);
             codeTab.Name = "codeTab";
             codeTab.Padding = new System.Windows.Forms.Padding(3);
-            codeTab.Size = new System.Drawing.Size(910, 541);
+            codeTab.Size = new System.Drawing.Size(801, 406);
             codeTab.TabIndex = 0;
             codeTab.Text = "Code";
             codeTab.UseVisualStyleBackColor = true;
@@ -199,7 +200,7 @@
             this.editor.Margins.Margin1.Width = 0;
             this.editor.Margins.Margin2.Width = 20;
             this.editor.Name = "editor";
-            this.editor.Size = new System.Drawing.Size(904, 535);
+            this.editor.Size = new System.Drawing.Size(795, 400);
             this.editor.Styles.Bits = 5;
             this.editor.Styles.BraceBad.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Styles.BraceLight.BackColor = System.Drawing.SystemColors.Window;
@@ -871,6 +872,7 @@
             // splitContainer
             // 
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer.Location = new System.Drawing.Point(0, 49);
             this.splitContainer.Name = "splitContainer";
             // 
@@ -885,7 +887,7 @@
             this.splitContainer.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer.Size = new System.Drawing.Size(989, 432);
-            this.splitContainer.SplitterDistance = 839;
+            this.splitContainer.SplitterDistance = 809;
             this.splitContainer.TabIndex = 3;
             // 
             // tabs
@@ -899,7 +901,7 @@
             this.tabs.MinimumSize = new System.Drawing.Size(735, 0);
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(839, 432);
+            this.tabs.Size = new System.Drawing.Size(809, 432);
             this.tabs.TabIndex = 0;
             // 
             // outputTab
@@ -909,7 +911,7 @@
             this.outputTab.Location = new System.Drawing.Point(4, 22);
             this.outputTab.Name = "outputTab";
             this.outputTab.Padding = new System.Windows.Forms.Padding(3);
-            this.outputTab.Size = new System.Drawing.Size(910, 541);
+            this.outputTab.Size = new System.Drawing.Size(801, 406);
             this.outputTab.TabIndex = 1;
             this.outputTab.Text = "Output (2D)";
             this.outputTab.UseVisualStyleBackColor = true;
@@ -923,7 +925,7 @@
             this.outputContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.outputContainer.Location = new System.Drawing.Point(3, 28);
             this.outputContainer.Name = "outputContainer";
-            this.outputContainer.Size = new System.Drawing.Size(904, 510);
+            this.outputContainer.Size = new System.Drawing.Size(795, 375);
             this.outputContainer.TabIndex = 1;
             // 
             // output
@@ -945,6 +947,7 @@
             // 
             // outputToolStrip
             // 
+            this.outputToolStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.outputToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.outputToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveOutput,
@@ -961,7 +964,7 @@
             this.resetToolStripButton});
             this.outputToolStrip.Location = new System.Drawing.Point(3, 3);
             this.outputToolStrip.Name = "outputToolStrip";
-            this.outputToolStrip.Size = new System.Drawing.Size(904, 25);
+            this.outputToolStrip.Size = new System.Drawing.Size(795, 25);
             this.outputToolStrip.TabIndex = 0;
             this.outputToolStrip.Text = "toolStrip1";
             // 
@@ -995,12 +998,14 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(90, 22);
-            this.toolStripLabel1.Text = "Available maps:";
+            this.toolStripLabel1.Size = new System.Drawing.Size(93, 22);
+            this.toolStripLabel1.Text = "Available maps: ";
             // 
             // outputs
             // 
+            this.outputs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.outputs.Enabled = false;
+            this.outputs.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this.outputs.Name = "outputs";
             this.outputs.Size = new System.Drawing.Size(121, 25);
             this.outputs.SelectedIndexChanged += new System.EventHandler(this.outputs_SelectedIndexChanged);
@@ -1018,7 +1023,9 @@
             // 
             // overlays
             // 
+            this.overlays.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.overlays.Enabled = false;
+            this.overlays.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this.overlays.Name = "overlays";
             this.overlays.Size = new System.Drawing.Size(121, 25);
             this.overlays.SelectedIndexChanged += new System.EventHandler(this.overlays_SelectedIndexChanged);
@@ -1071,20 +1078,49 @@
             this.output3dTab.Location = new System.Drawing.Point(4, 22);
             this.output3dTab.Name = "output3dTab";
             this.output3dTab.Padding = new System.Windows.Forms.Padding(3);
-            this.output3dTab.Size = new System.Drawing.Size(831, 406);
+            this.output3dTab.Size = new System.Drawing.Size(801, 406);
             this.output3dTab.TabIndex = 3;
             this.output3dTab.Text = "Output (3D)";
             this.output3dTab.UseVisualStyleBackColor = true;
             // 
+            // heightScale
+            // 
+            this.heightScale.AutoSize = false;
+            this.heightScale.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.heightScale.Enabled = false;
+            this.heightScale.Location = new System.Drawing.Point(529, 3);
+            this.heightScale.Maximum = 30;
+            this.heightScale.Name = "heightScale";
+            this.heightScale.Size = new System.Drawing.Size(130, 23);
+            this.heightScale.SmallChange = 5;
+            this.heightScale.TabIndex = 4;
+            this.heightScale.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.heightScale.Value = 8;
+            this.heightScale.ValueChanged += new System.EventHandler(this.heightScale_ValueChanged);
+            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.buildingModel);
             this.panel1.Controls.Add(this.viewport);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 28);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(825, 375);
+            this.panel1.Size = new System.Drawing.Size(795, 375);
             this.panel1.TabIndex = 3;
+            // 
+            // buildingModel
+            // 
+            this.buildingModel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.buildingModel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buildingModel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buildingModel.Location = new System.Drawing.Point(266, 148);
+            this.buildingModel.Name = "buildingModel";
+            this.buildingModel.Size = new System.Drawing.Size(288, 42);
+            this.buildingModel.TabIndex = 1;
+            this.buildingModel.Text = "Building terrain model...";
+            this.buildingModel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.buildingModel.Visible = false;
             // 
             // viewport
             // 
@@ -1092,17 +1128,20 @@
             this.viewport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewport.Location = new System.Drawing.Point(0, 0);
             this.viewport.Name = "viewport";
-            this.viewport.Size = new System.Drawing.Size(821, 371);
+            this.viewport.Size = new System.Drawing.Size(791, 371);
             this.viewport.TabIndex = 0;
             this.viewport.VSync = false;
             this.viewport.Load += new System.EventHandler(this.viewport_Load);
+            this.viewport.MouseLeave += new System.EventHandler(this.viewport_MouseLeave);
             this.viewport.Paint += new System.Windows.Forms.PaintEventHandler(this.viewport_Paint);
             this.viewport.MouseMove += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseMove);
             this.viewport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseDown);
             this.viewport.MouseUp += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseUp);
+            this.viewport.MouseEnter += new System.EventHandler(this.viewport_MouseEnter);
             // 
             // toolStrip1
             // 
+            this.toolStrip1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.screenshot,
@@ -1112,7 +1151,7 @@
             this.outputs3d,
             this.toolStripSeparator16,
             this.toolStripLabel4,
-            this.toolStripComboBox1,
+            this.texture,
             this.toolStripSeparator17,
             this.toolStripLabel5,
             this.toolStripSeparator18,
@@ -1120,16 +1159,119 @@
             this.wireframe});
             this.toolStrip1.Location = new System.Drawing.Point(3, 3);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(825, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(795, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // screenshot
+            // 
+            this.screenshot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.screenshot.Enabled = false;
+            this.screenshot.Image = ((System.Drawing.Image)(resources.GetObject("screenshot.Image")));
+            this.screenshot.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.screenshot.Name = "screenshot";
+            this.screenshot.Size = new System.Drawing.Size(23, 22);
+            this.screenshot.Text = "Save screenshot";
+            this.screenshot.Click += new System.EventHandler(this.screenshot_Click);
+            // 
+            // clear3d
+            // 
+            this.clear3d.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.clear3d.Enabled = false;
+            this.clear3d.Image = ((System.Drawing.Image)(resources.GetObject("clear3d.Image")));
+            this.clear3d.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.clear3d.Name = "clear3d";
+            this.clear3d.Size = new System.Drawing.Size(23, 22);
+            this.clear3d.Text = "Discard all 3D data";
+            this.clear3d.Click += new System.EventHandler(this.clear3d_Click);
+            // 
+            // toolStripSeparator15
+            // 
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(93, 22);
+            this.toolStripLabel3.Text = "Available maps: ";
+            // 
+            // outputs3d
+            // 
+            this.outputs3d.AutoSize = false;
+            this.outputs3d.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.outputs3d.Enabled = false;
+            this.outputs3d.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            this.outputs3d.Name = "outputs3d";
+            this.outputs3d.Size = new System.Drawing.Size(121, 23);
+            this.outputs3d.SelectedIndexChanged += new System.EventHandler(this.outputs3d_SelectedIndexChanged);
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(52, 22);
+            this.toolStripLabel4.Text = "Texture: ";
+            // 
+            // texture
+            // 
+            this.texture.AutoSize = false;
+            this.texture.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.texture.Enabled = false;
+            this.texture.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.texture.Name = "texture";
+            this.texture.Size = new System.Drawing.Size(121, 23);
+            // 
+            // toolStripSeparator17
+            // 
+            this.toolStripSeparator17.Name = "toolStripSeparator17";
+            this.toolStripSeparator17.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel5
+            // 
+            this.toolStripLabel5.AutoSize = false;
+            this.toolStripLabel5.Name = "toolStripLabel5";
+            this.toolStripLabel5.Size = new System.Drawing.Size(200, 22);
+            this.toolStripLabel5.Text = "Height scale: ";
+            this.toolStripLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
+            // 
+            // lighting
+            // 
+            this.lighting.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.lighting.Enabled = false;
+            this.lighting.Image = ((System.Drawing.Image)(resources.GetObject("lighting.Image")));
+            this.lighting.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lighting.Name = "lighting";
+            this.lighting.Size = new System.Drawing.Size(23, 22);
+            this.lighting.Text = "Setup Lighting";
+            // 
+            // wireframe
+            // 
+            this.wireframe.CheckOnClick = true;
+            this.wireframe.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.wireframe.Enabled = false;
+            this.wireframe.Image = ((System.Drawing.Image)(resources.GetObject("wireframe.Image")));
+            this.wireframe.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.wireframe.Name = "wireframe";
+            this.wireframe.Size = new System.Drawing.Size(23, 22);
+            this.wireframe.Text = "toolStripButton1";
+            this.wireframe.CheckedChanged += new System.EventHandler(this.wireframe_CheckedChanged);
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.consoleLarge);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(910, 541);
+            this.tabPage1.Size = new System.Drawing.Size(801, 406);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Log";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1142,7 +1284,7 @@
             this.consoleLarge.Multiline = true;
             this.consoleLarge.Name = "consoleLarge";
             this.consoleLarge.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.consoleLarge.Size = new System.Drawing.Size(910, 541);
+            this.consoleLarge.Size = new System.Drawing.Size(801, 406);
             this.consoleLarge.TabIndex = 0;
             this.consoleLarge.WordWrap = false;
             // 
@@ -1164,8 +1306,8 @@
             this.sidebarSplitContainer.Panel2.Controls.Add(this.console);
             this.sidebarSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(3);
             this.sidebarSplitContainer.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.sidebarSplitContainer.Size = new System.Drawing.Size(146, 432);
-            this.sidebarSplitContainer.SplitterDistance = 141;
+            this.sidebarSplitContainer.Size = new System.Drawing.Size(176, 432);
+            this.sidebarSplitContainer.SplitterDistance = 187;
             this.sidebarSplitContainer.TabIndex = 0;
             // 
             // parameters
@@ -1177,7 +1319,7 @@
             this.parameters.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
             this.parameters.DocCommentDescription.Location = new System.Drawing.Point(3, 18);
             this.parameters.DocCommentDescription.Name = "";
-            this.parameters.DocCommentDescription.Size = new System.Drawing.Size(205, 37);
+            this.parameters.DocCommentDescription.Size = new System.Drawing.Size(164, 37);
             this.parameters.DocCommentDescription.TabIndex = 1;
             this.parameters.DocCommentImage = null;
             // 
@@ -1187,14 +1329,14 @@
             this.parameters.DocCommentTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.parameters.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
             this.parameters.DocCommentTitle.Name = "";
-            this.parameters.DocCommentTitle.Size = new System.Drawing.Size(205, 15);
+            this.parameters.DocCommentTitle.Size = new System.Drawing.Size(164, 15);
             this.parameters.DocCommentTitle.TabIndex = 0;
             this.parameters.DocCommentTitle.UseMnemonic = false;
             this.parameters.Dock = System.Windows.Forms.DockStyle.Fill;
             this.parameters.Location = new System.Drawing.Point(3, 3);
             this.parameters.Name = "parameters";
             this.parameters.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.parameters.Size = new System.Drawing.Size(140, 135);
+            this.parameters.Size = new System.Drawing.Size(170, 181);
             this.parameters.TabIndex = 0;
             this.parameters.ToolbarVisible = false;
             // 
@@ -1225,7 +1367,7 @@
             this.console.Multiline = true;
             this.console.Name = "console";
             this.console.ReadOnly = true;
-            this.console.Size = new System.Drawing.Size(140, 281);
+            this.console.Size = new System.Drawing.Size(170, 235);
             this.console.TabIndex = 0;
             this.console.WordWrap = false;
             this.console.TextChanged += new System.EventHandler(this.console_TextChanged);
@@ -1244,113 +1386,9 @@
             this.saveOutputDialog.DefaultExt = "png";
             this.saveOutputDialog.Filter = "PNG Images|*.png|All files|*.*";
             // 
-            // heightScale
-            // 
-            this.heightScale.AutoSize = false;
-            this.heightScale.Location = new System.Drawing.Point(529, 3);
-            this.heightScale.Maximum = 30;
-            this.heightScale.Name = "heightScale";
-            this.heightScale.Size = new System.Drawing.Size(130, 23);
-            this.heightScale.TabIndex = 4;
-            this.heightScale.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.heightScale.Value = 8;
-            this.heightScale.ValueChanged += new System.EventHandler(this.heightScale_ValueChanged);
-            // 
-            // screenshot
-            // 
-            this.screenshot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.screenshot.Image = ((System.Drawing.Image)(resources.GetObject("screenshot.Image")));
-            this.screenshot.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.screenshot.Name = "screenshot";
-            this.screenshot.Size = new System.Drawing.Size(23, 22);
-            this.screenshot.Text = "Save screenshot";
-            this.screenshot.Click += new System.EventHandler(this.screenshot_Click);
-            // 
-            // clear3d
-            // 
-            this.clear3d.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.clear3d.Image = ((System.Drawing.Image)(resources.GetObject("clear3d.Image")));
-            this.clear3d.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.clear3d.Name = "clear3d";
-            this.clear3d.Size = new System.Drawing.Size(23, 22);
-            this.clear3d.Text = "Discard all 3D data";
-            // 
-            // toolStripSeparator15
-            // 
-            this.toolStripSeparator15.Name = "toolStripSeparator15";
-            this.toolStripSeparator15.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(93, 22);
-            this.toolStripLabel3.Text = "Available maps: ";
-            // 
-            // outputs3d
-            // 
-            this.outputs3d.AutoSize = false;
-            this.outputs3d.Name = "outputs3d";
-            this.outputs3d.Size = new System.Drawing.Size(121, 25);
-            // 
-            // toolStripSeparator16
-            // 
-            this.toolStripSeparator16.Name = "toolStripSeparator16";
-            this.toolStripSeparator16.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel4
-            // 
-            this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(52, 22);
-            this.toolStripLabel4.Text = "Texture: ";
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.AutoSize = false;
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
-            // 
-            // toolStripSeparator17
-            // 
-            this.toolStripSeparator17.Name = "toolStripSeparator17";
-            this.toolStripSeparator17.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel5
-            // 
-            this.toolStripLabel5.AutoSize = false;
-            this.toolStripLabel5.Name = "toolStripLabel5";
-            this.toolStripLabel5.Size = new System.Drawing.Size(200, 22);
-            this.toolStripLabel5.Text = "Height scale: ";
-            this.toolStripLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripSeparator18
-            // 
-            this.toolStripSeparator18.Name = "toolStripSeparator18";
-            this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
-            // 
-            // lighting
-            // 
-            this.lighting.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.lighting.Image = ((System.Drawing.Image)(resources.GetObject("lighting.Image")));
-            this.lighting.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.lighting.Name = "lighting";
-            this.lighting.Size = new System.Drawing.Size(23, 22);
-            this.lighting.Text = "Setup Lighting";
-            // 
-            // wireframe
-            // 
-            this.wireframe.CheckOnClick = true;
-            this.wireframe.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.wireframe.Image = ((System.Drawing.Image)(resources.GetObject("wireframe.Image")));
-            this.wireframe.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.wireframe.Name = "wireframe";
-            this.wireframe.Size = new System.Drawing.Size(23, 22);
-            this.wireframe.Text = "toolStripButton1";
-            this.wireframe.CheckedChanged += new System.EventHandler(this.wireframe_CheckedChanged);
-            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(989, 503);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.statusStrip);
@@ -1361,6 +1399,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(930, 400);
             this.Name = "Main";
+            this.Opacity = 0;
             this.Text = "GeoGen Studio";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Main_Load);
@@ -1385,6 +1424,7 @@
             this.outputToolStrip.PerformLayout();
             this.output3dTab.ResumeLayout(false);
             this.output3dTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.heightScale)).EndInit();
             this.panel1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -1394,7 +1434,6 @@
             this.sidebarSplitContainer.Panel2.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.PerformLayout();
             this.sidebarSplitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.heightScale)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1498,7 +1537,6 @@
         private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
         private System.Windows.Forms.TabPage output3dTab;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripMenuItem websiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripButton resetToolStripButton;
@@ -1510,15 +1548,17 @@
         private System.Windows.Forms.ToolStripButton clear3d;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
-        private System.Windows.Forms.ToolStripComboBox outputs3d;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStripComboBox texture;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private System.Windows.Forms.ToolStripButton lighting;
         private System.Windows.Forms.ToolStripButton wireframe;
+        private System.Windows.Forms.Label buildingModel;
+        public System.Windows.Forms.ToolStrip toolStrip1;
+        public System.Windows.Forms.ToolStripComboBox outputs3d;
     }
 }
 

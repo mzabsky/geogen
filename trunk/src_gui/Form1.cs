@@ -43,6 +43,8 @@ namespace GeoGen_Studio
         public Config config;
         private string currentFileName;
         private bool scrollOutput;
+        private bool scrollViewport; // viewport azimuth and elevatio mode (left mouse is clicked down)
+        private bool moveViewport; // viewport target movement mode (right mouse is clicked down)
         int outputLastMouseX;
         int outputLastMouseY;
         int mouseDownX;
@@ -61,17 +63,27 @@ namespace GeoGen_Studio
         // form initializer
         private void Main_Load(object sender, EventArgs e)
         {
+            // show the splash screen
+            Loading loading = new Loading();
+            loading.Show();
+            loading.Refresh();
+
             this.needsSaving = false;
 
+            // initialize the managers
             this.processManager = new ProcessManager();
             this.outputManager = new OutputManager();
             this.viewportManager = new ViewportManager();
 
-            Config.Load();
-
-      
-
+            // let viewportManager know of the viewport
             this.viewportManager.viewport = this.viewport;
+
+            // make sure the OpenGL control is shown (so the OpenGL context is created)
+            this.SelectTab(Tabs.Output3D);
+            this.SelectTab(Tabs.Code);
+
+            // load CML configuration
+            Config.Load();
 
             // make sure the parameter property grid knows where to look for its items 
             this.parameters.SelectedObject = parameters.Item;
@@ -92,15 +104,10 @@ namespace GeoGen_Studio
             this.outputManager.ClearData();
             this.outputManager.LoadOverlays();
 
-            this.scrollOutput = false;
-
             // load the custom syntax highlighter settings
             this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
 
-            // make sure the OpenGL control is shown (so the OpenGL context is created)
-            this.SelectTab(Tabs.Output3D);
-            this.SelectTab(Tabs.Code);
-
+            // open last opened file if requested
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
             {
                 this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
@@ -109,14 +116,27 @@ namespace GeoGen_Studio
                 this.needsSaving = false;
             }
 
+            // output and viewport zooming event
             this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
 
+            // show this form and close the splash screen
+            this.Opacity = 1.0;
+            loading.FadeOut();
         }
 
         // this app's GetInstance()
         public static Main Get()
         {
-            return (Main) System.Windows.Forms.Application.OpenForms[0];
+            try
+            {
+                return (Main)System.Windows.Forms.Application.OpenForms[0];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Application.Exit();
+            }
+
+            return null;
         }
 
         public Config GetConfig()
@@ -201,6 +221,21 @@ namespace GeoGen_Studio
             this.console.Text += str + Environment.NewLine;
         }
 
+        public void ShowBuildingModel()
+        {
+            this.AddStatus("Building terrain");
+
+            this.buildingModel.Left = (this.buildingModel.Parent.Width - this.buildingModel.Width) / 2;
+            this.buildingModel.Top = (this.buildingModel.Parent.Height - this.buildingModel.Height) / 2;
+            this.buildingModel.Visible = true;
+        }
+
+        public void HideBuildingModel()
+        {
+            this.RemoveStatus("Building terrain");
+            this.buildingModel.Visible = false;
+        }
+
         public void ButtonsRunMode()
         {
             this.executeToolStripButton.Enabled = false;
@@ -242,6 +277,29 @@ namespace GeoGen_Studio
             this.refreshOverlays.Enabled = false;
             this.resetToolStripButton.Enabled = false;
         }
+
+        public void Output3dButtonsOn()
+        {
+            this.screenshot.Enabled = true;
+            this.clear3d.Enabled = true;
+            this.outputs3d.Enabled = true;
+            this.texture.Enabled = true;
+            this.wireframe.Enabled = true;
+            this.lighting.Enabled = true;
+            this.heightScale.Enabled = true;
+        }
+
+        public void Output3dButtonsOff()
+        {
+            this.screenshot.Enabled = false;
+            this.clear3d.Enabled = false;
+            this.outputs3d.Enabled = false;
+            this.texture.Enabled = false;
+            this.wireframe.Enabled = false;
+            this.lighting.Enabled = false;
+            this.heightScale.Enabled = false;
+        }
+
 
         public void SelectTab(Tabs tab)
         {
@@ -739,7 +797,7 @@ namespace GeoGen_Studio
         private void Form1_MouseWheel(object sender, MouseEventArgs e)
         {
             // mouse is inside the output rect...
-            if (outputMouse)
+            if (this.outputMouse)
             {
                 int current_width = output.Width;
                 int current_height = output.Height;
@@ -760,6 +818,11 @@ namespace GeoGen_Studio
                 // make sure the zooming is centered on mouse
                 output.Left -= (Int32)((Double)(output.Width - current_width) / ((Double)current_width / (Double)this.outputLastMouseX));
                 output.Top -= (Int32)((Double)(output.Height - current_height) / ((Double)current_height / (Double)this.outputLastMouseY));
+            }
+            else if(this.viewportMouse){
+                this.viewportManager.distance = Math.Max(Math.Min(this.viewportManager.distance - e.Delta / 12, 150), 10);
+
+                this.viewport.Invalidate();
             }
         }
 
@@ -795,7 +858,14 @@ namespace GeoGen_Studio
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                this.viewportMouse = true;
+                this.scrollViewport = true;
+                this.mouseDownX = e.X;
+                this.mouseDownY = e.Y;
+            }
+
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                this.moveViewport = true;
                 this.mouseDownX = e.X;
                 this.mouseDownY = e.Y;
             }
@@ -805,13 +875,18 @@ namespace GeoGen_Studio
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                this.viewportMouse = false;
+                this.scrollViewport = false;
+            }
+
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                this.moveViewport = false;
             }
         }
 
         private void viewport_MouseMove(object sender, MouseEventArgs e)
         {
-            if (viewportMouse)
+            if (this.scrollViewport)
             {
                 this.viewportManager.azimuth += (double) (e.X - this.mouseDownX) / (this.viewport.Width * 0.5) ;
 
@@ -819,9 +894,21 @@ namespace GeoGen_Studio
 
                 viewport.Invalidate();
 
-                this.mouseDownX = e.X;
-                this.mouseDownY = e.Y;
             }
+
+            if (this.moveViewport)
+            {
+                // movement must be relative to the current camera vector (its azimuth)
+                // the camerra target is not permitted to leave map area
+                this.viewportManager.targetX = Math.Max(0, Math.Min(100 ,this.viewportManager.targetX + ((float)Math.Cos(this.viewportManager.azimuth) * (e.X - this.mouseDownX) / 20 + (float)Math.Sin(-this.viewportManager.azimuth) * (e.Y - this.mouseDownY) / 20)));
+                this.viewportManager.targetY = Math.Max(0, Math.Min(100 ,this.viewportManager.targetY - ((float)Math.Cos(-this.viewportManager.azimuth) * (e.Y - this.mouseDownY) / 20 + (float)Math.Sin(this.viewportManager.azimuth) * (e.X - this.mouseDownX) / 20)));
+
+                viewport.Invalidate();
+            }
+
+
+            this.mouseDownX = e.X;
+            this.mouseDownY = e.Y;
         }
 
         private void wireframe_CheckedChanged(object sender, EventArgs e)
@@ -837,6 +924,26 @@ namespace GeoGen_Studio
         private void heightScale_ValueChanged(object sender, EventArgs e)
         {
             this.viewportManager.HeightScale = this.heightScale.Value;
+        }
+
+        private void viewport_MouseEnter(object sender, EventArgs e)
+        {
+            this.viewportMouse = true;
+        }
+
+        private void viewport_MouseLeave(object sender, EventArgs e)
+        {
+            this.viewportMouse = false;
+        }
+
+        private void clear3d_Click(object sender, EventArgs e)
+        {
+            this.viewportManager.ClearData();
+        }
+
+        private void outputs3d_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(this.GetViewportManager().currentMap != -1) this.viewportManager.RebuildTerrain();
         }
 
 
