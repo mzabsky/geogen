@@ -87,6 +87,7 @@ namespace GeoGen_Studio
 
                 main.outputs.Items.Add(info.Name);
                 main.outputs3d.Items.Add(info.Name);
+                main.texture.Items.Add("Map: " + info.Name);
             }
 
             /*if (main.overlays.SelectedIndex != 0)
@@ -107,6 +108,46 @@ namespace GeoGen_Studio
             {
                 main.SelectTab(Main.Tabs.Output3D);
             }
+        }
+
+        public System.Drawing.Bitmap ApplyOverlay(System.Drawing.Bitmap bitmap, System.Drawing.Bitmap overlayBitmap)
+        {
+            // prepare byte access to the overlay bitmap
+            System.Drawing.Rectangle OverlayRect = new System.Drawing.Rectangle(0, 0, overlayBitmap.Width, overlayBitmap.Height);
+            System.Drawing.Imaging.BitmapData overlayData = overlayBitmap.LockBits(OverlayRect, System.Drawing.Imaging.ImageLockMode.ReadOnly, overlayBitmap.PixelFormat);
+
+            // prepare byte access to the height data
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+            // prepare memory space for the newly created color data
+            byte[] copy = new byte[data.Stride * bitmap.Height];
+            byte[] overlayCopy = new byte[overlayData.Stride * overlayBitmap.Height];
+
+            // get a pointer to the to first line (=first pixel)
+            IntPtr ptr = data.Scan0;
+            IntPtr overlayPtr = overlayData.Scan0;
+
+            // create a byte copy of the heightmap data
+            System.Runtime.InteropServices.Marshal.Copy(ptr, copy, 0, data.Stride * bitmap.Height);
+            System.Runtime.InteropServices.Marshal.Copy(overlayPtr, overlayCopy, 0, overlayData.Stride * overlayBitmap.Height);
+
+            // apply the recoloring
+            for (int i = 0; i < copy.Length; i += 4)
+            {
+                copy[i + 0] = overlayCopy[copy[i + 0] * 3 + 0];
+                copy[i + 1] = overlayCopy[copy[i + 1] * 3 + 1];
+                copy[i + 2] = overlayCopy[copy[i + 2] * 3 + 2];
+                // we are not interested in alpha channel
+            }
+
+            // copy the data back
+            System.Runtime.InteropServices.Marshal.Copy(copy, 0, ptr, data.Stride * bitmap.Height);
+
+            // unlock the bits
+            bitmap.UnlockBits(data);
+
+            return bitmap;
         }
 
         public void ShowImage()
@@ -156,44 +197,7 @@ namespace GeoGen_Studio
             {
                 string overlayPath = config.OverlayDirectory + "/" + (string)main.overlays.Items[main.overlays.SelectedIndex];
 
-                // prepare byte access to the overlay bitmap
-                System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap(overlayPath);
-                System.Drawing.Rectangle OverlayRect = new System.Drawing.Rectangle(0, 0, overlayBitmap.Width, overlayBitmap.Height);
-                System.Drawing.Imaging.BitmapData overlayData = overlayBitmap.LockBits(OverlayRect, System.Drawing.Imaging.ImageLockMode.ReadOnly, overlayBitmap.PixelFormat);
-
-                // prepare byte access to the height data
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(currentImage);
-                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-                System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
-
-                // prepare memory space for the newly created color data
-                byte[] copy = new byte[data.Stride * bitmap.Height];
-                byte[] overlayCopy = new byte[overlayData.Stride * overlayBitmap.Height];
-
-                // get a pointer to the to first line (=first pixel)
-                IntPtr ptr = data.Scan0;
-                IntPtr overlayPtr = overlayData.Scan0;
-
-                // create a byte copy of the heightmap data
-                System.Runtime.InteropServices.Marshal.Copy(ptr, copy, 0, data.Stride * bitmap.Height);
-                System.Runtime.InteropServices.Marshal.Copy(overlayPtr, overlayCopy, 0, overlayData.Stride * overlayBitmap.Height);
-
-                // apply the recoloring
-                for (int i = 0; i < copy.Length; i += 4)
-                {
-                    copy[i + 0] = overlayCopy[copy[i + 0] * 3 + 0];
-                    copy[i + 1] = overlayCopy[copy[i + 1] * 3 + 1];
-                    copy[i + 2] = overlayCopy[copy[i + 2] * 3 + 2];
-                    // we are not interested in alpha channel
-                }
-
-                // copy the data back
-                System.Runtime.InteropServices.Marshal.Copy(copy, 0, ptr, data.Stride * bitmap.Height);
-
-                // unlock the bits
-                bitmap.UnlockBits(data);
-
-                this.currentImageWithOverlay = bitmap;
+                this.currentImageWithOverlay = this.ApplyOverlay(new System.Drawing.Bitmap(currentImage), new System.Drawing.Bitmap(overlayPath));
 
             }
 
@@ -247,6 +251,7 @@ namespace GeoGen_Studio
                     info = new System.IO.FileInfo(paths[i]);
 
                     main.overlays.Items.Add(info.Name);
+                    main.texture.Items.Add("Overlay: " + info.Name);
                 }
                 catch (Exception)
                 {
@@ -259,6 +264,8 @@ namespace GeoGen_Studio
             {
                 main.overlays.SelectedIndex = currentOverlayIndex;
             }
+
+            main.texture.SelectedIndex = main.GetViewportManager().currentTextureIndex;
         }
 
         public void SaveOutput()

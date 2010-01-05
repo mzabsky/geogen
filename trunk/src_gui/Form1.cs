@@ -54,6 +54,8 @@ namespace GeoGen_Studio
         SidebarMode sidebarMode = SidebarMode.Right;
         List<string> statuses = new List<string>();
 
+        public Loading loader = null;
+
         // MSVS generated stuff
         public Main()
         {
@@ -82,7 +84,7 @@ namespace GeoGen_Studio
             this.SelectTab(Tabs.Output3D);
             this.SelectTab(Tabs.Code);
 
-            // load CML configuration
+            // load XML configuration
             Config.Load();
 
             // make sure the parameter property grid knows where to look for its items 
@@ -121,6 +123,7 @@ namespace GeoGen_Studio
 
             // show this form and close the splash screen
             this.Opacity = 1.0;
+            //this.loader.Invoke(new MethodInvoker(delegate { this.loader.FadeOut(); }));
             loading.FadeOut();
         }
 
@@ -129,6 +132,14 @@ namespace GeoGen_Studio
         {
             try
             {
+                /*Form form = System.Windows.Forms.Application.OpenForms[0];
+
+                if (form.GetType() == typeof(Main))
+                {
+                    return (Main)form;
+                }
+                else return (Main) System.Windows.Forms.Application.OpenForms[1];*/
+
                 return (Main)System.Windows.Forms.Application.OpenForms[0];
             }
             catch (ArgumentOutOfRangeException)
@@ -263,7 +274,6 @@ namespace GeoGen_Studio
             this.outputs.Enabled = true;
             this.overlays.Enabled = true;
             this.toggleOverlay.Enabled = true;
-            this.refreshOverlays.Enabled = true;
             this.resetToolStripButton.Enabled = true;
         }
 
@@ -274,7 +284,6 @@ namespace GeoGen_Studio
             this.outputs.Enabled = false;
             this.overlays.Enabled = false;
             this.toggleOverlay.Enabled = false;
-            this.refreshOverlays.Enabled = false;
             this.resetToolStripButton.Enabled = false;
         }
 
@@ -944,6 +953,17 @@ namespace GeoGen_Studio
         private void outputs3d_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(this.GetViewportManager().currentMap != -1) this.viewportManager.RebuildTerrain();
+        }
+
+        private void texture_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.GetViewportManager().ApplyTexture();
+        }
+
+        private void lighting_Click(object sender, EventArgs e)
+        {
+            LightSettings lightSettings = new LightSettings();
+            lightSettings.ShowDialog();
         }
 
 

@@ -18,7 +18,12 @@ namespace GeoGen_Studio
 
         private void Loading_Load(object sender, EventArgs e)
         {
-
+            /*new System.Threading.Thread((System.Threading.ThreadStart) delegate
+            {
+                Main main = new Main();
+                main.loader = this;
+                main.Show();
+            }).Start();*/
         }
 
         public void FadeOut(){
@@ -31,7 +36,8 @@ namespace GeoGen_Studio
 
             if (this.Opacity == 0)
             {
-                this.Close();
+                //this.Close();
+                opacityTimer.Enabled = false;
             }
             else
             {

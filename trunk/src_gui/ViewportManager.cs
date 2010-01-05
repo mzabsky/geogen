@@ -26,7 +26,7 @@ namespace GeoGen_Studio
         [StructLayout(LayoutKind.Sequential)]
         struct Vertex
         { // mimic InterleavedArrayFormat.C3fV3f
-            public Vector3 Color;
+            public Vector2 TexCoord;
             public Vector3 Position;
         }
 
@@ -34,7 +34,6 @@ namespace GeoGen_Studio
         public byte[] heightData;
         private int terrainHeight;
         private int terrainWidth;
-        private bool loaded;
 
         public System.Threading.Thread modelThread;
 
@@ -44,10 +43,14 @@ namespace GeoGen_Studio
         public float targetX = 50; // default position is square center
         public float targetY = 50;
         public int currentMap = -1;
+        public int currentTextureIndex = 6;
 
         private int vertexBufferHandle;
+        private int textureHandle;
 
         private float heightScale = 8f;
+
+        private System.Drawing.Bitmap textureBase;
 
         public float HeightScale
         {
@@ -65,14 +68,13 @@ namespace GeoGen_Studio
             }
         }
 
-        Vertex[] v;
-
         public void Init()
         {
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, this.viewport.Width / (float)this.viewport.Height, 1.0f, 3000.0f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Texture2D);
             GL.Viewport(0, 0, this.viewport.Width, this.viewport.Height); // Use all of the glControl painting are
 
             //GL.Enable(EnableCap.Lighting);
@@ -81,17 +83,13 @@ namespace GeoGen_Studio
             GL.ColorMaterial(MaterialFace.FrontAndBack, ColorMaterialParameter.AmbientAndDiffuse);
             //GL.ShadeModel(ShadingModel.Smooth);
             
-            GL.EnableClientState(EnableCap.ColorArray);
+            //GL.EnableClientState(EnableCap.ColorArray);
 
             GL.EnableClientState(EnableCap.VertexArray);
+            GL.EnableClientState(EnableCap.TextureCoordArray);
 
             
   
-        }
-
-        private Vector3 ColorToVector(System.Drawing.Color color)
-        {
-            return new Vector3((float)color.R / 255f, (float)color.G / 255f, (float)color.B / 255f);
         }
 
         public void SetupViewport(){
@@ -118,6 +116,15 @@ namespace GeoGen_Studio
             this.terrainWidth = 0;
 
             main.outputs3d.Items.Clear();
+
+            // remove "Maps:" entrie from the texture list
+            for (int i = 0; i < main.texture.Items.Count; i++)
+            {
+                if (((string)main.texture.Items[i])[0] == 'M')
+                {
+                    main.texture.Items.RemoveAt(i);
+                }
+            }
 
             // let the viewport show empty screen
             this.viewport.Invalidate();
@@ -178,20 +185,14 @@ namespace GeoGen_Studio
             // resized bitmap (from which the model will be generated 1:1)
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
 
+            this.textureBase = bitmap;
+
             // prepare byte access to the height data
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
             // load the overlay pattern
             System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
-
-            Vector3[] colors = new Vector3[256];
-
-            // translate the overlay pattern bitmap into array of GL compatible color vectors
-            for (int x = 0; x < 256; x++)
-            {
-                colors[x] = this.ColorToVector(overlayBitmap.GetPixel(x, 0));
-            }
 
             // prepare memory space for the newly created color data
             this.heightData = new byte[data.Stride * bitmap.Height];
@@ -209,9 +210,12 @@ namespace GeoGen_Studio
 
             // release the lock, so this bitmap can be used elsewhere as well
             bitmap.UnlockBits(data);
+            bitmap = null;
+
+
+            
 
             // release some memory (to prevent OutOfMemory exception)
-            bitmap = null;
             original = null;
 
             // the vertex array for the model
@@ -250,28 +254,36 @@ namespace GeoGen_Studio
                         a.Position.X = fx * fWidth;
                         a.Position.Y = yPos;
                         a.Position.Z = (float)(this.heightData[(x + this.terrainWidth * y) * 4] * 0.005);
-                        a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
+                        //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
+                        a.TexCoord.X = fx * fWidth / 100f;
+                        a.TexCoord.Y = yPos / 100f;
 
                         // upper right verex of current quad
                         Vertex b = new Vertex();
                         b.Position.X = (fx + 1) * fWidth;
                         b.Position.Y = yPos;
                         b.Position.Z = (float)(this.heightData[(x + 1 + this.terrainWidth * y) * 4] * 0.005);
-                        b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
+                        //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
+                        b.TexCoord.X = (fx + 1) * fWidth / 100f;
+                        b.TexCoord.Y = yPos / 100f;
 
                         // bottom left verex of current quad
                         Vertex c = new Vertex();
                         c.Position.X = fx * fWidth;
                         c.Position.Y = yPosNext;
                         c.Position.Z = (float)(this.heightData[(x + this.terrainWidth * (y + 1)) * 4] * 0.005);
-                        c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
+                        //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
+                        c.TexCoord.X = fx * fWidth / 100f;
+                        c.TexCoord.Y = yPosNext / 100f;
 
                         // bottom right verex of current quad
                         Vertex d = new Vertex();
                         d.Position.X = (fx + 1) * fWidth;
                         d.Position.Y = yPosNext;
                         d.Position.Z = (float)(this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4] * 0.005);
-                        d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
+                        //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
+                        d.TexCoord.X = (fx + 1) * fWidth / 100f;
+                        d.TexCoord.Y = yPos / 100f;
 
                         // first triangle
                         vertices[(x + this.terrainWidth * y) * 6] = a;
@@ -303,7 +315,11 @@ namespace GeoGen_Studio
                     GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
 
                     // upload the data into the buffer into GPU
-                    GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 6 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
+                    GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 5 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
+
+                   
+
+                    this.ApplyTexture();
 
                     main.Output3dButtonsOn();
                     this.viewport.Invalidate();
@@ -346,9 +362,16 @@ namespace GeoGen_Studio
             {
                 // tell the OpenGL which buffer are we using
                 GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
+                GL.BindTexture(TextureTarget.ProxyTexture2D, this.textureHandle);
                 
                 // tell the format of the buffered data
-                GL.InterleavedArrays(InterleavedArrayFormat.C3fV3f, 0, IntPtr.Zero);
+                GL.InterleavedArrays(InterleavedArrayFormat.T2fV3f, 0, IntPtr.Zero);
+
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Clamp);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapR, (int)TextureWrapMode.Clamp);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
 
                 // how to vertically scale the data
                 GL.Scale(1f, 1f, this.heightScale);
@@ -359,6 +382,54 @@ namespace GeoGen_Studio
 
             // display the stuff
             viewport.SwapBuffers();
+        }
+
+        public void ApplyTexture()
+        {
+            Main main = Main.Get();
+            Config config = main.GetConfig();
+
+            if (this.textureBase == null) return;
+
+            if (this.textureHandle != 0) GL.DeleteTexture(this.textureHandle);
+
+            string selected = (string)main.texture.Items[main.texture.SelectedIndex];
+
+            string path = "";
+
+            System.Drawing.Bitmap bitmap = null;
+
+            // "Overlay: " type texture
+            if(selected[0] == 'O'){
+                path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
+                bitmap = main.GetOutputManager().ApplyOverlay(new System.Drawing.Bitmap(this.textureBase), new System.Drawing.Bitmap(path));
+            
+            }
+
+            // "Map: " type texture
+            else if (selected[0] == 'M')
+            {
+                path = config.geoGenWorkingDirectory + "/" + selected.Substring(5, selected.Length - 5);
+                System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
+
+                bitmap = new System.Drawing.Bitmap(original, this.terrainWidth, this.terrainWidth);
+
+                original = null;
+            }
+
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+
+            this.textureHandle = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, this.textureHandle);
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+
+            bitmap.UnlockBits(data);
+
+            this.viewport.Invalidate();
         }
 
         public void SaveScreenshot()
