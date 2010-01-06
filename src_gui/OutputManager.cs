@@ -6,8 +6,75 @@ namespace GeoGen_Studio
 {
     public class OutputManager
     {
+        public class SHData
+        {
+            public Int16[] data;
+            public int width;
+            public int height;
+            public int ByteLength
+            {
+                get { return sizeof(Int16) * width * height; }
+            }
+
+            public SHData() { }
+
+            public SHData(string path)
+            {
+                lock (typeof(System.IO.BinaryReader))
+                {
+                    System.IO.BinaryReader reader = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open, System.IO.FileAccess.Read));
+
+                    this.width = reader.ReadInt32();
+                    this.height = reader.ReadInt32();
+
+                    this.data = new Int16[this.width * this.height];
+
+                    for (int i = 0; i < this.width * this.height; i++)
+                    {
+                        this.data[i] = reader.ReadInt16();
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            public System.Drawing.Bitmap GetBitmap()
+            {
+                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(this.width, this.height);
+
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                System.Drawing.Imaging.BitmapData locked = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
+                
+                // we will build the bitmap data directly byte by byte
+                byte[] bytes = new byte[locked.Stride * bitmap.Height];
+
+                // get a pointer to the to first line (=first pixel)
+                IntPtr ptr = locked.Scan0;
+
+                // fill in the bytes
+                for (int i = 0; i < bytes.Length; i += 4)
+                {
+                    byte current = (byte)(this.data[i / 4] > 0 ? (this.data[i / 4] / 128) : 0);
+
+                    bytes[i + 0] = current;
+                    bytes[i + 1] = current;
+                    bytes[i + 2] = current;
+                    bytes[i + 3] = 255;
+                }
+
+                // copy the data into the bitmap
+                System.Runtime.InteropServices.Marshal.Copy(bytes, 0, ptr, locked.Stride * bitmap.Height);
+
+                // unlock the bits
+                bitmap.UnlockBits(locked);
+
+                return bitmap;
+            }
+        }
+
         private System.Drawing.Image currentImage;
         private System.Drawing.Image currentImageWithOverlay;
+        public SHData data;
 
         private int currentOverlayIndex;
 
@@ -73,7 +140,7 @@ namespace GeoGen_Studio
 
             main.OutputButtonsOn();
 
-            string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.bmp");
+            string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.shd");
 
             main.outputs.Items.Add("[Main]");
             main.outputs.SelectedIndex = 0;
@@ -95,7 +162,7 @@ namespace GeoGen_Studio
 
             }*/
 
-            this.ShowImage();
+            //this.ShowImage();
 
             main.output.Left = 0;
             main.output.Top = 0;
@@ -110,18 +177,19 @@ namespace GeoGen_Studio
             }
         }
 
-        public System.Drawing.Bitmap ApplyOverlay(System.Drawing.Bitmap bitmap, System.Drawing.Bitmap overlayBitmap)
+        public System.Drawing.Bitmap ApplyOverlay(SHData heights, System.Drawing.Bitmap overlayBitmap)
         {
             // prepare byte access to the overlay bitmap
             System.Drawing.Rectangle OverlayRect = new System.Drawing.Rectangle(0, 0, overlayBitmap.Width, overlayBitmap.Height);
             System.Drawing.Imaging.BitmapData overlayData = overlayBitmap.LockBits(OverlayRect, System.Drawing.Imaging.ImageLockMode.ReadOnly, overlayBitmap.PixelFormat);
 
             // prepare byte access to the height data
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(heights.width, heights.height);
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
             // prepare memory space for the newly created color data
-            byte[] copy = new byte[data.Stride * bitmap.Height];
+            byte[] bytes = new byte[data.Stride * bitmap.Height];
             byte[] overlayCopy = new byte[overlayData.Stride * overlayBitmap.Height];
 
             // get a pointer to the to first line (=first pixel)
@@ -129,20 +197,44 @@ namespace GeoGen_Studio
             IntPtr overlayPtr = overlayData.Scan0;
 
             // create a byte copy of the heightmap data
-            System.Runtime.InteropServices.Marshal.Copy(ptr, copy, 0, data.Stride * bitmap.Height);
             System.Runtime.InteropServices.Marshal.Copy(overlayPtr, overlayCopy, 0, overlayData.Stride * overlayBitmap.Height);
 
             // apply the recoloring
-            for (int i = 0; i < copy.Length; i += 4)
+            if (overlayBitmap.Width == 256)
             {
-                copy[i + 0] = overlayCopy[copy[i + 0] * 3 + 0];
-                copy[i + 1] = overlayCopy[copy[i + 1] * 3 + 1];
-                copy[i + 2] = overlayCopy[copy[i + 2] * 3 + 2];
-                // we are not interested in alpha channel
+                for (int i = 0; i < bytes.Length; i += 4)
+                {
+                    int current = (heights.data[i / 4] / 128);
+                    if (current < 0) current = 0;
+
+                    bytes[i + 0] = overlayCopy[current * 3 + 0];
+                    bytes[i + 1] = overlayCopy[current * 3 + 1];
+                    bytes[i + 2] = overlayCopy[current * 3 + 2];
+                    bytes[i + 3] = 255;
+                    // we are not interested in alpha channel
+                }
+            }
+            else
+            {
+                for (int i = 0; i < bytes.Length; i += 4)
+                {
+                    int current = 255 + (heights.data[i / 4] / 128);
+
+                    if (current < 0 || current > 511)
+                    {
+                        current = 0;
+                    }
+
+                    bytes[i + 0] = overlayCopy[current * 3 + 0];
+                    bytes[i + 1] = overlayCopy[current * 3 + 1];
+                    bytes[i + 2] = overlayCopy[current * 3 + 2];
+                    bytes[i + 3] = 255;
+                    // we are not interested in alpha channel
+                }
             }
 
             // copy the data back
-            System.Runtime.InteropServices.Marshal.Copy(copy, 0, ptr, data.Stride * bitmap.Height);
+            System.Runtime.InteropServices.Marshal.Copy(bytes, 0, ptr, data.Stride * bitmap.Height);
 
             // unlock the bits
             bitmap.UnlockBits(data);
@@ -182,9 +274,11 @@ namespace GeoGen_Studio
             // if the image being loaded doesn't exist, cancel
             try
             {
-                currentImage = System.Drawing.Image.FromFile(path);
+                this.data = new SHData(path);
+
+                currentImage = this.data.GetBitmap();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 main.RemoveStatus("Loading");
 
@@ -197,7 +291,7 @@ namespace GeoGen_Studio
             {
                 string overlayPath = config.OverlayDirectory + "/" + (string)main.overlays.Items[main.overlays.SelectedIndex];
 
-                this.currentImageWithOverlay = this.ApplyOverlay(new System.Drawing.Bitmap(currentImage), new System.Drawing.Bitmap(overlayPath));
+                this.currentImageWithOverlay = this.ApplyOverlay(this.data, new System.Drawing.Bitmap(overlayPath));
 
             }
 
