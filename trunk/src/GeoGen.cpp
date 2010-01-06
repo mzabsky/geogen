@@ -254,14 +254,17 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		output.WriteToFile(path_out.str().c_str());
 	}
 	else if(format->suffix == "shd"){
+		int iWidth = width;
+		int iHeight = height;
+
 		ofstream out(path_out.str().c_str(), ios_base::out | ios_base::binary | ios::ate);
 		
 		if(out.bad()){
 			cout << "Could not write " << path_out.str() << "!\n" << flush;
 		}
 		else{
-			out.write((char*) &width, sizeof(width));
-			out.write((char*) &height, sizeof(height));
+			out.write((char*) &iWidth, sizeof(iWidth));
+			out.write((char*) &iHeight, sizeof(iHeight));
 			
 			out.write((char*) data, 2 * width * height);
 		}
