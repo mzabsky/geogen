@@ -43,10 +43,6 @@ using namespace std;
 #include "EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
-enum TestT{
-	C = -1
-};
-
 
 struct OutputFormat{
 	string suffix;
@@ -60,7 +56,7 @@ struct OutputFormat{
 
 OutputFormat _formats[] = {
 	{"bmp", "Windows Bitmap", 0, 255, true},
-	{"shd", "GeoGen Short Data", -2 << 14, 2 << 14, false},
+	{"shd", "GeoGen Short Data", -2 << 14, (2 << 14) - 1, false},
 	{"pgm", "Portable Gray Map", 0, 2 << 13, false},
 	{"bmp", "Overlay", 0, 255, true},
 	{"bmp", "Ext overlay", -255, 254, true}
