@@ -25,13 +25,21 @@ namespace GeoGen_Studio
 
         [StructLayout(LayoutKind.Sequential)]
         struct Vertex
-        { // mimic InterleavedArrayFormat.C3fV3f
+        { // mimic InterleavedArrayFormat.T2fN3fV3f
             public Vector2 TexCoord;
+            public Vector3 Normal;
             public Vector3 Position;
+
+            public Vertex(Vertex v)
+            {
+                this.TexCoord = new Vector2(v.TexCoord);
+                this.Normal = new Vector3(v.Normal);
+                this.Position = new Vector3(v.Position);
+            }
         }
 
         public OpenTK.GLControl viewport;
-        public byte[] heightData;
+        public OutputManager.SHData heightData;
         private int terrainHeight;
         private int terrainWidth;
 
@@ -75,18 +83,23 @@ namespace GeoGen_Studio
             GL.LoadMatrix(ref projection);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.Multisample);
+            GL.Enable(EnableCap.RescaleNormal);
+            //GL.Enable(EnableCap.Normalize);
             GL.Viewport(0, 0, this.viewport.Width, this.viewport.Height); // Use all of the glControl painting are
 
-            //GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
             GL.Enable(EnableCap.ColorMaterial);
-            GL.ColorMaterial(MaterialFace.FrontAndBack, ColorMaterialParameter.AmbientAndDiffuse);
-            //GL.ShadeModel(ShadingModel.Smooth);
-            
+            GL.ColorMaterial(MaterialFace.Front, ColorMaterialParameter.AmbientAndDiffuse);
+            GL.ShadeModel(ShadingModel.Smooth);
+
+
             //GL.EnableClientState(EnableCap.ColorArray);
 
             GL.EnableClientState(EnableCap.VertexArray);
             GL.EnableClientState(EnableCap.TextureCoordArray);
+            GL.EnableClientState(EnableCap.NormalArray);
 
             
   
@@ -171,46 +184,84 @@ namespace GeoGen_Studio
             this.modelThread.Start();
         }
 
+        Vector3 CalculateNormal(Vector3 a, Vector3 b, Vector3 c)
+        {
+            // calculate the vectors A and B
+            // note that v[3] is defined with counterclockwise winding in mind
+            // a
+            float dX1 = a.X - b.X;
+            float dY1 = a.Y - b.Y;
+            float dZ1 = a.Z - b.Z;
+            // b
+            float dX2 = b.X - c.X;
+            float dY2 = b.Y - c.Y;
+            float dZ2 = b.Z - c.Z;
+         
+            Vector3 normal = new Vector3();
+
+            // calculate the cross product and place the resulting vector
+            // into the address specified by vertex_t *normal
+            //normal.X = (a.y * b.z) - (a.z * b.y);
+            //normal.Y = (a.z * b.x) - (a.x * b.z);
+            //normal.Z = (a.x * b.y) - (a.y * b.x);
+
+            normal.X = (dY1 * dZ2) - (dZ1 * dY2);
+            normal.Y = (dZ1 * dX2) - (dX1 * dZ2);
+            normal.Z = (dX1 * dY2) - (dY1 * dX2);
+
+            normal.Normalize();
+
+            //normal.Mult(-1f);
+
+            return  normal;
+        }
+
+
         public void SetTerrain(string path){
             Main main = Main.Get();
             Config config = main.GetConfig();
 
             // the original map (as generated)
-            System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
+            //System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
+            OutputManager.SHData original = new OutputManager.SHData(path);
 
             // store original's size
-            int originalHeight = original.Height;
-            int originalWidth = original.Width;
+            int originalHeight = original.height;
+            int originalWidth = original.width;
 
             // resized bitmap (from which the model will be generated 1:1)
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
+            //System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
 
-            this.textureBase = bitmap;
+            
 
             // prepare byte access to the height data
-            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            //System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            //System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+            
 
             // load the overlay pattern
             System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
 
             // prepare memory space for the newly created color data
-            this.heightData = new byte[data.Stride * bitmap.Height];
+            this.heightData = original;
 
-            this.terrainWidth = bitmap.Width;
-            this.terrainHeight = bitmap.Height;
+            this.textureBase = this.heightData.GetBitmap();
+
+            this.terrainWidth = heightData.width;
+            this.terrainHeight = heightData.height;
 
             //viewport.MakeCurrent();
 
             // get a pointer to the to first line (=first pixel)
-            IntPtr ptr = data.Scan0;
+            //IntPtr ptr = data.Scan0;
 
             // create a byte copy of the heightmap data
-            System.Runtime.InteropServices.Marshal.Copy(ptr, this.heightData, 0, data.Stride * bitmap.Height);
+            //System.Runtime.InteropServices.Marshal.Copy(ptr, this.heightData, 0, data.Stride * bitmap.Height);
 
             // release the lock, so this bitmap can be used elsewhere as well
-            bitmap.UnlockBits(data);
-            bitmap = null;
+            //bitmap.UnlockBits(data);
+            //bitmap = null;
 
 
             
@@ -253,7 +304,7 @@ namespace GeoGen_Studio
                         Vertex a = new Vertex();
                         a.Position.X = fx * fWidth;
                         a.Position.Y = yPos;
-                        a.Position.Z = (float)(this.heightData[(x + this.terrainWidth * y) * 4] * 0.005);
+                        a.Position.Z = (float)((float)this.heightData.data[(x + this.terrainWidth * y)] * 0.005f / 128f);
                         //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
                         a.TexCoord.X = fx * fWidth / 100f;
                         a.TexCoord.Y = yPos / 100f;
@@ -262,7 +313,7 @@ namespace GeoGen_Studio
                         Vertex b = new Vertex();
                         b.Position.X = (fx + 1) * fWidth;
                         b.Position.Y = yPos;
-                        b.Position.Z = (float)(this.heightData[(x + 1 + this.terrainWidth * y) * 4] * 0.005);
+                        b.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.terrainWidth * y)] * 0.005f / 128f);
                         //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
                         b.TexCoord.X = (fx + 1) * fWidth / 100f;
                         b.TexCoord.Y = yPos / 100f;
@@ -271,7 +322,7 @@ namespace GeoGen_Studio
                         Vertex c = new Vertex();
                         c.Position.X = fx * fWidth;
                         c.Position.Y = yPosNext;
-                        c.Position.Z = (float)(this.heightData[(x + this.terrainWidth * (y + 1)) * 4] * 0.005);
+                        c.Position.Z = (float)((float)this.heightData.data[(x + this.terrainWidth * (y + 1))] * 0.005f / 128f);
                         //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
                         c.TexCoord.X = fx * fWidth / 100f;
                         c.TexCoord.Y = yPosNext / 100f;
@@ -280,20 +331,32 @@ namespace GeoGen_Studio
                         Vertex d = new Vertex();
                         d.Position.X = (fx + 1) * fWidth;
                         d.Position.Y = yPosNext;
-                        d.Position.Z = (float)(this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4] * 0.005);
+                        d.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.terrainWidth * (y + 1))] * 0.005f / 128f);
                         //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
                         d.TexCoord.X = (fx + 1) * fWidth / 100f;
                         d.TexCoord.Y = yPos / 100f;
+
+                        Vertex b2 = new Vertex(b);
+                        Vertex c2 = new Vertex(c);
+
+                        a.Normal = this.CalculateNormal(c.Position, a.Position, b.Position);
+                        d.Normal = this.CalculateNormal(b.Position, d.Position, c.Position);
+
+                        b.Normal = a.Normal;
+                        c.Normal = a.Normal;
+
+                        b2.Normal = d.Normal;
+                        c2.Normal = d.Normal;
 
                         // first triangle
                         vertices[(x + this.terrainWidth * y) * 6] = a;
                         vertices[(x + this.terrainWidth * y) * 6 + 1] = b;
                         vertices[(x + this.terrainWidth * y) * 6 + 2] = c;
                         
-                        // second triangle
-                        vertices[(x + this.terrainWidth * y) * 6 + 3] = b;
+                        // second triangle                        
                         vertices[(x + this.terrainWidth * y) * 6 + 4] = d;
                         vertices[(x + this.terrainWidth * y) * 6 + 5] = c;
+                        vertices[(x + this.terrainWidth * y) * 6 + 3] = b;
                     }
                 }
             }
@@ -315,7 +378,7 @@ namespace GeoGen_Studio
                     GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
 
                     // upload the data into the buffer into GPU
-                    GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 5 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
+                    GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
 
                    
 
@@ -343,14 +406,18 @@ namespace GeoGen_Studio
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
 
+            //GL.Material(MaterialFace.Front, MaterialParameter.Diffuse, new Vector4(1, 1, 1, 1));
+            //GL.Material(MaterialFace.Front, MaterialParameter.Shininess, new Vector4(2f, 2f, 2f, 1f));
+
             //GL.Light(LightName.Light0, LightParameter.Position, new Vector4(1, 1, 0, 0));
-            GL.Light(LightName.Light0, LightParameter.Ambient, new Vector4(0, 0, 0, 1));
-            GL.Light(LightName.Light0, LightParameter.Diffuse, new Vector4(1, 1, 1 , 1));
-            GL.Light(LightName.Light0, LightParameter.Specular, new Vector4(1, 1, 1, 1));
+            GL.Light(LightName.Light0, LightParameter.Ambient, new Vector4(0.2f, 0.2f, 0.2f, 1));
+            GL.Light(LightName.Light0, LightParameter.Diffuse, new Vector4(0.6f, 0.6f, 0.6f, 1));
+            //GL.Light(LightName.Light0, LightParameter.SpotExponent, new Vector4(2, 2, 2, 2));
+            GL.Light(LightName.Light0, LightParameter.Specular, new Vector4(0, 0, 0, 0));
             //GL.Light(LightName.Light0, LightParameter.Ambient, new Vector4(0.2f, 0.2f, 0.2f, 1.0f));
-            GL.Light(LightName.Light0, LightParameter.Diffuse, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
-            //GL.Light(LightName.Light0, LightParameter.Position, new Vector4(0f, 1f, 1f, 0f));
-            //GL.Light(LightName.Light0, LightParameter.SpotDirection, new Vector4(0f, 0f, 0f, 0f));
+            //GL.Light(LightName.Light0, LightParameter.Diffuse, new Vector4(1f, 1f, 1f, 1.0f));
+            //GL.Light(LightName.Light0, LightParameter.Position, new Vector4(0f, 50f, 50f, 0f));
+            //GL.Light(LightName.Light0, LightParameter.SpotDirection, new Vector4(-1, 1, -1, 0f));
             //GL
 
             //GL.LightModel(LightModelParameter.LightModelAmbient, Vector4(0));
@@ -365,7 +432,7 @@ namespace GeoGen_Studio
                 GL.BindTexture(TextureTarget.ProxyTexture2D, this.textureHandle);
                 
                 // tell the format of the buffered data
-                GL.InterleavedArrays(InterleavedArrayFormat.T2fV3f, 0, IntPtr.Zero);
+                GL.InterleavedArrays(InterleavedArrayFormat.T2fN3fV3f, 0, IntPtr.Zero);
 
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
@@ -402,7 +469,7 @@ namespace GeoGen_Studio
             // "Overlay: " type texture
             if(selected[0] == 'O'){
                 path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
-                bitmap = main.GetOutputManager().ApplyOverlay(new System.Drawing.Bitmap(this.textureBase), new System.Drawing.Bitmap(path));
+                bitmap = main.GetOutputManager().ApplyOverlay(this.heightData, new System.Drawing.Bitmap(path));
             
             }
 

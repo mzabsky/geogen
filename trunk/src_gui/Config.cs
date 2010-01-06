@@ -181,7 +181,7 @@ namespace GeoGen_Studio
             geoGenPath = "../bin/geogen.exe";
             geoGenWorkingDirectory = "../temp/studio_maps/temp";
             scriptTempFile = "../../studio_temp.nut";
-            mainMapOutputFile = "../main.bmp";
+            mainMapOutputFile = "../main.shd";
 
             /* Output Viewer settings */
             overlayDirectory = "../overlays";

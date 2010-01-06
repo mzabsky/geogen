@@ -294,7 +294,7 @@ namespace GeoGen_Studio
             this.outputs3d.Enabled = true;
             this.texture.Enabled = true;
             this.wireframe.Enabled = true;
-            this.lighting.Enabled = true;
+            //this.lighting.Enabled = true;
             this.heightScale.Enabled = true;
         }
 
@@ -305,7 +305,7 @@ namespace GeoGen_Studio
             this.outputs3d.Enabled = false;
             this.texture.Enabled = false;
             this.wireframe.Enabled = false;
-            this.lighting.Enabled = false;
+            //this.lighting.Enabled = false;
             this.heightScale.Enabled = false;
         }
 
@@ -952,7 +952,7 @@ namespace GeoGen_Studio
 
         private void outputs3d_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.GetViewportManager().currentMap != -1) this.viewportManager.RebuildTerrain();
+            if(this.GetViewportManager().currentMap != -1 && this.viewportManager.heightData != null) this.viewportManager.RebuildTerrain();
         }
 
         private void texture_SelectedIndexChanged(object sender, EventArgs e)

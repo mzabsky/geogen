@@ -137,7 +137,6 @@
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
-            this.lighting = new System.Windows.Forms.ToolStripButton();
             this.wireframe = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.consoleLarge = new System.Windows.Forms.TextBox();
@@ -1141,7 +1140,6 @@
             this.toolStripSeparator17,
             this.toolStripLabel5,
             this.toolStripSeparator18,
-            this.lighting,
             this.wireframe});
             this.toolStrip1.Location = new System.Drawing.Point(3, 3);
             this.toolStrip1.Name = "toolStrip1";
@@ -1230,17 +1228,6 @@
             // 
             this.toolStripSeparator18.Name = "toolStripSeparator18";
             this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
-            // 
-            // lighting
-            // 
-            this.lighting.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.lighting.Enabled = false;
-            this.lighting.Image = ((System.Drawing.Image)(resources.GetObject("lighting.Image")));
-            this.lighting.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.lighting.Name = "lighting";
-            this.lighting.Size = new System.Drawing.Size(23, 22);
-            this.lighting.Text = "Setup Lighting";
-            this.lighting.Click += new System.EventHandler(this.lighting_Click);
             // 
             // wireframe
             // 
@@ -1540,7 +1527,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
-        private System.Windows.Forms.ToolStripButton lighting;
         private System.Windows.Forms.ToolStripButton wireframe;
         private System.Windows.Forms.Label buildingModel;
         public System.Windows.Forms.ToolStrip toolStrip1;
