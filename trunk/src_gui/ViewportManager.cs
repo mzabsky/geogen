@@ -30,6 +30,7 @@ namespace GeoGen_Studio
             public Vector3 Normal;
             public Vector3 Position;
 
+            // copy constructor
             public Vertex(Vertex v)
             {
                 this.TexCoord = new Vector2(v.TexCoord);
@@ -40,8 +41,6 @@ namespace GeoGen_Studio
 
         public OpenTK.GLControl viewport;
         public OutputManager.SHData heightData;
-        private int terrainHeight;
-        private int terrainWidth;
 
         public System.Threading.Thread modelThread;
 
@@ -78,6 +77,10 @@ namespace GeoGen_Studio
 
         public void Init()
         {
+            this.SetupViewport();
+        }
+
+        public void SetupViewport(){
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, this.viewport.Width / (float)this.viewport.Height, 1.0f, 3000.0f);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
@@ -85,7 +88,7 @@ namespace GeoGen_Studio
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.RescaleNormal);
-            //GL.Enable(EnableCap.Normalize);
+            GL.Enable(EnableCap.Normalize);
             GL.Viewport(0, 0, this.viewport.Width, this.viewport.Height); // Use all of the glControl painting are
 
             GL.Enable(EnableCap.Lighting);
@@ -100,13 +103,6 @@ namespace GeoGen_Studio
             GL.EnableClientState(EnableCap.VertexArray);
             GL.EnableClientState(EnableCap.TextureCoordArray);
             GL.EnableClientState(EnableCap.NormalArray);
-
-            
-  
-        }
-
-        public void SetupViewport(){
-
         }
 
         public void ClearData()
@@ -125,12 +121,10 @@ namespace GeoGen_Studio
 
             // release the height data
             this.heightData = null;
-            this.terrainHeight = 0;
-            this.terrainWidth = 0;
 
             main.outputs3d.Items.Clear();
 
-            // remove "Maps:" entrie from the texture list
+            // remove "Maps:" entries from the texture list
             for (int i = 0; i < main.texture.Items.Count; i++)
             {
                 if (((string)main.texture.Items[i])[0] == 'M')
@@ -211,8 +205,6 @@ namespace GeoGen_Studio
 
             normal.Normalize();
 
-            //normal.Mult(-1f);
-
             return  normal;
         }
 
@@ -230,7 +222,7 @@ namespace GeoGen_Studio
             int originalWidth = original.width;
 
             // resized bitmap (from which the model will be generated 1:1)
-            //System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
+            //System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, , );
 
             
 
@@ -244,12 +236,9 @@ namespace GeoGen_Studio
             System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
 
             // prepare memory space for the newly created color data
-            this.heightData = original;
+            this.heightData = original.GetResized(Math.Min(original.width, (int)config.ModelDetailLevel), Math.Min(original.height, (int)config.ModelDetailLevel));
 
             this.textureBase = this.heightData.GetBitmap();
-
-            this.terrainWidth = heightData.width;
-            this.terrainHeight = heightData.height;
 
             //viewport.MakeCurrent();
 
@@ -270,11 +259,11 @@ namespace GeoGen_Studio
             original = null;
 
             // the vertex array for the model
-            Vertex[] vertices = new Vertex[this.terrainWidth * this.terrainHeight * 6];
+            Vertex[] vertices = new Vertex[this.heightData.width * this.heightData.height * 6];
 
             // dimension multipliers
-            float fWidth = 100f / (float) this.terrainWidth;
-            float fHeight = 100f / (float) this.terrainHeight;
+            float fWidth = 100f / (float) this.heightData.width;
+            float fHeight = 100f / (float) this.heightData.height;
 
             // adjust the multipliers for non-square bitmaps
             if (originalHeight > originalWidth)
@@ -288,7 +277,7 @@ namespace GeoGen_Studio
 
             // build the model
             if(this.heightData != null){
-                for (int y = 0; y < this.terrainHeight - 1; y++)
+                for (int y = 0; y < this.heightData.height - 1; y++)
                 {
                     float fy = (float)y;
 
@@ -296,7 +285,7 @@ namespace GeoGen_Studio
                     float yPos = fy * fHeight;
                     float yPosNext = (fy + 1) * fHeight;
 
-                    for (int x = 0; x < this.terrainWidth - 1; x++)
+                    for (int x = 0; x < this.heightData.width - 1; x++)
                     {
                         float fx = (float)x;
 
@@ -304,7 +293,7 @@ namespace GeoGen_Studio
                         Vertex a = new Vertex();
                         a.Position.X = fx * fWidth;
                         a.Position.Y = yPos;
-                        a.Position.Z = (float)((float)this.heightData.data[(x + this.terrainWidth * y)] * 0.005f / 128f);
+                        a.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * y)] * 0.005f / 128f);
                         //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
                         a.TexCoord.X = fx * fWidth / 100f;
                         a.TexCoord.Y = yPos / 100f;
@@ -313,7 +302,7 @@ namespace GeoGen_Studio
                         Vertex b = new Vertex();
                         b.Position.X = (fx + 1) * fWidth;
                         b.Position.Y = yPos;
-                        b.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.terrainWidth * y)] * 0.005f / 128f);
+                        b.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * y)] * 0.005f / 128f);
                         //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
                         b.TexCoord.X = (fx + 1) * fWidth / 100f;
                         b.TexCoord.Y = yPos / 100f;
@@ -322,7 +311,7 @@ namespace GeoGen_Studio
                         Vertex c = new Vertex();
                         c.Position.X = fx * fWidth;
                         c.Position.Y = yPosNext;
-                        c.Position.Z = (float)((float)this.heightData.data[(x + this.terrainWidth * (y + 1))] * 0.005f / 128f);
+                        c.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * (y + 1))] * 0.005f / 128f);
                         //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
                         c.TexCoord.X = fx * fWidth / 100f;
                         c.TexCoord.Y = yPosNext / 100f;
@@ -331,10 +320,19 @@ namespace GeoGen_Studio
                         Vertex d = new Vertex();
                         d.Position.X = (fx + 1) * fWidth;
                         d.Position.Y = yPosNext;
-                        d.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.terrainWidth * (y + 1))] * 0.005f / 128f);
+                        d.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * (y + 1))] * 0.005f / 128f);
                         //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
                         d.TexCoord.X = (fx + 1) * fWidth / 100f;
                         d.TexCoord.Y = yPos / 100f;
+
+                        // crop underwater heights if requested
+                        if (!config.enableTerrainUnderZero)
+                        {
+                            if (a.Position.Z < 0) a.Position.Z = 0;
+                            if (b.Position.Z < 0) b.Position.Z = 0;
+                            if (c.Position.Z < 0) c.Position.Z = 0;
+                            if (d.Position.Z < 0) d.Position.Z = 0;
+                        }
 
                         Vertex b2 = new Vertex(b);
                         Vertex c2 = new Vertex(c);
@@ -349,14 +347,14 @@ namespace GeoGen_Studio
                         c2.Normal = d.Normal;
 
                         // first triangle
-                        vertices[(x + this.terrainWidth * y) * 6] = a;
-                        vertices[(x + this.terrainWidth * y) * 6 + 1] = b;
-                        vertices[(x + this.terrainWidth * y) * 6 + 2] = c;
+                        vertices[(x + this.heightData.width * y) * 6] = a;
+                        vertices[(x + this.heightData.width * y) * 6 + 1] = b;
+                        vertices[(x + this.heightData.width * y) * 6 + 2] = c;
                         
                         // second triangle                        
-                        vertices[(x + this.terrainWidth * y) * 6 + 4] = d;
-                        vertices[(x + this.terrainWidth * y) * 6 + 5] = c;
-                        vertices[(x + this.terrainWidth * y) * 6 + 3] = b;
+                        vertices[(x + this.heightData.width * y) * 6 + 4] = d;
+                        vertices[(x + this.heightData.width * y) * 6 + 5] = c2; 
+                        vertices[(x + this.heightData.width * y) * 6 + 3] = b2; 
                     }
                 }
             }
@@ -381,9 +379,10 @@ namespace GeoGen_Studio
                     GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
 
                    
-
+                    // rebuild the texture
                     this.ApplyTexture();
 
+                    // UI stuff
                     main.Output3dButtonsOn();
                     this.viewport.Invalidate();
 
@@ -444,7 +443,7 @@ namespace GeoGen_Studio
                 GL.Scale(1f, 1f, this.heightScale);
 
                 // read the data from buffer
-                GL.DrawArrays(BeginMode.Triangles, 0, this.terrainWidth * this.terrainHeight * 6);
+                GL.DrawArrays(BeginMode.Triangles, 0, this.heightData.width * this.heightData.height * 6);
             }
 
             // display the stuff
@@ -477,11 +476,9 @@ namespace GeoGen_Studio
             else if (selected[0] == 'M')
             {
                 path = config.geoGenWorkingDirectory + "/" + selected.Substring(5, selected.Length - 5);
-                System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
 
-                bitmap = new System.Drawing.Bitmap(original, this.terrainWidth, this.terrainWidth);
+                bitmap = new OutputManager.SHData(path).GetBitmap();
 
-                original = null;
             }
 
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);

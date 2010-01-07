@@ -1121,6 +1121,7 @@
             this.viewport.Paint += new System.Windows.Forms.PaintEventHandler(this.viewport_Paint);
             this.viewport.MouseMove += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseMove);
             this.viewport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseDown);
+            this.viewport.Resize += new System.EventHandler(this.viewport_Resize);
             this.viewport.MouseUp += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseUp);
             this.viewport.MouseEnter += new System.EventHandler(this.viewport_MouseEnter);
             // 

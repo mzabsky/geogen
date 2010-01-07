@@ -447,6 +447,8 @@ namespace GeoGen_Studio
             this.config.lastFile = this.currentFileName;
             this.config.wireframe = this.wireframe.Checked;
             this.config.heightScale = this.heightScale.Value;
+
+            this.viewportManager.SetupViewport();
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -964,6 +966,11 @@ namespace GeoGen_Studio
         {
             LightSettings lightSettings = new LightSettings();
             lightSettings.ShowDialog();
+        }
+
+        private void viewport_Resize(object sender, EventArgs e)
+        {
+            this.viewportManager.SetupViewport();
         }
 
 
