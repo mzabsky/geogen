@@ -23,7 +23,14 @@ namespace GeoGen_Studio
 
         private void save_Click(object sender, EventArgs e)
         {
+            
+
             this.Close();
+        }
+
+        private void Settings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Main.Get().GetViewportManager().RebuildTerrain();
         }
     }
 }

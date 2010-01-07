@@ -22,8 +22,6 @@ namespace GeoGen_Studio
         public string overlayDirectory;
         public string documentationPath;
         public int heightScale;
-        public bool wireframe;
-        private ViewportManager.ModelDetailLevel modelDetailLevel;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -39,12 +37,14 @@ namespace GeoGen_Studio
         public bool whitespace;
         public int editorZooom;
 
-        /* 3D light settings */
+        private ViewportManager.ModelDetailLevel modelDetailLevel;
+        public bool wireframe;
         public OpenTK.Vector4 ambientLightColor;
         public OpenTK.Vector4 directionalLightColor;
         public float lightAzimuth;
         public float lightElevation;
         public bool lightEnabled;
+        public bool enableTerrainUnderZero;
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -129,7 +129,13 @@ namespace GeoGen_Studio
             get { return modelDetailLevel; }
             set { modelDetailLevel = value; }
         }
-		
+
+        [CategoryAttribute("3D View"), DescriptionAttribute("Should the underwater terrain be modelled in 3D? Change of this setting will take effect once the model is rebuilt."), DefaultValue(false)]
+        public bool EnableTerrainUnderZero
+        {
+            get { return enableTerrainUnderZero; }
+            set { enableTerrainUnderZero = value; }
+        }
         
         public Config()
 	    {
@@ -191,6 +197,7 @@ namespace GeoGen_Studio
 
             /* 3D view */
             modelDetailLevel = ViewportManager.ModelDetailLevel.Medium_512x512Polygons;
+            enableTerrainUnderZero = false;
 
             /* 3D light */
             ambientLightColor = new OpenTK.Vector4(0.2f, 0.2f, 0.2f, 1.0f);
@@ -221,7 +228,7 @@ namespace GeoGen_Studio
                 main.LoadInterfaceSettings();
             }
             // something went wrong -> create a new config file
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 main.WriteToConsole("Could not open config file, falling back to defaults.");
 
