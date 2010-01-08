@@ -31,8 +31,6 @@ namespace GeoGen_Studio
         private BenchmarkStatus benchmarkStatus;
         private BenchmarkForm benchmarkForm;
 
-        public System.Threading.Mutex mutex;
-
         public DataReceivedEventHandler dataHandler;
 
         public ProcessManager()
