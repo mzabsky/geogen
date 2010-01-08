@@ -282,8 +282,8 @@ namespace GeoGen_Studio
                     float fy = (float)y;
 
                     // precalculate some stuff that stays constant for whole row
-                    float yPos = fy * fHeight;
-                    float yPosNext = (fy + 1) * fHeight;
+                    float yPos = (fy + 0.5f) * fHeight;
+                    float yPosNext = (fy + 1 + 0.5f) * fHeight;
 
                     for (int x = 0; x < this.heightData.width - 1; x++)
                     {
@@ -295,7 +295,7 @@ namespace GeoGen_Studio
                         a.Position.Y = yPos;
                         a.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * y)] * 0.005f / 128f);
                         //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
-                        a.TexCoord.X = fx * fWidth / 100f;
+                        a.TexCoord.X = (fx  + 0.5f) * fWidth / 100f;
                         a.TexCoord.Y = yPos / 100f;
 
                         // upper right verex of current quad
@@ -304,7 +304,7 @@ namespace GeoGen_Studio
                         b.Position.Y = yPos;
                         b.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * y)] * 0.005f / 128f);
                         //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
-                        b.TexCoord.X = (fx + 1) * fWidth / 100f;
+                        b.TexCoord.X = (fx + 1 + 0.5f) * fWidth / 100f;
                         b.TexCoord.Y = yPos / 100f;
 
                         // bottom left verex of current quad
@@ -313,7 +313,7 @@ namespace GeoGen_Studio
                         c.Position.Y = yPosNext;
                         c.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * (y + 1))] * 0.005f / 128f);
                         //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
-                        c.TexCoord.X = fx * fWidth / 100f;
+                        c.TexCoord.X = (fx + 0.5f) * fWidth / 100f;
                         c.TexCoord.Y = yPosNext / 100f;
 
                         // bottom right verex of current quad
@@ -322,8 +322,8 @@ namespace GeoGen_Studio
                         d.Position.Y = yPosNext;
                         d.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * (y + 1))] * 0.005f / 128f);
                         //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
-                        d.TexCoord.X = (fx + 1) * fWidth / 100f;
-                        d.TexCoord.Y = yPos / 100f;
+                        d.TexCoord.X = (fx + 1 + 0.5f) * fWidth / 100f;
+                        d.TexCoord.Y = yPosNext / 100f;
 
                         // crop underwater heights if requested
                         if (!config.enableTerrainUnderZero)
