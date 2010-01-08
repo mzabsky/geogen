@@ -56,7 +56,7 @@ struct OutputFormat{
 
 OutputFormat _formats[] = {
 	{"bmp", "Windows Bitmap", 0, 255, true},
-	{"shd", "GeoGen Short Data", -2 << 14, (2 << 14) - 1, false},
+	{"shd", "GeoGen Short Data", -(2 << 14) + 1, (2 << 14) - 1, false},
 	{"pgm", "Portable Gray Map", 0, 2 << 13, false},
 	{"bmp", "Overlay", 0, 255, true},
 	{"bmp", "Ext overlay", -255, 254, true}
@@ -184,10 +184,16 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		
 		double ratio = 0;
 		if(format_min != 0){
-			ratio = 
-				(double) format_max / (double) max < (double) format_min / (double) min ? 
-				(double) format_max / (double) max :
-				(double) format_min / (double) min;
+			if (max <= 0){
+				ratio = (double) format_min / (double) min;
+			} else if (min >= 0){
+				ratio = (double) format_max / (double) max;
+			} else {
+				ratio = 
+					(double) format_max / (double) max < (double) format_min / (double) min ? 
+					(double) format_max / (double) max :
+					(double) format_min / (double) min;
+			}
 		}
 
 		// if max == min, then whole map is black, scaling would be useless
