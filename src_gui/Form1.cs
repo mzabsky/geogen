@@ -831,7 +831,7 @@ namespace GeoGen_Studio
                 output.Top -= (Int32)((Double)(output.Height - current_height) / ((Double)current_height / (Double)this.outputLastMouseY));
             }
             else if(this.viewportMouse){
-                this.viewportManager.distance = Math.Max(Math.Min(this.viewportManager.distance - e.Delta / 12, 150), 10);
+                this.viewportManager.distance = Math.Max(Math.Min(this.viewportManager.distance - e.Delta / 20, 150), 1);
 
                 this.viewport.Invalidate();
             }
