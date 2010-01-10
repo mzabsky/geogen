@@ -148,7 +148,10 @@
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.importtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.importHeightmapDialog = new System.Windows.Forms.OpenFileDialog();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -233,6 +236,9 @@
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.toolStripSeparator20,
+            this.importtoolStripMenuItem,
+            this.toolStripMenuItem2,
             this.toolStripSeparator4,
             this.printToolStripMenuItem,
             this.toolStripSeparator5,
@@ -1381,6 +1387,30 @@
             this.saveOutputDialog.DefaultExt = "png";
             this.saveOutputDialog.Filter = "PNG Images|*.png|All files|*.*";
             // 
+            // toolStripSeparator20
+            // 
+            this.toolStripSeparator20.Name = "toolStripSeparator20";
+            this.toolStripSeparator20.Size = new System.Drawing.Size(192, 6);
+            // 
+            // importtoolStripMenuItem
+            // 
+            this.importtoolStripMenuItem.Name = "importtoolStripMenuItem";
+            this.importtoolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.importtoolStripMenuItem.Text = "Import Heightmap";
+            this.importtoolStripMenuItem.Click += new System.EventHandler(this.importtoolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(195, 22);
+            this.toolStripMenuItem2.Text = "Export Heightmap";
+            // 
+            // importHeightmapDialog
+            // 
+            this.importHeightmapDialog.Filter = "BMP Image|*.bmp|JPEG Image|*.jpg|PNG Image|*.png|Short Height Data|*.shd|All file" +
+                "s|*.*";
+            this.importHeightmapDialog.Title = "Import Heightmap";
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -1540,7 +1570,6 @@
         private OpenTK.GLControl viewport;
         private System.Windows.Forms.ToolStripMenuItem viewportToolStripMenuItem;
         private System.Windows.Forms.TrackBar heightScale;
-        private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.ToolStripButton screenshot;
         private System.Windows.Forms.ToolStripButton clear3d;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
@@ -1557,6 +1586,10 @@
         public System.Windows.Forms.ToolStripComboBox texture;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
         private System.Windows.Forms.ToolStripButton Settings;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
+        private System.Windows.Forms.ToolStripMenuItem importtoolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.OpenFileDialog importHeightmapDialog;
     }
 }
 
