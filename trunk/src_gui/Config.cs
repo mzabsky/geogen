@@ -53,7 +53,7 @@ namespace GeoGen_Studio
             set { templateFile = value; }
         }
 
-        [CategoryAttribute("Startup"), DescriptionAttribute("Should the last opened file be opened when starting the application?"), DefaultValue(false)]
+        [CategoryAttribute("Startup"), DescriptionAttribute("Should the last opened file be opened when starting the application?"), DefaultValue(true)]
         public bool OpenLastFileOnStartup
         {
             get { return openLastFileOnStartup; }
@@ -102,7 +102,7 @@ namespace GeoGen_Studio
             set { scriptTempFile = value; }
         }
 
-        [CategoryAttribute("Paths"), DescriptionAttribute("Path where main output map will be saved, relative to GeoGenWorkingDirectory."), DefaultValue("../main.bmp")]
+        [CategoryAttribute("Paths"), DescriptionAttribute("Path where main output map will be saved, relative to GeoGenWorkingDirectory."), DefaultValue("../main.shd")]
         public string MainMapOutputFile
         {
             get { return mainMapOutputFile; }

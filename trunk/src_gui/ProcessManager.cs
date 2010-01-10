@@ -243,12 +243,8 @@ namespace GeoGen_Studio
 
             if (process.ExitCode == 0)
             {
-                //main.GetOutput3D().SetTerrain(config.GeoGenWorkingDirectory + "/" + config.MainMapOutputFile);
-
-                // let the output manager load the outputs
-                main.GetOutputManager().CaptureOutputs();
-
-                main.GetViewportManager().RebuildTerrain();
+                // let the output manager capture the outputs
+                main.GetOutputManager().ReloadMaps(null);
             }
             // exit code != 0 means error of some sort
             else

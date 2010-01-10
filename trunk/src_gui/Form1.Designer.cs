@@ -100,6 +100,8 @@
             this.executeToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.terminateToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.benchmarkToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.Settings = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.coords = new System.Windows.Forms.ToolStripStatusLabel();
@@ -715,7 +717,9 @@
             this.verifyToolStripButton,
             this.executeToolStripButton,
             this.terminateToolStripButton,
-            this.benchmarkToolStripButton});
+            this.benchmarkToolStripButton,
+            this.toolStripSeparator19,
+            this.Settings});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(989, 25);
@@ -842,6 +846,21 @@
             this.benchmarkToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.benchmarkToolStripButton.Text = "Benchmark the script";
             this.benchmarkToolStripButton.Click += new System.EventHandler(this.benchmarkToolStripButton_Click);
+            // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(6, 25);
+            // 
+            // Settings
+            // 
+            this.Settings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Settings.Image = ((System.Drawing.Image)(resources.GetObject("Settings.Image")));
+            this.Settings.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Settings.Name = "Settings";
+            this.Settings.Size = new System.Drawing.Size(23, 22);
+            this.Settings.Text = "settingsToolStripButton";
+            this.Settings.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
@@ -1364,6 +1383,7 @@
             // 
             // Main
             // 
+            this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(989, 503);
             this.Controls.Add(this.splitContainer);
@@ -1379,6 +1399,8 @@
             this.Text = "GeoGen Studio";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Main_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             codeTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.editor)).EndInit();
@@ -1533,6 +1555,8 @@
         public System.Windows.Forms.ToolStrip toolStrip1;
         public System.Windows.Forms.ToolStripComboBox outputs3d;
         public System.Windows.Forms.ToolStripComboBox texture;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
+        private System.Windows.Forms.ToolStripButton Settings;
     }
 }
 
