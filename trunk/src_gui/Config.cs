@@ -22,6 +22,7 @@ namespace GeoGen_Studio
         public string overlayDirectory;
         public string documentationPath;
         public int heightScale;
+        public string lastImportedFile;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -180,6 +181,7 @@ namespace GeoGen_Studio
             openLastFileOnStartup = true;
             lastFile = "";
             scintillaDefinitonsFile = "../config/scintilla.xml";
+            lastImportedFile = "";
 
             /* Execution settings */
             parameters = "";

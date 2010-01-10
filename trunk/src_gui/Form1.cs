@@ -418,6 +418,7 @@ namespace GeoGen_Studio
             this.editor.Zoom = this.config.editorZooom;
             this.wireframe.Checked = this.config.wireframe;
             this.heightScale.Value = this.config.heightScale;
+            this.importHeightmapDialog.FileName = this.config.lastImportedFile;
 
             this.statusbarToolStripMenuItem_Click(null, null);
             this.sidebarToolStripMenuItem_Click(null, null);
@@ -998,6 +999,15 @@ namespace GeoGen_Studio
                 this.currentFileName = file;
                 this.config.lastFile = file;
                 this.needsSaving = false;
+            }
+        }
+
+        private void importtoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.importHeightmapDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.outputManager.ReloadMaps(this.importHeightmapDialog.FileName);
+                this.config.lastImportedFile = this.importHeightmapDialog.FileName;
             }
         }
 
