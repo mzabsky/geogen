@@ -30,7 +30,7 @@ namespace GeoGen_Studio
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Main.Get().GetViewportManager().RebuildTerrain();
+            Main.Get().GetViewportManager().RebuildTerrain(null);
         }
     }
 }

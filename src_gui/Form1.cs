@@ -954,7 +954,7 @@ namespace GeoGen_Studio
 
         private void outputs3d_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.GetViewportManager().currentMap != -1 && this.viewportManager.heightData != null) this.viewportManager.RebuildTerrain();
+            if(this.GetViewportManager().currentMap != -1 && this.viewportManager.heightData != null) this.viewportManager.RebuildTerrain(null);
         }
 
         private void texture_SelectedIndexChanged(object sender, EventArgs e)
@@ -973,6 +973,33 @@ namespace GeoGen_Studio
             this.viewportManager.SetupViewport();
         }
 
+        private void Main_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.All;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void Main_DragDrop(object sender, DragEventArgs e)
+        {
+            string file = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+
+            string ext = file.Substring(file.LastIndexOf('.'), file.Length - file.LastIndexOf('.')).ToLower() ;
+             
+            if (ext == ".shd" || ext == ".bmp" || ext == ".png" || ext == ".jpg")
+            {
+                this.outputManager.ReloadMaps(file);
+            }
+            else
+            {
+                this.editor.Text = System.IO.File.ReadAllText(file);
+                this.saveFile.FileName = file;
+                this.currentFileName = file;
+                this.config.lastFile = file;
+                this.needsSaving = false;
+            }
+        }
 
           
     }

@@ -152,7 +152,7 @@ namespace GeoGen_Studio
             this.viewport.Invalidate();
         }
 
-        public void RebuildTerrain()
+        public void RebuildTerrain(string path_override)
         {
             Main main = Main.Get();
             Config config = main.GetConfig();
@@ -162,13 +162,19 @@ namespace GeoGen_Studio
             string path = config.GeoGenWorkingDirectory + "/";
 
             // load main or secondary map?
-            if (main.outputs3d.SelectedIndex < 1)
+            if (path_override == null)
             {
-                path += config.MainMapOutputFile;
+                if (main.outputs3d.SelectedIndex < 1)
+                {
+                    path += config.MainMapOutputFile;
+                }
+                else
+                {
+                    path += (string)main.outputs3d.Items[main.outputs3d.SelectedIndex];
+                }
             }
-            else
-            {
-                path += (string)main.outputs3d.Items[main.outputs3d.SelectedIndex];
+            else {
+                path = path_override;
             }
 
             main.ShowBuildingModel();
@@ -215,7 +221,15 @@ namespace GeoGen_Studio
 
             // the original map (as generated)
             //System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
-            OutputManager.SHData original = new OutputManager.SHData(path);
+            OutputManager.SHData original = null;
+            
+            try
+            {
+                 original = new OutputManager.SHData(path);
+            }
+            catch (System.IO.IOException) {
+                return;
+            };
 
             // store original's size
             int originalHeight = original.height;
@@ -431,7 +445,9 @@ namespace GeoGen_Studio
                 GL.BindTexture(TextureTarget.ProxyTexture2D, this.textureHandle);
                 
                 // tell the format of the buffered data
-                GL.InterleavedArrays(InterleavedArrayFormat.T2fN3fV3f, 0, IntPtr.Zero);
+                GL.TexCoordPointer(2, TexCoordPointerType.Float, 8 * sizeof(float), (IntPtr)(0));
+                GL.NormalPointer(NormalPointerType.Float, 8 * sizeof(float), (IntPtr)(2 * sizeof(float)));
+                GL.VertexPointer(3, VertexPointerType.Float, 8 * sizeof(float), (IntPtr)(5 * sizeof(float)));
 
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
@@ -457,7 +473,10 @@ namespace GeoGen_Studio
 
             if (this.textureBase == null) return;
 
-            if (this.textureHandle != 0) GL.DeleteTexture(this.textureHandle);
+            if (this.textureHandle != 0)
+            {
+                GL.DeleteTexture(this.textureHandle);
+            }
 
             string selected = (string)main.texture.Items[main.texture.SelectedIndex];
 

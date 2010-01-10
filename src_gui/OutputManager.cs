@@ -20,23 +20,57 @@ namespace GeoGen_Studio
 
             public SHData(string path)
             {
-                // byte-by-byte binary reading
-                System.IO.BinaryReader reader = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open, System.IO.FileAccess.Read));
+                string ext = path.Substring(path.LastIndexOf('.'), path.Length - path.LastIndexOf('.')).ToLower();
 
-                // read first eight bytes with map dimensions
-                this.width = reader.ReadInt32();
-                this.height = reader.ReadInt32();
-
-                // prepare memory space for the map data
-                this.data = new Int16[this.width * this.height];
-
-                // read the double bytes containing the height data
-                for (int i = 0; i < this.width * this.height; i++)
+                if (ext == ".shd")
                 {
-                    this.data[i] = reader.ReadInt16();
-                }
+                    // byte-by-byte binary reading
+                    System.IO.BinaryReader reader = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open, System.IO.FileAccess.Read));
 
-                reader.Close();
+                    // read first eight bytes with map dimensions
+                    this.width = reader.ReadInt32();
+                    this.height = reader.ReadInt32();
+
+                    // prepare memory space for the map data
+                    this.data = new Int16[this.width * this.height];
+
+                    // read the double bytes containing the height data
+                    for (int i = 0; i < this.width * this.height; i++)
+                    {
+                        this.data[i] = reader.ReadInt16();
+                    }
+
+                    reader.Close();
+                }
+                else
+                {
+                    // read the bitmap file
+                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(path);
+                    System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                    System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+                    this.width = bitmap.Width;
+                    this.height = bitmap.Height;
+                    this.data = new Int16[this.width * this.height];
+
+                    // prepare memory space for the color data
+                    byte[] bytes = new byte[data.Stride * bitmap.Height];
+
+                    // get a pointer to the to first line (=first pixel)
+                    IntPtr ptr = data.Scan0;
+
+                    // create a byte copy of the heightmap data
+                    System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, data.Stride * bitmap.Height);
+
+                    // create the color data
+
+                    for (int i = 0; i < bytes.Length; i += 4)
+                    {
+                        this.data[i / 4] = (short)((short) bytes[i]  * 128);
+                    }
+
+                    bitmap.UnlockBits(data);
+                }
             }
 
             public System.Drawing.Bitmap GetBitmap()
@@ -96,6 +130,7 @@ namespace GeoGen_Studio
 
         private System.Drawing.Image currentImage;
         private System.Drawing.Image currentImageWithOverlay;
+        private string currentImportedFile = null;
         public SHData data;
 
         private int currentOverlayIndex;
@@ -116,6 +151,8 @@ namespace GeoGen_Studio
             Config config = main.GetConfig();
 
             main.OutputButtonsOff();
+
+            this.currentImportedFile = null;
 
             if (main.output.Image != null)
             {
@@ -153,30 +190,43 @@ namespace GeoGen_Studio
             System.IO.Directory.CreateDirectory(config.GeoGenWorkingDirectory);
         }
 
-        public void CaptureOutputs()
+        public void ReloadMaps(string path)
         {
             Main main = Main.Get();
             Config config = main.GetConfig();
 
             main.OutputButtonsOn();
 
-            // list of generated maps
-            string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.shd");
-
-            main.outputs.Items.Add("[Main]");
-            main.outputs.SelectedIndex = 0;
-
-            main.outputs3d.Items.Add("[Main]");
-            main.outputs3d.SelectedIndex = 0;
-
-            // add found secondary maps to the output list
-            for (int i = 0; i < paths.Length; i++)
+            if (path == null)
             {
-                System.IO.FileInfo info = new System.IO.FileInfo(paths[i]);
+                // list of generated maps
+                string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.shd");
 
-                main.outputs.Items.Add(info.Name);
-                main.outputs3d.Items.Add(info.Name);
-                main.texture.Items.Add("Map: " + info.Name);
+                main.outputs.Items.Add("[Main]");
+                main.outputs.SelectedIndex = 0;
+
+                main.outputs3d.Items.Add("[Main]");
+                main.outputs3d.SelectedIndex = 0;
+
+                // add found secondary maps to the output list
+                for (int i = 0; i < paths.Length; i++)
+                {
+                    System.IO.FileInfo info = new System.IO.FileInfo(paths[i]);
+
+                    main.outputs.Items.Add(info.Name);
+                    main.outputs3d.Items.Add(info.Name);
+                    main.texture.Items.Add("Map: " + info.Name);
+                }
+            }
+            else
+            {
+                this.currentImportedFile = path;
+
+                main.outputs.Items.Add("[Imported File]");
+                main.outputs.SelectedIndex = 0;
+
+                main.outputs3d.Items.Add("[Imported File]");
+                main.outputs3d.SelectedIndex = 0;
             }
 
             main.output.Left = 0;
@@ -190,6 +240,9 @@ namespace GeoGen_Studio
             {
                 main.SelectTab(Main.Tabs.Output3D);
             }
+
+            // rebuild the 3d model
+            main.GetViewportManager().RebuildTerrain(path);
         }
 
         public System.Drawing.Bitmap ApplyOverlay(SHData heights, System.Drawing.Bitmap overlayBitmap)
@@ -279,8 +332,12 @@ namespace GeoGen_Studio
                 oldImageHeight = main.output.Image.Height;
             }
 
-            // load main or secondary map?
-            if (main.outputs.SelectedIndex < 1)
+            // load imported, main or secondary map?
+            if (this.currentImportedFile != null)
+            {
+                path = this.currentImportedFile;
+            }
+            else if (main.outputs.SelectedIndex < 1)
             {
                 path += config.MainMapOutputFile;
             }
