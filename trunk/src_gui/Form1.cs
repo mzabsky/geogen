@@ -255,6 +255,7 @@ namespace GeoGen_Studio
             this.terminateToolStripMenuItem.Enabled = true;
             this.benchmarkToolStripButton.Enabled = false;
             this.benchmarkToolStripMenuItem.Enabled = false;
+            this.importtoolStripMenuItem.Enabled = false;
         }
 
         public void ButtonsNoRunMode()
@@ -265,32 +266,37 @@ namespace GeoGen_Studio
             this.terminateToolStripMenuItem.Enabled = false;
             this.benchmarkToolStripButton.Enabled = true;
             this.benchmarkToolStripMenuItem.Enabled = true;
+            this.importtoolStripMenuItem.Enabled = true;
         }
 
         public void OutputButtonsOn()
         {
             this.saveOutput.Enabled = true;
-            this.clearOutputs.Enabled = true;
+            //this.clearOutputs.Enabled = true;
             this.outputs.Enabled = true;
             this.overlays.Enabled = true;
             this.toggleOverlay.Enabled = true;
             this.resetToolStripButton.Enabled = true;
+            this.exportToolStripMenuItem.Enabled = true;
+            this.exportToolStripButton.Enabled = true;
         }
 
         public void OutputButtonsOff()
         {
             this.saveOutput.Enabled = false;
-            this.clearOutputs.Enabled = false;
+            //this.clearOutputs.Enabled = false;
             this.outputs.Enabled = false;
             this.overlays.Enabled = false;
             this.toggleOverlay.Enabled = false;
             this.resetToolStripButton.Enabled = false;
+            this.exportToolStripMenuItem.Enabled = false;
+            this.exportToolStripButton.Enabled = false;
         }
 
         public void Output3dButtonsOn()
         {
             this.screenshot.Enabled = true;
-            this.clear3d.Enabled = true;
+            //this.clear3d.Enabled = true;
             this.outputs3d.Enabled = true;
             this.texture.Enabled = true;
             this.wireframe.Enabled = true;
@@ -301,7 +307,7 @@ namespace GeoGen_Studio
         public void Output3dButtonsOff()
         {
             this.screenshot.Enabled = false;
-            this.clear3d.Enabled = false;
+            //this.clear3d.Enabled = false;
             this.outputs3d.Enabled = false;
             this.texture.Enabled = false;
             this.wireframe.Enabled = false;
@@ -419,6 +425,7 @@ namespace GeoGen_Studio
             this.wireframe.Checked = this.config.wireframe;
             this.heightScale.Value = this.config.heightScale;
             this.importHeightmapDialog.FileName = this.config.lastImportedFile;
+            this.exportHeightmapDialog.FileName = this.config.lastExportedFile;
 
             this.statusbarToolStripMenuItem_Click(null, null);
             this.sidebarToolStripMenuItem_Click(null, null);
@@ -1009,6 +1016,11 @@ namespace GeoGen_Studio
                 this.outputManager.ReloadMaps(this.importHeightmapDialog.FileName);
                 this.config.lastImportedFile = this.importHeightmapDialog.FileName;
             }
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            this.outputManager.data.Export();
         }
 
           

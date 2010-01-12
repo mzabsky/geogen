@@ -38,6 +38,9 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.importtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -112,7 +115,6 @@
             this.output = new System.Windows.Forms.PictureBox();
             this.outputToolStrip = new System.Windows.Forms.ToolStrip();
             this.saveOutput = new System.Windows.Forms.ToolStripButton();
-            this.clearOutputs = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.outputs = new System.Windows.Forms.ToolStripComboBox();
@@ -129,7 +131,6 @@
             this.viewport = new OpenTK.GLControl();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.screenshot = new System.Windows.Forms.ToolStripButton();
-            this.clear3d = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.outputs3d = new System.Windows.Forms.ToolStripComboBox();
@@ -148,10 +149,9 @@
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
-            this.importtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.importHeightmapDialog = new System.Windows.Forms.OpenFileDialog();
+            this.exportHeightmapDialog = new System.Windows.Forms.SaveFileDialog();
+            this.exportToolStripButton = new System.Windows.Forms.ToolStripButton();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -238,7 +238,7 @@
             this.saveAsToolStripMenuItem,
             this.toolStripSeparator20,
             this.importtoolStripMenuItem,
-            this.toolStripMenuItem2,
+            this.exportToolStripMenuItem,
             this.toolStripSeparator4,
             this.printToolStripMenuItem,
             this.toolStripSeparator5,
@@ -282,6 +282,28 @@
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator20
+            // 
+            this.toolStripSeparator20.Name = "toolStripSeparator20";
+            this.toolStripSeparator20.Size = new System.Drawing.Size(192, 6);
+            // 
+            // importtoolStripMenuItem
+            // 
+            this.importtoolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("importtoolStripMenuItem.Image")));
+            this.importtoolStripMenuItem.Name = "importtoolStripMenuItem";
+            this.importtoolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.importtoolStripMenuItem.Text = "Import Heightmap";
+            this.importtoolStripMenuItem.Click += new System.EventHandler(this.importtoolStripMenuItem_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Enabled = false;
+            this.exportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripMenuItem.Image")));
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.exportToolStripMenuItem.Text = "Export Heightmap";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator4
             // 
@@ -448,7 +470,7 @@
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
             this.outputToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this.outputToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.outputToolStripMenuItem.Text = "Output (2D)";
+            this.outputToolStripMenuItem.Text = "2D View";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
             // viewportToolStripMenuItem
@@ -458,7 +480,7 @@
             this.viewportToolStripMenuItem.Name = "viewportToolStripMenuItem";
             this.viewportToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.viewportToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.viewportToolStripMenuItem.Text = "Output (3D)";
+            this.viewportToolStripMenuItem.Text = "3D View";
             // 
             // logToolStripMenuItem
             // 
@@ -936,7 +958,7 @@
             this.outputTab.Padding = new System.Windows.Forms.Padding(3);
             this.outputTab.Size = new System.Drawing.Size(801, 406);
             this.outputTab.TabIndex = 1;
-            this.outputTab.Text = "Output (2D)";
+            this.outputTab.Text = "2D View";
             this.outputTab.UseVisualStyleBackColor = true;
             // 
             // outputContainer
@@ -974,7 +996,7 @@
             this.outputToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.outputToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveOutput,
-            this.clearOutputs,
+            this.exportToolStripButton,
             this.toolStripSeparator2,
             this.toolStripLabel1,
             this.outputs,
@@ -1000,17 +1022,6 @@
             this.saveOutput.Size = new System.Drawing.Size(23, 22);
             this.saveOutput.Text = "Save currently displayed image";
             this.saveOutput.Click += new System.EventHandler(this.saveOutput_Click);
-            // 
-            // clearOutputs
-            // 
-            this.clearOutputs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.clearOutputs.Enabled = false;
-            this.clearOutputs.Image = ((System.Drawing.Image)(resources.GetObject("clearOutputs.Image")));
-            this.clearOutputs.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.clearOutputs.Name = "clearOutputs";
-            this.clearOutputs.Size = new System.Drawing.Size(23, 22);
-            this.clearOutputs.Text = "Discard all output data";
-            this.clearOutputs.Click += new System.EventHandler(this.clearOutputs_Click);
             // 
             // toolStripSeparator2
             // 
@@ -1090,7 +1101,7 @@
             this.output3dTab.Padding = new System.Windows.Forms.Padding(3);
             this.output3dTab.Size = new System.Drawing.Size(801, 406);
             this.output3dTab.TabIndex = 3;
-            this.output3dTab.Text = "Output (3D)";
+            this.output3dTab.Text = "3D View";
             this.output3dTab.UseVisualStyleBackColor = true;
             // 
             // heightScale
@@ -1156,7 +1167,6 @@
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.screenshot,
-            this.clear3d,
             this.toolStripSeparator15,
             this.toolStripLabel3,
             this.outputs3d,
@@ -1183,17 +1193,6 @@
             this.screenshot.Size = new System.Drawing.Size(23, 22);
             this.screenshot.Text = "Save screenshot";
             this.screenshot.Click += new System.EventHandler(this.screenshot_Click);
-            // 
-            // clear3d
-            // 
-            this.clear3d.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.clear3d.Enabled = false;
-            this.clear3d.Image = ((System.Drawing.Image)(resources.GetObject("clear3d.Image")));
-            this.clear3d.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.clear3d.Name = "clear3d";
-            this.clear3d.Size = new System.Drawing.Size(23, 22);
-            this.clear3d.Text = "Discard all 3D data";
-            this.clear3d.Click += new System.EventHandler(this.clear3d_Click);
             // 
             // toolStripSeparator15
             // 
@@ -1387,29 +1386,27 @@
             this.saveOutputDialog.DefaultExt = "png";
             this.saveOutputDialog.Filter = "PNG Images|*.png|All files|*.*";
             // 
-            // toolStripSeparator20
-            // 
-            this.toolStripSeparator20.Name = "toolStripSeparator20";
-            this.toolStripSeparator20.Size = new System.Drawing.Size(192, 6);
-            // 
-            // importtoolStripMenuItem
-            // 
-            this.importtoolStripMenuItem.Name = "importtoolStripMenuItem";
-            this.importtoolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.importtoolStripMenuItem.Text = "Import Heightmap";
-            this.importtoolStripMenuItem.Click += new System.EventHandler(this.importtoolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(195, 22);
-            this.toolStripMenuItem2.Text = "Export Heightmap";
-            // 
             // importHeightmapDialog
             // 
             this.importHeightmapDialog.Filter = "BMP Image|*.bmp|JPEG Image|*.jpg|PNG Image|*.png|Short Height Data|*.shd|All file" +
                 "s|*.*";
             this.importHeightmapDialog.Title = "Import Heightmap";
+            // 
+            // exportHeightmapDialog
+            // 
+            this.exportHeightmapDialog.DefaultExt = "bmp";
+            this.exportHeightmapDialog.Filter = "BMP Image|*.bmp|JPEG Image|*.jpg|PNG Image|*.png|Short Height Data|*.shd|All file" +
+                "s|*.*";
+            // 
+            // exportToolStripButton
+            // 
+            this.exportToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.exportToolStripButton.Enabled = false;
+            this.exportToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripButton.Image")));
+            this.exportToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.exportToolStripButton.Name = "exportToolStripButton";
+            this.exportToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.exportToolStripButton.Text = "Export current heightmap";
             // 
             // Main
             // 
@@ -1496,7 +1493,6 @@
         private System.Windows.Forms.ToolStripButton benchmarkToolStripButton;
         private System.Windows.Forms.ToolStrip outputToolStrip;
         private System.Windows.Forms.ToolStripButton saveOutput;
-        private System.Windows.Forms.ToolStripButton clearOutputs;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -1571,7 +1567,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewportToolStripMenuItem;
         private System.Windows.Forms.TrackBar heightScale;
         private System.Windows.Forms.ToolStripButton screenshot;
-        private System.Windows.Forms.ToolStripButton clear3d;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
@@ -1588,8 +1583,10 @@
         private System.Windows.Forms.ToolStripButton Settings;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
         private System.Windows.Forms.ToolStripMenuItem importtoolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog importHeightmapDialog;
+        public System.Windows.Forms.SaveFileDialog exportHeightmapDialog;
+        private System.Windows.Forms.ToolStripButton exportToolStripButton;
     }
 }
 
