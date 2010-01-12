@@ -23,6 +23,8 @@ namespace GeoGen_Studio
         public string documentationPath;
         public int heightScale;
         public string lastImportedFile;
+        public string lastExportedFile;
+        public bool exportRescaleMode;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -46,6 +48,7 @@ namespace GeoGen_Studio
         public float lightElevation;
         public bool lightEnabled;
         public bool enableTerrainUnderZero;
+        public bool enable3d;
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -124,7 +127,7 @@ namespace GeoGen_Studio
             set { documentationPath = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed amount of polygons for the terrain model in the 3D view. Higher settings require more powerful graphics card and the models take longer to build."), DefaultValue(ViewportManager.ModelDetailLevel.Medium_512x512Polygons)]
+        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed amount of polygons for the terrain model in the 3D view. Higher settings require more powerful graphics card and the models take longer to build. Has major impact on performance."), DefaultValue(ViewportManager.ModelDetailLevel.Medium_512x512Polygons)]
         public ViewportManager.ModelDetailLevel ModelDetailLevel
         {
             get { return modelDetailLevel; }
@@ -136,6 +139,13 @@ namespace GeoGen_Studio
         {
             get { return enableTerrainUnderZero; }
             set { enableTerrainUnderZero = value; }
+        }
+
+        [CategoryAttribute("3D View"), DescriptionAttribute("Enable/disable the 3D view."), DefaultValue(true)]
+        public bool Enable3D
+        {
+            get { return enable3d; }
+            set { enable3d = value; }
         }
         
         public Config()
@@ -182,6 +192,8 @@ namespace GeoGen_Studio
             lastFile = "";
             scintillaDefinitonsFile = "../config/scintilla.xml";
             lastImportedFile = "";
+            lastExportedFile = "";
+            exportRescaleMode = false;
 
             /* Execution settings */
             parameters = "";
@@ -200,6 +212,7 @@ namespace GeoGen_Studio
             /* 3D view */
             modelDetailLevel = ViewportManager.ModelDetailLevel.Medium_512x512Polygons;
             enableTerrainUnderZero = false;
+            enable3d = true;
 
             /* 3D light */
             ambientLightColor = new OpenTK.Vector4(0.2f, 0.2f, 0.2f, 1.0f);
@@ -207,6 +220,7 @@ namespace GeoGen_Studio
             lightAzimuth = 0.0f;
             lightElevation = 0.5f;
             lightEnabled = true;
+
 
         }
 

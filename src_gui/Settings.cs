@@ -30,7 +30,10 @@ namespace GeoGen_Studio
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Main.Get().GetViewportManager().RebuildTerrain(null);
+            if (Main.Get().GetConfig().enable3d)
+            {
+                Main.Get().GetViewportManager().RebuildTerrain(null);
+            }
         }
     }
 }
