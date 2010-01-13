@@ -6,128 +6,6 @@ namespace GeoGen_Studio
 {
     public class OutputManager
     {
-        public class SHData
-        {
-            public Int16[] data;
-            public int width;
-            public int height;
-            public int ByteLength
-            {
-                get { return sizeof(Int16) * width * height; }
-            }
-
-            public SHData() { }
-
-            public SHData(string path)
-            {
-                string ext = path.Substring(path.LastIndexOf('.'), path.Length - path.LastIndexOf('.')).ToLower();
-
-                if (ext == ".shd")
-                {
-                    // byte-by-byte binary reading
-                    System.IO.BinaryReader reader = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open, System.IO.FileAccess.Read));
-
-                    // read first eight bytes with map dimensions
-                    this.width = reader.ReadInt32();
-                    this.height = reader.ReadInt32();
-
-                    // prepare memory space for the map data
-                    this.data = new Int16[this.width * this.height];
-
-                    // read the double bytes containing the height data
-                    for (int i = 0; i < this.width * this.height; i++)
-                    {
-                        this.data[i] = reader.ReadInt16();
-                    }
-
-                    reader.Close();
-                }
-                else
-                {
-                    // read the bitmap file
-                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(path);
-                    System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-                    System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
-
-                    this.width = bitmap.Width;
-                    this.height = bitmap.Height;
-                    this.data = new Int16[this.width * this.height];
-
-                    // prepare memory space for the color data
-                    byte[] bytes = new byte[data.Stride * bitmap.Height];
-
-                    // get a pointer to the to first line (=first pixel)
-                    IntPtr ptr = data.Scan0;
-
-                    // create a byte copy of the heightmap data
-                    System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, data.Stride * bitmap.Height);
-
-                    // create the color data
-
-                    for (int i = 0; i < bytes.Length; i += 4)
-                    {
-                        this.data[i / 4] = (short)((short) bytes[i]  * 128);
-                    }
-
-                    bitmap.UnlockBits(data);
-                }
-            }
-
-            public System.Drawing.Bitmap GetBitmap()
-            {
-                // create a blank bitmap
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(this.width, this.height);
-
-                // lock the bitmap color data for byte access
-                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-                System.Drawing.Imaging.BitmapData locked = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
-                
-                // prepare memory space for the new color data
-                byte[] bytes = new byte[locked.Stride * bitmap.Height];
-
-                // get a pointer to the to first line (=first pixel)
-                IntPtr ptr = locked.Scan0;
-
-                // fill in the bytes
-                for (int i = 0; i < bytes.Length; i += 4)
-                {
-                    // we won't be able to display the height data lower than 0 -> crop them
-                    byte current = (byte)(this.data[i / 4] > 0 ? (this.data[i / 4] / 128) : 0);
-
-                    bytes[i + 0] = current;
-                    bytes[i + 1] = current;
-                    bytes[i + 2] = current;
-                    bytes[i + 3] = 255;
-                }
-
-                // copy the data into the bitmap
-                System.Runtime.InteropServices.Marshal.Copy(bytes, 0, ptr, locked.Stride * bitmap.Height);
-
-                // unlock the bits
-                bitmap.UnlockBits(locked);
-
-                return bitmap;
-            }
-
-            public SHData GetResized(int width, int height){
-                SHData resized = new SHData();
-                resized.width = width;
-                resized.height = height;
-                resized.data = new Int16[width * height];
-
-                // use nearest neighbor scaling algorithm
-                for (int x = 0; x < width; x++)
-                {
-                    for (int y = 0; y < height; y++)
-                    {
-                        resized.data[x + width * y] = data[x * this.width / width + y * this.height / height * this.width];
-                    }
-                }
-
-                return resized;
-            }
-        }
-
         private System.Drawing.Image currentImage;
         private System.Drawing.Image currentImageWithOverlay;
         private string currentImportedFile = null;
@@ -242,7 +120,10 @@ namespace GeoGen_Studio
             }
 
             // rebuild the 3d model
-            main.GetViewportManager().RebuildTerrain(path);
+            if (config.enable3d)
+            {
+                main.GetViewportManager().RebuildTerrain(path);
+            }
         }
 
         public System.Drawing.Bitmap ApplyOverlay(SHData heights, System.Drawing.Bitmap overlayBitmap)
@@ -289,7 +170,7 @@ namespace GeoGen_Studio
             {
                 for (int i = 0; i < bytes.Length; i += 4)
                 {
-                    int current = 255 + (heights.data[i / 4] / 128);
+                    int current = 256 + (heights.data[i / 4] / 128);
 
                     if (current < 0 || current > 511)
                     {
@@ -318,73 +199,80 @@ namespace GeoGen_Studio
             Main main = Main.Get();
             Config config = main.GetConfig();
 
-            main.AddStatus("Loading");
-
-            string path = config.GeoGenWorkingDirectory + "/";
-
-            int oldImageWidth = 0;
-            int oldImageHeight = 0;
-
-            // save original output image dimensions, so we can deetect their change
-            if (main.output.Image != null)
-            {
-                oldImageWidth = main.output.Image.Width;
-                oldImageHeight = main.output.Image.Height;
-            }
-
-            // load imported, main or secondary map?
-            if (this.currentImportedFile != null)
-            {
-                path = this.currentImportedFile;
-            }
-            else if (main.outputs.SelectedIndex < 1)
-            {
-                path += config.MainMapOutputFile;
-            }
-            else
-            {
-                path += (string)main.outputs.Items[main.outputs.SelectedIndex];
-            }
-
-            // if the image being loaded doesn't exist, cancel
             try
             {
-                this.data = new SHData(path);
+                main.AddStatus("Loading");
 
-                currentImage = this.data.GetBitmap();
+                string path = config.GeoGenWorkingDirectory + "/";
+
+                int oldImageWidth = 0;
+                int oldImageHeight = 0;
+
+                // save original output image dimensions, so we can deetect their change
+                if (main.output.Image != null)
+                {
+                    oldImageWidth = main.output.Image.Width;
+                    oldImageHeight = main.output.Image.Height;
+                }
+
+                // load imported, main or secondary map?
+                if (this.currentImportedFile != null)
+                {
+                    path = this.currentImportedFile;
+                }
+                else if (main.outputs.SelectedIndex < 1)
+                {
+                    path += config.MainMapOutputFile;
+                }
+                else
+                {
+                    path += (string)main.outputs.Items[main.outputs.SelectedIndex];
+                }
+
+                // if the image being loaded doesn't exist, cancel
+                try
+                {
+                    this.data = new SHData(path);
+
+                    currentImage = this.data.GetBitmap();
+                }
+                catch (Exception)
+                {
+                    main.RemoveStatus("Loading");
+
+                    return;
+                }
+
+
+                // apply overlay pattern?
+                if (main.overlays.SelectedIndex > 0)
+                {
+                    string overlayPath = config.OverlayDirectory + "/" + (string)main.overlays.Items[main.overlays.SelectedIndex];
+
+                    this.currentImageWithOverlay = this.ApplyOverlay(this.data, new System.Drawing.Bitmap(overlayPath));
+
+                }
+
+                // decide which image (gray or overlay) to display
+                if (main.overlays.SelectedIndex > 0 && main.toggleOverlay.Checked)
+                {
+                    main.output.Image = this.currentImageWithOverlay;
+                }
+                else
+                {
+                    main.output.Image = this.currentImage;
+                }
+
+                // detect size change (reset the view if size changed to prevent the image shrinking avay from the screen)
+                if (oldImageWidth > main.output.Image.Width || oldImageHeight > main.output.Image.Width || oldImageHeight == 0)
+                {
+                    main.output.Width = main.output.Image.Width;
+                    main.output.Height = main.output.Image.Height;
+                }
             }
-            catch (Exception)
+            catch (OutOfMemoryException)
             {
-                main.RemoveStatus("Loading");
-
-                return;
-            }
-
-
-            // apply overlay pattern?
-            if (main.overlays.SelectedIndex > 0)
-            {
-                string overlayPath = config.OverlayDirectory + "/" + (string)main.overlays.Items[main.overlays.SelectedIndex];
-
-                this.currentImageWithOverlay = this.ApplyOverlay(this.data, new System.Drawing.Bitmap(overlayPath));
-
-            }
-
-            // decide which image (gray or overlay) to display
-            if (main.overlays.SelectedIndex > 0 && main.toggleOverlay.Checked)
-            {
-                main.output.Image = this.currentImageWithOverlay;
-            }
-            else
-            {
-                main.output.Image = this.currentImage;
-            }
-
-            // detect size change (reset the view if size changed to prevent the image shrinking avay from the screen)
-            if (oldImageWidth > main.output.Image.Width || oldImageHeight > main.output.Image.Width || oldImageHeight == 0)
-            {
-                main.output.Width = main.output.Image.Width;
-                main.output.Height = main.output.Image.Height;
+                main.OutOfMemory();
             }
             
             main.RemoveStatus("Loading");
@@ -398,6 +286,7 @@ namespace GeoGen_Studio
             main.overlays.Items.Clear();
 
             main.overlays.Items.Add("[None]");
+            main.texture.Items.Add("[Import External]");
 
             string[] paths;
 
