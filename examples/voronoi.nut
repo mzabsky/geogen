@@ -18,11 +18,9 @@ function Generate(){
 
 	local base = GGen_Data_2D(width, height, 0);
 
-	base.VoronoiNoise(90, 1, GGEN_BUBBLES);
+	base.VoronoiNoise(width / 5, 1, GGEN_BUBBLES);
 	
-	return base;
-	
-	//base.Smooth(width / 50);
+	base.Smooth(2);
 	
 	local copy = base.Clone();
 	local mask = base.Clone();
@@ -30,16 +28,18 @@ function Generate(){
 	mask.Clamp(mask.Max() / 3, 9 * mask.Max() / 10);
 
 	mask.ReturnAs("mask");
+	
+	mask.ScaleValuesTo(0, 200);
 
 	copy.Smooth(width / 10);
 	
-	base.Combine(copy, mask, true);
+	base.Combine(copy, mask, false);
 
 	local noise = GGen_Data_2D(width, height, 0);
 	
-	noise.Noise(1, 400, GGEN_STD_NOISE);
+	noise.Noise(2, 400, GGEN_STD_NOISE);
 	
-	noise.ScaleValuesTo(-base.Max() / 3, base.Max() / 3);
+	noise.ScaleValuesTo(-base.Max() / 2, base.Max() / 2);
 	
 	base.AddMap(noise);
 

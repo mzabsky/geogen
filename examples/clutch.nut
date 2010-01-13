@@ -6,7 +6,7 @@ function GetInfo(info_type){
 			return "Two mountainous regions are connected only by a narrow land bridge.";
 		case "args":
 			GGen_AddIntArg("size","Size","Width and height of the map.", 1024, 128, 20000, 1);
-			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
+			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			return 0;
 	}
@@ -93,7 +93,7 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 
-	base.Add(-max_min + 50);	
+	base.Add(-max_min + 100);	
 	
 	base.TransformValues(GGEN_NATURAL_PROFILE, true);
 
