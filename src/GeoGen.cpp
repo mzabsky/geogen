@@ -434,7 +434,7 @@ int main(int argc,char * argv[]){
 
 	// fetch the list of arguments from the script file
 	if(ggen->LoadArgs() == NULL){
-		cout << "Coould not retrieve map information!\n" << flush;
+		cout << "Could not retrieve map information!\n" << flush;
 		delete ggen;
 		if(_params.stupid_mode) system("pause");
 		return -1;		
