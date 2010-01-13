@@ -25,6 +25,7 @@ namespace GeoGen_Studio
         public string lastImportedFile;
         public string lastExportedFile;
         public bool exportRescaleMode;
+        public string lastImportedTexture;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -193,6 +194,8 @@ namespace GeoGen_Studio
             scintillaDefinitonsFile = "../config/scintilla.xml";
             lastImportedFile = "";
             lastExportedFile = "";
+            lastImportedTexture = "";
+            
             exportRescaleMode = false;
 
             /* Execution settings */

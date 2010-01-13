@@ -40,7 +40,7 @@ namespace GeoGen_Studio
         }
 
         public OpenTK.GLControl viewport;
-        public OutputManager.SHData heightData;
+        public SHData heightData;
 
         public System.Threading.Thread modelThread;
 
@@ -89,6 +89,7 @@ namespace GeoGen_Studio
             GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.RescaleNormal);
             GL.Enable(EnableCap.Normalize);
+            GL.Enable(EnableCap.CullFace);
             GL.Viewport(0, 0, this.viewport.Width, this.viewport.Height); // Use all of the glControl painting are
 
             GL.Enable(EnableCap.Lighting);
@@ -96,9 +97,6 @@ namespace GeoGen_Studio
             GL.Enable(EnableCap.ColorMaterial);
             GL.ColorMaterial(MaterialFace.Front, ColorMaterialParameter.AmbientAndDiffuse);
             GL.ShadeModel(ShadingModel.Smooth);
-
-
-            //GL.EnableClientState(EnableCap.ColorArray);
 
             GL.EnableClientState(EnableCap.VertexArray);
             GL.EnableClientState(EnableCap.TextureCoordArray);
@@ -121,6 +119,7 @@ namespace GeoGen_Studio
 
             // release the height data
             this.heightData = null;
+            this.textureBase = null;
 
             main.outputs3d.Items.Clear();
 
@@ -219,192 +218,220 @@ namespace GeoGen_Studio
             Main main = Main.Get();
             Config config = main.GetConfig();
 
-            // the original map (as generated)
-            //System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
-            OutputManager.SHData original = null;
-            
             try
             {
-                 original = new OutputManager.SHData(path);
-            }
-            catch (System.IO.IOException) {
-                return;
-            };
+                // the original map (as generated)
+                //System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
+                SHData original = null;
 
-            // store original's size
-            int originalHeight = original.height;
-            int originalWidth = original.width;
-
-            // resized bitmap (from which the model will be generated 1:1)
-            //System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, , );
-
-            
-
-            // prepare byte access to the height data
-            //System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            //System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
-
-            
-
-            // load the overlay pattern
-            System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
-
-            // prepare memory space for the newly created color data
-            this.heightData = original.GetResized(Math.Min(original.width, (int)config.ModelDetailLevel), Math.Min(original.height, (int)config.ModelDetailLevel));
-
-            this.textureBase = this.heightData.GetBitmap();
-
-            //viewport.MakeCurrent();
-
-            // get a pointer to the to first line (=first pixel)
-            //IntPtr ptr = data.Scan0;
-
-            // create a byte copy of the heightmap data
-            //System.Runtime.InteropServices.Marshal.Copy(ptr, this.heightData, 0, data.Stride * bitmap.Height);
-
-            // release the lock, so this bitmap can be used elsewhere as well
-            //bitmap.UnlockBits(data);
-            //bitmap = null;
-
-
-            
-
-            // release some memory (to prevent OutOfMemory exception)
-            original = null;
-
-            // the vertex array for the model
-            Vertex[] vertices = new Vertex[this.heightData.width * this.heightData.height * 6];
-
-            // dimension multipliers
-            float fWidth = 100f / (float) this.heightData.width;
-            float fHeight = 100f / (float) this.heightData.height;
-
-            // adjust the multipliers for non-square bitmaps
-            if (originalHeight > originalWidth)
-            {
-                fWidth *= (float)originalWidth / (float)originalHeight;
-            }
-            else if (originalHeight < originalWidth)
-            {
-                fHeight*= (float)originalHeight / (float)originalWidth;
-            }
-
-            // build the model
-            if(this.heightData != null){
-                for (int y = 0; y < this.heightData.height - 1; y++)
+                try
                 {
-                    float fy = (float)y;
+                    original = new SHData(path);
+                }
+                catch (System.IO.IOException)
+                {
+                    return;
+                };
 
-                    // precalculate some stuff that stays constant for whole row
-                    float yPos = (fy + 0.5f) * fHeight;
-                    float yPosNext = (fy + 1 + 0.5f) * fHeight;
+                // store original's size
+                int originalHeight = original.height;
+                int originalWidth = original.width;
 
-                    for (int x = 0; x < this.heightData.width - 1; x++)
+                // resized bitmap (from which the model will be generated 1:1)
+                //System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, , );
+
+
+
+                // prepare byte access to the height data
+                //System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                //System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+
+
+                // load the overlay pattern
+                System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
+
+                // prepare memory space for the newly created color data
+                this.heightData = original.GetResized(Math.Min(original.width, (int)config.ModelDetailLevel), Math.Min(original.height, (int)config.ModelDetailLevel));
+
+                this.textureBase = this.heightData.GetBitmap();
+
+                //viewport.MakeCurrent();
+
+                // get a pointer to the to first line (=first pixel)
+                //IntPtr ptr = data.Scan0;
+
+                // create a byte copy of the heightmap data
+                //System.Runtime.InteropServices.Marshal.Copy(ptr, this.heightData, 0, data.Stride * bitmap.Height);
+
+                // release the lock, so this bitmap can be used elsewhere as well
+                //bitmap.UnlockBits(data);
+                //bitmap = null;
+
+
+
+
+                // release some memory (to prevent OutOfMemory exception)
+                original = null;
+
+                // the vertex array for the model
+                Vertex[] vertices = new Vertex[this.heightData.width * this.heightData.height * 6];
+
+                // dimension multipliers
+                float fWidth = 100f / (float)this.heightData.width;
+                float fHeight = 100f / (float)this.heightData.height;
+                float texFWidth = fWidth;
+                float texFHeight = fHeight;
+                float offsetX = 0;
+                float offsetY = 0;
+
+                // adjust the multipliers for non-square bitmaps
+                if (originalHeight > originalWidth)
+                {
+                    offsetY = (float)((float)(this.heightData.height - this.heightData.width) * 100f / (float)this.heightData.height) / 2f;
+                    fWidth *= (float)originalWidth / (float)originalHeight;
+                }
+                else if (originalHeight < originalWidth)
+                {
+                    offsetY = (float)((float)(this.heightData.width - this.heightData.height) * 100f / (float)this.heightData.width) / 2f;
+                    fHeight *= (float)originalHeight / (float)originalWidth;
+                }
+
+                // build the model
+                if (this.heightData != null)
+                {
+                    for (int y = 0; y < this.heightData.height - 1; y++)
                     {
-                        float fx = (float)x;
+                        float fy = (float)y;
 
-                        // upper left point of current quad
-                        Vertex a = new Vertex();
-                        a.Position.X = fx * fWidth;
-                        a.Position.Y = yPos;
-                        a.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * y)] * 0.005f / 128f);
-                        //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
-                        a.TexCoord.X = (fx  + 0.5f) * fWidth / 100f;
-                        a.TexCoord.Y = yPos / 100f;
+                        // precalculate some stuff that stays constant for whole row
+                        float yPos = (fy + 0.5f) * fHeight;
+                        float yPosNext = (fy + 1 + 0.5f) * fHeight;
+                        float texYPos = (fy + 0.5f) * texFHeight;
+                        float texYPosNext = (fy + 1 + 0.5f) * texFHeight;
 
-                        // upper right verex of current quad
-                        Vertex b = new Vertex();
-                        b.Position.X = (fx + 1) * fWidth;
-                        b.Position.Y = yPos;
-                        b.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * y)] * 0.005f / 128f);
-                        //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
-                        b.TexCoord.X = (fx + 1 + 0.5f) * fWidth / 100f;
-                        b.TexCoord.Y = yPos / 100f;
 
-                        // bottom left verex of current quad
-                        Vertex c = new Vertex();
-                        c.Position.X = fx * fWidth;
-                        c.Position.Y = yPosNext;
-                        c.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * (y + 1))] * 0.005f / 128f);
-                        //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
-                        c.TexCoord.X = (fx + 0.5f) * fWidth / 100f;
-                        c.TexCoord.Y = yPosNext / 100f;
-
-                        // bottom right verex of current quad
-                        Vertex d = new Vertex();
-                        d.Position.X = (fx + 1) * fWidth;
-                        d.Position.Y = yPosNext;
-                        d.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * (y + 1))] * 0.005f / 128f);
-                        //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
-                        d.TexCoord.X = (fx + 1 + 0.5f) * fWidth / 100f;
-                        d.TexCoord.Y = yPosNext / 100f;
-
-                        // crop underwater heights if requested
-                        if (!config.enableTerrainUnderZero)
+                        for (int x = 0; x < this.heightData.width - 1; x++)
                         {
-                            if (a.Position.Z < 0) a.Position.Z = 0;
-                            if (b.Position.Z < 0) b.Position.Z = 0;
-                            if (c.Position.Z < 0) c.Position.Z = 0;
-                            if (d.Position.Z < 0) d.Position.Z = 0;
+                            float fx = (float)x;
+
+                            // upper left point of current quad
+                            Vertex a = new Vertex();
+                            a.Position.X = offsetX + fx * fWidth;
+                            a.Position.Y = offsetY + yPos;
+                            a.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * y)] * 0.005f / 128f);
+                            //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
+                            a.TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
+                            a.TexCoord.Y = texYPos / 100f;
+
+                            // upper right verex of current quad
+                            Vertex b = new Vertex();
+                            b.Position.X = offsetX + (fx + 1) * fWidth;
+                            b.Position.Y = offsetY + yPos;
+                            b.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * y)] * 0.005f / 128f);
+                            //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
+                            b.TexCoord.X = (fx + 1 + 0.5f) * texFWidth / 100f;
+                            b.TexCoord.Y = texYPos / 100f;
+
+                            // bottom left verex of current quad
+                            Vertex c = new Vertex();
+                            c.Position.X = offsetX + fx * fWidth;
+                            c.Position.Y = offsetY + yPosNext;
+                            c.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * (y + 1))] * 0.005f / 128f);
+                            //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
+                            c.TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
+                            c.TexCoord.Y = texYPosNext / 100f;
+
+                            // bottom right verex of current quad
+                            Vertex d = new Vertex();
+                            d.Position.X = offsetX + (fx + 1) * fWidth;
+                            d.Position.Y = offsetY + yPosNext;
+                            d.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * (y + 1))] * 0.005f / 128f);
+                            //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
+                            d.TexCoord.X = (fx + 1 + 0.5f) * texFWidth / 100f;
+                            d.TexCoord.Y = texYPosNext / 100f;
+
+                            // crop underwater heights if requested
+                            if (!config.enableTerrainUnderZero)
+                            {
+                                if (a.Position.Z < 0) a.Position.Z = 0;
+                                if (b.Position.Z < 0) b.Position.Z = 0;
+                                if (c.Position.Z < 0) c.Position.Z = 0;
+                                if (d.Position.Z < 0) d.Position.Z = 0;
+                            }
+
+                            Vertex b2 = new Vertex(b);
+                            Vertex c2 = new Vertex(c);
+
+                            a.Normal = this.CalculateNormal(c.Position, a.Position, b.Position);
+                            d.Normal = this.CalculateNormal(b.Position, d.Position, c.Position);
+
+                            b.Normal = a.Normal;
+                            c.Normal = a.Normal;
+
+                            b2.Normal = d.Normal;
+                            c2.Normal = d.Normal;
+
+                            // first triangle
+                            vertices[(x + this.heightData.width * y) * 6] = a;
+                            vertices[(x + this.heightData.width * y) * 6 + 1] = b;
+                            vertices[(x + this.heightData.width * y) * 6 + 2] = c;
+
+                            // second triangle                        
+                            vertices[(x + this.heightData.width * y) * 6 + 4] = d;
+                            vertices[(x + this.heightData.width * y) * 6 + 5] = c2;
+                            vertices[(x + this.heightData.width * y) * 6 + 3] = b2;
                         }
-
-                        Vertex b2 = new Vertex(b);
-                        Vertex c2 = new Vertex(c);
-
-                        a.Normal = this.CalculateNormal(c.Position, a.Position, b.Position);
-                        d.Normal = this.CalculateNormal(b.Position, d.Position, c.Position);
-
-                        b.Normal = a.Normal;
-                        c.Normal = a.Normal;
-
-                        b2.Normal = d.Normal;
-                        c2.Normal = d.Normal;
-
-                        // first triangle
-                        vertices[(x + this.heightData.width * y) * 6] = a;
-                        vertices[(x + this.heightData.width * y) * 6 + 1] = b;
-                        vertices[(x + this.heightData.width * y) * 6 + 2] = c;
-                        
-                        // second triangle                        
-                        vertices[(x + this.heightData.width * y) * 6 + 4] = d;
-                        vertices[(x + this.heightData.width * y) * 6 + 5] = c2; 
-                        vertices[(x + this.heightData.width * y) * 6 + 3] = b2; 
                     }
                 }
-            }
 
-            try
-            {
-                main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
+                try
                 {
-                    // delete the previous buffer content
-                    if (this.vertexBufferHandle != 0)
+                    main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
                     {
-                        GL.DeleteBuffers(1, ref this.vertexBufferHandle);
-                    }
+                        // delete the previous buffer content
+                        if (this.vertexBufferHandle != 0)
+                        {
+                            GL.DeleteBuffers(1, ref this.vertexBufferHandle);
+                        }
 
-                    // allocate the buffer
-                    GL.GenBuffers(1, out this.vertexBufferHandle);
+                        // allocate the buffer
+                        GL.GenBuffers(1, out this.vertexBufferHandle);
 
-                    // tell that we are using that buffer
-                    GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
+                        // tell that we are using that buffer
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
 
-                    // upload the data into the buffer into GPU
-                    GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
+                        // upload the data into the buffer into GPU
+                        GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
 
-                   
-                    // rebuild the texture
-                    this.ApplyTexture();
 
-                    // UI stuff
-                    main.Output3dButtonsOn();
-                    this.viewport.Invalidate();
+                        // rebuild the texture
+                        this.ApplyTexture();
 
-                    main.HideBuildingModel();
-                }));
+                        // UI stuff
+                        main.Output3dButtonsOn();
+                        this.viewport.Invalidate();
+
+                        main.HideBuildingModel();
+                    }));
+                }
+                // this might throw exceptions in case the main thread was terminated while this thread is running
+                catch (Exception) { };
             }
-            // this might throw exceptions in case the main thread was terminated while this thread is running
-            catch (Exception) { };
+            catch (OutOfMemoryException)
+            {
+                try{
+                    main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
+                    {
+                        main.HideBuildingModel();
+
+                        main.OutOfMemory();
+                    }));
+                }
+                catch{
+                    return;
+                };
+            }
         }
 
         public void Render()
@@ -473,44 +500,72 @@ namespace GeoGen_Studio
 
             if (this.textureBase == null) return;
 
-            if (this.textureHandle != 0)
+                try{
+                if (this.textureHandle != 0)
+                {
+                    GL.DeleteTexture(this.textureHandle);
+                }
+
+                string selected = (string)main.texture.Items[main.texture.SelectedIndex];
+
+                string path = "";
+
+                System.Drawing.Bitmap bitmap = null;
+
+                if (selected == "[Import External]")
+                {
+                    try{
+                        if (main.importTextureDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            bitmap = new System.Drawing.Bitmap(main.importTextureDialog.FileName);    
+                        }
+                        else
+                        {
+                            this.viewport.Invalidate();
+                            return;
+                        }
+                    }
+                    catch{
+                        System.Windows.Forms.MessageBox.Show("Could not load external texture.");
+
+                        this.viewport.Invalidate();
+                        return;
+                    }
+                }
+
+                // "Overlay: " type texture
+                else if (selected[0] == 'O')
+                {
+                    path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
+                    bitmap = main.GetOutputManager().ApplyOverlay(this.heightData, new System.Drawing.Bitmap(path));
+
+                }
+
+                // "Map: " type texture
+                else if (selected[0] == 'M')
+                {
+                    path = config.geoGenWorkingDirectory + "/" + selected.Substring(5, selected.Length - 5);
+
+                    bitmap = new SHData(path).GetBitmap();
+
+                }
+
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+
+                this.textureHandle = GL.GenTexture();
+                GL.BindTexture(TextureTarget.Texture2D, this.textureHandle);
+
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+
+                bitmap.UnlockBits(data);
+            }
+            catch (OutOfMemoryException)
             {
-                GL.DeleteTexture(this.textureHandle);
+                main.OutOfMemory();
             }
-
-            string selected = (string)main.texture.Items[main.texture.SelectedIndex];
-
-            string path = "";
-
-            System.Drawing.Bitmap bitmap = null;
-
-            // "Overlay: " type texture
-            if(selected[0] == 'O'){
-                path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
-                bitmap = main.GetOutputManager().ApplyOverlay(this.heightData, new System.Drawing.Bitmap(path));
-            
-            }
-
-            // "Map: " type texture
-            else if (selected[0] == 'M')
-            {
-                path = config.geoGenWorkingDirectory + "/" + selected.Substring(5, selected.Length - 5);
-
-                bitmap = new OutputManager.SHData(path).GetBitmap();
-
-            }
-
-            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
-
-
-            this.textureHandle = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, this.textureHandle);
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-            bitmap.UnlockBits(data);
 
             this.viewport.Invalidate();
         }

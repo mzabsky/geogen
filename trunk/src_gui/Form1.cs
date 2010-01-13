@@ -232,6 +232,23 @@ namespace GeoGen_Studio
             this.console.Text += str + Environment.NewLine;
         }
 
+        public void Error(string error)
+        {
+            System.Windows.Forms.MessageBox.Show(error);
+        }
+
+        public void OutOfMemory()
+        {
+            try
+            {
+                this.viewportManager.ClearData();
+                this.outputManager.ClearData();
+            }
+            catch { };
+
+            this.Error("GeoGen Studio ran out of memory, 2D and 3D data had to be released in order to prevent application crash.");
+        }
+
         public void ShowBuildingModel()
         {
             this.AddStatus("Building terrain");
@@ -1019,6 +1036,11 @@ namespace GeoGen_Studio
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            this.outputManager.data.Export();
+        }
+
+        private void exportToolStripButton_Click(object sender, EventArgs e)
         {
             this.outputManager.data.Export();
         }
