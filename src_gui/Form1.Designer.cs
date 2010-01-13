@@ -32,6 +32,7 @@
             System.Windows.Forms.TabPage codeTab;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.editor = new ScintillaNet.Scintilla();
+            this.importTextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,6 +116,7 @@
             this.output = new System.Windows.Forms.PictureBox();
             this.outputToolStrip = new System.Windows.Forms.ToolStrip();
             this.saveOutput = new System.Windows.Forms.ToolStripButton();
+            this.exportToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.outputs = new System.Windows.Forms.ToolStripComboBox();
@@ -151,7 +153,6 @@
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
             this.importHeightmapDialog = new System.Windows.Forms.OpenFileDialog();
             this.exportHeightmapDialog = new System.Windows.Forms.SaveFileDialog();
-            this.exportToolStripButton = new System.Windows.Forms.ToolStripButton();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
@@ -214,6 +215,11 @@
             this.editor.Styles.LastPredefined.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Styles.Max.BackColor = System.Drawing.SystemColors.Window;
             this.editor.TabIndex = 0;
+            // 
+            // importTextureDialog
+            // 
+            this.importTextureDialog.Filter = "BMP Image|*.bmp|JPEG Image|*.jpg|PNG Image|*.png|All files|*.*";
+            this.importTextureDialog.Title = "Import Texture";
             // 
             // menuStrip
             // 
@@ -1023,6 +1029,17 @@
             this.saveOutput.Text = "Save currently displayed image";
             this.saveOutput.Click += new System.EventHandler(this.saveOutput_Click);
             // 
+            // exportToolStripButton
+            // 
+            this.exportToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.exportToolStripButton.Enabled = false;
+            this.exportToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripButton.Image")));
+            this.exportToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.exportToolStripButton.Name = "exportToolStripButton";
+            this.exportToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.exportToolStripButton.Text = "Export current heightmap";
+            this.exportToolStripButton.Click += new System.EventHandler(this.exportToolStripButton_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -1109,7 +1126,7 @@
             this.heightScale.AutoSize = false;
             this.heightScale.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.heightScale.Enabled = false;
-            this.heightScale.Location = new System.Drawing.Point(529, 3);
+            this.heightScale.Location = new System.Drawing.Point(507, 3);
             this.heightScale.Maximum = 30;
             this.heightScale.Name = "heightScale";
             this.heightScale.Size = new System.Drawing.Size(130, 23);
@@ -1398,16 +1415,6 @@
             this.exportHeightmapDialog.Filter = "BMP Image|*.bmp|JPEG Image|*.jpg|PNG Image|*.png|Short Height Data|*.shd|All file" +
                 "s|*.*";
             // 
-            // exportToolStripButton
-            // 
-            this.exportToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.exportToolStripButton.Enabled = false;
-            this.exportToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripButton.Image")));
-            this.exportToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.exportToolStripButton.Name = "exportToolStripButton";
-            this.exportToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.exportToolStripButton.Text = "Export current heightmap";
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -1587,6 +1594,7 @@
         private System.Windows.Forms.OpenFileDialog importHeightmapDialog;
         public System.Windows.Forms.SaveFileDialog exportHeightmapDialog;
         private System.Windows.Forms.ToolStripButton exportToolStripButton;
+        public System.Windows.Forms.OpenFileDialog importTextureDialog;
     }
 }
 
