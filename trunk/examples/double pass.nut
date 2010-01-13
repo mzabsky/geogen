@@ -7,7 +7,7 @@ function GetInfo(info_type){
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 10, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 10, 20000, 1);
-			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
+			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			return 0;
 	}
 }
