@@ -41,7 +41,7 @@ namespace GeoGen_Studio
         public OutputManager outputManager;
         public ViewportManager viewportManager;
         public Config config;
-        private string currentFileName;
+        private bool knownFile = false; // do we knoow path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
         private bool scrollOutput;
         private bool scrollViewport; // viewport azimuth and elevatio mode (left mouse is clicked down)
         private bool moveViewport; // viewport target movement mode (right mouse is clicked down)
@@ -90,8 +90,6 @@ namespace GeoGen_Studio
             // make sure the parameter property grid knows where to look for its items 
             this.parameters.SelectedObject = parameters.Item;
 
-            this.currentFileName = "";
-
             // ScintillaNet doesn't support the simple TextChanged ecent (not it like the visual event list)
             this.editor.TextInserted += editor_TextInserted;
             this.editor.TextDeleted += editor_TextInserted;
@@ -113,6 +111,7 @@ namespace GeoGen_Studio
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
             {
                 this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
+                this.knownFile = true;
                 this.needsSaving = false;
             }
 
@@ -217,12 +216,12 @@ namespace GeoGen_Studio
                     case System.Windows.Forms.DialogResult.Cancel: return false;
                     case System.Windows.Forms.DialogResult.Yes:
                         {
-                            /*if (this.currentFileName != "")
+                            if (this.knownFile)
                             {
-                                System.IO.File.WriteAllText(this.currentFileName, this.editor.Text);
+                                System.IO.File.WriteAllText(this.config.lastFile, this.editor.Text);
 
                                 break;
-                            }*/
+                            }
 
                             if (this.FileDialog(saveFile, ref this.config.lastFile))
                             {
@@ -483,7 +482,6 @@ namespace GeoGen_Studio
             this.config.lineBreaks = this.lineBreaksToolStripMenuItem.Checked;
             this.config.whitespace = this.whiteSpaceToolStripMenuItem.Checked;
             this.config.editorZooom = this.editor.Zoom;
-            this.config.lastFile = this.currentFileName;
             this.config.wireframe = this.wireframe.Checked;
             this.config.heightScale = this.heightScale.Value;
 
@@ -511,7 +509,7 @@ namespace GeoGen_Studio
             this.editor.UndoRedo.EmptyUndoBuffer();
 
             // make sure the file won't overwrite the previously edited file when hitting Ctrl + S
-            this.currentFileName = "";
+            this.knownFile = false;
 
             this.needsSaving = false;
         }
@@ -524,6 +522,7 @@ namespace GeoGen_Studio
             if (this.FileDialog(openFile, ref this.config.lastFile))
             {
                 this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
+                this.knownFile = true;
                 this.needsSaving = false;
 
                 this.editor.UndoRedo.EmptyUndoBuffer();
@@ -533,13 +532,13 @@ namespace GeoGen_Studio
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // trigger the Save As action iif the current file is not known
-            if (this.currentFileName == "")
+            if (!this.knownFile)
             {
                 this.saveAsToolStripMenuItem_Click(sender, e);
             }
             else
             {
-                System.IO.File.WriteAllText(this.currentFileName, this.editor.Text);
+                System.IO.File.WriteAllText(this.config.lastFile, this.editor.Text);
 
                 this.needsSaving = false;
             }
@@ -550,7 +549,7 @@ namespace GeoGen_Studio
             if (this.FileDialog(saveFile, ref this.config.lastFile))
             {
                 System.IO.File.WriteAllText(this.config.lastFile, this.editor.Text);
-
+                this.knownFile = true;
                 this.needsSaving = false;
             }
         }
@@ -1028,9 +1027,8 @@ namespace GeoGen_Studio
             else
             {
                 this.editor.Text = System.IO.File.ReadAllText(file);
-                this.saveFile.FileName = file;
-                this.currentFileName = file;
                 this.config.lastFile = file;
+                this.knownFile = true;
                 this.needsSaving = false;
             }
         }
