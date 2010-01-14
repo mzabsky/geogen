@@ -113,8 +113,6 @@ namespace GeoGen_Studio
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
             {
                 this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
-                this.saveFile.FileName = this.config.lastFile;
-                this.currentFileName = this.config.lastFile;
                 this.needsSaving = false;
             }
 
@@ -186,6 +184,26 @@ namespace GeoGen_Studio
             return true;
         }
 
+        public bool FileDialog(FileDialog dialog, ref string path)
+        {
+            try
+            {
+                System.IO.FileInfo info = new System.IO.FileInfo(path);
+                dialog.InitialDirectory = info.DirectoryName;
+                dialog.FileName = info.Name;
+            }
+            catch { };
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                path = dialog.FileName;
+
+                return true;
+            }
+
+            return false;
+        }
+
         private bool TryToSaveIfUnsaved()
         {
             if (this.needsSaving)
@@ -199,20 +217,16 @@ namespace GeoGen_Studio
                     case System.Windows.Forms.DialogResult.Cancel: return false;
                     case System.Windows.Forms.DialogResult.Yes:
                         {
-                            if (this.currentFileName != "")
+                            /*if (this.currentFileName != "")
                             {
                                 System.IO.File.WriteAllText(this.currentFileName, this.editor.Text);
-                                this.openFile.FileName = this.currentFileName;
-                                this.saveFile.FileName = this.currentFileName;
 
                                 break;
-                            }
+                            }*/
 
-                            if (this.saveFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            if (this.FileDialog(saveFile, ref this.config.lastFile))
                             {
-                                System.IO.File.WriteAllText(this.saveFile.FileName, this.editor.Text);
-                                this.openFile.FileName = this.saveFile.FileName;
-                                this.currentFileName = this.saveFile.FileName;
+                                System.IO.File.WriteAllText(this.config.lastFile, this.editor.Text);
 
                                 break;
                             }
@@ -507,11 +521,9 @@ namespace GeoGen_Studio
             // save the file if requested
             if (!this.TryToSaveIfUnsaved()) return;
 
-            if (this.openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (this.FileDialog(openFile, ref this.config.lastFile))
             {
-                this.editor.Text = System.IO.File.ReadAllText(this.openFile.FileName);
-                this.saveFile.FileName = this.openFile.FileName;
-                this.currentFileName = this.openFile.FileName;
+                this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
                 this.needsSaving = false;
 
                 this.editor.UndoRedo.EmptyUndoBuffer();
@@ -535,12 +547,9 @@ namespace GeoGen_Studio
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.saveFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (this.FileDialog(saveFile, ref this.config.lastFile))
             {
-                System.IO.File.WriteAllText(this.saveFile.FileName, this.editor.Text);
-
-                this.openFile.FileName = this.saveFile.FileName;
-                this.currentFileName = this.saveFile.FileName;
+                System.IO.File.WriteAllText(this.config.lastFile, this.editor.Text);
 
                 this.needsSaving = false;
             }
@@ -1028,10 +1037,9 @@ namespace GeoGen_Studio
 
         private void importtoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.importHeightmapDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (this.FileDialog(this.importHeightmapDialog, ref this.config.lastImportedFile))
             {
-                this.outputManager.ReloadMaps(this.importHeightmapDialog.FileName);
-                this.config.lastImportedFile = this.importHeightmapDialog.FileName;
+                this.outputManager.ReloadMaps(this.config.lastImportedFile);
             }
         }
 

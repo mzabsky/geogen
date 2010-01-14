@@ -329,10 +329,11 @@ namespace GeoGen_Studio
         public void SaveOutput()
         {
             Main main = Main.Get();
+            Config config = main.GetConfig();
 
-            if (main.saveOutputDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (main.FileDialog(main.saveOutputDialog, ref config.lastExportedOutput))
             {
-                main.output.Image.Save(main.saveOutputDialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                main.output.Image.Save(config.lastExportedOutput, System.Drawing.Imaging.ImageFormat.Png);
             }
         }
 

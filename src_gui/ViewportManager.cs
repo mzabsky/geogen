@@ -50,7 +50,7 @@ namespace GeoGen_Studio
         public float targetX = 50; // default position is square center
         public float targetY = 50;
         public int currentMap = -1;
-        public int currentTextureIndex = 6;
+        public int currentTextureIndex = 7;
 
         private int vertexBufferHandle;
         private int textureHandle;
@@ -82,6 +82,9 @@ namespace GeoGen_Studio
 
         public void SetupViewport(){
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, this.viewport.Width / (float)this.viewport.Height, 0.1f, 3000.0f);
+            //Matrix4 projection = Matrix4.CreateOrthographic(120,  (float)this.viewport.Height / (float)this.viewport.Width * 120f, 0.1f, 3000.0f);
+
+            
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
             GL.Enable(EnableCap.DepthTest);
@@ -89,8 +92,8 @@ namespace GeoGen_Studio
             GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.RescaleNormal);
             GL.Enable(EnableCap.Normalize);
-            GL.Enable(EnableCap.CullFace);
-            GL.Viewport(0, 0, this.viewport.Width, this.viewport.Height); // Use all of the glControl painting are
+            //GL.Enable(EnableCap.CullFace);
+            GL.Viewport(0, 0, this.viewport.Width, this.viewport.Height);
 
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
@@ -515,9 +518,9 @@ namespace GeoGen_Studio
                 if (selected == "[Import External]")
                 {
                     try{
-                        if (main.importTextureDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        if (main.FileDialog(main.importTextureDialog, ref config.lastImportedTexture))
                         {
-                            bitmap = new System.Drawing.Bitmap(main.importTextureDialog.FileName);    
+                            bitmap = new System.Drawing.Bitmap(config.lastImportedTexture);    
                         }
                         else
                         {
@@ -573,10 +576,11 @@ namespace GeoGen_Studio
         public void SaveScreenshot()
         {
             Main main = Main.Get();
+            Config config = main.GetConfig();
 
-            if (main.saveOutputDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (main.FileDialog(main.saveOutputDialog, ref config.lastImportedTexture))
             {
-                this.viewport.GrabScreenshot().Save(main.saveOutputDialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                this.viewport.GrabScreenshot().Save(config.lastImportedTexture, System.Drawing.Imaging.ImageFormat.Png);
             }
         }
     }

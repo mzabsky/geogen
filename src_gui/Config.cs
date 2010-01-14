@@ -26,6 +26,8 @@ namespace GeoGen_Studio
         public string lastExportedFile;
         public bool exportRescaleMode;
         public string lastImportedTexture;
+        public string lastExportedOutput;
+        public string lastExportedScreenshot;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -50,6 +52,7 @@ namespace GeoGen_Studio
         public bool lightEnabled;
         public bool enableTerrainUnderZero;
         public bool enable3d;
+        public int defaultTextureOverlay;
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -195,6 +198,8 @@ namespace GeoGen_Studio
             lastImportedFile = "";
             lastExportedFile = "";
             lastImportedTexture = "";
+            lastExportedScreenshot = "";
+            lastExportedOutput = "";
             
             exportRescaleMode = false;
 
@@ -216,6 +221,7 @@ namespace GeoGen_Studio
             modelDetailLevel = ViewportManager.ModelDetailLevel.Medium_512x512Polygons;
             enableTerrainUnderZero = false;
             enable3d = true;
+            defaultTextureOverlay = 7;
 
             /* 3D light */
             ambientLightColor = new OpenTK.Vector4(0.2f, 0.2f, 0.2f, 1.0f);

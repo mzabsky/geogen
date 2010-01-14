@@ -141,7 +141,7 @@ namespace GeoGen_Studio
 
             if (export.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (main.exportHeightmapDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if (main.FileDialog(main.exportHeightmapDialog, ref config.lastExportedFile))
                 {
                     string path = main.exportHeightmapDialog.FileName;
                     string ext = path.Substring(path.LastIndexOf('.'), path.Length - path.LastIndexOf('.')).ToLower();
