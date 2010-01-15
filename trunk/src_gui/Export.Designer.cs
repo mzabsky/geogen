@@ -28,23 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Export));
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.height = new System.Windows.Forms.NumericUpDown();
+            this.width = new System.Windows.Forms.NumericUpDown();
             this.reset = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.subzeroMode1 = new System.Windows.Forms.RadioButton();
             this.subzeroMode2 = new System.Windows.Forms.RadioButton();
+            this.subzeroMode1 = new System.Windows.Forms.RadioButton();
+            this.label4 = new System.Windows.Forms.Label();
             this.exportButton = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
-            this.width = new System.Windows.Forms.NumericUpDown();
-            this.height = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.width)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -69,6 +70,40 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Heightmap size";
+            // 
+            // height
+            // 
+            this.height.Location = new System.Drawing.Point(80, 49);
+            this.height.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.height.Name = "height";
+            this.height.Size = new System.Drawing.Size(90, 20);
+            this.height.TabIndex = 6;
+            this.height.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // width
+            // 
+            this.width.Location = new System.Drawing.Point(80, 23);
+            this.width.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.width.Name = "width";
+            this.width.Size = new System.Drawing.Size(90, 20);
+            this.width.TabIndex = 5;
+            this.width.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // reset
             // 
@@ -110,14 +145,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Negative heights";
             // 
-            // label4
+            // subzeroMode2
             // 
-            this.label4.Location = new System.Drawing.Point(7, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(326, 30);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Only the SHD format supports negative heights, other formats need to remove them." +
-                "";
+            this.subzeroMode2.AutoSize = true;
+            this.subzeroMode2.Location = new System.Drawing.Point(10, 77);
+            this.subzeroMode2.Name = "subzeroMode2";
+            this.subzeroMode2.Size = new System.Drawing.Size(206, 17);
+            this.subzeroMode2.TabIndex = 2;
+            this.subzeroMode2.TabStop = true;
+            this.subzeroMode2.Text = "Rescale all heights into positive range.";
+            this.subzeroMode2.UseVisualStyleBackColor = true;
             // 
             // subzeroMode1
             // 
@@ -131,16 +168,14 @@
             this.subzeroMode1.Text = "Replace negative heights with 0.";
             this.subzeroMode1.UseVisualStyleBackColor = true;
             // 
-            // subzeroMode2
+            // label4
             // 
-            this.subzeroMode2.AutoSize = true;
-            this.subzeroMode2.Location = new System.Drawing.Point(10, 77);
-            this.subzeroMode2.Name = "subzeroMode2";
-            this.subzeroMode2.Size = new System.Drawing.Size(206, 17);
-            this.subzeroMode2.TabIndex = 2;
-            this.subzeroMode2.TabStop = true;
-            this.subzeroMode2.Text = "Rescale all heights into positive range.";
-            this.subzeroMode2.UseVisualStyleBackColor = true;
+            this.label4.Location = new System.Drawing.Point(7, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(326, 30);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Only the SHD format supports negative heights, other formats need to remove them." +
+                "";
             // 
             // exportButton
             // 
@@ -163,40 +198,6 @@
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
-            // width
-            // 
-            this.width.Location = new System.Drawing.Point(80, 23);
-            this.width.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.width.Name = "width";
-            this.width.Size = new System.Drawing.Size(90, 20);
-            this.width.TabIndex = 5;
-            this.width.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // height
-            // 
-            this.height.Location = new System.Drawing.Point(80, 49);
-            this.height.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.height.Name = "height";
-            this.height.Size = new System.Drawing.Size(90, 20);
-            this.height.TabIndex = 6;
-            this.height.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
             // Export
             // 
             this.AcceptButton = this.exportButton;
@@ -210,15 +211,16 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Export";
-            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "Export";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.height)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.width)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.height)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
