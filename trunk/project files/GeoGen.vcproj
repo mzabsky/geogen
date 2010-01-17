@@ -198,6 +198,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ggen_path.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_point.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ggen_scriptarg.cpp"
 				>
 			</File>
@@ -225,6 +233,14 @@
 			</File>
 			<File
 				RelativePath=".\..\src\ggen_data_2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_path.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_point.h"
 				>
 			</File>
 			<File
@@ -271,6 +287,10 @@
 		<Filter
 			Name="Examples"
 			>
+			<File
+				RelativePath="..\examples\archipelagos.nut"
+				>
+			</File>
 			<File
 				RelativePath="..\examples\atoll.nut"
 				>
