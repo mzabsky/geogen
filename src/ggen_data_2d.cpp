@@ -25,6 +25,7 @@
 #include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
+#include "ggen_path.h"
 
 extern GGen* ggen_current_object;
 
@@ -1325,4 +1326,16 @@ void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool pres
 		direction == GGEN_VERTICAL ? 1 : -1,
 		false
 	);
+}
+
+void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
+	
+}
+
+void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value) {
+	for(GGen_Coord y = 0; y < this->height; y++){
+		for(GGen_Coord x = 0; x < this->width; y++){
+			
+		}	
+	}
 }

@@ -57,6 +57,8 @@ using namespace SqPlus;
 DECLARE_INSTANCE_TYPE(GGen_Data_1D)
 DECLARE_INSTANCE_TYPE(GGen_Data_2D)
 DECLARE_INSTANCE_TYPE(GGen_Amplitudes)
+DECLARE_INSTANCE_TYPE(GGen_Point)
+DECLARE_INSTANCE_TYPE(GGen_Path)
 
 class GGen_Squirrel: public GGen{
 public:	
