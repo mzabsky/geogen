@@ -80,6 +80,9 @@ namespace GeoGen_Studio
             // let viewportManager know of the viewport
             this.viewportManager.viewport = this.viewport;
 
+            // load XML configuration
+            Config.Load();
+
             // make sure the OpenGL control is shown (so the OpenGL context is created)
             this.SelectTab(Tabs.Output3D);
             this.SelectTab(Tabs.Code);
@@ -89,9 +92,6 @@ namespace GeoGen_Studio
             {
                 System.Windows.Forms.MessageBox.Show("Failed to initialize OpenGL." + Environment.NewLine + Environment.NewLine + "The 3D View function will not be available while using this application. If you are sure you have working graphics acceleration with OpenGL 1.4 support, please contact me with details of your system on email address found in the Help -> About GeoGen Studio dialog.");
             }
-
-            // load XML configuration
-            Config.Load();
 
             // make sure the parameter property grid knows where to look for its items 
             this.parameters.SelectedObject = parameters.Item;
@@ -123,6 +123,8 @@ namespace GeoGen_Studio
 
             // output and viewport zooming event
             this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
+
+            this.config.Save();
 
             // show this form and close the splash screen
             this.Opacity = 1.0;

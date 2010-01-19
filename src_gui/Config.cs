@@ -5,6 +5,7 @@ namespace GeoGen_Studio
 {
     [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
     [System.Xml.Serialization.XmlInclude(typeof(ViewportManager.ModelDetailLevel))]
+    [System.Xml.Serialization.XmlInclude(typeof(ViewportManager.ViewportBackground))]
     [System.Xml.Serialization.XmlInclude(typeof(OpenTK.Vector4))]
     public class Config
     {
@@ -53,6 +54,9 @@ namespace GeoGen_Studio
         public bool enableTerrainUnderZero;
         public bool enable3d;
         public int defaultTextureOverlay;
+        public ViewportManager.ViewportBackground backgroundColor3d;
+
+        
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -151,7 +155,14 @@ namespace GeoGen_Studio
             get { return enable3d; }
             set { enable3d = value; }
         }
-        
+
+        [CategoryAttribute("3D View"), DescriptionAttribute("Color covering the unpainted areas of the 3D viewport."), DefaultValue(ViewportManager.ViewportBackground.Black)]
+        public ViewportManager.ViewportBackground BackgroundColor3d
+        {
+            get { return backgroundColor3d; }
+            set { backgroundColor3d = value; }
+        }
+
         public Config()
 	    {
             this.LoadDefaults();
@@ -181,11 +192,19 @@ namespace GeoGen_Studio
 
             System.IO.StreamReader reader = System.IO.File.OpenText(file);
 
-            Config c = (Config)xs.Deserialize(reader);
+            try
+            {
+                Config c = (Config)xs.Deserialize(reader);
+                return c;
+            }
+            // make sure the config file is closed so it can be recreated in case of failure
+            finally
+            {
+                reader.Close();
+            }
 
-            reader.Close();
 
-            return c;
+            return null;
         }
 
         private void LoadDefaults() 
@@ -229,8 +248,7 @@ namespace GeoGen_Studio
             lightAzimuth = 0.0f;
             lightElevation = 0.5f;
             lightEnabled = true;
-
-
+            backgroundColor3d = ViewportManager.ViewportBackground.Black;
         }
 
         public void Save()
@@ -262,7 +280,7 @@ namespace GeoGen_Studio
                 main.config = c;
 
                 // save the newly created cofig
-                c.Save();
+                c.Serialize("../config/studio.xml", c);
             }
         }
     }

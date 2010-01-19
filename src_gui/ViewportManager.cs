@@ -23,6 +23,16 @@ namespace GeoGen_Studio
             Extreme_4096x4096Plygons = 4096
         };
 
+
+        public enum ViewportBackground
+        {
+            Black = 0,
+            DarkGray = 63,
+            MediumGray = 127,
+            LightGray = 190,
+            White = 255
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         struct Vertex
         { // mimic InterleavedArrayFormat.T2fN3fV3f
@@ -81,6 +91,8 @@ namespace GeoGen_Studio
         }
 
         public void SetupViewport(){
+            Config config = Main.Get().GetConfig();
+
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, this.viewport.Width / (float)this.viewport.Height, 0.1f, 3000.0f);
             //Matrix4 projection = Matrix4.CreateOrthographic(120,  (float)this.viewport.Height / (float)this.viewport.Width * 120f, 0.1f, 3000.0f);
 
@@ -104,6 +116,9 @@ namespace GeoGen_Studio
             GL.EnableClientState(EnableCap.VertexArray);
             GL.EnableClientState(EnableCap.TextureCoordArray);
             GL.EnableClientState(EnableCap.NormalArray);
+
+            GL.ClearColor((float) config.BackgroundColor3d / 255, (float) config.BackgroundColor3d / 255, (float) config.BackgroundColor3d / 255, 1.0f);
+
         }
 
         public void ClearData()
@@ -192,6 +207,8 @@ namespace GeoGen_Studio
             else {
                 path = path_override;
             }
+
+            if (!System.IO.File.Exists(path)) return;
 
             main.ShowBuildingModel();
 
@@ -437,7 +454,7 @@ namespace GeoGen_Studio
             Matrix4 modelview = Matrix4.LookAt(this.distance * cose * sina + this.targetX, this.distance * cose * cosa + this.targetY, this.distance * (float)Math.Sin(this.elevation), this.targetX, this.targetY, 0, 0, 0, 1);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
-
+            
             //GL.Material(MaterialFace.Front, MaterialParameter.Diffuse, new Vector4(1, 1, 1, 1));
             //GL.Material(MaterialFace.Front, MaterialParameter.Shininess, new Vector4(2f, 2f, 2f, 1f));
 

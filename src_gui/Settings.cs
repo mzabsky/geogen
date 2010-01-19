@@ -32,7 +32,10 @@ namespace GeoGen_Studio
         {
             if (Main.Get().GetConfig().enable3d)
             {
-                Main.Get().GetViewportManager().RebuildTerrain(null);
+                Main main = Main.Get();
+                main.GetViewportManager().SetupViewport();
+                main.GetViewportManager().RebuildTerrain(null);
+                main.GetViewportManager().viewport.Invalidate();
             }
         }
     }
