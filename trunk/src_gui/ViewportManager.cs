@@ -135,6 +135,20 @@ namespace GeoGen_Studio
                 }
             }
 
+            // free Video-RAM
+            if (this.vertexBufferHandle != 0)
+            {
+                GL.DeleteBuffers(1, ref this.vertexBufferHandle);
+            }
+
+            if (this.textureHandle != 0)
+            {
+                GL.DeleteTexture(this.textureHandle);
+            }
+
+            this.vertexBufferHandle = 0;
+            this.textureHandle = 0;
+
             // let the viewport show empty screen
             this.viewport.Invalidate();
         }
@@ -239,18 +253,6 @@ namespace GeoGen_Studio
                 // store original's size
                 int originalHeight = original.height;
                 int originalWidth = original.width;
-
-                // resized bitmap (from which the model will be generated 1:1)
-                //System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(original, , );
-
-
-
-                // prepare byte access to the height data
-                //System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-                //System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
-
-
-
                 // load the overlay pattern
                 System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
 
@@ -258,21 +260,6 @@ namespace GeoGen_Studio
                 this.heightData = original.GetResized(Math.Min(original.width, (int)config.ModelDetailLevel), Math.Min(original.height, (int)config.ModelDetailLevel));
 
                 this.textureBase = this.heightData.GetBitmap();
-
-                //viewport.MakeCurrent();
-
-                // get a pointer to the to first line (=first pixel)
-                //IntPtr ptr = data.Scan0;
-
-                // create a byte copy of the heightmap data
-                //System.Runtime.InteropServices.Marshal.Copy(ptr, this.heightData, 0, data.Stride * bitmap.Height);
-
-                // release the lock, so this bitmap can be used elsewhere as well
-                //bitmap.UnlockBits(data);
-                //bitmap = null;
-
-
-
 
                 // release some memory (to prevent OutOfMemory exception)
                 original = null;
@@ -407,6 +394,8 @@ namespace GeoGen_Studio
                         // upload the data into the buffer into GPU
                         GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
 
+                        // make sure the massive vertex array is gone from RAM
+                        vertices = null;
 
                         // rebuild the texture
                         this.ApplyTexture();
@@ -421,7 +410,7 @@ namespace GeoGen_Studio
                 // this might throw exceptions in case the main thread was terminated while this thread is running
                 catch (Exception) { };
             }
-            catch (OutOfMemoryException)
+            catch (OutOfMemoryException e)
             {
                 try{
                     main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
