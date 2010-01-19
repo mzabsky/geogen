@@ -84,6 +84,12 @@ namespace GeoGen_Studio
             this.SelectTab(Tabs.Output3D);
             this.SelectTab(Tabs.Code);
 
+            // is OGL ready to rock?
+            if (this.viewport.Context == null)
+            {
+                System.Windows.Forms.MessageBox.Show("Failed to initialize OpenGL." + Environment.NewLine + Environment.NewLine + "The 3D View function will not be available while using this application. If you are sure you have working graphics acceleration with OpenGL 1.4 support, please contact me with details of your system on email address found in the Help -> About GeoGen Studio dialog.");
+            }
+
             // load XML configuration
             Config.Load();
 
@@ -577,6 +583,14 @@ namespace GeoGen_Studio
 
         private void executeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //if (this.parameters.Focused)
+            //{
+                this.editor.Focus();
+                //this.parameters.Focus();
+
+            //this.Foc
+            //}
+
             this.processManager.ExecuteScript(editor.Text, false, "");
         }
 
