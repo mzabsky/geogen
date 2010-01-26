@@ -81,7 +81,7 @@ namespace GeoGen_Studio
                 string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.shd");
 
                 main.outputs.Items.Add("[Main]");
-                //main.outputs.SelectedIndex = 0;
+                main.outputs.SelectedIndex = 0;
 
                 main.outputs3d.Items.Add("[Main]");
                 main.outputs3d.SelectedIndex = 0;

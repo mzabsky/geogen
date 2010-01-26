@@ -898,6 +898,8 @@ namespace GeoGen_Studio
 
         private void resetToolStripButton_Click(object sender, EventArgs e)
         {
+            if (this.output.Image == null) return;
+            
             this.output.Width = this.output.Image.Width;
             this.output.Height = this.output.Image.Height;
             this.output.Left = 0;

@@ -219,24 +219,15 @@ namespace GeoGen_Studio
 
         Vector3 CalculateNormal(Vector3 a, Vector3 b, Vector3 c)
         {
-            // calculate the vectors A and B
-            // note that v[3] is defined with counterclockwise winding in mind
-            // a
             float dX1 = a.X - b.X;
             float dY1 = a.Y - b.Y;
             float dZ1 = a.Z - b.Z;
-            // b
+
             float dX2 = b.X - c.X;
             float dY2 = b.Y - c.Y;
             float dZ2 = b.Z - c.Z;
          
             Vector3 normal = new Vector3();
-
-            // calculate the cross product and place the resulting vector
-            // into the address specified by vertex_t *normal
-            //normal.X = (a.y * b.z) - (a.z * b.y);
-            //normal.Y = (a.z * b.x) - (a.x * b.z);
-            //normal.Z = (a.x * b.y) - (a.y * b.x);
 
             normal.X = (dY1 * dZ2) - (dZ1 * dY2);
             normal.Y = (dZ1 * dX2) - (dX1 * dZ2);
