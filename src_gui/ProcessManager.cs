@@ -319,8 +319,17 @@ namespace GeoGen_Studio
                     // ENUM TYPE
                     else
                     {
-                        property = new PropertyGridEx.CustomProperty(parts[0], parts[8].Split(',')[Int32.Parse(parts[3])], false, "Script parameters:", parts[1], true);
-                        property.Choices = new PropertyGridEx.CustomChoices(parts[8].Split(','), false);
+                        string[] choices = parts[8].Split(',');
+                        string defaultChoice = choices[0];
+
+                        // the default choise might be some really odd number
+                        try{
+                            defaultChoice = choices[Int32.Parse(parts[3])];
+                        }
+                        catch(IndexOutOfRangeException){};
+
+                        property = new PropertyGridEx.CustomProperty(parts[0], defaultChoice, false, "Script parameters:", parts[1], true);
+                        property.Choices = new PropertyGridEx.CustomChoices(choices, false);
 
                         // try to preserve the original value
                         if (values.Length - 1 > i - 4 && values[i - 4] != "d")
@@ -334,7 +343,11 @@ namespace GeoGen_Studio
                         }
                     }
 
-                    main.parameters.Item.Add(property);
+                    // add the property to the list only if it the property really was created
+                    if (property != null)
+                    {
+                        main.parameters.Item.Add(property);
+                    }
                 }
 
                 main.parameters.Refresh();
@@ -491,17 +504,6 @@ namespace GeoGen_Studio
                     main.ButtonsNoRunMode();
                 }
             }
-
-            /*
-            for (int round = 0; round < numRounds; round++)
-            {
-                foreach (string paramStr in parameters)
-                {
-                    Int64 start = System.DateTime.Now.Ticks;
-
-                    this.ExecuteScript(benchScript, false, paramStr);
-                }
-            }*/
         }
     }
 }
