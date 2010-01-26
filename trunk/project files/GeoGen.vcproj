@@ -288,7 +288,7 @@
 			Name="Examples"
 			>
 			<File
-				RelativePath="..\examples\archipelagos.nut"
+				RelativePath="..\examples\archipelago.nut"
 				>
 			</File>
 			<File
