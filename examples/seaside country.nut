@@ -20,7 +20,7 @@ function Generate(){
 	local smoothness = 1 << GGen_GetParam("smoothness");
 
 	GGen_InitProgress(5);
-
+	
 	// set up height profile of the map
 	local profile_height = GGen_Data_1D(10, 0);
 	
