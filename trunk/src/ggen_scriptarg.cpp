@@ -107,6 +107,8 @@ void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_str
 
 	char* options_c = GGen_ToCString(options);
 
+	GGen_Script_Assert(strlen(options_c) > 0);
+
 	int len = strlen(options_c);
 	int from = 0;
 	int option_i = 0;
@@ -126,6 +128,8 @@ void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_str
 	delete options_c;
 
 	arg->num_options = option_i;
+
+	GGen_Script_Assert(arg->num_options > default_value);
 
 	arg->min_value = 0;
 	arg->max_value = option_i - 1;
