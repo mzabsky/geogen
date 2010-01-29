@@ -22,8 +22,6 @@
 #include "ggen_support.h"
 #include "ggen_amplitudes.h"
 
-extern GGen* ggen_current_object;
-
 GGen_Amplitudes::GGen_Amplitudes(uint16 max_feature_size)
 { 
 	uint8 size = GGen_log2(max_feature_size);

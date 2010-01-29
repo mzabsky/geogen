@@ -26,8 +26,6 @@
 #include "ggen.h"
 #include "ggen_scriptarg.h"
 
-extern GGen* ggen_current_object;
-
 bool GGen_ScriptArg::SetValue(int new_value){
 	//bool return_value;
 
@@ -69,8 +67,8 @@ void GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_stri
 
 	arg->value = default_value;
 
-	ggen_current_object->args[ggen_current_object->num_args] = arg;
-	ggen_current_object->num_args++;
+	GGen::GetInstance()->args[GGen::GetInstance()->num_args] = arg;
+	GGen::GetInstance()->num_args++;
 };
 
 void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, bool default_value){
@@ -91,8 +89,8 @@ void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_str
 
 	arg->value = default_value;
 
-	ggen_current_object->args[ggen_current_object->num_args] = arg;
-	ggen_current_object->num_args++;
+	GGen::GetInstance()->args[GGen::GetInstance()->num_args] = arg;
+	GGen::GetInstance()->num_args++;
 };
 
 void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, const SqPlus::sq_std_string &options){
@@ -139,22 +137,22 @@ void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_str
 
 	arg->value = default_value;
 
-	ggen_current_object->args[ggen_current_object->num_args] = arg;
-	ggen_current_object->num_args++;
+	GGen::GetInstance()->args[GGen::GetInstance()->num_args] = arg;
+	GGen::GetInstance()->num_args++;
 }
 
 
 int GGen_GetParam(const SqPlus::sq_std_string &name){
 	char* buf = GGen_ToCString(name);
 
-	for(uint8 i = 0; i < ggen_current_object->num_args; i++){
-		if(strcmp(ggen_current_object->args[i]->name,buf) == 0){
+	for(uint8 i = 0; i < GGen::GetInstance()->num_args; i++){
+		if(strcmp(GGen::GetInstance()->args[i]->name,buf) == 0){
 			delete buf;
-			return ggen_current_object->args[i]->value;
+			return GGen::GetInstance()->args[i]->value;
 		}
 	}
 
-	ggen_current_object->ThrowMessage("Current map doesn't support requested argument.",GGEN_ERROR);
+	GGen::GetInstance()->ThrowMessage("Current map doesn't support requested argument.",GGEN_ERROR);
 
 	return 0;
 }

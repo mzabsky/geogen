@@ -27,8 +27,6 @@
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
 
-extern GGen* ggen_current_object;
-
 GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 {
 	GGen_Script_Assert(width > 1 && height > 1);
@@ -1001,12 +999,12 @@ void GGen_Data_2D::Pattern(GGen_Data_2D* pattern)
 
 void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name)
 {
-	if(ggen_current_object->return_callback == NULL) ggen_current_object->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
+	if(GGen::GetInstance()->return_callback == NULL) GGen::GetInstance()->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
 
 	char* buf = GGen_ToCString(name);
 
 	/* Call the defined return callback */
-	ggen_current_object->return_callback(buf, this->data, this->width, this->height);
+	GGen::GetInstance()->return_callback(buf, this->data, this->width, this->height);
 	
 	delete [] buf;
 }
