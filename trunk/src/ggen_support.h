@@ -70,7 +70,7 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 	as_buf = strcat(as_buf, __FUNCTION__); \
 	as_buf = strcat(as_buf, " failed: "); \
 	as_buf = strcat(as_buf, #_Expression); \
-	ggen_current_object->ThrowMessage(as_buf, GGEN_ERROR, -1); \
+	GGen::GetInstance()->ThrowMessage(as_buf, GGEN_ERROR, -1); \
 	delete as_buf; \
 	throw SquirrelError(); \
 }}

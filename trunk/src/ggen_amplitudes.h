@@ -20,9 +20,6 @@
 
 #include "ggen_support.h"
 
-class GGen;
-extern GGen* ggen_current_object;
-
 /** 
  * @file ggen_amplitudes.h GGen_Amplitudes is an object storing amplitude settings for GGen_Data_1D::Noise and GGen_Data_2D::Noise.
  **/

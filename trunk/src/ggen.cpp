@@ -29,28 +29,34 @@
 #include "ggen.h"
 #include "ggen_squirrel.h"
 
-GGen* ggen_current_object;
+GGen* GGen::instance = NULL;
 
 GGen::GGen(){
-	message_callback = NULL;
-	return_callback = NULL;
-	progress_callback = NULL;
-	
-	//post_callback = NULL;
+	assert(GGen::instance == NULL);
 
-	max_progress = current_progress = 0;
+	GGen::instance = this;
 
-	//args = NULL;
-	num_args = 0;
+	this->message_callback = NULL;
+	this->return_callback = NULL;
+	this->progress_callback = NULL;
+
+	this->max_progress = this->current_progress = 0;
+
+	this->num_args = 0;
 }
 
 GGen::~GGen(){
+	GGen::instance = NULL;
+}
+
+GGen* GGen::GetInstance(){
+	return GGen::instance;
 }
 
 void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int column){
 	
 	if(message_callback != NULL){
-		message_callback(message, level, line, column);
+		this->message_callback(message, level, line, column);
 	}
 	else{
 		switch(level){
@@ -118,23 +124,23 @@ void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int li
 }
 
 void GGen::InitProgress(uint32 max_progress){
-	ggen_current_object->max_progress = max_progress;
+	GGen::GetInstance()->max_progress = max_progress;
 	
-	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(0, max_progress);
+	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(0, max_progress);
 }
 
 void GGen::SetProgress(uint32 current_progress){
-	GGen_Script_Assert(current_progress <= ggen_current_object->max_progress);
+	GGen_Script_Assert(current_progress <= GGen::GetInstance()->max_progress);
 	
-	ggen_current_object->current_progress = current_progress;
+	GGen::GetInstance()->current_progress = current_progress;
 
-	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(current_progress, ggen_current_object->max_progress);
+	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(current_progress, GGen::GetInstance()->max_progress);
 }
 
 void GGen::IncreaseProgress(){
-	GGen_Script_Assert(ggen_current_object->current_progress + 1 < ggen_current_object->max_progress);
+	GGen_Script_Assert(GGen::GetInstance()->current_progress + 1 < GGen::GetInstance()->max_progress);
 	
-	ggen_current_object->current_progress++;
+	GGen::GetInstance()->current_progress++;
 	
-	if(ggen_current_object->progress_callback != NULL) ggen_current_object->progress_callback(ggen_current_object->current_progress, ggen_current_object->max_progress);
+	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(GGen::GetInstance()->current_progress, GGen::GetInstance()->max_progress);
 }

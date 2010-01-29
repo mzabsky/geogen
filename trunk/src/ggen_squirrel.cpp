@@ -33,8 +33,6 @@
 
 #include "ggen_squirrel.h"
 
-extern GGen* ggen_current_object;
-
 DECLARE_ENUM_TYPE(GGen_Normalization_Mode);
 DECLARE_ENUM_TYPE(GGen_Overflow_Mode);
 DECLARE_ENUM_TYPE(GGen_Direction);
@@ -42,7 +40,7 @@ DECLARE_ENUM_TYPE(GGen_Message_Level);
 DECLARE_ENUM_TYPE(GGen_Voronoi_Noise_Mode);
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
-	ggen_current_object->ThrowMessage(desc, GGEN_ERROR, line, column);
+	GGen::GetInstance()->ThrowMessage(desc, GGEN_ERROR, line, column);
 }
 
 void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
@@ -52,11 +50,11 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 	scvsprintf( temp,s,vl);
 	va_end(vl);
 
-	ggen_current_object->ThrowMessage(temp, GGEN_ERROR);
+	GGen::GetInstance()->ThrowMessage(temp, GGEN_ERROR);
 }
 
 GGen_Squirrel::GGen_Squirrel(){
-	ggen_current_object = this;
+	//ggen_current_object = this;
 
 	SquirrelVM::Init();
 
@@ -328,7 +326,7 @@ int16* GGen_Squirrel::Generate(){
 		return NULL;
     }	
     catch (bad_alloc){
-		ggen_current_object->ThrowMessage("GGen_Data memory allocation failed!", GGEN_ERROR, -1);
+		GGen::GetInstance()->ThrowMessage("GGen_Data memory allocation failed!", GGEN_ERROR, -1);
 		return NULL;
     }
 }

@@ -24,11 +24,13 @@
 #include "ggen_data_2d.h"
 #include "ggen_scriptarg.h"
 
-class GGen{
-public:
-	GGen();
-	~GGen();
+class GGen;
 
+class GGen{
+protected: 
+	static GGen* instance;
+
+public:
 	void (*message_callback) (char* message, GGen_Message_Level, int line, int column);
 	void (*return_callback) (char* name, const int16* map, int width, int height);
 	void (*progress_callback) (int current_progress, int max_progress);
@@ -37,10 +39,14 @@ public:
 	GGen_ScriptArg* args[255];
 	uint8 num_args;
 
-
 	uint16 output_width, output_height;
 
 	uint32 max_progress, current_progress;
+
+	GGen();
+	~GGen();
+
+	static GGen* GetInstance();
 
 	void ThrowMessage(char* message, GGen_Message_Level level, int line = -1, int column = -1);
 	void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
@@ -55,6 +61,12 @@ public:
 	virtual GGen_ScriptArg** LoadArgs();
 	virtual int16* Generate() = 0;
 	
+	/*void SetMaxWidth(GGen_Size width);
+	void SetMaxHeight(GGen_Size height);
+	void SetMaxMapCount(uint16 count);*/
+
+	
+
 	static void InitProgress(uint32 max_progress);
 	static void SetProgress(uint32 current_progress);
 	static void IncreaseProgress();

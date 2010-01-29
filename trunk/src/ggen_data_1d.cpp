@@ -17,8 +17,6 @@
 
 */
 
-//#include <iostream>
-
 #include "sqplus.h"
 
 
@@ -26,8 +24,6 @@
 #include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
 #include "ggen.h"
-
-extern GGen* ggen_current_object;
 
 GGen_Data_1D::GGen_Data_1D(GGen_Coord length, GGen_Height value)
 {
