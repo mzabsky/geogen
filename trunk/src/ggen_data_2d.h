@@ -27,6 +27,9 @@
  * GGen_Data_2D represents 2-dimensional array of values. Most straightforward interpretation of such array is a bitmap, where black represents some minimal value (usually 0) and white represents some maximal value (in case of 8 bit per channel bitmaps usually 255). You will probably realize many of the GGen_Data_2D functions strongly resemble functions from classical bitmap editors - <a href="#2d_add">adding</a> changes brightness, <a href="#2d_multiply">multiplying</a> changes contrast, <a href="#2d_transformvalues">curves</a>... Working with multiple 2D arrays with GGen is generally very similiar to working with layer enabled bitmap editor, just without a fancy GUI.
  **/
 class GGen_Data_2D{
+	protected:
+		static uint16 num_instances;
+
 	public:
 		GGen_Height* data;
 		GGen_Size width;

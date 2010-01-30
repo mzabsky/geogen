@@ -18,6 +18,7 @@
 */
 
 #include <iostream> // for debugging purposes
+#include <list>
 
 #include "ggen.h"
 #include "ggen_squirrel.h"
@@ -27,10 +28,16 @@
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
 
+uint16 GGen_Data_2D::num_instances = 0;
+
 GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 {
 	GGen_Script_Assert(width > 1 && height > 1);
-	
+	GGen_Script_Assert(width < GGen::GetMaxWidth() && height < GGen::GetMaxHeight());
+
+	GGen_Script_Assert(GGen_Data_2D::num_instances < GGen::GetMaxMapCount());
+	GGen_Data_2D::num_instances++;
+
 	this->length = width * height;
 	this->width = width;
 	this->height = height;
@@ -1327,12 +1334,85 @@ void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool pres
 }
 
 void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
-	
+	struct Edge{
+		double x; /* X of the upper (current) point */
+		GGen_Coord y; /* Y of the upper (current) point */
+		GGen_CoordOffset dy; /* Edge height */
+		double dxy; /* Change of X while moving one pixel down */
+
+		/* This will be needed to make use of the STL sort function */
+		static bool Compare(Edge* a, Edge* b){
+			/* Sort first by Y */
+			if (a->y > b->y) return true;
+			else if (b->y > a->y) return false;
+
+			/* Then by X */
+			if (a->x > b->x) return true;
+			else if (b->x > a->x) return false;
+
+			/* Then by X */
+			if (a->dxy > b->dxy) return true;
+			else return false;
+
+			/* In the case the edges are completely identical order doesn't matter */
+		}
+	};
+
+	/* Create a full list of all non-horizontal edges (this is line algorithm, we can skip horizontal edges) */
+	list<Edge*> edges;
+	for (GGen_Path::Iterator i = path->points.begin(); i != path->points.end();) {
+		GGen_Point* currentPoint = *i;
+		GGen_Point* nextPoint = NULL;
+
+		/* Move the iterator so we can access the next element */
+		i++;
+
+		/* Connect the ending point with the first point to create a closed loop */
+		if (i != path->points.end()) {
+			nextPoint = *i;	
+		} else {
+			nextPoint = *(path->points.begin());
+		}
+
+		/* Skip horizontal edges */
+		if (currentPoint->GetX() == nextPoint->GetX()) {
+			continue;
+		}
+
+		/* The edge being created */
+		Edge* edge = new Edge();
+
+		/* Swap the points in case the edge is pointing upwards (so it is always pointing downwards) */
+		if (currentPoint->GetX() > nextPoint->GetX()) {
+			swap<GGen_Point*>(currentPoint, nextPoint);
+		}
+
+		/* Fill in the edge data */
+		edge->x = currentPoint->GetX();
+		edge->y = currentPoint->GetY();
+
+		edge->dy = currentPoint->GetY() - nextPoint->GetY();
+		edge->dxy = (double) (currentPoint->GetX() - nextPoint->GetX()) / (double) edge->dy;
+
+		edges.push_back(edge);
+	}
+
+	/* Sort the edges by given criteria */
+	edges.sort(Edge::Compare);
+
+	/* Edges intersecting current line */
+	list<Edge*> currentLineEdges;
+
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; y++) {
+			
+		}	
+	}
 }
 
 void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value) {
-	for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; y++){
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; y++) {
 			
 		}	
 	}
