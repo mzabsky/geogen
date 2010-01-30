@@ -75,6 +75,11 @@ GGen_Squirrel::GGen_Squirrel(){
 	RegisterGlobal(&GGen::SetProgress, _SC("GGen_SetProgress"));
 	RegisterGlobal(&GGen::IncreaseProgress, _SC("GGen_IncreaseProgress"));
 
+	/* Constraint getters */
+	RegisterGlobal(&GGen::GetMaxHeight, _SC("GGen_GetMaxHeight"));
+	RegisterGlobal(&GGen::GetMaxWidth, _SC("GGen_GetMaxWidth"));
+	RegisterGlobal(&GGen::GetMaxMapCount, _SC("GGen_GetMaxMapCount"));
+
 	/* Enum: GGen_Normalization_Mode */
 	BindConstant(GGEN_ADDITIVE, _SC("GGEN_ADDITIVE"));
 	BindConstant(GGEN_SUBSTRACTIVE, _SC("GGEN_SUBSTRACTIVE"));

@@ -36,6 +36,11 @@ GGen::GGen(){
 
 	GGen::instance = this;
 
+	/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */
+	this->max_height = -1;
+	this->max_width = -1;
+	this->max_map_count = -1;
+
 	this->message_callback = NULL;
 	this->return_callback = NULL;
 	this->progress_callback = NULL;
@@ -122,6 +127,31 @@ void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int li
 	
 	delete [] buf;
 }
+
+void GGen::SetMaxWidth(GGen_Size width){
+	this->max_width = width;
+}
+
+void GGen::SetMaxHeight(GGen_Size height){
+	this->max_height = height;
+}
+
+void GGen::SetMaxMapCount(uint16 count){
+	this->max_map_count = count;
+}
+
+GGen_Size GGen::GetMaxWidth(){
+	return GGen::GetInstance()->max_width;
+}
+
+GGen_Size GGen::GetMaxHeight(){
+	return GGen::GetInstance()->max_height;
+}
+
+uint16 GGen::GetMaxMapCount(){
+	return GGen::GetInstance()->max_map_count;
+}
+
 
 void GGen::InitProgress(uint32 max_progress){
 	GGen::GetInstance()->max_progress = max_progress;
