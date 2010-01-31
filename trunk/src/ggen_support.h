@@ -124,6 +124,15 @@ enum GGen_Voronoi_Noise_Mode{
 	GGEN_BUBBLES //!< The resulting noise will have appearance of negative of an array of spherical bubbles.
 };
 
+enum GGen_Comparsion_Mode{
+	GGEN_EQUAL_TO, //!< Compared value is equal to treshold value. 
+	GGEN_NOT_EQUAL_TO, //!< Compared value is not equal to treshold value.
+	GGEN_LESS_THAN, //!< Compared value is less than treshold value.
+	GGEN_GREATER_THAN, //!< Compared value is greater than treshold value.
+	GGEN_LESS_THAN_OR_EQUAL_TO, //!< Compared value is less than or equal to treshold value.
+	GGEN_GREATER_THAN_OR_EQUAL_TO, //!< Compared value is greater than or equal to treshold value.
+};
+
 template <class T>
 T GGen_Random(T min, T max){
 	double random = (double)rand() / (double) RAND_MAX;

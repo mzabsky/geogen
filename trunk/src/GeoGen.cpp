@@ -468,9 +468,7 @@ int main(int argc,char * argv[]){
 				for(int j = 0; j < a->num_options; j++){
 					if(j > 0) cout << ",";
 					cout << a->options[j];
-					
 				}
-				
 			}
 			
 			cout << "\n" << flush;

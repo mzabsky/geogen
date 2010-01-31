@@ -19,6 +19,8 @@
 
 #include <iostream> // for debugging purposes
 #include <list>
+#include <queue>
+#include <bitset>
 
 #include "ggen.h"
 #include "ggen_squirrel.h"
@@ -1493,8 +1495,74 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 
 void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value) {
 	for (GGen_Coord y = 0; y < this->height; y++) {
-		for (GGen_Coord x = 0; x < this->width; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
 			
 		}	
+	}
+}
+
+void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold){
+	GGen_Script_Assert(start_x < this->width && start_y < this->height);
+
+	/* Bordering (potential spread) points will be stored in queue */
+	queue<GGen_Point> queue;
+
+	/* Add the starting point to the queue */
+	queue.push(GGen_Point(start_x, start_y));
+
+	/* Already processed points will be held in a simple bit mask to prevent entering infinite loop */
+	bool* mask = new bool[this->length];
+
+	/* Mark all tiles in the mask as unworked */
+	for(GGen_Index i = 0; i < this->length; i++){
+		mask[i] = false;
+	}
+
+	/* Keep filling until we have what to fill */
+	while (!queue.empty()) {
+		/* Pick one tile from top of the queue */
+		GGen_Point current = queue.front();
+		queue.pop();
+
+		GGen_Height currentValue = this->data[current.x + current.y * this->width];
+
+		/* Do not proces one tile more than once */
+		if(mask[current.x + current.y * this->width]) continue;
+
+		/* Mark the current tile as processed */
+		mask[current.x + current.y * this->width] = true;
+
+		/* Check if the spread condition is valid for current tile */
+		if (
+			(mode == GGEN_EQUAL_TO && currentValue != treshold) ||
+			(mode == GGEN_NOT_EQUAL_TO && currentValue == treshold) ||
+			(mode == GGEN_LESS_THAN && currentValue >= treshold) ||
+			(mode == GGEN_GREATER_THAN && currentValue <= treshold) ||
+			(mode == GGEN_LESS_THAN_OR_EQUAL_TO && currentValue > treshold) ||
+			(mode == GGEN_GREATER_THAN_OR_EQUAL_TO && currentValue < treshold))
+		{
+			/* The condition failed -> skip this tile */
+			continue;
+		} 
+
+		/* The condition is valid -> fill the current tile */
+		this->data[current.x + current.y * this->width] = fill_value;
+
+		/* Add sorrounding tiles to the fill queue (as long as they are within mao borders and are yet unworked) */
+		if (current.x > 0 && !mask[current.x - 1 + current.y * this->width]) {
+			queue.push(GGen_Point(current.x - 1, current.y));
+		}
+
+		if (current.y > 0 && !mask[current.x + (current.y - 1) * this->width]) {
+			queue.push(GGen_Point(current.x, current.y - 1));
+		}
+
+		if (current.x < this->width && !mask[current.x + 1 + current.y * this->width]) {
+			queue.push(GGen_Point(current.x + 1, current.y));
+		}
+		
+		if (current.y < this->height && !mask[current.x + (current.y + 1) * this->width]) {
+			queue.push(GGen_Point(current.x, current.y + 1));
+		}
 	}
 }
