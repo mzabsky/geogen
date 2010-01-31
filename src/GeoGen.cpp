@@ -182,18 +182,18 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 			if(data[i] < min) min = data[i];
 		}
 		
+		/* Calculate scaling ratio */
 		double ratio = 0;
-		if(format_min != 0){
-			if (max <= 0){
-				ratio = (double) format_min / (double) min;
-			} else if (min >= 0){
-				ratio = (double) format_max / (double) max;
-			} else {
-				ratio = 
-					(double) format_max / (double) max < (double) format_min / (double) min ? 
-					(double) format_max / (double) max :
-					(double) format_min / (double) min;
-			}
+
+		if (max <= 0){
+			ratio = (double) format_min / (double) min;
+		} else if (min >= 0){
+			ratio = (double) format_max / (double) max;
+		} else {
+			ratio = 
+				(double) format_max / (double) max < (double) format_min / (double) min ? 
+				(double) format_max / (double) max :
+				(double) format_min / (double) min;
 		}
 
 		// if max == min, then whole map is black, scaling would be useless
@@ -202,8 +202,7 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 			
 			for(uint32 i = 0; i < width * height; i++){
 				if(_params.ignore_zero) new_data[i] = (int16) format_min + (data[i] - min) * (int16) format_max / max;
-				else if(format_min == 0 && data[i] > 0) new_data[i] = data[i] * (int16) format_max / max;
-				else if(format_min < 0) new_data[i] = (int16) ((double) data[i] * ratio);
+				else if(format_min < 0 || (format_min == 0 && data[i] > 0)) new_data[i] = (int16) ((double) data[i] * ratio);
 				else new_data[i] = 0;
 			}
 		
