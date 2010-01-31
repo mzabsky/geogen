@@ -1334,34 +1334,54 @@ void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool pres
 }
 
 void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
-	struct Edge{
-		double x; /* X of the upper (current) point */
-		GGen_Coord y; /* Y of the upper (current) point */
+	class Edge{
+	public:
+		double x; /* X of the upper (and in process current) point */
+		GGen_Coord y; /* Y of the upper point */
 		GGen_CoordOffset dy; /* Edge height */
 		double dxy; /* Change of X while moving one pixel down */
 
-		/* This will be needed to make use of the STL sort function */
-		static bool Compare(Edge* a, Edge* b){
+		/* These two comparers will be needed to make use of the STL sort function */
+
+		/* Comparer for sorting with criteria Y > X > DXY */
+		static bool CompareWithY(Edge* a, Edge* b){
 			/* Sort first by Y */
-			if (a->y > b->y) return true;
-			else if (b->y > a->y) return false;
+			if (a->y < b->y) return true;
+			else if (b->y < a->y) return false;
 
 			/* Then by X */
-			if (a->x > b->x) return true;
-			else if (b->x > a->x) return false;
+			if (a->x < b->x) return true;
+			else if (b->x < a->x) return false;
 
 			/* Then by X */
-			if (a->dxy > b->dxy) return true;
+			if (a->dxy < b->dxy) return true;
 			else return false;
 
 			/* In the case the edges are completely identical order doesn't matter */
+		}
+
+		/* Comparer for sorting with criteria X > DXY */
+		static bool CompareWithoutY(Edge* a, Edge* b){
+			/* Then by X */
+			if (a->x < b->x) return true;
+			else if (b->x < a->x) return false;
+
+			/* Then by X */
+			if (a->dxy < b->dxy) return true;
+			else return false;
+
+			/* In the case the edges are completely identical order doesn't matter */
+		}
+
+		static bool IsRemoveable(Edge* victim){
+			return victim->dy == 0;
 		}
 	};
 
 	/* Create a full list of all non-horizontal edges (this is line algorithm, we can skip horizontal edges) */
 	list<Edge*> edges;
 	for (GGen_Path::Iterator i = path->points.begin(); i != path->points.end();) {
-		GGen_Point* currentPoint = *i;
+		GGen_Point* currentPoint = &*i;
 		GGen_Point* nextPoint = NULL;
 
 		/* Move the iterator so we can access the next element */
@@ -1369,13 +1389,13 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 
 		/* Connect the ending point with the first point to create a closed loop */
 		if (i != path->points.end()) {
-			nextPoint = *i;	
+			nextPoint = &*i;	
 		} else {
-			nextPoint = *(path->points.begin());
+			nextPoint = &*(path->points.begin());
 		}
 
 		/* Skip horizontal edges */
-		if (currentPoint->GetX() == nextPoint->GetX()) {
+		if (currentPoint->GetY() == nextPoint->GetY()) {
 			continue;
 		}
 
@@ -1383,7 +1403,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 		Edge* edge = new Edge();
 
 		/* Swap the points in case the edge is pointing upwards (so it is always pointing downwards) */
-		if (currentPoint->GetX() > nextPoint->GetX()) {
+		if (currentPoint->GetY() > nextPoint->GetY()) {
 			swap<GGen_Point*>(currentPoint, nextPoint);
 		}
 
@@ -1391,23 +1411,88 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 		edge->x = currentPoint->GetX();
 		edge->y = currentPoint->GetY();
 
-		edge->dy = currentPoint->GetY() - nextPoint->GetY();
-		edge->dxy = (double) (currentPoint->GetX() - nextPoint->GetX()) / (double) edge->dy;
+		edge->dy =  nextPoint->GetY() - currentPoint->GetY();
+		edge->dxy = (double) (nextPoint->GetX() - currentPoint->GetX()) / (double) edge->dy;
 
 		edges.push_back(edge);
 	}
 
 	/* Sort the edges by given criteria */
-	edges.sort(Edge::Compare);
+	edges.sort(Edge::CompareWithY);
 
 	/* Edges intersecting current line */
 	list<Edge*> currentLineEdges;
+	bool needsSorting = true;
 
+	/* For each line ... */
 	for (GGen_Coord y = 0; y < this->height; y++) {
-		for (GGen_Coord x = 0; x < this->width; y++) {
-			
+		/* Add edges starting on this line to the currently worked list */
+		list<Edge*>::iterator i = edges.begin();
+		while (i != edges.end() && (*i)->y == y) {
+			currentLineEdges.push_back(*i);
+
+			/* Lines in the working list are sorted only by X and DXY, so the working list will need resorting */
+			needsSorting = true;
+
+			i++;
+		}
+
+		/* If there are no edges in the current line, we can skip the remaining steps */
+		if(currentLineEdges.size() == 0) continue;
+
+		/* The edges can be added to the working list only once -> delete them from the main list */
+		edges.erase(edges.begin(), i);
+		
+		/* Resort the list if requested */
+		if (needsSorting) {
+			currentLineEdges.sort(Edge::CompareWithoutY);
+
+			needsSorting = false;
+		}
+
+		/* Fill every segment between even and odd egde intersection with the current line */
+		bool odd = false;
+		i = currentLineEdges.begin(); /* Reuse the iterator variable from above - it won't be needed anymore */
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			/* There could be multiple intersections on the same pixel */
+			while (i != currentLineEdges.end()) {
+				if ((double) x > (*i)->x) {
+					odd = !odd;
+					i++;
+				}
+				else break;
+			}
+
+			/* If we are in the "odd setion" (between even and odd intersection) */
+			if (odd) {
+				this->data[x + this->width * y] = value;
+			}
 		}	
+
+		/* Update the current working line list for next line */
+		double lastX = INT_MIN;
+		for (list<Edge*>::iterator j = currentLineEdges.begin(); j != currentLineEdges.end(); j++) {
+			Edge* edge = *j;
+
+			/* Shorten the remaining piece of the edge by one */
+			edge->dy--;
+
+			/* Move X in direction of the edge */
+			edge->x += edge->dxy;
+
+			/* Detect distruptions in edge order. If there are any, request sort */
+			if(lastX > edge->x){
+				needsSorting= true;
+			}
+
+			lastX = edge->x;
+		}
+
+		/* Delete all edges that have DY == 0 (that are ending on current line) */
+		currentLineEdges.remove_if(Edge::IsRemoveable);
 	}
+
+	
 }
 
 void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value) {

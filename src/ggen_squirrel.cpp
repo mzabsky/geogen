@@ -207,12 +207,30 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Rotate,_T("Rotate")).
 		func(&GGen_Data_2D::Shear,_T("Shear")).
 		func(&GGen_Data_2D::Normalize,_T("Normalize")).
-		func(&GGen_Data_2D::NormalizeDirection,_T("NormalizeDirection"));
+		func(&GGen_Data_2D::NormalizeDirection,_T("NormalizeDirection")).
+		func(&GGen_Data_2D::FillPolygon,_T("FillPolygon")).
+		func(&GGen_Data_2D::StrokePath,_T("StrokePath"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
 		overloadConstructor<GGen_Amplitudes(*)(uint8)>().
 		func(&GGen_Amplitudes::AddAmplitude,_T("AddAmplitude"));
+
+	/* Class: GGen_Point */
+	SQClassDefNoConstructor<GGen_Point>(_SC("GGen_Point")).
+		overloadConstructor<GGen_Point(*)(GGen_Coord, GGen_Coord)>().
+		func(&GGen_Point::GetX,_T("GetX")).
+		func(&GGen_Point::GetY,_T("GetY")).
+		func(&GGen_Point::SetX,_T("SetX")).
+		func(&GGen_Point::SetY,_T("SetY")).
+		func(&GGen_Point::SetCoords,_T("SetCoords"));
+
+	/* Class: GGen_Path */
+	SQClassDefNoConstructor<GGen_Path>(_SC("GGen_Path")).
+		overloadConstructor<GGen_Path(*)()>().
+		func(&GGen_Path::AddPoint,_T("AddPoint")).
+		func(&GGen_Path::AddPointByCoords,_T("AddPointByCoords")).
+		func(&GGen_Path::RemovePoint,_T("RemovePoint"));
 
 	/* Constants: GGEN_MIN/MAX/INVALID_HEIGHT */
 	BindConstant(GGEN_MIN_HEIGHT, _SC("GGEN_MIN_HEIGHT"));

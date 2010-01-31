@@ -23,10 +23,12 @@
 
 GGen_Path::GGen_Path(): closed(false) {}
 
-void GGen_Path::AddPoint(GGen_Point* point){
-	GGen_Script_Assert(point != NULL);
-	
+void GGen_Path::AddPoint(GGen_Point& point){
 	this->points.push_back(point);
+}
+
+void GGen_Path::AddPointByCoords(GGen_Coord x, GGen_Coord y){
+	this->points.push_back(GGen_Point(x, y));
 }
 
 void GGen_Path::RemovePoint(uint32 index){
