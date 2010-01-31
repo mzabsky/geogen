@@ -8,6 +8,8 @@
         GGen_Data_1D
         GGen_Data_2D
         GGen_Amplitudes
+        GGen_Point
+        GGen_Path
 
         GGEN_ADDITIVE
         GGEN_SUBSTRACTIVE
@@ -19,6 +21,12 @@
         GGEN_MIN_HEIGHT
         GGEN_MAX_HEIGHT
         GGEN_INVALID_HEIGHT
+        GGEN_EQUAL_TO 
+    	GGEN_NOT_EQUAL_TO
+    	GGEN_LESS_THAN
+    	GGEN_GREATER_THAN
+    	GGEN_LESS_THAN_OR_EQUAL_TO
+    	GGEN_GREATER_THAN_OR_EQUAL_TO
 
         GGen_GetParam
         GGen_InitProgress
@@ -27,6 +35,9 @@
         GGen_AddIntArg
         GGen_AddEnumArg
         GGen_AddBoolArg
+        GGen_GetMaxWidth
+        GGen_GetMaxHeight
+        GGen_GetMaxMapCount
         
         Clone
         GetLength 
@@ -89,6 +100,16 @@
         Rotate
         Shear
         ReturnAs
+             
+        GetX
+        SetX
+        GetY
+        SetY
+        SetCoords
+        
+        AddPoint
+        AddPointByCoords
+        RemovePoint
               
         array
         seterrorhandler
