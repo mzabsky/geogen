@@ -38,6 +38,7 @@ DECLARE_ENUM_TYPE(GGen_Overflow_Mode);
 DECLARE_ENUM_TYPE(GGen_Direction);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
 DECLARE_ENUM_TYPE(GGen_Voronoi_Noise_Mode);
+DECLARE_ENUM_TYPE(GGen_Comparsion_Mode);
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
 	GGen::GetInstance()->ThrowMessage(desc, GGEN_ERROR, line, column);
@@ -102,6 +103,15 @@ GGen_Squirrel::GGen_Squirrel(){
 	/* Enum: GGen_Vornoi_Noise_Mode */
 	BindConstant(GGEN_BUBBLES, _SC("GGEN_BUBBLES"));
 	BindConstant(GGEN_RIDGES, _SC("GGEN_RIDGES"));
+
+	/* Enum: GGen_Comparsion_Mode */
+	BindConstant(GGEN_EQUAL_TO, _SC("GGEN_EQUAL_TO"));
+	BindConstant(GGEN_NOT_EQUAL_TO, _SC("GGEN_NOT_EQUAL_TO"));
+	BindConstant(GGEN_LESS_THAN, _SC("GGEN_LESS_THAN"));
+	BindConstant(GGEN_GREATER_THAN, _SC("GGEN_GREATER_THAN"));
+	BindConstant(GGEN_LESS_THAN_OR_EQUAL_TO, _SC("GGEN_LESS_THAN_OR_EQUAL_TO"));
+	BindConstant(GGEN_GREATER_THAN_OR_EQUAL_TO, _SC("GGEN_GREATER_THAN_OR_EQUAL_TO"));
+
 
 	// WARNING: I'm too lazy to replace these with the TypeDefs currently. Maybe later...
 	
@@ -209,7 +219,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Normalize,_T("Normalize")).
 		func(&GGen_Data_2D::NormalizeDirection,_T("NormalizeDirection")).
 		func(&GGen_Data_2D::FillPolygon,_T("FillPolygon")).
-		func(&GGen_Data_2D::StrokePath,_T("StrokePath"));
+		func(&GGen_Data_2D::StrokePath,_T("StrokePath")).
+		func(&GGen_Data_2D::FloodFill,_T("FloodFill"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
