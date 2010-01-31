@@ -1189,9 +1189,6 @@ void GGen_Data_2D::Normalize(GGen_Normalization_Mode mode)
 	this->NormalizeDirection(GGEN_VERTICAL, mode);
 }
 
-
-
-
 void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, bool preserve_size)
 {
 	/* The matrix must be invertible (its determinant must not be 0) */
@@ -1373,6 +1370,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 			/* In the case the edges are completely identical order doesn't matter */
 		}
 
+		/* Returns true if the edge is ready to be removed from the current line edge list (the edge is ending on the current line) */
 		static bool IsRemoveable(Edge* victim){
 			return victim->dy == 0;
 		}
@@ -1490,9 +1488,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 
 		/* Delete all edges that have DY == 0 (that are ending on current line) */
 		currentLineEdges.remove_if(Edge::IsRemoveable);
-	}
-
-	
+	}	
 }
 
 void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value) {
