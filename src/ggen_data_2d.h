@@ -472,6 +472,12 @@ class GGen_Data_2D{
 		 **/
 		void ReturnAs(const SqPlus::sq_std_string &name);
 
+		/** 
+		 * Fills a polygon defined by its outer path.
+		 * @param path Sequence of points defining the polygon's shape. The polygon is enclosed by connecting the fisrt and last points of the sequence.
+		 * @param value Value to be filled with.
+		 * @note Filled areas are determined by odd-even rule.
+		 **/
 		void FillPolygon(GGen_Path* path, GGen_Height value);
 		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value);
 };
