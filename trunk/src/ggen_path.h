@@ -32,13 +32,14 @@
  **/
 class GGen_Path{
 	public:
-		typedef list<GGen_Point*>::iterator Iterator;
+		typedef list<GGen_Point>::iterator Iterator;
 
-		list<GGen_Point*> points;
+		list<GGen_Point> points;
 		bool closed;
 
 		GGen_Path();
 
-		void AddPoint(GGen_Point* point);
+		void AddPoint(GGen_Point& point);
+		void AddPointByCoords(GGen_Coord x, GGen_Coord y);
 		void RemovePoint(uint32 index);
 };
