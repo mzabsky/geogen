@@ -1296,10 +1296,13 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 
 void GGen_Data_2D::Rotate(int32 angle, bool preserve_size)
 {
+	/* Clamp the angle to the 0-360 range */
 	angle = angle % 360;
 	
+	/* Degrees to radians */
 	double angle_double = (double) angle * 3.14159 / 180;
 	
+	/* Build the rotation matrix */
 	this->Transform(
 		cos(angle_double), 
 		sin(angle_double), 
@@ -1336,7 +1339,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	class Edge{
 	public:
 		double x; /* X of the upper (and in process current) point */
-		GGen_Coord y; /* Y of the upper point */
+		GGen_CoordOffset y; /* Y of the upper point */
 		GGen_CoordOffset dy; /* Edge height */
 		double dxy; /* Change of X while moving one pixel down */
 
@@ -1383,6 +1386,8 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	for (GGen_Path::Iterator i = path->points.begin(); i != path->points.end();) {
 		GGen_Point* currentPoint = &*i;
 		GGen_Point* nextPoint = NULL;
+
+		cout << currentPoint->x << " " << currentPoint->y << endl;
 
 		/* Move the iterator so we can access the next element */
 		i++;

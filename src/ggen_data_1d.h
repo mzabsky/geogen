@@ -24,6 +24,8 @@
 #pragma once
 
 #include "ggen_amplitudes.h"
+#include "ggen_point.h"
+#include "ggen_path.h"
 
 /**
  * GGen_Data_1D represents a simple 1D array of values. It can be used to create more complex 2D maps using methods like GGen_Data_2D::Project, GGen_Data_2D::Gradient or GGen_Data_2D::TransformValues.
@@ -274,4 +276,10 @@ class GGen_Data_1D{
 		 * @param land_amount The percentage of values to be higher than 0. 0 means no "land", 1.0 means no "water".
 		 **/
 		void Flood(double land_amount);
+
+		/**
+		 * Creates a GGen_Path object from current object.
+		 * @param point_count Number of points in the newly created path object.
+		 **/
+		GGen_Path* ToPath(uint16 point_count);
 };

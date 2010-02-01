@@ -628,3 +628,13 @@ void GGen_Data_1D::Flood(double water_amount)
 	/* Shift the heights so given portion of the array is under zero */
 	this->Add(-level);
 }
+
+GGen_Path* GGen_Data_1D::ToPath(uint16 point_count){
+	GGen_Path* path = new GGen_Path;
+	
+	for(GGen_Index i = 0; i < point_count; i++){
+		path->AddPointByCoords(i, this->GetValueInterpolated(i, point_count));
+	}
+
+	return path;
+}
