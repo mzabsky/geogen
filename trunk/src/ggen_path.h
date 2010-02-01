@@ -18,7 +18,7 @@
 */
 
 /** 
- * @file ggen_path.h GGen_Path represents either closed or open sequence of GGen_Point objects.
+ * @file ggen_path.h GGen_Path represents a continuous linear sequence of GGen_Point objects.
  **/
 
 #pragma once
@@ -28,7 +28,7 @@
 #include <list>
 
 /**
- * GGen_Path represents either closed or open sequence of GGen_Point objects.
+ * GGen_Path represents a continuous linear sequence of GGen_Point objects.
  **/
 class GGen_Path{
 	public:
@@ -40,6 +40,15 @@ class GGen_Path{
 		GGen_Path();
 
 		void AddPoint(GGen_Point& point);
-		void AddPointByCoords(GGen_Coord x, GGen_Coord y);
+		void AddPointByCoords(GGen_CoordOffset x, GGen_CoordOffset y);
 		void RemovePoint(uint32 index);
+		void InsertPoint(uint32 index, GGen_Point& point);
+		void InsertPointByCoords(uint32 index, GGen_CoordOffset x, GGen_CoordOffset y);
+		void Clear();
+		void Move(GGen_CoordOffset x, GGen_CoordOffset y);
+		void Transform(GGen_CoordOffset origin_x, GGen_CoordOffset origin_y, double a11, double a12, double a21, double a22);
+		void Rotate(GGen_CoordOffset origin_x, GGen_CoordOffset origin_y, int32 angle);
+		void Shear(GGen_CoordOffset origin_x, GGen_CoordOffset origin_y, int32 horizontal_shear, int32 vertical_shear);
+		void Flip(GGen_CoordOffset origin_x, GGen_CoordOffset origin_y, GGen_Direction direction);
+		void Scale(GGen_CoordOffset origin_x, GGen_CoordOffset origin_y, double ratio_x, double ratio_y);
 };

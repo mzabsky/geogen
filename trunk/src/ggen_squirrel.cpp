@@ -151,7 +151,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_1D::Gradient,_T("Gradient")).
 		func(&GGen_Data_1D::Noise,_T("Noise")).
 		func(&GGen_Data_1D::Smooth,_T("Smooth")).
-		func(&GGen_Data_1D::Flood,_T("Flood"));
+		func(&GGen_Data_1D::Flood,_T("Flood")).
+		func(&GGen_Data_1D::ToPath,_T("ToPath"));
 	
 
 	/* Class: GGen_Data_2D */
@@ -242,7 +243,16 @@ GGen_Squirrel::GGen_Squirrel(){
 		overloadConstructor<GGen_Path(*)()>().
 		func(&GGen_Path::AddPoint,_T("AddPoint")).
 		func(&GGen_Path::AddPointByCoords,_T("AddPointByCoords")).
-		func(&GGen_Path::RemovePoint,_T("RemovePoint"));
+		func(&GGen_Path::RemovePoint,_T("RemovePoint")).
+		func(&GGen_Path::InsertPoint,_T("InsertPoint")).
+		func(&GGen_Path::InsertPointByCoords,_T("InsertPointByCoords")).
+		func(&GGen_Path::Transform,_T("Transform")).
+		func(&GGen_Path::Rotate,_T("Rotate")).
+		func(&GGen_Path::Flip,_T("Flip")).
+		func(&GGen_Path::Shear,_T("Shear")).
+		func(&GGen_Path::Scale,_T("Scale")).
+		func(&GGen_Path::Clear,_T("Clear")).
+		func(&GGen_Path::Move,_T("Move"));
 
 	/* Constants: GGEN_MIN/MAX/INVALID_HEIGHT */
 	BindConstant(GGEN_MIN_HEIGHT, _SC("GGEN_MIN_HEIGHT"));
