@@ -1501,7 +1501,7 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 	}
 }
 
-void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold){
+void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only){
 	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
 	/* Bordering (potential spread) points will be stored in queue */
@@ -1542,6 +1542,12 @@ void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height
 			(mode == GGEN_GREATER_THAN_OR_EQUAL_TO && currentValue < treshold))
 		{
 			/* The condition failed -> skip this tile */
+
+			/* Fill the failed area with 0 in selection mode */
+			if(select_only){			
+				this->data[current.x + current.y * this->width] = 0;
+			}
+
 			continue;
 		} 
 
@@ -1565,4 +1571,27 @@ void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height
 			queue.push(GGen_Point(current.x, current.y + 1));
 		}
 	}
+
+	/* Fill the unworked area with 0 in selection mode */
+	if(select_only){			
+		for (GGen_Coord y = 0; y < this->height; y++) {
+			for (GGen_Coord x = 0; x < this->width; x++) {
+				if(!mask[x + y * this->width]){
+					this->data[x + y * this->width] = 0;
+				}
+			}	
+		}
+	}
+}
+
+void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold){
+	GGen_Script_Assert(start_x < this->width && start_y < this->height);
+
+	this->FloodFillBase(start_x, start_y, fill_value, mode, treshold, false);
+}
+
+void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparsion_Mode mode, GGen_Height treshold){
+	GGen_Script_Assert(start_x < this->width && start_y < this->height);
+
+	this->FloodFillBase(start_x, start_y, 1, mode, treshold, true);
 }
