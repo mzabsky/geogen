@@ -220,7 +220,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::NormalizeDirection,_T("NormalizeDirection")).
 		func(&GGen_Data_2D::FillPolygon,_T("FillPolygon")).
 		func(&GGen_Data_2D::StrokePath,_T("StrokePath")).
-		func(&GGen_Data_2D::FloodFill,_T("FloodFill"));
+		func(&GGen_Data_2D::FloodFill,_T("FloodFill")).
+		func(&GGen_Data_2D::FloodSelect,_T("FloodSelect"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).

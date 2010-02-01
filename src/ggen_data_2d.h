@@ -482,6 +482,8 @@ class GGen_Data_2D{
 
 		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value);
 
+		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only);	
+
 		/** 
 		 * Fills uniform area matching a simple arithmethic conddition (all tiles matching the condition reachable from the starting 
 		 * point through tiles matching the condition are filled with value).
@@ -490,9 +492,21 @@ class GGen_Data_2D{
 		 * @param fill_value The value the matching area is filled with.
 		 * @param mode Artithmethic operator to be used in the condition.
 		 * @param treshold Value to be compared against.
-		 * @note If the starting point doesn't match the condition, no tiles are changes.
+		 * @note If the starting point doesn't match the condition, no tiles are changed.
 		 * @note The filling is 4-directional (the spread is only along the main two axes).
 		 **/
 		void FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold);
+
+		/** 
+		 * Replaces all values in an uniform area matching a simple arithmethic conddition with 1 (all tiles matching the condition reachable from the starting 
+		 * point through tiles matching the condition are filled with 1). All other areas are filled with 0.
+		 * @param start_x X coordinate of the starting point.
+		 * @param start_y Y coordinate of the starting point.
+		 * @param mode Artithmethic operator to be used in the condition.
+		 * @param treshold Value to be compared against.
+		 * @note If the starting point doesn't match the condition, all tiles will be filed with 0.
+		 * @note The filling is 4-directional (the spread is only along the main two axes).
+		 **/
+		void FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparsion_Mode mode, GGen_Height treshold);
 };
 
