@@ -383,27 +383,42 @@ namespace GeoGen_Studio
                     }
                 }
 
+                // release the context from the GUI thread
+                main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
+                {
+                    viewport.Context.MakeCurrent(null);
+                }));
+
+                // grab the context for this thread
+                viewport.MakeCurrent();
+
+                // delete the previous buffer content
+                if (this.vertexBufferHandle != 0)
+                {
+                    GL.DeleteBuffers(1, ref this.vertexBufferHandle);
+                }
+
+                // allocate the buffer
+                GL.GenBuffers(1, out this.vertexBufferHandle);
+
+                // tell that we are using that buffer
+                GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
+
+                // upload the data into the buffer into GPU
+                GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
+
+                // make sure the massive vertex array is gone from RAM
+                vertices = null;
+
+                // release the context from current thread
+                viewport.Context.MakeCurrent(null);
+
                 try
                 {
                     main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
                     {
-                        // delete the previous buffer content
-                        if (this.vertexBufferHandle != 0)
-                        {
-                            GL.DeleteBuffers(1, ref this.vertexBufferHandle);
-                        }
-
-                        // allocate the buffer
-                        GL.GenBuffers(1, out this.vertexBufferHandle);
-
-                        // tell that we are using that buffer
-                        GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
-
-                        // upload the data into the buffer into GPU
-                        GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
-
-                        // make sure the massive vertex array is gone from RAM
-                        vertices = null;
+                        // regrab the context for the GUI thread
+                        viewport.MakeCurrent();
 
                         // rebuild the texture
                         this.ApplyTexture();
