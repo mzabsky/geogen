@@ -44,6 +44,14 @@ class GGen_Path{
 		void RemovePoint(uint32 index);
 		void InsertPoint(uint32 index, GGen_Point& point);
 		void InsertPointByCoords(uint32 index, GGen_CoordOffset x, GGen_CoordOffset y);
+		GGen_CoordOffset GetMinX();
+		GGen_CoordOffset GetMinY();
+		GGen_CoordOffset GetMaxX();
+		GGen_CoordOffset GetMaxY();
+		GGen_CoordOffset GetAverageX();
+		GGen_CoordOffset GetAverageY();
+		GGen_CoordOffset GetCenterX();
+		GGen_CoordOffset GetCenterY();
 		void Clear();
 		void Move(GGen_CoordOffset x, GGen_CoordOffset y);
 		void Transform(GGen_CoordOffset origin_x, GGen_CoordOffset origin_y, double a11, double a12, double a21, double a22);

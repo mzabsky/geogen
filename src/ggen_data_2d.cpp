@@ -1600,3 +1600,115 @@ void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comp
 
 	this->FloodFillBase(start_x, start_y, 1, mode, treshold, true);
 }
+
+GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
+	GGen_Script_Assert(path != NULL);
+	GGen_Script_Assert(path->points.size() > 1);
+
+	GGen_Height extreme = max ? GGEN_MIN_HEIGHT : GGEN_MAX_HEIGHT;
+
+	/* For every line segment do... */
+	for (GGen_Path::Iterator i = path->points.begin(); i != path->points.end();) {
+		GGen_Point* currentPoint = &*i;
+
+		/* The last segment is between the last two points, end once we reach the last point */
+		if(++i == path->points.end()){
+			break;
+		}
+
+		GGen_Point* nextPoint = &*i;
+
+		/* DDA line drawing algorithm (converted to line reading algorithm :) ) */
+
+		/* The algorithm works only in <315°, 45°> range, we must use rotated variant for steeper segments */
+		if(abs(currentPoint->x - nextPoint->x) > abs(currentPoint->y - nextPoint->y)){
+			/* Swap the points in case the edge is pointing leftwards (so it is always pointing rightwards) */
+			if (currentPoint->GetX() > nextPoint->GetX()) {
+				swap<GGen_Point*>(currentPoint, nextPoint);
+			}
+
+			double y = currentPoint->y;
+			double dy = currentPoint->x != nextPoint->x ? (double) (nextPoint->y - currentPoint->y) / (double) (nextPoint->x - currentPoint->x) : 0;
+
+			GGen_CoordOffset x = currentPoint->x;	
+
+			/* The first point */
+			if(x > 0 && x < this->width && y > 0 && y < height){
+				/* Y coordinate must be rounded */
+				GGen_Height current = this->data[x + (GGen_CoordOffset) (y + 0.5) * this->width]; 
+
+				if((max && extreme < current) || (!max && extreme > current)){
+					extreme = current;
+				} 
+			}
+
+			/* Rest of the line */
+			while(x < nextPoint->x){
+				x++;
+				y += dy;
+
+				if(x > 0 && x < this->width && (GGen_CoordOffset) y > 0 && (GGen_CoordOffset) y < height){
+					/* Y coordinate must be rounded */
+					GGen_Height current = this->data[x + (GGen_CoordOffset) (y + 0.5) * this->width]; 
+
+					if((max && extreme < current) || (!max && extreme > current)){
+						extreme = current;
+					} 
+				}
+			}
+		} else {
+			/* Rotated variant */
+
+			/* Swap the points in case the edge is pointing leftwards (so it is always pointing rightwards) */
+			if (currentPoint->GetY() > nextPoint->GetY()) {
+				swap<GGen_Point*>(currentPoint, nextPoint);
+			}
+
+			double x = currentPoint->x;
+			double dx = currentPoint->y != nextPoint->y ? (double) (nextPoint->x - currentPoint->x) / (double) (nextPoint->y - currentPoint->y) : 0;
+
+			GGen_CoordOffset y = currentPoint->y;	
+
+			/* The first point */
+			if(x > 0 && x < this->width && y > 0 && y < height){
+				/* X coordinate must be rounded */
+				GGen_Height current = this->data[(GGen_CoordOffset) (x + 0.5) + y * this->width]; 
+
+				if((max && extreme < current) || (!max && extreme > current)){
+					extreme = current;
+				}
+			}
+
+			/* Rest of the line */
+			while(y < nextPoint->y){
+				y++;
+				x += dx;
+
+				if(x > 0 && x < this->width && (GGen_CoordOffset) y > 0 && (GGen_CoordOffset) y < height){
+					/* X coordinate must be rounded */
+					GGen_Height current = this->data[(GGen_CoordOffset) (x + 0.5) + y * this->width]; 
+
+					if((max && extreme < current) || (!max && extreme > current)){
+						extreme = current;
+					}
+				}
+			}
+		}
+
+		return extreme;
+	}
+
+	return 0;
+}
+
+GGen_Height GGen_Data_2D::GetMaxValueOnPath(GGen_Path* path){
+	GGen_Script_Assert(path != NULL);
+
+	return this->GetValueOnPathBase(path, true);
+}
+
+GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
+	GGen_Script_Assert(path != NULL);
+
+	return this->GetValueOnPathBase(path, false);
+}
