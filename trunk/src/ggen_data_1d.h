@@ -280,6 +280,7 @@ class GGen_Data_1D{
 		/**
 		 * Creates a GGen_Path object from current object.
 		 * @param point_count Number of points in the newly created path object.
+		 * @note Point's coordinates are calculated as [value index, value].
 		 **/
 		GGen_Path* ToPath(uint16 point_count);
 };

@@ -222,7 +222,9 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::FillPolygon,_T("FillPolygon")).
 		func(&GGen_Data_2D::StrokePath,_T("StrokePath")).
 		func(&GGen_Data_2D::FloodFill,_T("FloodFill")).
-		func(&GGen_Data_2D::FloodSelect,_T("FloodSelect"));
+		func(&GGen_Data_2D::FloodSelect,_T("FloodSelect")).
+		func(&GGen_Data_2D::GetMaxValueOnPath,_T("GetMaxValueOnPath")).
+		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
@@ -246,6 +248,14 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Path::RemovePoint,_T("RemovePoint")).
 		func(&GGen_Path::InsertPoint,_T("InsertPoint")).
 		func(&GGen_Path::InsertPointByCoords,_T("InsertPointByCoords")).
+		func(&GGen_Path::GetMinX,_T("GetMinX")).
+		func(&GGen_Path::GetMinY,_T("GetMinY")).
+		func(&GGen_Path::GetMaxX,_T("GetMaxX")).
+		func(&GGen_Path::GetMaxY,_T("GetMaxY")).
+		func(&GGen_Path::GetAverageX,_T("GetAverageX")).
+		func(&GGen_Path::GetAverageY,_T("GetAverageY")).
+		func(&GGen_Path::GetCenterX,_T("GetCenterX")).
+		func(&GGen_Path::GetCenterY,_T("GetCenterY")).
 		func(&GGen_Path::Transform,_T("Transform")).
 		func(&GGen_Path::Rotate,_T("Rotate")).
 		func(&GGen_Path::Flip,_T("Flip")).

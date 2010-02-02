@@ -124,3 +124,87 @@ void GGen_Path::Shear(GGen_CoordOffset origin_x, GGen_CoordOffset origin_y, int3
 		ratio_y
 	);
 }
+
+GGen_CoordOffset GGen_Path::GetMinX(){
+	GGen_CoordOffset min = 30000;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		if((*i).x < min) min = (*i).x;
+	}
+
+	return min;
+}
+
+GGen_CoordOffset GGen_Path::GetMinY(){
+	GGen_CoordOffset min = 30000;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		if((*i).y < min) min = (*i).y;
+	}
+
+	return min;
+}
+
+GGen_CoordOffset GGen_Path::GetMaxX(){
+	GGen_CoordOffset max = -30000;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		if((*i).x > max) max = (*i).x;
+	}
+
+	return max;
+}
+
+GGen_CoordOffset GGen_Path::GetMaxY(){
+	GGen_CoordOffset max = -30000;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		if((*i).y > max) max = (*i).y;
+	}
+
+	return max;
+}
+
+GGen_CoordOffset GGen_Path::GetCenterY(){
+	GGen_CoordOffset max = -30000;
+	GGen_CoordOffset min = 30000;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		if((*i).y > max) max = (*i).y;
+		if((*i).y < min) min = (*i).y;
+	}
+
+	return (max - min) / 2;
+}
+
+GGen_CoordOffset GGen_Path::GetCenterX(){
+	GGen_CoordOffset max = -30000;
+	GGen_CoordOffset min = 30000;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		if((*i).x > max) max = (*i).x;
+		if((*i).x < min) min = (*i).x;
+	}
+
+	return (max - min) / 2;
+}
+
+GGen_CoordOffset GGen_Path::GetAverageX(){
+	int64 sum = 0;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		sum += (*i).x;
+	}
+
+	return (GGen_CoordOffset) (sum / this->points.size());
+}
+
+GGen_CoordOffset GGen_Path::GetAverageY(){
+	int64 sum = 0;
+
+	for(GGen_Path::Iterator i = this->points.begin(); i != this->points.end(); i++){
+		sum += (*i).y;
+	}
+
+	return (GGen_CoordOffset) (sum / this->points.size());
+}

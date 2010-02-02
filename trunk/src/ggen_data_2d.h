@@ -508,5 +508,11 @@ class GGen_Data_2D{
 		 * @note The filling is 4-directional (the spread is only along the main two axes).
 		 **/
 		void FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparsion_Mode mode, GGen_Height treshold);
+
+		GGen_Height GetValueOnPathBase(GGen_Path* path, bool max);
+
+		GGen_Height GetMaxValueOnPath(GGen_Path* path);
+
+		GGen_Height GetMinValueOnPath(GGen_Path* path);
 };
 
