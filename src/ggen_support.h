@@ -76,7 +76,7 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 }}
 
 /**
- * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) definin behavior for too steep slopes.
+ * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) defining behavior for too steep slopes.
  */
 enum GGen_Normalization_Mode{
 	GGEN_ADDITIVE, //!< Too steep slopes will be neutralized by increasing the values (going from the hill-top).
