@@ -28,8 +28,9 @@ function Generate(){
 	// set up radial profile of the archipelago
 	local profile = GGen_Data_1D(70, 0);
 	
-	profile.SetValueInRange(32, 54, 1250);
-	profile.Smooth(8);
+	profile.SetValueInRange(55, 61, 2 * GGEN_MAX_HEIGHT / 3);
+	profile.Smooth(6);
+	profile.Smooth(6);
 
 	GGen_IncreaseProgress();
 	
@@ -42,17 +43,17 @@ function Generate(){
 	
 	// noise overlay
 	local noise = GGen_Data_2D(width, height, 0);
-	noise.Noise(smoothness, ((width > height) ? height : width) / (6 * (4 - feature_size)), GGEN_STD_NOISE);
+	noise.Noise(smoothness, ((width > height) ? height : width) / (60 - (15 * feature_size)), GGEN_STD_NOISE);
 	
 	GGen_IncreaseProgress();
 	
-	noise.ScaleValuesTo(-500, 500);
+	noise.ScaleValuesTo(-GGEN_MAX_HEIGHT / 3, GGEN_MAX_HEIGHT / 3);
 	
 	base.AddMap(noise);
 	
 	GGen_IncreaseProgress();
 	
-	base.Flood(0.05);
+	base.Flood(0.03);
 
 	GGen_IncreaseProgress();
 
