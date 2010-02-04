@@ -53,6 +53,7 @@ namespace GeoGen_Studio
         bool viewportMouse;
         SidebarMode sidebarMode = SidebarMode.Right;
         List<string> statuses = new List<string>();
+        public string editorBackup = "";
 
         public Loading loader = null;
 
@@ -581,6 +582,8 @@ namespace GeoGen_Studio
             this.processManager.ScheduleCheck();
 
             this.needsSaving = true;
+
+            if(this.editor.Text.Length > 0) this.editorBackup = this.editor.Text;
         }
 
         private void executeToolStripMenuItem_Click(object sender, EventArgs e)
