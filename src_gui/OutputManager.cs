@@ -95,6 +95,15 @@ namespace GeoGen_Studio
                     main.outputs3d.Items.Add(info.Name);
                     main.texture.Items.Add("Map: " + info.Name);
                 }
+
+                if (main.viewportManager.currentTextureIndex < main.texture.Items.Count)
+                {
+                    main.texture.SelectedIndex = main.viewportManager.currentTextureIndex;
+                }
+                else
+                {
+                    main.texture.SelectedIndex = ViewportManager.defaultTextureIndex;
+                }
             }
             else
             {

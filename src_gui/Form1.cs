@@ -1010,6 +1010,11 @@ namespace GeoGen_Studio
 
         private void texture_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.texture.SelectedIndex != -1)
+            {
+                this.viewportManager.currentTextureIndex = this.texture.SelectedIndex;
+            }
+
             this.GetViewportManager().ApplyTexture();
         }
 
