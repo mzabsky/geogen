@@ -49,6 +49,8 @@ namespace GeoGen_Studio
             }
         }
 
+        public static int defaultTextureIndex = 8;
+
         public OpenTK.GLControl viewport;
         public SHData heightData;
 
@@ -60,7 +62,7 @@ namespace GeoGen_Studio
         public float targetX = 50; // default position is square center
         public float targetY = 50;
         public int currentMap = -1;
-        public int currentTextureIndex = 7;
+        public int currentTextureIndex = defaultTextureIndex;
 
         private int vertexBufferHandle;
         private int textureHandle;
@@ -433,7 +435,7 @@ namespace GeoGen_Studio
                 // this might throw exceptions in case the main thread was terminated while this thread is running
                 catch (Exception) { };
             }
-            catch (OutOfMemoryException e)
+            catch (OutOfMemoryException)
             {
                 try{
                     main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
