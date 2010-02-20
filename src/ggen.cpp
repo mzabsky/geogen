@@ -27,7 +27,6 @@
 #include "ggen_data_2d.h"
 
 #include "ggen.h"
-#include "ggen_squirrel.h"
 
 GGen* GGen::instance = NULL;
 
