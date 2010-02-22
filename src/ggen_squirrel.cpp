@@ -364,7 +364,6 @@ int16* GGen_Squirrel::Generate(){
 
 		GGen_Script_Assert(data != NULL && data->data != NULL);
 
-
 		output_width = data->width;
 		output_height = data->height;
 
@@ -381,7 +380,7 @@ int16* GGen_Squirrel::Generate(){
 		return NULL;
     }	
     catch (bad_alloc){
-		GGen::GetInstance()->ThrowMessage("GGen_Data memory allocation failed!", GGEN_ERROR, -1);
+		GGen::GetInstance()->ThrowMessage(GGen_Const_String("GGen_Data memory allocation failed!"), GGEN_ERROR, -1);
 		return NULL;
     }
 }

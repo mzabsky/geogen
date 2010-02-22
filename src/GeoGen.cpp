@@ -43,9 +43,12 @@ using namespace std;
 #include "EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
+#ifndef GGEN_UNICODE
+	GGen Console interface requires UNICODE mode!!!
+#endif
 
 struct OutputFormat{
-	string suffix;
+	GGen_String suffix;
 	string name;
 	long long int min;
 	long long int max;
@@ -55,20 +58,20 @@ struct OutputFormat{
 #define NUM_FORMATS 3 // overlay virtual formats are not included
 
 OutputFormat _formats[] = {
-	{"bmp", "Windows Bitmap", 0, 255, true},
-	{"shd", "GeoGen Short Data", -(2 << 14) + 1, (2 << 14) - 1, false},
-	{"pgm", "Portable Gray Map", 0, 2 << 13, false},
-	{"bmp", "Overlay", 0, 255, true},
-	{"bmp", "Ext overlay", -255, 254, true}
+	{GGen_Const_String("bmp"), "Windows Bitmap", 0, 255, true},
+	{GGen_Const_String("shd"), "GeoGen Short Data", -(2 << 14) + 1, (2 << 14) - 1, false},
+	{GGen_Const_String("pgm"), "Portable Gray Map", 0, 2 << 13, false},
+	{GGen_Const_String("bmp"), "Overlay", 0, 255, true},
+	{GGen_Const_String("bmp"), "Ext overlay", -255, 254, true}
 };
 
 struct GGen_Params{
 	OutputFormat* output_format;
 
-	string input_file;
-	string output_file;
-	string output_directory;
-	string overlay_file;
+	GGen_String input_file;
+	GGen_String output_file;
+	GGen_String output_directory;
+	GGen_String overlay_file;
 	
 	int random_seed;
 	
@@ -85,14 +88,14 @@ struct GGen_Params{
 	int grid_size;
 	bool split_range;
 	
-	vector<std::string> script_args;
+	vector<GGen_String> script_args;
 	
 	GGen_Params()
 		:output_format(&_formats[0]),
-		input_file(""),
-		output_file("../temp/out.bmp"),
-		output_directory("../temp/"),
-		overlay_file(""),
+		input_file(GGen_Const_String("")),
+		output_file(GGen_Const_String("../temp/out.bmp")),
+		output_directory(GGen_Const_String("../temp/")),
+		overlay_file(GGen_Const_String("")),
 		random_seed(-1),
 		all_random(false),
 		no_rescaling(false),
@@ -111,21 +114,18 @@ struct GGen_Params{
 
 GGen_Params _params;
 
-bool Save(const int16* data, unsigned int width, unsigned int height, const char* implicit_path, const char* name = NULL, bool enable_overlay = false){
+bool Save(const int16* data, unsigned int width, unsigned int height, const GGen_String* implicit_path, const GGen_String* name = NULL, bool enable_overlay = false){
 	// overlay is to be saved separately -> create its name	
 	if(_params.overlay_as_copy && _params.overlay_file.length() > 0 && !enable_overlay){
-		char* buf;
+		GGen_String buf;
 		if(name != NULL){
-			buf = new char[strlen(name) + 9];
-			buf[0] = '\0';
-			buf = strcat(buf, name);
-			buf = strcat(buf, "_overlay");
+			buf = GGen_String(*name) + GGen_Const_String("_overlay");
 		}
 		else {
-			buf = "out_overlay";
+			buf = GGen_Const_String("out_overlay");
 		}
 		
-		Save(data, width, height, implicit_path, buf, true);
+		Save(data, width, height, implicit_path, &buf, true);
 	}
 	else if(!_params.overlay_as_copy && _params.overlay_file.length() > 0){
 		enable_overlay = true;
@@ -135,10 +135,10 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 
 	BMP overlay;
 	if(((_params.overlay_as_copy && enable_overlay) || (!_params.overlay_as_copy))  && _params.overlay_file.length() > 0){
-		if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
-			cout << "Could  not open overlay file!\n" << flush;
-			return false;
-		}
+		//if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
+		//	cout << "Could  not open overlay file!\n" << flush;
+		//	return false;
+		//}
 		
 		if(overlay.TellWidth() == 256) format = &_formats[NUM_FORMATS];
 		else if(overlay.TellWidth() == 511) format = &_formats[NUM_FORMATS + 1];
@@ -156,18 +156,22 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		format_min = - (format->max + 1) / 2 - 1;
 	}
 
-	stringstream path_out;
+	GGen_String path_out;
 
 	if(name == NULL){
-		path_out << implicit_path;
-		cout << "Saving main bitmap as \"" << implicit_path << "\" ...\n" << flush;
+		path_out = *implicit_path;
+		GGen_Cout << GGen_Const_String("Saving main bitmap as \"") << *implicit_path << GGen_Const_String("\" ...\n") << flush;
 	}
 	else if(_params.disable_secondary_maps){
 		return false;
 	}
 	else{
-		path_out << _params.output_directory << name << "." << format->suffix;
-		cout << "Saving map \"" << name << "\" as \"" << path_out.str() <<"\"...\n" << flush;
+
+		GGen_String compatible_directory_name(_params.output_directory.length(), GGen_Const_String(' '));
+		copy(_params.output_directory.begin(), _params.output_directory.end(), compatible_directory_name.begin());
+
+		path_out += compatible_directory_name + *name + GGen_Const_String(".") + format->suffix;
+		GGen_Cout << GGen_Const_String("Saving map \"") << name << GGen_Const_String("\" as \"") << path_out << GGen_Const_String("\"...\n") << flush;
 	}
 	
 	// is scaling wanted?
@@ -191,7 +195,7 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 			ratio = (double) format_max / (double) max;
 		} else {
 			ratio = 
-				(double) format_max / (double) max < (double) format_min / (double) min ? 
+				((double) format_max / (double) max < (double) format_min / (double) min) || format_min == 0 ? 
 				(double) format_max / (double) max :
 				(double) format_min / (double) min;
 		}
@@ -216,14 +220,14 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		}
 	}
 
-	if(format->suffix == "bmp"){
+	if(format->suffix == GGen_Const_String("bmp")){
 		BMP output;
 
 		output.SetBitDepth(32);
 
 		output.SetSize(width, height);
 
-		if(_params.overlay_file == "" || !enable_overlay){
+		if(_params.overlay_file == GGen_Const_String("") || !enable_overlay){
 			for(unsigned int i = 0; i < height; i++){
 				for(unsigned int j = 0; j < width; j++){
 					output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
@@ -252,16 +256,24 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 			}
 		}
 
-		output.WriteToFile(path_out.str().c_str());
+		GGen_String stri = path_out;
+
+		char* buf = new char[path_out.length() + 1];
+		wcstombs(buf, path_out.c_str(), path_out.length());
+		buf[path_out.length()] = '\0';
+
+		output.WriteToFile(buf);
+
+		delete buf;
 	}
-	else if(format->suffix == "shd"){
+	else if(format->suffix == GGen_Const_String("shd")){
 		int iWidth = width;
 		int iHeight = height;
 
-		ofstream out(path_out.str().c_str(), ios_base::out | ios_base::binary | ios::ate);
+		ofstream out(path_out.c_str(), ios_base::out | ios_base::binary | ios::ate);
 		
 		if(out.bad()){
-			cout << "Could not write " << path_out.str() << "!\n" << flush;
+			GGen_Cout << GGen_Const_String("Could not write ") << path_out << GGen_Const_String("!\n") << flush;
 		}
 		else{
 			out.write((char*) &iWidth, sizeof(iWidth));
@@ -272,10 +284,10 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const char
 		
 		out.close();
 	}
-	else if(format->suffix == "pgm"){
-		ofstream out(path_out.str().c_str(), ios_base::out);
+	else if(format->suffix == GGen_Const_String("pgm")){
+		ofstream out(path_out.c_str(), ios_base::out);
 		if(out.bad()){
-			cout << "Could not write " << path_out.str() << "!\n" << flush;
+			GGen_Cout << GGen_Const_String("Could not write ") << path_out << GGen_Const_String("!\n") << flush;
 		}
 		else{
 			out << "P2" << endl;
@@ -305,8 +317,8 @@ T random(T min, T max){
 	return output;
 }
 
-void ReturnHandler(char* name, const int16* map, int width, int height){
-	Save(map, width, height, "", name); 
+void ReturnHandler(const GGen_String& name, const int16* map, int width, int height){
+	Save(map, width, height, NULL, &name); 
 }
 
 void ProgressHandler(int current_progress, int max_progress){
@@ -318,25 +330,25 @@ int main(int argc,char * argv[]){
 	ArgDesc args(argc, argv);
 	args.SetPosArgsVector(_params.script_args);
 	
-	args.AddStringArg('i', "input", "Input squirrel script to be executed.", "FILE", &_params.input_file); 
-	args.AddStringArg('o', "output", "Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default.", "FILE", &_params.output_file);
-	args.AddStringArg('d', "output-directory", "Directory where secondary maps will be saved. Set to \"../temp/\" by default.", "DIRECTORY", &_params.output_directory);
-	args.AddStringArg('v', "overlay", "Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and 256 pixels wide.", "FILE", &_params.overlay_file);
+	args.AddStringArg(GGen_Const_String('i'), GGen_Const_String("input"), GGen_Const_String("Input squirrel script to be executed."), GGen_Const_String("FILE"), &_params.input_file); 
+	args.AddStringArg(GGen_Const_String('o'), GGen_Const_String("output"), GGen_Const_String("Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default."), GGen_Const_String("FILE"), &_params.output_file);
+	args.AddStringArg(GGen_Const_String('d'), GGen_Const_String("output-directory"), GGen_Const_String("Directory where secondary maps will be saved. Set to \"../temp/\" by default."), GGen_Const_String("DIRECTORY"), &_params.output_directory);
+	args.AddStringArg(GGen_Const_String('v'), GGen_Const_String("overlay"), GGen_Const_String("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and 256 pixels wide."), GGen_Const_String("FILE"), &_params.overlay_file);
 	
-	args.AddIntArg('s', "seed", "Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same.", "SEED", &_params.random_seed);
+	args.AddIntArg(GGen_Const_String('s'), GGen_Const_String("seed"), GGen_Const_String("Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same."), GGen_Const_String("SEED"), &_params.random_seed);
 	
-	args.AddBoolArg('a', "all-random", "All unset script arguments are generated randomly.", &_params.all_random);
-	args.AddBoolArg('z', "ignore-zero", "Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap).", &_params.ignore_zero);
-	args.AddBoolArg('n', "no-rescaling", "The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>.", &_params.no_rescaling);
-	args.AddBoolArg('?', "help", "Displays this help.", &_params.help);
-	args.AddBoolArg('x', "syntax-check", "Will print OKAY if script is compilable or descibe the error found.", &_params.syntax_check_mode);
-	args.AddBoolArg('p', "param-list", "Lists the script's parameters in machine-readable format.", &_params.param_list_mode);
-	args.AddBoolArg('e', "simple", "Mode which allows all necessary data to be entered interactively. This mode is automatically activaded if no params were entered.", &_params.stupid_mode);
-	args.AddBoolArg('m', "manual", "Script arguments will be entered interactively.", &_params.manual_mode);
-	args.AddBoolArg('D', "disable-secondary-maps", "All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped.", &_params.disable_secondary_maps);
-	args.AddBoolArg('V', "overlay-as-copy", "Color files with overlays will be saved as copies.", &_params.overlay_as_copy);
-	args.AddIntArg( 'g', "grid", "Renders a grid onto the overlay file.", "SIZE", &_params.grid_size);
-	args.AddBoolArg('h', "split-range", "Splits the value range of a file format, which doesn't support negative values, so lower half of the range covers negaive values and upper half covers positive values. Value \"(max + 1) / 2\" will be treated as zero.", &_params.split_range);
+	args.AddBoolArg(GGen_Const_String('a'), GGen_Const_String("all-random"), GGen_Const_String("All unset script arguments are generated randomly."), &_params.all_random);
+	args.AddBoolArg(GGen_Const_String('z'), GGen_Const_String("ignore-zero"), GGen_Const_String("Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap)."), &_params.ignore_zero);
+	args.AddBoolArg(GGen_Const_String('n'), GGen_Const_String("no-rescaling"), GGen_Const_String("The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>."), &_params.no_rescaling);
+	args.AddBoolArg(GGen_Const_String('?'), GGen_Const_String("help"), GGen_Const_String("Displays this help."), &_params.help);
+	args.AddBoolArg(GGen_Const_String('x'), GGen_Const_String("syntax-check"), GGen_Const_String("Will print OKAY if script is compilable or descibe the error found."), &_params.syntax_check_mode);
+	args.AddBoolArg(GGen_Const_String('p'), GGen_Const_String("param-list"), GGen_Const_String("Lists the script's parameters in machine-readable format."), &_params.param_list_mode);
+	args.AddBoolArg(GGen_Const_String('e'), GGen_Const_String("simple"), GGen_Const_String("Mode which allows all necessary data to be entered interactively. This mode is automatically activaded if no params were entered."), &_params.stupid_mode);
+	args.AddBoolArg(GGen_Const_String('m'), GGen_Const_String("manual"), GGen_Const_String("Script arguments will be entered interactively."), &_params.manual_mode);
+	args.AddBoolArg(GGen_Const_String('D'), GGen_Const_String("disable-secondary-maps"), GGen_Const_String("All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped."), &_params.disable_secondary_maps);
+	args.AddBoolArg(GGen_Const_String('V'), GGen_Const_String("overlay-as-copy"), GGen_Const_String("Color files with overlays will be saved as copies."), &_params.overlay_as_copy);
+	args.AddIntArg( GGen_Const_String('g'), GGen_Const_String("grid"), GGen_Const_String("Renders a grid onto the overlay file."), GGen_Const_String("SIZE"), &_params.grid_size);
+	args.AddBoolArg(GGen_Const_String('h'), GGen_Const_String("split-range"), GGen_Const_String("Splits the value range of a file format, which doesn't support negative values, so lower half of the range covers negaive values and upper half covers positive values. Value \"(max + 1) / 2\" will be treated as zero."), &_params.split_range);
 	
 	
 	// read the arguments
@@ -369,9 +381,9 @@ int main(int argc,char * argv[]){
 	}
 
 	// no input file -> ask the user
-	if(_params.input_file == ""){
+	if(_params.input_file == GGen_Const_String("")){
 		cout << "Please enter path to a script file: ";
-		cin >> _params.input_file;
+		wcin >> _params.input_file;
 	}
 
 	// let the window manager user know where the output goes
@@ -381,10 +393,12 @@ int main(int argc,char * argv[]){
 	
 	for(int i = 0; i < NUM_FORMATS; i++){
 		if(_params.output_file.length() < 5) continue;
-		else if(_params.output_file.substr(_params.output_file.length() - 3, 3) == _formats[i].suffix){
+		/*else if(_params.output_file.substr(_params.output_file.length() - 3, 3) == _formats[i].suffix){
 			_params.output_format = &_formats[i];
 			break;
-		}
+		}*/
+
+		_params.output_format = &_formats[0];
 	}	
 	
 	// load the script from file
@@ -517,12 +531,12 @@ int main(int argc,char * argv[]){
 		// loop through all the map arguments 
 		for(uint8 i = 0; i < ggen->num_args; i++){
 
-			if(i < _params.script_args.size() && _params.script_args[i] != "r" && _params.script_args[i] != "d"){
-				ggen->args[i]->SetValue(atoi(_params.script_args[i].c_str()));
+			if(i < _params.script_args.size() && _params.script_args[i] != GGen_Const_String("r") && _params.script_args[i] != GGen_Const_String("d")){
+				ggen->args[i]->SetValue(_wtoi(_params.script_args[i].c_str()));
 			}
 
 			// should the value be generated randomly?
-			else if(_params.all_random || (i < _params.script_args.size() && _params.script_args[i] == "r")){
+			else if(_params.all_random || (i < _params.script_args.size() && _params.script_args[i] == GGen_Const_String("r"))){
 				ggen->args[i]->SetValue(random(ggen->args[i]->min_value, ggen->args[i]->max_value));
 			}
 		}
@@ -544,8 +558,12 @@ int main(int argc,char * argv[]){
 	
 	assert(data != NULL);
 
+	GGen_String compatible_file_name(_params.output_file.length(), GGen_Const_String(' '));
+	copy(_params.output_file.begin(), _params.output_file.end(), compatible_file_name.begin());
+
 	// flush the bitmap
-	Save(data, ggen->output_width, ggen->output_height, _params.output_file.c_str());
+	Save(data, ggen->output_width, ggen->output_height, &compatible_file_name);
+	
 
 	cout << "Cleanup...\n" << flush;
 

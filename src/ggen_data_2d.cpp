@@ -23,7 +23,6 @@
 #include <bitset>
 
 #include "ggen.h"
-#include "ggen_squirrel.h"
 #include "ggen_support.h"
 #include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
@@ -1006,16 +1005,14 @@ void GGen_Data_2D::Pattern(GGen_Data_2D* pattern)
 	}
 }
 
-void GGen_Data_2D::ReturnAs(const SqPlus::sq_std_string &name)
+void GGen_Data_2D::ReturnAs(const GGen_String &name)
 {
-	if(GGen::GetInstance()->return_callback == NULL) GGen::GetInstance()->ThrowMessage("The script returned a named map, but return handler was not defined", GGEN_WARNING);
-
-	char* buf = GGen_ToCString(name);
+	if(GGen::GetInstance()->return_callback == NULL) {
+		GGen::GetInstance()->ThrowMessage(GGen_Const_String("The script returned a named map, but return handler was not defined"), GGEN_WARNING);
+	}
 
 	/* Call the defined return callback */
-	GGen::GetInstance()->return_callback(buf, this->data, this->width, this->height);
-	
-	delete [] buf;
+	GGen::GetInstance()->return_callback(name, this->data, this->width, this->height);
 }
 
 void GGen_Data_2D::Monochrome(GGen_Height treshold)

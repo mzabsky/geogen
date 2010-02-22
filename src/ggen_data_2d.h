@@ -470,7 +470,7 @@ class GGen_Data_2D{
 		 * Calls the API return handler.
 		 * @param label Label identifying the returned map.
 		 **/
-		void ReturnAs(const SqPlus::sq_std_string &name);
+		void ReturnAs(const GGen_String &name);
 
 		/** 
 		 * Fills a polygon defined by its outer path.

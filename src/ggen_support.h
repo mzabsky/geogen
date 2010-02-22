@@ -62,18 +62,69 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 #define MIN(a,b) (a < b? a: b) 
 #define ABS(a) (a < 0? -(a): a) 
 
+#ifdef _UNICODE
+	#define GGEN_UNICODE
+#endif
+
+#ifdef GGEN_UNICODE
+	typedef wchar_t GGen_Char;
+	#define WIDEN(x) L ## x
+	#define GGen_Const_String(a) WIDEN(a)
+	#define GGen_Cout		wcout
+	#define	GGen_Strcmp		wcscmp
+	#define GGen_Sprintf	swprintf
+	#define GGen_Strlen		wcslen
+	#define GGen_Strtod		wcstod
+	#define GGen_Strtol		wcstol
+	#define GGen_Atoi		_wtoi
+	#define GGen_Strtoul	wcstoul
+	#define GGen_Vsprintf	vswprintf
+	#define GGen_Strstr		wcsstr
+	#define GGen_Isspace	iswspace
+	#define GGen_Isdigit	iswdigit
+	#define GGen_Isxdigit	iswxdigit
+	#define GGen_Isalpha	iswalpha
+	#define GGen_Iscntrl	iswcntrl
+	#define GGen_Isalnum	iswalnum
+	#define GGen_Printf		wprintf
+#else
+	typedef char GGen_Char;
+	#define GGen_Const_String(a) a
+	#define GGen_Cout		cout
+	#define	GGen_Strcmp		strcmp
+	#define GGen_Sprintf	sprintf
+	#define GGen_Strlen		strlen
+	#define GGen_Strtod		strtod
+	#define GGen_Strtol		strtol
+	#define GGen_Atoi		atoi
+	#define GGen_Strtoul	strtoul
+	#define GGen_Vsprintf	vsprintf
+	#define GGen_Strstr		strstr
+	#define GGen_Isspace	isspace
+	#define GGen_Isdigit	isdigit
+	#define GGen_Isxdigit	isxdigit
+	#define GGen_Isalpha	iscntrl
+	#define GGen_Iscntrl	isalpha
+	#define GGen_Isalnum	isalnum
+	#define GGen_Printf		printf
+#endif
+
+typedef basic_string<GGen_Char> GGen_String;
+typedef basic_stringstream<GGen_Char> GGen_StringStream;
+
 // Custom assertion handler. Invoke messaage callback and shut down the script execution.
 #define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
-	char* as_buf = new char[400]; \
-	as_buf[0] = '\0'; \
-	as_buf = strcat(as_buf, "Assertion in function "); \
-	as_buf = strcat(as_buf, __FUNCTION__); \
-	as_buf = strcat(as_buf, " failed: "); \
-	as_buf = strcat(as_buf, #_Expression); \
+	GGen_String as_buf; \
+	as_buf += GGen_Const_String("Assertion in function "); \
+	as_buf += GGen_Const_String(__FUNCTION__); \
+	as_buf += GGen_Const_String(" failed: "); \
+	as_buf += GGen_Const_String(#_Expression); \
 	GGen::GetInstance()->ThrowMessage(as_buf, GGEN_ERROR, -1); \
-	delete as_buf; \
-	throw SquirrelError(); \
 }}
+
+	
+	//delete as_buf; \
+	//throw SquirrelError(); \
 
 /**
  * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) defining behavior for too steep slopes.
