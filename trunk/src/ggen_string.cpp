@@ -25,6 +25,7 @@
 #include "ggen_data_1d.h"
 #include "ggen.h"
 
+/*
 char* GGen_ToCString(const wchar_t* string){
 	char* out_buf = new char[wcslen(string) + 1];
 
@@ -52,3 +53,5 @@ char* GGen_ToCString(const SqPlus::sq_std_string &string){
 
 	return buf;
 }
+
+*/

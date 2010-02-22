@@ -20,6 +20,7 @@
 #include <string>
 #include <math.h>
 #include <stdarg.h>
+#include <iostream>
 
 #include "ggen.h"
 #include "ggen_support.h"
@@ -55,8 +56,6 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 }
 
 GGen_Squirrel::GGen_Squirrel(){
-	//ggen_current_object = this;
-
 	SquirrelVM::Init();
 
 	sqstd_register_mathlib(SquirrelVM::GetVMPtr());
