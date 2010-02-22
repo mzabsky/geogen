@@ -51,9 +51,6 @@ using namespace SqPlus;
 #endif
 #endif
 
-//typedef GGEN_SCRIPT_API_CALL_ARG_STRING_TYPE SqPlus::sq_std_string &
-//typedef GGEN_API_SCRIPT_CALL_ARG_STRING_TYPE SqString &
-
 DECLARE_INSTANCE_TYPE(GGen_Data_1D)
 DECLARE_INSTANCE_TYPE(GGen_Data_2D)
 DECLARE_INSTANCE_TYPE(GGen_Amplitudes)
@@ -65,14 +62,14 @@ public:
 	GGen_Squirrel();
 	~GGen_Squirrel();
 
-	virtual bool SetScript(const char* script);
-	virtual char* GetInfo(char* label);
-	virtual int GetInfoInt(char* label);
+	virtual bool SetScript(const GGen_String& script);
+	virtual GGen_String GetInfo(const GGen_String& label);
+	virtual int GetInfoInt(const GGen_String& label);
 	virtual int16* Generate();
 	
-	virtual void RegisterPreset(GGen_Data_1D* preset, char* label);
-	virtual void RegisterPreset(GGen_Data_2D* preset, char* label);
-	virtual void RegisterPreset(GGen_Amplitudes* preset, char* label);
+	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label);
+	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label);
+	virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label);
 	
 	SquirrelObject* presetTarget;
 };
