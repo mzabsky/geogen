@@ -177,7 +177,7 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 		copy(_params.output_directory.begin(), _params.output_directory.end(), compatible_directory_name.begin());
 
 		path_out += compatible_directory_name + *name + GGen_Const_String(".") + format->suffix;
-		GGen_Cout << GGen_Const_String("Saving map \"") << name << GGen_Const_String("\" as \"") << path_out << GGen_Const_String("\"...\n") << flush;
+		GGen_Cout << GGen_Const_String("Saving map \"") << *name << GGen_Const_String("\" as \"") << path_out << GGen_Const_String("\"...\n") << flush;
 	}
 	
 	// is scaling wanted?
