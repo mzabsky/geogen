@@ -107,7 +107,7 @@ GGen_ScriptArg** GGen::LoadArgs(){
 		num_args = 0;
 	}
 
-	if(GetInfoInt("args") == -1) return NULL;
+	if(GetInfoInt(GGen_Const_String("args")) == -1) return NULL;
 
 	return args;
 }

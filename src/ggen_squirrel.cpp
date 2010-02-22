@@ -275,72 +275,38 @@ GGen_Squirrel::~GGen_Squirrel(){
 }
 
 
-bool GGen_Squirrel::SetScript(const char* script){
-	
-	wchar_t* buf = new wchar_t[strlen(script) + 1];
-	
-	mbstowcs(buf, script, strlen(script) + 1);
-
+bool GGen_Squirrel::SetScript(const GGen_String& script){
 	try {
-		SquirrelObject sqScript = SquirrelVM::CompileBuffer(buf);
+		SquirrelObject sqScript = SquirrelVM::CompileBuffer(script.c_str());
 
 		SquirrelVM::RunScript(sqScript);
-	
-		delete [] buf;
 
 		return true;
     } catch (SquirrelError &) {
-		delete [] buf;
-    
 		return false;
     }	
 }
 
-char* GGen_Squirrel::GetInfo(char* label){
-	SQChar* in_buf = new SQChar[strlen(label) + 1];
-	
+GGen_String GGen_Squirrel::GetInfo(const GGen_String& label){
 	try{
-		mbstowcs(in_buf, label, strlen(label));
+		SquirrelFunction<const SQChar*> callFunc(GGen_Const_String("GetInfo"));
 
-		in_buf[strlen(label)] = _SC('\0');
+		const SQChar* output = callFunc(label.c_str());
 
-		SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
-
-		SquirrelFunction<const SQChar*> callFunc(_SC("GetInfo"));
-
-		const SQChar* output =  callFunc(in_buf);
-
-		delete [] in_buf;
-
-		return GGen_ToCString(output);
+		return GGen_String(output);
 	}
 	catch(SquirrelError &){
-		delete [] in_buf;
-	
 		return NULL;
 	}
 }
 
-int GGen_Squirrel::GetInfoInt(char* label){
-	SQChar* in_buf = new SQChar[strlen(label) + 1];
-	
+int GGen_Squirrel::GetInfoInt(const GGen_String& label){
 	try{
-		mbstowcs(in_buf, label, strlen(label));
+		SquirrelFunction<int> callFunc(GGen_Const_String("GetInfo"));
 
-		in_buf[strlen(label)]=_SC('\0');
-
-		SqPlus::sq_std_string input = SqPlus::sq_std_string(in_buf);
-
-		SquirrelFunction<int> callFunc(_SC("GetInfo"));
-		int ret = callFunc(in_buf);
-		
-		delete [] in_buf;
-		
-		return ret;
+		return callFunc(label.c_str());
 	}
 	catch(SquirrelError &){
-		delete [] in_buf;
-	
 		return -1;
 	}
 }
@@ -351,7 +317,7 @@ int16* GGen_Squirrel::Generate(){
 		GGen_Data_2D* data;
 
 		{
-			SquirrelFunction<GGen_Data_2D*> callFunc(_SC("Generate"));
+			SquirrelFunction<GGen_Data_2D*> callFunc(GGen_Const_String("Generate"));
 			
 			presetTarget = &callFunc.object;
 			
@@ -385,40 +351,16 @@ int16* GGen_Squirrel::Generate(){
     }
 }
 
-void GGen_Squirrel::RegisterPreset(GGen_Data_1D* preset, char* label){
-	SQChar* in_buf = new SQChar[strlen(label) + 1];
-
-	mbstowcs(in_buf, label, strlen(label));
-
-	in_buf[strlen(label)]=_SC('\0');
-
-	BindVariable(*presetTarget, preset, in_buf, VAR_ACCESS_READ_ONLY);
-
-	delete [] in_buf;
+void GGen_Squirrel::RegisterPreset(GGen_Data_1D* preset, const GGen_String& label){
+	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
 }
 
-void GGen_Squirrel::RegisterPreset(GGen_Data_2D* preset, char* label){
-	SQChar* in_buf = new SQChar[strlen(label) + 1];
-
-	mbstowcs(in_buf, label, strlen(label));
-
-	in_buf[strlen(label)]=_SC('\0');
-
-	BindVariable(*presetTarget, preset, in_buf, VAR_ACCESS_READ_ONLY);
-
-	delete [] in_buf;
+void GGen_Squirrel::RegisterPreset(GGen_Data_2D* preset, const GGen_String& label){
+	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
 }
 
-void GGen_Squirrel::RegisterPreset(GGen_Amplitudes* preset, char* label){
-	SQChar* in_buf = new SQChar[strlen(label) + 1];
-
-	mbstowcs(in_buf, label, strlen(label));
-
-	in_buf[strlen(label)]=_SC('\0');
-
-	BindVariable(*presetTarget, preset, in_buf, VAR_ACCESS_READ_ONLY);
-
-	delete [] in_buf;
+void GGen_Squirrel::RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label){
+	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
 }
 
 

@@ -18,7 +18,7 @@ ggen_std_noise.AddAmplitude(1024, 1000 * 15);
 ggen_std_noise.AddAmplitude(2048, 1400 * 15);
 ggen_std_noise.AddAmplitude(4096, 2000 * 15);
 
-RegisterPreset(&ggen_std_noise, "GGEN_STD_NOISE");
+RegisterPreset(&ggen_std_noise, GGen_Const_String("GGEN_STD_NOISE"));
 
 /* GGEN_NATURAL_PROFILE */
 
@@ -29,4 +29,4 @@ ggen_natural_profile.SetValue(3, 91 * 15);
 ggen_natural_profile.SetValue(4, 163 * 15);
 ggen_natural_profile.SetValue(5, 255 * 15);
 
-RegisterPreset(&ggen_natural_profile, "GGEN_NATURAL_PROFILE");
+RegisterPreset(&ggen_natural_profile, GGen_Const_String("GGEN_NATURAL_PROFILE"));

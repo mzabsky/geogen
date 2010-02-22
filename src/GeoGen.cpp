@@ -135,10 +135,16 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 
 	BMP overlay;
 	if(((_params.overlay_as_copy && enable_overlay) || (!_params.overlay_as_copy))  && _params.overlay_file.length() > 0){
-		//if(!overlay.ReadFromFile(_params.overlay_file.c_str())){
-		//	cout << "Could  not open overlay file!\n" << flush;
-		//	return false;
-		//}
+		char* buf = new char[_params.overlay_file.length() + 1];
+		wcstombs(buf, _params.overlay_file.c_str(), _params.overlay_file.length());
+		buf[_params.overlay_file.length()] = '\0';
+		
+		if(!overlay.ReadFromFile(buf)){
+			cout << "Could  not open overlay file!\n" << flush;
+			return false;
+		}
+
+		delete [] buf;
 		
 		if(overlay.TellWidth() == 256) format = &_formats[NUM_FORMATS];
 		else if(overlay.TellWidth() == 511) format = &_formats[NUM_FORMATS + 1];
@@ -220,32 +226,32 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 		}
 	}
 
-	if(format->suffix == GGen_Const_String("bmp")){
-		BMP output;
+		if(format->suffix == GGen_Const_String("bmp")){
+			BMP output;
 
-		output.SetBitDepth(32);
+			output.SetBitDepth(32);
 
-		output.SetSize(width, height);
+			output.SetSize(width, height);
 
-		if(_params.overlay_file == GGen_Const_String("") || !enable_overlay){
-			for(unsigned int i = 0; i < height; i++){
-				for(unsigned int j = 0; j < width; j++){
-					output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
-				}		
+			if(_params.overlay_file == GGen_Const_String("") || !enable_overlay){
+				for(unsigned int i = 0; i < height; i++){
+					for(unsigned int j = 0; j < width; j++){
+						output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
+					}		
+				}
 			}
-		}
-		else{
-			for(unsigned int i = 0; i < height; i++){
-				for(unsigned int j = 0; j < width; j++){
-					if(_params.grid_size > 1 && (j % _params.grid_size == 0 || i % _params.grid_size == 0)){
-						output(j,i)->Red = 128;
-						output(j,i)->Green = 128;
-						output(j,i)->Blue = 128;					
-						
-						continue;
-					}
-				
-					int xInOverlay = data[j + width * i];
+			else{
+				for(unsigned int i = 0; i < height; i++){
+					for(unsigned int j = 0; j < width; j++){
+						if(_params.grid_size > 1 && (j % _params.grid_size == 0 || i % _params.grid_size == 0)){
+							output(j,i)->Red = 128;
+							output(j,i)->Green = 128;
+							output(j,i)->Blue = 128;					
+							
+							continue;
+						}
+					
+						int xInOverlay = data[j + width * i];
 					
 					if(overlay.TellWidth() == 511) xInOverlay += 255;
 				
@@ -256,15 +262,13 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 			}
 		}
 
-		GGen_String stri = path_out;
-
 		char* buf = new char[path_out.length() + 1];
 		wcstombs(buf, path_out.c_str(), path_out.length());
 		buf[path_out.length()] = '\0';
 
 		output.WriteToFile(buf);
 
-		delete buf;
+		delete [] buf;
 	}
 	else if(format->suffix == GGen_Const_String("shd")){
 		int iWidth = width;
@@ -393,16 +397,14 @@ int main(int argc,char * argv[]){
 	
 	for(int i = 0; i < NUM_FORMATS; i++){
 		if(_params.output_file.length() < 5) continue;
-		/*else if(_params.output_file.substr(_params.output_file.length() - 3, 3) == _formats[i].suffix){
+		else if(_params.output_file.substr(_params.output_file.length() - 3, 3) == _formats[i].suffix){
 			_params.output_format = &_formats[i];
 			break;
-		}*/
-
-		_params.output_format = &_formats[0];
+		}
 	}	
 	
 	// load the script from file
-	ifstream in_stream;
+	wifstream in_stream;
 	in_stream.open(_params.input_file.c_str());
 
 	if(!in_stream.is_open()){
@@ -412,10 +414,10 @@ int main(int argc,char * argv[]){
 	}
 
 	// read the file line by line
-	string str,strTotal;
+	GGen_String str, strTotal;
 	getline(in_stream,str);
 	while ( in_stream ) {
-	   strTotal += "\n" + str;
+	   strTotal += GGen_Const_String("\n") + str;
 	   getline(in_stream,str);
 	}
 
@@ -430,7 +432,7 @@ int main(int argc,char * argv[]){
 	ggen->SetProgressCallback(ProgressHandler);
 
 	// pump the script into the engine and compile it
-	if(!ggen->SetScript(strTotal.c_str())){
+	if(!ggen->SetScript(strTotal)){
 		cout << "Compilation failed!\n" << flush;
 		delete ggen;
 		if(_params.stupid_mode) system("pause");

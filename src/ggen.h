@@ -58,9 +58,9 @@ public:
 	void SetReturnCallback( void (*return_callback) (const GGen_String& name, const int16* map, int width, int height) );
 	void SetProgressCallback( void (*return_callback) (int current_progress, int max_progress));
 	
-	virtual bool SetScript(const char* script) = 0;
-	virtual char* GetInfo(char* label) = 0;
-	virtual int GetInfoInt(char* label) = 0;
+	virtual bool SetScript(const GGen_String& script) = 0;
+	virtual GGen_String GetInfo(const GGen_String& label) = 0;
+	virtual int GetInfoInt(const GGen_String& label) = 0;
 	virtual GGen_ScriptArg** LoadArgs();
 	virtual int16* Generate() = 0;
 	
@@ -77,7 +77,7 @@ public:
 	static void SetProgress(uint32 current_progress);
 	static void IncreaseProgress();
 	
-	virtual void RegisterPreset(GGen_Data_1D* preset, char* label) = 0;
-	virtual void RegisterPreset(GGen_Data_2D* preset, char* label) = 0;
-	virtual void RegisterPreset(GGen_Amplitudes* preset, char* label) = 0;
+	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label) = 0;
+	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label) = 0;
+	virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label) = 0;
 };
