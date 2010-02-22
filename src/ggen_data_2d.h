@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "sqplus.h"
 #include "ggen_support.h"
 #include "ggen_path.h"
 
