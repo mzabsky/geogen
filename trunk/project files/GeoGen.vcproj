@@ -209,10 +209,6 @@
 				RelativePath="..\src\ggen_scriptarg.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\src\ggen_string.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -196,9 +196,4 @@ inline int GGen_log2(int x){
 	return (int16) (log10((double) x)/ base);
 }
 
-char* GGen_ToCString(const char* string);
-char* GGen_ToCString(const wchar_t* string);
-char* GGen_ToCString(const SqPlus::sq_std_string &string);
-
-
 #endif
