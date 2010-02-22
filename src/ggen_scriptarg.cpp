@@ -17,9 +17,6 @@
 
 */
 
-#include "sqplus.h"
-
-
 #include "ggen_support.h"
 #include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
@@ -39,7 +36,7 @@ bool GGen_ScriptArg::SetValue(int new_value){
 		return false;
 	}
 
-	if(strict_steps && (new_value - min_value) % step_size != 0){
+	if((new_value - min_value) % step_size != 0){
 		value = new_value - (new_value - min_value) % step_size;
 		return false;
 	}
@@ -49,21 +46,18 @@ bool GGen_ScriptArg::SetValue(int new_value){
 	return true;
 }
 
-void GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, int min_value, int max_value, int step_size){
+void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, int min_value, int max_value, int step_size){
 	GGen_ScriptArg* arg = new GGen_ScriptArg();
 
 	arg->type = GGEN_INT;
 
-	arg->name = GGen_ToCString(name);
-	arg->label = GGen_ToCString(label);
-	arg->description = GGen_ToCString(description);
+	arg->name = name;
+	arg->label = label;
+	arg->description = description;
 	arg->default_value = default_value;
 	arg->min_value = min_value;
 	arg->max_value = max_value;
 	arg->step_size = step_size;
-	//arg->strict_steps = strict_steps;
-	arg->options = NULL;
-	arg->num_options = 0;
 
 	arg->value = default_value;
 
@@ -71,21 +65,18 @@ void GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_stri
 	GGen::GetInstance()->num_args++;
 };
 
-void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, bool default_value){
+void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, bool default_value){
 	GGen_ScriptArg* arg = new GGen_ScriptArg();
 
 	arg->type = GGEN_BOOL;
 
-	arg->name = GGen_ToCString(name);
-	arg->label = GGen_ToCString(label);
-	arg->description = GGen_ToCString(description);
+	arg->name = name;
+	arg->label = label;
+	arg->description = description;
 	arg->default_value = default_value ? 1 : 0;
 	arg->min_value = 0;
 	arg->max_value = 1;
 	arg->step_size = 1;
-	//arg->strict_steps = strict_steps;
-	arg->options = NULL;
-	arg->num_options = 0;
 
 	arg->value = default_value;
 
@@ -93,47 +84,34 @@ void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_str
 	GGen::GetInstance()->num_args++;
 };
 
-void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, const SqPlus::sq_std_string &options){
+void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, const GGen_String& options){
 	GGen_ScriptArg* arg = new GGen_ScriptArg();
 
 	arg->type = GGEN_ENUM;
 
-	arg->name = GGen_ToCString(name);
-	arg->label = GGen_ToCString(label);
-	arg->description = GGen_ToCString(description);
+	arg->name = name;
+	arg->label = label;
+	arg->description = description;
 	arg->default_value = default_value;
 
-	char* options_c = GGen_ToCString(options);
+	GGen_Script_Assert(options.length() > 0);
 
-	GGen_Script_Assert(strlen(options_c) > 0);
-
-	int len = strlen(options_c);
 	int from = 0;
 	int option_i = 0;
-	arg->options = new char*[255];
 
-	for(uint8 i = 0; i <= len; i++){
-		if(i == len || options_c[i] == ';'){
-			arg->options[option_i] = new char[i - from + 1];
-			strncpy(arg->options[option_i],options_c + from, i - from);
-			arg->options[option_i][i - from] = '\0';
+	for(uint16 i = 0; i <= options.length(); i++){
+		if(i == options.length() || options[i] == GGen_Const_String(';')){
+			arg->options.push_back(options.substr(from, i - from));
 
 			from = ++i;
-			option_i++;
 		}
 	}
 
-	delete options_c;
-
-	arg->num_options = option_i;
-
-	GGen_Script_Assert(arg->num_options > default_value);
+	GGen_Script_Assert((signed) arg->options.size() > default_value);
 
 	arg->min_value = 0;
 	arg->max_value = option_i - 1;
 	arg->step_size = 1;
-	//arg->strict_steps = strict_steps;
-
 
 	arg->value = default_value;
 
@@ -142,17 +120,15 @@ void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_str
 }
 
 
-int GGen_GetParam(const SqPlus::sq_std_string &name){
-	char* buf = GGen_ToCString(name);
+int GGen_GetParam(const GGen_String& name){
 
 	for(uint8 i = 0; i < GGen::GetInstance()->num_args; i++){
-		if(strcmp(GGen::GetInstance()->args[i]->name,buf) == 0){
-			delete buf;
+		if(GGen::GetInstance()->args[i]->name == name){
 			return GGen::GetInstance()->args[i]->value;
 		}
 	}
 
-	GGen::GetInstance()->ThrowMessage(GGen_Const_String("Current map doesn't support requested argument."),GGEN_ERROR);
+	GGen::GetInstance()->ThrowMessage(GGen_Const_String("Current map doesn't support requested argument."), GGEN_ERROR);
 
 	return 0;
 }

@@ -21,12 +21,14 @@
 #include <vector>
 #include <string>
 
+#define _CRT_SECURE_NO_WARNINGS
+
 class ArgDesc{
     struct Argument{
-        char short_name;
-        std::string long_name;
-        std::string desc;
-        std::string param_name;
+        wchar_t short_name;
+        std::basic_string<wchar_t> long_name;
+        std::basic_string<wchar_t> desc;
+        std::basic_string<wchar_t> param_name;
         char type;
         void* var;        
     };
@@ -44,17 +46,31 @@ class ArgDesc{
     };
 
 
-    std::vector<std::string> args_in;
+    std::vector<std::basic_string<wchar_t> > args_in;
     std::vector<Argument*> args_def;
-    std::vector<std::string>* pos_args;
+    std::vector<std::basic_string<wchar_t> >* pos_args;
 
 public:
 
     ArgDesc(int argc, char** argv){
-        args_in = std::vector<std::string>(argv, argv + argc);
+		// convert the input parameters to unicode
+		wchar_t** wargv = new wchar_t*[argc];
+
+		for(int i = 0; i < argc; i++){
+			wargv[i] = new wchar_t[strlen(argv[i]) + 1];
+
+			mbstowcs(wargv[i], argv[i], strlen(argv[i]));
+
+			wargv[i][strlen(argv[i])] = '\0';
+		}
+
+		// convert the inwieldy array into vector
+        args_in = std::vector<std::basic_string<wchar_t> >(wargv, wargv + argc);
+
+		delete wargv;
     }
 
-    void AddBoolArg(char short_name, std::string long_name, std::string desc, bool* var){
+    void AddBoolArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, bool* var){
         Argument* p = new Argument;
         p->short_name = short_name;
         p->long_name = long_name;
@@ -65,7 +81,7 @@ public:
         args_def.push_back(p);
     }
 
-    void AddStringArg(char short_name, std::string long_name, std::string desc, std::string param_name, std::string* var){
+    void AddStringArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, std::basic_string<wchar_t> param_name, std::basic_string<wchar_t>* var){
         Argument* p = new Argument;
         p->short_name = short_name;
         p->long_name = long_name;
@@ -77,7 +93,7 @@ public:
         args_def.push_back(p);
     }
 
-    void AddIntArg(char short_name, std::string long_name, std::string desc, std::string param_name, int* var){
+    void AddIntArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, std::basic_string<wchar_t> param_name, int* var){
         Argument* p = new Argument;
         p->short_name = short_name;
         p->long_name = long_name;
@@ -89,7 +105,7 @@ public:
         args_def.push_back(p);
     }
     
-    void SetPosArgsVector(std::vector<std::string>& pos_args){
+    void SetPosArgsVector(std::vector<std::basic_string<wchar_t>>& pos_args){
 		this->pos_args = &pos_args;
     }
 
@@ -101,7 +117,7 @@ public:
         for(unsigned i = 1; i < args_in.size(); i++){
             //expecting integer
             if(next_action == E_INT){
-                *(int*) next_var = atoi(args_in[i].c_str());
+                *(int*) next_var = _wtoi(args_in[i].c_str());
 
                 next_action = UNKNOWN;
                 continue;
@@ -109,7 +125,7 @@ public:
 
             //expecting string
             else if(next_action == E_STR){
-                *(std::string*) next_var = args_in[i];
+                *(std::basic_string<wchar_t>*) next_var = args_in[i];
 
                 next_action = UNKNOWN;
                 continue;
@@ -117,7 +133,7 @@ public:
             
             // arg named by its long name
             else if(args_in[i][0] == '-' && args_in[i][1] == '-'){
-                std::string name = args_in[i].substr(2, args_in[i].length() - 2);
+                std::basic_string<wchar_t> name = args_in[i].substr(2, args_in[i].length() - 2);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
                     if(name == args_def[j]->long_name){
@@ -137,7 +153,7 @@ public:
             }
             // arg named by its short name
             else if(args_in[i][0] == '-'){
-                char name = args_in[i].substr(1 + offset, args_in[i].length() - 1 - offset).at(0);
+                wchar_t name = args_in[i].substr(1 + offset, args_in[i].length() - 1 - offset).at(0);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
                     if(name == args_def[j]->short_name){
@@ -176,15 +192,15 @@ public:
     
     void PrintHelpString(){
 		for(unsigned i = 0; i < args_def.size(); i++){
-			std::cout << "       -" << args_def[i]->short_name;
-			if(args_def[i]->type != T_BOOL) std::cout << " " << args_def[i]->param_name;
+			std::wcout << "       -" << args_def[i]->short_name;
+			if(args_def[i]->type != T_BOOL) std::wcout << " " << args_def[i]->param_name;
 			
-			std::cout << ", --" << args_def[i]->long_name;
-			if(args_def[i]->type != T_BOOL) std::cout << " " << args_def[i]->param_name;
+			std::wcout << ", --" << args_def[i]->long_name;
+			if(args_def[i]->type != T_BOOL) std::wcout << " " << args_def[i]->param_name;
 			
-			std::cout << std::endl;
+			std::wcout << std::endl;
 			
-			std::cout << "	      " << args_def[i]->desc << std::endl << std::endl;
+			std::wcout << "	      " << args_def[i]->desc << std::endl << std::endl;
 		}
     }
 };

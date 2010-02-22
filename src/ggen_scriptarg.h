@@ -19,32 +19,30 @@
 
 #pragma once
 
+#include <vector>
 #include "ggen_support.h"
-#include "sqplus.h"
 
 class GGen_ScriptArg{
 public:
 	int value;
-	char* name;
-	char* label;
-	char* description;
+	GGen_String name;
+	GGen_String label;
+	GGen_String description;
 	GGen_Arg_Type type;
 	int min_value;
 	int max_value;
 	int default_value;
 	int step_size;
-	char** options;
-	int num_options;
-	bool strict_steps;
+	vector<GGen_String> options;;
 
 	bool SetValue(int new_value);
 
 };
 
 
-void GGen_AddIntArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, int min_value, int max_value, int step_size);
-void GGen_AddBoolArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, bool default_value);
-void GGen_AddEnumArg(const SqPlus::sq_std_string &name, const SqPlus::sq_std_string &label, const SqPlus::sq_std_string &description, int default_value, const SqPlus::sq_std_string &options);
+void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, int min_value, int max_value, int step_size);
+void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, bool default_value);
+void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, const GGen_String& options);
 
 
-int GGen_GetParam(const SqPlus::sq_std_string &name);
+int GGen_GetParam(const GGen_String& name);

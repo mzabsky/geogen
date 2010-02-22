@@ -421,6 +421,7 @@ int main(int argc,char * argv[]){
 	   getline(in_stream,str);
 	}
 
+
 	in_stream.close();
 
 	// create the primary GeoGen object (use Squirrel script interface)
@@ -470,20 +471,20 @@ int main(int argc,char * argv[]){
 		for(uint8 i = 0; i < ggen->num_args; i++){
 			GGen_ScriptArg* a = ggen->args[i];
 			
-			char type = 'N';
+			GGen_Char type = GGen_Const_String('N');
 			
 			switch(a->type){
-				case GGEN_BOOL : type = 'B'; break;
-				case GGEN_INT : type = 'I'; break;
-				case GGEN_ENUM : type = 'E'; break;
+				case GGEN_BOOL : type = GGen_Const_String('B'); break;
+				case GGEN_INT : type = GGen_Const_String('I'); break;
+				case GGEN_ENUM : type = GGen_Const_String('E'); break;
 			}
 			
-			cout << a->label << ";" <<  a->description << ";" << type << ";" << a->default_value << ";" << a->min_value << ";" << a->max_value << ";" << a->step_size << ";" << a->num_options << ";";
+			GGen_Cout << a->label << GGen_Const_String(";") <<  a->description << GGen_Const_String(";") << type << GGen_Const_String(";") << a->default_value << GGen_Const_String(";") << a->min_value << GGen_Const_String(";") << a->max_value << GGen_Const_String(";") << a->step_size << GGen_Const_String(";") << a->options.size() << GGen_Const_String(";");
 		
 			if(a->type == GGEN_ENUM){
-				for(int j = 0; j < a->num_options; j++){
+				for(unsigned j = 0; j < a->options.size(); j++){
 					if(j > 0) cout << ",";
-					cout << a->options[j];
+					GGen_Cout << a->options[j];
 				}
 			}
 			
@@ -505,14 +506,14 @@ int main(int argc,char * argv[]){
 
 			char* buf = new char[16];
 
-			cout << "	" << ggen->args[i]->label << " (";
+			GGen_Cout << GGen_Const_String("	") << ggen->args[i]->label << GGen_Const_String(" (");
 			
 			if(ggen->args[i]->type == GGEN_INT) cout << "integer in range " << ggen->args[i]->min_value << "-" << ggen->args[i]->max_value << "): ";
 			else if(ggen->args[i]->type == GGEN_BOOL) cout << "0 = No, 1 = Yes): ";
 			else if(ggen->args[i]->type == GGEN_ENUM) {
-				for(int j = 0; j < ggen->args[i]->num_options; j++){
+				for(unsigned j = 0; j < ggen->args[i]->options.size(); j++){
 					if(j > 0) cout << ", ";
-					cout << j << " = " << ggen->args[i]->options[j];
+					GGen_Cout << j << GGen_Const_String(" = ") << ggen->args[i]->options[j];
 				}
 				cout << "): ";
 			}
