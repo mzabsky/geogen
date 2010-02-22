@@ -57,7 +57,7 @@ GGen* GGen::GetInstance(){
 	return GGen::instance;
 }
 
-void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int column){
+void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
 	
 	if(message_callback != NULL){
 		this->message_callback(message, level, line, column);
@@ -65,31 +65,31 @@ void GGen::ThrowMessage(char* message, GGen_Message_Level level, int line, int c
 	else{
 		switch(level){
 			case GGEN_MESSAGE:
-				if(line != -1) cout << "GGen Message: " << message << " on line " << line << "\n" << flush;
-				else cout << "GGen Message: " << message <<  "\n";
+				if(line != -1) GGen_Cout << "GGen Message: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Message: " << message <<  "\n";
 				break;
 			case GGEN_NOTICE:
-				if(line != -1) cout << "GGen Notice: " << message << " on line " << line << "\n" << flush;
-				else cout << "GGen Notice: " << message <<  "\n";
+				if(line != -1) GGen_Cout << "GGen Notice: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Notice: " << message <<  "\n";
 				break;
 			case GGEN_WARNING:
-				if(line != -1) cout << "GGen Warning: " << message << " on line " << line << "\n" << flush;
-				else cout << "GGen Warning: " << message <<  "\n";
+				if(line != -1) GGen_Cout << "GGen Warning: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Warning: " << message <<  "\n";
 				break;
 			case GGEN_ERROR:
-				if(line != -1) cout << "GGen Error: " << message << " on line " << line << "\n" << flush;
-				else cout << "GGen Error: " << message <<  "\n" << flush;
+				if(line != -1) GGen_Cout << "GGen Error: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Error: " << message <<  "\n" << flush;
 				break;
 		}
 	}
 
 }
 
-void GGen::SetMessageCallback( void (*message_callback) (char* message, GGen_Message_Level, int line, int column) ){
+void GGen::SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column) ){
 	this->message_callback = message_callback;
 }
 
-void GGen::SetReturnCallback( void (*return_callback) (char* name, const int16* map, int width, int height) ){
+void GGen::SetReturnCallback( void (*return_callback) (const GGen_String& name, const int16* map, int width, int height) ){
 	this->return_callback = return_callback;
 }
 
@@ -110,21 +110,6 @@ GGen_ScriptArg** GGen::LoadArgs(){
 	if(GetInfoInt("args") == -1) return NULL;
 
 	return args;
-}
-
-void GGen::ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line, int column){
-
-	int len = wcslen(message);
-
-	char* buf = new char[len + 1];
-
-	wcstombs(buf, message, len + 1); 
-	
-	buf[len] = '\0';
-
-	ThrowMessage(buf, level, line, column);
-	
-	delete [] buf;
 }
 
 void GGen::SetMaxWidth(GGen_Size width){
