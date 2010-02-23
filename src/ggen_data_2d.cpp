@@ -1384,8 +1384,6 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 		GGen_Point* currentPoint = &*i;
 		GGen_Point* nextPoint = NULL;
 
-		cout << currentPoint->x << " " << currentPoint->y << endl;
-
 		/* Move the iterator so we can access the next element */
 		i++;
 
@@ -1692,10 +1690,10 @@ GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
 			}
 		}
 
-		return extreme;
+		
 	}
 
-	return 0;
+	return extreme;
 }
 
 GGen_Height GGen_Data_2D::GetMaxValueOnPath(GGen_Path* path){
