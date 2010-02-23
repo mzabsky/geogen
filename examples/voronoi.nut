@@ -39,7 +39,7 @@ function Generate(){
 	
 	noise.Noise(2, 400, GGEN_STD_NOISE);
 	
-	noise.ScaleValuesTo(-base.Max() / 2, base.Max() / 2);
+	noise.ScaleValuesTo(- 2 * base.Max() / 3, 2 * base.Max() / 3);
 	
 	base.AddMap(noise);
 
