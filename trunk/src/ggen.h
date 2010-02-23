@@ -35,9 +35,7 @@ public:
 	void (*return_callback) (const GGen_String& name, const int16* map, int width, int height);
 	void (*progress_callback) (int current_progress, int max_progress);
 
-
-	GGen_ScriptArg* args[255];
-	uint8 num_args;
+	vector<GGen_ScriptArg> args;
 
 	uint16 output_width, output_height;
 
@@ -61,7 +59,7 @@ public:
 	virtual bool SetScript(const GGen_String& script) = 0;
 	virtual GGen_String GetInfo(const GGen_String& label) = 0;
 	virtual int GetInfoInt(const GGen_String& label) = 0;
-	virtual GGen_ScriptArg** LoadArgs();
+	virtual vector<GGen_ScriptArg>* LoadArgs();
 	virtual int16* Generate() = 0;
 	
 	void SetMaxWidth(GGen_Size width);

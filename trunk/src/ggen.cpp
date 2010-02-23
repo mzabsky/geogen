@@ -45,8 +45,6 @@ GGen::GGen(){
 	this->progress_callback = NULL;
 
 	this->max_progress = this->current_progress = 0;
-
-	this->num_args = 0;
 }
 
 GGen::~GGen(){
@@ -97,19 +95,10 @@ void GGen::SetProgressCallback( void (*progress_callback) (int current_progress,
 	this->progress_callback = progress_callback;
 }
 
-GGen_ScriptArg** GGen::LoadArgs(){
-	// free current array of args
-	if(args != NULL){
-		for(uint8 i = 0; i < num_args; i++){
-			delete args[i];
-		}
-		
-		num_args = 0;
-	}
-
+vector<GGen_ScriptArg>* GGen::LoadArgs(){
 	if(GetInfoInt(GGen_Const_String("args")) == -1) return NULL;
 
-	return args;
+	return &this->args;
 }
 
 void GGen::SetMaxWidth(GGen_Size width){

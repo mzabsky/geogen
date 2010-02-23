@@ -449,7 +449,9 @@ int main(int argc,char * argv[]){
 	cout << "Loading map info...\n" << flush;
 
 	// fetch the list of arguments from the script file
-	if(ggen->LoadArgs() == NULL){
+	vector<GGen_ScriptArg>* script_args = ggen->LoadArgs();
+	
+	if(script_args == NULL){
 		cout << "Could not retrieve map information!\n" << flush;
 		delete ggen;
 		if(_params.stupid_mode) system("pause");
@@ -468,23 +470,31 @@ int main(int argc,char * argv[]){
 	// param list mode
 	if(_params.param_list_mode){
 		cout << "PARAMS\n" << flush;
-		for(uint8 i = 0; i < ggen->num_args; i++){
-			GGen_ScriptArg* a = ggen->args[i];
+		for(unsigned i = 0; i < script_args->size(); i++){
+			GGen_ScriptArg* current_arg = &(*script_args)[i];
 			
 			GGen_Char type = GGen_Const_String('N');
 			
-			switch(a->type){
+			switch(current_arg->type){
 				case GGEN_BOOL : type = GGen_Const_String('B'); break;
 				case GGEN_INT : type = GGen_Const_String('I'); break;
 				case GGEN_ENUM : type = GGen_Const_String('E'); break;
 			}
 			
-			GGen_Cout << a->label << GGen_Const_String(";") <<  a->description << GGen_Const_String(";") << type << GGen_Const_String(";") << a->default_value << GGen_Const_String(";") << a->min_value << GGen_Const_String(";") << a->max_value << GGen_Const_String(";") << a->step_size << GGen_Const_String(";") << a->options.size() << GGen_Const_String(";");
+			GGen_Cout << 
+				current_arg->label << GGen_Const_String(";") <<  
+				current_arg->description << GGen_Const_String(";") << 
+				type << GGen_Const_String(";") << 
+				current_arg->default_value << GGen_Const_String(";") << 
+				current_arg->min_value << GGen_Const_String(";") << 
+				current_arg->max_value << GGen_Const_String(";") << 
+				current_arg->step_size << GGen_Const_String(";") << 
+				current_arg->options.size() << GGen_Const_String(";");
 		
-			if(a->type == GGEN_ENUM){
-				for(unsigned j = 0; j < a->options.size(); j++){
+			if(current_arg->type == GGEN_ENUM){
+				for(unsigned j = 0; j < current_arg->options.size(); j++){
 					if(j > 0) cout << ",";
-					GGen_Cout << a->options[j];
+					GGen_Cout << current_arg->options[j];
 				}
 			}
 			
@@ -501,19 +511,19 @@ int main(int argc,char * argv[]){
 		cout << "	Please set map parameters:\n";
 		
 		// loop through all the map arguments 
-		for(uint8 i = 0; i < ggen->num_args; i++){
-			GGen_ScriptArg* a = ggen->args[i];
+		for(unsigned i = 0; i < script_args->size(); i++){
+			GGen_ScriptArg* current_arg = &(*script_args)[i];
 
 			char* buf = new char[16];
 
-			GGen_Cout << GGen_Const_String("	") << ggen->args[i]->label << GGen_Const_String(" (");
+			GGen_Cout << GGen_Const_String("	") << current_arg->label << GGen_Const_String(" (");
 			
-			if(ggen->args[i]->type == GGEN_INT) cout << "integer in range " << ggen->args[i]->min_value << "-" << ggen->args[i]->max_value << "): ";
-			else if(ggen->args[i]->type == GGEN_BOOL) cout << "0 = No, 1 = Yes): ";
-			else if(ggen->args[i]->type == GGEN_ENUM) {
-				for(unsigned j = 0; j < ggen->args[i]->options.size(); j++){
+			if(current_arg->type == GGEN_INT) cout << "integer in range " << current_arg->min_value << "-" << current_arg->max_value << "): ";
+			else if(current_arg->type == GGEN_BOOL) cout << "0 = No, 1 = Yes): ";
+			else if(current_arg->type == GGEN_ENUM) {
+				for(unsigned j = 0; j < current_arg->options.size(); j++){
 					if(j > 0) cout << ", ";
-					GGen_Cout << j << GGen_Const_String(" = ") << ggen->args[i]->options[j];
+					GGen_Cout << j << GGen_Const_String(" = ") << current_arg->options[j];
 				}
 				cout << "): ";
 			}
@@ -522,8 +532,8 @@ int main(int argc,char * argv[]){
 
 			// use default (or random if in allrandom mode) value if fist char of the input is not number
 			if(buf[0] >= '0' && buf[0] <= '9') {
-				if(_params.all_random) ggen->args[i]->SetValue(random(ggen->args[i]->min_value, ggen->args[i]->max_value));
-				else ggen->args[i]->SetValue(atoi(buf));
+				if(_params.all_random) current_arg->SetValue(random(current_arg->min_value, current_arg->max_value));
+				else current_arg->SetValue(atoi(buf));
 			}
 			
 			delete buf;
@@ -532,15 +542,16 @@ int main(int argc,char * argv[]){
 	// auto mode
 	else{
 		// loop through all the map arguments 
-		for(uint8 i = 0; i < ggen->num_args; i++){
+		for(unsigned i = 0; i < script_args->size(); i++){
+			GGen_ScriptArg* current_arg = &(*script_args)[i];
 
 			if(i < _params.script_args.size() && _params.script_args[i] != GGen_Const_String("r") && _params.script_args[i] != GGen_Const_String("d")){
-				ggen->args[i]->SetValue(_wtoi(_params.script_args[i].c_str()));
+				current_arg->SetValue(_wtoi(_params.script_args[i].c_str()));
 			}
 
 			// should the value be generated randomly?
 			else if(_params.all_random || (i < _params.script_args.size() && _params.script_args[i] == GGen_Const_String("r"))){
-				ggen->args[i]->SetValue(random(ggen->args[i]->min_value, ggen->args[i]->max_value));
+				current_arg->SetValue(random(current_arg->min_value, current_arg->max_value));
 			}
 		}
 	}
