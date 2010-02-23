@@ -24,8 +24,6 @@
 #include "ggen_scriptarg.h"
 
 bool GGen_ScriptArg::SetValue(int new_value){
-	//bool return_value;
-
 	if(new_value < min_value) {
 		value = min_value;
 		return false;
@@ -47,52 +45,50 @@ bool GGen_ScriptArg::SetValue(int new_value){
 }
 
 void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, int min_value, int max_value, int step_size){
-	GGen_ScriptArg* arg = new GGen_ScriptArg();
+	GGen_ScriptArg arg;
 
-	arg->type = GGEN_INT;
+	arg.type = GGEN_INT;
 
-	arg->name = name;
-	arg->label = label;
-	arg->description = description;
-	arg->default_value = default_value;
-	arg->min_value = min_value;
-	arg->max_value = max_value;
-	arg->step_size = step_size;
+	arg.name = name;
+	arg.label = label;
+	arg.description = description;
+	arg.default_value = default_value;
+	arg.min_value = min_value;
+	arg.max_value = max_value;
+	arg.step_size = step_size;
 
-	arg->value = default_value;
+	arg.value = default_value;
 
-	GGen::GetInstance()->args[GGen::GetInstance()->num_args] = arg;
-	GGen::GetInstance()->num_args++;
+	GGen::GetInstance()->args.push_back(arg);
 };
 
 void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, bool default_value){
-	GGen_ScriptArg* arg = new GGen_ScriptArg();
+	GGen_ScriptArg arg;
 
-	arg->type = GGEN_BOOL;
+	arg.type = GGEN_BOOL;
 
-	arg->name = name;
-	arg->label = label;
-	arg->description = description;
-	arg->default_value = default_value ? 1 : 0;
-	arg->min_value = 0;
-	arg->max_value = 1;
-	arg->step_size = 1;
+	arg.name = name;
+	arg.label = label;
+	arg.description = description;
+	arg.default_value = default_value ? 1 : 0;
+	arg.min_value = 0;
+	arg.max_value = 1;
+	arg.step_size = 1;
 
-	arg->value = default_value;
+	arg.value = default_value;
 
-	GGen::GetInstance()->args[GGen::GetInstance()->num_args] = arg;
-	GGen::GetInstance()->num_args++;
+	GGen::GetInstance()->args.push_back(arg);
 };
 
 void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, const GGen_String& options){
-	GGen_ScriptArg* arg = new GGen_ScriptArg();
+	GGen_ScriptArg arg;
 
-	arg->type = GGEN_ENUM;
+	arg.type = GGEN_ENUM;
 
-	arg->name = name;
-	arg->label = label;
-	arg->description = description;
-	arg->default_value = default_value;
+	arg.name = name;
+	arg.label = label;
+	arg.description = description;
+	arg.default_value = default_value;
 
 	GGen_Script_Assert(options.length() > 0);
 
@@ -101,30 +97,29 @@ void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GG
 
 	for(uint16 i = 0; i <= options.length(); i++){
 		if(i == options.length() || options[i] == GGen_Const_String(';')){
-			arg->options.push_back(options.substr(from, i - from));
+			arg.options.push_back(options.substr(from, i - from));
 
 			from = ++i;
 		}
 	}
 
-	GGen_Script_Assert((signed) arg->options.size() > default_value);
+	GGen_Script_Assert((signed) arg.options.size() > default_value);
 
-	arg->min_value = 0;
-	arg->max_value = option_i - 1;
-	arg->step_size = 1;
+	arg.min_value = 0;
+	arg.max_value = option_i - 1;
+	arg.step_size = 1;
 
-	arg->value = default_value;
+	arg.value = default_value;
 
-	GGen::GetInstance()->args[GGen::GetInstance()->num_args] = arg;
-	GGen::GetInstance()->num_args++;
+	GGen::GetInstance()->args.push_back(arg);
 }
 
 
 int GGen_GetParam(const GGen_String& name){
 
-	for(uint8 i = 0; i < GGen::GetInstance()->num_args; i++){
-		if(GGen::GetInstance()->args[i]->name == name){
-			return GGen::GetInstance()->args[i]->value;
+	for(unsigned i = 0; i < GGen::GetInstance()->args.size(); i++){
+		if(GGen::GetInstance()->args[i].name == name){
+			return GGen::GetInstance()->args[i].value;
 		}
 	}
 
