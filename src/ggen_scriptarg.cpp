@@ -93,7 +93,6 @@ void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GG
 	GGen_Script_Assert(options.length() > 0);
 
 	int from = 0;
-	int option_i = 0;
 
 	for(uint16 i = 0; i <= options.length(); i++){
 		if(i == options.length() || options[i] == GGen_Const_String(';')){
