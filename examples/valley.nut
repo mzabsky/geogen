@@ -22,6 +22,8 @@ function Generate(){
 	local smoothness = 1 << GGen_GetParam("smoothness");
 	local feature_size = GGen_GetParam("feature_size");
 
+	print(valley_width);
+	
 	GGen_InitProgress(9);
 
 	local base = GGen_Data_2D(width, height, 0);
@@ -100,12 +102,19 @@ function Generate(){
 	GGen_IncreaseProgress();
 	
 	// balance the water level so the valley is just filled with water
-	local max = 0;
+	/*local max = 0;
 	local now = 0;
 	for(local i = 0; i < width; i++){
 		now = base.GetValue(i, height / 2 + profile_shift.GetValueInterpolated(i, width));
 		if(now > max) max = now;
-	}
+	}*/
+	
+	local path = profile_shift.ToPath(width);
+	path.Move(0, height / 2 - (valley_width - 2) * height / 50);
+	
+	print((valley_width - 2) * height / 50);
+	
+	local max = base.GetMaxValueOnPath(path);
 	
 	GGen_IncreaseProgress();
 
