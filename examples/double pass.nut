@@ -76,6 +76,8 @@ function Generate(){
 	profile_shift.ScaleValuesTo(-height / 24, height / 24);
 
 	base.Shift(profile_shift, GGEN_VERTICAL, GGEN_DISCARD_AND_FILL);
+	
+	base.Smooth(20);
 
 	profile_shift = null;
 

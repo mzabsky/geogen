@@ -9,6 +9,7 @@ function GetInfo(info_type){
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddEnumArg("water_distribution", "Water distribution", "Detrmines overall shape of terrain and water areas.", 0, "Uniform;Canals");
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 1, "Tiny;Medium;Large;Huge");
 			GGen_AddIntArg("water_level","Water percentage","How much of the map should  be covered by sea.", 60, 5, 95, 5);
@@ -20,6 +21,7 @@ function GetInfo(info_type){
 function Generate(){
 	local width = GGen_GetParam("width");
 	local height = GGen_GetParam("height");
+	local water_distribution = GGen_GetParam("water_distribution");
 	local smoothness = 1 << GGen_GetParam("smoothness");
 	local feature_size = GGen_GetParam("feature_size");
 	local water_level = GGen_GetParam("water_level") / 100.;
@@ -29,6 +31,8 @@ function Generate(){
 	local base = GGen_Data_2D(width, height, 0);
 	
 	base.Noise(smoothness, ((width > height) ? height : width) / (5 * (4 - feature_size)), GGEN_STD_NOISE);
+	
+	if(water_distribution == 1) base.Abs();
 	
 	base.Flood(1 - water_level);
 	
