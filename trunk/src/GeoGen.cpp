@@ -30,6 +30,8 @@
 #include <assert.h>
 #include <time.h>
 
+//#include "../external/gel/stxutif.h"
+
 using namespace std;
 
 #ifdef NO_GGEN_LIB
@@ -403,10 +405,15 @@ int main(int argc,char * argv[]){
 		}
 	}	
 	
-	// load the script from file
-	wifstream in_stream;
-	in_stream.open(_params.input_file.c_str());
+	
+	//locale utf8_locale(std::locale(), new gel::stdx::utf8cvt<true>);
+	//wcout.imbue(utf8_locale);
 
+	// load the script from file
+	ifstream in_stream;
+	//in_stream.imbue(utf8_locale);
+	in_stream.open(_params.input_file.c_str());
+	
 	if(!in_stream.is_open()){
 		cout << "Could not open the script file!\n" << flush;
 		if(_params.stupid_mode) system("pause");
@@ -414,15 +421,23 @@ int main(int argc,char * argv[]){
 	}
 
 	// read the file line by line
-	GGen_String str, strTotal;
+	string str, strTotal;
 	getline(in_stream,str);
 	while ( in_stream ) {
-	   strTotal += GGen_Const_String("\n") + str;
+	   strTotal += '\n' + str;
 	   getline(in_stream,str);
 	}
 
-
 	in_stream.close();
+
+	
+
+	// convert the script  to unicode
+	GGen_Char* unicodeScript = new GGen_Char[strlen(strTotal.c_str()) + 1];
+
+	mbstowcs(unicodeScript, strTotal.c_str(), strlen(strTotal.c_str()));
+
+	unicodeScript[strlen(strTotal.c_str())] = GGen_Const_String('\0');
 
 	// create the primary GeoGen object (use Squirrel script interface)
 	GGen_Squirrel* ggen = new GGen_Squirrel();
@@ -433,7 +448,7 @@ int main(int argc,char * argv[]){
 	ggen->SetProgressCallback(ProgressHandler);
 
 	// pump the script into the engine and compile it
-	if(!ggen->SetScript(strTotal)){
+	if(!ggen->SetScript(GGen_String(unicodeScript))){
 		cout << "Compilation failed!\n" << flush;
 		delete ggen;
 		if(_params.stupid_mode) system("pause");
