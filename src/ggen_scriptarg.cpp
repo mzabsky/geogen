@@ -106,7 +106,7 @@ void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GG
 	GGen_Script_Assert((signed) arg.options.size() > default_value);
 
 	arg.min_value = 0;
-	arg.max_value = option_i - 1;
+	arg.max_value = arg.options.size() - 1;
 	arg.step_size = 1;
 
 	arg.value = default_value;
@@ -116,7 +116,6 @@ void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GG
 
 
 int GGen_GetParam(const GGen_String& name){
-
 	for(unsigned i = 0; i < GGen::GetInstance()->args.size(); i++){
 		if(GGen::GetInstance()->args[i].name == name){
 			return GGen::GetInstance()->args[i].value;
