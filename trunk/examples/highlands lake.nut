@@ -8,7 +8,7 @@ function GetInfo(info_type){
 			GGen_AddIntArg("width","Width","Width of the map.", 1000, 10, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1000, 10, 20000, 1);
 			GGen_AddEnumArg("lake_size","Lake size","Radius of the central lake.", 2, "Tiny;Small;Medium;Large;Huge");
-			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
+			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			return 0;
 	}

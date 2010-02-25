@@ -101,7 +101,7 @@ function Generate(){
 	
 	
 	local path = profile_shift.ToPath(width);
-	path.Move(0, height / 2 - (valley_width - 2) * height / 50);
+	path.Move(0, height / 2 - (valley_width - 2) * height / 100);
 	
 	local max = base.GetMaxValueOnPath(path);
 	

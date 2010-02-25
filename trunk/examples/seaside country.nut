@@ -7,7 +7,7 @@ function GetInfo(info_type){
 		case "args":
 			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
-			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
+			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			return 0;
 	}
@@ -35,6 +35,8 @@ function Generate(){
 	profile_height.SetValue(8, 1500);
 	profile_height.SetValue(9, 1500);
 	
+	profile_height.ScaleValuesTo(GGEN_MIN_HEIGHT / 6, GGEN_MAX_HEIGHT / 2);
+	
 	profile_height.Smooth(2);
 	
 	GGen_IncreaseProgress();
@@ -46,11 +48,15 @@ function Generate(){
 	GGen_IncreaseProgress();
 	
 	// create the "wavy" profile along the vertical axis (creating the illusion of long valleys separated by hill ranges)
-	local profile_shift = GGen_Data_1D(800, 0);
+	local profile_shift = GGen_Data_1D(height, 0);
 	profile_shift.Noise(height / 25, height / 8, GGEN_STD_NOISE);
-	profile_shift.ScaleValuesTo(-width / 8, width / 8);
+	profile_shift.ScaleValuesTo(-width / 6, width / 6);
 	
 	base.Shift(profile_shift, GGEN_HORIZONTAL, GGEN_DISCARD_AND_FILL);
+	
+	base.Smooth(20);
+	
+	base.ReturnAs("shift");
 	
 	GGen_IncreaseProgress();
 	
@@ -60,7 +66,7 @@ function Generate(){
 
 	GGen_IncreaseProgress();
 	
-	noise.ScaleValuesTo(-1000, 1000);
+	noise.ScaleValuesTo(GGEN_MIN_HEIGHT / 3, GGEN_MAX_HEIGHT / 3);
 	
 	// make the noise be more significant in the higher mountainous part of the map than on the coast
 	local mask = GGen_Data_2D(3, 2, 40);

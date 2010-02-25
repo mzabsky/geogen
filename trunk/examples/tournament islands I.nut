@@ -70,9 +70,6 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	base.Clamp(0, GGEN_MAX_HEIGHT);
-	base.ScaleValuesTo(0,120);
-	
 	base.TransformValues(GGEN_NATURAL_PROFILE, true);
 	
 	return base;
