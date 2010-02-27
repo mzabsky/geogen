@@ -47,7 +47,7 @@ class ArgDesc{
 
 
     std::vector<std::basic_string<wchar_t> > args_in;
-    std::vector<Argument*> args_def;
+    std::vector<Argument> args_def;
     std::vector<std::basic_string<wchar_t> >* pos_args;
 
 public:
@@ -67,40 +67,44 @@ public:
 		// convert the inwieldy array into vector
         args_in = std::vector<std::basic_string<wchar_t> >(wargv, wargv + argc);
 
-		delete wargv;
+		for(int i = 0; i < argc; i++){
+			delete [] wargv[i];
+		}
+
+		delete [] wargv;
     }
 
     void AddBoolArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, bool* var){
-        Argument* p = new Argument;
-        p->short_name = short_name;
-        p->long_name = long_name;
-        p->desc = desc;
-        p->type = T_BOOL;
-        p->var = (void*) var;
+        Argument p;
+        p.short_name = short_name;
+        p.long_name = long_name;
+        p.desc = desc;
+        p.type = T_BOOL;
+        p.var = (void*) var;
 
         args_def.push_back(p);
     }
 
     void AddStringArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, std::basic_string<wchar_t> param_name, std::basic_string<wchar_t>* var){
-        Argument* p = new Argument;
-        p->short_name = short_name;
-        p->long_name = long_name;
-        p->desc = desc;
-        p->param_name = param_name;
-        p->type = T_STR;
-        p->var = (void*) var;
+        Argument p;
+        p.short_name = short_name;
+        p.long_name = long_name;
+        p.desc = desc;
+        p.param_name = param_name;
+        p.type = T_STR;
+        p.var = (void*) var;
 
         args_def.push_back(p);
     }
 
     void AddIntArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, std::basic_string<wchar_t> param_name, int* var){
-        Argument* p = new Argument;
-        p->short_name = short_name;
-        p->long_name = long_name;
-        p->param_name = param_name;
-        p->desc = desc;
-        p->type = T_INT;
-        p->var = (void*) var;
+        Argument p;
+        p.short_name = short_name;
+        p.long_name = long_name;
+        p.param_name = param_name;
+        p.desc = desc;
+        p.type = T_INT;
+        p.var = (void*) var;
 
         args_def.push_back(p);
     }
@@ -136,17 +140,17 @@ public:
                 std::basic_string<wchar_t> name = args_in[i].substr(2, args_in[i].length() - 2);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
-                    if(name == args_def[j]->long_name){
-                        if(args_def[j]->type == T_BOOL){
-                            *(bool*) args_def[j]->var = true;
+                    if(name == args_def[j].long_name){
+                        if(args_def[j].type == T_BOOL){
+                            *(bool*) args_def[j].var = true;
                         }
-                        else if(args_def[j]->type == T_INT){
+                        else if(args_def[j].type == T_INT){
                             next_action = E_INT;
-                            next_var = args_def[j]->var;
+                            next_var = args_def[j].var;
                         }
-                        else if(args_def[j]->type == T_STR){
+                        else if(args_def[j].type == T_STR){
                             next_action = E_STR;
-                            next_var = args_def[j]->var;
+                            next_var = args_def[j].var;
                         }
                     }
                 }
@@ -156,24 +160,24 @@ public:
                 wchar_t name = args_in[i].substr(1 + offset, args_in[i].length() - 1 - offset).at(0);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
-                    if(name == args_def[j]->short_name){
-                        if(args_def[j]->type == T_BOOL){
-                            *(bool*) args_def[j]->var = true;
+                    if(name == args_def[j].short_name){
+                        if(args_def[j].type == T_BOOL){
+                            *(bool*) args_def[j].var = true;
 
                             if(offset < args_in[i].length() - 2){
                                 offset++;
                                 i--;
                             }
                         }
-                        else if(args_def[j]->type == T_INT){
+                        else if(args_def[j].type == T_INT){
                             next_action = E_INT;
-                            next_var = args_def[j]->var;
+                            next_var = args_def[j].var;
 
                             offset = 0;
                         }
-                        else if(args_def[j]->type == T_STR){
+                        else if(args_def[j].type == T_STR){
                             next_action = E_STR;
-                            next_var = args_def[j]->var;
+                            next_var = args_def[j].var;
 
                             offset = 0;
                         }
@@ -192,15 +196,15 @@ public:
     
     void PrintHelpString(){
 		for(unsigned i = 0; i < args_def.size(); i++){
-			std::wcout << "       -" << args_def[i]->short_name;
-			if(args_def[i]->type != T_BOOL) std::wcout << " " << args_def[i]->param_name;
+			std::wcout << "       -" << args_def[i].short_name;
+			if(args_def[i].type != T_BOOL) std::wcout << " " << args_def[i].param_name;
 			
-			std::wcout << ", --" << args_def[i]->long_name;
-			if(args_def[i]->type != T_BOOL) std::wcout << " " << args_def[i]->param_name;
+			std::wcout << ", --" << args_def[i].long_name;
+			if(args_def[i].type != T_BOOL) std::wcout << " " << args_def[i].param_name;
 			
 			std::wcout << std::endl;
 			
-			std::wcout << "	      " << args_def[i]->desc << std::endl << std::endl;
+			std::wcout << "	      " << args_def[i].desc << std::endl << std::endl;
 		}
     }
 };
