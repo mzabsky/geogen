@@ -117,6 +117,7 @@ struct GGen_Params{
 GGen_Params _params;
 
 bool Save(const int16* data, unsigned int width, unsigned int height, const GGen_String* implicit_path, const GGen_String* name = NULL, bool enable_overlay = false){
+
 	// overlay is to be saved separately -> create its name	
 	if(_params.overlay_as_copy && _params.overlay_file.length() > 0 && !enable_overlay){
 		GGen_String buf;
@@ -194,7 +195,7 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 			if(data[i] < min) min = data[i];
 		}
 		
-		/* Calculate scaling ratio */
+		// Calculate scaling ratio
 		double ratio = 0;
 
 		if (max <= 0){
@@ -264,13 +265,16 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 			}
 		}
 
-		char* buf = new char[path_out.length() + 1];
-		wcstombs(buf, path_out.c_str(), path_out.length());
-		buf[path_out.length()] = '\0';
+		unsigned len = path_out.length();
+
+		char* buf = new char[len + 1];
+
+		wcstombs(buf, path_out.c_str(), len);
+		buf[len] = '\0';
 
 		output.WriteToFile(buf);
 
-		delete [] buf;
+		//delete [] buf;
 	}
 	else if(format->suffix == GGen_Const_String("shd")){
 		int iWidth = width;
