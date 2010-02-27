@@ -328,7 +328,7 @@ void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode)
 		this->data = new_data;
 	} else {
 		/* Discard or Discard&fill mode */
-		GGen_Height temp;
+		GGen_Height temp = 0;
 		
 		/* Positive distance -> shift right */
 		if (distance > 0) {
