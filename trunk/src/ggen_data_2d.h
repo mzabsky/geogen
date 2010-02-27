@@ -510,8 +510,18 @@ class GGen_Data_2D{
 
 		GGen_Height GetValueOnPathBase(GGen_Path* path, bool max);
 
+		/** 
+		 * Returns the highest value found in tiles touching a path.
+		 * @param path Sequence of points defining the path.
+		 * @return The maximum value found on the path.
+		 **/
 		GGen_Height GetMaxValueOnPath(GGen_Path* path);
 
+		/** 
+		 * Returns the lowest value found in tiles touching a path.
+		 * @param path Sequence of points defining the path.
+		 * @return The minimum value found on the path.
+		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
 };
 
