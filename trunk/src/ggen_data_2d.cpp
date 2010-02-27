@@ -866,19 +866,19 @@ void GGen_Data_2D::VoronoiNoise(GGen_Size cell_size, uint8 points_per_cell, GGen
 						/* The current closest point will become the second closest */
 						current_second_min_dist = current_min_dist;
 
-						current_min_dist = current_distance;
+						current_min_dist = (GGen_ExtExtHeight) current_distance;
 					}
 
 					/* The current point is closer than the second closest one, but further than the nearest one -> it can still become #2 */
 					if(current_distance > current_min_dist && current_distance < current_second_min_dist){
-						current_second_min_dist = current_distance;
+						current_second_min_dist = (GGen_ExtExtHeight) current_distance;
 					}
 				}
 			}
 			
 			/* Calculate value for current point from the distances to the two closest points */
-			if(mode == GGEN_RIDGES) data[x + y * width] = (-current_min_dist + current_second_min_dist) * GGEN_MAX_HEIGHT / max_dist;
-			else if(mode == GGEN_BUBBLES) data[x + y * width] = current_min_dist * GGEN_MAX_HEIGHT / max_dist;
+			if(mode == GGEN_RIDGES) data[x + y * width] = (GGen_Height) ((-current_min_dist + current_second_min_dist) * GGEN_MAX_HEIGHT / max_dist);
+			else if(mode == GGEN_BUBBLES) data[x + y * width] = (GGen_Height) (current_min_dist * GGEN_MAX_HEIGHT / max_dist);
 		}
 	}
 
