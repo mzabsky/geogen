@@ -30,16 +30,16 @@
 class GGen_Amplitudes{
 public:
 	uint16* data;
-	uint16 length;
+	GGen_Size length;
 
 	/**
 	 * Creates a new GGen_Amplitudes object.
 	 * @param max_feature_size The object will have space for amplitudes for wave lengths up to this number.
 	 **/
-	GGen_Amplitudes(uint16 max_feature_size);
+	GGen_Amplitudes(GGen_Size max_feature_size);
 
 	~GGen_Amplitudes(){ 
-		//delete [] data; 
+		delete [] data; 
 	}
 
 	/**
