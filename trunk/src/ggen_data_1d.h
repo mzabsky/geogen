@@ -37,7 +37,7 @@ class GGen_Data_1D{
 
 		/**
 		 * Creates new GGen_Data_1D object of given length.
-		 * @param legth Length of the array.
+		 * @param length Length of the array.
 		 * @param value Default value for all cells.
 		 */
 		GGen_Data_1D(GGen_Size length, GGen_Height value);
@@ -126,9 +126,9 @@ class GGen_Data_1D{
 
 		/** 
 		 * Multiplies each value in the array by a real number.
-		 * @param multiplier Real number to multiply all values in the array.
+		 * @param factor Real number to multiply all values in the array.
 		 **/
-		void Multiply(double value);
+		void Multiply(double factor);
 
 		/** 
 		 * Multiplies each value in the array by a corresponding value from factor.
@@ -209,8 +209,7 @@ class GGen_Data_1D{
 		 * @param overflow_mode Overflow mode (see GGen_Overflow_Mode).
  		 * @note All values outside the array will be discarded. Newly created values will be set to 0.
 		 **/
-		void Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode);
-		
+		void Shift(GGen_CoordOffset offset, GGen_Overflow_Mode overflow_mode);
 
 		/** 
 		 * Performs a set union of the array graphs (higher of two respective values is applied).
@@ -254,7 +253,7 @@ class GGen_Data_1D{
 		 * @param fill_outside Should the values outside gradient interval be filled as well?
 		 * @note If fill_flat is set to true, values with coord lower than left bound will be filled with from_value< and value with coord higher than the right bound will be filled with to_value.
 		 **/
-		void Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_flat);
+		void Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_outside);
 		
 		/**
 		 * Fills the array with random perlin noise (http://freespace.virgin.net/hugo.elias/models/m_perlin.htm).

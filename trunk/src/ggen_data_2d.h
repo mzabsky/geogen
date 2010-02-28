@@ -128,26 +128,26 @@ class GGen_Data_2D{
 		void AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		
 		/** 
-		 * Adds a percentage of an integer to all values in the map. The percentage added will depend on corresponding value from the mask.
-		 * @param value Value to be added to values in the map.
-		 * @param mask Map used to mask the added value. This map will be scaled to match the current map.
-		 * @param relative Toggles relative mode.
-		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
-		 **/			
-		void AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative);
-		
-		/** 
 		 * Adds another map to the current map. The percentage of each value from the addend will depend on corresponding value from the mask.
 		 * @param addend Map to be added. This map will be scaled to match the original map.
 		 * @param mask Map used to mask the added value.
 		 * @param relative Toggles relative mode.
 		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
-		 **/			
+		 **/	
+		void AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative);
+
+		/** 
+		 * Adds a percentage of an integer to all values in the map. The percentage added will depend on corresponding value from the mask.
+		 * @param value Value to be added to values in the map.
+		 * @param mask Map used to mask the added value. This map will be scaled to match the current map.
+		 * @param relative Toggles relative mode.
+		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
+		 **/		
 		void AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 		
 		/** 
 		 * Multiplies each value in the map by a real number.
-		 * @param multiplier Real number to multiply all values in the map.
+		 * @param factor Real number to multiply all values in the map.
 		 **/		
 		void Multiply(double factor);
 
@@ -317,7 +317,7 @@ class GGen_Data_2D{
 		 * @param fill_outside Should the values outside gradient area be filled as well?
 		 * @note If fill_flat is set to true, values outside the gradient strip will be filled with flat color. Tiles closer to the starting point will be filled with the left-most value from the profile and tiles closer to the ending point will be filled with the right-most value from the profile.
 		 **/
-		void GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside);
+		void GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* profile, bool fill_outside);
 		
 		/**
 		 * Creates a radial gradient. The values will make a smooth transition between the center and the outer rim.
@@ -329,7 +329,7 @@ class GGen_Data_2D{
 		 * @param fill_outside Should the values outside gradient area be filled as well?
 		 * @note If fill_flat is set to true, values beyon the outer rim will be filled with to_value.
 		 **/
-		void RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside);
+		void RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height from_value, GGen_Height to_value, bool fill_outside);
 		
 		/**
 		 * Creates a radial gradient. The values will be picked from the gradient profile according to the point's position on the gradient.
@@ -340,7 +340,7 @@ class GGen_Data_2D{
 		 * @param fill_outside Should the values outside gradient area be filled as well?
 		 * @note If fill_flat is set to true, values beyon the outer rim will be filled with the right-most value from the profile.
 		 **/
-		void RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside);
+		void RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* profile, bool fill_outside);
 		
 		/**
 		 * Fills the array with random perlin noise (http://freespace.virgin.net/hugo.elias/models/m_perlin.htm).
@@ -364,6 +364,7 @@ class GGen_Data_2D{
 		/**
 		 * Blurs the map in one direction. Uses linear smoothing algorithm.
 		 * @param radius The smoothing kernel radius.
+		 * @param direction Directon in which is the smoothing done.
 		 */
 		void SmoothDirection(GGen_Distance radius, GGen_Direction direction);
 		
@@ -374,10 +375,10 @@ class GGen_Data_2D{
 		void Smooth(GGen_Distance radius);
 		
 		/**
-		 * Changes the values so given percentage of values is higher than 0.
+		 * Changes the values so only given percentage of values is higher than 0.
 		 * @param land_amount The percentage of values to be higher than 0. 0 means no "land", 1.0 means no "water".
 		 **/
-		void Flood(double water_amount);
+		void Flood(double land_amount);
 
 		/** 
 		 * Fills the current map with repeating pattern.
@@ -469,7 +470,7 @@ class GGen_Data_2D{
 		 * Calls the API return handler.
 		 * @param label Label identifying the returned map.
 		 **/
-		void ReturnAs(const GGen_String &name);
+		void ReturnAs(const GGen_String &label);
 
 		/** 
 		 * Fills a polygon defined by its outer path.
