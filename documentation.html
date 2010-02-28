@@ -129,7 +129,7 @@
         <dt>-d DIRECTORY, --output-directory DIRECTORY</dt>
         <dd>Directory where secondary maps will be saved. Set to "../temp/" by default.</dd>
         <dt>-v FILE, --overlay FILE</dt>
-        <dd>Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and 256 pixels wide.</dd>
+        <dd>Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and either 256 or 511 pixels wide.</dd>
         <dt>-s SEED, --seed SEED</dt>
         <dd>Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same.</dd>
         <dt>-a, --all-random</dt>
@@ -138,8 +138,10 @@
         <dd>Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved.</dd>
         <dt>-n, --no-rescaling</dt>
         <dd>The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>.</dd>
+        <dt>-h, --split-range</dt>
+        <dd>Splits the value range of a file format, which doesn't support negative values, so lower half of the range covers negaive values and upper half covers positive values. Value "(max + 1) / 2" will be treated as zero.</dd>
         <dt>-?, --help</dt>
-        <dd>Displays this help.</dd>
+        <dd>Displays detailed usage help.</dd>
         <dt>-x, --syntax-check</dt>
         <dd>Will print OKAY if script is compilable or descibe the error found.</dd>
         <dt>-p, --param-list</dt>
@@ -152,6 +154,8 @@
         <dd>All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped.</dd>
         <dt>-V, --overlay-as-copy</dt>
         <dd>Color files with overlays will be saved as copies.</dd>
+        <dt>-g SIZE, --grid SIZE</dt>
+        <dd>A grin with spacing SIZE will be painted onto output file along with chosen color overlay.</dd>
     </dl>
   <h2><a name="syntax">Script syntax</a></h2>
     <p>For Squirrel syntax, please refer to the language's <a href="http://squirrel-lang.org/doc/squirrel2.html#d0e44">official documentation</a>.</p>
@@ -163,7 +167,7 @@
       <pre>function GetInfo(info_type){
 	switch(info_type){
 		case "name":
-			return "name_the_map";
+			return "Name of the map";
 		case "description":
 			return "Long and hopefully not boring description of the map";
 		case "args":
@@ -175,10 +179,7 @@
 	return 0;
 }</pre>
       <p>
-        For information about the argument manipulation functions refer to the <a href="#interaction_args">Script argument support</a> section.
-      </p>
-      <p>
-        The script must also contain a function named "Generate" with body of the script logic. The function must return one <a href="#ggen_data_2d">GGen_Data_2D</a> object.
+        The script must also contain a function named "Generate" with body of the script logic. The function must return one GGen_Data_2D object.
       </p>
       <p> 
         A very simple function "generating" an empty heightmap (all zeroes) could look like this:
