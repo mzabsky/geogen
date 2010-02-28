@@ -27,7 +27,6 @@
 
 GGen_Data_1D::GGen_Data_1D(GGen_Coord length, GGen_Height value)
 {
-	
 	GGen_Script_Assert(length > 1);
 
 	this->length = length;

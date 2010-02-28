@@ -122,10 +122,6 @@ typedef basic_stringstream<GGen_Char> GGen_StringStream;
 	GGen::GetInstance()->ThrowMessage(as_buf, GGEN_ERROR, -1); \
 }}
 
-	
-	//delete as_buf; \
-	//throw SquirrelError(); \
-
 /**
  * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) defining behavior for too steep slopes.
  */
@@ -175,6 +171,9 @@ enum GGen_Voronoi_Noise_Mode{
 	GGEN_BUBBLES //!< The resulting noise will have appearance of negative of an array of spherical bubbles.
 };
 
+/**
+ * Arithmethic comparsion operators.
+ */
 enum GGen_Comparsion_Mode{
 	GGEN_EQUAL_TO, //!< Compared value is equal to treshold value. 
 	GGEN_NOT_EQUAL_TO, //!< Compared value is not equal to treshold value.
