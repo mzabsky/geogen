@@ -274,7 +274,7 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 
 		output.WriteToFile(buf);
 
-		//delete [] buf;
+		delete [] buf;
 	}
 	else if(format->suffix == GGen_Const_String("shd")){
 		int iWidth = width;
@@ -343,7 +343,7 @@ int main(int argc,char * argv[]){
 	args.AddStringArg(GGen_Const_String('i'), GGen_Const_String("input"), GGen_Const_String("Input squirrel script to be executed."), GGen_Const_String("FILE"), &_params.input_file); 
 	args.AddStringArg(GGen_Const_String('o'), GGen_Const_String("output"), GGen_Const_String("Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default."), GGen_Const_String("FILE"), &_params.output_file);
 	args.AddStringArg(GGen_Const_String('d'), GGen_Const_String("output-directory"), GGen_Const_String("Directory where secondary maps will be saved. Set to \"../temp/\" by default."), GGen_Const_String("DIRECTORY"), &_params.output_directory);
-	args.AddStringArg(GGen_Const_String('v'), GGen_Const_String("overlay"), GGen_Const_String("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and 256 pixels wide."), GGen_Const_String("FILE"), &_params.overlay_file);
+	args.AddStringArg(GGen_Const_String('v'), GGen_Const_String("overlay"), GGen_Const_String("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and either 256 or 511 pixels wide."), GGen_Const_String("FILE"), &_params.overlay_file);
 	
 	args.AddIntArg(GGen_Const_String('s'), GGen_Const_String("seed"), GGen_Const_String("Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same."), GGen_Const_String("SEED"), &_params.random_seed);
 	
