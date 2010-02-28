@@ -17,26 +17,30 @@
 
 */
 
+#include <iostream>
+
 #include "ggen.h"
 #include "ggen_squirrel.h"
 #include "ggen_support.h"
 #include "ggen_amplitudes.h"
 
-GGen_Amplitudes::GGen_Amplitudes(uint16 max_feature_size)
+GGen_Amplitudes::GGen_Amplitudes(GGen_Size max_feature_size)
 { 
-	uint8 size = GGen_log2(max_feature_size);
-	
+	GGen_Size size = GGen_log2(max_feature_size) + 1;
+
 	this->data = new uint16[size];
+	this->length = size;
 
 	GGen_Script_Assert(this->data != NULL);
 
-	for (uint8 i = 0; i < size; i++) {
+	for (GGen_Index i = 0; i < size; i++) {
 		this->data[i] = 0;
 	}
-
 };
 
 void GGen_Amplitudes::AddAmplitude(uint16 feature_size, uint16 amplitude)
 {
-	this->data[GGen_log2(feature_size)] = amplitude;
+	GGen_Script_Assert(GGen_log2(feature_size) < this->length);
+
+	this->data[GGen_log2(feature_size) - 1] = amplitude;
 }
