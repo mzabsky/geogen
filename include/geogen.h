@@ -38,34 +38,6 @@
 
 typedef basic_string<GGen_Char> GGen_String;
 
-//#include "../external/squirrel/sqplus.h"
-
-/*
-typedef signed char int8;
-typedef unsigned char uint8;
-typedef signed short int16;
-typedef unsigned short uint16;
-typedef signed int int32;
-typedef unsigned int uint32;
-typedef signed long long int64;
-typedef unsigned long long uint64;*/
-
-/* enum GGen_Normalization_Mode{
-	GGEN_ADDITIVE,
-	GGEN_SUBSTRACTIVE
-};
-
-enum GGen_Overflow_Mode{
-	GGEN_CYCLE,
-	GGEN_DISCARD,
-	GGEN_DISCARD_AND_FILL
-};
-
-enum GGen_Direction{
-	GGEN_HORIZONTAL,
-	GGEN_VERTICAL,
-};
- */
 enum GGen_Message_Level{
 	GGEN_MESSAGE = 0,
 	GGEN_NOTICE = 1,
@@ -78,17 +50,6 @@ enum GGen_Arg_Type{
 	GGEN_INT,
 	GGEN_ENUM
 }; 
-
-/* Type definitons. */
-//typedef int16 GGen_Height; /* Holds height for one cell. Minimum and maximum height are depend on this type. Must allow negative values. */
-//typedef int32 GGen_ExtHeight; /* Extended height value used for some calculations. Must be able to hold a value of 2 * GGen_Height * GGen_Height. */
-//typedef int64 GGen_ExtExtHeight; /* Even more extended height value used for some calculations. Must be able to hold a value of 2 * GGen_ExtHeight * GGen_ExtHeight. */
-//typedef uint16 GGen_Size; /* Size of the data array or size of an interval of coordinates in one dimension. Determines maximum dimensions of a data array. Must not allow negative values. */
-//typedef uint32 GGen_TotalSize; /* Total count of elements in the data array, must be able to hold at least GGen_Size * GGen_Size. Must not allow negative values. */
-//typedef GGen_Size GGen_Coord; /* Coordinate in one dimension of the data array. Should be the same as GGen_Size. */
-//typedef int32 GGen_CoordOffset; /* Coordinate offset relative to an offset value. Must allow negative values. */
-//typedef GGen_TotalSize GGen_Index; /* Coordinate in linearized data array. Should be the same as GGen_TotalSize. */
-//typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 * GGen_Coord * GGen_Coord. */
 
 class GGen_ScriptArg{
 public:
@@ -105,23 +66,6 @@ public:
 
 	bool SetValue(int new_value);
 };
-
-/*
-class GGen_Amplitudes{
-public:
-	uint16* data;
-	uint16 length;
-
-	GGen_Amplitudes(uint16 max_feature_size);
-
-	~GGen_Amplitudes(){ 
-		//delete [] data; 
-	}
-
-	void AddAmplitude(uint16 feature_size, uint16 amplitude);
-};
-
-*/
 
 class GGen{
 protected: 
@@ -171,10 +115,6 @@ public:
 	static void InitProgress(unsigned max_progress);
 	static void SetProgress(unsigned current_progress);
 	static void IncreaseProgress();
-	
-	/*virtual void RegisterPreset(GGen_Data_1D* preset, char* label) = 0;
-	virtual void RegisterPreset(GGen_Data_2D* preset, char* label) = 0;
-	virtual void RegisterPreset(GGen_Amplitudes* preset, char* label) = 0;*/
 };
 
 class GGen_Squirrel: public GGen{
@@ -186,10 +126,6 @@ public:
 	virtual GGen_String GetInfo(const GGen_String& label);
 	virtual int GetInfoInt(const GGen_String& label);
 	virtual short* Generate();
-	
-	/*virtual void RegisterPreset(void* preset, char* label);
-	virtual void RegisterPreset(void* preset, char* label);
-	virtual void RegisterPreset(void* preset, char* label);*/
-	
+
 	void* presetTarget;
 };
