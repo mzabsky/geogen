@@ -21,7 +21,7 @@
 #define GGEN_SUPPORT
 
 #include "math.h"
-#include "sqplus.h"
+#include <string>
 
 /** 
  * @file ggen_support.h File containing basic typedefs and enums used in rest of the GeoGen.

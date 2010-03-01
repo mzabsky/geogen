@@ -20,6 +20,7 @@
 #pragma once;
 
 #include <iostream>
+#include <assert.h>
 
 #include "ggen_support.h"
 #include "ggen_amplitudes.h"
