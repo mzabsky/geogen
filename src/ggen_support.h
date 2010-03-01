@@ -117,7 +117,6 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 #endif
 
 typedef GGEN_EXPORT basic_string<GGen_Char> GGen_String;
-typedef basic_stringstream<GGen_Char> GGen_StringStream;
 
 // Custom assertion handler. Invoke messaage callback and shut down the script execution.
 #define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
