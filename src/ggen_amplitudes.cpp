@@ -42,5 +42,5 @@ void GGen_Amplitudes::AddAmplitude(uint16 feature_size, uint16 amplitude)
 {
 	GGen_Script_Assert(GGen_log2(feature_size) < this->length);
 
-	this->data[GGen_log2(feature_size) - 1] = amplitude;
+	this->data[GGen_log2(feature_size)] = amplitude;
 }
