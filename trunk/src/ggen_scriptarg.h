@@ -19,6 +19,9 @@
 
 #pragma once
 
+/* Hide the "wstring needs to have dll-interface to be used by clients of class 'GGen_ScriptArg'" */
+#pragma warning(disable: 4251)
+
 #include <vector>
 #include "ggen_support.h"
 

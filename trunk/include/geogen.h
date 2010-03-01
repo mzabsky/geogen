@@ -25,6 +25,10 @@
 	#define GGEN_UNICODE
 #endif
 
+#ifdef UNICODE
+	#define GGEN_UNICODE
+#endif
+
 #ifdef GGEN_UNICODE
 	typedef wchar_t GGen_Char;
 	#define GGEN_WIDEN(x) L ## x
@@ -91,8 +95,7 @@ public:
 	static GGen* GetInstance();
 
 	void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
-	//void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
-
+	
 	void SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column));
 	void SetReturnCallback( void (*return_callback) (const GGen_String& name, const short* map, int width, int height) );
 	void SetProgressCallback( void (*return_callback) (int current_progress, int max_progress));

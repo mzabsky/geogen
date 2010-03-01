@@ -2,10 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="GeoGen DLL"
-	ProjectGUID="{1F6B5205-6FEB-42F8-9DC7-7F8C2BF84165}"
-	RootNamespace="GeoGenDLL"
-	Keyword="Win32Proj"
+	Name="GeoGen Lib Test"
+	ProjectGUID="{0CE07DBD-AADC-42E5-9B1E-966302EAF03D}"
+	RootNamespace="GeoGenLibTest"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -19,9 +18,9 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)/temp"
-			IntermediateDirectory="$(SolutionDir)/temp/dll/Debug"
-			ConfigurationType="2"
-			CharacterSet="1"
+			IntermediateDirectory="$(SolutionDir)/temp/libtest/Debug/"
+			ConfigurationType="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,13 +40,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GEOGENDLL_EXPORTS"
+				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
+				PreprocessorDefinitions="_UNICODE;GGEN_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				RuntimeLibrary="1"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -60,11 +59,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(SolutionDir)\temp\GeoGen.dll"
-				LinkIncremental="2"
+				OutputFile="$(SolutionDir)/temp/geogen-LibTest.exe"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(SolutionDir)/temp/dll/Debug/pdb.pdb"
-				SubSystem="2"
+				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				ProfileGuidedDatabase=""
 				TargetMachine="1"
 			/>
@@ -93,9 +91,9 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)/bin"
-			IntermediateDirectory="$(SolutionDir)/temp/dll/Release"
-			ConfigurationType="2"
-			CharacterSet="1"
+			IntermediateDirectory="$(SolutionDir)/temp/libtest/Release/"
+			ConfigurationType="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -118,10 +116,9 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GEOGENDLL_EXPORTS;_UNICODE;UNICODE"
+				PreprocessorDefinitions="_UNICODE;UNICODE;GGEN_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -136,11 +133,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\GeoGen.dll"
-				LinkIncremental="1"
+				OutputFile="$(OutDir)\geogen-LibTest.exe"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(SolutionDir)/temp/dll/Release/pdb.pdb"
-				SubSystem="2"
+				ProgramDatabaseFile="$(SolutionDir)/temp/libtest/Release/pdb.pdb"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				ProfileGuidedDatabase=""
@@ -173,122 +168,16 @@
 	</References>
 	<Files>
 		<Filter
-			Name="DLL"
+			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\src_dll\dllmain.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			>
-			<File
-				RelativePath="..\src\ggen.h"
+				RelativePath="..\external\EasyBMP\EasyBMP.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\ggen_amplitudes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_data_1d.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_data_2d.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_path.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_point.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_presets.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_scriptarg.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_support.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Include"
-			>
-			<File
-				RelativePath="..\include\geogen.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="GGen Squirrel API"
-			>
-			<File
-				RelativePath="..\src\ggen_squirrel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_squirrel.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Source Files"
-			>
-			<File
-				RelativePath="..\src\ggen.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_amplitudes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_data_1d.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_data_2d.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_path.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_point.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ggen_scriptarg.cpp"
+				RelativePath="..\src\GeoGen.cpp"
 				>
 			</File>
 		</Filter>
