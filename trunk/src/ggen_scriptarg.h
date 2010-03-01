@@ -22,7 +22,7 @@
 #include <vector>
 #include "ggen_support.h"
 
-class GGen_ScriptArg{
+class GGEN_EXPORT GGen_ScriptArg{
 public:
 	int value;
 	GGen_String name;
@@ -43,6 +43,5 @@ public:
 void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, int min_value, int max_value, int step_size);
 void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, bool default_value);
 void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, const GGen_String& options);
-
 
 int GGen_GetParam(const GGen_String& name);

@@ -116,7 +116,7 @@ struct GGen_Params{
 
 GGen_Params _params;
 
-bool Save(const int16* data, unsigned int width, unsigned int height, const GGen_String* implicit_path, const GGen_String* name = NULL, bool enable_overlay = false){
+bool Save(const short* data, unsigned int width, unsigned int height, const GGen_String* implicit_path, const GGen_String* name = NULL, bool enable_overlay = false){
 
 	// overlay is to be saved separately -> create its name	
 	if(_params.overlay_as_copy && _params.overlay_file.length() > 0 && !enable_overlay){
@@ -185,12 +185,12 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 	
 	// is scaling wanted?
 	if(_params.no_rescaling == false){
-		int16* new_data = new int16[width * height];
+		short* new_data = new short[width * height];
 		
 		// calculate the extremes
-		int32 max = - 2 << 14;
-		int32 min = 2  << 14;
-		for(uint32 i = 0; i < width * height; i++){
+		int max = - 2 << 14;
+		int min = 2  << 14;
+		for(unsigned i = 0; i < width * height; i++){
 			if(data[i] > max) max = data[i];
 			if(data[i] < min) min = data[i];
 		}
@@ -213,15 +213,15 @@ bool Save(const int16* data, unsigned int width, unsigned int height, const GGen
 		if(max - min > 0){
 			if(_params.ignore_zero) max = max - min;
 			
-			for(uint32 i = 0; i < width * height; i++){
-				if(_params.ignore_zero) new_data[i] = (int16) format_min + (data[i] - min) * (int16) format_max / max;
-				else if(format_min < 0 || (format_min == 0 && data[i] > 0)) new_data[i] = (int16) ((double) data[i] * ratio);
+			for(unsigned i = 0; i < width * height; i++){
+				if(_params.ignore_zero) new_data[i] = (short) format_min + (data[i] - min) * (short) format_max / max;
+				else if(format_min < 0 || (format_min == 0 && data[i] > 0)) new_data[i] = (short) ((double) data[i] * ratio);
 				else new_data[i] = 0;
 			}
 		
 			if(_params.split_range && format->min == 0){
 				for(unsigned int i = 0; i < width * height; i++){
-					new_data[i] = new_data[i] += (int16) ((format->max + 1) / 2);
+					new_data[i] = new_data[i] += (short) ((format->max + 1) / 2);
 				}
 			}
 			
@@ -327,7 +327,7 @@ T random(T min, T max){
 	return output;
 }
 
-void ReturnHandler(const GGen_String& name, const int16* map, int width, int height){
+void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
 	Save(map, width, height, NULL, &name); 
 }
 
@@ -580,7 +580,7 @@ int main(int argc,char * argv[]){
 	cout << "Executing with seed " << _params.random_seed << "...\n" << flush;
 
 	// execute the main part of the script
-	int16* data = ggen->Generate();
+	short* data = ggen->Generate();
 
 	if(data == NULL){
 		cout << "Map generation failed!\n" << flush;

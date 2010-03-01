@@ -57,7 +57,7 @@ DECLARE_INSTANCE_TYPE(GGen_Amplitudes)
 DECLARE_INSTANCE_TYPE(GGen_Point)
 DECLARE_INSTANCE_TYPE(GGen_Path)
 
-class GGen_Squirrel: public GGen{
+class GGEN_EXPORT GGen_Squirrel: public GGen{
 public:	
 	GGen_Squirrel();
 	~GGen_Squirrel();

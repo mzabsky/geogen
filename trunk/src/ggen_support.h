@@ -32,6 +32,13 @@
 
 using namespace std;
 
+/* Define DLL export macro */
+#ifdef _USRDLL
+	#define GGEN_EXPORT __declspec(dllexport)
+#else
+	#define GGEN_EXPORT  
+#endif
+
 typedef signed char int8;
 typedef unsigned char uint8;
 typedef signed short int16;
@@ -109,7 +116,7 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 	#define GGen_Printf		printf
 #endif
 
-typedef basic_string<GGen_Char> GGen_String;
+typedef GGEN_EXPORT basic_string<GGen_Char> GGen_String;
 typedef basic_stringstream<GGen_Char> GGen_StringStream;
 
 // Custom assertion handler. Invoke messaage callback and shut down the script execution.
