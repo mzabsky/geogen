@@ -80,9 +80,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/lib"
 			IntermediateDirectory="$(SolutionDir)/temp/lib/Release/"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -105,7 +105,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				RuntimeLibrary="2"
+				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
+				PreprocessorDefinitions="_UNICODE;UNICODE"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -120,17 +122,12 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				GenerateDebugInformation="true"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
+				OutputFile="$(OutDir)\GeoGen.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -142,9 +139,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -154,8 +148,6 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
 				RelativePath="..\src\ggen.cpp"
@@ -174,18 +166,20 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\ggen_scriptarg.cpp"
+				RelativePath="..\src\ggen_path.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\ggen_string.cpp"
+				RelativePath="..\src\ggen_point.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_scriptarg.cpp"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
 				RelativePath="..\src\ggen.h"
@@ -201,6 +195,18 @@
 			</File>
 			<File
 				RelativePath="..\src\ggen_data_2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_path.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_point.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ggen_presets.h"
 				>
 			</File>
 			<File
