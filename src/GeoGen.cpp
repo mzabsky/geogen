@@ -17,11 +17,10 @@
 
 */
 
-// system and SDL headers
+// system headers
 #include <stdio.h>   
 #include <stdlib.h> 
 #include <string>
-//#include <SDL/SDL.h> 
 #include <math.h>
 #include <time.h> 
 #include <iostream>
@@ -30,21 +29,28 @@
 #include <assert.h>
 #include <time.h>
 
-//#include "../external/gel/stxutif.h"
-
 using namespace std;
 
-#ifdef NO_GGEN_LIB
-	#include "ggen.h"
-	#include "ggen_squirrel.h"
-#else
+// hide "use our better secured function" warning
+#pragma warning(disable: 4996)
+
+// GGen inclusion mode (dynamically linked library / statically linked library / inline)
+#ifdef GGEN_DLL
+	#pragma comment(lib,"../bin/GeoGen.lib")
+	#include "../include/geogen.h"
+#elif defined(GGEN_LIB)
 	#pragma comment(lib,"../lib/GeoGen.lib")
 	#include "../include/geogen.h"
+#else
+	#include "ggen.h"
+	#include "ggen_squirrel.h"
 #endif
 
 #include "EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
+// there is no point in supporting non-unicode mode in this interface, the non-unicode support exists 
+// purely to ensure compatibility with all types of apps
 #ifndef GGEN_UNICODE
 	GGen Console interface requires UNICODE mode!!!
 #endif

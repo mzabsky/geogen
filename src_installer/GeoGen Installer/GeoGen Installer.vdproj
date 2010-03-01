@@ -202,12 +202,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1A9CC06F776FF4AC3A45C9046EB54C96"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -229,6 +223,12 @@
         "OwnerKey" = "8:_EAC30DF30F91ECD795D2B68363AA4647"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1A9CC06F776FF4AC3A45C9046EB54C96"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -247,6 +247,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -263,6 +271,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -768,7 +784,7 @@
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A6C6214EFA384C25B339EE7645B683CF"
             {
             "SourcePath" = "8:..\\..\\examples\\archipelagos.nut"
-            "TargetName" = "8:archipelagos.nut"
+            "TargetName" = "8:archipelago.nut"
             "Tag" = "8:"
             "Folder" = "8:_7AFC719FC2DE4930A990E300741D6182"
             "Condition" = "8:"

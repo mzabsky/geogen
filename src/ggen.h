@@ -26,7 +26,7 @@
 
 class GGen;
 
-class GGen{
+class GGEN_EXPORT GGen{
 protected: 
 	static GGen* instance;
 
