@@ -125,7 +125,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="$(OutDir)\GeoGenD.lib"
+				OutputFile="$(OutDir)\GeoGen.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
