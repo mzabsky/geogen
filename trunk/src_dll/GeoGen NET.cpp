@@ -1,6 +1,6 @@
 using namespace System;
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #pragma comment(lib,"../bin/GeoGenD.lib")
 #else
 #pragma comment(lib,"../bin/GeoGen.lib")

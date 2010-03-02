@@ -20,6 +20,8 @@ function Generate(){
 
 	base.VoronoiNoise(width / 5, 1, GGEN_BUBBLES);
 	
+	base.ReturnAs("VoronoiNoise")
+	
 	base.Smooth(2);
 	
 	local copy = base.Clone();
