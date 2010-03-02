@@ -1009,6 +1009,7 @@ void GGen_Data_2D::ReturnAs(const GGen_String &name)
 {
 	if(GGen::GetInstance()->return_callback == NULL) {
 		GGen::GetInstance()->ThrowMessage(GGen_Const_String("The script returned a named map, but return handler was not defined"), GGEN_WARNING);
+		return;
 	}
 
 	/* Call the defined return callback */
