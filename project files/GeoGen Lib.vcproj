@@ -42,6 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
+				PreprocessorDefinitions="_DEBUG"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="1"
@@ -59,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\GeoGen.lib"
+				OutputFile="$(OutDir)\GeoGenD.lib"
 				IgnoreAllDefaultLibraries="true"
 			/>
 			<Tool

@@ -36,10 +36,20 @@ using namespace std;
 
 // GGen inclusion mode (dynamically linked library / statically linked library / inline)
 #ifdef GGEN_DLL
-	#pragma comment(lib,"../bin/GeoGen.lib")
+	#ifdef _DEBUG
+		#pragma comment(lib,"../bin/GeoGenD.lib")
+	#else
+		#pragma comment(lib,"../bin/GeoGen.lib")
+	#endif
+
 	#include "../include/geogen.h"
 #elif defined(GGEN_LIB)
-	#pragma comment(lib,"../lib/GeoGen.lib")
+	#ifdef _DEBUG
+		#pragma comment(lib,"../lib/GeoGenD.lib")
+	#else
+		#pragma comment(lib,"../lib/GeoGen.lib")
+	#endif
+
 	#include "../include/geogen.h"
 #else
 	#include "ggen.h"

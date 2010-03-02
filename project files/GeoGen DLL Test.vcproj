@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(SolutionDir)/bin\geogen.exe"
+				OutputFile="$(SolutionDir)/bin\geogen-DLLTest.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)/temp/dlltest/Debug/pdb.pdb"

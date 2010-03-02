@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)/temp"
+			OutputDirectory="$(SolutionDir)/bin"
 			IntermediateDirectory="$(SolutionDir)/temp/dll/Debug"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(SolutionDir)\temp\GeoGenD.dll"
+				OutputFile="$(SolutionDir)\bin\GeoGenD.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)/temp/dll/Debug/pdb.pdb"
