@@ -60,7 +60,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(NoInherit)"
-				OutputFile="$(OutDir)\GeoGenNETD.dll"
+				OutputFile="$(OutDir)\GeoGenNET.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
