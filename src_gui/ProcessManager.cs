@@ -215,7 +215,20 @@ namespace GeoGen_Studio
                 };
             }
 
-            this.process.Start();
+            try
+            {
+                this.process.Start();
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                main.WriteToConsole("GeoGen executable is either missing or corrupted.");
+                return;
+            }
+            catch (Exception)
+            {
+                main.WriteToConsole("Could not launch GeoGen.");
+                return;
+            }
 
             // syntax checks will be executed synchronously while normal script executions asynchronously
             // syntax checks are very fast and usually periodic, so there were problems with process/thread synchronization
