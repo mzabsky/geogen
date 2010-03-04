@@ -202,9 +202,6 @@ namespace GeoGen_Studio
             {
                 reader.Close();
             }
-
-
-            return null;
         }
 
         private void LoadDefaults() 
