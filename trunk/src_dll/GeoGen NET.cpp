@@ -29,31 +29,55 @@ public:
 	};
 
 	ref class HeightData{
-	public:
-		initonly unsigned short Width;
-		initonly unsigned short Height;
-		initonly unsigned Length;
+	private:
+		unsigned short width;
+		unsigned short height;
+		unsigned length;
 
-		initonly array<short>^ Data;
+		array<short>^ data;
+	public:
+		property unsigned short Width{
+			unsigned short get(){
+				return width;
+			}
+		}
+
+		property unsigned short Height{
+			unsigned short get(){
+				return height;
+			}
+		}
+
+		property unsigned Length{
+			unsigned get(){
+				return length;
+			}
+		}
+
+		property array<short>^ Data{
+			array<short>^ get(){
+				return data;
+			}
+		}
 
 		HeightData(unsigned short width, unsigned short height, array<short>^ data){
-			Width = width;
-			Height = height;
-			Length = width * height;
+			this->width = width;
+			this->height = height;
+			this->length = width * height;
 
-			Data = array<short>(data);
+			this->data = array<short>(data);
 		}
 
 	internal:
 		HeightData(unsigned short width, unsigned short height, const short* data){
-			Width = width;
-			Height = height;
-			Length = width * height;
+			this->width = width;
+			this->height = height;
+			this->length = width * height;
 			
-			Data = gcnew array<short>(Length);
+			this->data = gcnew array<short>(this->length);
 
 			for(unsigned i = 0; i < Length; i++){
-				Data[i] = data[i];
+				this->data[i] = data[i];
 			}
 		}
 	};
@@ -163,40 +187,81 @@ public:
 		}
 	};
 
-	ref class GGenException: System::Exception{
-
+	ref class Exception: System::Exception{
+		/*Exception(System::String^ message){
+			((System::Exception^) this)
+		};*/
 	};
 
-	ref class SyntaxErrorException: GGenException{
-
+	ref class SyntaxErrorException: Exception{
+		/*SyntaxErrorException()
+			: base("Squirrel compiler could not compile inserted script, please see recent messages returned by the MessageThrown event for details."){}
+		*/
 	};
 
-	ref class ArgsUnreadableException: GGenException{
-		
+	ref class ArgsUnreadableException: Exception{
+		/*ArgsUnreadableException(){
+			this->Message = "Map argument definitions could not be loaded, the GetInfo function is either missing in the script, or it causes errors (such as undefined symbols or argument mismatches). Please see recent messages returned by the MessageThrown event for details.";
+		}*/
 	};
 
-	ref class ArgsNotLoadedException: GGenException{
-		
+	ref class ArgsNotLoadedException: Exception{
+		/*ArgsNotLoadedException(){
+			this->Message = "LoadArgs must be called before the Generate function call.";
+		}*/
 	};
 
-	ref class GenerationFailedException: GGenException{
-
+	ref class GenerationFailedException: Exception{
+		/*GenerationFailedException(){
+			this->Message = "Map generation failed. The Generate function is either missing in the script, or it causes errors (such as undefined symbols or argument mismatches), or the generator ran out of memory. Please see recent messages returned by the MessageThrown event for details.";
+		}*/
 	};
 
-	ref class OneInstanceAllowedException: GGenException{
-
+	ref class OneInstanceAllowedException: Exception{
+		/*OneInstanceAllowedException(){
+			this->Message = "Only one GGenNet instance can exist in a program at one time. Free the current instance or use the GetInstance method to refer to it from any place in the program.";
+		}*/
 	};
 
-
+	ref class InternalErrorException: Exception{
+		/*InternalErrorException(System::Exception^ inner){
+			this->InnerException = inner;
+			this->Message = "GeoGen native library has unexpectedly crashed, please see InnerException object for details.";
+		}*/
+	};
 
 	ref class MessageEventArgs: System::EventArgs{
+	private:
+		System::String^ message;
+		MessageLevel level;
+		int line;
+		int column;
 	public:
-		System::String^ Message;
-		MessageLevel Level;
-		int Line;
-		int Column;
+		property System::String^ Message{
+			System::String^ get(){
+				return message;
+			}
+		}
 
-		MessageEventArgs(System::String^ message, MessageLevel level, int line, int column):Message(message),Level(level),Line(line),Column(column){}
+		property MessageLevel Level{
+			MessageLevel get(){
+				return level;
+			}
+		}
+
+		property int Line{
+			int get(){
+				return line;
+			}
+		}
+
+		property int Column{
+			int get(){
+				return column;
+			}
+		}
+
+		MessageEventArgs(System::String^ message, MessageLevel level, int line, int column):message(message),level(level),line(line),column(column){}
 	};
 
 	ref class ProgressEventArgs: System::EventArgs{
@@ -295,13 +360,30 @@ public:
 
 		GGenNet::instance = this;
 
-		this->ggen = new GGen_Squirrel;
-
-		this->ggen->SetMessageCallback(&::MessageHandler);
+		try{
+			this->ggen = new GGen_Squirrel;
+			
+			if(this->ggen == NULL) throw gcnew System::AccessViolationException("Could not create GGen class object.");
+		
+			this->ggen->SetMessageCallback(&::MessageHandler);
+			this->ggen->SetProgressCallback(&::ProgressHandler);
+			this->ggen->SetReturnCallback(&::ReturnHandler);
+		}
+		catch(System::Exception^){
+			throw gcnew InternalErrorException;
+		}
 
 		this->MessageThrown += gcnew MessageEventHandler(this, &GGenNet::DefaultMessageHandler);
 
 		this->args = nullptr;
+	}
+
+	~GGenNet(){
+		delete this->ggen;
+
+		this->ggen = NULL;
+		
+		this->instance = nullptr;
 	}
 
 	static GGenNet^ GetInstance(){
@@ -309,9 +391,16 @@ public:
 	}
 
 	void SetScript(System::String^ script){
-		bool result = ggen->SetScript(
-			this->ManagedToUnmanagedString(script)
-		);
+		bool result;
+			
+		try{
+			result = ggen->SetScript(
+				this->ManagedToUnmanagedString(script)
+			);
+		}
+		catch(System::Exception^){
+			throw gcnew InternalErrorException;
+		}
 		
 		if(!result){
 			throw gcnew SyntaxErrorException();
@@ -321,7 +410,14 @@ public:
 	}
 
 	System::String^ GetInfo(System::String^ label){
-		GGen_String unmanagedInfo = ggen->GetInfo(ManagedToUnmanagedString(label));
+		GGen_String unmanagedInfo;
+		
+		try{
+			unmanagedInfo = ggen->GetInfo(ManagedToUnmanagedString(label));
+		}
+		catch(System::Exception^){
+			throw gcnew InternalErrorException;
+		}
 
 		return UnmanagedToManagedString(unmanagedInfo);
 	}
@@ -331,7 +427,14 @@ public:
 	}
 
 	array<ScriptArg^>^ LoadArgs(){
-		std::vector<GGen_ScriptArg>* unmanagedArgs = ggen->LoadArgs();
+		std::vector<GGen_ScriptArg>* unmanagedArgs;
+		
+		try{
+			unmanagedArgs = ggen->LoadArgs();
+		}
+		catch(System::Exception^){
+			throw gcnew InternalErrorException;
+		}
 
 		if(unmanagedArgs == NULL){
 			throw gcnew ArgsUnreadableException;
@@ -353,7 +456,14 @@ public:
 			return nullptr;
 		}
 		
-		short* pureData = ggen->Generate();
+		short* pureData;
+		
+		try{
+			pureData = ggen->Generate();
+		}
+		catch(System::Exception^){
+			throw gcnew InternalErrorException;
+		}
 
 		if(pureData == NULL) {
 			throw gcnew GenerationFailedException;
