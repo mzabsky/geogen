@@ -54,16 +54,26 @@ public:
 			}
 		}
 
-		property short x[unsigned]{
-			short get(unsigned index){
-				if(index < this->length) return data[index];
+		property short default[int]{
+			short get(int index){
+				if((unsigned) index < this->length && index >= 0) return data[index];
+				else throw gcnew IndexOutOfRangeException;
+			}
+
+			void set(int index, short value){
+				if((unsigned) index < this->length && index >= 0) data[index] = value;
 				else throw gcnew IndexOutOfRangeException;
 			}
 		}
 
-		property short x[unsigned short, unsigned short]{
-			short get(unsigned short x, unsigned short y){
-				if(x < this->width && y < this->height) return data[x + this->width * y];
+		property short default[int, int]{
+			short get(int x, int y){
+				if(x < this->width && y < this->height && x >= 0 && y >= 0) return data[x + this->width * y];
+				else throw gcnew IndexOutOfRangeException;
+			}
+
+			void set(int x, int y, short value){
+				if(x < this->width && y < this->height && x >= 0 && y >= 0) data[x + this->width * y] = value;
 				else throw gcnew IndexOutOfRangeException;
 			}
 		}
