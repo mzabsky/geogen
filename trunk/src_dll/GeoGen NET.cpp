@@ -92,6 +92,20 @@ public:
 			//this->data = short;
 		}*/
 
+		HeightData(unsigned short width, unsigned short height){
+			if(width < 3 || height < 3) throw gcnew ArgumentException("Both height and with must be >= 2.");
+
+			this->width = width;
+			this->height = height;
+			this->length = width * height;
+			
+			this->data = new short[this->length];
+
+			for(unsigned i = 0; i < this->length; i++){
+				this->data[i] = 0;
+			}
+		}
+
 	internal:
 		HeightData(unsigned short width, unsigned short height, const short* data){
 			this->width = width;
