@@ -52,7 +52,7 @@ namespace GeoGen_Studio
         public static int defaultTextureIndex = 8;
 
         public OpenTK.GLControl viewport;
-        public SHData heightData;
+        public GGenNet.HeightData heightData;
 
         public System.Threading.Thread modelThread;
 
@@ -190,12 +190,14 @@ namespace GeoGen_Studio
             Main main = Main.Get();
             Config config = main.GetConfig();
 
+            GGenNet.HeightData data;
+
             this.currentMap = main.outputs3d.SelectedIndex;
 
-            string path = config.GeoGenWorkingDirectory + "/";
+            //string path = config.GeoGenWorkingDirectory + "/";
 
             // load main or secondary map?
-            if (path_override == null)
+            /*if (path_override == null)
             {
                 if (main.outputs3d.SelectedIndex < 1)
                 {
@@ -208,13 +210,19 @@ namespace GeoGen_Studio
             }
             else {
                 path = path_override;
-            }
+            }*/
 
-            if (!System.IO.File.Exists(path)) return;
+            if (path_override == null)
+            {
+                data = (GGenNet.HeightData) main.GetProcessManager().maps[main.outputs3d.SelectedItem];
+            }
+            else throw new Exception("Novy import jeste neni");
+
+            //if (!System.IO.File.Exists(path)) return;
 
             main.ShowBuildingModel();
 
-            System.Threading.ThreadStart starter = delegate { this.SetTerrain(path); };
+            System.Threading.ThreadStart starter = delegate { this.SetTerrain(data); };
             this.modelThread = new System.Threading.Thread(starter);
             this.modelThread.Start();
         }
@@ -241,45 +249,32 @@ namespace GeoGen_Studio
         }
 
 
-        public void SetTerrain(string path){
+        public void SetTerrain(GGenNet.HeightData original){
             Main main = Main.Get();
             Config config = main.GetConfig();
 
             try
             {
-                // the original map (as generated)
-                //System.Drawing.Bitmap original = new System.Drawing.Bitmap(path);
-                SHData original = null;
-
-                try
-                {
-                    original = new SHData(path);
-                }
-                catch (System.IO.IOException)
-                {
-                    return;
-                };
-
                 // store original's size
-                int originalHeight = original.height;
-                int originalWidth = original.width;
+                int originalHeight = original.Height;
+                int originalWidth = original.Width;
                 // load the overlay pattern
                 System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
 
                 // prepare memory space for the newly created color data
-                this.heightData = original.GetResized(Math.Min(original.width, (int)config.ModelDetailLevel), Math.Min(original.height, (int)config.ModelDetailLevel));
+                this.heightData = OutputManager.GetResizedHeightData(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
 
-                this.textureBase = this.heightData.GetBitmap();
+                this.textureBase = OutputManager.HeightDataToBitmap(this.heightData);
 
                 // release some memory (to prevent OutOfMemory exception)
                 original = null;
 
                 // the vertex array for the model
-                Vertex[] vertices = new Vertex[this.heightData.width * this.heightData.height * 6];
+                Vertex[] vertices = new Vertex[this.heightData.Width * this.heightData.Height * 6];
 
                 // dimension multipliers
-                float fWidth = 100f / (float)this.heightData.width;
-                float fHeight = 100f / (float)this.heightData.height;
+                float fWidth = 100f / (float)this.heightData.Width;
+                float fHeight = 100f / (float)this.heightData.Height;
                 float texFWidth = fWidth;
                 float texFHeight = fHeight;
                 float offsetX = 0;
@@ -288,19 +283,19 @@ namespace GeoGen_Studio
                 // adjust the multipliers for non-square bitmaps
                 if (originalHeight > originalWidth)
                 {
-                    offsetY = (float)((float)(this.heightData.height - this.heightData.width) * 100f / (float)this.heightData.height) / 2f;
+                    offsetY = (float)((float)(this.heightData.Height - this.heightData.Width) * 100f / (float)this.heightData.Height) / 2f;
                     fWidth *= (float)originalWidth / (float)originalHeight;
                 }
                 else if (originalHeight < originalWidth)
                 {
-                    offsetY = (float)((float)(this.heightData.width - this.heightData.height) * 100f / (float)this.heightData.width) / 2f;
+                    offsetY = (float)((float)(this.heightData.Width - this.heightData.Height) * 100f / (float)this.heightData.Width) / 2f;
                     fHeight *= (float)originalHeight / (float)originalWidth;
                 }
 
                 // build the model
                 if (this.heightData != null)
                 {
-                    for (int y = 0; y < this.heightData.height - 1; y++)
+                    for (int y = 0; y < this.heightData.Height - 1; y++)
                     {
                         float fy = (float)y;
 
@@ -311,7 +306,7 @@ namespace GeoGen_Studio
                         float texYPosNext = (fy + 1 + 0.5f) * texFHeight;
 
 
-                        for (int x = 0; x < this.heightData.width - 1; x++)
+                        for (int x = 0; x < this.heightData.Width - 1; x++)
                         {
                             float fx = (float)x;
 
@@ -319,7 +314,7 @@ namespace GeoGen_Studio
                             Vertex a = new Vertex();
                             a.Position.X = offsetX + fx * fWidth;
                             a.Position.Y = offsetY + yPos;
-                            a.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * y)] * 0.005f / 128f);
+                            a.Position.Z = (float)((float)this.heightData[x, y] * 0.005f / 128f);
                             //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
                             a.TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
                             a.TexCoord.Y = texYPos / 100f;
@@ -328,7 +323,7 @@ namespace GeoGen_Studio
                             Vertex b = new Vertex();
                             b.Position.X = offsetX + (fx + 1) * fWidth;
                             b.Position.Y = offsetY + yPos;
-                            b.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * y)] * 0.005f / 128f);
+                            b.Position.Z = (float)((float)this.heightData[x + 1, y] * 0.005f / 128f);
                             //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
                             b.TexCoord.X = (fx + 1 + 0.5f) * texFWidth / 100f;
                             b.TexCoord.Y = texYPos / 100f;
@@ -337,7 +332,7 @@ namespace GeoGen_Studio
                             Vertex c = new Vertex();
                             c.Position.X = offsetX + fx * fWidth;
                             c.Position.Y = offsetY + yPosNext;
-                            c.Position.Z = (float)((float)this.heightData.data[(x + this.heightData.width * (y + 1))] * 0.005f / 128f);
+                            c.Position.Z = (float)((float)this.heightData[x, y + 1] * 0.005f / 128f);
                             //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
                             c.TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
                             c.TexCoord.Y = texYPosNext / 100f;
@@ -346,7 +341,7 @@ namespace GeoGen_Studio
                             Vertex d = new Vertex();
                             d.Position.X = offsetX + (fx + 1) * fWidth;
                             d.Position.Y = offsetY + yPosNext;
-                            d.Position.Z = (float)((float)this.heightData.data[(x + 1 + this.heightData.width * (y + 1))] * 0.005f / 128f);
+                            d.Position.Z = (float)((float)this.heightData[x + 1, y + 1] * 0.005f / 128f);
                             //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
                             d.TexCoord.X = (fx + 1 + 0.5f) * texFWidth / 100f;
                             d.TexCoord.Y = texYPosNext / 100f;
@@ -373,14 +368,14 @@ namespace GeoGen_Studio
                             c2.Normal = d.Normal;
 
                             // first triangle
-                            vertices[(x + this.heightData.width * y) * 6] = a;
-                            vertices[(x + this.heightData.width * y) * 6 + 1] = b;
-                            vertices[(x + this.heightData.width * y) * 6 + 2] = c;
+                            vertices[(x + this.heightData.Width * y) * 6] = a;
+                            vertices[(x + this.heightData.Width * y) * 6 + 1] = b;
+                            vertices[(x + this.heightData.Width * y) * 6 + 2] = c;
 
                             // second triangle                        
-                            vertices[(x + this.heightData.width * y) * 6 + 4] = d;
-                            vertices[(x + this.heightData.width * y) * 6 + 5] = c2;
-                            vertices[(x + this.heightData.width * y) * 6 + 3] = b2;
+                            vertices[(x + this.heightData.Width * y) * 6 + 4] = d;
+                            vertices[(x + this.heightData.Width * y) * 6 + 5] = c2;
+                            vertices[(x + this.heightData.Width * y) * 6 + 3] = b2;
                         }
                     }
                 }
@@ -419,21 +414,30 @@ namespace GeoGen_Studio
                 {
                     main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
                     {
-                        // regrab the context for the GUI thread
-                        viewport.MakeCurrent();
+                        try
+                        {
+                            // regrab the context for the GUI thread
+                            viewport.MakeCurrent();
 
-                        // rebuild the texture
-                        this.ApplyTexture();
+                            // rebuild the texture
+                            this.ApplyTexture();
 
-                        // UI stuff
-                        main.Output3dButtonsOn();
-                        this.viewport.Invalidate();
+                            // UI stuff
+                            main.Output3dButtonsOn();
+                            this.viewport.Invalidate();
 
-                        main.HideBuildingModel();
+                            main.HideBuildingModel();
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
                     }));
                 }
                 // this might throw exceptions in case the main thread was terminated while this thread is running
-                catch (Exception) { };
+                catch (Exception e) { 
+                
+                };
             }
             catch (OutOfMemoryException)
             {
@@ -503,7 +507,7 @@ namespace GeoGen_Studio
                 GL.Scale(1f, 1f, this.heightScale);
 
                 // read the data from buffer
-                GL.DrawArrays(BeginMode.Triangles, 0, this.heightData.width * this.heightData.height * 6);
+                GL.DrawArrays(BeginMode.Triangles, 0, (int) (this.heightData.Length * 6));
             }
 
             // display the stuff
@@ -555,16 +559,12 @@ namespace GeoGen_Studio
                 {
                     path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
                     bitmap = main.GetOutputManager().ApplyOverlay(this.heightData, new System.Drawing.Bitmap(path));
-
                 }
 
                 // "Map: " type texture
                 else if (selected[0] == 'M')
                 {
-                    path = config.geoGenWorkingDirectory + "/" + selected.Substring(5, selected.Length - 5);
-
-                    bitmap = new SHData(path).GetBitmap();
-
+                    bitmap = OutputManager.HeightDataToBitmap((GGenNet.HeightData)main.GetProcessManager().maps[selected.Substring(5, selected.Length - 5)]);
                 }
 
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
