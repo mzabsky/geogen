@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage codeTab;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            //this.editor = new ScintillaNet.Scintilla();
             this.importTextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,9 +152,9 @@
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
             this.importHeightmapDialog = new System.Windows.Forms.OpenFileDialog();
             this.exportHeightmapDialog = new System.Windows.Forms.SaveFileDialog();
+            this.progress = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             codeTab = new System.Windows.Forms.TabPage();
-            codeTab.SuspendLayout();
-            //((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -179,7 +178,6 @@
             // 
             // codeTab
             // 
-            //codeTab.Controls.Add(this.editor);
             codeTab.Location = new System.Drawing.Point(4, 22);
             codeTab.Name = "codeTab";
             codeTab.Padding = new System.Windows.Forms.Padding(3);
@@ -187,34 +185,6 @@
             codeTab.TabIndex = 0;
             codeTab.Text = "Code";
             codeTab.UseVisualStyleBackColor = true;
-            // 
-            // editor
-            // 
-            /*this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Caret.BlinkRate = 500;
-            this.editor.ConfigurationManager.CustomLocation = "../config/scintilla.xml";
-            this.editor.ConfigurationManager.IsBuiltInEnabled = false;
-            this.editor.ConfigurationManager.IsUserEnabled = false;
-            this.editor.ConfigurationManager.Language = "cs";
-            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editor.Location = new System.Drawing.Point(3, 3);
-            this.editor.Margins.FoldMarginColor = System.Drawing.Color.Gray;
-            this.editor.Margins.FoldMarginHighlightColor = System.Drawing.Color.LightGray;
-            this.editor.Margins.Margin0.Width = 30;
-            this.editor.Margins.Margin1.Width = 0;
-            this.editor.Margins.Margin2.Width = 20;
-            this.editor.Name = "editor";
-            this.editor.Size = new System.Drawing.Size(795, 400);
-            this.editor.Styles.Bits = 5;
-            this.editor.Styles.BraceBad.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.BraceLight.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.CallTip.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.ControlChar.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.IndentGuide.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.LastPredefined.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.Max.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.TabIndex = 0;*/
             // 
             // importTextureDialog
             // 
@@ -900,7 +870,9 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.status,
-            this.coords});
+            this.coords,
+            this.toolStripStatusLabel1,
+            this.progress});
             this.statusStrip.Location = new System.Drawing.Point(0, 481);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(989, 22);
@@ -1415,6 +1387,23 @@
             this.exportHeightmapDialog.Filter = "BMP Image|*.bmp|JPEG Image|*.jpg|PNG Image|*.png|Short Height Data|*.shd|All file" +
                 "s|*.*";
             // 
+            // progress
+            // 
+            this.progress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(200, 16);
+            this.progress.Step = 1;
+            this.progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progress.ToolTipText = "Map generation progress";
+            this.progress.Visible = false;
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(704, 17);
+            this.toolStripStatusLabel1.Spring = true;
+            this.toolStripStatusLabel1.Text = " ";
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -1436,8 +1425,6 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
-            codeTab.ResumeLayout(false);
-            //((System.ComponentModel.ISupportInitialize)(this.editor)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -1595,6 +1582,8 @@
         public System.Windows.Forms.SaveFileDialog exportHeightmapDialog;
         private System.Windows.Forms.ToolStripButton exportToolStripButton;
         public System.Windows.Forms.OpenFileDialog importTextureDialog;
+        public System.Windows.Forms.ToolStripProgressBar progress;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
