@@ -34,7 +34,7 @@ public:
 		unsigned short height;
 		unsigned length;
 
-		array<short>^ data;
+		short* data;
 	public:
 		property unsigned short Width{
 			unsigned short get(){
@@ -54,19 +54,33 @@ public:
 			}
 		}
 
-		property array<short>^ Data{
-			array<short>^ get(){
-				return data;
+		property short x[unsigned]{
+			short get(unsigned index){
+				if(index < this->length) return data[index];
+				else throw gcnew IndexOutOfRangeException;
 			}
 		}
 
-		HeightData(unsigned short width, unsigned short height, array<short>^ data){
+		property short x[unsigned short, unsigned short]{
+			short get(unsigned short x, unsigned short y){
+				if(x < this->width && y < this->height) return data[x + this->width * y];
+				else throw gcnew IndexOutOfRangeException;
+			}
+		}
+
+		property System::IntPtr DataPtr{
+			System::IntPtr get(){
+				return (System::IntPtr) data;
+			}
+		}
+
+/*		HeightData(unsigned short width, unsigned short height, array<short>^ data){
 			this->width = width;
 			this->height = height;
 			this->length = width * height;
 
-			this->data = array<short>(data);
-		}
+			//this->data = short;
+		}*/
 
 	internal:
 		HeightData(unsigned short width, unsigned short height, const short* data){
@@ -74,10 +88,13 @@ public:
 			this->height = height;
 			this->length = width * height;
 			
-			this->data = gcnew array<short>(this->length);
-
-			for(unsigned i = 0; i < Length; i++){
-				this->data[i] = data[i];
+			this->data = new short[this->length];
+			
+			try{
+				memcpy(this->data, data, this->length * sizeof(short));
+			}
+			catch(System::Exception^){
+				throw gcnew OutOfMemoryException;
 			}
 		}
 	};
