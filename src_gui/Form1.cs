@@ -39,7 +39,6 @@ namespace GeoGen_Studio
         private bool needsSaving;
         public ProcessManager processManager;
         public OutputManager outputManager;
-        public ViewportManager viewportManager;
         public Config config;
         private bool knownFile = false; // do we knoow path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
         private bool scrollOutput;
@@ -76,11 +75,7 @@ namespace GeoGen_Studio
             // initialize the managers
             this.processManager = new ProcessManager();
             this.outputManager = new OutputManager();
-            this.viewportManager = new ViewportManager();
-
-            // let viewportManager know of the viewport
-            this.viewportManager.viewport = this.viewport;
-
+                     
             // load XML configuration
             Config.Load();
 
@@ -171,11 +166,6 @@ namespace GeoGen_Studio
             return this.outputManager;
         }
 
-        public ViewportManager GetViewportManager()
-        {
-            return this.viewportManager;
-        }
-
         public string GetScript()
         {
             return this.editor.Text;
@@ -263,8 +253,8 @@ namespace GeoGen_Studio
         {
             try
             {
-                this.viewportManager.ClearData();
-                this.outputManager.ClearData();
+                //this.viewportManager.ClearData();
+                //this.outputManager.ClearData();
             }
             catch { };
 
@@ -494,7 +484,7 @@ namespace GeoGen_Studio
             this.config.wireframe = this.wireframe.Checked;
             this.config.heightScale = this.heightScale.Value;
 
-            this.viewportManager.SetupViewport();
+            this.SetupViewport();
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -883,7 +873,7 @@ namespace GeoGen_Studio
                 output.Top -= (Int32)((Double)(output.Height - current_height) / ((Double)current_height / (Double)this.outputLastMouseY));
             }
             else if(this.viewportMouse){
-                this.viewportManager.distance = Math.Max(Math.Min(this.viewportManager.distance - e.Delta / 20, 150), 1);
+                this.distance = Math.Max(Math.Min(this.distance - e.Delta / 20, 150), 1);
 
                 this.viewport.Invalidate();
             }
@@ -911,12 +901,12 @@ namespace GeoGen_Studio
 
         private void viewport_Load(object sender, EventArgs e)
         {
-            this.viewportManager.Init();
+            this.Init();
         }
 
         private void viewport_Paint(object sender, PaintEventArgs e)
         {
-            this.viewportManager.Render();
+            this.Render();
         }
 
         private void viewport_MouseDown(object sender, MouseEventArgs e)
@@ -953,9 +943,9 @@ namespace GeoGen_Studio
         {
             if (this.scrollViewport)
             {
-                this.viewportManager.azimuth += (double) (e.X - this.mouseDownX) / (this.viewport.Width * 0.5) ;
+                this.azimuth += (double) (e.X - this.mouseDownX) / (this.viewport.Width * 0.5) ;
 
-                this.viewportManager.elevation = Math.Min(Math.Max(this.viewportManager.elevation + (double)(e.Y - this.mouseDownY) / (this.viewport.Height), 0.174), 1.57); // clamp the elevation between 10 and 90 degrees
+                this.elevation = Math.Min(Math.Max(this.elevation + (double)(e.Y - this.mouseDownY) / (this.viewport.Height), 0.174), 1.57); // clamp the elevation between 10 and 90 degrees
 
                 viewport.Invalidate();
 
@@ -965,8 +955,8 @@ namespace GeoGen_Studio
             {
                 // movement must be relative to the current camera vector (its azimuth)
                 // the camerra target is not permitted to leave map area
-                this.viewportManager.targetX = Math.Max(0, Math.Min(100 ,this.viewportManager.targetX + ((float)Math.Cos(this.viewportManager.azimuth) * (e.X - this.mouseDownX) / 20 + (float)Math.Sin(-this.viewportManager.azimuth) * (e.Y - this.mouseDownY) / 20)));
-                this.viewportManager.targetY = Math.Max(0, Math.Min(100 ,this.viewportManager.targetY - ((float)Math.Cos(-this.viewportManager.azimuth) * (e.Y - this.mouseDownY) / 20 + (float)Math.Sin(this.viewportManager.azimuth) * (e.X - this.mouseDownX) / 20)));
+                this.targetX = Math.Max(0, Math.Min(100 ,this.targetX + ((float)Math.Cos(this.azimuth) * (e.X - this.mouseDownX) / 20 + (float)Math.Sin(-this.azimuth) * (e.Y - this.mouseDownY) / 20)));
+                this.targetY = Math.Max(0, Math.Min(100 ,this.targetY - ((float)Math.Cos(-this.azimuth) * (e.Y - this.mouseDownY) / 20 + (float)Math.Sin(this.azimuth) * (e.X - this.mouseDownX) / 20)));
 
                 viewport.Invalidate();
             }
@@ -978,17 +968,17 @@ namespace GeoGen_Studio
 
         private void wireframe_CheckedChanged(object sender, EventArgs e)
         {
-            this.viewportManager.SetWireframeState(this.wireframe.Checked);
+            this.SetWireframeState(this.wireframe.Checked);
         }
 
         private void screenshot_Click(object sender, EventArgs e)
         {
-            this.viewportManager.SaveScreenshot();
+            this.SaveScreenshot();
         }
 
         private void heightScale_ValueChanged(object sender, EventArgs e)
         {
-            this.viewportManager.HeightScale = this.heightScale.Value;
+            this.viewport.Invalidate();
         }
 
         private void viewport_MouseEnter(object sender, EventArgs e)
@@ -1003,22 +993,22 @@ namespace GeoGen_Studio
 
         private void clear3d_Click(object sender, EventArgs e)
         {
-            this.viewportManager.ClearData();
+            this.ClearData();
         }
 
         private void outputs3d_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.GetViewportManager().currentMap != -1 && this.viewportManager.heightData != null) this.viewportManager.RebuildTerrain(null);
+            if(this.currentMap != -1 && this.heightData != null) this.RebuildTerrain(null);
         }
 
         private void texture_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.texture.SelectedIndex != -1)
             {
-                this.viewportManager.currentTextureIndex = this.texture.SelectedIndex;
+                this.currentTextureIndex = this.texture.SelectedIndex;
             }
 
-            this.GetViewportManager().ApplyTexture();
+            this.ApplyTexture();
         }
 
         private void lighting_Click(object sender, EventArgs e)
@@ -1029,7 +1019,7 @@ namespace GeoGen_Studio
 
         private void viewport_Resize(object sender, EventArgs e)
         {
-            this.viewportManager.SetupViewport();
+            this.SetupViewport();
         }
 
         private void Main_DragEnter(object sender, DragEventArgs e)

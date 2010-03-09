@@ -98,13 +98,13 @@ namespace GeoGen_Studio
                 main.outputs3d.SelectedIndex = 0;
 
 
-                if (main.viewportManager.currentTextureIndex < main.texture.Items.Count)
+                if (main.currentTextureIndex < main.texture.Items.Count)
                 {
-                    main.texture.SelectedIndex = main.viewportManager.currentTextureIndex;
+                    main.texture.SelectedIndex = main.currentTextureIndex;
                 }
                 else
                 {
-                    main.texture.SelectedIndex = ViewportManager.defaultTextureIndex;
+                    main.texture.SelectedIndex = Main.defaultTextureIndex;
                 }
             }
             else
@@ -133,7 +133,7 @@ namespace GeoGen_Studio
             // rebuild the 3d model
             if (config.enable3d)
             {
-                main.GetViewportManager().RebuildTerrain(path);
+                main.RebuildTerrain(path);
             }
         }
 
@@ -335,7 +335,7 @@ namespace GeoGen_Studio
                 main.overlays.SelectedIndex = currentOverlayIndex;
             }
 
-            main.texture.SelectedIndex = main.GetViewportManager().currentTextureIndex;
+            main.texture.SelectedIndex = main.currentTextureIndex;
         }
 
         public void SaveOutput()
@@ -412,7 +412,7 @@ namespace GeoGen_Studio
             if(max < -min) max = (short) -min;
 
             for (int i = 0; i < data.Length; i++){
-                data[i] = (short)((int)data[i] * (int)short.MaxValue / (int)max);
+                data[i] = max > 0 ? (short)((int)data[i] * (int)short.MaxValue / (int)max) : (short)0;
             }
         }
 
