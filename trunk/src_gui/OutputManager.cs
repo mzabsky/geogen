@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections;
 
 namespace GeoGen_Studio
 {
@@ -9,7 +10,7 @@ namespace GeoGen_Studio
         private System.Drawing.Image currentImage;
         private System.Drawing.Image currentImageWithOverlay;
         private string currentImportedFile = null;
-        public SHData data;
+        public GGenNet.HeightData data;
 
         private int currentOverlayIndex;
 
@@ -78,23 +79,24 @@ namespace GeoGen_Studio
             if (path == null)
             {
                 // list of generated maps
-                string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.shd");
+                //string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.shd");
 
-                main.outputs.Items.Add("[Main]");
-                main.outputs.SelectedIndex = 0;
-
-                main.outputs3d.Items.Add("[Main]");
-                main.outputs3d.SelectedIndex = 0;
+                //main.outputs.Items.Add("[Main]");
 
                 // add found secondary maps to the output list
-                for (int i = 0; i < paths.Length; i++)
+                foreach(DictionaryEntry item in main.GetProcessManager().maps)
                 {
-                    System.IO.FileInfo info = new System.IO.FileInfo(paths[i]);
+                    //System.IO.FileInfo info = new System.IO.FileInfo(paths[i]);
 
-                    main.outputs.Items.Add(info.Name);
-                    main.outputs3d.Items.Add(info.Name);
-                    main.texture.Items.Add("Map: " + info.Name);
+                    main.outputs.Items.Add((string) item.Key);
+                    main.outputs3d.Items.Add((string) item.Key);
+                    main.texture.Items.Add("Map: " + (string) item.Key);
                 }
+
+                main.outputs.SelectedIndex = 0;
+
+                main.outputs3d.SelectedIndex = 0;
+
 
                 if (main.viewportManager.currentTextureIndex < main.texture.Items.Count)
                 {
@@ -135,14 +137,14 @@ namespace GeoGen_Studio
             }
         }
 
-        public System.Drawing.Bitmap ApplyOverlay(SHData heights, System.Drawing.Bitmap overlayBitmap)
+        public System.Drawing.Bitmap ApplyOverlay(GGenNet.HeightData heights, System.Drawing.Bitmap overlayBitmap)
         {
             // prepare byte access to the overlay bitmap
             System.Drawing.Rectangle OverlayRect = new System.Drawing.Rectangle(0, 0, overlayBitmap.Width, overlayBitmap.Height);
             System.Drawing.Imaging.BitmapData overlayData = overlayBitmap.LockBits(OverlayRect, System.Drawing.Imaging.ImageLockMode.ReadOnly, overlayBitmap.PixelFormat);
 
             // create a blank bitmap and prepare it for byte access
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(heights.width, heights.height);
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(heights.Width, heights.Height);
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
@@ -164,9 +166,9 @@ namespace GeoGen_Studio
             {
                 for (int i = 0; i < bytes.Length; i += 4)
                 {
-                    int current = (heights.data[i / 4] / 128);
+                    int current = (heights[i / 4] / 128);
                     if (current < 0) current = 0;
-                    else if (current == 0 && heights.data[i / 4] >= 0) current = 1;
+                    else if (current == 0 && heights[i / 4] >= 0) current = 1;
 
                     bytes[i + 0] = overlayCopy[current * 3 + 0];
                     bytes[i + 1] = overlayCopy[current * 3 + 1];
@@ -179,13 +181,13 @@ namespace GeoGen_Studio
             {
                 for (int i = 0; i < bytes.Length; i += 4)
                 {
-                    int current = 256 + (heights.data[i / 4] / 128);
+                    int current = 256 + (heights[i / 4] / 128);
 
                     if (current < 0 || current > 511)
                     {
                         current = 0;
                     }
-                    else if (current == 0 && heights.data[i / 4] >= 0) current = 1;
+                    else if (current == 0 && heights[i / 4] >= 0) current = 1;
 
                     bytes[i + 0] = overlayCopy[current * 3 + 0];
                     bytes[i + 1] = overlayCopy[current * 3 + 1];
@@ -241,11 +243,12 @@ namespace GeoGen_Studio
                 // if the image being loaded doesn't exist, cancel
                 try
                 {
-                    this.data = new SHData(path);
+                    //this.data = new SHData(path);
 
-                    currentImage = this.data.GetBitmap();
+                    this.data = (GGenNet.HeightData)main.GetProcessManager().maps[main.outputs.SelectedItem];
+                    currentImage = HeightDataToBitmap(this.data);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     main.RemoveStatus("Loading");
 
@@ -358,6 +361,75 @@ namespace GeoGen_Studio
             {
                 main.output.Image = this.currentImage;
             }
+        }
+
+        public static System.Drawing.Bitmap HeightDataToBitmap(GGenNet.HeightData data){
+            // create a blank bitmap
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(data.Width, data.Height);
+
+            // lock the bitmap color data for byte access
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            System.Drawing.Imaging.BitmapData locked = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
+
+            // prepare memory space for the new color data
+            byte[] bytes = new byte[locked.Stride * bitmap.Height];
+
+            // get a pointer to the to first line (=first pixel)
+            IntPtr ptr = locked.Scan0;
+
+            // fill in the bytes
+            for (int i = 0; i < bytes.Length; i += 4)
+            {
+                // we won't be able to display the height data lower than 0 -> crop them
+                byte current = (byte)(data[i / 4] > 0 ? (data[i / 4] / 128) : 0);
+
+                bytes[i + 0] = current;
+                bytes[i + 1] = current;
+                bytes[i + 2] = current;
+                bytes[i + 3] = 255;
+            }
+
+            // copy the data into the bitmap
+            System.Runtime.InteropServices.Marshal.Copy(bytes, 0, ptr, locked.Stride * bitmap.Height);
+
+            // unlock the bits
+            bitmap.UnlockBits(locked);
+
+            return bitmap;
+        }
+
+        public static void StretchHeightValues(ref GGenNet.HeightData data){
+            // find minimum and maximum values
+            short max = short.MinValue;
+            short min = short.MaxValue;
+
+            for(int i = 0; i < data.Length; i++){
+                if(data[i] > max) max = data[i];
+                if(data[i] < min) min = data[i];
+            }
+
+            // is the ocean deeper than land is high?
+            if(max < -min) max = (short) -min;
+
+            for (int i = 0; i < data.Length; i++){
+                data[i] = (short)((int)data[i] * (int)short.MaxValue / (int)max);
+            }
+        }
+
+        public static GGenNet.HeightData GetResizedHeightData(GGenNet.HeightData data, int width, int height)
+        {
+            GGenNet.HeightData resized = new GGenNet.HeightData((UInt16)width, (UInt16)height);
+            
+            // use nearest neighbor scaling algorithm
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    resized[x, y] = data[x * data.Width / width, y * data.Height / height];
+                }
+            }
+
+            return resized;
         }
     }
 }

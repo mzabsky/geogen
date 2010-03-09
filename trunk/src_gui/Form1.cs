@@ -614,7 +614,7 @@ namespace GeoGen_Studio
             if(this.overlays.SelectedIndex > 0) this.toggleOverlay.Checked = true;
             else this.toggleOverlay.Checked = false;
 
-            this.outputManager.ShowImage();
+             this.outputManager.ShowImage();
         }
 
         private void outputs_SelectedIndexChanged(object sender, EventArgs e)
@@ -1069,12 +1069,12 @@ namespace GeoGen_Studio
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            this.outputManager.data.Export();
+            //this.outputManager.data.Export();
         }
 
         private void exportToolStripButton_Click(object sender, EventArgs e)
         {
-            this.outputManager.data.Export();
+            //this.outputManager.data.Export();
         }
 
           

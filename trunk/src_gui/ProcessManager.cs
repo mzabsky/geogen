@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -7,6 +8,8 @@ namespace GeoGen_Studio
 {
     public class ProcessManager
     {
+        private GGenNet ggen;
+
         private enum Mode
         {
             Idle, // geogen is not running
@@ -23,19 +26,26 @@ namespace GeoGen_Studio
         };
 
         private Mode mode;
-        public Process process;
-        
+
+        private System.Threading.Thread thread;
+
         public string lastCheckContent;
         private bool isCheckScheduled;
 
         private BenchmarkStatus benchmarkStatus;
         private BenchmarkForm benchmarkForm;
 
-        public DataReceivedEventHandler dataHandler;
+        public Hashtable maps;
 
         public ProcessManager()
         {
             mode = Mode.Idle;
+
+            maps = new Hashtable();
+
+            ggen = new GGenNet();
+
+            ggen.MapReturned += ReturnHandler;
         }
 
         public bool IsRunning(){
@@ -83,6 +93,14 @@ namespace GeoGen_Studio
             }
         }
 
+        public void ReturnHandler(object sender, GGenNet.MapReturnedEventArgs e){
+            GGenNet.HeightData data = e.HeightMap;
+            
+            OutputManager.StretchHeightValues(ref data);
+
+            this.maps.Add(e.Label, data);
+        }
+
         public void ExecuteScript(string script, bool verificationOnly, string parameters)
         {
             Main main = Main.Get();
@@ -93,7 +111,7 @@ namespace GeoGen_Studio
             {
                 try
                 {
-                    process.Kill();
+                    //process.Kill();
                 }
                 catch (Exception) { };
 
@@ -111,7 +129,7 @@ namespace GeoGen_Studio
             // having two generators running at once shouldn't happen
             else if (mode == Mode.Standard)
             {
-                process.Kill();
+                //process.Kill();
                 System.Windows.Forms.MessageBox.Show("Another child GeoGen process is still running, terminating.");
             }
 
@@ -127,6 +145,66 @@ namespace GeoGen_Studio
                 main.AddStatus("Checking syntax");
             }
 
+            System.Threading.ThreadStart starter = new System.Threading.ThreadStart(delegate
+            {
+                
+
+                ggen.SetScript(script);
+
+                ggen.LoadArgs();
+
+                if (!verificationOnly)
+                {
+                    this.maps.Clear();
+
+                    GGenNet.HeightData result = ggen.Generate();
+
+                    OutputManager.StretchHeightValues(ref result);
+
+                    maps.Add("[Main]", result);
+
+                    main.RemoveStatus("Executing");
+
+
+                    main.Invoke(new MethodInvoker(delegate()
+                    {
+                        // was this part of a benchmark?
+                        if (benchmarkStatus != null)
+                        {
+                            this.Benchmark();
+
+                            return;
+                        }
+
+                        main.ButtonsNoRunMode();
+
+                        //if (process.ExitCode == 0)
+                        //{
+                        // let the output manager capture the outputs
+                        main.GetOutputManager().ReloadMaps(null);
+                        //}
+                        // exit code != 0 means error of some sort
+                        //else
+                        //{
+                        // let the application sleep for a moment so all the geogen runtime errors can be printed correctly first
+                        //    main.WriteToConsole("The generator was terminated prematurely!");
+                        //}
+
+                        this.mode = Mode.Idle;
+
+                        this.ExecuteScheduledCheck();
+                    }));
+                }
+            });
+
+            thread = new System.Threading.Thread(starter);
+
+            thread.Start();
+
+
+
+
+            /*
             string inPath;
             string outPath;
 
@@ -235,10 +313,10 @@ namespace GeoGen_Studio
             if (!verificationOnly)
             {
                 process.BeginOutputReadLine();
-            }
+            }*/
         }
 
-        public void ProcessFinished(){
+       /* public void ProcessFinished(){
             Main main = Main.Get();
             Config config = main.GetConfig();
 
@@ -269,9 +347,9 @@ namespace GeoGen_Studio
             this.mode = Mode.Idle;
 
             this.ExecuteScheduledCheck();
-        }
+        }*/
 
-        public void SyntaxCheckFinished()
+        /*public void SyntaxCheckFinished()
         {
             Main main = Main.Get();
             
@@ -369,10 +447,13 @@ namespace GeoGen_Studio
             this.mode = Mode.Idle;
 
             this.ExecuteScheduledCheck();
-        }
+        }*/
 
         public void Terminate(){
-            this.process.Kill();
+            if (thread != null && thread.IsAlive)
+            {
+                thread.Abort();
+            }
         }
 
         public void ShowLastErrorInfo()
@@ -451,7 +532,7 @@ namespace GeoGen_Studio
                 this.mode = Mode.Idle;
 
                 // bad exit code -> stop
-                if (this.process.ExitCode != 0)
+                if (/*this.process.ExitCode != 0*/ true)
                 {
                     main.WriteToConsole("Benchmark failed!");
 
