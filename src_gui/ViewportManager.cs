@@ -194,31 +194,14 @@ namespace GeoGen_Studio
 
             this.currentMap = main.outputs3d.SelectedIndex;
 
-            //string path = config.GeoGenWorkingDirectory + "/";
-
-            // load main or secondary map?
-            /*if (path_override == null)
-            {
-                if (main.outputs3d.SelectedIndex < 1)
-                {
-                    path += config.MainMapOutputFile;
-                }
-                else
-                {
-                    path += (string)main.outputs3d.Items[main.outputs3d.SelectedIndex];
-                }
-            }
-            else {
-                path = path_override;
-            }*/
-
             if (path_override == null)
             {
-                data = (GGenNet.HeightData) main.GetProcessManager().maps[main.outputs3d.SelectedItem];
+                data = (GGenNet.HeightData)main.GetProcessManager().maps[main.outputs3d.SelectedItem];
             }
-            else throw new Exception("Novy import jeste neni");
-
-            //if (!System.IO.File.Exists(path)) return;
+            else
+            {
+                data = OutputManager.LoadHeightmapFromImageFile(path_override);
+            }
 
             main.ShowBuildingModel();
 
@@ -528,7 +511,7 @@ namespace GeoGen_Studio
                 }
 
                 string selected = (string)main.texture.Items[main.texture.SelectedIndex];
-
+                     
                 string path = "";
 
                 System.Drawing.Bitmap bitmap = null;

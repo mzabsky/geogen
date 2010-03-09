@@ -431,5 +431,59 @@ namespace GeoGen_Studio
 
             return resized;
         }
+
+        public static GGenNet.HeightData LoadHeightmapFromImageFile(string path){
+            GGenNet.HeightData heights;
+            
+            string ext = path.Substring(path.LastIndexOf('.'), path.Length - path.LastIndexOf('.')).ToLower();
+
+            if (ext == ".shd")
+            {
+                // byte-by-byte binary reading
+                System.IO.BinaryReader reader = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open, System.IO.FileAccess.Read));
+
+                // read first eight bytes with map dimensions
+                int width = reader.ReadInt32();
+                int height = reader.ReadInt32();
+
+                heights = new GGenNet.HeightData((UInt16) width,(UInt16) height);
+
+                // read the double bytes containing the height data
+                for (int i = 0; i < width * height; i++)
+                {
+                    heights[i] = reader.ReadInt16();
+                }
+
+                reader.Close();
+            }
+            else
+            {
+                // read the bitmap file
+                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(path);
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+                heights = new GGenNet.HeightData((UInt16) bitmap.Width, (UInt16)bitmap.Height);
+
+                // prepare memory space for the color data
+                byte[] bytes = new byte[data.Stride * bitmap.Height];
+
+                // get a pointer to the to first line (=first pixel)
+                IntPtr ptr = data.Scan0;
+
+                // create a byte copy of the heightmap data
+                System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, data.Stride * bitmap.Height);
+
+                // create the color data
+                for (int i = 0; i < bytes.Length; i += 4)
+                {
+                    heights[i / 4] = (short)((short)bytes[i] * 128);
+                }
+
+                bitmap.UnlockBits(data);
+            }
+
+            return heights;
+        }
     }
 }
