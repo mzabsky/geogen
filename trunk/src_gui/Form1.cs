@@ -36,6 +36,7 @@ namespace GeoGen_Studio
             GoTo3DOutput = 2
         };
 
+        ScintillaNet.Scintilla editor;
         private bool needsSaving;
         public ProcessManager processManager;
         public OutputManager outputManager;
@@ -69,6 +70,8 @@ namespace GeoGen_Studio
             Loading loading = new Loading();
             loading.Show();
             loading.Refresh();
+
+            this.CreateEditor();
 
             this.needsSaving = false;
 
@@ -149,6 +152,39 @@ namespace GeoGen_Studio
             }
 
             return null;
+        }
+
+        public void CreateEditor(){
+            this.editor = new ScintillaNet.Scintilla();
+
+            this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Caret.BlinkRate = 500;
+            this.editor.ConfigurationManager.CustomLocation = "../config/scintilla.xml";
+            this.editor.ConfigurationManager.IsBuiltInEnabled = false;
+            this.editor.ConfigurationManager.IsUserEnabled = false;
+            this.editor.ConfigurationManager.Language = "cs";
+            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editor.Location = new System.Drawing.Point(3, 3);
+            this.editor.Margins.FoldMarginColor = System.Drawing.Color.Gray;
+            this.editor.Margins.FoldMarginHighlightColor = System.Drawing.Color.LightGray;
+            this.editor.Margins.Margin0.Width = 30;
+            this.editor.Margins.Margin1.Width = 0;
+            this.editor.Margins.Margin2.Width = 20;
+            this.editor.Name = "editor";
+            this.editor.Size = new System.Drawing.Size(795, 400);
+            this.editor.Styles.BraceBad.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Styles.BraceLight.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Styles.CallTip.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Styles.ControlChar.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Styles.IndentGuide.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Styles.LastPredefined.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.Styles.Max.BackColor = System.Drawing.SystemColors.Window;
+            this.editor.TabIndex = 0;
+
+            //this.codeTab.Controls.Add(this.editor);
+
+            this.tabs.TabPages[0].Controls.Add(this.editor);
         }
 
         public Config GetConfig()
@@ -807,7 +843,7 @@ namespace GeoGen_Studio
 
         private void whiteSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.WhiteSpace.Mode = this.whiteSpaceToolStripMenuItem.Checked ? ScintillaNet.WhiteSpaceMode.VisibleAlways : ScintillaNet.WhiteSpaceMode.Invisible;
+            this.editor.Whitespace.Mode = this.whiteSpaceToolStripMenuItem.Checked ? ScintillaNet.WhitespaceMode.VisibleAlways : ScintillaNet.WhitespaceMode.Invisible;
         }
 
         private void lineBreaksToolStripMenuItem_Click(object sender, EventArgs e)
