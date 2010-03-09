@@ -84,8 +84,8 @@ namespace GeoGen_Studio
 
             try
             {
-                main.outputManager.ClearData();
-                main.viewportManager.ClearData();
+                //main.outputManager.ClearData();
+                //main.viewportManager.ClearData();
             }
             catch (Exception)
             {

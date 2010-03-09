@@ -4,8 +4,8 @@ using System.ComponentModel;
 namespace GeoGen_Studio
 {
     [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
-    [System.Xml.Serialization.XmlInclude(typeof(ViewportManager.ModelDetailLevel))]
-    [System.Xml.Serialization.XmlInclude(typeof(ViewportManager.ViewportBackground))]
+    [System.Xml.Serialization.XmlInclude(typeof(Main.ModelDetailLevel))]
+    [System.Xml.Serialization.XmlInclude(typeof(Main.ViewportBackground))]
     [System.Xml.Serialization.XmlInclude(typeof(OpenTK.Vector4))]
     public class Config
     {
@@ -44,7 +44,7 @@ namespace GeoGen_Studio
         public bool whitespace;
         public int editorZooom;
 
-        private ViewportManager.ModelDetailLevel modelDetailLevel;
+        private Main.ModelDetailLevel modelDetailLevel;
         public bool wireframe;
         public OpenTK.Vector4 ambientLightColor;
         public OpenTK.Vector4 directionalLightColor;
@@ -54,7 +54,7 @@ namespace GeoGen_Studio
         public bool enableTerrainUnderZero;
         public bool enable3d;
         public int defaultTextureOverlay;
-        public ViewportManager.ViewportBackground backgroundColor3d;
+        public Main.ViewportBackground backgroundColor3d;
 
         
 
@@ -135,8 +135,8 @@ namespace GeoGen_Studio
             set { documentationPath = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed amount of polygons for the terrain model in the 3D view. Higher settings require more powerful graphics card and the models take longer to build. Has major impact on performance."), DefaultValue(ViewportManager.ModelDetailLevel.Medium_512x512Polygons)]
-        public ViewportManager.ModelDetailLevel ModelDetailLevel
+        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed amount of polygons for the terrain model in the 3D view. Higher settings require more powerful graphics card and the models take longer to build. Has major impact on performance."), DefaultValue(Main.ModelDetailLevel.Medium_512x512Polygons)]
+        public Main.ModelDetailLevel ModelDetailLevel
         {
             get { return modelDetailLevel; }
             set { modelDetailLevel = value; }
@@ -156,8 +156,8 @@ namespace GeoGen_Studio
             set { enable3d = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Color covering the unpainted areas of the 3D viewport."), DefaultValue(ViewportManager.ViewportBackground.Black)]
-        public ViewportManager.ViewportBackground BackgroundColor3d
+        [CategoryAttribute("3D View"), DescriptionAttribute("Color covering the unpainted areas of the 3D viewport."), DefaultValue(Main.ViewportBackground.Black)]
+        public Main.ViewportBackground BackgroundColor3d
         {
             get { return backgroundColor3d; }
             set { backgroundColor3d = value; }
@@ -234,7 +234,7 @@ namespace GeoGen_Studio
             documentationPath = "../documentation.html";
 
             /* 3D view */
-            modelDetailLevel = ViewportManager.ModelDetailLevel.Medium_512x512Polygons;
+            modelDetailLevel = Main.ModelDetailLevel.Medium_512x512Polygons;
             enableTerrainUnderZero = false;
             enable3d = true;
             defaultTextureOverlay = 7;
@@ -245,7 +245,7 @@ namespace GeoGen_Studio
             lightAzimuth = 0.0f;
             lightElevation = 0.5f;
             lightEnabled = true;
-            backgroundColor3d = ViewportManager.ViewportBackground.Black;
+            backgroundColor3d = Main.ViewportBackground.Black;
         }
 
         public void Save()

@@ -11,7 +11,6 @@ namespace GeoGen_Studio
 {
     public partial class LightSettings : Form
     {
-        ViewportManager viewportManager = null;
         Config config = null;
 
         bool azimuthMouse = false;
@@ -24,7 +23,7 @@ namespace GeoGen_Studio
 
         private void LightSettings_Load(object sender, EventArgs e)
         {
-            this.viewportManager = Main.Get().GetViewportManager();
+        //    this.viewportManager = Main.Get().GetViewportManager();
             this.config = Main.Get().GetConfig();
 
             this.lightEnabled.Checked = this.config.lightEnabled;

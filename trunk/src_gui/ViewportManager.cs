@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 using OpenTK;
 using OpenTK.Graphics;
@@ -11,7 +12,7 @@ using System.Runtime.InteropServices;
 
 namespace GeoGen_Studio
 {
-    public class ViewportManager
+    public partial class Main
     {
         public enum ModelDetailLevel
         {
@@ -51,7 +52,6 @@ namespace GeoGen_Studio
 
         public static int defaultTextureIndex = 8;
 
-        public OpenTK.GLControl viewport;
         public GGenNet.HeightData heightData;
 
         public System.Threading.Thread modelThread;
@@ -67,10 +67,10 @@ namespace GeoGen_Studio
         private int vertexBufferHandle;
         private int textureHandle;
 
-        private float heightScale = 8f;
+        //private float heightScale = 8f;
 
         private System.Drawing.Bitmap textureBase;
-
+        /*
         public float HeightScale
         {
             get { return heightScale; }
@@ -81,11 +81,11 @@ namespace GeoGen_Studio
                 // the viewport might not exist yet
                 try
                 {
-                    this.viewport.Invalidate();
+                    
                 }
                 catch (Exception) { };
             }
-        }
+        }*/
 
         public void Init()
         {
@@ -487,7 +487,7 @@ namespace GeoGen_Studio
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
 
                 // how to vertically scale the data
-                GL.Scale(1f, 1f, this.heightScale);
+                GL.Scale(1f, 1f, (float) this.heightScale.Value);
 
                 // read the data from buffer
                 GL.DrawArrays(BeginMode.Triangles, 0, (int) (this.heightData.Length * 6));

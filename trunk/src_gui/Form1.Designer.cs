@@ -306,7 +306,6 @@
             // 
             this.exportToolStripMenuItem.Enabled = false;
             this.exportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripMenuItem.Image")));
-            this.exportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.exportToolStripMenuItem.Text = "Export Heightmap";
@@ -1035,7 +1034,6 @@
             this.exportToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.exportToolStripButton.Enabled = false;
             this.exportToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripButton.Image")));
-            this.exportToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.exportToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportToolStripButton.Name = "exportToolStripButton";
             this.exportToolStripButton.Size = new System.Drawing.Size(23, 22);
@@ -1572,7 +1570,7 @@
         private System.Windows.Forms.ToolStripMenuItem websiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripButton resetToolStripButton;
-        private OpenTK.GLControl viewport;
+        public OpenTK.GLControl viewport;
         private System.Windows.Forms.ToolStripMenuItem viewportToolStripMenuItem;
         private System.Windows.Forms.TrackBar heightScale;
         private System.Windows.Forms.ToolStripButton screenshot;
