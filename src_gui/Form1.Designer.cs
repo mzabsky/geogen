@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage codeTab;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.editor = new ScintillaNet.Scintilla();
+            //this.editor = new ScintillaNet.Scintilla();
             this.importTextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,7 +155,7 @@
             this.exportHeightmapDialog = new System.Windows.Forms.SaveFileDialog();
             codeTab = new System.Windows.Forms.TabPage();
             codeTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -179,7 +179,7 @@
             // 
             // codeTab
             // 
-            codeTab.Controls.Add(this.editor);
+            //codeTab.Controls.Add(this.editor);
             codeTab.Location = new System.Drawing.Point(4, 22);
             codeTab.Name = "codeTab";
             codeTab.Padding = new System.Windows.Forms.Padding(3);
@@ -190,7 +190,7 @@
             // 
             // editor
             // 
-            this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
+            /*this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Caret.BlinkRate = 500;
             this.editor.ConfigurationManager.CustomLocation = "../config/scintilla.xml";
             this.editor.ConfigurationManager.IsBuiltInEnabled = false;
@@ -214,7 +214,7 @@
             this.editor.Styles.IndentGuide.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Styles.LastPredefined.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Styles.Max.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.TabIndex = 0;
+            this.editor.TabIndex = 0;*/
             // 
             // importTextureDialog
             // 
@@ -1437,7 +1437,7 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             codeTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.editor)).EndInit();
+            //((System.ComponentModel.ISupportInitialize)(this.editor)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -1484,7 +1484,7 @@
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.TabControl tabs;
         private System.Windows.Forms.TabPage outputTab;
-        private ScintillaNet.Scintilla editor;
+        //private ScintillaNet.Scintilla editor;
         private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
