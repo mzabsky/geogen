@@ -106,6 +106,10 @@ public:
 			}
 		}
 
+		~HeightData(){
+			delete [] this->data;
+		}
+
 	internal:
 		HeightData(unsigned short width, unsigned short height, const short* data){
 			this->width = width;
