@@ -321,6 +321,7 @@ namespace GeoGen_Studio
             this.benchmarkToolStripButton.Enabled = false;
             this.benchmarkToolStripMenuItem.Enabled = false;
             this.importtoolStripMenuItem.Enabled = false;
+            this.progress.Visible = true;
         }
 
         public void ButtonsNoRunMode()
@@ -332,6 +333,7 @@ namespace GeoGen_Studio
             this.benchmarkToolStripButton.Enabled = true;
             this.benchmarkToolStripMenuItem.Enabled = true;
             this.importtoolStripMenuItem.Enabled = true;
+            this.progress.Visible = false;
         }
 
         public void OutputButtonsOn()

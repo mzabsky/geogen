@@ -46,6 +46,7 @@ namespace GeoGen_Studio
             ggen = new GGenNet();
 
             ggen.MapReturned += ReturnHandler;
+            ggen.ProgressChanged += ProgressHandler;
         }
 
         public bool IsRunning(){
@@ -99,6 +100,15 @@ namespace GeoGen_Studio
             OutputManager.StretchHeightValues(ref data);
 
             this.maps.Add(e.Label, data);
+        }
+
+        public void ProgressHandler(object sender, GGenNet.ProgressEventArgs e)
+        {
+            Main.Get().Invoke(new MethodInvoker(delegate()
+            {
+                Main.Get().progress.Maximum = e.MaximumProgress;
+                Main.Get().progress.Value = e.CurrentProgress;
+            }));
         }
 
         public void ExecuteScript(string script, bool verificationOnly, string parameters)
