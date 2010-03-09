@@ -233,46 +233,51 @@ public:
 	};
 
 	ref class Exception: System::Exception{
-		/*Exception(System::String^ message){
-			((System::Exception^) this)
-		};*/
+	public:	
+		Exception(System::String^ message, System::Exception^ innerException)
+			: System::Exception(message, innerException){};
 	};
 
 	ref class SyntaxErrorException: Exception{
-		/*SyntaxErrorException()
-			: base("Squirrel compiler could not compile inserted script, please see recent messages returned by the MessageThrown event for details."){}
-		*/
+	public:	
+		SyntaxErrorException()
+			: Exception("Squirrel compiler could not compile inserted script, please see recent messages returned by the MessageThrown event for details.", nullptr){};
 	};
 
 	ref class ArgsUnreadableException: Exception{
-		/*ArgsUnreadableException(){
-			this->Message = "Map argument definitions could not be loaded, the GetInfo function is either missing in the script, or it causes errors (such as undefined symbols or argument mismatches). Please see recent messages returned by the MessageThrown event for details.";
-		}*/
+	public:		
+		ArgsUnreadableException()
+			: Exception("Map argument definitions could not be loaded, the GetInfo function is either missing in the script, or it causes errors (such as undefined symbols or argument mismatches). Please see recent messages returned by the MessageThrown event for details.", nullptr){};
 	};
 
 	ref class ArgsNotLoadedException: Exception{
-		/*ArgsNotLoadedException(){
-			this->Message = "LoadArgs must be called before the Generate function call.";
-		}*/
+	public:		
+		ArgsNotLoadedException()
+			: Exception("LoadArgs method must be called before the Generate function call.", nullptr){};
 	};
 
 	ref class GenerationFailedException: Exception{
-		/*GenerationFailedException(){
-			this->Message = "Map generation failed. The Generate function is either missing in the script, or it causes errors (such as undefined symbols or argument mismatches), or the generator ran out of memory. Please see recent messages returned by the MessageThrown event for details.";
-		}*/
+	public:		
+		GenerationFailedException()
+			: Exception("Map generation failed. The Generate function is either missing in the script, or it causes errors (such as undefined symbols or argument mismatches), or the generator ran out of memory. Please see recent messages returned by the MessageThrown event for details.", nullptr){};
 	};
 
 	ref class OneInstanceAllowedException: Exception{
-		/*OneInstanceAllowedException(){
-			this->Message = "Only one GGenNet instance can exist in a program at one time. Free the current instance or use the GetInstance method to refer to it from any place in the program.";
-		}*/
+	public:		
+		OneInstanceAllowedException()
+			: Exception("Only one GGenNet instance can exist in a program at one time. Free the current instance or use the GetInstance method to refer to it from any place in the program.", nullptr){};
 	};
 
 	ref class InternalErrorException: Exception{
-		/*InternalErrorException(System::Exception^ inner){
-			this->InnerException = inner;
-			this->Message = "GeoGen native library has unexpectedly crashed, please see InnerException object for details.";
-		}*/
+	public:	
+		InternalErrorException(System::Exception^ innerException)
+			: Exception("GeoGen native library has unexpectedly crashed, please see InnerException object for more details.", innerException){};
+	};
+
+	ref class ExceptionInCallbackException: Exception{
+	public:	
+		ExceptionInCallbackException(System::Exception^ innerException)
+			: Exception("An unhandled exception has been thrown by assigned event handler, please see InnerException object for more details.", innerException){};
 	};
 
 	ref class MessageEventArgs: System::EventArgs{
@@ -414,8 +419,8 @@ public:
 			this->ggen->SetProgressCallback(&::ProgressHandler);
 			this->ggen->SetReturnCallback(&::ReturnHandler);
 		}
-		catch(System::Exception^){
-			throw gcnew InternalErrorException;
+		catch(System::Exception^ e){
+			throw gcnew InternalErrorException(e);
 		}
 
 		this->MessageThrown += gcnew MessageEventHandler(this, &GGenNet::DefaultMessageHandler);
@@ -443,8 +448,8 @@ public:
 				this->ManagedToUnmanagedString(script)
 			);
 		}
-		catch(System::Exception^){
-			throw gcnew InternalErrorException;
+		catch(System::Exception^ e){
+			throw gcnew InternalErrorException(e);
 		}
 		
 		if(!result){
@@ -460,8 +465,8 @@ public:
 		try{
 			unmanagedInfo = ggen->GetInfo(ManagedToUnmanagedString(label));
 		}
-		catch(System::Exception^){
-			throw gcnew InternalErrorException;
+		catch(System::Exception^ e){
+			throw gcnew InternalErrorException(e);
 		}
 
 		return UnmanagedToManagedString(unmanagedInfo);
@@ -477,8 +482,8 @@ public:
 		try{
 			unmanagedArgs = ggen->LoadArgs();
 		}
-		catch(System::Exception^){
-			throw gcnew InternalErrorException;
+		catch(System::Exception^ e){
+			throw gcnew InternalErrorException(e);
 		}
 
 		if(unmanagedArgs == NULL){
@@ -506,8 +511,11 @@ public:
 		try{
 			pureData = ggen->Generate();
 		}
-		catch(System::Exception^){
-			throw gcnew InternalErrorException;
+		catch(ExceptionInCallbackException^ e){
+			throw e;
+		}
+		catch(System::Exception^ e){
+			throw gcnew InternalErrorException(e);
 		}
 
 		if(pureData == NULL) {
@@ -547,15 +555,30 @@ internal:
 
 
 	void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column){
-		this->MessageThrown(this, %MessageEventArgs(GGenNet::UnmanagedToManagedString(message), (GGenNet::MessageLevel) level, line, column));
+		try{
+			this->MessageThrown(this, %MessageEventArgs(GGenNet::UnmanagedToManagedString(message), (GGenNet::MessageLevel) level, line, column));
+		}
+		catch(System::Exception^ e){
+			throw gcnew ExceptionInCallbackException(e);
+		}
 	}
 
 	void ProgressHandler(int currentProgress, int maxProgress){
-		this->ProgressChanged(this, %ProgressEventArgs(currentProgress, maxProgress));
+		try{
+			this->ProgressChanged(this, %ProgressEventArgs(currentProgress, maxProgress));
+		}
+		catch(System::Exception^ e){
+			throw gcnew ExceptionInCallbackException(e);
+		}
 	}
 
 	void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
-		this->MapReturned(this, %MapReturnedEventArgs(UnmanagedToManagedString(name), %HeightData(width, height, map)));
+		try{
+			this->MapReturned(this, %MapReturnedEventArgs(UnmanagedToManagedString(name), %HeightData(width, height, map)));
+		}
+		catch(System::Exception^ e){
+			throw gcnew ExceptionInCallbackException(e);
+		}
 	}
 
 public:
