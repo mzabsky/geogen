@@ -129,6 +129,7 @@ uint16 GGen::GetMaxMapCount(){
 
 void GGen::InitProgress(uint32 max_progress){
 	GGen::GetInstance()->max_progress = max_progress;
+	GGen::GetInstance()->current_progress = 0;
 	
 	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(0, max_progress);
 }
