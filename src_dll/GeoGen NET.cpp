@@ -448,6 +448,9 @@ public:
 				this->ManagedToUnmanagedString(script)
 			);
 		}
+		catch(ExceptionInCallbackException^ e){
+			throw e;
+		}
 		catch(System::Exception^ e){
 			throw gcnew InternalErrorException(e);
 		}
@@ -465,6 +468,9 @@ public:
 		try{
 			unmanagedInfo = ggen->GetInfo(ManagedToUnmanagedString(label));
 		}
+		catch(ExceptionInCallbackException^ e){
+			throw e;
+		}
 		catch(System::Exception^ e){
 			throw gcnew InternalErrorException(e);
 		}
@@ -481,6 +487,9 @@ public:
 		
 		try{
 			unmanagedArgs = ggen->LoadArgs();
+		}
+		catch(ExceptionInCallbackException^ e){
+			throw e;
 		}
 		catch(System::Exception^ e){
 			throw gcnew InternalErrorException(e);
