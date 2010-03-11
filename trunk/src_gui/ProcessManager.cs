@@ -47,6 +47,11 @@ namespace GeoGen_Studio
 
             ggen.MapReturned += ReturnHandler;
             ggen.ProgressChanged += ProgressHandler;
+            ggen.MessageThrown += PrintHandler;
+
+            //ggen.Dispose();
+
+            //ggen = null;
         }
 
         public bool IsRunning(){
@@ -108,6 +113,24 @@ namespace GeoGen_Studio
             {
                 Main.Get().progress.Maximum = e.MaximumProgress;
                 Main.Get().progress.Value = e.CurrentProgress;
+            }));
+        }
+
+        public void PrintHandler(object sender, GGenNet.MessageEventArgs e)
+        {
+            Main.Get().Invoke(new MethodInvoker(delegate
+            {
+                string level = "";
+
+                switch (e.Level)
+                {
+                    case GGenNet.MessageLevel.Error: level = "Error"; break;
+                    case GGenNet.MessageLevel.Warning: level = "Warning"; break;
+                    case GGenNet.MessageLevel.Message: level = "Message"; break;
+                    case GGenNet.MessageLevel.Notice: level = "Notice"; break;
+                }
+
+                Main.Get().WriteToConsole(level + ": " + e.Message);
             }));
         }
 
