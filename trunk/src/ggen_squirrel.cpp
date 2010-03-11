@@ -56,8 +56,18 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 }
 
 GGen_Squirrel::GGen_Squirrel(){
-	SquirrelVM::Init();
+	
 
+	HSQUIRRELVM v = sq_open(1024);
+
+	sq_pushroottable(v);
+
+	sq_pop(v,1);
+
+	SquirrelVM::InitNoRef(v);
+
+	//sq_close(v); 
+//return;
 	sqstd_register_mathlib(SquirrelVM::GetVMPtr());
 
 	sq_setprintfunc(SquirrelVM::GetVMPtr(), GGen_PrintHandler);
@@ -271,6 +281,7 @@ GGen_Squirrel::GGen_Squirrel(){
 
 GGen_Squirrel::~GGen_Squirrel(){
 	SquirrelVM::Shutdown();	
+	//sq_close(SquirrelVM::GetVMPtr()); 
 }
 
 
