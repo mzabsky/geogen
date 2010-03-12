@@ -196,7 +196,7 @@ namespace GeoGen_Studio
 
             if (path_override == null)
             {
-                data = (GGenNet.HeightData)main.GetProcessManager().maps[main.outputs3d.SelectedItem];
+                data = (GGenNet.HeightData)main.maps[main.outputs3d.SelectedItem];
             }
             else
             {
@@ -547,7 +547,7 @@ namespace GeoGen_Studio
                 // "Map: " type texture
                 else if (selected[0] == 'M')
                 {
-                    bitmap = OutputManager.HeightDataToBitmap((GGenNet.HeightData)main.GetProcessManager().maps[selected.Substring(5, selected.Length - 5)]);
+                    bitmap = OutputManager.HeightDataToBitmap((GGenNet.HeightData)main.maps[selected.Substring(5, selected.Length - 5)]);
                 }
 
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);

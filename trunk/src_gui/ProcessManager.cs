@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace GeoGen_Studio
 {
-    public class ProcessManager
+    public partial class Main
     {
         private GGenNet ggen;
 
@@ -37,7 +37,7 @@ namespace GeoGen_Studio
 
         public Hashtable maps;
 
-        public ProcessManager()
+        public void InitializeGGen()
         {
             mode = Mode.Idle;
 
@@ -60,7 +60,7 @@ namespace GeoGen_Studio
 
         public void ScheduleCheck(){
             if(this.IsRunning()) this.isCheckScheduled = true;
-            else this.ExecuteScript(Main.Get().GetScript(), true, "");
+            else this.ExecuteScript(this.GetScript(), true, "");
         }
 
         public bool InBenchmarkInProgress(){
@@ -72,7 +72,7 @@ namespace GeoGen_Studio
             if (isCheckScheduled)
             {
                 this.isCheckScheduled = false;
-                this.ExecuteScript(Main.Get().GetScript(), true, "");
+                this.ExecuteScript(this.GetScript(), true, "");
             }
         }
 
@@ -85,8 +85,6 @@ namespace GeoGen_Studio
 
         private void Prepare()
         {
-            Main main = Main.Get();
-            Config config = main.GetConfig();
 
             try
             {
@@ -95,7 +93,7 @@ namespace GeoGen_Studio
             }
             catch (Exception)
             {
-                main.WriteToConsole("Directory preparation failed. Make sure the necessary files and folders are readable.");
+                this.WriteToConsole("Directory preparation failed. Make sure the necessary files and folders are readable.");
             }
         }
 
@@ -109,16 +107,16 @@ namespace GeoGen_Studio
 
         public void ProgressHandler(object sender, GGenNet.ProgressEventArgs e)
         {
-            Main.Get().Invoke(new MethodInvoker(delegate()
+            this.Invoke(new MethodInvoker(delegate()
             {
-                Main.Get().progress.Maximum = e.MaximumProgress;
-                Main.Get().progress.Value = e.CurrentProgress;
+                this.progress.Maximum = e.MaximumProgress;
+                this.progress.Value = e.CurrentProgress;
             }));
         }
 
         public void PrintHandler(object sender, GGenNet.MessageEventArgs e)
         {
-            Main.Get().Invoke(new MethodInvoker(delegate
+            this.Invoke(new MethodInvoker(delegate
             {
                 string level = "";
 
@@ -130,15 +128,12 @@ namespace GeoGen_Studio
                     case GGenNet.MessageLevel.Notice: level = "Notice"; break;
                 }
 
-                Main.Get().WriteToConsole(level + ": " + e.Message);
+                this.WriteToConsole(level + ": " + e.Message);
             }));
         }
 
         public void ExecuteScript(string script, bool verificationOnly, string parameters)
         {
-            Main main = Main.Get();
-            Config config = main.GetConfig();
-
             // kill current syntax check in progress (if any is running)
             if (mode == Mode.LowPriority)
             {
@@ -169,13 +164,13 @@ namespace GeoGen_Studio
             if (!verificationOnly)
             {
                 this.mode = Mode.Standard;
-                main.ButtonsRunMode();
-                main.AddStatus("Executing");
+                this.ButtonsRunMode();
+                this.AddStatus("Executing");
             }
             else{
                 this.mode = Mode.LowPriority;
                 this.lastCheckContent = "";
-                main.AddStatus("Checking syntax");
+                this.AddStatus("Checking syntax");
             }
 
             System.Threading.ThreadStart starter = new System.Threading.ThreadStart(delegate
@@ -196,10 +191,10 @@ namespace GeoGen_Studio
 
                     maps.Add("[Main]", result);
 
-                    main.RemoveStatus("Executing");
+                    this.RemoveStatus("Executing");
 
 
-                    main.Invoke(new MethodInvoker(delegate()
+                    this.Invoke(new MethodInvoker(delegate()
                     {
                         // was this part of a benchmark?
                         if (benchmarkStatus != null)
@@ -209,12 +204,12 @@ namespace GeoGen_Studio
                             return;
                         }
 
-                        main.ButtonsNoRunMode();
+                        this.ButtonsNoRunMode();
 
                         //if (process.ExitCode == 0)
                         //{
                         // let the output manager capture the outputs
-                        main.GetOutputManager().ReloadMaps(null);
+                        this.GetOutputManager().ReloadMaps(null);
                         //}
                         // exit code != 0 means error of some sort
                         //else
@@ -483,25 +478,23 @@ namespace GeoGen_Studio
         }*/
 
         public void Terminate(){
-            if (thread != null && thread.IsAlive)
+            if (this.thread != null && this.thread.IsAlive)
             {
-                thread.Abort();
+                this.thread.Abort();
             }
         }
 
         public void ShowLastErrorInfo()
         {
-            Main main = Main.Get();
-
-            main.WriteToConsole("Last error info:");
-            main.WriteToConsole(this.lastCheckContent);
+            this.WriteToConsole("Last error info:");
+            this.WriteToConsole(this.lastCheckContent);
         }
 
         public string GetParamString()
         {
             string str = "";
 
-            foreach (PropertyGridEx.CustomProperty param in Main.Get().parameters.Item)
+            foreach (PropertyGridEx.CustomProperty param in this.parameters.Item)
             {
                 // default value is being used
                 if (param.Value == param.DefaultValue)
@@ -536,8 +529,6 @@ namespace GeoGen_Studio
 
         public void Benchmark()
         {
-            Main main = Main.Get();
-
             string benchScript = System.IO.File.ReadAllText("../examples/basic.nut");
 
             string[] parameters = { "1024 1024", "2048 2048", "4096 4096" };
@@ -549,11 +540,11 @@ namespace GeoGen_Studio
             {
                 this.benchmarkStatus = new BenchmarkStatus();
 
-                main.WriteToConsole(Environment.NewLine + "Starting benchmark..." + Environment.NewLine);
+                this.WriteToConsole(Environment.NewLine + "Starting benchmark..." + Environment.NewLine);
 
                 this.ExecuteScript(benchScript, false, parameters[0]);
 
-                main.WriteToConsole("Starting reference script...");
+                this.WriteToConsole("Starting reference script...");
 
                 this.benchmarkForm.progressBar.Maximum = totalPhases;
 
@@ -567,7 +558,7 @@ namespace GeoGen_Studio
                 // bad exit code -> stop
                 if (/*this.process.ExitCode != 0*/ true)
                 {
-                    main.WriteToConsole("Benchmark failed!");
+                    this.WriteToConsole("Benchmark failed!");
 
                     if (this.benchmarkForm != null)
                     {
@@ -580,7 +571,7 @@ namespace GeoGen_Studio
                         this.benchmarkForm.progressBar.Visible = false;
                     }
 
-                    main.ButtonsNoRunMode();
+                    this.ButtonsNoRunMode();
 
                     return;
                 }
@@ -594,8 +585,8 @@ namespace GeoGen_Studio
 
                     if (++this.benchmarkStatus.phase < totalPhases)
                     {
-                        main.WriteToConsole("Starting benchmarked script...");
-                        this.ExecuteScript(main.GetScript(), false, parameters[this.benchmarkStatus.phase / 2]);
+                        this.WriteToConsole("Starting benchmarked script...");
+                        this.ExecuteScript(this.GetScript(), false, parameters[this.benchmarkStatus.phase / 2]);
                     }
                 }
                 // the user script was executed
@@ -605,7 +596,7 @@ namespace GeoGen_Studio
 
                     if (++this.benchmarkStatus.phase < totalPhases)
                     {
-                        main.WriteToConsole("Starting reference script...");
+                        this.WriteToConsole("Starting reference script...");
                         this.ExecuteScript(benchScript, false, parameters[this.benchmarkStatus.phase / 2]);
                     }
                 }
@@ -619,7 +610,7 @@ namespace GeoGen_Studio
                 {
                     Double score = Math.Round(this.benchmarkStatus.sumScores / parameters.Length, 2);
 
-                    main.WriteToConsole("Benchmark finished with score " + score.ToString() + "x");
+                    this.WriteToConsole("Benchmark finished with score " + score.ToString() + "x");
 
                     this.benchmarkStatus = null;
 
@@ -628,7 +619,7 @@ namespace GeoGen_Studio
                     this.benchmarkForm.button.Text = "Close";
                     this.benchmarkForm.progressBar.Visible = false;
 
-                    main.ButtonsNoRunMode();
+                    this.ButtonsNoRunMode();
                 }
             }
         }

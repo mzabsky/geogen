@@ -84,7 +84,7 @@ namespace GeoGen_Studio
                 //main.outputs.Items.Add("[Main]");
 
                 // add found secondary maps to the output list
-                foreach(DictionaryEntry item in main.GetProcessManager().maps)
+                foreach(DictionaryEntry item in main.maps)
                 {
                     //System.IO.FileInfo info = new System.IO.FileInfo(paths[i]);
 
@@ -245,7 +245,7 @@ namespace GeoGen_Studio
                 {
                     //this.data = new SHData(path);
 
-                    this.data = (GGenNet.HeightData)main.GetProcessManager().maps[main.outputs.SelectedItem];
+                    this.data = (GGenNet.HeightData)main.maps[main.outputs.SelectedItem];
                     currentImage = HeightDataToBitmap(this.data);
                 }
                 catch (Exception e)

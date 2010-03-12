@@ -30,9 +30,9 @@ namespace GeoGen_Studio
         {
             Main main = Main.Get();
 
-            if (main.GetProcessManager().InBenchmarkInProgress())
+            if (main.InBenchmarkInProgress())
             {
-                main.GetProcessManager().CancelBenchmark();
+                main.CancelBenchmark();
 
                 this.Close();
             }
@@ -40,7 +40,7 @@ namespace GeoGen_Studio
             {
                 this.button.Text = "Cancel Benchmark";
 
-                main.GetProcessManager().Benchmark();
+                main.Benchmark();
             }
             else
             {
