@@ -609,7 +609,7 @@ namespace GeoGen_Studio
 
         private void editor_TextInserted(object sender, ScintillaNet.TextModifiedEventArgs e)
         {
-            this.ScheduleCheck();
+            this.ScheduleSyntaxCheck();
 
             this.needsSaving = true;
 

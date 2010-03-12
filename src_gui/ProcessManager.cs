@@ -27,7 +27,7 @@ namespace GeoGen_Studio
 
         private Mode mode;
 
-        private System.Threading.Thread thread;
+        private System.Threading.Thread GGenThread;
 
         public string lastCheckContent;
         private bool isCheckScheduled;
@@ -48,18 +48,14 @@ namespace GeoGen_Studio
             ggen.MapReturned += ReturnHandler;
             ggen.ProgressChanged += ProgressHandler;
             ggen.MessageThrown += PrintHandler;
-
-            //ggen.Dispose();
-
-            //ggen = null;
         }
 
-        public bool IsRunning(){
+        public bool IsGGenRunning(){
             return mode != Mode.Idle;   
         }
 
-        public void ScheduleCheck(){
-            if(this.IsRunning()) this.isCheckScheduled = true;
+        public void ScheduleSyntaxCheck(){
+            if(this.IsGGenRunning()) this.isCheckScheduled = true;
             else this.ExecuteScript(this.GetScript(), true, "");
         }
 
@@ -132,7 +128,7 @@ namespace GeoGen_Studio
             }));
         }
 
-        public void ExecuteScript(string script, bool verificationOnly, string parameters)
+        public void ExecuteScript(string script, bool syntaxCheckOnly, string parameters)
         {
             // kill current syntax check in progress (if any is running)
             if (mode == Mode.LowPriority)
@@ -144,13 +140,13 @@ namespace GeoGen_Studio
                 catch (Exception) { };
 
                 // do the check one the requested script is finished
-                this.ScheduleCheck();
+                this.ScheduleSyntaxCheck();
             }
             // syntax checks are not allowed while a script is being executed
-            else if (mode == Mode.Standard && verificationOnly == true)
+            else if (mode == Mode.Standard && syntaxCheckOnly == true)
             {
                 // do the check one the requested script is finished
-                this.ScheduleCheck();
+                this.ScheduleSyntaxCheck();
 
                 return;
             }
@@ -161,7 +157,7 @@ namespace GeoGen_Studio
                 System.Windows.Forms.MessageBox.Show("Another child GeoGen process is still running, terminating.");
             }
 
-            if (!verificationOnly)
+            if (!syntaxCheckOnly)
             {
                 this.mode = Mode.Standard;
                 this.ButtonsRunMode();
@@ -181,7 +177,7 @@ namespace GeoGen_Studio
 
                 ggen.LoadArgs();
 
-                if (!verificationOnly)
+                if (!syntaxCheckOnly)
                 {
                     this.maps.Clear();
 
@@ -225,9 +221,9 @@ namespace GeoGen_Studio
                 }
             });
 
-            thread = new System.Threading.Thread(starter);
+            GGenThread = new System.Threading.Thread(starter);
 
-            thread.Start();
+            GGenThread.Start();
 
 
 
@@ -478,9 +474,9 @@ namespace GeoGen_Studio
         }*/
 
         public void Terminate(){
-            if (this.thread != null && this.thread.IsAlive)
+            if (this.GGenThread != null && this.GGenThread.IsAlive)
             {
-                this.thread.Abort();
+                this.GGenThread.Abort();
             }
         }
 
