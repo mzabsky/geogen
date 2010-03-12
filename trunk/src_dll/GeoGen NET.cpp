@@ -368,6 +368,8 @@ private:
 
 	array<ScriptArg^>^ args;
 
+	bool disposed;
+
 public:
 	property array<ScriptArg^>^ Args{
 		array<ScriptArg^>^ get(){
@@ -408,11 +410,13 @@ public:
 	GGenNet(){
 		if(GGenNet::instance != nullptr) throw gcnew OneInstanceAllowedException();
 
+		this->disposed = false;
+
 		GGenNet::instance = this;
 
 		try{
 			this->ggen = new GGen_Squirrel;
-			
+
 			if(this->ggen == NULL) throw gcnew System::AccessViolationException("Could not create GGen class object.");
 		
 			this->ggen->SetMessageCallback(&::MessageHandler);
@@ -429,11 +433,15 @@ public:
 	}
 
 	~GGenNet(){
-		delete this->ggen;
+		if(!disposed){
+			delete this->ggen;
 
-		this->ggen = NULL;
-		
-		this->instance = nullptr;
+			this->ggen = NULL;
+			
+			this->instance = nullptr;
+
+			disposed = true;
+		}
 	}
 
 	static GGenNet^ GetInstance(){
