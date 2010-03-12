@@ -38,7 +38,7 @@ namespace GeoGen_Studio
 
         ScintillaNet.Scintilla editor;
         private bool needsSaving;
-        public ProcessManager processManager;
+        //public ProcessManager processManager;
         public OutputManager outputManager;
         public Config config;
         private bool knownFile = false; // do we knoow path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
@@ -75,8 +75,10 @@ namespace GeoGen_Studio
 
             this.needsSaving = false;
 
+            this.InitializeGGen();
+
             // initialize the managers
-            this.processManager = new ProcessManager();
+            //this.processManager = new ProcessManager();
             this.outputManager = new OutputManager();
                      
             // load XML configuration
@@ -192,10 +194,10 @@ namespace GeoGen_Studio
             return this.config;
         }
 
-        public ProcessManager GetProcessManager()
+        /*public ProcessManager GetProcessManager()
         {
             return this.processManager;
-        }
+        }*/
 
         public OutputManager GetOutputManager()
         {
@@ -607,7 +609,7 @@ namespace GeoGen_Studio
 
         private void editor_TextInserted(object sender, ScintillaNet.TextModifiedEventArgs e)
         {
-            this.processManager.ScheduleCheck();
+            this.ScheduleCheck();
 
             this.needsSaving = true;
 
@@ -624,7 +626,7 @@ namespace GeoGen_Studio
             //this.Foc
             //}
 
-            this.processManager.ExecuteScript(editor.Text, false, "");
+            this.ExecuteScript(editor.Text, false, "");
         }
 
         private void refreshOverlays_Click(object sender, EventArgs e)
@@ -704,12 +706,12 @@ namespace GeoGen_Studio
 
         private void terminateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.processManager.Terminate();
+            this.Terminate();
         }
 
         private void verifyToolStripButton_Click(object sender, EventArgs e)
         {
-            this.processManager.ShowLastErrorInfo();
+            this.ShowLastErrorInfo();
         }
 
         private void clearOutputs_Click(object sender, EventArgs e)
@@ -726,7 +728,7 @@ namespace GeoGen_Studio
 
         private void benchmarkToolStripButton_Click(object sender, EventArgs e)
         {
-            this.processManager.StartBenchmark();
+            this.StartBenchmark();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
