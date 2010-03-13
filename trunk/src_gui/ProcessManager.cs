@@ -14,7 +14,7 @@ namespace GeoGen_Studio
         {
             Idle, // geogen is not running
             Standard, // a script is being executed
-            LowPriority // syntax check is in progress
+            SyntaxCheck // syntax check is in progress
         };
 
         private class BenchmarkStatus
@@ -111,7 +111,7 @@ namespace GeoGen_Studio
                     case GGenNet.MessageLevel.Notice: level = "Notice"; break;
                 }
 
-                if (this.mode != Mode.LowPriority) this.WriteToConsole(level + ": " + e.Message);
+                if (this.mode != Mode.SyntaxCheck) this.WriteToConsole(level + ": " + e.Message);
                 else this.lastCheckContent += level + ": " + e.Message + Environment.NewLine;
             }));
         }
@@ -145,7 +145,7 @@ namespace GeoGen_Studio
         {
             this.Invoke(new MethodInvoker(delegate()
             {
-                if (this.mode == Mode.LowPriority)
+                if (this.mode == Mode.SyntaxCheck)
                 {
                     this.SyntaxCheckFailed();
                 }
@@ -175,7 +175,7 @@ namespace GeoGen_Studio
         public void ExecuteScript(string script, bool syntaxCheckOnly, string parameters)
         {
             // kill current syntax check in progress (if any is running)
-            if (mode == Mode.LowPriority)
+            if (mode == Mode.SyntaxCheck)
             {
                 // wait for the syntax check to finish (it usually takes just milliseconds)
                 this.GGenThread.Join();
@@ -208,7 +208,7 @@ namespace GeoGen_Studio
                 this.WriteToConsole("Starting at " + DateTime.Now.ToString("HH:mm:ss") + "...");
             }
             else{
-                this.mode = Mode.LowPriority;
+                this.mode = Mode.SyntaxCheck;
                 this.lastCheckContent = "";
                 this.AddStatus("Checking syntax");
             }
