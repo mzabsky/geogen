@@ -31,6 +31,12 @@
 
 #include "sqplus.h"
 #include "sqstdmath.h"
+#include <sqstdio.h>
+#include <sqstdmath.h>
+#include <sqstdstring.h>
+#include <sqstdaux.h>
+#include <sqstdblob.h>
+#include <sqstdsystem.h>
 
 #include "ggen_squirrel.h"
 
@@ -66,13 +72,12 @@ GGen_Squirrel::GGen_Squirrel(){
 
 	SquirrelVM::InitNoRef(v);
 
-	//sq_close(v); 
-//return;
 	sqstd_register_mathlib(SquirrelVM::GetVMPtr());
 
 	sq_setprintfunc(SquirrelVM::GetVMPtr(), GGen_PrintHandler);
 	sq_setcompilererrorhandler(SquirrelVM::GetVMPtr(), GGen_ErrorHandler);
 	sq_enabledebuginfo(SquirrelVM::GetVMPtr(), false);
+	sqstd_seterrorhandlers(SquirrelVM::GetVMPtr());
 
 	/* Arguments */
 	RegisterGlobal(&GGen_AddIntArg, _SC("GGen_AddIntArg"));
