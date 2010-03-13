@@ -123,7 +123,7 @@ namespace GeoGen_Studio
 
         }
 
-        public void ClearData()
+        public void ClearData3D()
         {
             Main main = Main.Get();
 

@@ -19,7 +19,6 @@ namespace GeoGen_Studio
 
         private class BenchmarkStatus
         {
-            public Int64 phaseStartTime;
             public Int16 phase = 0;
             public Int64 thisBenchTime;
             public Double sumScores = 0;
@@ -36,6 +35,8 @@ namespace GeoGen_Studio
         private BenchmarkForm benchmarkForm;
 
         public Hashtable maps;
+
+        public Int64 startTime;
 
         public void InitializeGGen()
         {
@@ -79,20 +80,6 @@ namespace GeoGen_Studio
             this.benchmarkStatus = null;
         }
 
-        private void Prepare()
-        {
-
-            try
-            {
-                //main.outputManager.ClearData();
-                //main.viewportManager.ClearData();
-            }
-            catch (Exception)
-            {
-                this.WriteToConsole("Directory preparation failed. Make sure the necessary files and folders are readable.");
-            }
-        }
-
         public void ReturnHandler(object sender, GGenNet.MapReturnedEventArgs e){
             GGenNet.HeightData data = e.HeightMap;
             
@@ -124,8 +111,65 @@ namespace GeoGen_Studio
                     case GGenNet.MessageLevel.Notice: level = "Notice"; break;
                 }
 
-                this.WriteToConsole(level + ": " + e.Message);
+                if (this.mode != Mode.LowPriority) this.WriteToConsole(level + ": " + e.Message);
+                else this.lastCheckContent += level + ": " + e.Message + Environment.NewLine;
             }));
+        }
+
+        public void ClearData()
+        {
+            this.GetOutputManager().currentImportedFile = null;
+
+            if (this.output.Image != null)
+            {
+                // empty the output list
+                this.outputs.Items.Clear();
+
+                // free the pointers (so garbage collector can do its job)
+                this.output.Image = null;
+                this.GetOutputManager().currentImage = null;
+                this.GetOutputManager().currentImageWithOverlay = null;
+
+                // collect the garbage (there are now possibly hundreds of megabytes of garbage laying around by now)
+                System.GC.Collect();
+
+                // reset the image size (so it doesn't show error image)
+                this.output.Width = 0;
+                this.output.Height = 0;
+            }
+
+            this.ClearData3D();
+        }
+
+        public void MapGenerationFailed(string message)
+        {
+            this.Invoke(new MethodInvoker(delegate()
+            {
+                if (this.mode == Mode.LowPriority)
+                {
+                    this.SyntaxCheckFailed();
+                }
+                else
+                {
+                    this.WriteToConsole(message + Environment.NewLine);
+
+                    if (this.benchmarkStatus != null) this.BenchmarkFailed();
+
+                    this.ButtonsNoRunMode();
+
+                    this.ExecuteScheduledCheck();
+
+                    this.RemoveStatus("Generating");
+                }
+
+                this.mode = Mode.Idle;
+            }));
+        }
+
+        public void SyntaxCheckFailed()
+        {
+            this.RemoveStatus("Checking syntax");
+            this.SetErrorStatus(true);
         }
 
         public void ExecuteScript(string script, bool syntaxCheckOnly, string parameters)
@@ -133,11 +177,8 @@ namespace GeoGen_Studio
             // kill current syntax check in progress (if any is running)
             if (mode == Mode.LowPriority)
             {
-                try
-                {
-                    //process.Kill();
-                }
-                catch (Exception) { };
+                // wait for the syntax check to finish (it usually takes just milliseconds)
+                this.GGenThread.Join();
 
                 // do the check one the requested script is finished
                 this.ScheduleSyntaxCheck();
@@ -153,8 +194,7 @@ namespace GeoGen_Studio
             // having two generators running at once shouldn't happen
             else if (mode == Mode.Standard)
             {
-                //process.Kill();
-                System.Windows.Forms.MessageBox.Show("Another child GeoGen process is still running, terminating.");
+                throw new Exception("Two GeoGens can't possibly be running at one time");
             }
 
             if (!syntaxCheckOnly)
@@ -162,6 +202,10 @@ namespace GeoGen_Studio
                 this.mode = Mode.Standard;
                 this.ButtonsRunMode();
                 this.AddStatus("Executing");
+
+                this.ClearData();
+
+                this.WriteToConsole("Starting at " + DateTime.Now.ToString("HH:mm:ss") + "...");
             }
             else{
                 this.mode = Mode.LowPriority;
@@ -171,54 +215,88 @@ namespace GeoGen_Studio
 
             System.Threading.ThreadStart starter = new System.Threading.ThreadStart(delegate
             {
-                
-
-                ggen.SetScript(script);
-
-                ggen.LoadArgs();
-
-                if (!syntaxCheckOnly)
-                {
-                    this.maps.Clear();
-
-                    GGenNet.HeightData result = ggen.Generate();
-
-                    OutputManager.StretchHeightValues(ref result);
-
-                    maps.Add("[Main]", result);
-
-                    this.RemoveStatus("Executing");
-
-
-                    this.Invoke(new MethodInvoker(delegate()
+                try{
+                    try
                     {
-                        // was this part of a benchmark?
-                        if (benchmarkStatus != null)
+                        ggen.SetScript(script);
+                    }
+                    catch(GGenNet.SyntaxErrorException){
+                        this.MapGenerationFailed("Compilation failed!");
+
+                        return;
+                    }
+
+                    try
+                    {
+                        ggen.LoadArgs();
+                    }
+                    catch(GGenNet.ArgsUnreadableException){
+                        this.MapGenerationFailed("Map header is unreadable!");
+
+                        return;
+                    }
+
+                    // do nott generate the map during syntax check runs
+                    if (!syntaxCheckOnly)
+                    {
+                        this.startTime = System.DateTime.Now.Ticks / 10000;
+
+                        this.maps.Clear();
+
+                        GGenNet.HeightData result;
+                        try
                         {
-                            this.Benchmark();
+                            result = ggen.Generate();
+                        }
+                        catch (GGenNet.GenerationFailedException)
+                        {
+                            this.MapGenerationFailed("Map generation failed!");
 
                             return;
                         }
 
-                        this.ButtonsNoRunMode();
+                        // map was generated successfully
+                        OutputManager.StretchHeightValues(ref result);
 
-                        //if (process.ExitCode == 0)
-                        //{
-                        // let the output manager capture the outputs
-                        this.GetOutputManager().ReloadMaps(null);
-                        //}
-                        // exit code != 0 means error of some sort
-                        //else
-                        //{
-                        // let the application sleep for a moment so all the geogen runtime errors can be printed correctly first
-                        //    main.WriteToConsole("The generator was terminated prematurely!");
-                        //}
+                        maps.Add("[Main]", result);
 
-                        this.mode = Mode.Idle;
+                        this.RemoveStatus("Executing");
 
-                        this.ExecuteScheduledCheck();
-                    }));
+                        this.Invoke(new MethodInvoker(delegate()
+                        {
+                            // was this part of a benchmark?
+                            if (benchmarkStatus != null)
+                            {
+                                this.Benchmark();
+
+                                return;
+                            }
+
+                            this.GetOutputManager().ReloadMaps(null);
+
+                            this.WriteToConsole("Finished after " + Math.Round((System.DateTime.Now.Ticks / 10000 - this.startTime) / 1000d, 3) + " seconds!" + Environment.NewLine);
+
+                            this.ButtonsNoRunMode();
+
+                            this.mode = Mode.Idle;
+
+                            this.ExecuteScheduledCheck();
+                        }));
+                    }
+                    else
+                    {
+                        this.Invoke(new MethodInvoker(delegate()
+                        {
+                            this.SetErrorStatus(false);
+                        }));
+                    }
                 }
+                catch(GGenNet.InternalErrorException e) {
+                    this.WriteToConsole("Eror: " + e.InnerException.Message);
+                    this.MapGenerationFailed("GeoGen has unexpectedly crashed!");
+                }
+
+                this.mode = Mode.Idle;
             });
 
             GGenThread = new System.Threading.Thread(starter);
@@ -523,6 +601,27 @@ namespace GeoGen_Studio
             benchmarkForm.ShowDialog();
         }
 
+        public void BenchmarkFailed()
+        {
+            this.Invoke(new MethodInvoker(delegate()
+            {
+                this.WriteToConsole("Benchmark failed!" + Environment.NewLine);
+
+                this.benchmarkStatus = null;
+
+                if (this.benchmarkForm != null)
+                {
+                    this.benchmarkForm.result.Text = "Benchmark failed!";
+                    this.benchmarkForm.result.ForeColor = System.Drawing.Color.Red;
+                    this.benchmarkForm.result.Visible = true;
+                    this.benchmarkForm.button.Text = "Close";
+                    this.benchmarkForm.progressBar.Visible = false;
+                }
+
+                this.ButtonsNoRunMode();
+            }));
+        }
+
         public void Benchmark()
         {
             string benchScript = System.IO.File.ReadAllText("../examples/basic.nut");
@@ -544,35 +643,14 @@ namespace GeoGen_Studio
 
                 this.benchmarkForm.progressBar.Maximum = totalPhases;
 
-                this.benchmarkStatus.phaseStartTime = System.DateTime.Now.Ticks / 10000;
+                this.startTime = System.DateTime.Now.Ticks / 10000;
             }
             // the benchmark is already running
             else
             {
                 this.mode = Mode.Idle;
 
-                // bad exit code -> stop
-                if (/*this.process.ExitCode != 0*/ true)
-                {
-                    this.WriteToConsole("Benchmark failed!");
-
-                    if (this.benchmarkForm != null)
-                    {
-                        this.benchmarkStatus = null;
-
-                        this.benchmarkForm.result.Text = "Benchmark failed!";
-                        this.benchmarkForm.result.ForeColor = System.Drawing.Color.Red;
-                        this.benchmarkForm.result.Visible = true;
-                        this.benchmarkForm.button.Text = "Close";
-                        this.benchmarkForm.progressBar.Visible = false;
-                    }
-
-                    this.ButtonsNoRunMode();
-
-                    return;
-                }
-
-                Int64 time = System.DateTime.Now.Ticks / 10000 - this.benchmarkStatus.phaseStartTime;
+                Int64 time = System.DateTime.Now.Ticks / 10000 - this.startTime;
 
                 // the becnhmark script was executed
                 if (this.benchmarkStatus.phase % 2 == 0)
@@ -599,7 +677,7 @@ namespace GeoGen_Studio
 
                 this.benchmarkForm.progressBar.Value = this.benchmarkStatus.phase;
 
-                this.benchmarkStatus.phaseStartTime = System.DateTime.Now.Ticks / 10000;
+                //this.benchmarkStatus.phaseStartTime = System.DateTime.Now.Ticks / 10000;
 
                 // benchmark is finished
                 if (this.benchmarkStatus.phase == totalPhases)
