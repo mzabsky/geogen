@@ -108,7 +108,6 @@ namespace GeoGen_Studio
             this.output.Width = 0;
             this.output.Height = 0;
 
-            this.outputManager.ClearData();
             this.outputManager.LoadOverlays();
 
             // load the custom syntax highlighter settings
@@ -279,7 +278,15 @@ namespace GeoGen_Studio
 
         public void WriteToConsole(string str)
         {
-            this.console.Text += str + Environment.NewLine;
+            // is this a cross-thread call?
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(delegate()
+                {
+                    this.console.Text += str + Environment.NewLine;
+                }));
+            }
+            else this.console.Text += str + Environment.NewLine;
         }
 
         public void Error(string error)
@@ -716,7 +723,7 @@ namespace GeoGen_Studio
 
         private void clearOutputs_Click(object sender, EventArgs e)
         {
-            this.outputManager.ClearData();
+            //this.outputManager.ClearData();
 
             this.SelectTab(Tabs.Code);
         }

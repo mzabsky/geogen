@@ -7,9 +7,9 @@ namespace GeoGen_Studio
 {
     public class OutputManager
     {
-        private System.Drawing.Image currentImage;
-        private System.Drawing.Image currentImageWithOverlay;
-        private string currentImportedFile = null;
+        public System.Drawing.Image currentImage;
+        public System.Drawing.Image currentImageWithOverlay;
+        public string currentImportedFile = null;
         public GGenNet.HeightData data;
 
         private int currentOverlayIndex;
@@ -22,51 +22,6 @@ namespace GeoGen_Studio
         public int GetCurrentOverlayIndex()
         {
             return this.currentOverlayIndex;
-        }
-
-        public void ClearData()
-        {
-            Main main = Main.Get();
-            Config config = main.GetConfig();
-
-            main.OutputButtonsOff();
-
-            this.currentImportedFile = null;
-
-            if (main.output.Image != null)
-            {
-                // empty the output list
-                main.outputs.Items.Clear();
-
-                // free the pointers (so garbage collector can do its job)
-                main.output.Image = null;
-                currentImage = null;
-                currentImageWithOverlay = null;
-
-                // collect the garbage (there are now possibly hundreds of megabytes of garbage laying around by now)
-                System.GC.Collect();
-
-                // reset the image size (so it doesn't show error image)
-                main.output.Width = 0;
-                main.output.Height = 0;
-            }
-
-            // make sure the intermediate data saved on the hard drive are gone as well
-            try
-            {
-                System.IO.File.Delete(config.GeoGenWorkingDirectory + "/" + config.MainMapOutputFile);
-                if (System.IO.Directory.Exists(config.GeoGenWorkingDirectory))
-                {
-                    System.IO.Directory.Delete(config.GeoGenWorkingDirectory, true);
-                }
-            }
-            // do no bug if some of the stuff being deleted is not present
-            catch (System.IO.DirectoryNotFoundException) { }
-            catch (System.IO.FileNotFoundException) { }
-            catch (System.IO.IOException) { };
-
-            // recreate the directory
-            System.IO.Directory.CreateDirectory(config.GeoGenWorkingDirectory);
         }
 
         public void ReloadMaps(string path)
