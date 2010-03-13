@@ -97,6 +97,8 @@ void GGen::SetProgressCallback( void (*progress_callback) (int current_progress,
 }
 
 vector<GGen_ScriptArg>* GGen::LoadArgs(){
+	this->args.clear();
+
 	if(GetInfoInt(GGen_Const_String("args")) == -1) return NULL;
 
 	return &this->args;
