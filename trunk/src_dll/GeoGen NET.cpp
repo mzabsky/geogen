@@ -1,4 +1,4 @@
-using namespace System;
+	using namespace System;
 
 #ifdef _DEBUG
 #pragma comment(lib,"../bin/GeoGenD.lib")
@@ -280,6 +280,12 @@ public:
 			: Exception("An unhandled exception has been thrown by assigned event handler, please see InnerException object for more details.", innerException){};
 	};
 
+	ref class ArgumentMismatchException: Exception{
+	public:	
+		ArgumentMismatchException()
+			: Exception("Arument list provided by GGenNet does not match internal argument list. Argument count and types mist not change between LoadArgs and Generate method calls.", nullptr){};
+	};
+
 	ref class MessageEventArgs: System::EventArgs{
 	private:
 		System::String^ message;
@@ -521,6 +527,22 @@ public:
 		if(this->args == nullptr) {
 			throw gcnew ArgsNotLoadedException;
 			return nullptr;
+		}
+
+		if(this->args->Length != ggen->args.size()){
+			throw gcnew ArgumentMismatchException();
+		}
+
+		for(int i = 0; i < this->args->Length; i++){
+			if(
+				(this->args[i]->Type == ScriptArgType::Bool && ggen->args[i].type != GGEN_BOOL) ||
+				(this->args[i]->Type == ScriptArgType::Int && ggen->args[i].type != GGEN_INT) ||
+				(this->args[i]->Type == ScriptArgType::Enum && ggen->args[i].type != GGEN_ENUM)
+			){
+				throw gcnew ArgumentMismatchException();
+			}
+
+			ggen->args[i].value = this->args[i]->Value;
 		}
 		
 		short* pureData;
