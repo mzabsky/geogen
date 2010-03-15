@@ -17,6 +17,8 @@
 
 */
 
+#include <assert.h>
+
 #include "ggen_support.h"
 #include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
@@ -24,6 +26,8 @@
 #include "ggen_scriptarg.h"
 
 bool GGen_ScriptArg::SetValue(int new_value){
+	assert(GGen::GetInstance()->GetStatus() == GGEN_READY_TO_GENERATE);
+	
 	if(new_value < min_value) {
 		value = min_value;
 		return false;
@@ -45,6 +49,8 @@ bool GGen_ScriptArg::SetValue(int new_value){
 }
 
 void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, int min_value, int max_value, int step_size){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
+	
 	GGen_ScriptArg arg;
 
 	arg.type = GGEN_INT;
@@ -63,6 +69,8 @@ void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGe
 };
 
 void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, bool default_value){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
+
 	GGen_ScriptArg arg;
 
 	arg.type = GGEN_BOOL;
@@ -81,6 +89,8 @@ void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GG
 };
 
 void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, const GGen_String& options){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
+
 	GGen_ScriptArg arg;
 
 	arg.type = GGEN_ENUM;
@@ -115,6 +125,8 @@ void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GG
 
 
 int GGen_GetParam(const GGen_String& name){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+
 	for(unsigned i = 0; i < GGen::GetInstance()->args.size(); i++){
 		if(GGen::GetInstance()->args[i].name == name){
 			return GGen::GetInstance()->args[i].value;

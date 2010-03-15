@@ -58,6 +58,14 @@ enum GGen_Arg_Type{
 	GGEN_ENUM
 }; 
 
+enum GGen_Status{
+	GGEN_NO_SCRIPT,
+	GGEN_SCRIPT_LOADED,
+	GGEN_READY_TO_GENERATE,
+	GGEN_LOADING_MAP_INFO,
+	GGEN_GENERATING,
+};
+
 class GGen_ScriptArg{
 public:
 	int value;
@@ -96,6 +104,8 @@ public:
 	~GGen();
 
 	static GGen* GetInstance();
+
+	GGen_Status GetStatus();
 
 	void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
 	

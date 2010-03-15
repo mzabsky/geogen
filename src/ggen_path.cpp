@@ -21,7 +21,9 @@
 #include "ggen.h"
 #include "ggen_path.h"
 
-GGen_Path::GGen_Path(): closed(false) {}
+GGen_Path::GGen_Path(): closed(false) {
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+}
 
 void GGen_Path::AddPoint(GGen_Point& point){
 	this->points.push_back(point);

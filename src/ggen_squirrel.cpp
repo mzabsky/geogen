@@ -296,37 +296,59 @@ bool GGen_Squirrel::SetScript(const GGen_String& script){
 
 		SquirrelVM::RunScript(sqScript);
 
+		this->status = GGEN_SCRIPT_LOADED;
+
 		return true;
     } catch (SquirrelError &) {
 		return false;
-    }	
+    }
 }
 
 GGen_String GGen_Squirrel::GetInfo(const GGen_String& label){
+	assert(this->status == GGEN_SCRIPT_LOADED || this->status == GGEN_READY_TO_GENERATE);
+
+	GGen_Status statusBackup = this->status;
+
 	try{
 		SquirrelFunction<const SQChar*> callFunc(GGen_Const_String("GetInfo"));
 
 		const SQChar* output = callFunc(label.c_str());
 
+		this->status = statusBackup;
+
 		return GGen_String(output);
 	}
 	catch(SquirrelError &){
+		this->status = statusBackup;
+
 		return NULL;
 	}
 }
 
 int GGen_Squirrel::GetInfoInt(const GGen_String& label){
+	assert(this->status == GGEN_SCRIPT_LOADED || this->status == GGEN_READY_TO_GENERATE);
+
+	GGen_Status statusBackup = this->status;
+
 	try{
 		SquirrelFunction<int> callFunc(GGen_Const_String("GetInfo"));
 
-		return callFunc(label.c_str());
+		int value = callFunc(label.c_str());
+
+		this->status = statusBackup;
+
+		return value;
 	}
 	catch(SquirrelError &){
+		this->status = statusBackup;
+
 		return -1;
 	}
 }
 
 int16* GGen_Squirrel::Generate(){		
+	assert(this->status == GGEN_READY_TO_GENERATE);
+	
 	try {
 		int16* return_data;
 		GGen_Data_2D* data;
@@ -336,11 +358,15 @@ int16* GGen_Squirrel::Generate(){
 			
 			presetTarget = &callFunc.object;
 			
+			this->status = GGEN_GENERATING;
+
 			#include "ggen_presets.h"
 			
 			presetTarget = NULL;
-			
+
 			data =  callFunc();	
+
+			this->status = GGEN_READY_TO_GENERATE;
 		}
 
 		GGen_Script_Assert(data != NULL && data->data != NULL);
@@ -358,10 +384,15 @@ int16* GGen_Squirrel::Generate(){
 		
     } 
     catch (SquirrelError &) {
+		this->status = GGEN_READY_TO_GENERATE;
+
 		return NULL;
     }	
     catch (bad_alloc){
+		this->status = GGEN_READY_TO_GENERATE;
+		
 		GGen::GetInstance()->ThrowMessage(GGen_Const_String("GGen_Data memory allocation failed!"), GGEN_ERROR, -1);
+
 		return NULL;
     }
 }
