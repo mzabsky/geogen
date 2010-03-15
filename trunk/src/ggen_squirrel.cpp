@@ -309,6 +309,8 @@ GGen_String GGen_Squirrel::GetInfo(const GGen_String& label){
 
 	GGen_Status statusBackup = this->status;
 
+	this->status = GGEN_LOADING_MAP_INFO;
+
 	try{
 		SquirrelFunction<const SQChar*> callFunc(GGen_Const_String("GetInfo"));
 
@@ -329,6 +331,8 @@ int GGen_Squirrel::GetInfoInt(const GGen_String& label){
 	assert(this->status == GGEN_SCRIPT_LOADED || this->status == GGEN_READY_TO_GENERATE);
 
 	GGen_Status statusBackup = this->status;
+
+	this->status = GGEN_LOADING_MAP_INFO;
 
 	try{
 		SquirrelFunction<int> callFunc(GGen_Const_String("GetInfo"));
