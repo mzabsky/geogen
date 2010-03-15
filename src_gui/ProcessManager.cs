@@ -38,6 +38,8 @@ namespace GeoGen_Studio
 
         public Int64 startTime;
 
+        private uint[] oldValues;
+
         public void InitializeGGen()
         {
             mode = Mode.Idle;
@@ -49,6 +51,8 @@ namespace GeoGen_Studio
             ggen.MapReturned += ReturnHandler;
             ggen.ProgressChanged += ProgressHandler;
             ggen.MessageThrown += PrintHandler;
+
+            this.oldValues = new uint[0];
         }
 
         public bool IsGGenRunning(){
@@ -215,12 +219,14 @@ namespace GeoGen_Studio
 
             System.Threading.ThreadStart starter = new System.Threading.ThreadStart(delegate
             {
-                try{
+                try
+                {
                     try
                     {
                         ggen.SetScript(script);
                     }
-                    catch(GGenNet.SyntaxErrorException){
+                    catch (GGenNet.SyntaxErrorException)
+                    {
                         this.MapGenerationFailed("Compilation failed!");
 
                         return;
@@ -230,7 +236,8 @@ namespace GeoGen_Studio
                     {
                         ggen.LoadArgs();
                     }
-                    catch(GGenNet.ArgsUnreadableException){
+                    catch (GGenNet.ArgsUnreadableException)
+                    {
                         this.MapGenerationFailed("Map header is unreadable!");
 
                         return;
@@ -239,6 +246,39 @@ namespace GeoGen_Studio
                     // do nott generate the map during syntax check runs
                     if (!syntaxCheckOnly)
                     {
+                        int i = 0;
+                        foreach (PropertyGridEx.CustomProperty property in this.parameters.Item)
+                        {
+                            GGenNet.ScriptArg arg = ggen.Args[i];
+
+                            // we ran out of parameters...
+                            if (i == ggen.Args.Length)
+                            {
+                                break;
+                            }
+
+                            // fill in only matching arguments
+                            if (property.Type.Name == "Boolean" && arg.Type == GGenNet.ScriptArgType.Bool)
+                            {
+                                arg.Value = (uint)property.Value;
+                            }
+
+                            else if (property.Type.Name == "UInt32" && arg.Type == GGenNet.ScriptArgType.Int)
+                            {
+                                arg.Value = (uint)property.Value;
+                            }
+                            else if (property.Type.Name == "Int32" && arg.Type == GGenNet.ScriptArgType.Int)
+                            {
+                                arg.Value = (uint)((int)property.Value);
+                            }
+                            else if (property.Type.Name == "String" && arg.Type == GGenNet.ScriptArgType.Enum)
+                            {
+                                arg.Value = (uint)property.Choices.IndexOf(property.Value);
+                            }
+
+                            i++;
+                        }
+
                         this.startTime = System.DateTime.Now.Ticks / 10000;
 
                         this.maps.Clear();
@@ -276,24 +316,32 @@ namespace GeoGen_Studio
 
                             this.WriteToConsole("Finished after " + Math.Round((System.DateTime.Now.Ticks / 10000 - this.startTime) / 1000d, 3) + " seconds!" + Environment.NewLine);
 
-                            this.ButtonsNoRunMode();
-
-                            this.mode = Mode.Idle;
-
-                            this.ExecuteScheduledCheck();
+                            this.ButtonsNoRunMode();                            
                         }));
                     }
                     else
                     {
                         this.Invoke(new MethodInvoker(delegate()
                         {
+                            this.RebuildArgsTable();
                             this.SetErrorStatus(false);
                         }));
                     }
                 }
-                catch(GGenNet.InternalErrorException e) {
+                catch (GGenNet.InternalErrorException e)
+                {
                     this.WriteToConsole("Eror: " + e.InnerException.Message);
                     this.MapGenerationFailed("GeoGen has unexpectedly crashed!");
+                }
+                finally
+                {
+                    this.BeginInvoke(new MethodInvoker(delegate()
+                    {
+                        this.mode = Mode.Idle;
+                        this.RemoveStatus("Executing");
+                        this.RemoveStatus("Checking syntax");
+                        this.ExecuteScheduledCheck();
+                    }));
                 }
 
                 this.mode = Mode.Idle;
@@ -416,6 +464,80 @@ namespace GeoGen_Studio
             {
                 process.BeginOutputReadLine();
             }*/
+        }
+
+        public uint[] GetArgValues()
+        {
+            uint[] arr = new uint[this.parameters.Item.Count];
+
+            for (int i = 0; i < (int)this.parameters.Item.Count; i++)
+            {
+                PropertyGridEx.CustomProperty property = this.parameters.Item[i];
+
+                // bool type field
+                if (property.Type.Name == "Boolean")
+                {
+                    arr[i] = ((Boolean)property.Value) == true ? 1u : 0u;
+                }
+                // int type field
+                else if (property.Type.Name == "Int32")
+                {
+                    arr[i] = (uint)((int)property.Value);
+                }
+                else if (property.Type.Name == "UInt32")
+                {
+                    arr[i] = (uint)property.Value;
+                }
+                // enum type field
+                else if (property.Type.Name == "String")
+                {
+                    arr[i] = (uint) property.Choices.LastIndexOf((String)(property.Value));
+                }
+            }
+
+            return arr;
+        }
+
+        public void RebuildArgsTable()
+        {
+            oldValues = this.GetArgValues();
+            
+            this.parameters.Item.Clear();
+
+            int i = 0;
+            foreach (GGenNet.ScriptArg arg in ggen.Args)
+            {
+                PropertyGridEx.CustomProperty property = null;
+
+                if (arg.Type == GGenNet.ScriptArgType.Bool)
+                {
+                    property = new PropertyGridEx.CustomProperty(arg.Label, arg.Default == 1 ? true : false, false, "Script parameters:", arg.Description, true);
+
+                    if (oldValues.Length > i) property.Value = oldValues[i] == 1 ? true : false;
+                }
+                else if (arg.Type == GGenNet.ScriptArgType.Int)
+                {
+                    property = new PropertyGridEx.CustomProperty(arg.Label, (Int32) arg.Default, false, "Script parameters:", arg.Description, true);
+
+                    if (oldValues.Length > i) property.Value = (uint) (Math.Max(Math.Min(oldValues[i], arg.Maximum), arg.Minimum));
+                }
+                else if (arg.Type == GGenNet.ScriptArgType.Enum)
+                {
+                    property = new PropertyGridEx.CustomProperty(arg.Label, arg.Options[arg.Default], false, "Script parameters:", arg.Description, true);
+                    property.Choices = new PropertyGridEx.CustomChoices(arg.Options, false);
+
+                    if (oldValues.Length > i) property.Value = arg.Options.Length < oldValues[i] ? arg.Options[oldValues[i]] : arg.Options[arg.Default];
+                }
+
+                if (property != null)
+                {
+                    this.parameters.Item.Add(property);
+                }
+
+                i++;
+            }
+
+            this.parameters.Refresh();
         }
 
        /* public void ProcessFinished(){
@@ -576,7 +698,7 @@ namespace GeoGen_Studio
                     str += "d ";
                 }
                 // integer type
-                else if (param.Type.Name == "Int32")
+                else if (param.Type.Name == "UInt32" || param.Type.Name == "Int32")
                 {
                     str += (Int32)param.Value + " ";
                 }

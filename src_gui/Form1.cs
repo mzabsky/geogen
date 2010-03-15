@@ -126,6 +126,8 @@ namespace GeoGen_Studio
 
             this.config.Save();
 
+            this.ScheduleSyntaxCheck();
+
             // show this form and close the splash screen
             this.Opacity = 1.0;
             //this.loader.Invoke(new MethodInvoker(delegate { this.loader.FadeOut(); }));
