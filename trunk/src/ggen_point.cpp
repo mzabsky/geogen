@@ -22,6 +22,7 @@
 #include "ggen_point.h"
 
 GGen_Point::GGen_Point(GGen_CoordOffset x, GGen_CoordOffset y): x(x), y(y) {
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
 }
 
 GGen_CoordOffset GGen_Point::GetX(){

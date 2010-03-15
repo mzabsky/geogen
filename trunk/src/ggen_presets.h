@@ -2,6 +2,12 @@
 
 /* GGEN_STD_NOISE */
 
+#ifdef DOXYGEN 
+/// asddasaddasda
+#define GGGKJDSGKJSDGDSGSKJDGDSGSDKJG 123456890
+
+#endif
+
 GGen_Amplitudes ggen_std_noise(4096);
 
 ggen_std_noise.AddAmplitude(1, 3 * 15);

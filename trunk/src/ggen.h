@@ -30,6 +30,7 @@ class GGEN_EXPORT GGen{
 protected: 
 	static GGen* instance;
 
+	GGen_Status status;
 public:
 	void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column);
 	void (*return_callback) (const GGen_String& name, const int16* map, int width, int height);
@@ -48,6 +49,8 @@ public:
 	~GGen();
 
 	static GGen* GetInstance();
+
+	GGen_Status GetStatus();
 
 	void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
 	//void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);

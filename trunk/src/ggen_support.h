@@ -189,6 +189,17 @@ enum GGen_Comparsion_Mode{
 	GGEN_GREATER_THAN_OR_EQUAL_TO, //!< Compared value is greater than or equal to treshold value.
 };
 
+/**
+ * Generator status
+ */
+enum GGen_Status{
+	GGEN_NO_SCRIPT, //!< No script has been inserted yet, no actions but SetScript and setting map constraints are allowed. SetScript will rise the status to SCRIPT_LOADED.
+	GGEN_SCRIPT_LOADED, //!< Script has been successfully loaded, work with map info is now allowed (LoadArgs ca be called only now). LoadArgs will rise the status to READY_TO_GENERATE.
+	GGEN_READY_TO_GENERATE, //!< Script is ready to be executed.
+	GGEN_LOADING_MAP_INFO, //!< Map header is being mined for information, no work with map data of any kind is allowed.
+	GGEN_GENERATING, //!< Script is being executed. All script actions but adding new arguments is allowed.
+};
+
 template <class T>
 T GGen_Random(T min, T max){
 	double random = (double)rand() / (double) RAND_MAX;

@@ -36,6 +36,8 @@ GGen::GGen(){
 
 	GGen::instance = this;
 
+	this->status = GGEN_NO_SCRIPT;
+
 	/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */
 	this->max_height = -1;
 	this->max_width = -1;
@@ -54,6 +56,10 @@ GGen::~GGen(){
 
 GGen* GGen::GetInstance(){
 	return GGen::instance;
+}
+
+GGen_Status GGen::GetStatus(){
+	return this->status;
 }
 
 void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
@@ -97,9 +103,13 @@ void GGen::SetProgressCallback( void (*progress_callback) (int current_progress,
 }
 
 vector<GGen_ScriptArg>* GGen::LoadArgs(){
+	assert(this->status == GGEN_SCRIPT_LOADED);
+
 	this->args.clear();
 
 	if(GetInfoInt(GGen_Const_String("args")) == -1) return NULL;
+
+	this->status = GGEN_READY_TO_GENERATE;
 
 	return &this->args;
 }
@@ -130,6 +140,10 @@ uint16 GGen::GetMaxMapCount(){
 
 
 void GGen::InitProgress(uint32 max_progress){
+	// show a script assert if we are in wrong script mode, ordinary assert otherwise
+	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
+	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+
 	GGen::GetInstance()->max_progress = max_progress;
 	GGen::GetInstance()->current_progress = 0;
 	
@@ -137,6 +151,10 @@ void GGen::InitProgress(uint32 max_progress){
 }
 
 void GGen::SetProgress(uint32 current_progress){
+	// show a script assert if we are in wrong script mode, ordinary assert otherwise
+	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
+	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+
 	GGen_Script_Assert(current_progress <= GGen::GetInstance()->max_progress);
 	
 	GGen::GetInstance()->current_progress = current_progress;
@@ -145,6 +163,10 @@ void GGen::SetProgress(uint32 current_progress){
 }
 
 void GGen::IncreaseProgress(){
+	// show a script assert if we are in wrong script mode, ordinary assert otherwise
+	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
+	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+
 	GGen_Script_Assert(GGen::GetInstance()->current_progress + 1 < GGen::GetInstance()->max_progress);
 	
 	GGen::GetInstance()->current_progress++;
