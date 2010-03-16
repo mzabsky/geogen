@@ -291,7 +291,13 @@ public:
 	ref class ArgumentMismatchException: Exception{
 	public:	
 		ArgumentMismatchException()
-			: Exception("Arument list provided by GGenNet does not match internal argument list. Argument count and types mist not change between LoadArgs and Generate method calls.", nullptr){};
+			: Exception("Argument list provided by GGenNet does not match internal argument list. Argument count and types mist not change between LoadArgs and Generate method calls.", nullptr){};
+	};
+
+	ref class InvalidStatusException: Exception{
+	public:	
+		InvalidStatusException()
+			: Exception("The generator is incorect status for calling this method. Make sure the method is called in correct context (the core methods must be called in correct order, generator methods and properties must not be referenced from within of GGenNet event handlers).", nullptr){};
 	};
 
 	ref class MessageEventArgs: System::EventArgs{
@@ -411,6 +417,10 @@ public:
 		}
 
 		void set(int value){
+			if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+				throw gcnew InvalidStatusException();
+			}
+			
 			ggen->SetMaxWidth(value);
 		}
 	}
@@ -421,6 +431,10 @@ public:
 		}
 
 		void set(int value){
+			if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+				throw gcnew InvalidStatusException();
+			}
+			
 			ggen->SetMaxHeight(value);
 		}
 	}
@@ -431,6 +445,10 @@ public:
 		}
 
 		void set(int value){
+			if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+				throw gcnew InvalidStatusException();
+			}
+			
 			ggen->SetMaxMapCount(value);
 		}
 	}
@@ -477,6 +495,10 @@ public:
 	}
 
 	void SetScript(System::String^ script){
+		if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+			throw gcnew InvalidStatusException();
+		}
+
 		bool result;
 			
 		try{
@@ -499,6 +521,10 @@ public:
 	}
 
 	System::String^ GetInfo(System::String^ label){
+		if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED && this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
+			throw gcnew InvalidStatusException();
+		}
+
 		GGen_String unmanagedInfo;
 		
 		try{
@@ -515,10 +541,18 @@ public:
 	}
 
 	int GetInfoInt(System::String^ label){
+		if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED && this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
+			throw gcnew InvalidStatusException();
+		}
+
 		return ggen->GetInfoInt(ManagedToUnmanagedString(label));
 	}
 
 	array<ScriptArg^>^ LoadArgs(){
+		if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED){
+			throw gcnew InvalidStatusException();
+		}
+		
 		std::vector<GGen_ScriptArg>* unmanagedArgs;
 		
 		try{
@@ -529,7 +563,7 @@ public:
 		}
 		catch(System::Exception^ e){
 			throw gcnew InternalErrorException(e);
-		}
+		};
 
 		if(unmanagedArgs == NULL){
 			throw gcnew ArgsUnreadableException;
@@ -546,6 +580,10 @@ public:
 	}
 
 	HeightData^ Generate(){
+		if(this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
+			throw gcnew InvalidStatusException();
+		}
+
 		if(this->args == nullptr) {
 			throw gcnew ArgsNotLoadedException;
 			return nullptr;
