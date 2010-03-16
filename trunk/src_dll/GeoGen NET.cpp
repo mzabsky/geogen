@@ -28,6 +28,14 @@ public:
 		Enum
 	};
 
+	enum class StatusMode{
+		NoScript,
+		ScriptLoaded,
+		ReadyToGenerate,
+		LoadingMapInfo,
+		Generating
+	};
+
 	ref class HeightData{
 	private:
 		unsigned short width;
@@ -380,6 +388,20 @@ public:
 	property array<ScriptArg^>^ Args{
 		array<ScriptArg^>^ get(){
 			return this->args;
+		}
+	}
+
+	property StatusMode Status{
+		StatusMode get(){
+			switch(ggen->GetStatus()){
+				case GGEN_NO_SCRIPT: return StatusMode::NoScript;
+				case GGEN_SCRIPT_LOADED: return StatusMode::ScriptLoaded;
+				case GGEN_READY_TO_GENERATE: return StatusMode::ReadyToGenerate;
+				case GGEN_LOADING_MAP_INFO: return StatusMode::LoadingMapInfo;
+				case GGEN_GENERATING: return StatusMode::Generating;
+			}
+			
+			return StatusMode::NoScript;
 		}
 	}
 
