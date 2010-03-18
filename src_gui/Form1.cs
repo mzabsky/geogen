@@ -101,8 +101,7 @@ namespace GeoGen_Studio
             this.editor.TextInserted += editor_TextInserted;
             this.editor.TextDeleted += editor_TextInserted;
 
-            // trigger the "new file" button click, so the template is loaded (without doubling the code)
-            this.newToolStripMenuItem_Click(sender, e);
+            
 
             // make the output picturebox have zero size (no output is available)
             this.output.Width = 0;
@@ -119,6 +118,11 @@ namespace GeoGen_Studio
                 this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
                 this.knownFile = true;
                 this.needsSaving = false;
+            }
+            else
+            {
+                // trigger the "new file" button click, so the template is loaded (without doubling the code)
+                this.newToolStripMenuItem_Click(sender, e);
             }
 
             // output and viewport zooming event
