@@ -118,6 +118,8 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 
 typedef GGEN_EXPORT basic_string<GGen_Char> GGen_String;
 
+struct GGen_ScriptAssertException{};
+
 // Custom assertion handler. Invoke messaage callback and shut down the script execution.
 #define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
 	GGen_String as_buf; \
@@ -126,6 +128,7 @@ typedef GGEN_EXPORT basic_string<GGen_Char> GGen_String;
 	as_buf += GGen_Const_String(" failed: "); \
 	as_buf += GGen_Const_String(#_Expression); \
 	GGen::GetInstance()->ThrowMessage(as_buf, GGEN_ERROR, -1); \
+	throw GGen_ScriptAssertException(); \
 }}
 
 /**
