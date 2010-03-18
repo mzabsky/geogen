@@ -754,7 +754,7 @@ void GGen_Data_2D::VoronoiNoise(GGen_Size cell_size, uint8 points_per_cell, GGen
 	};
 	
 	uint16 num_cells_x = (uint16) ceil((double) this->width / (double) cell_size);
-	uint16 num_cells_y = (uint16) ceil((double) this->width / (double) cell_size);
+	uint16 num_cells_y = (uint16) ceil((double) this->height / (double) cell_size);
 	int cell_width = cell_size;
 	int cell_height = cell_size;
 	
