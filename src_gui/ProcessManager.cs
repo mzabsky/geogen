@@ -526,7 +526,7 @@ namespace GeoGen_Studio
                     property = new PropertyGridEx.CustomProperty(arg.Label, arg.Options[arg.Default], false, "Script parameters:", arg.Description, true);
                     property.Choices = new PropertyGridEx.CustomChoices(arg.Options, false);
 
-                    if (oldValues.Length > i) property.Value = arg.Options.Length < oldValues[i] ? arg.Options[oldValues[i]] : arg.Options[arg.Default];
+                    if (oldValues.Length > i) property.Value = arg.Options.Length > oldValues[i] ? arg.Options[oldValues[i]] : arg.Options[arg.Default];
                 }
 
                 if (property != null)
