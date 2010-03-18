@@ -330,7 +330,7 @@ namespace GeoGen_Studio
                 }
                 catch (GGenNet.InternalErrorException e)
                 {
-                    this.WriteToConsole("Eror: " + e.InnerException.Message);
+                    this.WriteToConsole("Error: " + e.InnerException.Message);
                     this.MapGenerationFailed("GeoGen has unexpectedly crashed!");
                 }
                 finally
