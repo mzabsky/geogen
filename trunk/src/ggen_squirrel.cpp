@@ -391,7 +391,12 @@ int16* GGen_Squirrel::Generate(){
 		this->status = GGEN_READY_TO_GENERATE;
 
 		return NULL;
-    }	
+    }
+	catch (GGen_ScriptAssertException &) {
+		this->status = GGEN_READY_TO_GENERATE;
+
+		return NULL;
+    }
     catch (bad_alloc){
 		this->status = GGEN_READY_TO_GENERATE;
 		
