@@ -517,7 +517,7 @@ namespace GeoGen_Studio
                 }
                 else if (arg.Type == GGenNet.ScriptArgType.Int)
                 {
-                    property = new PropertyGridEx.CustomProperty(arg.Label, (Int32) arg.Default, false, "Script parameters:", arg.Description, true);
+                    property = new PropertyGridEx.CustomProperty(arg.Label, (UInt32) arg.Default, false, "Script parameters:", arg.Description, true);
 
                     if (oldValues.Length > i) property.Value = (uint) (Math.Max(Math.Min(oldValues[i], arg.Maximum), arg.Minimum));
                 }
