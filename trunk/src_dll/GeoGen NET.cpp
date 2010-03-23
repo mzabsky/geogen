@@ -133,6 +133,16 @@ public:
 			}
 		}
 
+		HeightData(const HeightData% victim){
+			this->width = victim.width;
+			this->height = victim.height;
+			this->length = this->width * this->height;
+
+			this->data = new short[this->length];
+
+			memcpy(this->data, victim.data, this->length * sizeof(short));
+		}
+
 		~HeightData(){
 			delete [] this->data;
 		}
@@ -692,7 +702,7 @@ internal:
 
 	void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
 		try{
-			this->MapReturned(this, %MapReturnedEventArgs(UnmanagedToManagedString(name), %HeightData(width, height, map)));
+			this->MapReturned(this, %MapReturnedEventArgs(UnmanagedToManagedString(name), gcnew HeightData(width, height, map)));
 		}
 		catch(System::Exception^ e){
 			throw gcnew ExceptionInCallbackException(e);
