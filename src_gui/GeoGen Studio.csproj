@@ -109,12 +109,6 @@
     <Compile Include="Export.Designer.cs">
       <DependentUpon>Export.cs</DependentUpon>
     </Compile>
-    <Compile Include="LightSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LightSettings.Designer.cs">
-      <DependentUpon>LightSettings.cs</DependentUpon>
-    </Compile>
     <Compile Include="Loading.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,10 +156,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LightSettings.resx">
-      <DependentUpon>LightSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Loading.resx">
