@@ -1087,12 +1087,6 @@ namespace GeoGen_Studio
             this.ApplyTexture();
         }
 
-        private void lighting_Click(object sender, EventArgs e)
-        {
-            LightSettings lightSettings = new LightSettings();
-            lightSettings.ShowDialog();
-        }
-
         private void viewport_Resize(object sender, EventArgs e)
         {
             this.SetupViewport();
