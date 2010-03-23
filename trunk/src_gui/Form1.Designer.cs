@@ -108,6 +108,8 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.coords = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.progress = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.tabs = new System.Windows.Forms.TabControl();
             this.outputTab = new System.Windows.Forms.TabPage();
@@ -152,8 +154,6 @@
             this.saveOutputDialog = new System.Windows.Forms.SaveFileDialog();
             this.importHeightmapDialog = new System.Windows.Forms.OpenFileDialog();
             this.exportHeightmapDialog = new System.Windows.Forms.SaveFileDialog();
-            this.progress = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             codeTab = new System.Windows.Forms.TabPage();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -892,6 +892,23 @@
             this.coords.Name = "coords";
             this.coords.Size = new System.Drawing.Size(130, 17);
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(704, 17);
+            this.toolStripStatusLabel1.Spring = true;
+            this.toolStripStatusLabel1.Text = " ";
+            // 
+            // progress
+            // 
+            this.progress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(200, 16);
+            this.progress.Step = 1;
+            this.progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progress.ToolTipText = "Map generation progress";
+            this.progress.Visible = false;
+            // 
             // splitContainer
             // 
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1030,6 +1047,7 @@
             this.outputs.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this.outputs.Name = "outputs";
             this.outputs.Size = new System.Drawing.Size(121, 25);
+            this.outputs.Sorted = true;
             this.outputs.SelectedIndexChanged += new System.EventHandler(this.outputs_SelectedIndexChanged);
             // 
             // toolStripSeparator3
@@ -1050,6 +1068,7 @@
             this.overlays.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this.overlays.Name = "overlays";
             this.overlays.Size = new System.Drawing.Size(121, 25);
+            this.overlays.Sorted = true;
             this.overlays.SelectedIndexChanged += new System.EventHandler(this.overlays_SelectedIndexChanged);
             // 
             // toggleOverlay
@@ -1202,6 +1221,7 @@
             this.outputs3d.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this.outputs3d.Name = "outputs3d";
             this.outputs3d.Size = new System.Drawing.Size(121, 23);
+            this.outputs3d.Sorted = true;
             this.outputs3d.SelectedIndexChanged += new System.EventHandler(this.outputs3d_SelectedIndexChanged);
             // 
             // toolStripSeparator16
@@ -1223,6 +1243,7 @@
             this.texture.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.texture.Name = "texture";
             this.texture.Size = new System.Drawing.Size(121, 23);
+            this.texture.Sorted = true;
             this.texture.SelectedIndexChanged += new System.EventHandler(this.texture_SelectedIndexChanged);
             // 
             // toolStripSeparator17
@@ -1386,23 +1407,6 @@
             this.exportHeightmapDialog.DefaultExt = "bmp";
             this.exportHeightmapDialog.Filter = "BMP Image|*.bmp|JPEG Image|*.jpg|PNG Image|*.png|Short Height Data|*.shd|All file" +
                 "s|*.*";
-            // 
-            // progress
-            // 
-            this.progress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.progress.Name = "progress";
-            this.progress.Size = new System.Drawing.Size(200, 16);
-            this.progress.Step = 1;
-            this.progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progress.ToolTipText = "Map generation progress";
-            this.progress.Visible = false;
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(704, 17);
-            this.toolStripStatusLabel1.Spring = true;
-            this.toolStripStatusLabel1.Text = " ";
             // 
             // Main
             // 
