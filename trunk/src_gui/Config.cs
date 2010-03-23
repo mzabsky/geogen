@@ -14,7 +14,6 @@ namespace GeoGen_Studio
         public bool openLastFileOnStartup;
         public string lastFile;
         public string scintillaDefinitonsFile;
-        public string parameters;
         public Main.ActionAfterExectution actionAfterExec;
         public string geoGenPath;
         public string mainMapOutputFile;
@@ -29,6 +28,7 @@ namespace GeoGen_Studio
         public string lastImportedTexture;
         public string lastExportedOutput;
         public string lastExportedScreenshot;
+        public uint[] parameters;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -77,13 +77,6 @@ namespace GeoGen_Studio
         {
             get { return scintillaDefinitonsFile; }
             set { scintillaDefinitonsFile = value; }
-        }
-
-        [CategoryAttribute("Script Execution"), DescriptionAttribute("Last used parameter string."), DefaultValue("")]
-        public string Parameters
-        {
-            get { return parameters; }
-            set { parameters = value; }
         }
 
         [CategoryAttribute("Script Execution"), DescriptionAttribute("What should the program do once script execution is finished?"), DefaultValue(Main.ActionAfterExectution.GoTo3DOutput)]
@@ -216,11 +209,11 @@ namespace GeoGen_Studio
             lastImportedTexture = "";
             lastExportedScreenshot = "";
             lastExportedOutput = "";
+            parameters = new uint[0];
             
             exportRescaleMode = false;
 
             /* Execution settings */
-            parameters = "";
             actionAfterExec = Main.ActionAfterExectution.GoTo3DOutput;
             geoGenPath = "../bin/geogen.exe";
             geoGenWorkingDirectory = "../temp/studio_maps/temp";
@@ -268,7 +261,7 @@ namespace GeoGen_Studio
                 main.LoadInterfaceSettings();
             }
             // something went wrong -> create a new config file
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 main.WriteToConsole("Could not open config file, falling back to defaults.");
 

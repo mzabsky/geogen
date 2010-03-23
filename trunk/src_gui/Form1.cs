@@ -114,7 +114,7 @@ namespace GeoGen_Studio
 
             // open last opened file if requested
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
-            {
+            {              
                 this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
                 this.knownFile = true;
                 this.needsSaving = false;
@@ -509,6 +509,8 @@ namespace GeoGen_Studio
             this.importHeightmapDialog.FileName = this.config.lastImportedFile;
             this.exportHeightmapDialog.FileName = this.config.lastExportedFile;
 
+            this.oldValues = this.config.parameters;
+
             this.statusbarToolStripMenuItem_Click(null, null);
             this.sidebarToolStripMenuItem_Click(null, null);
             this.toolbarToolStripMenuItem_Click(null, null);
@@ -536,6 +538,8 @@ namespace GeoGen_Studio
             this.config.editorZooom = this.editor.Zoom;
             this.config.wireframe = this.wireframe.Checked;
             this.config.heightScale = this.heightScale.Value;
+
+            this.config.parameters = this.GetArgValues();
 
             this.SetupViewport();
         }

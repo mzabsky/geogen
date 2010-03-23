@@ -52,7 +52,7 @@ namespace GeoGen_Studio
             ggen.ProgressChanged += ProgressHandler;
             ggen.MessageThrown += PrintHandler;
 
-            this.oldValues = new uint[0];
+            this.oldValues = null;
         }
 
         public bool IsGGenRunning(){
@@ -500,8 +500,8 @@ namespace GeoGen_Studio
 
         public void RebuildArgsTable()
         {
-            oldValues = this.GetArgValues();
-            
+            if (this.oldValues == null) this.oldValues = this.GetArgValues();
+
             this.parameters.Item.Clear();
 
             int i = 0;
@@ -537,141 +537,10 @@ namespace GeoGen_Studio
                 i++;
             }
 
+            this.oldValues = null;
+
             this.parameters.Refresh();
         }
-
-       /* public void ProcessFinished(){
-            Main main = Main.Get();
-            Config config = main.GetConfig();
-
-            main.RemoveStatus("Executing");
-
-            // was this part of a benchmark?
-            if (benchmarkStatus != null)
-            {
-                this.Benchmark();
-
-                return;
-            }
-
-            main.ButtonsNoRunMode();
-
-            if (process.ExitCode == 0)
-            {
-                // let the output manager capture the outputs
-                main.GetOutputManager().ReloadMaps(null);
-            }
-            // exit code != 0 means error of some sort
-            else
-            {
-                // let the application sleep for a moment so all the geogen runtime errors can be printed correctly first
-                main.WriteToConsole("The generator was terminated prematurely!");
-            }
-
-            this.mode = Mode.Idle;
-
-            this.ExecuteScheduledCheck();
-        }*/
-
-        /*public void SyntaxCheckFinished()
-        {
-            Main main = Main.Get();
-            
-            main.SetErrorStatus(process.ExitCode == 0 ? false : true);
-
-            this.lastCheckContent = this.process.StandardOutput.ReadToEnd();
-
-            main.RemoveStatus("Checking syntax");
-
-            // if everything was okay, rebuild the parameter propertygrid
-            if (process.ExitCode == 0)
-            {
-                // parameter string representing the values before this propertygrid rebuild
-                string oldStr = "";
-
-                if (main.parameters.Item.Count > 0)
-                {
-                    oldStr = this.GetParamString();
-                }
-
-                string[] values = oldStr.Split(' ');
-
-                main.parameters.Item.Clear();
-
-                string[] lines = System.Text.RegularExpressions.Regex.Split(this.lastCheckContent, "\r\n");
-
-                // skip the first four lines (just initialization crap)
-                for (int i = 4; i < lines.Length; i++)
-                {
-                    if (lines[i] == "END") break;
-
-                    string[] parts = lines[i].Split(';');
-
-                    PropertyGridEx.CustomProperty property;
-
-                    // BOOLEAN TYPE
-                    if (parts[2] == "B")
-                    {
-                        property = new PropertyGridEx.CustomProperty(parts[0], parts[3] == "1" ? true : false, false, "Script parameters:", parts[1], true);
-
-                        // try to preserve the original value
-                        if (values.Length - 1 > i - 4 && values[i - 4] != "d")
-                        {
-                            property.Value = values[i - 4] == "0" ? false : true;
-                        }
-                    }
-                    // INTEGER TYPE
-                    else if (parts[2] == "I")
-                    {
-                        property = new PropertyGridEx.CustomProperty(parts[0], Int32.Parse(parts[3]), false, "Script parameters:", parts[1], true);
-
-                        // try to preserve the original value
-                        if (values.Length - 1 > i - 4 && values[i - 4] != "d")
-                        {
-                            property.Value = Int32.Parse(values[i - 4]);
-                        }
-                    }
-                    // ENUM TYPE
-                    else
-                    {
-                        string[] choices = parts[8].Split(',');
-                        string defaultChoice = choices[0];
-
-                        // the default choise might be some really odd number
-                        try{
-                            defaultChoice = choices[Int32.Parse(parts[3])];
-                        }
-                        catch(IndexOutOfRangeException){};
-
-                        property = new PropertyGridEx.CustomProperty(parts[0], defaultChoice, false, "Script parameters:", parts[1], true);
-                        property.Choices = new PropertyGridEx.CustomChoices(choices, false);
-
-                        // try to preserve the original value
-                        if (values.Length - 1 > i - 4 && values[i - 4] != "d")
-                        {
-                            // we might get the "Index out of range" exception
-                            try
-                            {
-                                property.Value = parts[8].Split(',')[Int32.Parse(values[i - 4])];
-                            }
-                            catch (Exception) { };
-                        }
-                    }
-
-                    // add the property to the list only if it the property really was created
-                    if (property != null)
-                    {
-                        main.parameters.Item.Add(property);
-                    }
-                }
-
-                main.parameters.Refresh();
-            }
-
-            this.mode = Mode.Idle;
-
-            this.ExecuteScheduledCheck();
-        }*/
 
         public void Terminate(){
             if (this.GGenThread != null && this.GGenThread.IsAlive)
