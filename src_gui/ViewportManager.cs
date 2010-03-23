@@ -269,7 +269,7 @@ namespace GeoGen_Studio
                 this.textureBase = OutputManager.HeightDataToBitmap(this.heightData);
 
                 // release some memory (to prevent OutOfMemory exception)
-                original = null;
+              // original = null;
 
                 // the vertex array for the model
                 Vertex[] vertices = new Vertex[this.heightData.Width * this.heightData.Height * 6];
