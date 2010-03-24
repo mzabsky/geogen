@@ -21,6 +21,8 @@
 #include <list>
 #include <queue>
 #include <bitset>
+#include <cstring>
+#include <cmath>
 
 #include "ggen.h"
 #include "ggen_support.h"
@@ -541,7 +543,7 @@ void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGe
 	GGen_ExtExtHeight target_y = to_y - from_y;
 	
 	/* Width of the gradient strip */
-	double max_dist = sqrt((double) (abs(to_x - from_x) * abs(to_x - from_x) + abs(to_y - from_y) * abs(to_y - from_y)));
+	double max_dist = sqrt((double) (ABS(to_x - from_x) * ABS(to_x - from_x) + ABS(to_y - from_y) * ABS(to_y - from_y)));
 
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
@@ -587,7 +589,7 @@ void GGen_Data_2D::RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord cen
 
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
-			GGen_Distance distance = (GGen_Distance) sqrt((double) (abs(x - center_x) * abs(x - center_x) + abs(y - center_y) * abs(y - center_y)));
+			GGen_Distance distance = (GGen_Distance) sqrt((double) (ABS(x - center_x) * ABS(x - center_x) + ABS(y - center_y) * ABS(y - center_y)));
 		 
 			if (distance < radius) {
 				this->data[x + this->width * y] = pattern->GetValueInterpolated(distance, radius);
@@ -606,7 +608,7 @@ void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen
 
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
-			GGen_Distance distance = (GGen_Distance) sqrt((double) (abs(x - center_x) * abs(x - center_x) + abs(y - center_y) * abs(y - center_y)));
+			GGen_Distance distance = (GGen_Distance) sqrt((double) (ABS(x - center_x) * ABS(x - center_x) + ABS(y - center_y) * ABS(y - center_y)));
 
 			if (distance < radius) {
 				this->data[x + this->width * y] = (GGen_Height) ((GGen_ExtExtHeight) min + rel_max * (GGen_ExtExtHeight) distance / (GGen_ExtExtHeight) radius);
@@ -1045,8 +1047,8 @@ void GGen_Data_2D::SlopeMap()
 		for (GGen_Coord x = 1; x < this->width - 1; x++) {		
 			new_data[x + y * this->width] = 
 				MAX(
-					abs(this->data[x + y * this->width - 1] - this->data[x + y * this->width + 1]), 
-					abs(this->data[x + y * this->width - this->width] - this->data[x + y * this->width + this->width])
+					ABS(this->data[x + y * this->width - 1] - this->data[x + y * this->width + 1]), 
+					ABS(this->data[x + y * this->width - this->width] - this->data[x + y * this->width + this->width])
 				);
 		}
 	}
@@ -1619,7 +1621,7 @@ GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
 		/* DDA line drawing algorithm (converted to line reading algorithm :) ) */
 
 		/* The algorithm works only in <315°, 45°> range, we must use rotated variant for steeper segments */
-		if(abs(currentPoint->x - nextPoint->x) > abs(currentPoint->y - nextPoint->y)){
+		if(ABS(currentPoint->x - nextPoint->x) > ABS(currentPoint->y - nextPoint->y)){
 			/* Swap the points in case the edge is pointing leftwards (so it is always pointing rightwards) */
 			if (currentPoint->GetX() > nextPoint->GetX()) {
 				swap<GGen_Point*>(currentPoint, nextPoint);

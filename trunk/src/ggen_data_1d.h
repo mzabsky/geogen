@@ -23,6 +23,9 @@
 
 #pragma once
 
+#include <cmath>
+#include <cstring>
+
 #include "ggen_amplitudes.h"
 #include "ggen_point.h"
 #include "ggen_path.h"
