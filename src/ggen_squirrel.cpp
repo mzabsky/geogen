@@ -29,15 +29,6 @@
 #include "ggen_data_2d.h"
 #include "ggen_scriptarg.h"
 
-#include "sqplus.h"
-#include "sqstdmath.h"
-#include <sqstdio.h>
-#include <sqstdmath.h>
-#include <sqstdstring.h>
-#include <sqstdaux.h>
-#include <sqstdblob.h>
-#include <sqstdsystem.h>
-
 #include "ggen_squirrel.h"
 
 DECLARE_ENUM_TYPE(GGen_Normalization_Mode);

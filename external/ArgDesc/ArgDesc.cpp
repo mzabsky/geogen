@@ -109,7 +109,7 @@ public:
         args_def.push_back(p);
     }
     
-    void SetPosArgsVector(std::vector<std::basic_string<wchar_t>>& pos_args){
+    void SetPosArgsVector(std::vector<std::basic_string<wchar_t> >& pos_args){
 		this->pos_args = &pos_args;
     }
 

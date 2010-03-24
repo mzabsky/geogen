@@ -19,7 +19,15 @@
 
 #pragma once
 
-#include "sqplus.h"
+#include "../external/squirrel/sqplus.h"
+#include "../external/squirrel/sqstdmath.h"
+#include "../external/squirrel/sqstdio.h"
+#include "../external/squirrel/sqstdmath.h"
+#include "../external/squirrel/sqstdstring.h"
+#include "../external/squirrel/sqstdaux.h"
+#include "../external/squirrel/sqstdblob.h"
+#include "../external/squirrel/sqstdsystem.h"
+
 #include "ggen_support.h"
 #include "ggen.h"
 

@@ -56,7 +56,7 @@ using namespace std;
 	#include "ggen_squirrel.h"
 #endif
 
-#include "EasyBMP.h"
+#include "../external/EasyBMP/EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
 // there is no point in supporting non-unicode mode in this interface, the non-unicode support exists 

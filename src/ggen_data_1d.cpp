@@ -17,6 +17,8 @@
 
 */
 
+#include <cstring>
+
 #include "ggen_support.h"
 #include "ggen_amplitudes.h"
 #include "ggen_data_1d.h"
@@ -410,7 +412,7 @@ void GGen_Data_1D::SlopeMap()
 
 	/* Calculate the slopes */
 	for(GGen_Coord i = 1; i < this->length - 1; i++){
-		new_data[i] = abs(this->data[i - 1] - this->data[i + 1]);
+		new_data[i] = ABS(this->data[i - 1] - this->data[i + 1]);
 	}
 
 	/* Make sure the border items are treated correctly (use the neighbouring values) */
@@ -482,8 +484,8 @@ void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_val
 	
 	for (GGen_Coord i = 0; i < this->length; i++) {
 		/* Calculate current distance from "from" and "to" */
-		GGen_Distance distance_from = (GGen_Distance) abs(i - from);
-		GGen_Distance distance_to = (GGen_Distance) abs(i - to);
+		GGen_Distance distance_from = (GGen_Distance) ABS(i - from);
+		GGen_Distance distance_to = (GGen_Distance) ABS(i - to);
 
 		if (distance_from > max_distance) {
 			this->data[i] = fill_flat ? to_value: this->data[i];
