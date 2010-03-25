@@ -20,6 +20,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <wchar.h>
+
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -121,7 +123,11 @@ public:
         for(unsigned i = 1; i < args_in.size(); i++){
             //expecting integer
             if(next_action == E_INT){
-                *(int*) next_var = _wtoi(args_in[i].c_str());
+				wchar_t* stop = NULL;
+
+				*(int*) next_var = (int) wcstol(args_in[i].c_str(), &stop, 10);
+
+				if(stop != NULL) delete [] stop;
 
                 next_action = UNKNOWN;
                 continue;

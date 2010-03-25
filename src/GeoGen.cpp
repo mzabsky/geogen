@@ -245,6 +245,14 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 		}
 	}
 
+		unsigned len = path_out.length();
+
+		char* path_out_cstr = new char[len + 1];
+
+		wcstombs(path_out_cstr, path_out.c_str(), len);
+		path_out_cstr[len] = '\0';
+
+
 		if(format->suffix == GGen_Const_String("bmp")){
 			BMP output;
 
@@ -281,22 +289,13 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 			}
 		}
 
-		unsigned len = path_out.length();
-
-		char* buf = new char[len + 1];
-
-		wcstombs(buf, path_out.c_str(), len);
-		buf[len] = '\0';
-
-		output.WriteToFile(buf);
-
-		delete [] buf;
+		output.WriteToFile(path_out_cstr);
 	}
 	else if(format->suffix == GGen_Const_String("shd")){
 		int iWidth = width;
 		int iHeight = height;
 
-		ofstream out(path_out.c_str(), ios_base::out | ios_base::binary | ios::ate);
+		ofstream out(path_out_cstr, ios_base::out | ios_base::binary | ios::ate);
 		
 		if(out.bad()){
 			GGen_Cout << GGen_Const_String("Could not write ") << path_out << GGen_Const_String("!\n") << flush;
@@ -311,7 +310,7 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 		out.close();
 	}
 	else if(format->suffix == GGen_Const_String("pgm")){
-		ofstream out(path_out.c_str(), ios_base::out);
+		ofstream out(path_out_cstr, ios_base::out);
 		if(out.bad()){
 			GGen_Cout << GGen_Const_String("Could not write ") << path_out << GGen_Const_String("!\n") << flush;
 		}
@@ -329,6 +328,8 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 			}
 		}		
 	}
+
+	delete [] path_out_cstr;
 
 	if(name != NULL) cout << "Executing...\n" << flush;
 
@@ -429,11 +430,20 @@ int main(int argc,char * argv[]){
 	//locale utf8_locale(std::locale(), new gel::stdx::utf8cvt<true>);
 	//wcout.imbue(utf8_locale);
 
+	unsigned len_in = _params.input_file.length();
+
+	char* path_in_cstr = new char[len_in + 1];
+
+	wcstombs(path_in_cstr, _params.input_file.c_str(), len_in);
+	path_in_cstr[len_in] = '\0';
+
 	// load the script from file
 	ifstream in_stream;
 	//in_stream.imbue(utf8_locale);
-	in_stream.open(_params.input_file.c_str());
+	in_stream.open(path_in_cstr);
 	
+	delete [] path_in_cstr;
+
 	if(!in_stream.is_open()){
 		cout << "Could not open the script file!\n" << flush;
 		if(_params.stupid_mode) system("pause");
@@ -581,7 +591,11 @@ int main(int argc,char * argv[]){
 			GGen_ScriptArg* current_arg = &(*script_args)[i];
 
 			if(i < _params.script_args.size() && _params.script_args[i] != GGen_Const_String("r") && _params.script_args[i] != GGen_Const_String("d")){
-				current_arg->SetValue(_wtoi(_params.script_args[i].c_str()));
+				wchar_t* stop = NULL;
+				
+				current_arg->SetValue((int)wcstol(_params.script_args[i].c_str(), &stop, 10));
+
+				if(stop != NULL) delete [] stop;
 			}
 
 			// should the value be generated randomly?
