@@ -22,6 +22,7 @@
 
 #include "math.h"
 #include <string>
+#include <cstdlib>
 
 /** 
  * @file ggen_support.h File containing basic typedefs and enums used in rest of the GeoGen.
@@ -70,7 +71,9 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 #define ABS(a) (a < 0? -(a): a) 
 
 #ifdef _UNICODE
-	#define GGEN_UNICODE
+	#ifndef GGEN_UNICODE 
+		#define GGEN_UNICODE
+	#endif
 #endif
 
 #ifdef GGEN_UNICODE
