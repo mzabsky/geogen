@@ -46,7 +46,7 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 	static SQChar temp[2048];
 	va_list vl;
 	va_start(vl,s);
-	scvsprintf( temp,s,vl);
+	scvsprintf( temp,va_,s,vl);
 	va_end(vl);
 
 	GGen::GetInstance()->ThrowMessage(temp, GGEN_ERROR);

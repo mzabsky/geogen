@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../external/squirrel;../external/EasyBMP"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;NO_GGEN_LIB;DEBUG_CREATE_PROCESS_NO_DEBUG_HEAP"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"

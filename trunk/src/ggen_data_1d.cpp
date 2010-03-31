@@ -50,7 +50,7 @@ GGen_Data_1D* GGen_Data_1D::Clone()
 	GGen_Data_1D* victim = new GGen_Data_1D(this->length, 0);
 	
 	/* Copy the data */
-	memcpy(victim->data, this->data, sizeof GGen_Height * victim->length);
+	memcpy(victim->data, this->data, sizeof(GGen_Height) * victim->length);
 	
 	return victim;
 }

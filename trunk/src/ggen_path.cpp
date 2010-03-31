@@ -58,7 +58,9 @@ void GGen_Path::InsertPoint(uint32 index, GGen_Point& point){
 void GGen_Path::InsertPointByCoords(uint32 index, GGen_CoordOffset x, GGen_CoordOffset y){
 	GGen_Script_Assert(index < this->points.size());
 	
-	this->InsertPoint(index, GGen_Point(x, y));
+	GGen_Point temp(x, y);
+
+	this->InsertPoint(index, temp);
 }
 
 void GGen_Path::Clear(){
