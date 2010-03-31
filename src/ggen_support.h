@@ -23,6 +23,7 @@
 #include "math.h"
 #include <string>
 #include <cstdlib>
+#include <limits.h>
 
 /** 
  * @file ggen_support.h File containing basic typedefs and enums used in rest of the GeoGen.
@@ -30,6 +31,7 @@
 
 // hide stupid "sprintf is deprecated function, use our better alternative" MSVS warnings
 #define _CRT_SECURE_NO_WARNINGS
+#pragma warning(disable:4996)
 
 using namespace std;
 
@@ -117,22 +119,40 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 	#define GGen_Iscntrl	isalpha
 	#define GGen_Isalnum	isalnum
 	#define GGen_Printf		printf
-#endif
+#endif 
 
 typedef GGEN_EXPORT basic_string<GGen_Char> GGen_String;
 
 struct GGen_ScriptAssertException{};
 
 // Custom assertion handler. Invoke messaage callback and shut down the script execution.
-#define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
-	GGen_String as_buf; \
-	as_buf += GGen_Const_String("Assertion in function "); \
-	as_buf += GGen_Const_String(__FUNCTION__); \
-	as_buf += GGen_Const_String(" failed: "); \
-	as_buf += GGen_Const_String(#_Expression); \
-	GGen::GetInstance()->ThrowMessage(as_buf, GGEN_ERROR, -1); \
-	throw GGen_ScriptAssertException(); \
-}}
+// GCC can't convert the __FUNCTION__ macro to unicode property using the L## syntax -> it has to be done on runtime
+#ifdef GGEN_UNICODE
+	#define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
+		GGen_String as_buf; \
+		as_buf += GGen_Const_String("Assertion in function "); \
+		int as_len = strlen(__FUNCTION__);\
+		GGen_Char* as_buf2 = new GGen_Char[as_len + 1];\
+		mbstowcs(as_buf2, __FUNCTION__, as_len);\
+		as_buf2[as_len] = GGen_Const_String('\0');\
+		as_buf += as_buf2;\
+		delete [] as_buf2;\
+		as_buf += GGen_Const_String(" failed: "); \
+		as_buf += GGen_Const_String(#_Expression); \
+		GGen::GetInstance()->ThrowMessage(as_buf, GGEN_ERROR, -1); \
+		throw GGen_ScriptAssertException(); \
+		}}
+#else
+	#define GGen_Script_Assert(_Expression) {if(!(_Expression)) {\
+		GGen_String as_buf; \
+		as_buf += GGen_Const_String("Assertion in function "); \
+		as_buf += GGen_Const_String(__FUNCTION__); \
+		as_buf += GGen_Const_String(" failed: "); \
+		as_buf += GGen_Const_String(#_Expression); \
+		GGen::GetInstance()->ThrowMessage(as_buf, GGEN_ERROR, -1);\
+		throw GGen_ScriptAssertException(); \
+		}}
+#endif
 
 /**
  * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) defining behavior for too steep slopes.

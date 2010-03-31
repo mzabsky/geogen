@@ -60,7 +60,7 @@ GGen_Data_2D* GGen_Data_2D::Clone()
 	GGen_Data_2D* victim = new GGen_Data_2D(this->width, this->height, 0);
 	
 	/* Copy the data */
-	memcpy(victim->data, this->data, sizeof GGen_Height * this->length);
+	memcpy(victim->data, this->data, sizeof(GGen_Height) * this->length);
 
 	return victim;
 }
@@ -1337,54 +1337,57 @@ void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool pres
 	);
 }
 
+// helper data structure for the following algorithm
+class GGen_FillPolygon_DownwardsEdge{
+public:
+	double x; /* X of the upper (and in process current) point */
+	GGen_CoordOffset y; /* Y of the upper point */
+	GGen_CoordOffset dy; /* Edge height */
+	double dxy; /* Change of X while moving one pixel down */
+
+	/* These two comparers will be needed to make use of the STL sort function */
+
+	/* Comparer for sorting with criteria Y > X > DXY */
+	static bool CompareWithY(GGen_FillPolygon_DownwardsEdge* a, GGen_FillPolygon_DownwardsEdge* b){
+		/* Sort first by Y */
+		if (a->y < b->y) return true;
+		else if (b->y < a->y) return false;
+
+		/* Then by X */
+		if (a->x < b->x) return true;
+		else if (b->x < a->x) return false;
+
+		/* Then by X */
+		if (a->dxy < b->dxy) return true;
+		else return false;
+
+		/* In the case the edges are completely identical order doesn't matter */
+	}
+
+	/* Comparer for sorting with criteria X > DXY */
+	static bool CompareWithoutY(GGen_FillPolygon_DownwardsEdge* a, GGen_FillPolygon_DownwardsEdge* b){
+		/* Then by X */
+		if (a->x < b->x) return true;
+		else if (b->x < a->x) return false;
+
+		/* Then by X */
+		if (a->dxy < b->dxy) return true;
+		else return false;
+
+		/* In the case the edges are completely identical order doesn't matter */
+	}
+
+	/* Returns true if the edge is ready to be removed from the current line edge list (the edge is ending on the current line) */
+	static bool IsRemoveable(GGen_FillPolygon_DownwardsEdge* victim){
+		return victim->dy == 0;
+	}
+};
+
 void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
-	class Edge{
-	public:
-		double x; /* X of the upper (and in process current) point */
-		GGen_CoordOffset y; /* Y of the upper point */
-		GGen_CoordOffset dy; /* Edge height */
-		double dxy; /* Change of X while moving one pixel down */
 
-		/* These two comparers will be needed to make use of the STL sort function */
-
-		/* Comparer for sorting with criteria Y > X > DXY */
-		static bool CompareWithY(Edge* a, Edge* b){
-			/* Sort first by Y */
-			if (a->y < b->y) return true;
-			else if (b->y < a->y) return false;
-
-			/* Then by X */
-			if (a->x < b->x) return true;
-			else if (b->x < a->x) return false;
-
-			/* Then by X */
-			if (a->dxy < b->dxy) return true;
-			else return false;
-
-			/* In the case the edges are completely identical order doesn't matter */
-		}
-
-		/* Comparer for sorting with criteria X > DXY */
-		static bool CompareWithoutY(Edge* a, Edge* b){
-			/* Then by X */
-			if (a->x < b->x) return true;
-			else if (b->x < a->x) return false;
-
-			/* Then by X */
-			if (a->dxy < b->dxy) return true;
-			else return false;
-
-			/* In the case the edges are completely identical order doesn't matter */
-		}
-
-		/* Returns true if the edge is ready to be removed from the current line edge list (the edge is ending on the current line) */
-		static bool IsRemoveable(Edge* victim){
-			return victim->dy == 0;
-		}
-	};
 
 	/* Create a full list of all non-horizontal edges (this is line algorithm, we can skip horizontal edges) */
-	list<Edge*> edges;
+	list<GGen_FillPolygon_DownwardsEdge*> edges;
 	for (GGen_Path::Iterator i = path->points.begin(); i != path->points.end();) {
 		GGen_Point* currentPoint = &*i;
 		GGen_Point* nextPoint = NULL;
@@ -1405,7 +1408,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 		}
 
 		/* The edge being created */
-		Edge* edge = new Edge();
+		GGen_FillPolygon_DownwardsEdge* edge = new GGen_FillPolygon_DownwardsEdge();
 
 		/* Swap the points in case the edge is pointing upwards (so it is always pointing downwards) */
 		if (currentPoint->GetY() > nextPoint->GetY()) {
@@ -1423,16 +1426,16 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	}
 
 	/* Sort the edges by given criteria */
-	edges.sort(Edge::CompareWithY);
+	edges.sort(GGen_FillPolygon_DownwardsEdge::CompareWithY);
 
 	/* Edges intersecting current line */
-	list<Edge*> currentLineEdges;
+	list<GGen_FillPolygon_DownwardsEdge*> currentLineEdges;
 	bool needsSorting = true;
 
 	/* For each line ... */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		/* Add edges starting on this line to the currently worked list */
-		list<Edge*>::iterator i = edges.begin();
+		list<GGen_FillPolygon_DownwardsEdge*>::iterator i = edges.begin();
 		while (i != edges.end() && (*i)->y == y) {
 			currentLineEdges.push_back(*i);
 
@@ -1450,7 +1453,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 		
 		/* Resort the list if requested */
 		if (needsSorting) {
-			currentLineEdges.sort(Edge::CompareWithoutY);
+			currentLineEdges.sort(GGen_FillPolygon_DownwardsEdge::CompareWithoutY);
 
 			needsSorting = false;
 		}
@@ -1476,8 +1479,8 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 
 		/* Update the current working line list for next line */
 		double lastX = INT_MIN;
-		for (list<Edge*>::iterator j = currentLineEdges.begin(); j != currentLineEdges.end(); j++) {
-			Edge* edge = *j;
+		for (list<GGen_FillPolygon_DownwardsEdge*>::iterator j = currentLineEdges.begin(); j != currentLineEdges.end(); j++) {
+			GGen_FillPolygon_DownwardsEdge* edge = *j;
 
 			/* Shorten the remaining piece of the edge by one */
 			edge->dy--;
@@ -1494,7 +1497,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 		}
 
 		/* Delete all edges that have DY == 0 (that are ending on current line) */
-		currentLineEdges.remove_if(Edge::IsRemoveable);
+		currentLineEdges.remove_if(GGen_FillPolygon_DownwardsEdge::IsRemoveable);
 	}	
 }
 
