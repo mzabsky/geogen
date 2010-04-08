@@ -165,9 +165,14 @@ namespace GeoGen_Studio
             // remove "Maps:" entries from the texture list
             for (int i = 0; i < main.texture.Items.Count; i++)
             {
+                char c = ((string)main.texture.Items[i])[0];
+
                 if (((string)main.texture.Items[i])[0] == 'M')
                 {
                     main.texture.Items.RemoveAt(i);
+                    
+                    // the indexes got shifted by deleting the current item
+                    i--;
                 }
             }
 
