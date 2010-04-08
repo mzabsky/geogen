@@ -123,11 +123,7 @@ public:
         for(unsigned i = 1; i < args_in.size(); i++){
             //expecting integer
             if(next_action == E_INT){
-				wchar_t* stop = NULL;
-
 				*(int*) next_var = (int) wcstol(args_in[i].c_str(), &stop, 10);
-
-				if(stop != NULL) delete [] stop;
 
                 next_action = UNKNOWN;
                 continue;
