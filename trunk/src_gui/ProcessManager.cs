@@ -80,7 +80,7 @@ namespace GeoGen_Studio
 
         public void ScheduleSyntaxCheck(){
             if(this.IsGGenRunning()) this.isCheckScheduled = true;
-            else this.ExecuteScript(this.GetScript(), true, "");
+            else this.ExecuteScript(this.GetScript(), true, null);
         }
 
         public bool InBenchmarkInProgress(){
@@ -92,7 +92,7 @@ namespace GeoGen_Studio
             if (isCheckScheduled)
             {
                 this.isCheckScheduled = false;
-                this.ExecuteScript(this.GetScript(), true, "");
+                this.ExecuteScript(this.GetScript(), true, null);
             }
         }
 
@@ -195,7 +195,7 @@ namespace GeoGen_Studio
             this.SetErrorStatus(true);
         }
 
-        public void ExecuteScript(string script, bool syntaxCheckOnly, string parameters)
+        public void ExecuteScript(string script, bool syntaxCheckOnly, uint[] parameters)
         {
             // kill current syntax check in progress (if any is running)
             if (mode == Mode.SyntaxCheck)
@@ -265,37 +265,60 @@ namespace GeoGen_Studio
                     // do nott generate the map during syntax check runs
                     if (!syntaxCheckOnly)
                     {
-                        int i = 0;
-                        foreach (PropertyGridEx.CustomProperty property in this.parameters.Item)
+                        // no list of arguments was passed to the function -> use params from the param table
+                        if (parameters == null)
                         {
-                            GGenNet.ScriptArg arg = ggen.Args[i];
+                            int i = 0;
+                            foreach (PropertyGridEx.CustomProperty property in this.parameters.Item)
+                            {
+                                GGenNet.ScriptArg arg = ggen.Args[i];
 
-                            // we ran out of parameters...
-                            if (i == ggen.Args.Length)
-                            {
-                                break;
-                            }
+                                // we ran out of parameters...
+                                if (i == ggen.Args.Length)
+                                {
+                                    break;
+                                }
 
-                            // fill in only matching arguments
-                            if (property.Type.Name == "Boolean" && arg.Type == GGenNet.ScriptArgType.Bool)
-                            {
-                                arg.Value = (uint)property.Value;
-                            }
+                                // fill in only matching arguments
+                                if (property.Type.Name == "Boolean" && arg.Type == GGenNet.ScriptArgType.Bool)
+                                {
+                                    arg.Value = (uint)property.Value;
+                                }
 
-                            else if (property.Type.Name == "UInt32" && arg.Type == GGenNet.ScriptArgType.Int)
-                            {
-                                arg.Value = (uint)property.Value;
-                            }
-                            else if (property.Type.Name == "Int32" && arg.Type == GGenNet.ScriptArgType.Int)
-                            {
-                                arg.Value = (uint)((int)property.Value);
-                            }
-                            else if (property.Type.Name == "String" && arg.Type == GGenNet.ScriptArgType.Enum)
-                            {
-                                arg.Value = (uint)property.Choices.IndexOf(property.Value);
-                            }
+                                else if (property.Type.Name == "UInt32" && arg.Type == GGenNet.ScriptArgType.Int)
+                                {
+                                    arg.Value = (uint)property.Value;
+                                }
+                                else if (property.Type.Name == "Int32" && arg.Type == GGenNet.ScriptArgType.Int)
+                                {
+                                    arg.Value = (uint)((int)property.Value);
+                                }
+                                else if (property.Type.Name == "String" && arg.Type == GGenNet.ScriptArgType.Enum)
+                                {
+                                    arg.Value = (uint)property.Choices.IndexOf(property.Value);
+                                }
 
-                            i++;
+                                i++;
+                            }
+                        }
+                        // the argument list was passed to the function
+                        else
+                        {
+                            int i = 0;
+                            foreach (uint currentParam in parameters)
+                            {
+                                GGenNet.ScriptArg arg = ggen.Args[i];
+
+                                // we ran out of parameters...
+                                if (i == ggen.Args.Length)
+                                {
+                                    break;
+                                }
+
+                                arg.Value = currentParam;
+
+                                i++;
+                            }
                         }
 
                         this.startTime = System.DateTime.Now.Ticks / 10000;
@@ -636,7 +659,11 @@ namespace GeoGen_Studio
         {
             string benchScript = System.IO.File.ReadAllText("../examples/basic.nut");
 
-            string[] parameters = { "1024 1024", "2048 2048", "4096 4096" };
+            uint[][] parameters = new uint[][] {
+                new uint[]{1024, 1024},
+                new uint[]{2048, 2048},
+                new uint[]{4096, 4096}
+            };
 
             int totalPhases = 2 * parameters.Length;
 
