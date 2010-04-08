@@ -591,11 +591,7 @@ int main(int argc,char * argv[]){
 			GGen_ScriptArg* current_arg = &(*script_args)[i];
 
 			if(i < _params.script_args.size() && _params.script_args[i] != GGen_Const_String("r") && _params.script_args[i] != GGen_Const_String("d")){
-				wchar_t* stop = NULL;
-				
-				current_arg->SetValue((int)wcstol(_params.script_args[i].c_str(), &stop, 10));
-
-				if(stop != NULL) delete [] stop;
+				current_arg->SetValue((int)wcstol(_params.script_args[i].c_str(), NULL, 10));
 			}
 
 			// should the value be generated randomly?
