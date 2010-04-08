@@ -662,7 +662,7 @@ namespace GeoGen_Studio
             //this.Foc
             //}
 
-            this.ExecuteScript(editor.Text, false, "");
+            this.ExecuteScript(editor.Text, false, null);
         }
 
         private void refreshOverlays_Click(object sender, EventArgs e)
