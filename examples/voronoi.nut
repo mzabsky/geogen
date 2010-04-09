@@ -53,7 +53,7 @@ function Generate(){
 
 	local noise = GGen_Data_2D(width, height, 0);
 	
-	noise.Noise(2, 400, GGEN_STD_NOISE);
+	noise.Noise(smoothness, 400, GGEN_STD_NOISE);
 	
 	local prominence_fraction = 1 - (0.3 + (1 + peak_prominence) * 0.07);
 
