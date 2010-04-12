@@ -115,7 +115,6 @@
     <Compile Include="Loading.Designer.cs">
       <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
-    <Compile Include="SHData.cs" />
     <Compile Include="ViewportManager.cs">
       <SubType>Form</SubType>
     </Compile>
