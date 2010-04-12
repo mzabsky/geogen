@@ -214,7 +214,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Export";
             this.ShowInTaskbar = false;
-            this.Text = "Export";
+            this.Text = "Export Heightmap";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.height)).EndInit();
