@@ -144,6 +144,9 @@ namespace GeoGen_Studio
 
                     if (current < 0) current = 0;
 
+                    // prevent water bleeding onto the coastline
+                    if (heights[i / 4] > 0 && current == 0) current = 1;
+
                     bytes[i + 0] = overlayCopy[current * 3 + 0];
                     bytes[i + 1] = overlayCopy[current * 3 + 1];
                     bytes[i + 2] = overlayCopy[current * 3 + 2];
@@ -159,9 +162,9 @@ namespace GeoGen_Studio
 
                     if (current < 0 || current > 511)
                     {
-                        //current = 0;
                         throw new Exception("This cannot happen");
                     }
+                    // prevent water bleeding onto the coastline
                     else if (current == 0 && heights[i / 4] >= 0) current = 1;
 
                     bytes[i + 0] = overlayCopy[current * 3 + 0];
