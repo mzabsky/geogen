@@ -96,6 +96,8 @@ namespace GeoGen_Studio
         private int indexBufferHandle;
         private int textureHandle;
 
+        private bool ready3d = false;
+
         //private float heightScale = 8f;
 
         private GGenNet.HeightData textureBase;
@@ -150,6 +152,7 @@ namespace GeoGen_Studio
 
             GL.ClearColor((float) config.BackgroundColor3d / 255, (float) config.BackgroundColor3d / 255, (float) config.BackgroundColor3d / 255, 1.0f);
 
+            //viewport.Invalidate();
         }
 
         public void ClearData3D()
@@ -512,61 +515,56 @@ namespace GeoGen_Studio
             }
         }
 
-        public void Render()
+        public void Render(PaintEventArgs e)
         {
+            if (!this.ready3d)
+            {
+                // the OpenGL context is not ready (for it is most likely being worked on in another
+                // thread) -> manually fill the control area with flat bakground
+                System.Drawing.Brush brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb((int)config.BackgroundColor3d, (int)config.BackgroundColor3d, (int)config.BackgroundColor3d));
+
+                e.Graphics.FillRectangle(brush, 0, 0, viewport.Width, viewport.Height);
+
+                return;
+            }
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             float sina = (float) Math.Sin(azimuth);
             float cosa = (float)Math.Cos(azimuth);
             float cose = (float)Math.Cos(elevation);
 
+            // setup camera
             Matrix4 modelview = Matrix4.LookAt(this.distance * cose * sina + this.targetX, this.distance * cose * cosa + this.targetY, this.distance * (float)Math.Sin(this.elevation), this.targetX, this.targetY, 0, 0, 0, 1);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
             
-            //GL.Material(MaterialFace.Front, MaterialParameter.Diffuse, new Vector4(1, 1, 1, 1));
-            //GL.Material(MaterialFace.Front, MaterialParameter.Shininess, new Vector4(2f, 2f, 2f, 1f));
-
-            //GL.Light(LightName.Light0, LightParameter.Position, new Vector4(1, 1, 0, 0));
+            // lighting
             GL.Light(LightName.Light0, LightParameter.Ambient, new Vector4(0.2f, 0.2f, 0.2f, 1));
             GL.Light(LightName.Light0, LightParameter.Diffuse, new Vector4(0.6f, 0.6f, 0.6f, 1));
-            //GL.Light(LightName.Light0, LightParameter.SpotExponent, new Vector4(2, 2, 2, 2));
             GL.Light(LightName.Light0, LightParameter.Specular, new Vector4(0, 0, 0, 0));
-            //GL.Light(LightName.Light0, LightParameter.Ambient, new Vector4(0.2f, 0.2f, 0.2f, 1.0f));
-            //GL.Light(LightName.Light0, LightParameter.Diffuse, new Vector4(1f, 1f, 1f, 1.0f));
-            //GL.Light(LightName.Light0, LightParameter.Position, new Vector4(0f, 50f, 50f, 0f));
-            //GL.Light(LightName.Light0, LightParameter.SpotDirection, new Vector4(-1, 1, -1, 0f));
-            //GL
 
-            //GL.LightModel(LightModelParameter.LightModelAmbient, Vector4(0));
-            //GL.Light(LightName.Light0, LightParameter.Diffuse, new Vector4(1, 1, 1, 1));
+            // tell the OpenGL which buffer are we using
+            GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, this.indexBufferHandle);
+            GL.BindTexture(TextureTarget.ProxyTexture2D, this.textureHandle);
+            
+            // tell the format of the buffered data
+            GL.TexCoordPointer(2, TexCoordPointerType.Float, 8 * sizeof(float), (IntPtr)(0));
+            GL.NormalPointer(NormalPointerType.Float, 8 * sizeof(float), (IntPtr)(2 * sizeof(float)));
+            GL.VertexPointer(3, VertexPointerType.Float, 8 * sizeof(float), (IntPtr)(5 * sizeof(float)));
 
-            //GL.Begin(BeginMode.Points);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Clamp);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapR, (int)TextureWrapMode.Clamp);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
 
-            if (this.heightData != null)
-            {
-                // tell the OpenGL which buffer are we using
-                GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, this.indexBufferHandle);
-                GL.BindTexture(TextureTarget.ProxyTexture2D, this.textureHandle);
-                
-                // tell the format of the buffered data
-                GL.TexCoordPointer(2, TexCoordPointerType.Float, 8 * sizeof(float), (IntPtr)(0));
-                GL.NormalPointer(NormalPointerType.Float, 8 * sizeof(float), (IntPtr)(2 * sizeof(float)));
-                GL.VertexPointer(3, VertexPointerType.Float, 8 * sizeof(float), (IntPtr)(5 * sizeof(float)));
+            // how to vertically scale the data
+            GL.Scale(1f, 1f, (float) this.heightScale.Value);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Clamp);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapR, (int)TextureWrapMode.Clamp);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
-
-                // how to vertically scale the data
-                GL.Scale(1f, 1f, (float) this.heightScale.Value);
-
-                // read the data from buffer
-                GL.DrawElements(BeginMode.Triangles, (int) (this.heightData.Length * 6),DrawElementsType.UnsignedInt, IntPtr.Zero);
-            }
+            // read the data from buffer
+            GL.DrawElements(BeginMode.Triangles, (int) (this.heightData.Length * 6),DrawElementsType.UnsignedInt, IntPtr.Zero);
 
             // display the stuff
             viewport.SwapBuffers();
