@@ -26,8 +26,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-
-
 namespace GeoGen_Studio
 {
     public partial class Main : Form
@@ -403,6 +401,8 @@ namespace GeoGen_Studio
             this.wireframe.Enabled = true;
             //this.lighting.Enabled = true;
             this.heightScale.Enabled = true;
+
+            this.ready3d = true;
         }
 
         public void Output3dButtonsOff()
@@ -414,6 +414,10 @@ namespace GeoGen_Studio
             this.wireframe.Enabled = false;
             //this.lighting.Enabled = false;
             this.heightScale.Enabled = false;
+
+            //viewport.Invalidate();
+
+            this.ready3d = false;
         }
 
 
@@ -982,7 +986,7 @@ namespace GeoGen_Studio
 
         private void viewport_Paint(object sender, PaintEventArgs e)
         {
-            this.Render();
+            this.Render(e);
         }
 
         private void viewport_MouseDown(object sender, MouseEventArgs e)
