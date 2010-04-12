@@ -335,6 +335,8 @@ namespace GeoGen_Studio
                             vertices[vertexIndex].Position.Y = yPos;
                             vertices[vertexIndex].Position.Z = (float)((float)this.heightData[x, y] * 0.005f / 128f);
 
+                            if (!this.config.enableTerrainUnderZero && vertices[vertexIndex].Position.Z < 0) vertices[vertexIndex].Position.Z = 0;
+
                             vertices[vertexIndex].TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
                             vertices[vertexIndex].TexCoord.Y = texYPos / 100f;
                         }
@@ -625,7 +627,6 @@ namespace GeoGen_Studio
 
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
                 System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
 
                 this.textureHandle = GL.GenTexture();
                 GL.BindTexture(TextureTarget.Texture2D, this.textureHandle);
