@@ -532,6 +532,7 @@ namespace GeoGen_Studio
             this.importHeightmapDialog.FileName = this.config.lastImportedFile;
             this.exportHeightmapDialog.FileName = this.config.lastExportedFile;
 
+            this.wireframe.Checked = this.config.wireframe;
             this.oldValues = this.config.parameters;
 
             this.statusbarToolStripMenuItem_Click(null, null);
