@@ -457,6 +457,7 @@
             this.viewportToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.viewportToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.viewportToolStripMenuItem.Text = "3D View";
+            this.viewportToolStripMenuItem.Click += new System.EventHandler(this.viewportToolStripMenuItem_Click);
             // 
             // logToolStripMenuItem
             // 
