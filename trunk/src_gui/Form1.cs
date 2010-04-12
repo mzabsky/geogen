@@ -1142,6 +1142,11 @@ namespace GeoGen_Studio
             this.GetOutputManager().ExportData();
         }
 
+        private void viewportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.SelectTab(Tabs.Output3D);
+        }
+
           
     }
 }
