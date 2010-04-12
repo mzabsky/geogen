@@ -64,6 +64,7 @@ namespace GeoGen_Studio
         public int editorZooom;
 
         private Main.ModelDetailLevel modelDetailLevel;
+        private Main.TextureDetailLevel textureDetailLevel;
         public bool wireframe;
         public OpenTK.Vector4 ambientLightColor;
         public OpenTK.Vector4 directionalLightColor;
@@ -152,6 +153,13 @@ namespace GeoGen_Studio
         {
             get { return modelDetailLevel; }
             set { modelDetailLevel = value; }
+        }
+
+        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed resolution for the terrain texture in the 3D view. Higher settings require more powerful graphics card. Has medium impact on performance."), DefaultValue(Main.TextureDetailLevel.VeryHigh_2048x2048Pixels)]
+        public Main.TextureDetailLevel TextureDetailLevel
+        {
+            get { return textureDetailLevel; }
+            set { textureDetailLevel = value; }
         }
 
         [CategoryAttribute("3D View"), DescriptionAttribute("Should the underwater terrain be modelled in 3D? Change of this setting will take effect once the model is rebuilt."), DefaultValue(false)]
@@ -247,6 +255,7 @@ namespace GeoGen_Studio
 
             /* 3D view */
             modelDetailLevel = Main.ModelDetailLevel.Medium_512x512Polygons;
+            textureDetailLevel = Main.TextureDetailLevel.VeryHigh_2048x2048Pixels;
             enableTerrainUnderZero = false;
             enable3d = true;
             defaultTextureOverlay = 7;

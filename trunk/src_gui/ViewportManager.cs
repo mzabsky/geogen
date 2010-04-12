@@ -40,9 +40,18 @@ namespace GeoGen_Studio
             Medium_512x512Polygons = 512,
             High_1024x1024Polygons = 1024,
             VeryHigh_2048x2048Polygons = 2048,/*
-            Extreme_4096x4096Plygons = 4096*/
+            Extreme_4096x4096Polygons = 4096*/
         };
 
+        public enum TextureDetailLevel
+        {
+            VeryLow_128x128Pixels = 128,
+            Low_256x256Pixels = 256,
+            Medium_512x512Pixels = 512,
+            High_1024x1024Pixels = 1024,
+            VeryHigh_2048x2048Pixels = 2048,
+            Extreme_4096x4096Pixels = 4096
+        };
 
         public enum ViewportBackground
         {
@@ -89,7 +98,7 @@ namespace GeoGen_Studio
 
         //private float heightScale = 8f;
 
-        private System.Drawing.Bitmap textureBase;
+        private GGenNet.HeightData textureBase;
         /*
         public float HeightScale
         {
@@ -275,7 +284,7 @@ namespace GeoGen_Studio
                 // prepare memory space for the newly created color data
                 this.heightData = OutputManager.GetResizedHeightData(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
 
-                this.textureBase = OutputManager.HeightDataToBitmap(this.heightData);
+                this.textureBase = OutputManager.GetResizedHeightData(original, Math.Min(original.Width, (int)config.TextureDetailLevel), Math.Min(original.Height, (int)config.TextureDetailLevel));
 
                 // release some memory (to prevent OutOfMemory exception)
               // original = null;
@@ -605,7 +614,7 @@ namespace GeoGen_Studio
                 else if (selected[0] == 'O')
                 {
                     path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
-                    bitmap = main.GetOutputManager().ApplyOverlay(this.heightData, new System.Drawing.Bitmap(path));
+                    bitmap = main.GetOutputManager().ApplyOverlay(this.textureBase, new System.Drawing.Bitmap(path));
                 }
 
                 // "Map: " type texture
