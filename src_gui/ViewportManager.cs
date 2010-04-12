@@ -78,7 +78,7 @@ namespace GeoGen_Studio
             }
         }
 
-        public static int defaultTextureIndex = 8;
+        public static int defaultTextureIndex = 7;
 
         public GGenNet.HeightData heightData;
 

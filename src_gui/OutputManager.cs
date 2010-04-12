@@ -141,8 +141,8 @@ namespace GeoGen_Studio
                 for (int i = 0; i < bytes.Length; i += 4)
                 {
                     int current = (heights[i / 4] / 128);
+
                     if (current < 0) current = 0;
-                    else if (current == 0 && heights[i / 4] >= 0) current = 1;
 
                     bytes[i + 0] = overlayCopy[current * 3 + 0];
                     bytes[i + 1] = overlayCopy[current * 3 + 1];
@@ -155,11 +155,12 @@ namespace GeoGen_Studio
             {
                 for (int i = 0; i < bytes.Length; i += 4)
                 {
-                    int current = 256 + (heights[i / 4] / 128);
+                    int current = 255 + (heights[i / 4] / 128);
 
                     if (current < 0 || current > 511)
                     {
-                        current = 0;
+                        //current = 0;
+                        throw new Exception("This cannot happen");
                     }
                     else if (current == 0 && heights[i / 4] >= 0) current = 1;
 
