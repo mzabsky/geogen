@@ -164,8 +164,9 @@ namespace GeoGen_Studio
                     {
                         throw new Exception("This cannot happen");
                     }
+                    
                     // prevent water bleeding onto the coastline
-                    else if (current == 0 && heights[i / 4] >= 0) current = 1;
+                    if (current == 255 && heights[i / 4] > 0) current = 256;
 
                     bytes[i + 0] = overlayCopy[current * 3 + 0];
                     bytes[i + 1] = overlayCopy[current * 3 + 1];
@@ -376,6 +377,7 @@ namespace GeoGen_Studio
             return bitmap;
         }
 
+        // preserves 0 level!!!
         public static void StretchHeightValues(ref GGenNet.HeightData data){
             // find minimum and maximum values
             short max = short.MinValue;
@@ -391,6 +393,28 @@ namespace GeoGen_Studio
 
             for (int i = 0; i < data.Length; i++){
                 data[i] = max > 0 ? (short)((int)data[i] * (int)short.MaxValue / (int)max) : (short)0;
+            }
+        }
+
+        public static void ScaleHeightValues(ref GGenNet.HeightData data, short newMin, short newMax)
+        {
+            // find minimum and maximum values
+            int max = short.MinValue;
+            int min = short.MaxValue;
+
+            int newMaxWork = newMax - newMin;
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] > max) max = data[i];
+                if (data[i] < min) min = data[i];
+            }
+
+            max -= min;
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = (short)((short)newMin + (short)(((int)data[i] - min) * newMaxWork / max));
             }
         }
 
@@ -462,6 +486,55 @@ namespace GeoGen_Studio
             }
 
             return heights;
+        }
+
+        public void ExportData()
+        {
+            Main main = Main.Get();
+            Config config = main.GetConfig();
+
+            Export export = new Export();
+            export.width.Maximum = main.heightData.Width;
+            export.width.Value = main.heightData.Width;
+            export.height.Maximum = main.heightData.Height;
+            export.height.Value = main.heightData.Height;
+            if (config.exportRescaleMode) export.subzeroMode2.Checked = true;
+
+            if (export.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (main.FileDialog(main.exportHeightmapDialog, ref config.lastExportedFile))
+                {
+                    string path = main.exportHeightmapDialog.FileName;
+                    string ext = path.Substring(path.LastIndexOf('.'), path.Length - path.LastIndexOf('.')).ToLower();
+
+                    //config.lastExportedFile = path;
+
+                    config.exportRescaleMode = export.subzeroMode2.Checked;
+
+                    GGenNet.HeightData toExport = OutputManager.GetResizedHeightData(main.heightData, (int)export.width.Value, (int)export.height.Value);
+
+                    // rescale the values if necessary
+                    if (ext != ".shd" && export.subzeroMode2.Checked) OutputManager.ScaleHeightValues(ref toExport, 0, short.MaxValue - 1);
+
+                    if (ext == ".shd")
+                    {
+                        System.IO.BinaryWriter writer = new System.IO.BinaryWriter(System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write));
+                        writer.Write(toExport.Width);
+                        writer.Write(toExport.Height);
+
+                        for (int i = 0; i < toExport.Length; i++ )
+                        {
+                            writer.Write(toExport[i]);
+                        }
+
+                        writer.Close();
+                    }
+                    else
+                    {
+                        OutputManager.HeightDataToBitmap(toExport).Save(path);
+                    }
+                }
+            }
         }
     }
 }

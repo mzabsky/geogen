@@ -1129,12 +1129,12 @@ namespace GeoGen_Studio
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            //this.outputManager.data.Export();
+            this.GetOutputManager().ExportData();
         }
 
         private void exportToolStripButton_Click(object sender, EventArgs e)
         {
-            //this.outputManager.data.Export();
+            this.GetOutputManager().ExportData();
         }
 
           
