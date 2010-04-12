@@ -84,6 +84,7 @@ namespace GeoGen_Studio
         public int currentTextureIndex = defaultTextureIndex;
 
         private int vertexBufferHandle;
+        private int indexBufferHandle;
         private int textureHandle;
 
         //private float heightScale = 8f;
@@ -180,6 +181,7 @@ namespace GeoGen_Studio
             if (this.vertexBufferHandle != 0)
             {
                 GL.DeleteBuffers(1, ref this.vertexBufferHandle);
+                GL.DeleteBuffers(1, ref this.indexBufferHandle);
             }
 
             if (this.textureHandle != 0)
@@ -217,6 +219,8 @@ namespace GeoGen_Studio
             GGenNet.HeightData data;
 
             this.currentMap = main.outputs3d.SelectedIndex;
+
+            if (this.currentMap == -1) return;
 
             if (path_override == null)
             {
@@ -276,9 +280,6 @@ namespace GeoGen_Studio
                 // release some memory (to prevent OutOfMemory exception)
               // original = null;
 
-                // the vertex array for the model
-                Vertex[] vertices = new Vertex[this.heightData.Width * this.heightData.Height * 6];
-
                 // dimension multipliers
                 float fWidth = 100f / (float)this.heightData.Width;
                 float fHeight = 100f / (float)this.heightData.Height;
@@ -300,90 +301,121 @@ namespace GeoGen_Studio
                 }
 
                 // build the model
-                if (this.heightData != null)
-                {
-                    for (int y = 0; y < this.heightData.Height - 1; y++)
+                //if (this.heightData != null)
+                //{
+                    // the model is one big triangle strip broken into rows by degenerate triangles
+                   
+                    // the vertex array for the model
+                    Vertex[] vertices = new Vertex[this.heightData.Length ];
+
+                    for (int y = 0; y < this.heightData.Height; y++)
                     {
                         float fy = (float)y;
 
                         // precalculate some stuff that stays constant for whole row
-                        float yPos = (fy + 0.5f) * fHeight;
-                        float yPosNext = (fy + 1 + 0.5f) * fHeight;
+                        float yPos = offsetY + (fy + 0.5f) * fHeight;
                         float texYPos = (fy + 0.5f) * texFHeight;
-                        float texYPosNext = (fy + 1 + 0.5f) * texFHeight;
 
+                        for (int x = 0; x < this.heightData.Width; x++)
+                        {
+                            float fx = (float)x;
 
+                            int vertexIndex = x + y * this.heightData.Width;
+
+                            vertices[vertexIndex].Position.X = offsetX + fx * fWidth;
+                            vertices[vertexIndex].Position.Y = yPos;
+                            vertices[vertexIndex].Position.Z = (float)((float)this.heightData[x, y] * 0.005f / 128f);
+
+                            vertices[vertexIndex].TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
+                            vertices[vertexIndex].TexCoord.Y = texYPos / 100f;
+                        }
+                    }
+
+                    uint[] indices = new uint[this.heightData.Length * 6];
+
+                    for (int y = 0; y < this.heightData.Height - 1; y++)
+                    {
                         for (int x = 0; x < this.heightData.Width - 1; x++)
                         {
                             float fx = (float)x;
 
+                            int vertexIndex = (x + y * this.heightData.Width) * 6;
                             // upper left point of current quad
-                            Vertex a = new Vertex();
-                            a.Position.X = offsetX + fx * fWidth;
-                            a.Position.Y = offsetY + yPos;
-                            a.Position.Z = (float)((float)this.heightData[x, y] * 0.005f / 128f);
-                            //a.Color = colors[this.heightData[(x + this.terrainWidth * y) * 4]];
-                            a.TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
-                            a.TexCoord.Y = texYPos / 100f;
+
 
                             // upper right verex of current quad
-                            Vertex b = new Vertex();
-                            b.Position.X = offsetX + (fx + 1) * fWidth;
-                            b.Position.Y = offsetY + yPos;
-                            b.Position.Z = (float)((float)this.heightData[x + 1, y] * 0.005f / 128f);
-                            //b.Color = colors[this.heightData[(x + 1 + this.terrainWidth * y) * 4]];
-                            b.TexCoord.X = (fx + 1 + 0.5f) * texFWidth / 100f;
-                            b.TexCoord.Y = texYPos / 100f;
+    
 
                             // bottom left verex of current quad
-                            Vertex c = new Vertex();
-                            c.Position.X = offsetX + fx * fWidth;
-                            c.Position.Y = offsetY + yPosNext;
-                            c.Position.Z = (float)((float)this.heightData[x, y + 1] * 0.005f / 128f);
-                            //c.Color = colors[this.heightData[(x  + this.terrainWidth * (y + 1)) * 4]];
-                            c.TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
-                            c.TexCoord.Y = texYPosNext / 100f;
+
 
                             // bottom right verex of current quad
-                            Vertex d = new Vertex();
-                            d.Position.X = offsetX + (fx + 1) * fWidth;
-                            d.Position.Y = offsetY + yPosNext;
-                            d.Position.Z = (float)((float)this.heightData[x + 1, y + 1] * 0.005f / 128f);
-                            //d.Color = colors[this.heightData[(x + 1 + this.terrainWidth * (y + 1)) * 4]];
-                            d.TexCoord.X = (fx + 1 + 0.5f) * texFWidth / 100f;
-                            d.TexCoord.Y = texYPosNext / 100f;
 
-                            // crop underwater heights if requested
-                            if (!config.enableTerrainUnderZero)
-                            {
-                                if (a.Position.Z < 0) a.Position.Z = 0;
-                                if (b.Position.Z < 0) b.Position.Z = 0;
-                                if (c.Position.Z < 0) c.Position.Z = 0;
-                                if (d.Position.Z < 0) d.Position.Z = 0;
-                            }
-
-                            Vertex b2 = new Vertex(b);
-                            Vertex c2 = new Vertex(c);
-
-                            a.Normal = this.CalculateNormal(c.Position, a.Position, b.Position);
-                            d.Normal = this.CalculateNormal(b.Position, d.Position, c.Position);
-
-                            b.Normal = a.Normal;
-                            c.Normal = a.Normal;
-
-                            b2.Normal = d.Normal;
-                            c2.Normal = d.Normal;
 
                             // first triangle
-                            vertices[(x + this.heightData.Width * y) * 6] = a;
-                            vertices[(x + this.heightData.Width * y) * 6 + 1] = b;
-                            vertices[(x + this.heightData.Width * y) * 6 + 2] = c;
+                            indices[vertexIndex] = (uint)(x + y * this.heightData.Width);
+                            indices[vertexIndex + 1] = (uint)(x + 1 + y * this.heightData.Width);
+                            indices[vertexIndex + 2] = (uint)(x + (y + 1) * this.heightData.Width);
 
                             // second triangle                        
-                            vertices[(x + this.heightData.Width * y) * 6 + 4] = d;
-                            vertices[(x + this.heightData.Width * y) * 6 + 5] = c2;
-                            vertices[(x + this.heightData.Width * y) * 6 + 3] = b2;
+                            indices[vertexIndex + 3] = (uint)(x + 1 + (y + 1) * this.heightData.Width);
+                            indices[vertexIndex + 4] = (uint)(x + (y + 1) * this.heightData.Width);
+                            indices[vertexIndex + 5] = (uint)(x + 1 + y * this.heightData.Width);
                         }
+                    }
+                //}
+
+                Vector3[] faceNormals = new Vector3[(this.heightData.Width - 1) * (this.heightData.Height - 1) * 2];
+
+                for (int y = 0; y < this.heightData.Height - 1; y++)
+                {
+                    for (int x = 0; x < this.heightData.Width - 1; x++)
+                    {
+                        faceNormals[(x + y * (this.heightData.Width - 1)) * 2] = this.CalculateNormal(vertices[x + (y + 1) * this.heightData.Width].Position, vertices[x + y * this.heightData.Width].Position, vertices[(x + 1) + y * this.heightData.Width].Position);
+                        faceNormals[(x + y * (this.heightData.Width - 1)) * 2 + 1] = this.CalculateNormal(vertices[x + (y + 1) * this.heightData.Width].Position, vertices[x + y * this.heightData.Width].Position, vertices[(x + 1) + (y + 1) * this.heightData.Width].Position);
+                    }
+                }
+
+                for (int y = 0; y < this.heightData.Height; y++)
+                {
+                    for (int x = 0; x < this.heightData.Width; x++)
+                    {
+                        int faceCount = 0;
+
+                        // upper left triangle
+                        if (x > 0 && y > 0)
+                        {
+                            vertices[x + y * this.heightData.Width].Normal = faceNormals[((x - 1) + (y - 1) * (this.heightData.Width - 1)) * 2 + 1] ;
+
+                            faceCount++;
+                        }
+
+                        // bottom left triangles
+                        if (x > 0 && y < this.heightData.Height - 1)
+                        {
+                            vertices[x + y * this.heightData.Width].Normal += faceNormals[((x - 1) + y * (this.heightData.Width - 1)) * 2];
+                            vertices[x + y * this.heightData.Width].Normal += faceNormals[((x - 1) + y * (this.heightData.Width - 1)) * 2 + 1];
+
+                            faceCount += 2;
+                        }
+
+                        // upper right triangles
+                        if (x < this.heightData.Width - 1 && y > 0)
+                        {
+                            vertices[x + y * this.heightData.Width].Normal += faceNormals[(x + (y - 1) * (this.heightData.Width - 1)) * 2];
+                            vertices[x + y * this.heightData.Width].Normal += faceNormals[(x + (y - 1) * (this.heightData.Width - 1)) * 2 + 1];
+
+                            faceCount += 2;
+                        }
+
+                        if (x < this.heightData.Width - 1 && y < this.heightData.Height - 1)
+                        {
+                            vertices[x + y * this.heightData.Width].Normal += faceNormals[(x + y * (this.heightData.Width - 1)) * 2];
+
+                            faceCount++;
+                        }
+
+                        vertices[x + y * this.heightData.Width].Normal /= faceCount;
                     }
                 }
 
@@ -404,15 +436,22 @@ namespace GeoGen_Studio
 
                 // allocate the buffer
                 GL.GenBuffers(1, out this.vertexBufferHandle);
+                GL.GenBuffers(1, out this.indexBufferHandle);
 
                 // tell that we are using that buffer
                 GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
 
-                // upload the data into the buffer into GPU
                 GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * 8 * sizeof(float)), vertices, BufferUsageHint.StaticDraw);
+                
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, this.indexBufferHandle);
+
+                // upload the data into the buffer into GPU
+                GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indices.Length * sizeof(uint)), indices, BufferUsageHint.StaticDraw);
+
 
                 // make sure the massive vertex array is gone from RAM
                 vertices = null;
+                indices = null;
 
                 // release the context from current thread
                 viewport.Context.MakeCurrent(null);
@@ -497,6 +536,7 @@ namespace GeoGen_Studio
             {
                 // tell the OpenGL which buffer are we using
                 GL.BindBuffer(BufferTarget.ArrayBuffer, this.vertexBufferHandle);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, this.indexBufferHandle);
                 GL.BindTexture(TextureTarget.ProxyTexture2D, this.textureHandle);
                 
                 // tell the format of the buffered data
@@ -514,7 +554,7 @@ namespace GeoGen_Studio
                 GL.Scale(1f, 1f, (float) this.heightScale.Value);
 
                 // read the data from buffer
-                GL.DrawArrays(BeginMode.Triangles, 0, (int) (this.heightData.Length * 6));
+                GL.DrawElements(BeginMode.Triangles, (int) (this.heightData.Length * 6),DrawElementsType.UnsignedInt, IntPtr.Zero);
             }
 
             // display the stuff
