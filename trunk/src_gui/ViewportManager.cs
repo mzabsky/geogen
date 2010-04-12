@@ -39,8 +39,8 @@ namespace GeoGen_Studio
             Low_256x256Polygons = 256,
             Medium_512x512Polygons = 512,
             High_1024x1024Polygons = 1024,
-            VeryHigh_2048x2048Polygons = 2048,
-            Extreme_4096x4096Plygons = 4096
+            VeryHigh_2048x2048Polygons = 2048,/*
+            Extreme_4096x4096Plygons = 4096*/
         };
 
 
