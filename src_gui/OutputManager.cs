@@ -55,8 +55,6 @@ namespace GeoGen_Studio
                 // list of generated maps
                 //string[] paths = System.IO.Directory.GetFiles(config.GeoGenWorkingDirectory, "*.shd");
 
-                //main.outputs.Items.Add("[Main]");
-
                 // add found secondary maps to the output list
                 foreach(DictionaryEntry item in main.maps)
                 {
@@ -80,6 +78,8 @@ namespace GeoGen_Studio
                 {
                     main.texture.SelectedIndex = Main.defaultTextureIndex;
                 }
+
+                this.currentImportedFile = null;
             }
             else
             {
@@ -205,26 +205,18 @@ namespace GeoGen_Studio
                     oldImageHeight = main.output.Image.Height;
                 }
 
-                // load imported, main or secondary map?
-                if (this.currentImportedFile != null)
-                {
-                    path = this.currentImportedFile;
-                }
-                else if (main.outputs.SelectedIndex < 1)
-                {
-                    path += config.MainMapOutputFile;
-                }
-                else
-                {
-                    path += (string)main.outputs.Items[main.outputs.SelectedIndex];
-                }
-
                 // if the image being loaded doesn't exist, cancel
                 try
                 {
-                    //this.data = new SHData(path);
-
-                    this.data = (GGenNet.HeightData)main.maps[main.outputs.SelectedItem];
+                    // load imported or internal
+                    if (this.currentImportedFile != null)
+                    {
+                        this.data = OutputManager.LoadHeightmapFromImageFile(this.currentImportedFile);
+                    }
+                    else
+                    {
+                        this.data = (GGenNet.HeightData)main.maps[main.outputs.SelectedItem];
+                    }
                     currentImage = HeightDataToBitmap(this.data);
                 }
                 catch (Exception e)
@@ -435,6 +427,8 @@ namespace GeoGen_Studio
         }
 
         public static GGenNet.HeightData LoadHeightmapFromImageFile(string path){
+            Config config = Main.Get().GetConfig();
+            
             GGenNet.HeightData heights;
             
             string ext = path.Substring(path.LastIndexOf('.'), path.Length - path.LastIndexOf('.')).ToLower();
@@ -485,7 +479,9 @@ namespace GeoGen_Studio
                 bitmap.UnlockBits(data);
             }
 
-            return heights;
+            GGenNet.HeightData heights2 = OutputManager.GetResizedHeightData(heights, Math.Min(heights.Width, (int)config.mapDetailLevel), Math.Min(heights.Height, (int)config.mapDetailLevel));
+
+            return heights2;
         }
 
         public void ExportData()

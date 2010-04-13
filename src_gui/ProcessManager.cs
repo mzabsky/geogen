@@ -104,7 +104,9 @@ namespace GeoGen_Studio
         }
 
         public void ReturnHandler(object sender, GGenNet.MapReturnedEventArgs e){
-            GGenNet.HeightData data = e.HeightMap;
+            Config config = Main.Get().GetConfig();
+
+            GGenNet.HeightData data = OutputManager.GetResizedHeightData(e.HeightMap, Math.Min(e.HeightMap.Width, (int) config.mapDetailLevel), Math.Min(e.HeightMap.Height, (int) config.mapDetailLevel));
             
             OutputManager.StretchHeightValues(ref data);
 
@@ -338,9 +340,13 @@ namespace GeoGen_Studio
                         }
 
                         // map was generated successfully
-                        OutputManager.StretchHeightValues(ref result);
+                        GGenNet.HeightData result2 = OutputManager.GetResizedHeightData(result, Math.Min(result.Width, (int)config.mapDetailLevel), Math.Min(result.Height, (int)config.mapDetailLevel));
 
-                        maps.Add("[Main]", result);
+                        result.Dispose();
+
+                        OutputManager.StretchHeightValues(ref result2);
+
+                        maps.Add("[Main]", result2);
 
                         this.RemoveStatus("Executing");
 

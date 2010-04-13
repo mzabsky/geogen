@@ -63,8 +63,10 @@ namespace GeoGen_Studio
         public bool whitespace;
         public int editorZooom;
 
+        public Main.BitmapDetailLevel mapDetailLevel;
+
         private Main.ModelDetailLevel modelDetailLevel;
-        private Main.TextureDetailLevel textureDetailLevel;
+        private Main.BitmapDetailLevel textureDetailLevel;
         public bool wireframe;
         public OpenTK.Vector4 ambientLightColor;
         public OpenTK.Vector4 directionalLightColor;
@@ -104,6 +106,13 @@ namespace GeoGen_Studio
         {
             get { return actionAfterExec; }
             set { actionAfterExec = value; }
+        }
+
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("Maximum map size accepted by GeoGen Studio. All maps will be downcaled to match this size. Decrease this value if the application is frequently running out of memory."), DefaultValue(Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels)]
+        public Main.BitmapDetailLevel MapDetailLevel
+        {
+            get { return mapDetailLevel; }
+            set { mapDetailLevel = value; }
         }
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to a compatible GeoGen executable."), DefaultValue("../bin/geogen.exe")]
@@ -155,8 +164,8 @@ namespace GeoGen_Studio
             set { modelDetailLevel = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed resolution for the terrain texture in the 3D view. Higher settings require more powerful graphics card. Has medium impact on performance."), DefaultValue(Main.TextureDetailLevel.VeryHigh_2048x2048Pixels)]
-        public Main.TextureDetailLevel TextureDetailLevel
+        [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed resolution for the terrain texture in the 3D view. Higher settings require more powerful graphics card. Has medium impact on performance."), DefaultValue(Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels)]
+        public Main.BitmapDetailLevel TextureDetailLevel
         {
             get { return textureDetailLevel; }
             set { textureDetailLevel = value; }
@@ -239,6 +248,7 @@ namespace GeoGen_Studio
             parameters = new uint[0];
             
             exportRescaleMode = false;
+            mapDetailLevel = Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels;
 
             /* Execution settings */
             actionAfterExec = Main.ActionAfterExectution.GoTo3DOutput;
@@ -255,7 +265,7 @@ namespace GeoGen_Studio
 
             /* 3D view */
             modelDetailLevel = Main.ModelDetailLevel.Medium_512x512Polygons;
-            textureDetailLevel = Main.TextureDetailLevel.VeryHigh_2048x2048Pixels;
+            textureDetailLevel = Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels;
             enableTerrainUnderZero = false;
             enable3d = true;
             defaultTextureOverlay = 7;

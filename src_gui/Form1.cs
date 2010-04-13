@@ -1113,6 +1113,9 @@ namespace GeoGen_Studio
              
             if (ext == ".shd" || ext == ".bmp" || ext == ".png" || ext == ".jpg")
             {
+                this.ClearData();
+                this.ClearData3D();
+
                 this.outputManager.ReloadMaps(file);
             }
             else

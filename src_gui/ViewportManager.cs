@@ -43,7 +43,7 @@ namespace GeoGen_Studio
             Extreme_4096x4096Polygons = 4096*/
         };
 
-        public enum TextureDetailLevel
+        public enum BitmapDetailLevel
         {
             VeryLow_128x128Pixels = 128,
             Low_256x256Pixels = 256,
