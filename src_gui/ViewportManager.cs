@@ -517,7 +517,7 @@ namespace GeoGen_Studio
 
         public void Render(PaintEventArgs e)
         {
-            if (!this.ready3d)
+            if (!this.ready3d || !this.config.enable3d)
             {
                 // the OpenGL context is not ready (for it is most likely being worked on in another
                 // thread) -> manually fill the control area with flat bakground
