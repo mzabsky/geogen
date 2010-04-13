@@ -1412,7 +1412,9 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 
 		/* Swap the points in case the edge is pointing upwards (so it is always pointing downwards) */
 		if (currentPoint->GetY() > nextPoint->GetY()) {
-			swap<GGen_Point*>(currentPoint, nextPoint);
+			GGen_Point* tempPoint = currentPoint;
+			currentPoint = nextPoint;
+			nextPoint = tempPoint;
 		}
 
 		/* Fill in the edge data */
@@ -1627,7 +1629,10 @@ GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
 		if(ABS(currentPoint->x - nextPoint->x) > ABS(currentPoint->y - nextPoint->y)){
 			/* Swap the points in case the edge is pointing leftwards (so it is always pointing rightwards) */
 			if (currentPoint->GetX() > nextPoint->GetX()) {
-				swap<GGen_Point*>(currentPoint, nextPoint);
+				//swap<GGen_Point*>(currentPoint, nextPoint);
+				GGen_Point* tempPoint = currentPoint;
+				currentPoint = nextPoint;
+				nextPoint = tempPoint;
 			}
 
 			double y = currentPoint->y;
@@ -1664,7 +1669,10 @@ GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
 
 			/* Swap the points in case the edge is pointing leftwards (so it is always pointing rightwards) */
 			if (currentPoint->GetY() > nextPoint->GetY()) {
-				swap<GGen_Point*>(currentPoint, nextPoint);
+				//swap<GGen_Point*>(currentPoint, nextPoint);
+				GGen_Point* tempPoint = currentPoint;
+				currentPoint = nextPoint;
+				nextPoint = tempPoint;
 			}
 
 			double x = currentPoint->x;

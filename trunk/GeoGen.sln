@@ -1,10 +1,10 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen Dev", "project files\GeoGen.vcproj", "{66F6AB2A-F3C4-4BF2-A748-EFE501AFCE4B}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen Dev", "project files\GeoGen.vcxproj", "{66F6AB2A-F3C4-4BF2-A748-EFE501AFCE4B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen Lib", "project files\GeoGen Lib.vcproj", "{0F6088B0-1D98-4D2D-B995-D1C45FC78F55}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen Lib", "project files\GeoGen Lib.vcxproj", "{0F6088B0-1D98-4D2D-B995-D1C45FC78F55}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen Lib Test", "project files\GeoGen Lib Test.vcproj", "{0CE07DBD-AADC-42E5-9B1E-966302EAF03D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen Lib Test", "project files\GeoGen Lib Test.vcxproj", "{0CE07DBD-AADC-42E5-9B1E-966302EAF03D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0F6088B0-1D98-4D2D-B995-D1C45FC78F55} = {0F6088B0-1D98-4D2D-B995-D1C45FC78F55}
 	EndProjectSection
@@ -13,17 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen Studio", "src_gui\Ge
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GeoGen Installer", "src_installer\GeoGen Installer\GeoGen Installer.vdproj", "{E3F3DEC1-CE11-4995-9F86-8A58298C481D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen DLL", "project files\GeoGen DLL.vcproj", "{1F6B5205-6FEB-42F8-9DC7-7F8C2BF84165}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen DLL", "project files\GeoGen DLL.vcxproj", "{1F6B5205-6FEB-42F8-9DC7-7F8C2BF84165}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen DLL Test", "project files\GeoGen DLL Test.vcproj", "{B598D4B4-A22E-40C0-828B-A293B38FB5D6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen DLL Test", "project files\GeoGen DLL Test.vcxproj", "{B598D4B4-A22E-40C0-828B-A293B38FB5D6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1F6B5205-6FEB-42F8-9DC7-7F8C2BF84165} = {1F6B5205-6FEB-42F8-9DC7-7F8C2BF84165}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen NET", "project files\GeoGen NET.vcproj", "{7B76756E-BC8F-4D6C-82EF-98F26FAD855F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1F6B5205-6FEB-42F8-9DC7-7F8C2BF84165} = {1F6B5205-6FEB-42F8-9DC7-7F8C2BF84165}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen NET", "project files\GeoGen NET.vcxproj", "{7B76756E-BC8F-4D6C-82EF-98F26FAD855F}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution

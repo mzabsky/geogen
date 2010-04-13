@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage codeTab;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.importTextureDialog = new System.Windows.Forms.OpenFileDialog();
@@ -980,11 +979,11 @@
             this.output.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.output.TabIndex = 0;
             this.output.TabStop = false;
+            this.output.MouseDown += new System.Windows.Forms.MouseEventHandler(this.output_MouseDown);
+            this.output.MouseEnter += new System.EventHandler(this.output_MouseEnter);
             this.output.MouseLeave += new System.EventHandler(this.output_MouseLeave);
             this.output.MouseMove += new System.Windows.Forms.MouseEventHandler(this.output_MouseMove);
-            this.output.MouseDown += new System.Windows.Forms.MouseEventHandler(this.output_MouseDown);
             this.output.MouseUp += new System.Windows.Forms.MouseEventHandler(this.output_MouseUp);
-            this.output.MouseEnter += new System.EventHandler(this.output_MouseEnter);
             // 
             // outputToolStrip
             // 
@@ -1162,13 +1161,13 @@
             this.viewport.TabIndex = 0;
             this.viewport.VSync = false;
             this.viewport.Load += new System.EventHandler(this.viewport_Load);
-            this.viewport.MouseLeave += new System.EventHandler(this.viewport_MouseLeave);
             this.viewport.Paint += new System.Windows.Forms.PaintEventHandler(this.viewport_Paint);
-            this.viewport.MouseMove += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseMove);
             this.viewport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseDown);
-            this.viewport.Resize += new System.EventHandler(this.viewport_Resize);
-            this.viewport.MouseUp += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseUp);
             this.viewport.MouseEnter += new System.EventHandler(this.viewport_MouseEnter);
+            this.viewport.MouseLeave += new System.EventHandler(this.viewport_MouseLeave);
+            this.viewport.MouseMove += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseMove);
+            this.viewport.MouseUp += new System.Windows.Forms.MouseEventHandler(this.viewport_MouseUp);
+            this.viewport.Resize += new System.EventHandler(this.viewport_Resize);
             // 
             // toolStrip1
             // 
@@ -1423,13 +1422,13 @@
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(930, 400);
             this.Name = "Main";
-            this.Opacity = 0;
+            this.Opacity = 0D;
             this.Text = "GeoGen Studio";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
