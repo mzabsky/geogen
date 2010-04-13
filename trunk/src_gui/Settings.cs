@@ -42,8 +42,8 @@ namespace GeoGen_Studio
 
         private void save_Click(object sender, EventArgs e)
         {
-            
-
+            // the setings are automatically saved whenever a value is changed (behavior intrisnic to the property grid)
+            // so we just close the form
             this.Close();
         }
 
@@ -51,6 +51,7 @@ namespace GeoGen_Studio
         {
             Config config = Main.Get().GetConfig();
 
+            // the 3D view might need to reinitialize
             if (Main.Get().GetConfig().enable3d)
             {
                 Main main = Main.Get();
@@ -59,6 +60,7 @@ namespace GeoGen_Studio
                 main.viewport.Invalidate();
             }
 
+            // check if global map resolution is >= than model/texture resolutions
             if ((int)config.mapDetailLevel < (int)config.ModelDetailLevel || (int)config.mapDetailLevel < (int)config.TextureDetailLevel)
             {
                 if (System.Windows.Forms.MessageBox.Show("The selected map resolution is lower than selected model and/or texture resolution. This will result in model and/or txture resolution being limited by the overall map detail level.", "GeoGen Studio Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
