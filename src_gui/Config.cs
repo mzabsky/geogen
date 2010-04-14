@@ -48,6 +48,7 @@ namespace GeoGen_Studio
         public string lastExportedOutput;
         public string lastExportedScreenshot;
         public uint[] parameters;
+        public uint seed;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -77,8 +78,6 @@ namespace GeoGen_Studio
         public bool enable3d;
         public int defaultTextureOverlay;
         public Main.ViewportBackground backgroundColor3d;
-
-        
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -113,6 +112,13 @@ namespace GeoGen_Studio
         {
             get { return mapDetailLevel; }
             set { mapDetailLevel = value; }
+        }
+
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("Random seed used to generate the terrain. Two terrains generated with the same seed, script and GeoGen version are guaranteed to be always exactly same. Use value '0' to create a new seed automatically every time script is executed."), DefaultValue(0)]
+        public uint RandomSeed
+        {
+            get { return seed; }
+            set { seed = value; }
         }
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to a compatible GeoGen executable."), DefaultValue("../bin/geogen.exe")]

@@ -330,6 +330,15 @@ namespace GeoGen_Studio
                         GGenNet.HeightData result;
                         try
                         {
+                            if (this.config.seed == 0)
+                            {
+                                ggen.Seed = (uint)DateTime.Now.Ticks;
+                            }
+                            else
+                            {
+                                ggen.Seed = this.config.seed;
+                            }
+
                             result = ggen.Generate();
                         }
                         catch (GGenNet.GenerationFailedException)
