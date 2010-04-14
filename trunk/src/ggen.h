@@ -81,4 +81,6 @@ public:
 	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label) = 0;
 	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label) = 0;
 	virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label) = 0;
+
+	void SetSeed(unsigned seed);
 };
