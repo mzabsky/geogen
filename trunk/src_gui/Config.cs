@@ -121,7 +121,7 @@ namespace GeoGen_Studio
             set { seed = value; }
         }
 
-        [CategoryAttribute("Paths"), DescriptionAttribute("Path to a compatible GeoGen executable."), DefaultValue("../bin/geogen.exe")]
+        /*[CategoryAttribute("Paths"), DescriptionAttribute("Path to a compatible GeoGen executable."), DefaultValue("../bin/geogen.exe")]
         public string GeoGenPath
         {
             get { return geoGenPath; }
@@ -147,7 +147,7 @@ namespace GeoGen_Studio
         {
             get { return mainMapOutputFile; }
             set { mainMapOutputFile = value; }
-        }
+        }*/
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Directory where overlays are stored."), DefaultValue("../overlays")]
         public string OverlayDirectory
@@ -155,13 +155,13 @@ namespace GeoGen_Studio
             get { return overlayDirectory; }
             set { overlayDirectory = value; }
         }
-
+        /*
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to main documentation file."), DefaultValue("../documentation.html")]
         public string DocumentationPath
         {
             get { return documentationPath; }
             set { documentationPath = value; }
-        }
+        }*/
 
         [CategoryAttribute("3D View"), DescriptionAttribute("Highest allowed amount of polygons for the terrain model in the 3D view. Higher settings require more powerful graphics card and the models take longer to build. Has major impact on performance."), DefaultValue(Main.ModelDetailLevel.Medium_512x512Polygons)]
         public Main.ModelDetailLevel ModelDetailLevel
