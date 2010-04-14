@@ -193,8 +193,6 @@ namespace GeoGen_Studio
             {
                 main.AddStatus("Loading");
 
-                string path = config.GeoGenWorkingDirectory + "/";
-
                 int oldImageWidth = 0;
                 int oldImageHeight = 0;
 
