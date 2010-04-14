@@ -64,7 +64,7 @@
     <Link>
       <AdditionalDependencies>
       </AdditionalDependencies>
-      <OutputFile>$(OutDir)GeoGenNETD.dll</OutputFile>
+      <OutputFile>$(OutDir)GeoGenNET.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <ProgramDatabaseFile>$(IntDir)pdb.pdb</ProgramDatabaseFile>
