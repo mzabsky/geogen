@@ -496,7 +496,7 @@ public:
 				throw gcnew InvalidStatusException();
 			}
 
-			srand(seed);
+			this->ggen->SetSeed(seed);
 			this->seed = seed;
 		}
 	}

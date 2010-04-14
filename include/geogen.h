@@ -132,6 +132,8 @@ public:
 	static void InitProgress(unsigned max_progress);
 	static void SetProgress(unsigned current_progress);
 	static void IncreaseProgress();
+
+	void SetSeed(unsigned seed);
 };
 
 class GGen_Squirrel: public GGen{

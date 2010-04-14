@@ -171,3 +171,10 @@ void GGen::IncreaseProgress(){
 	
 	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(GGen::GetInstance()->current_progress, GGen::GetInstance()->max_progress);
 }
+
+void GGen::SetSeed(unsigned seed){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
+
+	srand(seed);
+}
