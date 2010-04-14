@@ -17,6 +17,8 @@
 
 */
 
+#include <math.h>
+
 using namespace System;
 
 #ifdef _DEBUG
@@ -419,6 +421,8 @@ private:
 
 	bool disposed;
 
+	unsigned seed;
+
 public:
 	property array<ScriptArg^>^ Args{
 		array<ScriptArg^>^ get(){
@@ -479,6 +483,17 @@ public:
 			}
 			
 			ggen->SetMaxMapCount(value);
+		}
+	}
+
+	property unsigned Seed{
+		unsigned get(){
+			return this->seed;
+		}
+
+		void set(unsigned seed){
+			srand(seed);
+			this->seed = seed;
 		}
 	}
 
