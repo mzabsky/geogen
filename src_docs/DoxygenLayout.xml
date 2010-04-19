@@ -108,19 +108,19 @@
     <memberdecl>
       <classes visible="yes" title=""/>
       <namespaces visible="yes" title=""/>
-      <defines title=""/>
-      <typedefs title=""/>
-      <enums title=""/>
-      <functions title=""/>
+      <defines visible="yes" title=""/>
+      <typedefs visible="yes" title=""/>
+      <enums visible="yes" title=""/>
+      <functions visible="yes" title=""/>
       <variables title=""/>
       <membergroups visible="yes"/>
     </memberdecl>
     <detaileddescription title=""/>
     <memberdef>
-      <defines title=""/>
-      <typedefs title=""/>
-      <enums title=""/>
-      <functions title=""/>
+      <defines visible="yes" title=""/>
+      <typedefs visible="yes" title=""/>
+      <enums visible="yes" title=""/>
+      <functions visible="yes" title=""/>
       <variables title=""/>
     </memberdef>
     <authorsection/>
@@ -136,7 +136,7 @@
       <dirs visible="yes" title=""/>
       <nestedgroups visible="yes" title=""/>
       <files visible="yes" title=""/>
-      <defines title=""/>
+      <defines visible="yes" title=""/>
       <typedefs title=""/>
       <enums title=""/>
       <enumvalues title=""/>
@@ -154,7 +154,7 @@
     <detaileddescription title=""/>
     <memberdef>
       <pagedocs/>
-      <defines title=""/>
+      <defines visible="yes" title=""/>
       <typedefs title=""/>
       <enums title=""/>
       <enumvalues title=""/>
