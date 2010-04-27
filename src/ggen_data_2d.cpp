@@ -1521,12 +1521,7 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 	queue.push(GGen_Point(start_x, start_y));
 
 	/* Already processed points will be held in a simple bit mask to prevent entering infinite loop */
-	bool* mask = new bool[this->length];
-
-	/* Mark all tiles in the mask as unworked */
-	for(GGen_Index i = 0; i < this->length; i++){
-		mask[i] = false;
-	}
+	vector<bool> mask(this->length, false);
 
 	/* Keep filling until we have what to fill */
 	while (!queue.empty()) {
