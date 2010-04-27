@@ -35,7 +35,6 @@ class GGen_Path{
 		typedef list<GGen_Point>::iterator Iterator;
 
 		list<GGen_Point> points;
-		bool closed;
 
 		GGen_Path();
 

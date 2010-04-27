@@ -21,7 +21,7 @@
 #include "ggen.h"
 #include "ggen_path.h"
 
-GGen_Path::GGen_Path(): closed(false) {
+GGen_Path::GGen_Path() {
 	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
 }
 
