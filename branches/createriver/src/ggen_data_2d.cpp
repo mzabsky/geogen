@@ -20,7 +20,7 @@
 #include <iostream> // for debugging purposes
 #include <list>
 #include <queue>
-#include <bitset>
+#include <set>
 #include <cstring>
 #include <cmath>
 
@@ -1722,4 +1722,253 @@ GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
 	GGen_Script_Assert(path != NULL);
 
 	return this->GetValueOnPathBase(path, false);
+}
+
+struct GGen_CreateRiver_TileInfo{
+	GGen_Coord x, y;
+
+	float waterAmount;
+	//float force;
+	//float sedimentCarriedAmount;
+
+	GGen_CreateRiver_TileInfo(GGen_Coord x, GGen_Coord y, float waterAmount, float force, float sedimentCarriedAmount):
+		x(x), 
+		y(y),
+		waterAmount(waterAmount)
+		//force(force),
+		//sedimentCarriedAmount(sedimentCarriedAmount)
+	{}
+};
+
+struct GGen_CreateRiver_PointWithHeight{
+	GGen_Coord x, y;
+	GGen_Height height;
+
+	GGen_CreateRiver_PointWithHeight(GGen_Coord x, GGen_Coord y, GGen_Height height):
+		x(x), 
+		y(y),
+		height(height)
+	{}
+
+
+};
+
+bool operator<(const GGen_CreateRiver_PointWithHeight& a, const GGen_CreateRiver_PointWithHeight& b) {
+    return a.height < b.height;
+}
+
+
+void GGen_Data_2D::CreateRiver(){
+	GGen_Coord start_x = 200;
+	GGen_Coord start_y = 200;
+	unsigned spring_amount = 1;
+
+	queue<GGen_CreateRiver_TileInfo> wavefront;
+	wavefront.push(GGen_CreateRiver_TileInfo(start_x, start_y, spring_amount, 0, 0));
+
+	vector<bool> mask(this->length, false);
+
+	float* waterMap = new float[this->length];
+
+	for(GGen_Index i = 0; i < this->length; i++){
+		waterMap[i] = 0;
+	}
+
+	while(true){
+		GGen_CreateRiver_TileInfo currentTile = wavefront.front();
+		wavefront.pop();
+
+		GGen_Height currentHeight = this->data[currentTile.x + currentTile.y * this->width];
+		GGen_Height currentHeightWithWater = currentHeight + currentTile.waterAmount;
+
+		float heightDiffRight = currentHeightWithWater - (this->data[(currentTile.x + 1) + currentTile.y * this->width] + waterMap[(currentTile.x + 1) + currentTile.y * this->width]);
+		float heightDiffLeft = currentHeightWithWater - (this->data[(currentTile.x - 1) + currentTile.y * this->width] + waterMap[(currentTile.x - 1) + currentTile.y * this->width]);
+		float heightDiffTop = currentHeightWithWater - (this->data[currentTile.x + (currentTile.y + 1) * this->width] + waterMap[currentTile.x + (currentTile.y + 1) * this->width]);
+		float heightDiffBottom = currentHeightWithWater - (this->data[currentTile.x + (currentTile.y - 1) * this->width] + waterMap[currentTile.x + (currentTile.y - 1) * this->width]);
+		
+		if(heightDiffRight < 0) heightDiffRight = 0;
+		if(heightDiffLeft < 0) heightDiffLeft = 0;
+		if(heightDiffTop < 0) heightDiffTop = 0;
+		if(heightDiffBottom < 0) heightDiffBottom = 0;
+
+		float heightDiffTotal = heightDiffRight + heightDiffLeft + heightDiffTop + heightDiffBottom;
+
+		if(heightDiffRight > 0){
+			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x + 1, currentTile.y, currentTile.waterAmount * heightDiffRight / heightDiffTotal, 0, 0));
+		
+			if(this->data[(currentTile.x + 1) + currentTile.y * this->width] != 0){
+				waterMap[(currentTile.x + 1) + currentTile.y * this->width] += wavefront.back().waterAmount;
+			}
+		}
+
+		if(heightDiffLeft > 0){
+			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x - 1, currentTile.y, currentTile.waterAmount * heightDiffLeft / heightDiffTotal, 0, 0));
+
+			if(this->data[(currentTile.x - 1) + currentTile.y * this->width] != 0){
+				waterMap[(currentTile.x + 1) - currentTile.y * this->width] += wavefront.back().waterAmount;
+			}
+		}
+
+		if(heightDiffTop > 0){
+			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x, currentTile.y - 1, currentTile.waterAmount * heightDiffTop / heightDiffTotal, 0, 0));
+
+			if(this->data[currentTile.x + (currentTile.y - 1) * this->width] != 0){
+				waterMap[currentTile.x + (currentTile.y - 1) * this->width] += wavefront.back().waterAmount;
+			}
+		}
+
+		if(heightDiffBottom > 0){
+			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x, currentTile.y + 1, currentTile.waterAmount * heightDiffTop / heightDiffTotal, 0, 0));
+
+			if(this->data[currentTile.x + (currentTile.y + 1) * this->width] != 0){
+				waterMap[currentTile.x + (currentTile.y + 1) * this->width] += wavefront.back().waterAmount;
+			}
+		}
+
+		if(wavefront.empty()){
+			// find the lowest currently reachable point
+			queue<GGen_Point> searchQueue;
+
+			searchQueue.push(GGen_Point(currentTile.x, currentTile.y));
+
+			GGen_Point currentPoint(0,0);
+			GGen_Point currentMinimum(-1,-1);
+			GGen_Height currentMinimumHeight = GGEN_MAX_HEIGHT;
+
+			while(!searchQueue.empty()){
+				currentPoint = searchQueue.front();
+				searchQueue.pop();
+
+				bool isLocalMinimum = true;
+
+				GGen_Height currentPointHeight = this->data[currentPoint.x + currentPoint.y * this->width];
+
+				if(currentPoint.x > 0 && this->data[(currentPoint.x - 1) + currentPoint.y * this->width] <= currentHeight){
+					searchQueue.push(GGen_Point(currentPoint.x - 1, currentPoint.y));
+
+					isLocalMinimum = false;
+				}
+
+				if(currentPoint.x < this->width - 1 && this->data[(currentPoint.x + 1) + currentPoint.y * this->width] <= currentHeight){
+					searchQueue.push(GGen_Point(currentPoint.x + 1, currentPoint.y));
+
+					isLocalMinimum = false;
+				}
+
+				if(currentPoint.y > 0 && this->data[currentPoint.x + (currentPoint.y - 1) * this->width] <= currentHeight){
+					searchQueue.push(GGen_Point(currentPoint.x, currentPoint.y - 1));
+
+					isLocalMinimum = false;
+				}
+
+				if(currentPoint.y < this->height - 1 && this->data[currentPoint.x + (currentPoint.y + 1) * this->width] <= currentHeight){
+					searchQueue.push(GGen_Point(currentPoint.x, currentPoint.y + 1));
+
+					isLocalMinimum = false;
+				}
+	
+				if(isLocalMinimum){
+					if(currentPointHeight < currentMinimumHeight){
+						currentMinimum = currentPoint;
+					}
+				}
+			}
+
+			//queue<GGen_Point> secondaryQueue;
+			GGen_Height secondaryQueueMinimum = GGEN_MAX_HEIGHT;
+			GGen_Height currentFloodHeight = currentHeight;
+
+			multiset<GGen_CreateRiver_PointWithHeight> outerBound;
+
+			searchQueue.push(currentMinimum);
+
+			vector<bool> mask(this->length, false);
+
+			while(true){
+				queue<GGen_Point> overflowBoundary;
+
+				while(!searchQueue.empty()){
+					GGen_Point currentPoint = searchQueue.front();
+					GGen_Height workedHeight;
+					searchQueue.pop();
+
+
+
+					if(currentPoint.x > 0 && !mask[(currentPoint.x - 1) + currentPoint.y * this->width]){
+						mask[(currentPoint.x - 1) + currentPoint.y * this->width] = true;
+						workedHeight = this->data[(currentPoint.x - 1) + currentPoint.y * this->width];
+
+						if(workedHeight > currentHeight && workedHeight < currentFloodHeight){
+							overflowBoundary.push(GGen_Point(currentPoint.x - 1, currentPoint.y));
+						}
+						else if(this->data[(currentPoint.x - 1) + currentPoint.y * this->width] > currentFloodHeight){
+							outerBound.insert(GGen_CreateRiver_PointWithHeight(currentPoint.x - 1, currentPoint.y, this->data[(currentPoint.x - 1) + currentPoint.y * this->width]));
+						}
+						else {
+							searchQueue.push(GGen_Point(currentPoint.x - 1, currentPoint.y));
+						}
+					}
+
+					if(currentPoint.x < this->width - 1 && !mask[(currentPoint.x + 1) + currentPoint.y * this->width]) {
+						mask[(currentPoint.x + 1) + currentPoint.y * this->width] = true;						
+						workedHeight = this->data[(currentPoint.x + 1) + currentPoint.y * this->width];
+
+						if(workedHeight > currentHeight && workedHeight < currentFloodHeight){
+							overflowBoundary.push(GGen_Point(currentPoint.x + 1, currentPoint.y));
+						}
+						else if(this->data[(currentPoint.x + 1) + currentPoint.y * this->width] > currentFloodHeight){
+							outerBound.insert(GGen_CreateRiver_PointWithHeight(currentPoint.x + 1, currentPoint.y, this->data[(currentPoint.x + 1) + currentPoint.y * this->width]));
+						}
+						else {
+							searchQueue.push(GGen_Point(currentPoint.x + 1, currentPoint.y));
+						}
+					}
+
+					if(currentPoint.y > 0 && !mask[currentPoint.x + (currentPoint.y - 1) * this->width]){
+						mask[currentPoint.x + (currentPoint.y - 1) * this->width] = true;
+						workedHeight = this->data[currentPoint.x + (currentPoint.y - 1) * this->width];
+
+						if(workedHeight > currentHeight && workedHeight < currentFloodHeight){
+							overflowBoundary.push(GGen_Point(currentPoint.x, currentPoint.y - 1));
+						}
+						else if(this->data[currentPoint.x + (currentPoint.y - 1) * this->width] > currentFloodHeight){
+							outerBound.insert(GGen_CreateRiver_PointWithHeight(currentPoint.x, currentPoint.y - 1, this->data[currentPoint.x + (currentPoint.y - 1) * this->width]));
+						}
+						else {
+							searchQueue.push(GGen_Point(currentPoint.x, currentPoint.y - 1));
+						}
+					}
+
+					if(currentPoint.y < this->height - 1 && !mask[currentPoint.x + (currentPoint.y + 1) * this->width]){
+						mask[currentPoint.x + (currentPoint.y + 1) * this->width] = true;
+						workedHeight = this->data[currentPoint.x + (currentPoint.y + 1) * this->width];
+
+						if(workedHeight > currentHeight && workedHeight < currentFloodHeight){
+							overflowBoundary.push(GGen_Point(currentPoint.x, currentPoint.y + 1));
+						}
+						else if(this->data[currentPoint.x + (currentPoint.y + 1) * this->width] > currentFloodHeight){
+							outerBound.insert(GGen_CreateRiver_PointWithHeight(currentPoint.x, currentPoint.y + 1, this->data[currentPoint.x + (currentPoint.y + 1) * this->width]));
+						}
+						else {
+							searchQueue.push(GGen_Point(currentPoint.x, currentPoint.y + 1));
+						}
+					}
+				}
+
+				if(!overflowBoundary.empty()){
+
+
+					break;
+				}
+
+				currentFloodHeight = outerBound.begin()->height;
+
+				for(multiset<GGen_CreateRiver_PointWithHeight>::iterator it; it->height == currentFloodHeight; it++){
+					searchQueue.push(GGen_Point(it->x, it->y));
+				}
+			}
+		}
+	}
+	
+
 }

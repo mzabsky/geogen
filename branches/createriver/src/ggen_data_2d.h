@@ -524,5 +524,7 @@ class GGen_Data_2D{
 		 * @return The minimum value found on the path.
 		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
+
+		void CreateRiver();
 };
 
