@@ -312,73 +312,60 @@ namespace GeoGen_Studio
                     fHeight *= (float)originalHeight / (float)originalWidth;
                 }
 
-                // build the model
-                //if (this.heightData != null)
-                //{
-                    // the model is one big triangle strip broken into rows by degenerate triangles
                    
-                    // the vertex array for the model
-                    Vertex[] vertices = new Vertex[this.heightData.Length ];
+                // the vertex array for the model
+                Vertex[] vertices = new Vertex[this.heightData.Length ];
 
-                    for (int y = 0; y < this.heightData.Height; y++)
+                // fill in vertex data (only position and texcoords for now)
+                for (int y = 0; y < this.heightData.Height; y++)
+                {
+                    float fy = (float)y;
+
+                    // precalculate some stuff that stays constant for whole row
+                    float yPos = offsetY + (fy + 0.5f) * fHeight;
+                    float texYPos = (fy + 0.5f) * texFHeight;
+
+                    for (int x = 0; x < this.heightData.Width; x++)
                     {
-                        float fy = (float)y;
+                        float fx = (float)x;
 
-                        // precalculate some stuff that stays constant for whole row
-                        float yPos = offsetY + (fy + 0.5f) * fHeight;
-                        float texYPos = (fy + 0.5f) * texFHeight;
+                        int vertexIndex = x + y * this.heightData.Width;
 
-                        for (int x = 0; x < this.heightData.Width; x++)
-                        {
-                            float fx = (float)x;
+                        vertices[vertexIndex].Position.X = offsetX + fx * fWidth;
+                        vertices[vertexIndex].Position.Y = yPos;
+                        vertices[vertexIndex].Position.Z = (float)((float)this.heightData[x, y] * 0.005f / 128f);
 
-                            int vertexIndex = x + y * this.heightData.Width;
+                        if (!this.config.enableTerrainUnderZero && vertices[vertexIndex].Position.Z < 0) vertices[vertexIndex].Position.Z = 0;
 
-                            vertices[vertexIndex].Position.X = offsetX + fx * fWidth;
-                            vertices[vertexIndex].Position.Y = yPos;
-                            vertices[vertexIndex].Position.Z = (float)((float)this.heightData[x, y] * 0.005f / 128f);
-
-                            if (!this.config.enableTerrainUnderZero && vertices[vertexIndex].Position.Z < 0) vertices[vertexIndex].Position.Z = 0;
-
-                            vertices[vertexIndex].TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
-                            vertices[vertexIndex].TexCoord.Y = texYPos / 100f;
-                        }
+                        vertices[vertexIndex].TexCoord.X = (fx + 0.5f) * texFWidth / 100f;
+                        vertices[vertexIndex].TexCoord.Y = texYPos / 100f;
                     }
+                }
 
-                    uint[] indices = new uint[this.heightData.Length * 6];
+                uint[] indices = new uint[this.heightData.Length * 6];
 
-                    for (int y = 0; y < this.heightData.Height - 1; y++)
+                // build index array
+                for (int y = 0; y < this.heightData.Height - 1; y++)
+                {
+                    for (int x = 0; x < this.heightData.Width - 1; x++)
                     {
-                        for (int x = 0; x < this.heightData.Width - 1; x++)
-                        {
-                            float fx = (float)x;
+                        float fx = (float)x;
 
-                            int vertexIndex = (x + y * this.heightData.Width) * 6;
-                            // upper left point of current quad
+                        int vertexIndex = (x + y * this.heightData.Width) * 6;
 
+                        // first triangle
+                        indices[vertexIndex] = (uint)(x + y * this.heightData.Width);
+                        indices[vertexIndex + 1] = (uint)(x + 1 + y * this.heightData.Width);
+                        indices[vertexIndex + 2] = (uint)(x + (y + 1) * this.heightData.Width);
 
-                            // upper right verex of current quad
-    
-
-                            // bottom left verex of current quad
-
-
-                            // bottom right verex of current quad
-
-
-                            // first triangle
-                            indices[vertexIndex] = (uint)(x + y * this.heightData.Width);
-                            indices[vertexIndex + 1] = (uint)(x + 1 + y * this.heightData.Width);
-                            indices[vertexIndex + 2] = (uint)(x + (y + 1) * this.heightData.Width);
-
-                            // second triangle                        
-                            indices[vertexIndex + 3] = (uint)(x + 1 + (y + 1) * this.heightData.Width);
-                            indices[vertexIndex + 4] = (uint)(x + (y + 1) * this.heightData.Width);
-                            indices[vertexIndex + 5] = (uint)(x + 1 + y * this.heightData.Width);
-                        }
+                        // second triangle                        
+                        indices[vertexIndex + 3] = (uint)(x + 1 + (y + 1) * this.heightData.Width);
+                        indices[vertexIndex + 4] = (uint)(x + (y + 1) * this.heightData.Width);
+                        indices[vertexIndex + 5] = (uint)(x + 1 + y * this.heightData.Width);
                     }
-                //}
+                }
 
+                // build face normals
                 Vector3[] faceNormals = new Vector3[(this.heightData.Width - 1) * (this.heightData.Height - 1) * 2];
 
                 for (int y = 0; y < this.heightData.Height - 1; y++)
@@ -390,6 +377,7 @@ namespace GeoGen_Studio
                     }
                 }
 
+                // build vertex normals
                 for (int y = 0; y < this.heightData.Height; y++)
                 {
                     for (int x = 0; x < this.heightData.Width; x++)
