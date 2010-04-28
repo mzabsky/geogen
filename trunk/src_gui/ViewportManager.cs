@@ -157,32 +157,30 @@ namespace GeoGen_Studio
 
         public void ClearData3D()
         {
-            Main main = Main.Get();
-
-            main.Output3dButtonsOff();
+            this.Output3dButtonsOff();
 
             // terminate the model calculation worker thread
             if (this.modelThread != null)
             {
                 this.modelThread.Abort();
 
-                main.HideBuildingModel();
+                this.HideBuildingModel();
             }
 
             // release the height data
             this.heightData = null;
             this.textureBase = null;
 
-            main.outputs3d.Items.Clear();
+            this.outputs3d.Items.Clear();
 
             // remove "Maps:" entries from the texture list
-            for (int i = 0; i < main.texture.Items.Count; i++)
+            for (int i = 0; i < this.texture.Items.Count; i++)
             {
-                char c = ((string)main.texture.Items[i])[0];
+                char c = ((string)this.texture.Items[i])[0];
 
-                if (((string)main.texture.Items[i])[0] == 'M')
+                if (((string)this.texture.Items[i])[0] == 'M')
                 {
-                    main.texture.Items.RemoveAt(i);
+                    this.texture.Items.RemoveAt(i);
                     
                     // the indexes got shifted by deleting the current item
                     i--;
@@ -225,25 +223,24 @@ namespace GeoGen_Studio
 
         public void RebuildTerrain(string path_override)
         {
-            Main main = Main.Get();
-            Config config = main.GetConfig();
+            Config config = this.GetConfig();
 
             GGenNet.HeightData data;
 
-            this.currentMap = main.outputs3d.SelectedIndex;
+            this.currentMap = this.outputs3d.SelectedIndex;
 
             if (this.currentMap == -1) return;
 
             if (path_override == null)
             {
-                data = (GGenNet.HeightData)main.maps[main.outputs3d.SelectedItem];
+                data = (GGenNet.HeightData)this.maps[this.outputs3d.SelectedItem];
             }
             else
             {
                 data = Main.LoadHeightmapFromImageFile(path_override);
             }
 
-            main.ShowBuildingModel();
+            this.ShowBuildingModel();
 
             System.Threading.ThreadStart starter = delegate { this.SetTerrain(data); };
             this.modelThread = new System.Threading.Thread(starter);
@@ -273,8 +270,7 @@ namespace GeoGen_Studio
 
 
         public void SetTerrain(GGenNet.HeightData original){
-            Main main = Main.Get();
-            Config config = main.GetConfig();
+            Config config = this.GetConfig();
 
             try
             {
@@ -422,7 +418,7 @@ namespace GeoGen_Studio
                 }
 
                 // release the context from the GUI thread
-                main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
+                this.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
                 {
                     viewport.Context.MakeCurrent(null);
                 }));
@@ -460,7 +456,7 @@ namespace GeoGen_Studio
 
                 try
                 {
-                    main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
+                    this.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
                     {
                         try
                         {
@@ -471,10 +467,10 @@ namespace GeoGen_Studio
                             this.ApplyTexture();
 
                             // UI stuff
-                            main.Output3dButtonsOn();
+                            this.Output3dButtonsOn();
                             this.viewport.Invalidate();
 
-                            main.HideBuildingModel();
+                            this.HideBuildingModel();
                         }
                         catch (Exception e)
                         {
@@ -490,11 +486,11 @@ namespace GeoGen_Studio
             catch (OutOfMemoryException)
             {
                 try{
-                    main.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
+                    this.Invoke(new System.Windows.Forms.MethodInvoker(delegate()
                     {
-                        main.HideBuildingModel();
+                        this.HideBuildingModel();
 
-                        main.OutOfMemory();
+                        this.OutOfMemory();
                     }));
                 }
                 catch{
@@ -560,8 +556,7 @@ namespace GeoGen_Studio
 
         public void ApplyTexture()
         {
-            Main main = Main.Get();
-            Config config = main.GetConfig();
+            Config config = this.GetConfig();
 
             if (this.textureBase == null) return;
 
@@ -571,7 +566,7 @@ namespace GeoGen_Studio
                     GL.DeleteTexture(this.textureHandle);
                 }
 
-                string selected = (string)main.texture.Items[main.texture.SelectedIndex];
+                string selected = (string)this.texture.Items[this.texture.SelectedIndex];
                      
                 string path = "";
 
@@ -580,7 +575,7 @@ namespace GeoGen_Studio
                 if (selected == "[Import External]")
                 {
                     try{
-                        if (main.FileDialog(main.importTextureDialog, ref config.lastImportedTexture))
+                        if (this.FileDialog(this.importTextureDialog, ref config.lastImportedTexture))
                         {
                             bitmap = new System.Drawing.Bitmap(config.lastImportedTexture);    
                         }
@@ -602,13 +597,13 @@ namespace GeoGen_Studio
                 else if (selected[0] == 'O')
                 {
                     path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
-                    bitmap = main.ApplyOverlay(this.textureBase, new System.Drawing.Bitmap(path));
+                    bitmap = this.ApplyOverlay(this.textureBase, new System.Drawing.Bitmap(path));
                 }
 
                 // "Map: " type texture
                 else if (selected[0] == 'M')
                 {
-                    bitmap = Main.HeightDataToBitmap((GGenNet.HeightData)main.maps[selected.Substring(5, selected.Length - 5)]);
+                    bitmap = Main.HeightDataToBitmap((GGenNet.HeightData)this.maps[selected.Substring(5, selected.Length - 5)]);
                 }
 
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
@@ -624,7 +619,7 @@ namespace GeoGen_Studio
             }
             catch (OutOfMemoryException)
             {
-                main.OutOfMemory();
+                this.OutOfMemory();
             }
 
             this.viewport.Invalidate();
@@ -632,10 +627,9 @@ namespace GeoGen_Studio
 
         public void SaveScreenshot()
         {
-            Main main = Main.Get();
-            Config config = main.GetConfig();
+            Config config = this.GetConfig();
 
-            if (main.FileDialog(main.saveOutputDialog, ref config.lastImportedTexture))
+            if (this.FileDialog(this.saveOutputDialog, ref config.lastImportedTexture))
             {
                 this.viewport.GrabScreenshot().Save(config.lastImportedTexture, System.Drawing.Imaging.ImageFormat.Png);
             }
