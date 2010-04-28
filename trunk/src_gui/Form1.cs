@@ -55,8 +55,6 @@ namespace GeoGen_Studio
 
         ScintillaNet.Scintilla editor;
         private bool needsSaving;
-        //public ProcessManager processManager;
-        public OutputManager outputManager;
         public Config config;
         private bool knownFile = false; // do we knoow path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
         private bool scrollOutput;
@@ -92,12 +90,10 @@ namespace GeoGen_Studio
 
             this.needsSaving = false;
 
-            this.InitializeGGen();
+            this.currentOverlayIndex = 0;
 
-            // initialize the managers
-            //this.processManager = new ProcessManager();
-            this.outputManager = new OutputManager();
-                     
+            this.InitializeGGen();
+         
             // load XML configuration
             Config.Load();
 
@@ -124,7 +120,7 @@ namespace GeoGen_Studio
             this.output.Width = 0;
             this.output.Height = 0;
 
-            this.outputManager.LoadOverlays();
+            this.LoadOverlays();
 
             // load the custom syntax highlighter settings
             this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
@@ -214,16 +210,6 @@ namespace GeoGen_Studio
         public Config GetConfig()
         {
             return this.config;
-        }
-
-        /*public ProcessManager GetProcessManager()
-        {
-            return this.processManager;
-        }*/
-
-        public OutputManager GetOutputManager()
-        {
-            return this.outputManager;
         }
 
         public string GetScript()
@@ -672,12 +658,12 @@ namespace GeoGen_Studio
 
         private void refreshOverlays_Click(object sender, EventArgs e)
         {
-            this.outputManager.LoadOverlays();
+            this.LoadOverlays();
         }
 
         private void toggleOverlay_Click(object sender, EventArgs e)
         {
-            this.outputManager.ToggleOverlay();
+            this.ToggleOverlay();
         }
 
         private void overlays_SelectedIndexChanged(object sender, EventArgs e)
@@ -685,12 +671,12 @@ namespace GeoGen_Studio
             if(this.overlays.SelectedIndex > 0) this.toggleOverlay.Checked = true;
             else this.toggleOverlay.Checked = false;
 
-             this.outputManager.ShowImage();
+             this.ShowImage();
         }
 
         private void outputs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.outputManager.ShowImage();
+            this.ShowImage();
         }
 
         private void console_TextChanged(object sender, EventArgs e)
@@ -764,7 +750,7 @@ namespace GeoGen_Studio
 
         private void saveOutput_Click(object sender, EventArgs e)
         {
-            this.outputManager.SaveOutput();
+            this.SaveOutput();
         }
 
         private void benchmarkToolStripButton_Click(object sender, EventArgs e)
@@ -1116,7 +1102,7 @@ namespace GeoGen_Studio
                 this.ClearData();
                 this.ClearData3D();
 
-                this.outputManager.ReloadMaps(file);
+                this.ReloadMaps(file);
             }
             else
             {
@@ -1131,18 +1117,18 @@ namespace GeoGen_Studio
         {
             if (this.FileDialog(this.importHeightmapDialog, ref this.config.lastImportedFile))
             {
-                this.outputManager.ReloadMaps(this.config.lastImportedFile);
+                this.ReloadMaps(this.config.lastImportedFile);
             }
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            this.GetOutputManager().ExportData();
+            this.ExportData();
         }
 
         private void exportToolStripButton_Click(object sender, EventArgs e)
         {
-            this.GetOutputManager().ExportData();
+            this.ExportData();
         }
 
         private void viewportToolStripMenuItem_Click(object sender, EventArgs e)

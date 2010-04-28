@@ -106,9 +106,9 @@ namespace GeoGen_Studio
         public void ReturnHandler(object sender, GGenNet.MapReturnedEventArgs e){
             Config config = Main.Get().GetConfig();
 
-            GGenNet.HeightData data = OutputManager.GetResizedHeightData(e.HeightMap, Math.Min(e.HeightMap.Width, (int) config.mapDetailLevel), Math.Min(e.HeightMap.Height, (int) config.mapDetailLevel));
-            
-            OutputManager.StretchHeightValues(ref data);
+            GGenNet.HeightData data = Main.GetResizedHeightData(e.HeightMap, Math.Min(e.HeightMap.Width, (int)config.mapDetailLevel), Math.Min(e.HeightMap.Height, (int)config.mapDetailLevel));
+
+            Main.StretchHeightValues(ref data);
 
             this.maps.Add(e.Label, data);
         }
@@ -143,7 +143,7 @@ namespace GeoGen_Studio
 
         public void ClearData()
         {
-            this.GetOutputManager().currentImportedFile = null;
+            this.currentImportedFile = null;
 
             if (this.output.Image != null)
             {
@@ -152,8 +152,8 @@ namespace GeoGen_Studio
 
                 // free the pointers (so garbage collector can do its job)
                 this.output.Image = null;
-                this.GetOutputManager().currentImage = null;
-                this.GetOutputManager().currentImageWithOverlay = null;
+                this.currentImage = null;
+                this.currentImageWithOverlay = null;
 
                 // collect the garbage (there are now possibly hundreds of megabytes of garbage laying around by now)
                 System.GC.Collect();
@@ -349,11 +349,11 @@ namespace GeoGen_Studio
                         }
 
                         // map was generated successfully
-                        GGenNet.HeightData result2 = OutputManager.GetResizedHeightData(result, Math.Min(result.Width, (int)config.mapDetailLevel), Math.Min(result.Height, (int)config.mapDetailLevel));
+                        GGenNet.HeightData result2 = Main.GetResizedHeightData(result, Math.Min(result.Width, (int)config.mapDetailLevel), Math.Min(result.Height, (int)config.mapDetailLevel));
 
                         result.Dispose();
 
-                        OutputManager.StretchHeightValues(ref result2);
+                        Main.StretchHeightValues(ref result2);
 
                         maps.Add("[Main]", result2);
 
@@ -369,7 +369,7 @@ namespace GeoGen_Studio
                                 return;
                             }
 
-                            this.GetOutputManager().ReloadMaps(null);
+                            this.ReloadMaps(null);
 
                             this.WriteToConsole("Finished after " + Math.Round((System.DateTime.Now.Ticks / 10000 - this.startTime) / 1000d, 3) + " seconds!" + Environment.NewLine);
 

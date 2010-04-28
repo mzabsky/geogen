@@ -240,7 +240,7 @@ namespace GeoGen_Studio
             }
             else
             {
-                data = OutputManager.LoadHeightmapFromImageFile(path_override);
+                data = Main.LoadHeightmapFromImageFile(path_override);
             }
 
             main.ShowBuildingModel();
@@ -285,9 +285,9 @@ namespace GeoGen_Studio
                 System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
 
                 // prepare memory space for the newly created color data
-                this.heightData = OutputManager.GetResizedHeightData(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
+                this.heightData = Main.GetResizedHeightData(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
 
-                this.textureBase = OutputManager.GetResizedHeightData(original, Math.Min(original.Width, (int)config.TextureDetailLevel), Math.Min(original.Height, (int)config.TextureDetailLevel));
+                this.textureBase = Main.GetResizedHeightData(original, Math.Min(original.Width, (int)config.TextureDetailLevel), Math.Min(original.Height, (int)config.TextureDetailLevel));
 
                 // release some memory (to prevent OutOfMemory exception)
               // original = null;
@@ -602,13 +602,13 @@ namespace GeoGen_Studio
                 else if (selected[0] == 'O')
                 {
                     path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
-                    bitmap = main.GetOutputManager().ApplyOverlay(this.textureBase, new System.Drawing.Bitmap(path));
+                    bitmap = main.ApplyOverlay(this.textureBase, new System.Drawing.Bitmap(path));
                 }
 
                 // "Map: " type texture
                 else if (selected[0] == 'M')
                 {
-                    bitmap = OutputManager.HeightDataToBitmap((GGenNet.HeightData)main.maps[selected.Substring(5, selected.Length - 5)]);
+                    bitmap = Main.HeightDataToBitmap((GGenNet.HeightData)main.maps[selected.Substring(5, selected.Length - 5)]);
                 }
 
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);

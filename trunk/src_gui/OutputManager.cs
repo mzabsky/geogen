@@ -24,7 +24,7 @@ using System.Collections;
 
 namespace GeoGen_Studio
 {
-    public class OutputManager
+    partial class Main
     {
         public System.Drawing.Image currentImage;
         public System.Drawing.Image currentImageWithOverlay;
@@ -32,11 +32,6 @@ namespace GeoGen_Studio
         public GGenNet.HeightData data;
 
         private int currentOverlayIndex;
-
-        public OutputManager()
-        {
-            currentOverlayIndex = 0;
-        }
 
         public int GetCurrentOverlayIndex()
         {
@@ -209,7 +204,7 @@ namespace GeoGen_Studio
                     // load imported or internal
                     if (this.currentImportedFile != null)
                     {
-                        this.data = OutputManager.LoadHeightmapFromImageFile(this.currentImportedFile);
+                        this.data = Main.LoadHeightmapFromImageFile(this.currentImportedFile);
                     }
                     else
                     {
@@ -477,7 +472,7 @@ namespace GeoGen_Studio
                 bitmap.UnlockBits(data);
             }
 
-            GGenNet.HeightData heights2 = OutputManager.GetResizedHeightData(heights, Math.Min(heights.Width, (int)config.mapDetailLevel), Math.Min(heights.Height, (int)config.mapDetailLevel));
+            GGenNet.HeightData heights2 = Main.GetResizedHeightData(heights, Math.Min(heights.Width, (int)config.mapDetailLevel), Math.Min(heights.Height, (int)config.mapDetailLevel));
 
             return heights2;
         }
@@ -505,10 +500,10 @@ namespace GeoGen_Studio
 
                     config.exportRescaleMode = export.subzeroMode2.Checked;
 
-                    GGenNet.HeightData toExport = OutputManager.GetResizedHeightData(main.heightData, (int)export.width.Value, (int)export.height.Value);
+                    GGenNet.HeightData toExport = Main.GetResizedHeightData(main.heightData, (int)export.width.Value, (int)export.height.Value);
 
                     // rescale the values if necessary
-                    if (ext != ".shd" && export.subzeroMode2.Checked) OutputManager.ScaleHeightValues(ref toExport, 0, short.MaxValue - 1);
+                    if (ext != ".shd" && export.subzeroMode2.Checked) Main.ScaleHeightValues(ref toExport, 0, short.MaxValue - 1);
 
                     if (ext == ".shd")
                     {
@@ -525,7 +520,7 @@ namespace GeoGen_Studio
                     }
                     else
                     {
-                        OutputManager.HeightDataToBitmap(toExport).Save(path);
+                        Main.HeightDataToBitmap(toExport).Save(path);
                     }
                 }
             }
