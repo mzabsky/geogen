@@ -501,6 +501,9 @@ namespace GeoGen_Studio
 
         public void LoadInterfaceSettings()
         {
+            this.Width = this.config.windowWidth;
+            this.Height = this.config.windowHeight;
+            this.WindowState = this.config.windowState;
             this.splitContainer.SplitterDistance = this.config.mainSplitter;
             this.sidebarSplitContainer.SplitterDistance = this.config.sidebarSplitter;
             this.SetSidebarMode(this.config.sidebarMode);
@@ -534,6 +537,9 @@ namespace GeoGen_Studio
 
         public void SaveInterfaceSettings()
         {
+            this.config.windowWidth = this.Width;
+            this.config.windowHeight = this.Height;
+            this.config.windowState = this.WindowState;
             this.config.mainSplitter = this.splitContainer.SplitterDistance;
             this.config.sidebarSplitter = this.sidebarSplitContainer.SplitterDistance;
             this.config.sidebarMode = this.sidebarMode;
