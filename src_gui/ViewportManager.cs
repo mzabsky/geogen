@@ -597,7 +597,11 @@ namespace GeoGen_Studio
                 else if (selected[0] == 'O')
                 {
                     path = config.overlayDirectory + "/" + selected.Substring(9, selected.Length - 9);
-                    bitmap = this.ApplyOverlay(this.textureBase, new System.Drawing.Bitmap(path));
+                    
+                    System.Drawing.Bitmap overlay = new System.Drawing.Bitmap(path);
+                    bitmap = this.ApplyOverlay(this.textureBase, overlay);
+
+                    overlay.Dispose();
                 }
 
                 // "Map: " type texture
