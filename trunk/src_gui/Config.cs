@@ -64,6 +64,11 @@ namespace GeoGen_Studio
         public bool whitespace;
         public int editorZooom;
 
+        public int windowWidth;
+        public int windowHeight;
+        public System.Windows.Forms.FormWindowState windowState;
+
+
         public Main.BitmapDetailLevel mapDetailLevel;
 
         private Main.ModelDetailLevel modelDetailLevel;
