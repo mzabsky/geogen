@@ -436,6 +436,8 @@ namespace GeoGen_Studio
                 }
 
                 reader.Close();
+
+                reader.Dispose();
             }
             else
             {
@@ -462,6 +464,8 @@ namespace GeoGen_Studio
                 }
 
                 bitmap.UnlockBits(data);
+
+                bitmap.Dispose();
             }
 
             GGenNet.HeightData heights2 = Main.GetResizedHeightData(heights, Math.Min(heights.Width, (int)config.mapDetailLevel), Math.Min(heights.Height, (int)config.mapDetailLevel));
