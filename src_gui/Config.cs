@@ -74,11 +74,6 @@ namespace GeoGen_Studio
         private Main.ModelDetailLevel modelDetailLevel;
         private Main.BitmapDetailLevel textureDetailLevel;
         public bool wireframe;
-        public OpenTK.Vector4 ambientLightColor;
-        public OpenTK.Vector4 directionalLightColor;
-        public float lightAzimuth;
-        public float lightElevation;
-        public bool lightEnabled;
         public bool enableTerrainUnderZero;
         public bool enable3d;
         public int defaultTextureOverlay;
@@ -245,13 +240,6 @@ namespace GeoGen_Studio
             enableTerrainUnderZero = false;
             enable3d = true;
             defaultTextureOverlay = 7;
-
-            /* 3D light */
-            ambientLightColor = new OpenTK.Vector4(0.2f, 0.2f, 0.2f, 1.0f);
-            OpenTK.Vector4 directionalLightColor = new OpenTK.Vector4(0.6f, 0.6f, 0.6f, 1.0f);
-            lightAzimuth = 0.0f;
-            lightElevation = 0.5f;
-            lightEnabled = true;
             backgroundColor3d = Main.ViewportBackground.Black;
         }
 
