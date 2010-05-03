@@ -221,8 +221,10 @@ namespace GeoGen_Studio
                 {
                     string overlayPath = config.OverlayDirectory + "/" + (string)this.overlays.Items[this.overlays.SelectedIndex];
 
-                    this.currentImageWithOverlay = this.ApplyOverlay(this.data, new System.Drawing.Bitmap(overlayPath));
+                    System.Drawing.Bitmap overlay = new System.Drawing.Bitmap(overlayPath);
+                    this.currentImageWithOverlay = this.ApplyOverlay(this.data, overlay);
 
+                    overlay.Dispose();
                 }
 
                 // decide which image (gray or overlay) to display
