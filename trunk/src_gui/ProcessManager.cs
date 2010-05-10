@@ -61,15 +61,18 @@ namespace GeoGen_Studio
 
         public void InitializeGGen()
         {
-            mode = Mode.Idle;
+            this.mode = Mode.Idle;
 
-            maps = new Hashtable();
+            this.maps = new Hashtable();
 
-            ggen = new GGenNet();
+            this.ggen = new GGenNet();
 
-            ggen.MapReturned += ReturnHandler;
-            ggen.ProgressChanged += ProgressHandler;
-            ggen.MessageThrown += PrintHandler;
+            this.ggen.MapReturned += ReturnHandler;
+            this.ggen.ProgressChanged += ProgressHandler;
+            this.ggen.MessageThrown += PrintHandler;
+
+            this.ggen.MaximumMapHeight = ggen.MaximumMapWidth = (int)this.config.maxMapSize;
+            this.ggen.MaximumMapCount = (int)this.config.maxMapCount;
 
             this.oldValues = null;
         }
