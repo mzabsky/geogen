@@ -49,6 +49,8 @@ namespace GeoGen_Studio
         public string lastExportedScreenshot;
         public uint[] parameters;
         public uint seed;
+        public uint maxMapSize;
+        public uint maxMapCount;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -227,6 +229,8 @@ namespace GeoGen_Studio
             geoGenWorkingDirectory = "../temp/studio_maps/temp";
             scriptTempFile = "../../studio_temp.nut";
             mainMapOutputFile = "../main.shd";
+            maxMapSize = 6000;
+            maxMapCount = 15;
 
             /* Output Viewer settings */
             overlayDirectory = "../overlays";

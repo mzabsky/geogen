@@ -14,12 +14,11 @@ TOFIX:
 	CORE:
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
-		- objects that are not manually relased iin the script won't be deleted at all (bug most likely caused by SqPlus,
+		- objects that are not manually relased in the script won't be deleted at all (bug most likely caused by SqPlus,
 		  getting rid of it should fix it, the only other solution might be manual instance tracking)
-		- only 32bpp color depth is supported for overlays
+		- only 32bpp RGBA color depth is supported for overlays
 	STUDIO: 
-		- limit worked map size and count to prevent OutOfMemoryExceptions
 		- heightmap/texture import silently fails for overly big images (=> warning box should be shown)		
 		- crash if another map is generated while a model is being built for previous one
-		- only 32bpp color depth is supported for overlays and imported heightmaps
+		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)

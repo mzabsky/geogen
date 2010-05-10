@@ -91,11 +91,11 @@ namespace GeoGen_Studio
             this.needsSaving = false;
 
             this.currentOverlayIndex = 0;
-
-            this.InitializeGGen();
          
             // load XML configuration
             Config.Load();
+
+            this.InitializeGGen();
 
             // make sure the OpenGL control is shown (so the OpenGL context is created)
             this.SelectTab(Tabs.Output3D);
