@@ -22,3 +22,4 @@ TOFIX:
 		- crash if another map is generated while a model is being built for previous one
 		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)
+		- weird crash after Settings->OK if a 3D map is already displayed
