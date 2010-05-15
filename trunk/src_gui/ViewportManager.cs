@@ -62,6 +62,13 @@ namespace GeoGen_Studio
             White = 255
         }
 
+        public enum BlackCompensationMode
+        {
+            NoCompensation,
+            DescreaseContract,
+            CropBlack
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         struct Vertex
         { // mimic InterleavedArrayFormat.T2fN3fV3f
@@ -610,6 +617,8 @@ namespace GeoGen_Studio
                     bitmap = Main.HeightDataToBitmap((GGenNet.HeightData)this.maps[selected.Substring(5, selected.Length - 5)]);
                 }
 
+                if(config.EnableBlackCompensation) Main.ApplyBlackCompensation(ref bitmap);
+
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
                 System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -637,6 +646,37 @@ namespace GeoGen_Studio
             {
                 this.viewport.GrabScreenshot().Save(config.lastImportedTexture, System.Drawing.Imaging.ImageFormat.Png);
             }
+        }
+
+        private static void ApplyBlackCompensation(ref System.Drawing.Bitmap bitmap)
+        {
+            // create a blank bitmap and prepare it for byte accessa
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+            // prepare memory space for the newly created color data
+            byte[] bytes = new byte[data.Stride * bitmap.Height];
+
+            // get a pointer to the to first line (=first pixel)
+            IntPtr ptr = data.Scan0;
+            
+            // copy the data for direct access
+            System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, data.Stride * bitmap.Height);
+
+            // apply the compensation
+            for (int i = 0; i < bytes.Length; i += 4)
+            {
+                bytes[i + 0] = bytes[i + 0] > (byte)64 ? bytes[i + 0] : (byte)64;
+                bytes[i + 1] = bytes[i + 1] > (byte)64 ? bytes[i + 1] : (byte)64;
+                bytes[i + 2] = bytes[i + 2] > (byte)64 ? bytes[i + 2] : (byte)64;
+                bytes[i + 3] = 255;
+            }
+
+            // copy the data into the bitmap
+            System.Runtime.InteropServices.Marshal.Copy(bytes, 0, ptr, data.Stride * bitmap.Height);
+
+            // unlock the bits
+            bitmap.UnlockBits(data);
         }
     }
 }
