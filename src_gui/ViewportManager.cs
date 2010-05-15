@@ -62,11 +62,10 @@ namespace GeoGen_Studio
             White = 255
         }
 
-        public enum BlackCompensationMode
+        public enum TextureScalingAlgorithm
         {
-            NoCompensation,
-            DescreaseContract,
-            CropBlack
+            NearestNeighbor,
+            LinearInterpolation
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -136,7 +135,8 @@ namespace GeoGen_Studio
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, this.viewport.Width / (float)this.viewport.Height, 0.1f, 3000.0f);
             //Matrix4 projection = Matrix4.CreateOrthographic(120,  (float)this.viewport.Height / (float)this.viewport.Width * 120f, 0.1f, 3000.0f);
 
-            
+
+
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
             GL.Enable(EnableCap.DepthTest);
@@ -156,6 +156,8 @@ namespace GeoGen_Studio
             GL.EnableClientState(EnableCap.VertexArray);
             GL.EnableClientState(EnableCap.TextureCoordArray);
             GL.EnableClientState(EnableCap.NormalArray);
+
+
 
             GL.ClearColor((float) config.BackgroundColor3d / 255, (float) config.BackgroundColor3d / 255, (float) config.BackgroundColor3d / 255, 1.0f);
 
@@ -545,8 +547,9 @@ namespace GeoGen_Studio
             GL.NormalPointer(NormalPointerType.Float, 8 * sizeof(float), (IntPtr)(2 * sizeof(float)));
             GL.VertexPointer(3, VertexPointerType.Float, 8 * sizeof(float), (IntPtr)(5 * sizeof(float)));
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            int scalingMode = (int)(config.TextureScalingAlgorithm == TextureScalingAlgorithm.LinearInterpolation ? TextureMagFilter.Linear : TextureMagFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, scalingMode);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Clamp);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapR, (int)TextureWrapMode.Clamp);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
