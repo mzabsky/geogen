@@ -25,7 +25,7 @@ namespace GeoGen_Studio
     [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
     [System.Xml.Serialization.XmlInclude(typeof(Main.ModelDetailLevel))]
     [System.Xml.Serialization.XmlInclude(typeof(Main.ViewportBackground))]
-    [System.Xml.Serialization.XmlInclude(typeof(Main.BlackCompensationMode))]
+    [System.Xml.Serialization.XmlInclude(typeof(Main.TextureScalingAlgorithm))]
     [System.Xml.Serialization.XmlInclude(typeof(OpenTK.Vector4))]
     public class Config
     {
@@ -82,6 +82,7 @@ namespace GeoGen_Studio
         public int defaultTextureOverlay;
         public Main.ViewportBackground backgroundColor3d;
         public bool enableBlackCompensation;
+        public Main.TextureScalingAlgorithm textureScalingAlgorithm;
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -174,6 +175,13 @@ namespace GeoGen_Studio
             set { enableBlackCompensation = value; }
         }
 
+        [CategoryAttribute("3D View"), DescriptionAttribute("Algorithm used to upscale textures. NearestNeigbor is more accurate, but LinearInterpolation is nicer."), DefaultValue(Main.TextureScalingAlgorithm.LinearInterpolation)]
+        public Main.TextureScalingAlgorithm TextureScalingAlgorithm
+        {
+            get { return textureScalingAlgorithm; }
+            set { textureScalingAlgorithm = value; }
+        }
+
         public Config()
 	    {
             this.LoadDefaults();
@@ -255,6 +263,7 @@ namespace GeoGen_Studio
             defaultTextureOverlay = 7;
             backgroundColor3d = Main.ViewportBackground.Black;
             enableBlackCompensation = true;
+            textureScalingAlgorithm = Main.TextureScalingAlgorithm.LinearInterpolation;
         }
 
         public void Save()
