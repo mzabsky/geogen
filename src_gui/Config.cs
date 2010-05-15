@@ -25,6 +25,7 @@ namespace GeoGen_Studio
     [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
     [System.Xml.Serialization.XmlInclude(typeof(Main.ModelDetailLevel))]
     [System.Xml.Serialization.XmlInclude(typeof(Main.ViewportBackground))]
+    [System.Xml.Serialization.XmlInclude(typeof(Main.BlackCompensationMode))]
     [System.Xml.Serialization.XmlInclude(typeof(OpenTK.Vector4))]
     public class Config
     {
@@ -80,6 +81,7 @@ namespace GeoGen_Studio
         public bool enable3d;
         public int defaultTextureOverlay;
         public Main.ViewportBackground backgroundColor3d;
+        public bool enableBlackCompensation;
 
         [CategoryAttribute("Paths"), DescriptionAttribute("Path to the template file used when creating new file."), DefaultValue("./../examples/template.nut")]
         public string TemplateFile
@@ -165,6 +167,13 @@ namespace GeoGen_Studio
             set { backgroundColor3d = value; }
         }
 
+        [CategoryAttribute("3D View"), DescriptionAttribute("Enable/disable black compensation to prevent model shading being washed away by too dark colors."), DefaultValue(true)]
+        public bool EnableBlackCompensation
+        {
+            get { return enableBlackCompensation; }
+            set { enableBlackCompensation = value; }
+        }
+
         public Config()
 	    {
             this.LoadDefaults();
@@ -245,6 +254,7 @@ namespace GeoGen_Studio
             enable3d = true;
             defaultTextureOverlay = 7;
             backgroundColor3d = Main.ViewportBackground.Black;
+            enableBlackCompensation = true;
         }
 
         public void Save()
