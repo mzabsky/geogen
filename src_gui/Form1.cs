@@ -70,7 +70,7 @@ namespace GeoGen_Studio
         List<string> statuses = new List<string>();
         public string editorBackup = "";
 
-        public Loading loader = null;
+        public Loading loading = null;
 
         // MSVS generated stuff
         public Main()
@@ -82,9 +82,9 @@ namespace GeoGen_Studio
         private void Main_Load(object sender, EventArgs e)
         {
             // show the splash screen
-            Loading loading = new Loading();
-            loading.Show();
-            loading.Refresh();
+            this.loading = new Loading();
+            this.loading.Show();
+            this.loading.Refresh();
 
             this.CreateEditor();
 
@@ -147,8 +147,8 @@ namespace GeoGen_Studio
 
             // show this form and close the splash screen
             this.Opacity = 1.0;
-            //this.loader.Invoke(new MethodInvoker(delegate { this.loader.FadeOut(); }));
-            loading.FadeOut();
+            
+            this.loading.FadeOut();
         }
 
         // this app's GetInstance()
