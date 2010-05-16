@@ -46,7 +46,7 @@ namespace GeoGen_Studio
 
                 Application.Run(main);
 
-
+                // show the exception info dialog only in release mode
 #if DEBUG 
                 System.IO.File.WriteAllText("../emergencyBackup.nut", main.editorBackup);    
 #else
@@ -62,7 +62,12 @@ namespace GeoGen_Studio
                     // also write the exception to disk
                     System.IO.File.WriteAllText("../exceptionInfo.txt", e.ToString());
 
-                    // show the exception info dialog only in release mode
+                    // hide the loading dialog (if it is displayed)
+                    try{
+                        main.loading.Hide();
+                    }
+                    catch {}
+
 
                     Crash dialog = new Crash();
 
