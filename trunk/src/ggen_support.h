@@ -66,7 +66,7 @@ typedef uint32 GGen_Distance; /* Distance between two coordinates. Must hold 2 *
 #define GGEN_MIN_HEIGHT -32767
 #define GGEN_MAX_HEIGHT 32767
 
-#define GGEN_UNRELATIVE_CAP 255
+#define GGEN_UNRELATIVE_CAP GGEN_MAX_HEIGHT
 
 #define MAX(a,b) (a > b? a: b) 
 #define MIN(a,b) (a < b? a: b) 

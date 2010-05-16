@@ -132,7 +132,7 @@ class GGen_Data_2D{
 		 * @param addend Map to be added. This map will be scaled to match the original map.
 		 * @param mask Map used to mask the added value.
 		 * @param relative Toggles relative mode.
-		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
+		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 32767 means 100%.
 		 **/	
 		void AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative);
 
@@ -141,7 +141,7 @@ class GGen_Data_2D{
 		 * @param value Value to be added to values in the map.
 		 * @param mask Map used to mask the added value. This map will be scaled to match the current map.
 		 * @param relative Toggles relative mode.
-		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
+		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 32767 means 100%.
 		 **/		
 		void AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 		
@@ -207,7 +207,7 @@ class GGen_Data_2D{
 		 * @param value The fill value.
 		 * @param mask Map used to mask the filled value. This map will be scaled to match the current map.
 		 * @param relative Toggles relative mode.
-		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
+		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 32767 means 100%.
 		 **/
 		void FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 
@@ -265,7 +265,7 @@ class GGen_Data_2D{
 		 * @param victim The second map. This map will be scaled to match the original map.
 		 * @param mask The mask used to determine value percentage from each map used. This map will NOT be scaled to match the original map.
 		 * @param relative Toggles relative mode.
-		 * @note 0 in the mask means the second map value will be used. In relative mode, maximum value (255 otherwise) found in the mask then means the current map value will be used. Other mask values will mean a combination of both map values (the higher the mask value, the more of the current array value will be used).
+		 * @note 0 in the mask means the second map value will be used. In relative mode, maximum value (32767 otherwise) found in the mask then means the current map value will be used. Other mask values will mean a combination of both map values (the higher the mask value, the more of the current array value will be used).
 		 **/
 		void Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative);
 
@@ -414,7 +414,7 @@ class GGen_Data_2D{
 		/** 
 		 * Replaces each value with 1 with a probability defined by its value, all other values will be replaced with 1.
 		 * @param relative Toggles relative mode.
-		 * @note Value 0 means 0% probability to create a 1. In relative mode, maximum value (255 otherwise) found in the map then means 100% probability to create a 1.
+		 * @note Value 0 means 0% probability to create a 1. In relative mode, maximum value (32767 otherwise) found in the map then means 100% probability to create a 1.
 		 **/
 		void Scatter(bool relative);
 
@@ -423,7 +423,7 @@ class GGen_Data_2D{
 		 * @param profile The transformation profile.
 		 * @param relative Toggles relative mode.
 		 * @note Only values higher than zero are affected. 
-		 * @note If relative is false, then maximum value corresponds to the rightmost coordinate (0 always corresponds to 0), else the values are used in range 0-255 only.
+		 * @note If relative is false, then maximum value corresponds to the rightmost coordinate (0 always corresponds to 0), else the values are used in range 0-32767 only.
 		 * @note The input profile will be internally smoothed to prevent sharp steps on the transformed terrain.
 		 **/
 		void TransformValues(GGen_Data_1D* profile, bool relative);

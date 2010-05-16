@@ -114,7 +114,7 @@ class GGen_Data_1D{
 		 * @param value Value to be added to values in the array.
 		 * @param mask Array used to mask the added value. This array will be scaled to match the current array.
 		 * @param relative Toggles relative mode.
-		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
+		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 32767 means 100%.
 		 **/		
 		void AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative);
 
@@ -123,7 +123,7 @@ class GGen_Data_1D{
 		 * @param addend Array to be added. This array will be scaled to match the original array.
 		 * @param mask Array used to mask the added value.
 		 * @param relative Toggles relative mode.
-		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
+		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 32767 means 100%.
 		 **/	
 		void AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative);
 
