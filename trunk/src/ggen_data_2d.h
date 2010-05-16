@@ -203,6 +203,15 @@ class GGen_Data_2D{
 		void Fill(GGen_Height value);
 
 		/** 
+		 * Sets all values in the map. The percentage of value changed in each tile will depend on corresponding values in the mask.
+		 * @param value The fill value.
+		 * @param mask Map used to mask the filled value. This map will be scaled to match the current map.
+		 * @param relative Toggles relative mode.
+		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 255 means 100%.
+		 **/
+		void FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
+
+		/** 
 		 * Clamps all values to range.
 		 * @param min New minimum value.
 		 * @param max New maximum value.

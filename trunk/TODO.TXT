@@ -3,8 +3,8 @@ TODO:
 		- GCC support + makefile
 		- finish the 2D::CreateRiver function (underway in a separate branch)
 		- get rid of SqPlus (or at least replace it with better binder)
-		- add 2D::FillMasked
 		- add 2D::StrokePath
+		- add 2D::Turbulence
 	STUDIO:
 		- replace ScintillaNET with AvalonEdit (underway in a separate branch)
 		- add overlay and map previews to overlay and map selection boxes
