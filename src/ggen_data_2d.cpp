@@ -238,6 +238,24 @@ void GGen_Data_2D::Fill(GGen_Height value)
 	}
 }
 
+void GGen_Data_2D::FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative)
+{
+	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
+
+	if(relative){
+		max = mask->Max();
+	}
+
+	if(max == 0) return;
+
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++)	{
+			GGen_Height maskValue = mask->GetValueInterpolated(x, y, this->width, this->height);
+			this->data[x + y * width] = maskValue * value + (max - maskValue) * this->data[x + y * width];
+		}
+	}	
+}
+
 void GGen_Data_2D::Add(GGen_Height value)
 {
 	for (GGen_Index i = 0; i < this->length; i++) {
