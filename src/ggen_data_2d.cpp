@@ -436,6 +436,8 @@ void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relati
 	if(relative){
 		max = mask->Max();
 	}
+
+	if(max == 0) return;
 	
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
