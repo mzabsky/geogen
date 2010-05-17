@@ -67,6 +67,7 @@ GGen_Data_2D* GGen_Data_2D::Clone()
 
 GGen_Data_2D::~GGen_Data_2D()
 {
+	GGen_Data_2D::num_instances--;
 	delete [] this->data;
 }
 
@@ -829,7 +830,7 @@ void GGen_Data_2D::VoronoiNoise(GGen_Size cell_size, uint8 points_per_cell, GGen
 		}
 	}
 	
-	/* We will first collect the points from sorrounding cells of each pixel and then work them individually.
+	/* We will first collect the points from surrounding cells of each pixel and then work them individually.
 	 * Since we know the number of points in each cell, we can hold only one pointer in this array - to the first point
 	 * in the cell (so there will be only up to 9 pointers in the array). */
 	Point* points_waiting[9];
