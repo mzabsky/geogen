@@ -69,8 +69,8 @@ function Generate(){
 	noise.ScaleValuesTo(GGEN_MIN_HEIGHT / 3, GGEN_MAX_HEIGHT / 3);
 	
 	// make the noise be more significant in the higher mountainous part of the map than on the coast
-	local mask = GGen_Data_2D(3, 2, 40);
-	mask.SetValueInRect(2, 0, 2, 1, 154);
+	local mask = GGen_Data_2D(3, 2, 3 * GGEN_MAX_HEIGHT / 20);
+	mask.SetValueInRect(2, 0, 2, 1, 3 * GGEN_MAX_HEIGHT / 5);
 	
 	base.AddMapMasked(noise, mask, false);
 	

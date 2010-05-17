@@ -85,8 +85,8 @@ function Generate(){
 
 	local mask = base.Clone();
 	mask.Clamp(200, GGEN_MAX_HEIGHT);	
-	mask.ScaleValuesTo(0, 255);
-	mask.Clamp(60, 255);
+	mask.ScaleValuesTo(0, GGEN_MAX_HEIGHT);
+	mask.Clamp(GGEN_MAX_HEIGHT / 5, GGEN_MAX_HEIGHT);
 
 	GGen_IncreaseProgress();
 
