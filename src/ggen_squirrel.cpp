@@ -382,6 +382,8 @@ int16* GGen_Squirrel::Generate(){
 
 		memcpy(return_data, data->data, sizeof(int16) * output_width * output_height);
 
+		delete data;
+
 		return return_data;
 		
     } 
