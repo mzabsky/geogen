@@ -536,11 +536,5 @@ class GGen_Data_2D{
 		 * @return The minimum value found on the path.
 		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
-
-
-
-		static void NumInstances(){
-			cout << GGen_Data_2D::num_instances<<endl;
-		}
 };
 
