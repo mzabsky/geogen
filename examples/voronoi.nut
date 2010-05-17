@@ -45,7 +45,7 @@ function Generate(){
 
 	mask.ReturnAs("mask");
 	
-	mask.ScaleValuesTo(0, 200);
+	mask.ScaleValuesTo(0, 4 * GGEN_MAX_HEIGHT / 5);
 
 	copy.Smooth(width / 10);
 	

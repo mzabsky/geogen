@@ -93,7 +93,7 @@ function Generate(){
 	
 	noise.ScaleValuesTo(-1400, 1400);
 	
-	valley.ScaleValuesTo(20, 255);
+	valley.ScaleValuesTo(2 * GGEN_MAX_HEIGHT / 25, GGEN_MAX_HEIGHT);
 
 	base.AddMapMasked(noise, valley, false);
 
