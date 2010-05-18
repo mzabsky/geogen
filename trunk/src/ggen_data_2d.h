@@ -177,7 +177,7 @@ class GGen_Data_2D{
 		 * Scales size of the map to new size.
 		 * @param new_width Target array width.
 		 * @param new_height Target array height.
-		 * @param scale_values Scale the valuess correspondingly as well?
+		 * @param scale_values Scale the values correspondingly as well?
 		 * @note If the new size is larger than the original, the new values will be calculated using the linear interpolation algorithm. Otherwise, the new values will be chosen using the nearest neighbor algorithm.
 		 **/
 		void ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale_values);
@@ -273,7 +273,7 @@ class GGen_Data_2D{
 		void Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative);
 
 		/**
-		 * Replaces all occurences of a value with a different value.
+		 * Replaces all occurrences of a value with a different value.
 		 * @param needle The replaced value.
 		 * @param replace The new value.
 		 **/
@@ -376,7 +376,7 @@ class GGen_Data_2D{
 		/**
 		 * Blurs the map in one direction. Uses linear smoothing algorithm.
 		 * @param radius The smoothing kernel radius.
-		 * @param direction Directon in which is the smoothing done.
+		 * @param direction Direction in which is the smoothing done.
 		 */
 		void SmoothDirection(GGen_Distance radius, GGen_Direction direction);
 		
@@ -451,7 +451,7 @@ class GGen_Data_2D{
 		 * @param a21 Matrix element (2,1).
 		 * @param a22 Matrix element (2,2).
 		 * @pre The matrix must be invertible (a11 * a22 - a12 * a21 != 0).
-		 * @param preserve_size If set to true, the result will be cropped/expandeds to match its original boundaries.
+		 * @param preserve_size If set to true, the result will be cropped/expanded to match its original boundaries.
 		 * @note Do not use this function to scale the map, it uses a low-quality nearest neighbor interpolation.
 		 **/
 		void Transform(double a11, double a12, double a21, double a22, bool preserve_size);
@@ -486,7 +486,7 @@ class GGen_Data_2D{
 
 		/** 
 		 * Fills a polygon defined by its outer path.
-		 * @param path Sequence of points defining the polygon's shape. The polygon is enclosed by connecting the fisrt and last points of the sequence.
+		 * @param path Sequence of points defining the polygon's shape. The polygon is enclosed by connecting the first and last points of the sequence.
 		 * @param value Value to be filled with.
 		 * @note Filled areas are determined by odd-even rule.
 		 **/
@@ -497,12 +497,12 @@ class GGen_Data_2D{
 		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only);	
 
 		/** 
-		 * Fills uniform area matching a simple arithmethic conddition (all tiles matching the condition reachable from the starting 
+		 * Fills uniform area matching a simple arithmetic condition (all tiles matching the condition reachable from the starting 
 		 * point through tiles matching the condition are filled with value).
 		 * @param start_x X coordinate of the starting point.
 		 * @param start_y Y coordinate of the starting point.
 		 * @param fill_value The value the matching area is filled with.
-		 * @param mode Artithmethic operator to be used in the condition.
+		 * @param mode Arithmetic operator to be used in the condition.
 		 * @param treshold Value to be compared against.
 		 * @note If the starting point doesn't match the condition, no tiles are changed.
 		 * @note The filling is 4-directional (the spread is only along the main two axes).
@@ -510,11 +510,11 @@ class GGen_Data_2D{
 		void FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold);
 
 		/** 
-		 * Replaces all values in an uniform area matching a simple arithmethic conddition with 1 (all tiles matching the condition reachable from the starting 
+		 * Replaces all values in an uniform area matching a simple arithmetic condition with 1 (all tiles matching the condition reachable from the starting 
 		 * point through tiles matching the condition are filled with 1). All other areas are filled with 0.
 		 * @param start_x X coordinate of the starting point.
 		 * @param start_y Y coordinate of the starting point.
-		 * @param mode Artithmethic operator to be used in the condition.
+		 * @param mode Arithmetic operator to be used in the condition.
 		 * @param treshold Value to be compared against.
 		 * @note If the starting point doesn't match the condition, all tiles will be filed with 0.
 		 * @note The filling is 4-directional (the spread is only along the main two axes).
