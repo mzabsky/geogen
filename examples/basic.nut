@@ -19,12 +19,12 @@ function GetInfo(info_type){
 }
 
 function Generate(){
-	local width = GGen_GetParam("width");
-	local height = GGen_GetParam("height");
-	local water_distribution = GGen_GetParam("water_distribution");
-	local smoothness = 1 << GGen_GetParam("smoothness");
-	local feature_size = GGen_GetParam("feature_size");
-	local water_level = GGen_GetParam("water_level") / 100.;
+	local width = GGen_GetArgValue("width");
+	local height = GGen_GetArgValue("height");
+	local water_distribution = GGen_GetArgValue("water_distribution");
+	local smoothness = 1 << GGen_GetArgValue("smoothness");
+	local feature_size = GGen_GetArgValue("feature_size");
+	local water_level = GGen_GetArgValue("water_level") / 100.;
 
 	GGen_InitProgress(2);
 

@@ -13,9 +13,9 @@ function GetInfo(info_type){
 }
 
 function Generate(){
-	local width = GGen_GetParam("width");
-	local height = GGen_GetParam("height");
-	local smoothness = 1 << GGen_GetParam("smoothness");
+	local width = GGen_GetArgValue("width");
+	local height = GGen_GetArgValue("height");
+	local smoothness = 1 << GGen_GetArgValue("smoothness");
 
 	local flipped = false;
 	

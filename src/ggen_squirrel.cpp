@@ -81,7 +81,7 @@ GGen_Squirrel::GGen_Squirrel(){
 	RegisterGlobal(&GGen_AddIntArg, _SC("GGen_AddIntArg"));
 	RegisterGlobal(&GGen_AddBoolArg, _SC("GGen_AddBoolArg"));
 	RegisterGlobal(&GGen_AddEnumArg, _SC("GGen_AddEnumArg"));
-	RegisterGlobal(&GGen_GetParam, _SC("GGen_GetParam"));
+	RegisterGlobal(&GGen_GetArgValue, _SC("GGen_GetArgValue"));
 
 	/* Progress */
 	RegisterGlobal(&GGen::InitProgress, _SC("GGen_InitProgress"));

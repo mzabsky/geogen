@@ -28,7 +28,7 @@
     	GGEN_LESS_THAN_OR_EQUAL_TO
     	GGEN_GREATER_THAN_OR_EQUAL_TO
 
-        GGen_GetParam
+        GGen_GetArgValue
         GGen_InitProgress
         GGen_SetProgress
         GGen_IncreaseProgress
@@ -214,7 +214,7 @@
         GGEN_INVALID_HEIGHT
       </Keywords>
       <Keywords List="3" Inherit="False">
-        GGen_GetParam
+        GGen_GetArgValue
         GGen_InitProgress
         GGen_SetProgress
         GGen_IncreaseProgress

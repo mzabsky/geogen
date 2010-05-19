@@ -17,11 +17,11 @@ function GetInfo(info_type){
 }
 
 function Generate(){
-	local width = GGen_GetParam("width");
-	local height = GGen_GetParam("height");
-	local smoothness = 1 << GGen_GetParam("smoothness");
-	local archipelago_size = GGen_GetParam("archipelago_size");
-	local island_size = GGen_GetParam("island_size");
+	local width = GGen_GetArgValue("width");
+	local height = GGen_GetArgValue("height");
+	local smoothness = 1 << GGen_GetArgValue("smoothness");
+	local archipelago_size = GGen_GetArgValue("archipelago_size");
+	local island_size = GGen_GetArgValue("island_size");
 
 	// create a base archipelago layout
 	local base = GGen_Data_2D(width, height, 0);

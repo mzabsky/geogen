@@ -15,8 +15,8 @@ function GetInfo(info_type){
 function Generate(){
 	GGen_InitProgress(21);
 
-	local width = GGen_GetParam("width");
-	local height = GGen_GetParam("height");
+	local width = GGen_GetArgValue("width");
+	local height = GGen_GetArgValue("height");
 
 	local value_multiplier = 10;
 

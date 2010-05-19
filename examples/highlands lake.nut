@@ -16,11 +16,11 @@ function GetInfo(info_type){
 
 function Generate(){
 	// load map parameters
-	local width = GGen_GetParam("width");
-	local height = GGen_GetParam("height");
-	local lake_size = GGen_GetParam("lake_size");
-	local smoothness = 1 << GGen_GetParam("smoothness");
-	local feature_size = GGen_GetParam("feature_size");
+	local width = GGen_GetArgValue("width");
+	local height = GGen_GetArgValue("height");
+	local lake_size = GGen_GetArgValue("lake_size");
+	local smoothness = 1 << GGen_GetArgValue("smoothness");
+	local feature_size = GGen_GetArgValue("feature_size");
 
 	// create a radial gradient with height 1 in the center and height 1200 on the outer rim
 	local base = GGen_Data_2D(width, height, 0);

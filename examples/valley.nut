@@ -16,11 +16,11 @@ function GetInfo(info_type){
 }
 
 function Generate(){
-	local width = GGen_GetParam("width");
-	local height = GGen_GetParam("height");
-	local valley_width = GGen_GetParam("valley_width");
-	local smoothness = 1 << GGen_GetParam("smoothness");
-	local feature_size = GGen_GetParam("feature_size");
+	local width = GGen_GetArgValue("width");
+	local height = GGen_GetArgValue("height");
+	local valley_width = GGen_GetArgValue("valley_width");
+	local smoothness = 1 << GGen_GetArgValue("smoothness");
+	local feature_size = GGen_GetArgValue("feature_size");
 
 	GGen_InitProgress(9);
 
