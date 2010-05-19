@@ -13,9 +13,9 @@ function GetInfo(info_type){
 }
 
 function Generate(){
-	local size = GGen_GetParam("size");
-	local smoothness = 1 << GGen_GetParam("smoothness");
-	local feature_size = GGen_GetParam("feature_size");
+	local size = GGen_GetArgValue("size");
+	local smoothness = 1 << GGen_GetArgValue("smoothness");
+	local feature_size = GGen_GetArgValue("feature_size");
 	
 	GGen_InitProgress(9);
 	

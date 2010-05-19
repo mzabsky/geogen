@@ -186,8 +186,8 @@
       </p>
       <pre>function Generate(){
 	// load values of the arguments
-	local width = GGen_GetParam("width");
-	local height = GGen_GetParam("height");
+	local width = GGen_GetArgValue("width");
+	local height = GGen_GetArgValue("height");
 	
 	// Create a new 2D data array with given width and height filled with value 0
 	return GGen_Data_2D(width, height, 0);

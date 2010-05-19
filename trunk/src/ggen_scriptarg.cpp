@@ -124,7 +124,7 @@ void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GG
 }
 
 
-int GGen_GetParam(const GGen_String& name){
+int GGen_GetArgValue(const GGen_String& name){
 	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
 
 	for(unsigned i = 0; i < GGen::GetInstance()->args.size(); i++){

@@ -82,4 +82,4 @@ void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GG
 * @param name Name of the argument.
 * @return Value of the argument. Always integral - boolean values are returned as 0/1 and enumeration values as index of the chosen option.
 **/
-int GGen_GetParam(const GGen_String& name);
+int GGen_GetArgValue(const GGen_String& name);
