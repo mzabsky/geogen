@@ -33,10 +33,41 @@ class GGen_Point{
 		GGen_CoordOffset x;
 		GGen_CoordOffset y;
 
+		/** 
+		 * Creates a new point object.
+		 * @param x X coordinate of the point.
+		 * @param y Y coordinate of the point.
+		 **/
 		GGen_Point(GGen_CoordOffset x, GGen_CoordOffset y);
+
+		/** 
+		 * Returns X coordinate of the point.
+		 * @return X coordinate of the point.
+		 **/
 		GGen_CoordOffset GetX();
+		
+		/** 
+		 * Returns Y coordinate of the point.
+		 * @return Y coordinate of the point.
+		 **/
 		GGen_CoordOffset GetY();
+
+		/** 
+		 * Sets X coordinate of the point.
+		 * @param x X coordinate of the point.
+		 **/
 		void SetX(GGen_CoordOffset x);
+		
+		/** 
+		 * Sets Y coordinate of the point.
+		 * @param y Y coordinate of the point.
+		 **/
 		void SetY(GGen_CoordOffset y);
+
+		/** 
+		 * Sets coordinates of the point.
+		 * @param x X coordinate of the point.
+		 * @param y Y coordinate of the point.
+		 **/
 		void SetCoords(GGen_CoordOffset x, GGen_CoordOffset y);
 };
