@@ -94,10 +94,6 @@ public:
 	static GGen_Size GetMaxWidth();
 	static GGen_Size GetMaxHeight();
 	static uint16 GetMaxMapCount();
-
-	static void InitProgress(uint32 max_progress);
-	static void SetProgress(uint32 current_progress);
-	static void IncreaseProgress();
 	
 	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label) = 0;
 	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label) = 0;
@@ -105,3 +101,7 @@ public:
 
 	void SetSeed(unsigned seed);
 };
+
+void GGen_InitProgress(uint32 max_progress);
+void GGen_SetProgress(uint32 current_progress);
+void GGen_IncreaseProgress();
