@@ -83,7 +83,7 @@ typedef uint32 GGen_TotalSize; /* Total count of elements in the data array, mus
  * Coordinate into a data array. Leftmost/topmost element has coordinate 0.
  * @internal Must not allow negative values. Should be the same as GGen_Size.
  **/
-typedef uint32 GGen_Coord;
+typedef uint16 GGen_Coord;
 
 /**
  * Relative coordinate offset. Positive values mean offset to left/bottom, negative values offset to right/top.
