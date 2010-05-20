@@ -136,45 +136,44 @@ uint16 GGen::GetMaxMapCount(){
 	return GGen::GetInstance()->max_map_count;
 }
 
+void GGen::SetSeed(unsigned seed){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
-void GGen::InitProgress(uint32 max_progress){
+	srand(seed);
+}
+
+void GGen_InitProgress(uint32 max_progress){
 	// show a script assert if we are in wrong script mode, ordinary assert otherwise
 	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
 	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
 
 	GGen::GetInstance()->max_progress = max_progress;
 	GGen::GetInstance()->current_progress = 0;
-	
+
 	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(0, max_progress);
 }
 
-void GGen::SetProgress(uint32 current_progress){
+void GGen_SetProgress(uint32 current_progress){
 	// show a script assert if we are in wrong script mode, ordinary assert otherwise
 	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
 	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
 
 	GGen_Script_Assert(current_progress <= GGen::GetInstance()->max_progress);
-	
+
 	GGen::GetInstance()->current_progress = current_progress;
 
 	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(current_progress, GGen::GetInstance()->max_progress);
 }
 
-void GGen::IncreaseProgress(){
+void GGen_IncreaseProgress(){
 	// show a script assert if we are in wrong script mode, ordinary assert otherwise
 	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
 	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
 
 	GGen_Script_Assert(GGen::GetInstance()->current_progress + 1 < GGen::GetInstance()->max_progress);
-	
+
 	GGen::GetInstance()->current_progress++;
-	
+
 	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(GGen::GetInstance()->current_progress, GGen::GetInstance()->max_progress);
-}
-
-void GGen::SetSeed(unsigned seed){
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_GENERATING);
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
-
-	srand(seed);
 }

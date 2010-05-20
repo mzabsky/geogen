@@ -84,9 +84,9 @@ GGen_Squirrel::GGen_Squirrel(){
 	RegisterGlobal(&GGen_GetArgValue, _SC("GGen_GetArgValue"));
 
 	/* Progress */
-	RegisterGlobal(&GGen::InitProgress, _SC("GGen_InitProgress"));
-	RegisterGlobal(&GGen::SetProgress, _SC("GGen_SetProgress"));
-	RegisterGlobal(&GGen::IncreaseProgress, _SC("GGen_IncreaseProgress"));
+	RegisterGlobal(&GGen_InitProgress, _SC("GGen_InitProgress"));
+	RegisterGlobal(&GGen_SetProgress, _SC("GGen_SetProgress"));
+	RegisterGlobal(&GGen_IncreaseProgress, _SC("GGen_IncreaseProgress"));
 
 	/* Constraint getters */
 	RegisterGlobal(&GGen::GetMaxHeight, _SC("GGen_GetMaxHeight"));
