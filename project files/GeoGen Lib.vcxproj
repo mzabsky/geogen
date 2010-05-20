@@ -86,6 +86,7 @@
     <ClCompile Include="..\src\ggen_data_2d.cpp" />
     <ClCompile Include="..\src\ggen_path.cpp" />
     <ClCompile Include="..\src\ggen_point.cpp" />
+    <ClCompile Include="..\src\ggen_progress.cpp" />
     <ClCompile Include="..\src\ggen_scriptarg.cpp" />
     <ClCompile Include="..\src\ggen_squirrel.cpp" />
   </ItemGroup>
@@ -97,6 +98,7 @@
     <ClInclude Include="..\src\ggen_path.h" />
     <ClInclude Include="..\src\ggen_point.h" />
     <ClInclude Include="..\src\ggen_presets.h" />
+    <ClInclude Include="..\src\ggen_progress.h" />
     <ClInclude Include="..\src\ggen_scriptarg.h" />
     <ClInclude Include="..\src\ggen_support.h" />
     <ClInclude Include="..\src\ggen_squirrel.h" />

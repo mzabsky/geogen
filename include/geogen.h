@@ -129,10 +129,6 @@ public:
 	static unsigned short GetMaxHeight();
 	static unsigned short GetMaxMapCount();
 
-	static void InitProgress(unsigned max_progress);
-	static void SetProgress(unsigned current_progress);
-	static void IncreaseProgress();
-
 	void SetSeed(unsigned seed);
 };
 

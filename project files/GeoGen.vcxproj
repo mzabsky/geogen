@@ -191,6 +191,7 @@
     <ClCompile Include="..\src\ggen_data_2d.cpp" />
     <ClCompile Include="..\src\ggen_path.cpp" />
     <ClCompile Include="..\src\ggen_point.cpp" />
+    <ClCompile Include="..\src\ggen_progress.cpp" />
     <ClCompile Include="..\src\ggen_scriptarg.cpp" />
     <ClCompile Include="..\src\ggen_squirrel.cpp" />
     <ClCompile Include="..\external\ArgDesc\ArgDesc.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\src\ggen_path.h" />
     <ClInclude Include="..\src\ggen_point.h" />
     <ClInclude Include="..\src\ggen_presets.h" />
+    <ClInclude Include="..\src\ggen_progress.h" />
     <ClInclude Include="..\src\ggen_scriptarg.h" />
     <ClInclude Include="..\src\ggen_support.h" />
     <ClInclude Include="..\src\ggen_squirrel.h" />
@@ -224,7 +226,7 @@
     <None Include="..\examples\valley.nut" />
     <None Include="..\examples\voronoi.nut" />
     <None Include="..\documentation.html" />
-    <None Include="..\src\TODO.txt" />
+    <None Include="..\TODO.TXT" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
