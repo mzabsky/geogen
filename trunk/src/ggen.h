@@ -17,6 +17,27 @@
 
 */
 
+/**
+ * @mainpage GeoGen - API Reference
+ * <p>This reference contains listings of all GeoGen objects, functions and constants available from within of map scripts.</p>
+ * <p>In addition to these functions, you can use several native Squirrel functions and whole <a href="http://squirrel-lang.org/doc/sqstdlib2.html#d0e1519" target="blank">sqstdmath library</a></p>.
+ * <hr>
+ * <h2>Contents</h2>
+ * <ul>
+ *	<li><a href="globals_func.html">Global functions</a></li>
+ *	<li><a href="globals_enum.html">Enumerations</a></li>
+ *	<li><a href="globals_type.html">Typedefs</a></li>
+ *	<li><a href="globals_defs.html">Constants</a></li>
+ *	<li><a href="annotated.html">Objects</a><ul>
+ *		<li>GGen_Data_1D</li>
+ *		<li>GGen_Data_2D</li>
+ *		<li>GGen_Amplitudes</li>
+ *		<li>GGen_Point</li>
+ *		<li>GGen_Path</li>
+ *	</ul></li>
+ * </ul>
+ **/
+
 #pragma once
 
 #include "ggen_support.h"
