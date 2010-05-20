@@ -24,7 +24,7 @@
 #include "ggen_data_1d.h"
 #include "ggen.h"
 
-GGen_Data_1D::GGen_Data_1D(GGen_Coord length, GGen_Height value)
+GGen_Data_1D::GGen_Data_1D(GGen_Size length, GGen_Height value)
 {
 	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
 
@@ -133,7 +133,7 @@ void GGen_Data_1D::AddArray(GGen_Data_1D* addend)
 void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset)
 {
 	/* Walk through the items where the array and the addend with ofset intersect */
-	for (GGen_Coord i = MAX(0, offset); i < MIN(this->length, offset + addend->length); i++) {
+	for (GGen_Coord i = (GGen_Coord) MAX(0, offset); i < (GGen_Coord) MIN(this->length, offset + addend->length); i++) {
 		this->data[i] += addend->data[i - offset];
 	}
 }
