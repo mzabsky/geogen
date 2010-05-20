@@ -17,6 +17,11 @@
 
 */
 
+/** 
+ * @file ggen.h Core file containing the GGen base class.
+ **/
+
+
 /**
  * @mainpage GeoGen - API Reference
  * <p>This reference contains listings of all GeoGen objects, functions and constants available from within of map scripts.</p>
@@ -101,7 +106,3 @@ public:
 
 	void SetSeed(unsigned seed);
 };
-
-void GGen_InitProgress(uint32 max_progress);
-void GGen_SetProgress(uint32 current_progress);
-void GGen_IncreaseProgress();
