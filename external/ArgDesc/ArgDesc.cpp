@@ -22,15 +22,25 @@
 #include <string>
 #include <wchar.h>
 
+#ifdef GGEN_DLL
+	#include "../../include/geogen.h"
+#elif defined(GGEN_LIB)
+	#include "../../include/geogen.h"
+#else
+	#include "../../src/ggen.h"
+	#include "../../src/ggen_squirrel.h"
+#endif
+
+
 #pragma warning(disable:4996)
 #define _CRT_SECURE_NO_WARNINGS
 
 class ArgDesc{
     struct Argument{
-        wchar_t short_name;
-        std::basic_string<wchar_t> long_name;
-        std::basic_string<wchar_t> desc;
-        std::basic_string<wchar_t> param_name;
+        GGen_Char short_name;
+        GGen_String long_name;
+        GGen_String desc;
+        GGen_String param_name;
         char type;
         void* var;        
     };
@@ -48,13 +58,14 @@ class ArgDesc{
     };
 
 
-    std::vector<std::basic_string<wchar_t> > args_in;
+    std::vector<GGen_String> args_in;
     std::vector<Argument> args_def;
-    std::vector<std::basic_string<wchar_t> >* pos_args;
+    std::vector<GGen_String>* pos_args;
 
 public:
 
     ArgDesc(int argc, char** argv){
+#ifdef GGEN_UNICODE		
 		// convert the input parameters to unicode
 		wchar_t** wargv = new wchar_t*[argc];
 
@@ -66,17 +77,21 @@ public:
 			wargv[i][strlen(argv[i])] = '\0';
 		}
 
-		// convert the inwieldy array into vector
-        args_in = std::vector<std::basic_string<wchar_t> >(wargv, wargv + argc);
+		// convert the unwieldy array into vector
+        args_in = std::vector<GGen_String>(wargv, wargv + argc);
 
 		for(int i = 0; i < argc; i++){
 			delete [] wargv[i];
 		}
 
 		delete [] wargv;
+#else
+		// convert the unwieldy array into vector
+		args_in = std::vector<GGen_String>(argv, argv + argc);
+#endif
     }
 
-    void AddBoolArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, bool* var){
+    void AddBoolArg(char short_name, GGen_String long_name, GGen_String desc, bool* var){
         Argument p;
         p.short_name = short_name;
         p.long_name = long_name;
@@ -87,7 +102,7 @@ public:
         args_def.push_back(p);
     }
 
-    void AddStringArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, std::basic_string<wchar_t> param_name, std::basic_string<wchar_t>* var){
+    void AddStringArg(char short_name, GGen_String long_name, GGen_String desc, GGen_String param_name, GGen_String* var){
         Argument p;
         p.short_name = short_name;
         p.long_name = long_name;
@@ -99,7 +114,7 @@ public:
         args_def.push_back(p);
     }
 
-    void AddIntArg(char short_name, std::basic_string<wchar_t> long_name, std::basic_string<wchar_t> desc, std::basic_string<wchar_t> param_name, int* var){
+    void AddIntArg(char short_name, GGen_String long_name, GGen_String desc, GGen_String param_name, int* var){
         Argument p;
         p.short_name = short_name;
         p.long_name = long_name;
@@ -111,7 +126,7 @@ public:
         args_def.push_back(p);
     }
     
-    void SetPosArgsVector(std::vector<std::basic_string<wchar_t> >& pos_args){
+    void SetPosArgsVector(std::vector<GGen_String>& pos_args){
 		this->pos_args = &pos_args;
     }
 
@@ -123,7 +138,7 @@ public:
         for(unsigned i = 1; i < args_in.size(); i++){
             //expecting integer
             if(next_action == E_INT){
-				*(int*) next_var = (int) wcstol(args_in[i].c_str(), NULL, 10);
+				*(int*) next_var = (int) GGen_Strtol(args_in[i].c_str(), NULL, 10);
 
                 next_action = UNKNOWN;
                 continue;
@@ -131,7 +146,7 @@ public:
 
             //expecting string
             else if(next_action == E_STR){
-                *(std::basic_string<wchar_t>*) next_var = args_in[i];
+                *(GGen_String*) next_var = args_in[i];
 
                 next_action = UNKNOWN;
                 continue;
@@ -139,7 +154,7 @@ public:
             
             // arg named by its long name
             else if(args_in[i][0] == '-' && args_in[i][1] == '-'){
-                std::basic_string<wchar_t> name = args_in[i].substr(2, args_in[i].length() - 2);
+                GGen_String name = args_in[i].substr(2, args_in[i].length() - 2);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
                     if(name == args_def[j].long_name){
@@ -159,7 +174,7 @@ public:
             }
             // arg named by its short name
             else if(args_in[i][0] == '-'){
-                wchar_t name = args_in[i].substr(1 + offset, args_in[i].length() - 1 - offset).at(0);
+                GGen_Char name = args_in[i].substr(1 + offset, args_in[i].length() - 1 - offset).at(0);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
                     if(name == args_def[j].short_name){
@@ -198,15 +213,15 @@ public:
     
     void PrintHelpString(){
 		for(unsigned i = 0; i < args_def.size(); i++){
-			std::wcout << "       -" << args_def[i].short_name;
-			if(args_def[i].type != T_BOOL) std::wcout << " " << args_def[i].param_name;
+			std::GGen_Cout << "       -" << args_def[i].short_name;
+			if(args_def[i].type != T_BOOL) GGen_Cout << " " << args_def[i].param_name;
 			
-			std::wcout << ", --" << args_def[i].long_name;
-			if(args_def[i].type != T_BOOL) std::wcout << " " << args_def[i].param_name;
+			std::GGen_Cout << ", --" << args_def[i].long_name;
+			if(args_def[i].type != T_BOOL) GGen_Cout << " " << args_def[i].param_name;
 			
-			std::wcout << std::endl;
+			std::GGen_Cout << std::endl;
 			
-			std::wcout << "	      " << args_def[i].desc << std::endl << std::endl;
+			std::GGen_Cout << "	      " << args_def[i].desc << std::endl << std::endl;
 		}
     }
 };
