@@ -59,12 +59,6 @@ using namespace std;
 #include "../external/EasyBMP/EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
-// there is no point in supporting non-unicode mode in this interface, the non-unicode support exists 
-// purely to ensure compatibility with all types of apps
-#ifndef GGEN_UNICODE
-	GGen Console interface requires UNICODE mode!!!
-#endif
-
 struct OutputFormat{
 	GGen_String suffix;
 	string name;
@@ -154,17 +148,23 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 
 	BMP overlay;
 	if(((_params.overlay_as_copy && enable_overlay) || (!_params.overlay_as_copy))  && _params.overlay_file.length() > 0){
+#ifdef GGEN_UNICODE
 		char* buf = new char[_params.overlay_file.length() + 1];
 		wcstombs(buf, _params.overlay_file.c_str(), _params.overlay_file.length());
 		buf[_params.overlay_file.length()] = '\0';
-		
+#else
+		const char* buf = _params.overlay_file.c_str();
+#endif
+
 		if(!overlay.ReadFromFile(buf)){
 			cout << "Could  not open overlay file!\n" << flush;
 			return false;
 		}
 
+#ifdef GGEN_UNICODE
 		delete [] buf;
-		
+#endif		
+
 		if(overlay.TellWidth() == 256) format = &_formats[NUM_FORMATS];
 		else if(overlay.TellWidth() == 511) format = &_formats[NUM_FORMATS + 1];
 		else{
@@ -247,10 +247,14 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 
 		unsigned len = path_out.length();
 
+#ifdef GGEN_UNICODE
 		char* path_out_cstr = new char[len + 1];
 
 		wcstombs(path_out_cstr, path_out.c_str(), len);
 		path_out_cstr[len] = '\0';
+#else
+		const char* path_out_cstr = path_out.c_str();
+#endif
 
 
 		if(format->suffix == GGen_Const_String("bmp")){
@@ -329,7 +333,9 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 		}		
 	}
 
+#ifdef GGEN_UNICODE
 	delete [] path_out_cstr;
+#endif
 
 	if(name != NULL) cout << "Executing...\n" << flush;
 
@@ -410,7 +416,7 @@ int main(int argc,char * argv[]){
 	// no input file -> ask the user
 	if(_params.input_file == GGen_Const_String("")){
 		cout << "Please enter path to a script file: ";
-		wcin >> _params.input_file;
+		GGen_Cin >> _params.input_file;
 	}
 
 	// let the window manager user know where the output goes
@@ -432,17 +438,23 @@ int main(int argc,char * argv[]){
 
 	unsigned len_in = _params.input_file.length();
 
+#ifdef GGEN_UNICODE
 	char* path_in_cstr = new char[len_in + 1];
 
 	wcstombs(path_in_cstr, _params.input_file.c_str(), len_in);
 	path_in_cstr[len_in] = '\0';
+#else
+	const char* path_in_cstr = _params.input_file.c_str();
+#endif
 
 	// load the script from file
 	ifstream in_stream;
 	//in_stream.imbue(utf8_locale);
 	in_stream.open(path_in_cstr);
 	
+#ifdef GGEN_UNICODE
 	delete [] path_in_cstr;
+#endif
 
 	if(!in_stream.is_open()){
 		cout << "Could not open the script file!\n" << flush;
@@ -461,13 +473,16 @@ int main(int argc,char * argv[]){
 	in_stream.close();
 
 	
-
+#ifdef GGEN_UNICODE
 	// convert the script  to unicode
-	GGen_Char* unicodeScript = new GGen_Char[strlen(strTotal.c_str()) + 1];
+	GGen_Char* preparedScript = new GGen_Char[strlen(strTotal.c_str()) + 1];
 
-	mbstowcs(unicodeScript, strTotal.c_str(), strlen(strTotal.c_str()));
+	mbstowcs(preparedScript, strTotal.c_str(), strlen(strTotal.c_str()));
 
-	unicodeScript[strlen(strTotal.c_str())] = GGen_Const_String('\0');
+	preparedScript[strlen(strTotal.c_str())] = GGen_Const_String('\0');
+#else
+	const GGen_Char* preparedScript = strTotal.c_str();
+#endif
 
 	// create the primary GeoGen object (use Squirrel script interface)
 	GGen_Squirrel* ggen = new GGen_Squirrel();
@@ -478,7 +493,7 @@ int main(int argc,char * argv[]){
 	ggen->SetProgressCallback(ProgressHandler);
 
 	// pump the script into the engine and compile it
-	if(!ggen->SetScript(GGen_String(unicodeScript))){
+	if(!ggen->SetScript(GGen_String(preparedScript))){
 		cout << "Compilation failed!\n" << flush;
 		delete ggen;
 		if(_params.stupid_mode) system("pause");
@@ -591,7 +606,7 @@ int main(int argc,char * argv[]){
 			GGen_ScriptArg* current_arg = &(*script_args)[i];
 
 			if(i < _params.script_args.size() && _params.script_args[i] != GGen_Const_String("r") && _params.script_args[i] != GGen_Const_String("d")){
-				current_arg->SetValue((int)wcstol(_params.script_args[i].c_str(), NULL, 10));
+				current_arg->SetValue((int) GGen_Strtol(_params.script_args[i].c_str(), NULL, 10));
 			}
 
 			// should the value be generated randomly?
@@ -633,6 +648,8 @@ int main(int argc,char * argv[]){
 	cout << "Finished after " << seconds << " seconds!\n" << flush;
 
 	if(_params.stupid_mode) system("pause");
+
+	//GGen_Data_2D::NumInstances();
 
 	return 0;
 }
