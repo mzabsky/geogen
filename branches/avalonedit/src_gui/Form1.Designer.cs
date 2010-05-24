@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.TabPage codeTab;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            this.editorHost = new System.Windows.Forms.Integration.ElementHost();
             this.importTextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,9 +155,11 @@
             this.importHeightmapDialog = new System.Windows.Forms.OpenFileDialog();
             this.exportHeightmapDialog = new System.Windows.Forms.SaveFileDialog();
             codeTab = new System.Windows.Forms.TabPage();
+            codeTab.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -170,6 +173,7 @@
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sidebarSplitContainer)).BeginInit();
             this.sidebarSplitContainer.Panel1.SuspendLayout();
             this.sidebarSplitContainer.Panel2.SuspendLayout();
             this.sidebarSplitContainer.SuspendLayout();
@@ -177,6 +181,7 @@
             // 
             // codeTab
             // 
+            codeTab.Controls.Add(this.editorHost);
             codeTab.Location = new System.Drawing.Point(4, 22);
             codeTab.Name = "codeTab";
             codeTab.Padding = new System.Windows.Forms.Padding(3);
@@ -184,6 +189,16 @@
             codeTab.TabIndex = 0;
             codeTab.Text = "Code";
             codeTab.UseVisualStyleBackColor = true;
+            // 
+            // editorHost
+            // 
+            this.editorHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editorHost.Location = new System.Drawing.Point(3, 3);
+            this.editorHost.Name = "editorHost";
+            this.editorHost.Size = new System.Drawing.Size(795, 400);
+            this.editorHost.TabIndex = 0;
+            this.editorHost.Text = "elementHost1";
+            this.editorHost.Child = null;
             // 
             // importTextureDialog
             // 
@@ -1429,6 +1444,7 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
+            codeTab.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -1437,6 +1453,7 @@
             this.statusStrip.PerformLayout();
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             this.tabs.ResumeLayout(false);
             this.outputTab.ResumeLayout(false);
@@ -1456,6 +1473,7 @@
             this.sidebarSplitContainer.Panel1.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sidebarSplitContainer)).EndInit();
             this.sidebarSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1588,6 +1606,7 @@
         public System.Windows.Forms.OpenFileDialog importTextureDialog;
         public System.Windows.Forms.ToolStripProgressBar progress;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Integration.ElementHost editorHost;
     }
 }
 

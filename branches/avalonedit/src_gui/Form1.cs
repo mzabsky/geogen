@@ -53,7 +53,7 @@ namespace GeoGen_Studio
             GoTo3DOutput = 2
         };
 
-        ScintillaNet.Scintilla editor;
+        ICSharpCode.AvalonEdit.TextEditor editor;
         private bool needsSaving;
         public Config config;
         private bool knownFile = false; // do we knoow path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
@@ -111,8 +111,8 @@ namespace GeoGen_Studio
             this.parameters.SelectedObject = parameters.Item;
 
             // ScintillaNet doesn't support the simple TextChanged ecent (not it like the visual event list)
-            this.editor.TextInserted += editor_TextInserted;
-            this.editor.TextDeleted += editor_TextInserted;
+            //this.editor.TextInserted += editor_TextInserted;
+            //this.editor.TextDeleted += editor_TextInserted;
 
             
 
@@ -123,7 +123,7 @@ namespace GeoGen_Studio
             this.LoadOverlays();
 
             // load the custom syntax highlighter settings
-            this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
+            //this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
 
             // open last opened file if requested
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
@@ -175,9 +175,26 @@ namespace GeoGen_Studio
         }
 
         public void CreateEditor(){
-            this.editor = new ScintillaNet.Scintilla();
+            this.editor = new ICSharpCode.AvalonEdit.TextEditor();
 
-            this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
+            ICSharpCode.AvalonEdit.Highlighting.Xshd.XshdSyntaxDefinition xshd = new ICSharpCode.AvalonEdit.Highlighting.Xshd.XshdSyntaxDefinition();
+            //XshdSyntaxDefinition ;
+            using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader("../config/squirrel.xshd"))
+            {
+                try
+                {
+                    this.editor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(reader, ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
+                }
+                catch (System.IO.FileNotFoundException)
+                {
+                    this.WriteToConsole("Could not read syntax highlighter definitions file.");
+                }
+            }
+
+            //this.editor.SyntaxHighlighting = new ICSharpCode.AvalonEdit.Highlighting.
+
+
+            /*this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Caret.BlinkRate = 500;
             this.editor.ConfigurationManager.CustomLocation = "../config/scintilla.xml";
             this.editor.ConfigurationManager.IsBuiltInEnabled = false;
@@ -200,11 +217,13 @@ namespace GeoGen_Studio
             this.editor.Styles.IndentGuide.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Styles.LastPredefined.BackColor = System.Drawing.SystemColors.Window;
             this.editor.Styles.Max.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.TabIndex = 0;
+            this.editor.TabIndex = 0;*/
 
             //this.codeTab.Controls.Add(this.editor);
 
-            this.tabs.TabPages[0].Controls.Add(this.editor);
+            //this.tabs.TabPages[0].Controls.Add(this.editor);
+
+            this.editorHost.Child = this.editor;
         }
 
         public Config GetConfig()
@@ -515,7 +534,7 @@ namespace GeoGen_Studio
             this.wordWrapToolStripMenuItem.Checked = this.config.wordWrap;
             this.lineBreaksToolStripMenuItem.Checked = this.config.lineBreaks;
             this.whiteSpaceToolStripMenuItem.Checked = this.config.whitespace;
-            this.editor.Zoom = this.config.editorZooom;
+            //this.editor.Zoom = this.config.editorZooom;
             this.wireframe.Checked = this.config.wireframe;
             this.heightScale.Value = this.config.heightScale;
             this.importHeightmapDialog.FileName = this.config.lastImportedFile;
@@ -551,7 +570,7 @@ namespace GeoGen_Studio
             this.config.wordWrap = this.wordWrapToolStripMenuItem.Checked;
             this.config.lineBreaks = this.lineBreaksToolStripMenuItem.Checked;
             this.config.whitespace = this.whiteSpaceToolStripMenuItem.Checked;
-            this.config.editorZooom = this.editor.Zoom;
+            //this.config.editorZooom = this.editor.Zoom;
             this.config.wireframe = this.wireframe.Checked;
             this.config.heightScale = this.heightScale.Value;
 
@@ -578,7 +597,7 @@ namespace GeoGen_Studio
             }
 
             // creating new file should not be undoable
-            this.editor.UndoRedo.EmptyUndoBuffer();
+            //this.editor.UndoRedo.EmptyUndoBuffer();
 
             // make sure the file won't overwrite the previously edited file when hitting Ctrl + S
             this.knownFile = false;
@@ -597,7 +616,7 @@ namespace GeoGen_Studio
                 this.knownFile = true;
                 this.needsSaving = false;
 
-                this.editor.UndoRedo.EmptyUndoBuffer();
+                //this.editor.UndoRedo.EmptyUndoBuffer();
             }
         }
 
@@ -640,14 +659,14 @@ namespace GeoGen_Studio
             e.Cancel = !this.Quit();
         }
 
-        private void editor_TextInserted(object sender, ScintillaNet.TextModifiedEventArgs e)
+        /*private void editor_TextInserted(object sender, ScintillaNet.TextModifiedEventArgs e)
         {
             this.ScheduleSyntaxCheck();
 
             this.needsSaving = true;
 
             if(this.editor.Text.Length > 0) this.editorBackup = this.editor.Text;
-        }
+        }*/
 
         private void executeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -766,32 +785,32 @@ namespace GeoGen_Studio
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.UndoRedo.Undo();
+            //this.editor.UndoRedo.Undo();
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.UndoRedo.Redo();
+            //this.editor.UndoRedo.Redo();
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Clipboard.Cut();
+            //this.editor.Clipboard.Cut();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Clipboard.Copy();
+            //this.editor.Clipboard.Copy();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Clipboard.Paste();
+            //this.editor.Clipboard.Paste();
         }
 
         private void searchAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.FindReplace.ShowFind();
+            //this.editor.FindReplace.ShowFind();
         }
 
         private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -860,32 +879,32 @@ namespace GeoGen_Studio
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.LineWrap.Mode = this.wordWrapToolStripMenuItem.Checked ? ScintillaNet.WrapMode.Word : ScintillaNet.WrapMode.None;
+            //this.editor.LineWrap.Mode = this.wordWrapToolStripMenuItem.Checked ? ScintillaNet.WrapMode.Word : ScintillaNet.WrapMode.None;
         }
 
         private void increaseFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Zoom++;
+            //this.editor.Zoom++;
         }
 
         private void decreaseFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Zoom--;
+            //this.editor.Zoom--;
         }
 
         private void resetFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Zoom = 0;
+            //this.editor.Zoom = 0;
         }
 
         private void whiteSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Whitespace.Mode = this.whiteSpaceToolStripMenuItem.Checked ? ScintillaNet.WhitespaceMode.VisibleAlways : ScintillaNet.WhitespaceMode.Invisible;
+           // this.editor.Whitespace.Mode = this.whiteSpaceToolStripMenuItem.Checked ? ScintillaNet.WhitespaceMode.VisibleAlways : ScintillaNet.WhitespaceMode.Invisible;
         }
 
         private void lineBreaksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editor.EndOfLine.IsVisible = this.lineBreaksToolStripMenuItem.Checked;
+           // editor.EndOfLine.IsVisible = this.lineBreaksToolStripMenuItem.Checked;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -912,12 +931,12 @@ namespace GeoGen_Studio
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Printing.Print(true);
+            //this.editor.Printing.Print(true);
         }
 
         private void previewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.editor.Printing.PrintPreview();
+            //this.editor.Printing.PrintPreview();
         }
 
         private void Form1_MouseWheel(object sender, MouseEventArgs e)
