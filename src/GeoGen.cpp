@@ -245,9 +245,9 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 		}
 	}
 
+#ifdef GGEN_UNICODE
 		unsigned len = path_out.length();
 
-#ifdef GGEN_UNICODE
 		char* path_out_cstr = new char[len + 1];
 
 		wcstombs(path_out_cstr, path_out.c_str(), len);
@@ -431,14 +431,10 @@ int main(int argc,char * argv[]){
 			break;
 		}
 	}	
-	
-	
-	//locale utf8_locale(std::locale(), new gel::stdx::utf8cvt<true>);
-	//wcout.imbue(utf8_locale);
-
-	unsigned len_in = _params.input_file.length();
 
 #ifdef GGEN_UNICODE
+	unsigned len_in = _params.input_file.length();
+
 	char* path_in_cstr = new char[len_in + 1];
 
 	wcstombs(path_in_cstr, _params.input_file.c_str(), len_in);
