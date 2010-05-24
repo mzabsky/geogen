@@ -191,8 +191,49 @@ namespace GeoGen_Studio
                 }
             }
 
+            editor.TextChanged += delegate(object s, System.EventArgs args)
+            {
+                this.needsSaving = true;
+            };
+
+            editor.TextArea.TextEntered += delegate(object s, System.Windows.Input.TextCompositionEventArgs args)
+            {
+                this.needsSaving = true;
+                
+                //System.Windows.Input.TextCompositionEventArgs args = (System.Windows.Input.TextCompositionEventArgs)args_o;
+
+                if (args.Text == ".")
+                {
+                    // Open code completion after the user has pressed dot:
+                    /*completionWindow = new CompletionWindow(textEditor.TextArea);
+                    IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                    data.Add(new MyCompletionData("Item1"));
+                    data.Add(new MyCompletionData("Item2"));
+                    data.Add(new MyCompletionData("Item3"));
+                    completionWindow.Show();
+                    completionWindow.Closed += delegate
+                    {
+                        completionWindow = null;
+                    };*/
+                }
+            };
+
+            editor.TextArea.TextEntering += delegate(object s, System.Windows.Input.TextCompositionEventArgs args)
+            {
+                /*if (args.Text.Length > 0 && completionWindow != null)
+                {
+                    if (!char.IsLetterOrDigit(args.Text[0]))
+                    {
+                        // Whenever a non-letter is typed while the completion window is open,
+                        // insert the currently selected element.
+                        completionWindow.CompletionList.RequestInsertion(args);
+                    }
+                }*/
+            };
+
             this.editor.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
-            this.editor.FontSize = 13;
+            this.editor.WordWrap = false;
+            this.editor.ShowLineNumbers = true;
 
             //this.editor.SyntaxHighlighting = new ICSharpCode.AvalonEdit.Highlighting.
 
@@ -882,7 +923,7 @@ namespace GeoGen_Studio
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.LineWrap.Mode = this.wordWrapToolStripMenuItem.Checked ? ScintillaNet.WrapMode.Word : ScintillaNet.WrapMode.None;
+            this.editor.WordWrap = this.wordWrapToolStripMenuItem.Checked;
         }
 
         private void increaseFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
