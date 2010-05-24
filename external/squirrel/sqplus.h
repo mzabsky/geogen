@@ -60,7 +60,7 @@
     #define SCSNPRINTF _snprintf
     #define SCPUTS puts
   #else
-    #define SCSNPRINTF _snwprintf
+    #define SCSNPRINTF vswprintf
     #define SCPUTS _putws
   #endif
   #if defined(_MSC_VER)  
@@ -71,7 +71,7 @@
   #endif    
 #else
   #ifdef SQUNICODE
-    #define SCSNPRINTF _snwprintf
+    #define SCSNPRINTF vswprintf
     #define SCPUTS _putws
     #include <stdio.h> // for snprintf
   #else
