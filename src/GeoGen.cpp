@@ -330,6 +330,8 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 				}
 				if(y < height - 1) out << endl;
 			}
+
+			out.close();
 		}		
 	}
 
