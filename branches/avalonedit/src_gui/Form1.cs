@@ -191,6 +191,9 @@ namespace GeoGen_Studio
                 }
             }
 
+            this.editor.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
+            this.editor.FontSize = 13;
+
             //this.editor.SyntaxHighlighting = new ICSharpCode.AvalonEdit.Highlighting.
 
 
@@ -534,7 +537,7 @@ namespace GeoGen_Studio
             this.wordWrapToolStripMenuItem.Checked = this.config.wordWrap;
             this.lineBreaksToolStripMenuItem.Checked = this.config.lineBreaks;
             this.whiteSpaceToolStripMenuItem.Checked = this.config.whitespace;
-            //this.editor.Zoom = this.config.editorZooom;
+            this.editor.FontSize = this.config.fontSize;
             this.wireframe.Checked = this.config.wireframe;
             this.heightScale.Value = this.config.heightScale;
             this.importHeightmapDialog.FileName = this.config.lastImportedFile;
@@ -570,7 +573,7 @@ namespace GeoGen_Studio
             this.config.wordWrap = this.wordWrapToolStripMenuItem.Checked;
             this.config.lineBreaks = this.lineBreaksToolStripMenuItem.Checked;
             this.config.whitespace = this.whiteSpaceToolStripMenuItem.Checked;
-            //this.config.editorZooom = this.editor.Zoom;
+            this.config.fontSize = (uint) this.editor.FontSize;
             this.config.wireframe = this.wireframe.Checked;
             this.config.heightScale = this.heightScale.Value;
 
@@ -622,7 +625,7 @@ namespace GeoGen_Studio
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // trigger the Save As action iif the current file is not known
+            // trigger the Save As action if the current file is not known
             if (!this.knownFile)
             {
                 this.saveAsToolStripMenuItem_Click(sender, e);
@@ -884,17 +887,17 @@ namespace GeoGen_Studio
 
         private void increaseFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.Zoom++;
+            this.editor.FontSize = Math.Min(this.editor.FontSize + 1, 25);
         }
 
         private void decreaseFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.Zoom--;
+            this.editor.FontSize = Math.Max(this.editor.FontSize - 1, 10);
         }
 
         private void resetFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.Zoom = 0;
+            this.editor.FontSize = this.config.defaultFontSize;
         }
 
         private void whiteSpaceToolStripMenuItem_Click(object sender, EventArgs e)

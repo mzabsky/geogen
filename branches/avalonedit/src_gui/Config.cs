@@ -49,6 +49,8 @@ namespace GeoGen_Studio
         public string lastExportedScreenshot;
         public uint[] parameters;
         public uint seed;
+        public uint defaultFontSize;
+        public uint fontSize;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -217,6 +219,8 @@ namespace GeoGen_Studio
             lastExportedScreenshot = "";
             lastExportedOutput = "";
             parameters = new uint[0];
+            defaultFontSize = 13;
+            fontSize = defaultFontSize;
             
             exportRescaleMode = false;
             mapDetailLevel = Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels;
