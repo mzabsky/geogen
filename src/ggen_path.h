@@ -137,6 +137,8 @@ class GGen_Path{
 
 		/**
 		 * Applies a linear transformation matrix onto the path.
+		 * @param origin_x X coordinate of the transformation origin.
+		 * @param origin_y Y coordinate of the transformation origin.
 		 * @param a11 Matrix element (1,1).
 		 * @param a12 Matrix element (1,2).
 		 * @param a21 Matrix element (2,1).

@@ -399,6 +399,7 @@ class GGen_Data_2D{
 
 		/**
 		 * Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.
+		 * @param treshold Values above treshold will be 1, otherwise 0.
 		 **/
 		void Monochrome(GGen_Height treshold);
 
