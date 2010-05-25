@@ -16,7 +16,6 @@
     along with GeoGen.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-
 #pragma once
 
 #include "ggen_support.h"
@@ -43,37 +42,37 @@ class GGen_Data_2D{
 		 * @param width Width of the map.
 		 * @param height Height of the map.
 		 * @param value Default value for all cells.
-		 */
+		 **/
 		GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value);
 		
 		~GGen_Data_2D();
 
-		/** 
+		/**
 		 * Creates a 1:1 copy of the current object.
 		 * @return Copy of the object.
 		 **/
 		GGen_Data_2D* Clone();
 
-		/** 
+		/**
 		 * Returns width of the map.
 		 * @return Width of the map.
 		 **/
 		GGen_Size GetWidth();
 		
-		/** 
+		/**
 		 * Returns height of the map.
 		 * @return height of the map.
 		 **/
 		GGen_Size GetHeight();
 
-		/** 
+		/**
 		 * Returns length of the map.
 		 * @return Length of the map.
 		 * @return Length is total number of tiles in the map (= width * height)
 		 **/
 		GGen_Index GetLength();
 
-		/** 
+		/**
 		 * Sets value in one tile.
 		 * @param x X coordinate of the tile.
 		 * @param y Y coordinate of the tile.
@@ -81,25 +80,25 @@ class GGen_Data_2D{
 		 **/
 		void SetValue(GGen_Coord x, GGen_Coord y, GGen_Height value);
 		
-		/** 
+		/**
 		 * Sets value in all tiles inside a rectangle (bounds are included).
 		 * @param x1 X coordinate of the left border
 		 * @param y1 Y coordinate of the top borer.
- 		 * @param x2 X coordinate of the right border.
+		 * @param x2 X coordinate of the right border.
 		 * @param y2 Y coordinate of the bottom border.
 		 * @param value Value to use.
 		 **/
 		void SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, GGen_Coord y2, GGen_Height value);
 		
-		/** 
+		/**
 		 * Returns one value from the array.
 		 * @param x X coordinate of the tile.
 		 * @param y Y coordinate of the tile.
 		 * @return Value in the tile.
-		 **/		
+		 **/
 		GGen_Height GetValue(GGen_Coord x, GGen_Coord y);
 
-		/** 
+		/**
 		 * Return one value from the array interpolated to a different map size.
 		 * @param x X coordinate of the tile (in the interpolated map).
 		 * @param y Y coordinate of the tile (in the interpolated map).
@@ -110,19 +109,19 @@ class GGen_Data_2D{
 		 **/
 		GGen_Height GetValueInterpolated(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height);
 
-		/** 
+		/**
 		 * Adds an integer to all values in the map.
 		 * @param value Value to be added to values in the map.
 		 **/
 		void Add(GGen_Height value);
 
-		/** 
+		/**
 		 * Adds another map to the current map.
 		 * @param addend Map to be added. This map will be scaled to match the original map.
 		 **/
 		void AddMap(GGen_Data_2D* addend);
 
-		/** 
+		/**
 		 * Adds another map to the current map. Its coordinates will be shifted by an offset.
 		 * @param addend Map to be added. This map will NOT be scaled to match the original map.
 		 * @param offset_x Coordinates of the addend will be shifted by this value along the X axis.
@@ -130,42 +129,42 @@ class GGen_Data_2D{
 		 **/
 		void AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 		
-		/** 
+		/**
 		 * Adds another map to the current map. The percentage of each value from the addend will depend on corresponding value from the mask.
 		 * @param addend Map to be added. This map will be scaled to match the original map.
 		 * @param mask Map used to mask the added value.
 		 * @param relative Toggles relative mode.
 		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 32767 means 100%.
-		 **/	
+		 **/
 		void AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative);
 
-		/** 
+		/**
 		 * Adds a percentage of an integer to all values in the map. The percentage added will depend on corresponding value from the mask.
 		 * @param value Value to be added to values in the map.
 		 * @param mask Map used to mask the added value. This map will be scaled to match the current map.
 		 * @param relative Toggles relative mode.
 		 * @note 0 in the mask always means the original value won't be changed. In relative mode, maximum value found in the mask then means 100%, otherwise 32767 means 100%.
-		 **/		
+		 **/
 		void AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 		
-		/** 
+		/**
 		 * Multiplies each value in the map by a real number.
 		 * @param factor Real number to multiply all values in the map.
-		 **/		
+		 **/
 		void Multiply(double factor);
 
-		/** 
+		/**
 		 * Multiplies each value in the map by a corresponding value from factor.
 		 * @param factor Array to be multiplied by. This map will be scaled to match the original map.
 		 **/
 		void MultiplyMap(GGen_Data_2D* factor);
 
-		/** 
+		/**
 		 * Flips sign of all values in the map.
 		 **/
 		void Invert();
 
-		/** 
+		/**
 		 * Scales size of the map by a real number.
 		 * @param ratio Scaling ratio (0.5 = 50%, 2.0 = 200%).
 		 * @param scale_values Multiply the values by the ratio as well?
@@ -173,7 +172,7 @@ class GGen_Data_2D{
 		 **/
 		void Scale(double ratio, bool scale_values);
 
-		/** 
+		/**
 		 * Scales size of the map to new size.
 		 * @param new_width Target array width.
 		 * @param new_height Target array height.
@@ -182,30 +181,30 @@ class GGen_Data_2D{
 		 **/
 		void ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale_values);
 		
-		/** 
+		/**
 		 * Scales values in the map to fit a new value range.
 		 * @param new_min New minimum value.
 		 * @param new_max New maximum value.
 		 **/
 		void ScaleValuesTo(GGen_Height new_min, GGen_Height new_max);
 		
-		/** 
+		/**
 		 * Crops or expands the array without changing its values.
 		 * @param new_width New array width.
 		 * @param new_height New array height.
 		 * @param new_zero_x X coordinate of new origin relative to the original zero.
 		 * @param new_zero_y Y coordinate of new origin relative to the original zero.
 		 * @note All values outside the new map area will be discarded. Newly created values will be set to 0.
-		 **/		
+		 **/
 		void ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_CoordOffset new_zero_x, GGen_CoordOffset new_zero_y);
 		
-		/** 
+		/**
 		 * Sets all values in the map.
 		 * @param value The fill value.
 		 **/
 		void Fill(GGen_Height value);
 
-		/** 
+		/**
 		 * Sets all values in the map. The percentage of value changed in each tile will depend on corresponding values in the mask.
 		 * @param value The fill value.
 		 * @param mask Map used to mask the filled value. This map will be scaled to match the current map.
@@ -214,7 +213,7 @@ class GGen_Data_2D{
 		 **/
 		void FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 
-		/** 
+		/**
 		 * Clamps all values to range.
 		 * @param min New minimum value.
 		 * @param max New maximum value.
@@ -222,25 +221,25 @@ class GGen_Data_2D{
 		 **/
 		void Clamp(GGen_Height min, GGen_Height max);
 
-		/** 
+		/**
 		 * Returns the minimum of all values in the map.
 		 * @return The minimum.
 		 **/
 		GGen_Height Min();
 
-		/** 
+		/**
 		 * Returns the maximum of all values in the map.
 		 * @return The maximum.
 		 **/
 		GGen_Height Max();
 
-		/** 
+		/**
 		 * Performs a set intersection of the map graphs (higher of two respective values is applied).
 		 * @param victim The intersection map. This map will be scaled to match the original map.
 		 **/
 		void Intersection(GGen_Data_2D* victim);
 
-		/** 
+		/**
 		 * Performs a set intersection of the map graphs (higher of two respective values is applied). The intersection map coordinates will be shifted by an offset.
 		 * @param victim The intersection map. This map will NOT be scaled to match the original map.
 		 * @param offset_x Coordinates of the intersection map will be shifted by this value along the X axis.
@@ -248,13 +247,13 @@ class GGen_Data_2D{
 		 **/
 		void IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 
-		/** 
+		/**
 		 * Performs a set union of the map graphs (higher of two respective values is applied).
 		 * @param victim The union map. This map will be scaled to match the original map.
 		 **/
 		void Union(GGen_Data_2D* victim);
 
-		/** 
+		/**
 		 * Performs a set union of the map graphs (higher of two respective values is applied). The union map coordinates will be shifted by an offset.
 		 * @param victim The union map. This map will NOT be scaled to match the original map.
 		 * @param offset_x Coordinates of the intersection map will be shifted by this value along the X axis.
@@ -262,7 +261,7 @@ class GGen_Data_2D{
 		 **/
 		void UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y);
 
-		/** 
+		/**
 		 * Combines the current map with another map according to corresponding values in mask.
 		 * @param victim The intersection map. This map will NOT be scaled to match the original map.
 		 * @param victim The second map. This map will be scaled to match the original map.
@@ -279,12 +278,12 @@ class GGen_Data_2D{
 		 **/
 		void ReplaceValue(GGen_Height needle, GGen_Height replace);
 		
-		/** 
+		/**
 		 * Replaces each value with its absolute value (removes all negative signs).
 		 **/
 		void Abs();
 
-		/** 
+		/**
 		 * Shifts all values in the array towards a direction by a corresponding value from profile.
 		 * @param profile The shift profile.
 		 * @param direction Direction towards which will the shiting be done.
@@ -339,7 +338,7 @@ class GGen_Data_2D{
 		 * @param from_value Value in the center.
 		 * @param to_value Value on the outer rim.
 		 * @param fill_outside Should the values outside gradient area be filled as well?
-		 * @note If fill_flat is set to true, values beyon the outer rim will be filled with to_value.
+		 * @note If fill_flat is set to true, values beyond the outer rim will be filled with to_value.
 		 **/
 		void RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height from_value, GGen_Height to_value, bool fill_outside);
 		
@@ -350,7 +349,7 @@ class GGen_Data_2D{
 		 * @param radius The gradient radius.
 		 * @param profile The gradient profile.
 		 * @param fill_outside Should the values outside gradient area be filled as well?
-		 * @note If fill_flat is set to true, values beyon the outer rim will be filled with the right-most value from the profile.
+		 * @note If fill_flat is set to true, values beyond the outer rim will be filled with the right-most value from the profile.
 		 **/
 		void RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* profile, bool fill_outside);
 		
@@ -377,13 +376,13 @@ class GGen_Data_2D{
 		 * Blurs the map in one direction. Uses linear smoothing algorithm.
 		 * @param radius The smoothing kernel radius.
 		 * @param direction Direction in which is the smoothing done.
-		 */
+		 **/
 		void SmoothDirection(GGen_Distance radius, GGen_Direction direction);
 		
 		/**
 		 * Blurs the map. Uses linear smoothing algorithm.
 		 * @param radius The smoothing kernel radius.
-		 */
+		 **/
 		void Smooth(GGen_Distance radius);
 		
 		/**
@@ -392,13 +391,13 @@ class GGen_Data_2D{
 		 **/
 		void Flood(double land_amount);
 
-		/** 
+		/**
 		 * Fills the current map with repeating pattern.
 		 * @param pattern The pattern.
 		 **/
 		void Pattern(GGen_Data_2D* pattern);
 
-		/** 
+		/**
 		 * Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.
 		 **/
 		void Monochrome(GGen_Height treshold);
@@ -414,7 +413,7 @@ class GGen_Data_2D{
 		 **/
 		void SlopeMap();
 
-		/** 
+		/**
 		 * Replaces each value with 1 with a probability defined by its value, all other values will be replaced with 1.
 		 * @param relative Toggles relative mode.
 		 * @note Value 0 means 0% probability to create a 1. In relative mode, maximum value (32767 otherwise) found in the map then means 100% probability to create a 1.
@@ -431,20 +430,20 @@ class GGen_Data_2D{
 		 **/
 		void TransformValues(GGen_Data_1D* profile, bool relative);
 		
-		/** 
+		/**
 		 * Makes sure that there are no slopes steeper than 45° in the map. Steeper slopes will be dealt with according to mode.
 		 * @param mode The normalization mode (see GGen_Normalization_Mode).
 		 **/
 		void Normalize(GGen_Normalization_Mode mode);
 
-		/** 
+		/**
 		 * Makes sure that there are no slopes steeper than 45° in either horizontal or vertical direction. Steeper slopes will be dealt with according to mode.
 		 * @param direction Direction of the normalization.
 		 * @param mode The normalization mode (see GGen_Normalization_Mode).
 		 **/
 		void NormalizeDirection(GGen_Direction direction, GGen_Normalization_Mode mode);
 		
-		/** 
+		/**
 		 * Applies a linear transformation matrix onto the map.
 		 * @param a11 Matrix element (1,1).
 		 * @param a12 Matrix element (1,2).
@@ -456,14 +455,14 @@ class GGen_Data_2D{
 		 **/
 		void Transform(double a11, double a12, double a21, double a22, bool preserve_size);
 
-		/** 
+		/**
 		 * Rotates the map by an angle counter-clockwise.
 		 * @param angle The angle in degrees.
 		 * @param preserve_size If set to true, the result will be cropped to match its original boundaries.
 		 **/
 		void Rotate(int32 angle, bool preserve_size);
 		
-		/** 
+		/**
 		 * Shears the map vertically and/or horizontally.
 		 * @param horizontal_shear Horizontal shear factor (0 means no horizontal shearing).
 		 * @param vertical_shear Horizontal shear factor (1 means no horizontal shearing).
@@ -472,19 +471,19 @@ class GGen_Data_2D{
 		 **/
 		void Shear(int32 horizontal_shear, int32 vertical_shear, bool preserve_size);
 
-		/** 
+		/**
 		 * Flips the map along one coordinate axis.
 		 * @param direction The axis, along which the map will be flipped.
 		 **/
 		void Flip(GGen_Direction direction);
 
-		/** 
+		/**
 		 * Calls the API return handler.
 		 * @param label Label identifying the returned map.
 		 **/
-		void ReturnAs(const GGen_String &label);
+		void ReturnAs(const GGen_String& label);
 
-		/** 
+		/**
 		 * Fills a polygon defined by its outer path.
 		 * @param path Sequence of points defining the polygon's shape. The polygon is enclosed by connecting the first and last points of the sequence.
 		 * @param value Value to be filled with.
@@ -496,7 +495,7 @@ class GGen_Data_2D{
 
 		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only);	
 
-		/** 
+		/**
 		 * Fills uniform area matching a simple arithmetic condition (all tiles matching the condition reachable from the starting 
 		 * point through tiles matching the condition are filled with value).
 		 * @param start_x X coordinate of the starting point.
@@ -509,7 +508,7 @@ class GGen_Data_2D{
 		 **/
 		void FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold);
 
-		/** 
+		/**
 		 * Replaces all values in an uniform area matching a simple arithmetic condition with 1 (all tiles matching the condition reachable from the starting 
 		 * point through tiles matching the condition are filled with 1). All other areas are filled with 0.
 		 * @param start_x X coordinate of the starting point.
@@ -523,14 +522,14 @@ class GGen_Data_2D{
 
 		GGen_Height GetValueOnPathBase(GGen_Path* path, bool max);
 
-		/** 
+		/**
 		 * Returns the highest value found in tiles touching a path.
 		 * @param path Sequence of points defining the path.
 		 * @return The maximum value found on the path.
 		 **/
 		GGen_Height GetMaxValueOnPath(GGen_Path* path);
 
-		/** 
+		/**
 		 * Returns the lowest value found in tiles touching a path.
 		 * @param path Sequence of points defining the path.
 		 * @return The minimum value found on the path.

@@ -42,31 +42,31 @@ class GGen_Data_1D{
 		 * Creates new GGen_Data_1D object of given length.
 		 * @param length Length of the array.
 		 * @param value Default value for all cells.
-		 */
+		 **/
 		GGen_Data_1D(GGen_Size length, GGen_Height value);
 		
 		~GGen_Data_1D();
 
-		/** 
+		/**
 		 * Creates a 1:1 copy of the current object.
 		 * @return Copy of the object.
 		 **/
 		GGen_Data_1D* Clone();
 
-		/** 
+		/**
 		 * Returns length of the array.
 		 * @return Length of the array.
 		 **/
 		GGen_Size GetLength();
 
-		/** 
+		/**
 		 * Sets value in one tile.
 		 * @param x Coordinate to set.
 		 * @param value Value to use.
 		 **/
 		void SetValue(GGen_Coord x, GGen_Height value);
 
-		/** 
+		/**
 		 * Sets value in all tiles in range (bounds are included).
 		 * @param from Starting point.
 		 * @param to Ending point.
@@ -74,14 +74,14 @@ class GGen_Data_1D{
 		 **/
 		void SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value);
 
-		/** 
+		/**
 		 * Returns one value from the array.
 		 * @param x Tile coordinate.
 		 * @return Value in the tile.
 		 **/
 		GGen_Height GetValue(GGen_Coord x);
 		
-		/** 
+		/**
 		 * Return one value from the array interpolated to a different array length.
 		 * @param x Tile coordinate (in the interpolated array).
 		 * @param scale_to_length Interpolated array length.
@@ -90,26 +90,26 @@ class GGen_Data_1D{
 		 **/
 		GGen_Height GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_length);
 
-		/** 
+		/**
 		 * Adds an integer to all values in the array.
 		 * @param value Value to be added to values in the array.
 		 **/
 		void Add(GGen_Height value);
 
-		/** 
+		/**
 		 * Adds another array to the current array.
 		 * @param addend Array to be added. This array will be scaled to match the original array.
 		 **/
 		void AddArray(GGen_Data_1D* addend);
 
-		/** 
+		/**
 		 * Adds another array to the current array. Its coordinates will be shifted by an offset.
 		 * @param addend Array to be added. This array will NOT be scaled to match the original array.
 		 * @param offset Coordinates of the addend will be shifted by this value.
 		 **/
 		void AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset);
 		
-		/** 
+		/**
 		 * Adds a percentage of an integer to all values in the array. The percentage added will depend on corresponding value from the mask.
 		 * @param value Value to be added to values in the array.
 		 * @param mask Array used to mask the added value. This array will be scaled to match the current array.
@@ -118,7 +118,7 @@ class GGen_Data_1D{
 		 **/		
 		void AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative);
 
-		/** 
+		/**
 		 * Adds another array to the current array. The percentage of each value from the addend will depend on corresponding value from the mask.
 		 * @param addend Array to be added. This array will be scaled to match the original array.
 		 * @param mask Array used to mask the added value.
@@ -127,24 +127,24 @@ class GGen_Data_1D{
 		 **/	
 		void AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative);
 
-		/** 
+		/**
 		 * Multiplies each value in the array by a real number.
 		 * @param factor Real number to multiply all values in the array.
 		 **/
 		void Multiply(double factor);
 
-		/** 
+		/**
 		 * Multiplies each value in the array by a corresponding value from factor.
 		 * @param factor Array to be multiplied by. This array will be scaled to match the original array.
 		 **/
 		void MultiplyArray(GGen_Data_1D* factor);
 
-		/** 
+		/**
 		 * Flips sign of all values in the array.
 		 **/
 		void Invert();
 
-		/** 
+		/**
 		 * Scales length of the array by a real number.
 		 * @param ratio Scaling ratio (0.5 = 50%, 2.0 = 200%).
 		 * @param scale_values Multiply the values by the ratio as well?
@@ -152,7 +152,7 @@ class GGen_Data_1D{
 		 **/
 		void Scale(double ratio, bool scale_values);
 
-		/** 
+		/**
 		 * Scales length of the array to new length.
 		 * @param new_length Target array length.
 		 * @param scale_values Scale the valuess correspondingly as well?
@@ -160,20 +160,20 @@ class GGen_Data_1D{
 		 **/
 		void ScaleTo(GGen_Size new_length, bool scale_values);
 
-		/** 
+		/**
 		 * Scales values in the array to fit a new value range.
 		 * @param new_min New minimum value.
 		 * @param new_max New maximum value.
 		 **/
 		void ScaleValuesTo(GGen_Height new_min, GGen_Height new_max);
 
-		/** 
+		/**
 		 * Sets all values in the array.
 		 * @param value The fill value.
 		 **/
 		void Fill(GGen_Height value);
 
-		/** 
+		/**
 		 * Crops or expands the array without changing its values.
 		 * @param new_length New array length.
 		 * @param new_zero Coordinate of new origin relative to the original zero.
@@ -181,7 +181,7 @@ class GGen_Data_1D{
 		 **/
 		void ResizeCanvas(GGen_Size new_length, GGen_CoordOffset new_zero);
 
-		/** 
+		/**
 		 * Clamps all values to range.
 		 * @param min New minimum value.
 		 * @param max New maximum value.
@@ -189,24 +189,24 @@ class GGen_Data_1D{
 		 **/
 		void Clamp(GGen_Height min, GGen_Height max);
 
-		/** 
+		/**
 		 * Flips order of values in the array, so the first value is the last.
 		 **/
 		void Flip();
 
-		/** 
+		/**
 		 * Returns the minimum of all values in the array.
 		 * @return The minimum.
 		 **/
 		GGen_Height Min();
 
-		/** 
+		/**
 		 * Returns the maximum of all values in the array.
 		 * @return The maximum.
 		 **/
 		GGen_Height Max();
 
-		/** 
+		/**
 		 * Shifts all values by a distance.
 		 * @param offset Coordinate of new origin relative to the original zero.
 		 * @param overflow_mode Overflow mode (see GGen_Overflow_Mode).
@@ -214,29 +214,29 @@ class GGen_Data_1D{
 		 **/
 		void Shift(GGen_CoordOffset offset, GGen_Overflow_Mode overflow_mode);
 
-		/** 
+		/**
 		 * Performs a set union of the array graphs (higher of two respective values is applied).
 		 * @param victim The union array. This array will be scaled to match the original array.
 		 **/
 		void Union(GGen_Data_1D* victim);
 		
-		/** 
+		/**
 		 * Performs a set intersection of the array graphs (higher of two respective values is applied).
 		 * @param victim The intersection array. This array will be scaled to match the original array.
 		 **/
 		void Intersection(GGen_Data_1D* victim);
 
-		/** 
+		/**
 		 * Replaces each value with its absolute value (removes all negative signs).
 		 **/
 		void Abs();
 		
-		/** 
+		/**
 		 * Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.
 		 **/
 		void Monochrome(GGen_Height treshold);
 		
-		/** 
+		/**
 		 * Makes sure that there are no slopes steeper than 45° in the array. Steeper slopes will be dealt with according to mode.
 		 * @param mode The normalization mode (see GGen_Normalization_Mode).
 		 **/
