@@ -209,7 +209,7 @@ struct GGen_ScriptAssertException{};
 
 /**
  * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) defining behavior for too steep slopes.
- */
+ **/
 enum GGen_Normalization_Mode{
 	GGEN_ADDITIVE, //!< Too steep slopes will be neutralized by increasing the values (going from the hill-top).
 	GGEN_SUBSTRACTIVE //!< Too steep slopes will be neutralized by decreasing the values (going from the bottom).
@@ -217,7 +217,7 @@ enum GGen_Normalization_Mode{
 
 /**
  * Overflow mode (for GGen_Data_1D::Shift and GGen_Data_2D::Shift) defining behavior for values, which would be shifted outside the array and for values which would be shifted from outside in.
- */
+ **/
 enum GGen_Overflow_Mode{
 	GGEN_CYCLE, //!< Values will be cycled through the boundary (disappearing values will appear on the opposite side).
 	GGEN_DISCARD,  //!< Disappearing values will be discarded, newly appearing values will be set to 0.
@@ -226,7 +226,7 @@ enum GGen_Overflow_Mode{
 
 /**
  * 2D axial directions.
- */
+ **/
 enum GGen_Direction{
 	GGEN_HORIZONTAL, //!< The operation will be done along the horizontal (X) axis.
 	GGEN_VERTICAL, //!< The operation will be done along the vertical (Y) axis.
@@ -241,7 +241,7 @@ enum GGen_Message_Level{
 
 /**
  * Script argument type.
- */
+ **/
 enum GGen_Arg_Type{
 	GGEN_BOOL, //!< Boolean value (yes/no) represented as integer from 0 to 1.
 	GGEN_INT, //!< Integer in given range.
@@ -250,7 +250,7 @@ enum GGen_Arg_Type{
 
 /**
  * Voronoi noise type.
- */
+ **/
 enum GGen_Voronoi_Noise_Mode{
 	GGEN_RIDGES, //!< The resulting noise will have appearance of an array of crystals. 
 	GGEN_BUBBLES //!< The resulting noise will have appearance of negative of an array of spherical bubbles.
@@ -258,7 +258,7 @@ enum GGen_Voronoi_Noise_Mode{
 
 /**
  * Arithmethic comparsion operators.
- */
+ **/
 enum GGen_Comparsion_Mode{
 	GGEN_EQUAL_TO, //!< Compared value is equal to treshold value. 
 	GGEN_NOT_EQUAL_TO, //!< Compared value is not equal to treshold value.
