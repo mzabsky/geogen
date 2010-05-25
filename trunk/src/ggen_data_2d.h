@@ -496,8 +496,7 @@ class GGen_Data_2D{
 		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only);	
 
 		/**
-		 * Fills uniform area matching a simple arithmetic condition (all tiles matching the condition reachable from the starting 
-		 * point through tiles matching the condition are filled with value).
+		 * Fills uniform area matching a simple arithmetic condition (all tiles matching the condition reachable from the starting point through tiles matching the condition are filled with value).
 		 * @param start_x X coordinate of the starting point.
 		 * @param start_y Y coordinate of the starting point.
 		 * @param fill_value The value the matching area is filled with.
@@ -509,8 +508,7 @@ class GGen_Data_2D{
 		void FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold);
 
 		/**
-		 * Replaces all values in an uniform area matching a simple arithmetic condition with 1 (all tiles matching the condition reachable from the starting 
-		 * point through tiles matching the condition are filled with 1). All other areas are filled with 0.
+		 * Replaces all values in an uniform area matching a simple arithmetic condition with 1 (all tiles matching the condition reachable from the starting point through tiles matching the condition are filled with 1). All other areas are filled with 0.
 		 * @param start_x X coordinate of the starting point.
 		 * @param start_y Y coordinate of the starting point.
 		 * @param mode Arithmetic operator to be used in the condition.
