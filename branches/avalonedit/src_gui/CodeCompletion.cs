@@ -197,6 +197,7 @@ namespace GeoGen_Studio
                 rtf.Width = 300;
                 rtf.Padding = new System.Windows.Thickness(0, 0, 0, 0);
                 rtf.Margin = new System.Windows.Thickness(0, 0, 0, 0);
+                rtf.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
 
                 if(this.parameters.Count == 0){
                     para1.Inlines.Add(")");
@@ -222,6 +223,7 @@ namespace GeoGen_Studio
                         paramType.Width = 100;
                         paramType.Padding = new System.Windows.Thickness(1, 1, 0, 1);
                         paramType.TextAlignment = TextAlignment.Right;
+                        paramType.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
 
                         row.Children.Add(paramType);
 
@@ -229,6 +231,7 @@ namespace GeoGen_Studio
                         paramName.Text = param.paramName;
                         paramName.Width = 80;
                         paramName.Padding = new System.Windows.Thickness(5, 1, 1, 1);
+                        paramName.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
 
                         row.Children.Add(paramName);
 
@@ -237,7 +240,8 @@ namespace GeoGen_Studio
                         paramDesc.Foreground = System.Windows.Media.Brushes.Green;
                         paramDesc.Padding = new System.Windows.Thickness(1, 1, 1, 1);
                         paramDesc.TextWrapping = TextWrapping.Wrap;
-                        paramDesc.MaxWidth = 405;
+                        paramDesc.MaxWidth = 210;
+                        paramDesc.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
 
                         row.Children.Add(paramDesc);
 
@@ -249,6 +253,7 @@ namespace GeoGen_Studio
                     TextBlock bracket = new TextBlock();
                     bracket.Text = ")";
                     bracket.Padding = new System.Windows.Thickness(7, 0, 0, 0);
+                    bracket.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
 
                     panel.Children.Add(bracket);
                 }
@@ -474,7 +479,7 @@ namespace GeoGen_Studio
             panel.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)246, (byte)246, (byte)246));
 
             this.Width = 600;
-            this.Height = 200;
+            this.Height = 230;
             //this.Topmost = true;
 
             foreach(ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData item in main.completionData){
@@ -519,6 +524,7 @@ namespace GeoGen_Studio
             border2.BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb((byte) 118, (byte) 118, (byte) 118));
             border2.CornerRadius = new System.Windows.CornerRadius(2, 2, 2, 2);
             border2.Width = 420;
+            border2.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)246, (byte)246, (byte)246));
 
             outerPanel.Children.Add(border2);
 
