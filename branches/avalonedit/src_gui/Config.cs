@@ -62,8 +62,6 @@ namespace GeoGen_Studio
         public bool showConsole;
         public bool showParameters;
         public bool wordWrap;
-        public bool lineBreaks;
-        public bool whitespace;
         public int editorZooom;
 
         public int windowWidth;

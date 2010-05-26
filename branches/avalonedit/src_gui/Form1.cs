@@ -625,8 +625,6 @@ namespace GeoGen_Studio
             this.consoleToolStripMenuItem.Checked = this.config.showConsole;
             this.scriptParametersToolStripMenuItem.Checked = this.config.showParameters;
             this.wordWrapToolStripMenuItem.Checked = this.config.wordWrap;
-            this.lineBreaksToolStripMenuItem.Checked = this.config.lineBreaks;
-            this.whiteSpaceToolStripMenuItem.Checked = this.config.whitespace;
             this.editor.FontSize = this.config.fontSize;
             this.wireframe.Checked = this.config.wireframe;
             this.heightScale.Value = this.config.heightScale;
@@ -642,8 +640,6 @@ namespace GeoGen_Studio
             this.consoleToolStripMenuItem_Click(null, null);
             this.scriptParametersToolStripMenuItem_Click(null, null);
             this.wordWrapToolStripMenuItem_Click(null, null);
-            this.lineBreaksToolStripMenuItem_Click(null, null);
-            this.whiteSpaceToolStripMenuItem_Click(null, null);
             this.heightScale_ValueChanged(null, null);
         }
 
@@ -661,8 +657,6 @@ namespace GeoGen_Studio
             this.config.showConsole = this.consoleToolStripMenuItem.Checked;
             this.config.showParameters = this.scriptParametersToolStripMenuItem.Checked;
             this.config.wordWrap = this.wordWrapToolStripMenuItem.Checked;
-            this.config.lineBreaks = this.lineBreaksToolStripMenuItem.Checked;
-            this.config.whitespace = this.whiteSpaceToolStripMenuItem.Checked;
             this.config.fontSize = (uint) this.editor.FontSize;
             this.config.wireframe = this.wireframe.Checked;
             this.config.heightScale = this.heightScale.Value;
@@ -990,15 +984,6 @@ namespace GeoGen_Studio
             this.editor.FontSize = this.config.defaultFontSize;
         }
 
-        private void whiteSpaceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-           // this.editor.Whitespace.Mode = this.whiteSpaceToolStripMenuItem.Checked ? ScintillaNet.WhitespaceMode.VisibleAlways : ScintillaNet.WhitespaceMode.Invisible;
-        }
-
-        private void lineBreaksToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-           // editor.EndOfLine.IsVisible = this.lineBreaksToolStripMenuItem.Checked;
-        }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
