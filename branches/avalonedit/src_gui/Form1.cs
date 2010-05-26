@@ -106,7 +106,9 @@ namespace GeoGen_Studio
         SidebarMode sidebarMode = SidebarMode.Right;
         List<string> statuses = new List<string>();
         public string editorBackup = "";
-        
+        ICSharpCode.AvalonEdit.Folding.AbstractFoldingStrategy foldingStrategy;
+        ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
+
         public Loading loader = null;
 
         // MSVS generated stuff
@@ -237,6 +239,11 @@ namespace GeoGen_Studio
             return null;
         }
 
+        public void EditorTextChanged(){
+            this.needsSaving = true;
+            this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
+        }
+
         public void CreateEditor(){
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
 
@@ -256,7 +263,12 @@ namespace GeoGen_Studio
 
             editor.TextChanged += delegate(object s, System.EventArgs args)
             {
-                this.needsSaving = true;
+                this.EditorTextChanged();
+            };
+
+            editor.TextArea.TextEntered += delegate(object s, System.Windows.Input.TextCompositionEventArgs args)
+            {
+                this.EditorTextChanged();
             };
 
             this.RegisterCompletionEvents();
@@ -264,6 +276,13 @@ namespace GeoGen_Studio
             this.editor.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
             this.editor.WordWrap = false;
             this.editor.ShowLineNumbers = true;
+
+
+            // code folding
+            foldingManager = ICSharpCode.AvalonEdit.Folding.FoldingManager.Install(editor.TextArea);
+            foldingStrategy = new AvalonEdit.Sample.BraceFoldingStrategy();
+            this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
+            
 
             //this.editor.SyntaxHighlighting = new ICSharpCode.AvalonEdit.Highlighting.
 
