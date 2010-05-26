@@ -53,12 +53,49 @@ namespace GeoGen_Studio
             GoTo3DOutput = 2
         };
 
-        ICSharpCode.AvalonEdit.TextEditor editor;
+        public class GGenCompletionData : ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData
+        {
+            public GGenCompletionData(string text)
+            {
+                this.Text = text;
+            }
+
+            public System.Windows.Media.ImageSource Image
+            {
+                get { return null; }
+            }
+
+            public string Text { get; private set; }
+
+            // Use this property if you want to show a fancy UIElement in the list.
+            public object Content
+            {
+                get { return this.Text; }
+            }
+
+            public double Priority
+            {
+                get { return 0; }
+            }
+
+            public object Description
+            {
+                get { return "Description for " + this.Text; }
+            }
+
+            public void Complete(ICSharpCode.AvalonEdit.Editing.TextArea textArea, ICSharpCode.AvalonEdit.Document.ISegment completionSegment,
+                EventArgs insertionRequestEventArgs)
+            {
+                textArea.Document.Replace(completionSegment, this.Text);
+            }
+        }
+
+        public ICSharpCode.AvalonEdit.TextEditor editor;
         private bool needsSaving;
         public Config config;
-        private bool knownFile = false; // do we knoow path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
+        private bool knownFile = false; // do we know path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
         private bool scrollOutput;
-        private bool scrollViewport; // viewport azimuth and elevatio mode (left mouse is clicked down)
+        private bool scrollViewport; // viewport azimuth and elevation mode (left mouse is clicked down)
         private bool moveViewport; // viewport target movement mode (right mouse is clicked down)
         int outputLastMouseX;
         int outputLastMouseY;
@@ -69,7 +106,7 @@ namespace GeoGen_Studio
         SidebarMode sidebarMode = SidebarMode.Right;
         List<string> statuses = new List<string>();
         public string editorBackup = "";
-
+        
         public Loading loader = null;
 
         // MSVS generated stuff
@@ -145,8 +182,34 @@ namespace GeoGen_Studio
 
             this.ScheduleSyntaxCheck();
 
+
+
+            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(GGenAPIData));            
+
+            try
+            {
+                System.IO.StreamReader reader = System.IO.File.OpenText("../config/apidata.xml");
+
+                GGenAPIData apiData = (GGenAPIData) xs.Deserialize(reader);
+
+                foreach(ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData item in apiData.constants){
+                    this.completionData.Add(item);
+                }
+
+                foreach (ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData item in apiData.methods)
+                {
+                    this.completionData.Add(item);
+                }
+
+                this.completionData.Sort(new CompletionDataComparer());
+            }
+            catch(Exception ex){
+                this.WriteToConsole("Could not load code completion data");
+            }
+            
             // show this form and close the splash screen
             this.Opacity = 1.0;
+
             //this.loader.Invoke(new MethodInvoker(delegate { this.loader.FadeOut(); }));
             loading.FadeOut();
         }
@@ -196,40 +259,7 @@ namespace GeoGen_Studio
                 this.needsSaving = true;
             };
 
-            editor.TextArea.TextEntered += delegate(object s, System.Windows.Input.TextCompositionEventArgs args)
-            {
-                this.needsSaving = true;
-                
-                //System.Windows.Input.TextCompositionEventArgs args = (System.Windows.Input.TextCompositionEventArgs)args_o;
-
-                if (args.Text == ".")
-                {
-                    // Open code completion after the user has pressed dot:
-                    /*completionWindow = new CompletionWindow(textEditor.TextArea);
-                    IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-                    data.Add(new MyCompletionData("Item1"));
-                    data.Add(new MyCompletionData("Item2"));
-                    data.Add(new MyCompletionData("Item3"));
-                    completionWindow.Show();
-                    completionWindow.Closed += delegate
-                    {
-                        completionWindow = null;
-                    };*/
-                }
-            };
-
-            editor.TextArea.TextEntering += delegate(object s, System.Windows.Input.TextCompositionEventArgs args)
-            {
-                /*if (args.Text.Length > 0 && completionWindow != null)
-                {
-                    if (!char.IsLetterOrDigit(args.Text[0]))
-                    {
-                        // Whenever a non-letter is typed while the completion window is open,
-                        // insert the currently selected element.
-                        completionWindow.CompletionList.RequestInsertion(args);
-                    }
-                }*/
-            };
+            this.RegisterCompletionEvents();
 
             this.editor.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
             this.editor.WordWrap = false;

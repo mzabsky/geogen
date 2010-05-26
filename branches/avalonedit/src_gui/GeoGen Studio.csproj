@@ -109,6 +109,7 @@
     <Compile Include="BenchmarkForm.Designer.cs">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CodeCompletion.cs" />
     <Compile Include="Crash.cs">
       <SubType>Form</SubType>
     </Compile>
