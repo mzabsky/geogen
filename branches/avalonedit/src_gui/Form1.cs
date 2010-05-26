@@ -859,27 +859,27 @@ namespace GeoGen_Studio
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.UndoRedo.Undo();
+            this.editor.Undo();
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.UndoRedo.Redo();
+            this.editor.Redo();
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.Clipboard.Cut();
+            this.editor.Cut();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.Clipboard.Copy();
+            this.editor.Copy();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.Clipboard.Paste();
+            this.editor.Paste();
         }
 
         private void searchAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
