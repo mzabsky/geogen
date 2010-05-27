@@ -32,6 +32,12 @@ namespace GeoGen_Studio
         [XmlElement(ElementName = "Param")]
         public List<GGenParam> parameters;
 
+        [XmlIgnoreAttribute]
+        private static ImageSource methodBitmap = null;
+
+        [XmlIgnoreAttribute]
+        private static ImageSource classBitmap = null;
+
         public GGenMethod()
         {
         }
@@ -39,7 +45,35 @@ namespace GeoGen_Studio
         [XmlIgnoreAttribute]
         public System.Windows.Media.ImageSource Image
         {
-            get { return null; }
+            get {
+                if (GGenMethod.classBitmap == null)
+                {
+                    System.Windows.Resources.StreamResourceInfo streamInfo = Application.GetResourceStream(
+                        new Uri("GeoGen Studio;component/resources/vsobject_class.png", UriKind.Relative));
+
+                    System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = streamInfo.Stream;
+                    image.EndInit();
+
+                    GGenMethod.classBitmap = image;
+                }
+
+                if (GGenMethod.methodBitmap == null)
+                {
+                    System.Windows.Resources.StreamResourceInfo streamInfo = Application.GetResourceStream(
+                        new Uri("GeoGen Studio;component/resources/vsobject_method.png", UriKind.Relative));
+
+                    System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = streamInfo.Stream;
+                    image.EndInit();
+
+                    GGenMethod.methodBitmap = image;
+                }
+
+                return this.methodName == this.returnTypeName ? GGenMethod.classBitmap : GGenMethod.methodBitmap;
+            }
         }
 
         [XmlIgnoreAttribute]
@@ -304,6 +338,10 @@ namespace GeoGen_Studio
         [XmlElement(ElementName = "Description")]
         public string description;
 
+        [XmlIgnoreAttribute]
+        private static ImageSource enumItemBitmap = null;
+        private static ImageSource constantBitmap = null;
+
         public GGenConstant()
         {
         }
@@ -311,7 +349,44 @@ namespace GeoGen_Studio
         [XmlIgnoreAttribute]
         public System.Windows.Media.ImageSource Image
         {
-            get { return null; }
+            get 
+            {
+                if (GGenConstant.enumItemBitmap == null)
+                {
+                    System.Windows.Resources.StreamResourceInfo streamInfo = Application.GetResourceStream(
+                        new Uri("GeoGen Studio;component/resources/vsobject_enumitem.png", UriKind.Relative));
+
+                    System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = streamInfo.Stream;
+                    image.EndInit();
+
+                    GGenConstant.enumItemBitmap = image;
+                }
+
+                if (GGenConstant.constantBitmap == null)
+                {
+                    System.Windows.Resources.StreamResourceInfo streamInfo = Application.GetResourceStream(
+                        new Uri("GeoGen Studio;component/resources/vsobject_constant.png", UriKind.Relative));
+
+                    System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = streamInfo.Stream;
+                    image.EndInit();
+
+                    GGenConstant.constantBitmap = image;
+                }
+
+                switch(this.typeName){
+                    case "GGen_Data_1D":
+                    case "GGen_Data_2D":
+                    case "GGen_Amplitudes":
+                    case "int":
+                        return GGenConstant.constantBitmap;
+                    default:
+                        return GGenConstant.enumItemBitmap;
+                }
+            }
         }
 
         [XmlIgnoreAttribute]
@@ -415,8 +490,52 @@ namespace GeoGen_Studio
         }
     }
 
-    public class CompletionListItem: TextBlock{
+    public class CompletionListItem: StackPanel{
         public ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData original;
+        public TextBlock label = new TextBlock();
+        public Image image = new Image();
+
+        public string Text{
+            get
+            {
+                return this.label.Text;
+            }
+            set
+            {
+                this.label.Text = value;
+            }
+        }
+
+        public ImageSource Image
+        {
+            get
+            {
+                return this.image.Source;
+            }
+            set
+            {
+                this.image.Source = value;
+            }
+        }
+
+        public CompletionListItem(){
+            this.Orientation = Orientation.Horizontal;
+            this.Children.Add(image);
+            this.Children.Add(label);
+
+            this.label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)246, (byte)246, (byte)246));
+            this.label.FontSize = 13;
+            this.label.Padding = new System.Windows.Thickness(4, 2, 2, 2);
+            this.label.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
+            this.label.Background = null;
+
+            this.image.Stretch = Stretch.Fill;
+            this.image.StretchDirection = StretchDirection.DownOnly;
+            this.image.SnapsToDevicePixels = true;
+
+            this.image.Width = 16;
+            this.image.Height = 16;
+        }
 
         public bool ShowIfMatching(string str){
             this.Visibility = this.Text.StartsWith(str, System.StringComparison.OrdinalIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
@@ -486,26 +605,23 @@ namespace GeoGen_Studio
                 CompletionListItem element = new CompletionListItem();
                 element.Text = item.Text;
                 element.original = item;
-                element.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)246, (byte)246, (byte)246));
-                element.FontSize = 13;
+                element.Image = item.Image;
 
                 element.PreviewMouseUp += delegate(object o, System.Windows.Input.MouseButtonEventArgs args)
                 {
-                    if(args.ChangedButton == System.Windows.Input.MouseButton.Left){
+                    if (args.ChangedButton == System.Windows.Input.MouseButton.Left)
+                    {
                         if (o == this.selectedItem)
                         {
                             Main.Get().AcceptCompletion();
                             return;
                         }
-                        
-                        SelectItem((CompletionListItem) o);
+
+                        SelectItem((CompletionListItem)o);
                     }
 
                     main.editor.Focus();
                 };
-
-                element.Padding = new System.Windows.Thickness(2, 2, 2, 2);
-                element.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
 
                 panel.Children.Add(element);
             }
@@ -542,7 +658,7 @@ namespace GeoGen_Studio
             this.selectedItem = item;
             this.selectedItem.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)112, (byte)183, (byte)255));
             //this.selectedItem.Corner
-            //this.toolTip.Content = item.original.Description;
+            //this.toolTip.Content = item.original.Descripti on;
             this.border2.Child = (UIElement) item.original.Description;
 
             this.scroller.ScrollToVerticalOffset(this.selectedItem.ActualHeight * items.IndexOf(item) - this.Height / 2);
@@ -654,7 +770,7 @@ namespace GeoGen_Studio
             Matrix matrix = PresentationSource.FromVisual(textView).CompositionTarget.TransformFromDevice;
 
             bounds = Rect.Transform(bounds, matrix);
-            this.Left = (int) bounds.X - 10 - main.Left;
+            this.Left = (int) bounds.X - 28 - main.Left;
             this.Top = (int)bounds.Y - 27 - main.Top;
         }
     }

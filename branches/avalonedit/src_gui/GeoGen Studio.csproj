@@ -177,11 +177,11 @@
       <DependentUpon>Loading.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <Resource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
+    </Resource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -210,6 +210,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <Resource Include="Resources\vsobject_enumitem.png" />
+    <Resource Include="Resources\vsobject_constant.png" />
+    <Resource Include="Resources\vsobject_class.png" />
+    <Resource Include="Resources\vsobject_method.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
