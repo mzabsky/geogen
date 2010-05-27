@@ -245,6 +245,7 @@ namespace GeoGen_Studio
         public void EditorTextChanged(){
             this.needsSaving = true;
             this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
+            this.ScheduleSyntaxCheck();
         }
 
         public void CreateEditor(){
