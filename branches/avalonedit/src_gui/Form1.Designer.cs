@@ -54,6 +54,9 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.searchAndReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findNextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findPrevToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -331,6 +334,9 @@
             this.pasteToolStripMenuItem,
             this.toolStripSeparator7,
             this.searchAndReplaceToolStripMenuItem,
+            this.findNextToolStripMenuItem,
+            this.findPrevToolStripMenuItem,
+            this.replaceToolStripMenuItem,
             this.toolStripSeparator8,
             this.settingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -401,6 +407,33 @@
             this.searchAndReplaceToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.searchAndReplaceToolStripMenuItem.Text = "Search and Replace";
             this.searchAndReplaceToolStripMenuItem.Click += new System.EventHandler(this.searchAndReplaceToolStripMenuItem_Click);
+            // 
+            // findNextToolStripMenuItem
+            // 
+            this.findNextToolStripMenuItem.Enabled = false;
+            this.findNextToolStripMenuItem.Name = "findNextToolStripMenuItem";
+            this.findNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.findNextToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.findNextToolStripMenuItem.Text = "Find Next";
+            this.findNextToolStripMenuItem.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click_1);
+            // 
+            // findPrevToolStripMenuItem
+            // 
+            this.findPrevToolStripMenuItem.Enabled = false;
+            this.findPrevToolStripMenuItem.Name = "findPrevToolStripMenuItem";
+            this.findPrevToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F3)));
+            this.findPrevToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.findPrevToolStripMenuItem.Text = "Find Previous";
+            this.findPrevToolStripMenuItem.Click += new System.EventHandler(this.findPrevToolStripMenuItem_Click);
+            // 
+            // replaceToolStripMenuItem
+            // 
+            this.replaceToolStripMenuItem.Enabled = false;
+            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
+            this.replaceToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.replaceToolStripMenuItem.Text = "Replace";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
@@ -1577,6 +1610,9 @@
         public System.Windows.Forms.ToolStripProgressBar progress;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Integration.ElementHost editorHost;
+        public System.Windows.Forms.ToolStripMenuItem findNextToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem findPrevToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
     }
 }
 

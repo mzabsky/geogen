@@ -51,6 +51,9 @@ namespace GeoGen_Studio
         public uint seed;
         public uint defaultFontSize;
         public uint fontSize;
+        public string searchString;
+        public string replaceString;
+        public StringComparison searchMode;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -219,6 +222,9 @@ namespace GeoGen_Studio
             parameters = new uint[0];
             defaultFontSize = 13;
             fontSize = defaultFontSize;
+            searchString = "";
+            replaceString = "";
+            searchMode = StringComparison.OrdinalIgnoreCase;
             
             exportRescaleMode = false;
             mapDetailLevel = Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels;
@@ -265,7 +271,7 @@ namespace GeoGen_Studio
                 main.LoadInterfaceSettings();
             }
             // something went wrong -> create a new config file
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 main.WriteToConsole("Could not open config file, falling back to defaults.");
 

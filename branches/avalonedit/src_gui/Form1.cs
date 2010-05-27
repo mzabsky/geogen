@@ -108,6 +108,7 @@ namespace GeoGen_Studio
         public string editorBackup = "";
         ICSharpCode.AvalonEdit.Folding.AbstractFoldingStrategy foldingStrategy;
         ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
+        public Search searchWindow = new Search();
 
         public Loading loader = null;
 
@@ -161,9 +162,6 @@ namespace GeoGen_Studio
 
             this.LoadOverlays();
 
-            // load the custom syntax highlighter settings
-            //this.editor.ConfigurationManager.CustomLocation = this.config.ScintillaDefinitonsFile;
-
             // open last opened file if requested
             if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
             {              
@@ -208,7 +206,12 @@ namespace GeoGen_Studio
             catch(Exception ex){
                 this.WriteToConsole("Could not load code completion data");
             }
-            
+
+            // fill in the search window (possibly from the data loaded from the config file)
+            this.searchWindow.textBox1.Text = this.config.searchString;
+            this.searchWindow.textBox2.Text = this.config.replaceString;
+            this.searchWindow.matchCase.Checked = this.config.searchMode == StringComparison.Ordinal;
+
             // show this form and close the splash screen
             this.Opacity = 1.0;
 
@@ -897,7 +900,7 @@ namespace GeoGen_Studio
 
         private void searchAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.editor.FindReplace.ShowFind();
+            this.searchWindow.Show(this);
         }
 
         private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1239,6 +1242,59 @@ namespace GeoGen_Studio
             this.SelectTab(Tabs.Output3D);
         }
 
-          
+        public void findNextToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            int searchResult = this.editor.Text.IndexOf(this.config.searchString, this.editor.CaretOffset, this.config.searchMode);
+
+            if(searchResult == -1){
+                searchResult = this.editor.Text.IndexOf(this.config.searchString, 0, this.config.searchMode);
+
+                if (searchResult == -1)
+                {
+                    System.Windows.Forms.MessageBox.Show("No occurrences of \"" + this.config.searchString + "\" were found.");
+                    return;
+                }
+            }
+
+            int endOffset = searchResult + this.config.searchString.Length;
+            this.editor.TextArea.Caret.Offset = endOffset;
+            this.editor.TextArea.Selection = new ICSharpCode.AvalonEdit.Editing.SimpleSelection(searchResult, endOffset);
+            this.editor.TextArea.Caret.BringCaretToView();
+        }
+
+        public void findPrevToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int searchResult = this.editor.Text.LastIndexOf(this.config.searchString, this.editor.SelectionStart > 0 ? this.editor.SelectionStart : 0, this.config.searchMode);
+
+            if(searchResult == -1){
+                searchResult = this.editor.Text.LastIndexOf(this.config.searchString, this.editor.Text.Length - 1, this.config.searchMode);
+
+                if(searchResult == -1){
+                    System.Windows.Forms.MessageBox.Show("No occurrences of \"" + this.config.searchString + "\" were found.");
+                    return;
+                }
+            }
+
+            int endOffset = searchResult + this.config.searchString.Length;
+            this.editor.TextArea.Caret.Offset = endOffset;
+            this.editor.TextArea.Selection = new ICSharpCode.AvalonEdit.Editing.SimpleSelection(searchResult, endOffset);
+            this.editor.TextArea.Caret.BringCaretToView();
+        }
+
+        public void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int selectionStart = editor.SelectionStart;
+
+            this.editor.Text = editor.Text.Substring(0, selectionStart) + this.config.replaceString + this.editor.Text.Substring(selectionStart + this.editor.SelectionLength);
+
+            this.editor.CaretOffset = selectionStart + this.config.replaceString.Length;
+
+            this.findNextToolStripMenuItem_Click_1(sender, e);
+        }
+
+        public void ReplaceAll()
+        {
+            this.editor.Text = this.editor.Text.Replace(this.config.searchString, this.config.replaceString);
+        }          
     }
 }
