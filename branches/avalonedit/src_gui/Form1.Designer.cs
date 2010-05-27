@@ -78,9 +78,6 @@
             this.increaseFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decreaseFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.whiteSpaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lineBreaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.squirrelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -435,10 +432,7 @@
             this.toolStripSeparator11,
             this.increaseFontSizeToolStripMenuItem,
             this.decreaseFontSizeToolStripMenuItem,
-            this.resetFontSizeToolStripMenuItem,
-            this.toolStripSeparator12,
-            this.whiteSpaceToolStripMenuItem,
-            this.lineBreaksToolStripMenuItem});
+            this.resetFontSizeToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -626,27 +620,6 @@
             this.resetFontSizeToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.resetFontSizeToolStripMenuItem.Text = "Reset Font Size";
             this.resetFontSizeToolStripMenuItem.Click += new System.EventHandler(this.resetFontSizeToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(173, 6);
-            // 
-            // whiteSpaceToolStripMenuItem
-            // 
-            this.whiteSpaceToolStripMenuItem.CheckOnClick = true;
-            this.whiteSpaceToolStripMenuItem.Name = "whiteSpaceToolStripMenuItem";
-            this.whiteSpaceToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.whiteSpaceToolStripMenuItem.Text = "White Space";
-            this.whiteSpaceToolStripMenuItem.Click += new System.EventHandler(this.whiteSpaceToolStripMenuItem_Click);
-            // 
-            // lineBreaksToolStripMenuItem
-            // 
-            this.lineBreaksToolStripMenuItem.CheckOnClick = true;
-            this.lineBreaksToolStripMenuItem.Name = "lineBreaksToolStripMenuItem";
-            this.lineBreaksToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.lineBreaksToolStripMenuItem.Text = "Line Breaks";
-            this.lineBreaksToolStripMenuItem.Click += new System.EventHandler(this.lineBreaksToolStripMenuItem_Click);
             // 
             // squirrelToolStripMenuItem
             // 
@@ -1551,9 +1524,6 @@
         private System.Windows.Forms.ToolStripMenuItem increaseFontSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem decreaseFontSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetFontSizeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-        private System.Windows.Forms.ToolStripMenuItem whiteSpaceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem lineBreaksToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem leftToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rightToolStripMenuItem;
