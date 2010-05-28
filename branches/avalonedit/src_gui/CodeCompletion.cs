@@ -786,7 +786,17 @@ namespace GeoGen_Studio
             {
                 this.needsSaving = true;
 
-                //System.Windows.Input.TextCompositionEventArgs args = (System.Windows.Input.TextCompositionEventArgs)args_o;
+                if (args.Text.Length == 1 && completionWindow != null && completionWindow.Visible == true && (args.Text[0] == '_' || Char.IsLetterOrDigit(args.Text[0])))
+                {
+                    this.completionWindow.Str += args.Text[0];
+
+                    if(this.completionWindow.state == CompletionWindow.State.Accepted){
+                        args.Handled = true;
+                    }
+                }
+                else {
+                    this.CloseCompletionWindow();
+                }
 
                 if (args.Text == ".")
                 {
@@ -811,53 +821,67 @@ namespace GeoGen_Studio
             {
                 System.Windows.Input.KeyConverter converter = new System.Windows.Input.KeyConverter();
                 string code = converter.ConvertToString(args.Key);
-                
+
                 if (args.KeyboardDevice.IsKeyDown(System.Windows.Input.Key.LeftCtrl) && args.KeyboardDevice.IsKeyDown(System.Windows.Input.Key.Space))
                 {
                     this.ShowCompletionWindow(GuessCompletionPrefix());
 
                     args.Handled = true;
                 }
-                else if (args.Key == System.Windows.Input.Key.RightShift || args.Key == System.Windows.Input.Key.LeftShift || args.Key == System.Windows.Input.Key.CapsLock || args.Key == System.Windows.Input.Key.Delete)
-                {
-                    return;
-                }
-                else if (completionWindow != null && completionWindow.Visible == true && (args.Key == System.Windows.Input.Key.Return || args.Key == System.Windows.Input.Key.Tab || args.Key == System.Windows.Input.Key.Space))
-                {
-                    this.AcceptCompletion();
-
-                    args.Handled = true;
-                }
-                else if (completionWindow != null && completionWindow.Visible == true && args.Key == System.Windows.Input.Key.Back){
-                    if(this.completionWindow.Str == ""){
-                        this.CloseCompletionWindow();
+                // key handling for completion window
+                else if(completionWindow != null && completionWindow.Visible == true){
+                    switch(args.Key){
+                        case System.Windows.Input.Key.Return:
+                        case System.Windows.Input.Key.Tab:
+                        case System.Windows.Input.Key.Space:
+                            this.AcceptCompletion();
+                            args.Handled = true;
+                            break;
+                        case System.Windows.Input.Key.Back:
+                            // if we can't remove a character, close
+                            if(this.completionWindow.Str == ""){
+                                this.CloseCompletionWindow();
+                            }
+                            else{
+                                this.completionWindow.Str = this.completionWindow.Str.Substring(0, this.completionWindow.Str.Length - 1);
+                            }
+                            break;
+                        case System.Windows.Input.Key.Down:
+                            this.completionWindow.SelectNextItem();
+                            args.Handled = true;
+                            break;
+                        case System.Windows.Input.Key.Up:
+                            this.completionWindow.SelectPrevItem();
+                            args.Handled = true;
+                            break;
+                        case System.Windows.Input.Key.Left:
+                        case System.Windows.Input.Key.Right:
+                        case System.Windows.Input.Key.Escape:
+                        case System.Windows.Input.Key.LWin:
+                        case System.Windows.Input.Key.RWin:
+                        case System.Windows.Input.Key.Home:
+                        case System.Windows.Input.Key.End:
+                        case System.Windows.Input.Key.PageUp:
+                        case System.Windows.Input.Key.PageDown:
+                        case System.Windows.Input.Key.F1:
+                        case System.Windows.Input.Key.F2:
+                        case System.Windows.Input.Key.F3:
+                        case System.Windows.Input.Key.F4:
+                        case System.Windows.Input.Key.F5:
+                        case System.Windows.Input.Key.F6:
+                        case System.Windows.Input.Key.F7:
+                        case System.Windows.Input.Key.F8:
+                        case System.Windows.Input.Key.F9:
+                        case System.Windows.Input.Key.F10:
+                        case System.Windows.Input.Key.F11:
+                        case System.Windows.Input.Key.F12:
+                            // This can't be moved into default: section, because we need to let printable characters through.
+                            // Printable characters can't be detected in this event, because all but letters and numbers have
+                            // their Key value dependent on national keyboard layout (especially underscore, which IS PRESENT
+                            // in valid method/constant names).
+                            this.CloseCompletionWindow();
+                            break;
                     }
-                    else{
-                        this.completionWindow.Str = this.completionWindow.Str.Substring(0, this.completionWindow.Str.Length - 1);
-                    }
-                }
-                else if (completionWindow != null && completionWindow.Visible == true && args.Key == System.Windows.Input.Key.Down)
-                {
-                    this.completionWindow.SelectNextItem();
-
-                    args.Handled = true;
-                }
-                else if (completionWindow != null && completionWindow.Visible == true && args.Key == System.Windows.Input.Key.Up)
-                {
-                    this.completionWindow.SelectPrevItem();
-
-                    args.Handled = true;
-                }
-                else if(code.Length == 1 && completionWindow != null && completionWindow.Visible == true && (Char.IsLetterOrDigit(code[0]) || Char.IsLetterOrDigit('_'))){
-                    this.completionWindow.Str += code[0];
-
-                    if(this.completionWindow.state == CompletionWindow.State.Accepted){
-                        args.Handled = true;
-                    }
-                }
-                else //if (args.Key == System.Windows.Input.Key.Escape || args.Key == System.Windows.Input.Key.Left || args.Key == System.Windows.Input.Key.Right)
-                {
-                    this.CloseCompletionWindow();
                 }
             };
 
