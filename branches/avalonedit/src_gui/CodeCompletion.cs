@@ -896,8 +896,6 @@ namespace GeoGen_Studio
 
                 if (completionWindow == null || !completionWindow.Visible) return;
 
-                this.WriteToConsole((this.completionWindow.Focused || this.editor.TextArea.IsFocused).ToString());
-
                 if (!(this.completionWindow.Focused || this.editor.TextArea.IsFocused))
                 {
                     this.CloseCompletionWindow();
