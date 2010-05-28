@@ -67,6 +67,7 @@
             this.replace.Text = "Replace";
             this.replace.UseVisualStyleBackColor = true;
             this.replace.Click += new System.EventHandler(this.replace_Click);
+            this.replace.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // findNext
             // 
@@ -78,6 +79,7 @@
             this.findNext.Text = "Find Next";
             this.findNext.UseVisualStyleBackColor = true;
             this.findNext.Click += new System.EventHandler(this.findNext_Click);
+            this.findNext.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // replaceAll
             // 
@@ -89,6 +91,7 @@
             this.replaceAll.Text = "Replace All";
             this.replaceAll.UseVisualStyleBackColor = true;
             this.replaceAll.Click += new System.EventHandler(this.replaceAll_Click);
+            this.replaceAll.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // findPrevious
             // 
@@ -100,6 +103,7 @@
             this.findPrevious.Text = "Find Previous";
             this.findPrevious.UseVisualStyleBackColor = true;
             this.findPrevious.Click += new System.EventHandler(this.findPrevious_Click);
+            this.findPrevious.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // textBox1
             // 
@@ -108,6 +112,7 @@
             this.textBox1.Size = new System.Drawing.Size(305, 20);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // textBox2
             // 
@@ -116,6 +121,7 @@
             this.textBox2.Size = new System.Drawing.Size(305, 20);
             this.textBox2.TabIndex = 2;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // matchCase
             // 
@@ -127,6 +133,7 @@
             this.matchCase.Text = "Match Case";
             this.matchCase.UseVisualStyleBackColor = true;
             this.matchCase.CheckedChanged += new System.EventHandler(this.matchCase_CheckedChanged);
+            this.matchCase.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // Search
             // 
@@ -149,6 +156,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Find and Replace";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Search_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

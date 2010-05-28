@@ -90,5 +90,12 @@ namespace GeoGen_Studio
         {
             Main.Get().ReplaceAll();
         }
+
+        private void Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Escape){
+                this.Close();
+            }
+        }
     }
 }
