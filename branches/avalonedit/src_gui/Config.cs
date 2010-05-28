@@ -55,6 +55,10 @@ namespace GeoGen_Studio
         public string replaceString;
         public StringComparison searchMode;
 
+        public bool autoAcceptCompletion;
+        public bool autoInsertBrackets;
+        public bool openCompletionOnDot;
+
 		/* Window layout settings */
         public int mainSplitter;
         public int sidebarSplitter;
@@ -166,6 +170,27 @@ namespace GeoGen_Studio
             set { backgroundColor3d = value; }
         }
 
+        [CategoryAttribute("Code Editor"), DescriptionAttribute("Automatically accept code suggestion if there is only one suggestion."), DefaultValue(true)]
+        public bool AutomaticallyAcceptSuggestions
+        {
+            get { return autoAcceptCompletion; }
+            set { autoAcceptCompletion = value; }
+        }
+
+        [CategoryAttribute("Code Editor"), DescriptionAttribute("Automatically insert method call brackets after accepting code suggestion."), DefaultValue(true)]
+        public bool AutomaticallyInsertBrackets
+        {
+            get { return autoInsertBrackets; }
+            set { autoInsertBrackets = value; }
+        }
+
+        [CategoryAttribute("Code Editor"), DescriptionAttribute("Open code suggestions list after entering dot."), DefaultValue(true)]
+        public bool OpenSuggestionsOnDot
+        {
+            get { return openCompletionOnDot; }
+            set { openCompletionOnDot = value; }
+        }
+
         public Config()
 	    {
             this.LoadDefaults();
@@ -222,10 +247,15 @@ namespace GeoGen_Studio
             parameters = new uint[0];
             defaultFontSize = 13;
             fontSize = defaultFontSize;
+
             searchString = "";
             replaceString = "";
             searchMode = StringComparison.OrdinalIgnoreCase;
-            
+
+            autoAcceptCompletion = true;
+            autoInsertBrackets = true;
+            openCompletionOnDot = true;
+
             exportRescaleMode = false;
             mapDetailLevel = Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels;
 

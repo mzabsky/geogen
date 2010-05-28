@@ -572,7 +572,7 @@ namespace GeoGen_Studio
                 this.SelectFirstVisible();
 
                 if (numVisible == 0) Main.Get().CloseCompletionWindow();
-                else if (numVisible == 1) Main.Get().AcceptCompletion();
+                else if (numVisible == 1 && Main.Get().config.autoAcceptCompletion) Main.Get().AcceptCompletion();
 
                 if(selectedItem.Visibility == Visibility.Collapsed){
                     this.SelectFirstVisible();
@@ -798,7 +798,7 @@ namespace GeoGen_Studio
                     this.CloseCompletionWindow();
                 }
 
-                if (args.Text == ".")
+                if (args.Text == "." && this.config.openCompletionOnDot)
                 {
                     this.ShowCompletionWindow("");
                 }
@@ -973,13 +973,14 @@ namespace GeoGen_Studio
                 this.completionStartPosition, 
                 editor.CaretOffset - this.completionStartPosition,  
                 this.completionWindow.SelectedText +
-                    (this.completionWindow.selectedItem.original.GetType() == typeof(GGenMethod) ? "()" : ""));
+                    (this.completionWindow.selectedItem.original.GetType() == typeof(GGenMethod) && this.config.autoInsertBrackets ? "()" : ""));
 
             editor.Focus();
 
             editor.CaretOffset = this.completionStartPosition + this.completionWindow.SelectedText.Length;
 
-            if (this.completionWindow.selectedItem.original.GetType() == typeof(GGenMethod)){
+            if (this.completionWindow.selectedItem.original.GetType() == typeof(GGenMethod) && this.config.autoInsertBrackets)
+            {
                 editor.CaretOffset++;
 
                 if(((GGenMethod) this.completionWindow.selectedItem.original).parameters.Count == 0){
