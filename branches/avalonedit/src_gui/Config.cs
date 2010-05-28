@@ -32,7 +32,6 @@ namespace GeoGen_Studio
         public string templateFile;
         public bool openLastFileOnStartup;
         public string lastFile;
-        public string scintillaDefinitonsFile;
         public Main.ActionAfterExectution actionAfterExec;
         public string geoGenPath;
         public string mainMapOutputFile;
@@ -98,13 +97,6 @@ namespace GeoGen_Studio
         {
             get { return openLastFileOnStartup; }
             set { openLastFileOnStartup = value; }
-        }
-
-        [CategoryAttribute("Paths"), DescriptionAttribute("Path to the XML file with syntax highlighting and autocompletion definitions."), DefaultValue("../config/scintilla.xml")]
-        public string ScintillaDefinitonsFile
-        {
-            get { return scintillaDefinitonsFile; }
-            set { scintillaDefinitonsFile = value; }
         }
 
         [CategoryAttribute("Script Execution"), DescriptionAttribute("What should the program do once script execution is finished?"), DefaultValue(Main.ActionAfterExectution.GoTo3DOutput)]
@@ -238,7 +230,6 @@ namespace GeoGen_Studio
             templateFile = "./../examples/template.nut";
             openLastFileOnStartup = true;
             lastFile = "";
-            scintillaDefinitonsFile = "../config/scintilla.xml";
             lastImportedFile = "";
             lastExportedFile = "";
             lastImportedTexture = "";
