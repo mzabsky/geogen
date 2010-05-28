@@ -770,8 +770,8 @@ namespace GeoGen_Studio
             Matrix matrix = PresentationSource.FromVisual(textView).CompositionTarget.TransformFromDevice;
 
             bounds = Rect.Transform(bounds, matrix);
-            this.Left = (int) bounds.X - 28 - main.Left;
-            this.Top = (int)bounds.Y - 27 - main.Top;
+            this.Left = (int) bounds.X - 29 - main.Left;
+            this.Top = (int)bounds.Y - 30 - main.Top;
         }
     }
 
