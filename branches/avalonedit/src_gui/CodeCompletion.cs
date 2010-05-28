@@ -901,7 +901,6 @@ namespace GeoGen_Studio
                     this.CloseCompletionWindow();
                 }
             };
-
         }
 
         void ShowCompletionWindow(string text){
@@ -965,11 +964,17 @@ namespace GeoGen_Studio
         }
 
         public void AcceptCompletion(){
-            editor.Text = 
+            /*editor.Text = 
                 editor.Text.Substring(0, this.completionStartPosition) + 
+                +
+                editor.Text.Substring(editor.CaretOffset);*/
+
+            this.editor.Document.Replace(
+                this.completionStartPosition, 
+                editor.CaretOffset - this.completionStartPosition,  
                 this.completionWindow.SelectedText +
-                (this.completionWindow.selectedItem.original.GetType() == typeof(GGenMethod) ? "()" : "") +
-                editor.Text.Substring(editor.CaretOffset);
+                    (this.completionWindow.selectedItem.original.GetType() == typeof(GGenMethod) ? "()" : ""));
+
             editor.Focus();
 
             editor.CaretOffset = this.completionStartPosition + this.completionWindow.SelectedText.Length;
@@ -984,7 +989,7 @@ namespace GeoGen_Studio
 
             this.CloseCompletionWindow();
 
-            this.completionWindow.state = CompletionWindow.State.Accepted;
+            this.completionWindow.state = CompletionWindow.State.Accepted;            
         }
 
         string GuessCompletionPrefix(){

@@ -1286,7 +1286,7 @@ namespace GeoGen_Studio
         {
             int selectionStart = editor.SelectionStart;
 
-            this.editor.Text = editor.Text.Substring(0, selectionStart) + this.config.replaceString + this.editor.Text.Substring(selectionStart + this.editor.SelectionLength);
+            this.editor.Document.Replace(selectionStart, this.editor.SelectionLength, this.config.replaceString);
 
             this.editor.CaretOffset = selectionStart + this.config.replaceString.Length;
 
@@ -1295,7 +1295,11 @@ namespace GeoGen_Studio
 
         public void ReplaceAll()
         {
-            this.editor.Text = this.editor.Text.Replace(this.config.searchString, this.config.replaceString);
+            int caret = 0;
+            while ((caret = this.editor.Text.IndexOf(this.config.searchString, caret, this.config.searchMode)) != -1)
+            {
+                editor.Document.Replace(caret, this.config.searchString.Length, this.config.replaceString);
+            }
         }          
     }
 }
