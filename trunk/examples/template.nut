@@ -16,22 +16,7 @@ function Generate(){
 	local width = GGen_GetArgValue("width");
 	local height = GGen_GetArgValue("height");
 
-	local base2 = GGen_Data_2D(width, height, 0);
-	local base3 = GGen_Data_2D(width, height, 0);
-	local base4 = GGen_Data_2D(width, height, 0);
-
-	base2.Fill(5);
-
-	base4.VoronoiNoise(20, 1, GGEN_BUBBLES);
-
 	local base = GGen_Data_2D(width, height, 0);
-	base.AddMap(base2);
-
-	base4.Noise(10, 400, GGEN_STD_NOISE);
-
-	local mask = base.Clone();
-
-	base.Combine(base2, base3, true);
 
 	return base;
 }

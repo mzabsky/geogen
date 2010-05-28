@@ -33,7 +33,6 @@ namespace GeoGen_Studio
         public string templateFile;
         public bool openLastFileOnStartup;
         public string lastFile;
-        public string scintillaDefinitonsFile;
         public Main.ActionAfterExectution actionAfterExec;
         public string geoGenPath;
         public string mainMapOutputFile;
@@ -50,8 +49,17 @@ namespace GeoGen_Studio
         public string lastExportedScreenshot;
         public uint[] parameters;
         public uint seed;
+        public uint defaultFontSize;
+        public uint fontSize;
+        public string searchString;
+        public string replaceString;
+        public StringComparison searchMode;
         public uint maxMapSize;
         public uint maxMapCount;
+
+        public bool autoAcceptCompletion;
+        public bool autoInsertBrackets;
+        public bool openCompletionOnDot;
 
 		/* Window layout settings */
         public int mainSplitter;
@@ -63,8 +71,6 @@ namespace GeoGen_Studio
         public bool showConsole;
         public bool showParameters;
         public bool wordWrap;
-        public bool lineBreaks;
-        public bool whitespace;
         public int editorZooom;
 
         public int windowWidth;
@@ -96,13 +102,6 @@ namespace GeoGen_Studio
         {
             get { return openLastFileOnStartup; }
             set { openLastFileOnStartup = value; }
-        }
-
-        [CategoryAttribute("Paths"), DescriptionAttribute("Path to the XML file with syntax highlighting and autocompletion definitions."), DefaultValue("../config/scintilla.xml")]
-        public string ScintillaDefinitonsFile
-        {
-            get { return scintillaDefinitonsFile; }
-            set { scintillaDefinitonsFile = value; }
         }
 
         [CategoryAttribute("Script Execution"), DescriptionAttribute("What should the program do once script execution is finished?"), DefaultValue(Main.ActionAfterExectution.GoTo3DOutput)]
@@ -182,6 +181,27 @@ namespace GeoGen_Studio
             set { textureScalingAlgorithm = value; }
         }
 
+        [CategoryAttribute("Code Editor"), DescriptionAttribute("Automatically accept code suggestion if there is only one suggestion."), DefaultValue(true)]
+        public bool AutomaticallyAcceptSuggestions
+        {
+            get { return autoAcceptCompletion; }
+            set { autoAcceptCompletion = value; }
+        }
+
+        [CategoryAttribute("Code Editor"), DescriptionAttribute("Automatically insert method call brackets after accepting code suggestion."), DefaultValue(true)]
+        public bool AutomaticallyInsertBrackets
+        {
+            get { return autoInsertBrackets; }
+            set { autoInsertBrackets = value; }
+        }
+
+        [CategoryAttribute("Code Editor"), DescriptionAttribute("Open code suggestions list after entering dot."), DefaultValue(true)]
+        public bool OpenSuggestionsOnDot
+        {
+            get { return openCompletionOnDot; }
+            set { openCompletionOnDot = value; }
+        }
+
         public Config()
 	    {
             this.LoadDefaults();
@@ -229,14 +249,23 @@ namespace GeoGen_Studio
             templateFile = "./../examples/template.nut";
             openLastFileOnStartup = true;
             lastFile = "";
-            scintillaDefinitonsFile = "../config/scintilla.xml";
             lastImportedFile = "";
             lastExportedFile = "";
             lastImportedTexture = "";
             lastExportedScreenshot = "";
             lastExportedOutput = "";
             parameters = new uint[0];
-            
+            defaultFontSize = 13;
+            fontSize = defaultFontSize;
+
+            searchString = "";
+            replaceString = "";
+            searchMode = StringComparison.OrdinalIgnoreCase;
+
+            autoAcceptCompletion = true;
+            autoInsertBrackets = true;
+            openCompletionOnDot = true;
+
             exportRescaleMode = false;
             mapDetailLevel = Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels;
 
@@ -286,7 +315,7 @@ namespace GeoGen_Studio
                 main.LoadInterfaceSettings();
             }
             // something went wrong -> create a new config file
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 main.WriteToConsole("Could not open config file, falling back to defaults.");
 
