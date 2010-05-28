@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.TabPage codeTab;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            this.editorHost = new System.Windows.Forms.Integration.ElementHost();
             this.importTextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +54,9 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.searchAndReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findNextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findPrevToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,9 +81,6 @@
             this.increaseFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decreaseFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.whiteSpaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lineBreaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.squirrelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,9 +155,11 @@
             this.importHeightmapDialog = new System.Windows.Forms.OpenFileDialog();
             this.exportHeightmapDialog = new System.Windows.Forms.SaveFileDialog();
             codeTab = new System.Windows.Forms.TabPage();
+            codeTab.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -170,6 +173,7 @@
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sidebarSplitContainer)).BeginInit();
             this.sidebarSplitContainer.Panel1.SuspendLayout();
             this.sidebarSplitContainer.Panel2.SuspendLayout();
             this.sidebarSplitContainer.SuspendLayout();
@@ -177,6 +181,7 @@
             // 
             // codeTab
             // 
+            codeTab.Controls.Add(this.editorHost);
             codeTab.Location = new System.Drawing.Point(4, 22);
             codeTab.Name = "codeTab";
             codeTab.Padding = new System.Windows.Forms.Padding(3);
@@ -184,6 +189,16 @@
             codeTab.TabIndex = 0;
             codeTab.Text = "Code";
             codeTab.UseVisualStyleBackColor = true;
+            // 
+            // editorHost
+            // 
+            this.editorHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editorHost.Location = new System.Drawing.Point(3, 3);
+            this.editorHost.Name = "editorHost";
+            this.editorHost.Size = new System.Drawing.Size(795, 400);
+            this.editorHost.TabIndex = 0;
+            this.editorHost.Text = "elementHost1";
+            this.editorHost.Child = null;
             // 
             // importTextureDialog
             // 
@@ -319,6 +334,9 @@
             this.pasteToolStripMenuItem,
             this.toolStripSeparator7,
             this.searchAndReplaceToolStripMenuItem,
+            this.findNextToolStripMenuItem,
+            this.findPrevToolStripMenuItem,
+            this.replaceToolStripMenuItem,
             this.toolStripSeparator8,
             this.settingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -390,6 +408,33 @@
             this.searchAndReplaceToolStripMenuItem.Text = "Search and Replace";
             this.searchAndReplaceToolStripMenuItem.Click += new System.EventHandler(this.searchAndReplaceToolStripMenuItem_Click);
             // 
+            // findNextToolStripMenuItem
+            // 
+            this.findNextToolStripMenuItem.Enabled = false;
+            this.findNextToolStripMenuItem.Name = "findNextToolStripMenuItem";
+            this.findNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.findNextToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.findNextToolStripMenuItem.Text = "Find Next";
+            this.findNextToolStripMenuItem.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click_1);
+            // 
+            // findPrevToolStripMenuItem
+            // 
+            this.findPrevToolStripMenuItem.Enabled = false;
+            this.findPrevToolStripMenuItem.Name = "findPrevToolStripMenuItem";
+            this.findPrevToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F3)));
+            this.findPrevToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.findPrevToolStripMenuItem.Text = "Find Previous";
+            this.findPrevToolStripMenuItem.Click += new System.EventHandler(this.findPrevToolStripMenuItem_Click);
+            // 
+            // replaceToolStripMenuItem
+            // 
+            this.replaceToolStripMenuItem.Enabled = false;
+            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
+            this.replaceToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.replaceToolStripMenuItem.Text = "Replace";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
+            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
@@ -420,10 +465,7 @@
             this.toolStripSeparator11,
             this.increaseFontSizeToolStripMenuItem,
             this.decreaseFontSizeToolStripMenuItem,
-            this.resetFontSizeToolStripMenuItem,
-            this.toolStripSeparator12,
-            this.whiteSpaceToolStripMenuItem,
-            this.lineBreaksToolStripMenuItem});
+            this.resetFontSizeToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -611,27 +653,6 @@
             this.resetFontSizeToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.resetFontSizeToolStripMenuItem.Text = "Reset Font Size";
             this.resetFontSizeToolStripMenuItem.Click += new System.EventHandler(this.resetFontSizeToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(173, 6);
-            // 
-            // whiteSpaceToolStripMenuItem
-            // 
-            this.whiteSpaceToolStripMenuItem.CheckOnClick = true;
-            this.whiteSpaceToolStripMenuItem.Name = "whiteSpaceToolStripMenuItem";
-            this.whiteSpaceToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.whiteSpaceToolStripMenuItem.Text = "White Space";
-            this.whiteSpaceToolStripMenuItem.Click += new System.EventHandler(this.whiteSpaceToolStripMenuItem_Click);
-            // 
-            // lineBreaksToolStripMenuItem
-            // 
-            this.lineBreaksToolStripMenuItem.CheckOnClick = true;
-            this.lineBreaksToolStripMenuItem.Name = "lineBreaksToolStripMenuItem";
-            this.lineBreaksToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.lineBreaksToolStripMenuItem.Text = "Line Breaks";
-            this.lineBreaksToolStripMenuItem.Click += new System.EventHandler(this.lineBreaksToolStripMenuItem_Click);
             // 
             // squirrelToolStripMenuItem
             // 
@@ -1429,6 +1450,7 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
+            codeTab.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -1437,6 +1459,7 @@
             this.statusStrip.PerformLayout();
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             this.tabs.ResumeLayout(false);
             this.outputTab.ResumeLayout(false);
@@ -1456,6 +1479,7 @@
             this.sidebarSplitContainer.Panel1.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.ResumeLayout(false);
             this.sidebarSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sidebarSplitContainer)).EndInit();
             this.sidebarSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1533,9 +1557,6 @@
         private System.Windows.Forms.ToolStripMenuItem increaseFontSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem decreaseFontSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetFontSizeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-        private System.Windows.Forms.ToolStripMenuItem whiteSpaceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem lineBreaksToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem leftToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rightToolStripMenuItem;
@@ -1588,6 +1609,10 @@
         public System.Windows.Forms.OpenFileDialog importTextureDialog;
         public System.Windows.Forms.ToolStripProgressBar progress;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Integration.ElementHost editorHost;
+        public System.Windows.Forms.ToolStripMenuItem findNextToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem findPrevToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
     }
 }
 
