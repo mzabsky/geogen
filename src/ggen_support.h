@@ -133,7 +133,7 @@ typedef uint32 GGen_Distance;
 	typedef wchar_t GGen_Char;
 	#define WIDEN(x) L ## x
 	#define GGen_Const_String(a) WIDEN(a)
-	#define GGen_Cin		cin
+	#define GGen_Cin		wcin
 	#define GGen_Cout		wcout
 	#define	GGen_Strcmp		wcscmp
 	#define GGen_Sprintf	swprintf
