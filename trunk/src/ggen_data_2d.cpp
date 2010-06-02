@@ -32,6 +32,7 @@
 #include "ggen_path.h"
 
 uint16 GGen_Data_2D::num_instances = 0;
+set<GGen_Data_2D*> GGen_Data_2D::instances;
 
 GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 {
@@ -42,6 +43,8 @@ GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 
 	GGen_Script_Assert(GGen_Data_2D::num_instances < GGen::GetMaxMapCount());
 	GGen_Data_2D::num_instances++;
+
+	GGen_Data_2D::instances.insert(this);
 
 	this->length = width * height;
 	this->width = width;
@@ -68,6 +71,7 @@ GGen_Data_2D* GGen_Data_2D::Clone()
 GGen_Data_2D::~GGen_Data_2D()
 {
 	GGen_Data_2D::num_instances--;
+	GGen_Data_2D::instances.erase(this);
 	delete [] this->data;
 }
 

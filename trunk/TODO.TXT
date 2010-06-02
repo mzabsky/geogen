@@ -5,14 +5,15 @@ TODO:
 		- get rid of SqPlus (or at least replace it with better binder)
 		- add 2D::StrokePath
 		- add 2D::Turbulence
+	GGENNET:
+		- System.ComponentModel.EditorBrowsable
 	STUDIO:
-		- replace ScintillaNET with AvalonEdit (underway in a separate branch)
 		- add overlay and map previews to overlay and map selection boxes
 		- printing in Studio
 		- open files directly from system shell (via file associations)
 TOFIX:
 	CORE:
-		- CRITICAL: objects that are not manually relased in the script won't be deleted at all (bug most likely caused by SqPlus,
+		- TEMPORARILY FIXED: objects that are not manually relased in the script won't be deleted at all (bug most likely caused by SqPlus,
 		  getting rid of it should fix it, the only other solution might be manual instance tracking)
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
