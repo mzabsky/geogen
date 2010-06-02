@@ -271,7 +271,7 @@ enum GGen_Comparsion_Mode{
 /**
  * Generator status
  */
-enum GGen_Status{
+enum GGen_Status{ 
 	GGEN_NO_SCRIPT, //!< No script has been inserted yet, no actions but SetScript and setting map constraints are allowed. SetScript will rise the status to SCRIPT_LOADED.
 	GGEN_SCRIPT_LOADED, //!< Script has been successfully loaded, work with map info is now allowed (LoadArgs ca be called only now). LoadArgs will rise the status to READY_TO_GENERATE.
 	GGEN_READY_TO_GENERATE, //!< Script is ready to be executed.

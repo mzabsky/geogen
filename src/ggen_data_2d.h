@@ -21,6 +21,7 @@
 #include "ggen_support.h"
 #include "ggen_path.h"
 #include <iostream>
+#include <set>
 
 using namespace std;
 
@@ -30,6 +31,7 @@ using namespace std;
 class GGen_Data_2D{
 	protected:
 		static uint16 num_instances;
+		static set<GGen_Data_2D*> instances;
 
 	public:
 		GGen_Height* data;
@@ -534,5 +536,11 @@ class GGen_Data_2D{
 		 * @return The minimum value found on the path.
 		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
+
+		static void FreeAllInstances(){
+			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
+				delete (*GGen_Data_2D::instances.begin());
+			}
+		};
 };
 

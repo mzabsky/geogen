@@ -49,6 +49,8 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 	va_start(vl,s);
 	GGen_Vsprintf( temp,s,vl);
 
+	//vprintf(s,vl);
+
 	//scvsprintf(
 
 	//scvsprintf(
@@ -383,7 +385,7 @@ int16* GGen_Squirrel::Generate(){
 
 		memcpy(return_data, data->data, sizeof(int16) * output_width * output_height);
 
-		delete data;
+		GGen_Data_2D::FreeAllInstances();
 
 		return return_data;
 		
