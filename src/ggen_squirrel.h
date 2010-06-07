@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include <list>
+
 #include "../external/squirrel/sqplus.h"
 #include "../external/squirrel/sqstdmath.h"
 #include "../external/squirrel/sqstdio.h"
@@ -66,6 +68,8 @@ DECLARE_INSTANCE_TYPE(GGen_Point)
 DECLARE_INSTANCE_TYPE(GGen_Path)
 
 class GGEN_EXPORT GGen_Squirrel: public GGen{
+protected:
+	list<void*> presets;
 public:	
 	GGen_Squirrel();
 	~GGen_Squirrel();
@@ -78,7 +82,5 @@ public:
 	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label);
 	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label);
 	virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label);
-	
-	SquirrelObject* presetTarget;
 };
 

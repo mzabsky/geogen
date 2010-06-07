@@ -30,13 +30,14 @@
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
+#include <assert.h>
 
 uint16 GGen_Data_2D::num_instances = 0;
 set<GGen_Data_2D*> GGen_Data_2D::instances;
 
 GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 {
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
 	GGen_Script_Assert(width > 1 && height > 1);
 	GGen_Script_Assert(width < GGen::GetMaxWidth() && height < GGen::GetMaxHeight());
@@ -70,6 +71,8 @@ GGen_Data_2D* GGen_Data_2D::Clone()
 
 GGen_Data_2D::~GGen_Data_2D()
 {
+	assert(GGen_Data_2D::instances.find(this) != GGen_Data_2D::instances.end());
+
 	GGen_Data_2D::num_instances--;
 	GGen_Data_2D::instances.erase(this);
 	delete [] this->data;

@@ -46,6 +46,9 @@
     <ClCompile Include="..\src\ggen_scriptarg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ggen_progress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ggen.h">
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="..\src\ggen_squirrel.h">
       <Filter>GGen Squirrel API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_progress.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
