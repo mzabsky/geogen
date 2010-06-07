@@ -49,14 +49,6 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 	va_start(vl,s);
 	GGen_Vsprintf( temp,s,vl);
 
-	//vprintf(s,vl);
-
-	//scvsprintf(
-
-	//scvsprintf(
-
-	//GGen_Vsprintf(
-
 	va_end(vl);
 
 	GGen::GetInstance()->ThrowMessage(temp, GGEN_ERROR);
@@ -72,6 +64,8 @@ GGen_Squirrel::GGen_Squirrel(){
 	sq_pop(v,1);
 
 	SquirrelVM::InitNoRef(v);
+
+	//SquirrelVM::Init();
 
 	sqstd_register_mathlib(SquirrelVM::GetVMPtr());
 
@@ -127,9 +121,6 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_LESS_THAN_OR_EQUAL_TO, _SC("GGEN_LESS_THAN_OR_EQUAL_TO"));
 	BindConstant(GGEN_GREATER_THAN_OR_EQUAL_TO, _SC("GGEN_GREATER_THAN_OR_EQUAL_TO"));
 
-
-	// WARNING: I'm too lazy to replace these with the TypeDefs currently. Maybe later...
-	
 	/* Class: GGen_Data_1D */
 	SQClassDefNoConstructor<GGen_Data_1D>(_SC("GGen_Data_1D")).
 		overloadConstructor<GGen_Data_1D(*)(uint16, int16)>().
@@ -283,11 +274,20 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_MIN_HEIGHT, _SC("GGEN_MIN_HEIGHT"));
 	BindConstant(GGEN_MAX_HEIGHT, _SC("GGEN_MAX_HEIGHT"));
 	BindConstant(GGEN_INVALID_HEIGHT, _SC("GGEN_INVALID_HEIGHT"));
+
+	#include "ggen_presets.h"
 }
 
-GGen_Squirrel::~GGen_Squirrel(){
+GGen_Squirrel::~GGen_Squirrel(){	
+	// delete contents of all presets
+	for(list<void*>::iterator it = this->presets.begin(); it != this->presets.end(); it++){
+		delete *it;
+	}
+
+	// empty the preset list
+	this->presets.clear();
+
 	SquirrelVM::Shutdown();	
-	//sq_close(SquirrelVM::GetVMPtr()); 
 }
 
 
@@ -354,53 +354,88 @@ int GGen_Squirrel::GetInfoInt(const GGen_String& label){
 int16* GGen_Squirrel::Generate(){		
 	assert(this->status == GGEN_READY_TO_GENERATE);
 	
+	HSQUIRRELVM v = SquirrelVM::GetVMPtr();
+
+	// remember the current state of the stack (so it can be restored later)
+	int top = sq_gettop(v);
+
 	try {
 		int16* return_data;
 		GGen_Data_2D* data;
 
 		{
-			SquirrelFunction<GGen_Data_2D*> callFunc(GGen_Const_String("Generate"));
-			
-			presetTarget = &callFunc.object;
-			
-			this->status = GGEN_GENERATING;
+			this->status = GGEN_GENERATING;			
 
-			#include "ggen_presets.h"
-			
-			presetTarget = NULL;
+			sq_pushroottable(v);
 
-			data =  callFunc();	
+			// name of the function being called
+			sq_pushstring(v, GGen_Const_String("Generate"),-1); 
+			
+			// does the Generate() function exist?
+			if(SQ_SUCCEEDED(sq_get(v,-2))) {
+				// push "this" (since Generate() is supposed to be a global function use root table)
+				sq_pushroottable(v);
+
+				// invoke the function
+				sq_call(v, 1, true, true);							
+
+				// the output instance
+				SQUserPointer outInstance;
+
+				// did the function return an instance of a GGen_Data_2D class?
+				if(SQ_SUCCEEDED(sq_getinstanceup(v, -1, &outInstance, ClassType<GGen_Data_2D>::type()))){
+					data = (GGen_Data_2D*) outInstance;
+				}
+				else {
+					throw SquirrelError();
+				}
+			}
+			else {
+				GGen::GetInstance()->ThrowMessage(GGen_Const_String("\"Generate()\" function was not found in the script!"), GGEN_ERROR, -1);
+
+				throw SquirrelError();
+			}
+
+			// restore original state of the stack
+			sq_settop(v, top);
 
 			this->status = GGEN_READY_TO_GENERATE;
 		}
 
-		GGen_Script_Assert(data != NULL && data->data != NULL);
+		assert(data != NULL && data->data != NULL);
 
 		output_width = data->width;
 		output_height = data->height;
 
 		return_data = new int16[output_width * output_height];
 
-		GGen_Script_Assert(return_data != NULL);
+		assert(return_data != NULL);
 
 		memcpy(return_data, data->data, sizeof(int16) * output_width * output_height);
 
+		this->GetInfoInt(GGen_Const_String("voidCall"));
+
 		GGen_Data_2D::FreeAllInstances();
 
-		return return_data;
-		
+		return return_data;		
     } 
-    catch (SquirrelError &) {
+    catch (SquirrelError &) {		
+		GGen_Data_2D::FreeAllInstances();		
+
 		this->status = GGEN_READY_TO_GENERATE;
 
 		return NULL;
     }
 	catch (GGen_ScriptAssertException &) {
+		GGen_Data_2D::FreeAllInstances();
+
 		this->status = GGEN_READY_TO_GENERATE;
 
 		return NULL;
     }
     catch (bad_alloc){
+		GGen_Data_2D::FreeAllInstances();
+
 		this->status = GGEN_READY_TO_GENERATE;
 		
 		GGen::GetInstance()->ThrowMessage(GGen_Const_String("GGen_Data memory allocation failed!"), GGEN_ERROR, -1);
@@ -410,15 +445,21 @@ int16* GGen_Squirrel::Generate(){
 }
 
 void GGen_Squirrel::RegisterPreset(GGen_Data_1D* preset, const GGen_String& label){
-	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+	BindVariable(preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+
+	this->presets.push_back(preset);
 }
 
 void GGen_Squirrel::RegisterPreset(GGen_Data_2D* preset, const GGen_String& label){
-	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+	BindVariable(preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+
+	this->presets.push_back(preset);
 }
 
 void GGen_Squirrel::RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label){
-	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+	BindVariable(preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+
+	this->presets.push_back(preset);
 }
 
 

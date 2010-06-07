@@ -21,6 +21,7 @@
 
 #include <vector>
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -133,6 +134,8 @@ public:
 };
 
 class GGen_Squirrel: public GGen{
+protected:
+	list<void*> presets;
 public:	
 	GGen_Squirrel();
 	~GGen_Squirrel();
@@ -142,5 +145,7 @@ public:
 	virtual int GetInfoInt(const GGen_String& label);
 	virtual short* Generate();
 
-	void* presetTarget;
+	//virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label);
+	//virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label);
+	//virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label);
 };
