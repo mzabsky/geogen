@@ -111,7 +111,7 @@ namespace GeoGen_Studio
             set { actionAfterExec = value; }
         }
 
-        [CategoryAttribute("Script Execution"), DescriptionAttribute("Maximum map size accepted by GeoGen Studio. All maps will be downcaled to match this size. Decrease this value if the application is frequently running out of memory."), DefaultValue(Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels)]
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("Maximum map size accepted by GeoGen Studio. All maps will be downcaled to match this size. Decrease this value if the application is frequently running out of memory. This setting will take effect only after the displayed map is regenerated or the application is restarted."), DefaultValue(Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels)]
         public Main.BitmapDetailLevel MapDetailLevel
         {
             get { return mapDetailLevel; }
