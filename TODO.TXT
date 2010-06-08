@@ -5,12 +5,9 @@ TODO:
 		- get rid of SqPlus (or at least replace it with better binder)
 		- add 2D::StrokePath
 		- add 2D::Turbulence
-	GGENNET:
-		- System.ComponentModel.EditorBrowsable
 	STUDIO:
 		- add overlay and map previews to overlay and map selection boxes
 		- printing in Studio
-		- open files directly from system shell (via file associations)
 TOFIX:
 	CORE:
 		- TEMPORARILY FIXED: objects that are not manually relased in the script won't be deleted at all (bug most likely caused by SqPlus,
@@ -19,8 +16,7 @@ TOFIX:
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
 		- only 32bpp RGBA color depth is supported for overlays
 	STUDIO: 
-		- heightmap/texture import silently fails for overly big images (=> warning box should be shown)		
-		- crash if another map is generated while a model is being built for previous one
+		- heightmap/texture import silently fails for overly big images (=> warning box should be shown)
 		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)
-		- weird crash after Settings->OK if a 3D map is already displayed
+		- studio asks for external texture each time map is regenerated
