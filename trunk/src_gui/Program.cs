@@ -29,7 +29,7 @@ namespace GeoGen_Studio
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Main main = null;
 
@@ -43,6 +43,15 @@ namespace GeoGen_Studio
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 main = new Main();
+
+                if(args.Length > 0){
+                    try{
+                        if(System.IO.File.Exists(args[0])){
+                            main.fileFromShell = args[0];
+                        }
+                    }
+                    catch{}
+                }
 
                 Application.Run(main);
 

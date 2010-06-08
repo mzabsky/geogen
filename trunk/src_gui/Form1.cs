@@ -93,6 +93,7 @@ namespace GeoGen_Studio
         public ICSharpCode.AvalonEdit.TextEditor editor;
         private bool needsSaving;
         public Config config;
+        public string fileFromShell; // file being loaded via command line argument
         private bool knownFile = false; // do we know path to currently edited file (Save action depends on it - it triggers Save As if the file path is not known)
         private bool scrollOutput;
         private bool scrollViewport; // viewport azimuth and elevation mode (left mouse is clicked down)
@@ -125,6 +126,9 @@ namespace GeoGen_Studio
             this.loading = new Loading();
             this.loading.Show();
             this.loading.Refresh();
+
+            // set the current directory to the executable dir (staring via shortcut or through associated file could set the working dir to a wrong one)
+            System.IO.Directory.SetCurrentDirectory(System.IO.Path.GetDirectoryName(Application.ExecutablePath));
 
             this.CreateEditor();
 
@@ -163,7 +167,13 @@ namespace GeoGen_Studio
             this.LoadOverlays();
 
             // open last opened file if requested
-            if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
+            if (this.fileFromShell != null && this.fileFromShell != "")
+            {
+                this.editor.Text = System.IO.File.ReadAllText(this.fileFromShell);
+                this.knownFile = true;
+                this.needsSaving = false;
+            }
+            else if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
             {              
                 this.editor.Text = System.IO.File.ReadAllText(this.config.lastFile);
                 this.knownFile = true;
