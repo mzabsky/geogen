@@ -38,10 +38,14 @@ using namespace std;
 	#define GGEN_WIDEN(x) L ## x
 	#define GGen_Const_String(a) GGEN_WIDEN(a)
 	#define GGen_Cout		wcout
+	#define GGen_Cin		wcin
+	#define GGen_Strtol		wcstol
 #else
 	typedef char GGen_Char;
 	#define GGen_Const_String(a) a
 	#define GGen_Cout		cout
+	#define GGen_Cin		cin
+	#define GGen_Strtol		strtol
 #endif
 
 typedef basic_string<GGen_Char> GGen_String;
