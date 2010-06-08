@@ -148,25 +148,30 @@ namespace GeoGen_Studio
         {
             this.currentImportedFile = null;
 
+            // free the pointers (so garbage collector can do its job)
+            this.output.Image = null;
+            this.currentImage = null;
+            this.currentImageWithOverlay = null;
+
+            // empty the output list
+            this.outputs.Items.Clear();
+
             if (this.output.Image != null)
-            {
-                // empty the output list
-                this.outputs.Items.Clear();
-
-                // free the pointers (so garbage collector can do its job)
-                this.output.Image = null;
-                this.currentImage = null;
-                this.currentImageWithOverlay = null;
-
+            {               
                 // collect the garbage (there are now possibly hundreds of megabytes of garbage laying around by now)
                 System.GC.Collect();
 
                 // reset the image size (so it doesn't show error image)
                 this.output.Width = 0;
                 this.output.Height = 0;
-
-                this.maps.Clear();
             }
+
+            foreach (DictionaryEntry data in this.maps)
+            {
+                ((GGenNet.HeightData) data.Value).Dispose();
+            }
+
+            this.maps.Clear();
 
             this.ClearData3D();
         }
