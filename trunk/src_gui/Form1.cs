@@ -167,11 +167,15 @@ namespace GeoGen_Studio
             this.LoadOverlays();
 
             // open last opened file if requested
-            if (this.fileFromShell != null && this.fileFromShell != "")
+            string ext = this.fileFromShell.Substring(this.fileFromShell.LastIndexOf('.'), this.fileFromShell.Length - this.fileFromShell.LastIndexOf('.')).ToLower() ;
+            
+            if (this.fileFromShell != null && this.fileFromShell != "" && !(ext == ".shd" || ext == ".bmp" || ext == ".png" || ext == ".jpg"))
             {
                 this.editor.Text = System.IO.File.ReadAllText(this.fileFromShell);
                 this.knownFile = true;
                 this.needsSaving = false;
+                this.config.lastFile = this.fileFromShell;
+                this.fileFromShell = null; // the file was already loaded and will not be useful any more
             }
             else if (this.config.openLastFileOnStartup && this.config.lastFile != "" && System.IO.File.Exists(this.config.lastFile))
             {              
@@ -226,6 +230,12 @@ namespace GeoGen_Studio
             this.Opacity = 1.0;
             
             this.loading.FadeOut();
+
+            if(this.fileFromShell != null){
+                this.ClearData();
+                this.ClearData3D();
+                this.ReloadMaps(this.fileFromShell);
+            }
         }
 
         // this app's GetInstance()
