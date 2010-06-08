@@ -413,8 +413,12 @@ int16* GGen_Squirrel::Generate(){
 
 		memcpy(return_data, data->data, sizeof(int16) * output_width * output_height);
 
+		/* The internal squirrel reference to the returned object is not released until next c++ => squirrel
+		call. So we call the script header with most likely nonexistant identification string to release the 
+		reference held by squirrel.h */
 		this->GetInfoInt(GGen_Const_String("voidCall"));
 
+		/* Free all remaining 2D instances (those created via Clone) */
 		GGen_Data_2D::FreeAllInstances();
 
 		return return_data;		
