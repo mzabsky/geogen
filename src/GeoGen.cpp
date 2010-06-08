@@ -127,6 +127,7 @@ struct GGen_Params{
 GGen_Params _params;
 
 bool Save(const short* data, unsigned int width, unsigned int height, const GGen_String* implicit_path, const GGen_String* name = NULL, bool enable_overlay = false){
+	bool deleteData = false;
 
 	// overlay is to be saved separately -> create its name	
 	if(_params.overlay_as_copy && _params.overlay_file.length() > 0 && !enable_overlay){
@@ -242,6 +243,7 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 			}
 			
 			data = new_data;
+			deleteData = true;
 		}
 	}
 
@@ -338,6 +340,8 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 #ifdef GGEN_UNICODE
 	delete [] path_out_cstr;
 #endif
+
+	if(deleteData) delete [] data;
 
 	if(name != NULL) cout << "Executing...\n" << flush;
 
@@ -636,6 +640,7 @@ int main(int argc,char * argv[]){
 	// flush the bitmap
 	Save(data, ggen->output_width, ggen->output_height, &compatible_file_name);
 	
+	delete [] data;
 
 	cout << "Cleanup...\n" << flush;
 
