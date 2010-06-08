@@ -164,6 +164,8 @@ namespace GeoGen_Studio
                 // reset the image size (so it doesn't show error image)
                 this.output.Width = 0;
                 this.output.Height = 0;
+
+                this.maps.Clear();
             }
 
             this.ClearData3D();
@@ -327,8 +329,6 @@ namespace GeoGen_Studio
                         }
 
                         this.startTime = System.DateTime.Now.Ticks / 10000;
-
-                        this.maps.Clear();
 
                         GGenNet.HeightData result;
                         try
