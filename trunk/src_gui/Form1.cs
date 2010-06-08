@@ -167,9 +167,9 @@ namespace GeoGen_Studio
             this.LoadOverlays();
 
             // open last opened file if requested
-            string ext = this.fileFromShell.Substring(this.fileFromShell.LastIndexOf('.'), this.fileFromShell.Length - this.fileFromShell.LastIndexOf('.')).ToLower() ;
+            string ext = this.fileFromShell == null ? "" : this.fileFromShell.Substring(this.fileFromShell.LastIndexOf('.'), this.fileFromShell.Length - this.fileFromShell.LastIndexOf('.')).ToLower();
             
-            if (this.fileFromShell != null && this.fileFromShell != "" && !(ext == ".shd" || ext == ".bmp" || ext == ".png" || ext == ".jpg"))
+            if (this.fileFromShell != null && !(ext == ".shd" || ext == ".bmp" || ext == ".png" || ext == ".jpg"))
             {
                 this.editor.Text = System.IO.File.ReadAllText(this.fileFromShell);
                 this.knownFile = true;
