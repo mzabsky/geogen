@@ -34,6 +34,12 @@ void MessageHandler(const GGen_String& message, GGen_Message_Level level, int li
 void ProgressHandler(int current_progress, int max_progress);
 void ReturnHandler(const GGen_String& name, const short* map, int width, int height);
 
+#pragma unmanaged
+void GGenNet_DeleteNativeArray(void* pointer){
+	delete [] pointer;
+}
+#pragma managed
+
 public ref class GGenNet{
 public:
 	enum class MessageLevel{
@@ -670,7 +676,11 @@ public:
 			return nullptr;
 		}
 
-		return gcnew HeightData(ggen->output_width, ggen->output_height, pureData);
+		HeightData^ heightData = gcnew HeightData(ggen->output_width, ggen->output_height, pureData);
+
+		GGen_DeleteNativeArrayPtr(pureData);
+
+		return heightData;
 	}
 
 internal:

@@ -153,3 +153,5 @@ public:
 	//virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label);
 	//virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label);
 };
+
+void GGen_DeleteNativeArrayPtr(void* ptr);
