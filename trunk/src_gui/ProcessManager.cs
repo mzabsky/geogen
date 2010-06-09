@@ -111,6 +111,8 @@ namespace GeoGen_Studio
 
             GGenNet.HeightData data = Main.GetResizedHeightData(e.HeightMap, Math.Min(e.HeightMap.Width, (int)config.mapDetailLevel), Math.Min(e.HeightMap.Height, (int)config.mapDetailLevel));
 
+            e.HeightMap.Dispose();
+
             Main.StretchHeightValues(ref data);
 
             this.maps.Add(e.Label, data);
