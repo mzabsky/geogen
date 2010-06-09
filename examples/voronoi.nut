@@ -14,7 +14,8 @@ function GetInfo(info_type){
 	
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");			
 			GGen_AddEnumArg("feature_size","Terrain Feature Size","Affects size of individual terrain features (other than the sharp peaks).", 1, "Tiny;Medium;Large;Huge");
-			GGen_AddIntArg("water_level","Water percentage","How much of the map should  be covered by sea.", 30, 5, 95, 5);		
+			
+			GGen_AddEnumArg("water_level","Water Level","Determines how much of the map is covered by water.", 2, "Very Low;Low;Medium;High;Very High");
 			
 			return 0;
 	}
@@ -30,38 +31,41 @@ function Generate(){
 
 	local smoothness = 1 << GGen_GetArgValue("smoothness");
 	local feature_size = GGen_GetArgValue("feature_size");
-	local water_level = GGen_GetArgValue("water_level") / 100.;
+	
+	local water_level = GGen_GetArgValue("water_level");
 	
 	local base = GGen_Data_2D(width, height, 0);
 	
-	base.VoronoiNoise((-10 + (30 * (1 + peak_size))) * ((width > height) ? height : width) / 300, 1, GGEN_BUBBLES);
+	base.VoronoiNoise((-10 + (50 * (1 + peak_size))) * ((width > height) ? height : width) / 300, 1, GGEN_BUBBLES);
 
 	base.Smooth(1 + 2 * peak_smoothness);
 	
 	local copy = base.Clone();
 	local mask = base.Clone();
 	
-	mask.Clamp(mask.Max() / 3, 9 * mask.Max() / 10);
-
-	mask.ReturnAs("mask");
+	mask.Clamp(mask.Max() / 6, 9 * mask.Max() / 10);
 	
 	mask.ScaleValuesTo(0, 4 * GGEN_MAX_HEIGHT / 5);
 
 	copy.Smooth(width / 10);
 	
 	base.Combine(copy, mask, false);
+	
+	base.ScaleValuesTo(GGEN_MIN_HEIGHT / 6, GGEN_MAX_HEIGHT / 2);
 
 	local noise = GGen_Data_2D(width, height, 0);
 	
-	noise.Noise(smoothness, 400, GGEN_STD_NOISE);
+	noise.Noise(smoothness, ((width > height) ? height : width) / (60 - (15 * feature_size)) , GGEN_STD_NOISE);
 	
-	local prominence_fraction = 1 - (0.3 + (1 + peak_prominence) * 0.07);
+	local prominence_fraction = 0.7 - 0.7 * (0.3 + (1 + peak_prominence) * 0.07);
+	
+	prominence_fraction /= (4 - feature_size);
 
 	noise.ScaleValuesTo((-prominence_fraction * base.Max()).tointeger(), (prominence_fraction * base.Max()).tointeger());
 	
 	base.AddMap(noise);
-
-	base.Flood(1 - water_level);
-
+	
+	base.Add(GGEN_MAX_HEIGHT * (2 - water_level) / 20);
+	
 	return base;
 }
