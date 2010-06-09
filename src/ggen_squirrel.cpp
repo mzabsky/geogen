@@ -321,7 +321,7 @@ GGen_String GGen_Squirrel::GetInfo(const GGen_String& label){
 
 		return GGen_String(output);
 	}
-	catch(SquirrelError &){
+	catch(...){
 		this->status = statusBackup;
 
 		return NULL;
@@ -344,7 +344,7 @@ int GGen_Squirrel::GetInfoInt(const GGen_String& label){
 
 		return value;
 	}
-	catch(SquirrelError &){
+	catch(...){
 		this->status = statusBackup;
 
 		return -1;
