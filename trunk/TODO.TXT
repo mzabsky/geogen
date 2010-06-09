@@ -4,7 +4,7 @@ TODO:
 		- finish the 2D::CreateRiver function (underway in a separate branch)
 		- get rid of SqPlus (or at least replace it with better binder)
 		- add 2D::StrokePath
-		- add 2D::Turbulence
+		- add 2D::Turbulence	
 	STUDIO:
 		- add overlay and map previews to overlay and map selection boxes
 		- printing in Studio
@@ -15,8 +15,12 @@ TOFIX:
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
 		- only 32bpp RGBA color depth is supported for overlays
+		- add presets documentation	
 	STUDIO: 
 		- heightmap/texture import silently fails for overly big images (=> warning box should be shown)
 		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)
 		- studio asks for external texture each time map is regenerated
+		- seed 0 show as non-default in settings dialog
+		- exceptions thrown in non-main thread are not atched by the universal exceptionc catcher
+		- squirrel std functions are missing from the code completion list
