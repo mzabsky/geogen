@@ -31,7 +31,6 @@ namespace GeoGen_Studio
 
         private enum Mode
         {
-            Idle, // geogen is not running
             Standard, // a script is being executed
             SyntaxCheck // syntax check is in progress
         };
@@ -45,7 +44,7 @@ namespace GeoGen_Studio
 
         private Mode mode;
 
-        private System.Threading.Thread GGenThread;
+        private System.Threading.Thread GGenThread = null;
 
         public string lastCheckContent;
         private bool isCheckScheduled;
@@ -61,7 +60,7 @@ namespace GeoGen_Studio
 
         public void InitializeGGen()
         {
-            this.mode = Mode.Idle;
+            this.mode = Mode.Standard;
 
             this.maps = new Hashtable();
 
@@ -78,7 +77,9 @@ namespace GeoGen_Studio
         }
 
         public bool IsGGenRunning(){
-            return mode != Mode.Idle;   
+            //return mode != Mode.Idle;   
+
+            return this.GGenThread != null && this.GGenThread.IsAlive;
         }
 
         public void ScheduleSyntaxCheck(){
@@ -141,7 +142,7 @@ namespace GeoGen_Studio
                     case GGenNet.MessageLevel.Notice: level = "Notice"; break;
                 }
 
-                if (this.mode != Mode.SyntaxCheck) this.WriteToConsole(level + ": " + e.Message);
+                if (this.mode == Mode.Standard) this.WriteToConsole(level + ": " + e.Message);
                 else this.lastCheckContent += level + ": " + e.Message + Environment.NewLine;
             }));
         }
@@ -198,8 +199,6 @@ namespace GeoGen_Studio
 
                     this.RemoveStatus("Generating");
                 }
-
-                this.mode = Mode.Idle;
             }));
         }
 
@@ -212,7 +211,7 @@ namespace GeoGen_Studio
         public void ExecuteScript(string script, bool syntaxCheckOnly, uint[] parameters)
         {
             // kill current syntax check in progress (if any is running)
-            if (mode == Mode.SyntaxCheck)
+            if (this.IsGGenRunning() && mode == Mode.SyntaxCheck && syntaxCheckOnly == false)
             {
                 // wait for the syntax check to finish (it usually takes just milliseconds)
                 this.GGenThread.Join();
@@ -221,15 +220,15 @@ namespace GeoGen_Studio
                 this.ScheduleSyntaxCheck();
             }
             // syntax checks are not allowed while a script is being executed
-            else if (mode == Mode.Standard && syntaxCheckOnly == true)
+            else if (this.IsGGenRunning() && syntaxCheckOnly == true)
             {
                 // do the check one the requested script is finished
-                this.ScheduleSyntaxCheck();
+                if(!this.isCheckScheduled) this.ScheduleSyntaxCheck();
 
                 return;
             }
             // having two generators running at once shouldn't happen
-            else if (mode == Mode.Standard)
+            else if (this.IsGGenRunning() && mode == Mode.Standard)
             {
                 throw new Exception("Two GeoGens can't possibly be running at one time");
             }
@@ -246,6 +245,7 @@ namespace GeoGen_Studio
             }
             else{
                 this.mode = Mode.SyntaxCheck;
+                
                 this.lastCheckContent = "";
                 this.AddStatus("Checking syntax");
             }
@@ -276,7 +276,7 @@ namespace GeoGen_Studio
                         return;
                     }
 
-                    // do nott generate the map during syntax check runs
+                    // do not generate the map during syntax check runs
                     if (!syntaxCheckOnly)
                     {
                         // no list of arguments was passed to the function -> use params from the param table
@@ -404,14 +404,11 @@ namespace GeoGen_Studio
                 {
                     this.BeginInvoke(new MethodInvoker(delegate()
                     {
-                        this.mode = Mode.Idle;
                         this.RemoveStatus("Executing");
                         this.RemoveStatus("Checking syntax");
                         this.ExecuteScheduledCheck();
                     }));
                 }
-
-                this.mode = Mode.Idle;
             });
 
             GGenThread = new System.Threading.Thread(starter);
@@ -596,11 +593,9 @@ namespace GeoGen_Studio
             // the benchmark is already running
             else
             {
-                this.mode = Mode.Idle;
-
                 Int64 time = System.DateTime.Now.Ticks / 10000 - this.startTime;
 
-                // the becnhmark script was executed
+                // the benchmark script was executed
                 if (this.benchmarkStatus.phase % 2 == 0)
                 {
                     this.benchmarkStatus.thisBenchTime = time;
