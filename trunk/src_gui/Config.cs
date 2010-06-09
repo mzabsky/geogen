@@ -248,7 +248,7 @@ namespace GeoGen_Studio
             /* Basic settings */
             templateFile = "./../examples/template.nut";
             openLastFileOnStartup = true;
-            lastFile = "";
+            lastFile = "../examples/";
             lastImportedFile = "";
             lastExportedFile = "";
             lastImportedTexture = "";
