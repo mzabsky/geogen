@@ -519,7 +519,9 @@ namespace GeoGen_Studio
                     {
                         Main.HeightDataToBitmap(toExport).Save(path);
                     }
-                }
+
+                    toExport.Dispose();
+                }                               
             }
         }
     }
