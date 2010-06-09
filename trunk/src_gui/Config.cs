@@ -146,19 +146,19 @@ namespace GeoGen_Studio
             set { textureDetailLevel = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Should the underwater terrain be modelled in 3D? Change of this setting will take effect once the model is rebuilt."), DefaultValue(false)]
+        [CategoryAttribute("3D View"), DescriptionAttribute("Should the underwater terrain be modeled in 3D? Change of this setting will take effect once the model is rebuilt."), DefaultValue(false)]
         public bool EnableTerrainUnderZero
         {
             get { return enableTerrainUnderZero; }
             set { enableTerrainUnderZero = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Enable/disable the 3D view."), DefaultValue(true)]
-        public bool Enable3D
+        //[CategoryAttribute("3D View"), DescriptionAttribute("Enable/disable the 3D view."), DefaultValue(true)]
+        /*public bool Enable3D
         {
             get { return enable3d; }
             set { enable3d = value; }
-        }
+        }*/
 
         [CategoryAttribute("3D View"), DescriptionAttribute("Color covering the unpainted areas of the 3D viewport."), DefaultValue(Main.ViewportBackground.Black)]
         public Main.ViewportBackground BackgroundColor3d
