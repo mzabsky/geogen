@@ -299,6 +299,7 @@ namespace GeoGen_Studio
             this.editor.FontFamily = new System.Windows.Media.FontFamily("Consolas, Courier New");
             this.editor.WordWrap = false;
             this.editor.ShowLineNumbers = true;
+            this.editor.FontSize = 13;
 
 
             // code folding
