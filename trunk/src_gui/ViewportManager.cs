@@ -39,7 +39,7 @@ namespace GeoGen_Studio
             Low_256x256Polygons = 256,
             Medium_512x512Polygons = 512,
             High_1024x1024Polygons = 1024,
-            VeryHigh_2048x2048Polygons = 2048,/*
+            VeryHigh_2048x2048Polygons = 2048/*,
             Extreme_4096x4096Polygons = 4096*/
         };
 
@@ -177,6 +177,8 @@ namespace GeoGen_Studio
             }
 
             // release the height data
+            if(this.heightData != null) this.heightData.Dispose();
+            if (this.textureBase != null) this.textureBase.Dispose();
             this.heightData = null;
             this.textureBase = null;
 
