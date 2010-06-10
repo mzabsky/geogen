@@ -443,7 +443,7 @@ namespace GeoGen_Studio
         {
             try
             {
-                //this.viewportManager.ClearData();
+                this.ClearData();
                 //this.outputManager.ClearData();
             }
             catch { };
