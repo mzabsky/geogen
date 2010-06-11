@@ -1199,7 +1199,7 @@ namespace GeoGen_Studio
         {
             if (this.texture.SelectedIndex != -1)
             {
-                this.currentTextureIndex = this.texture.SelectedIndex;
+                this.currentTexture = (string) this.texture.Items[this.texture.SelectedIndex];
             }
 
             this.ApplyTexture();
