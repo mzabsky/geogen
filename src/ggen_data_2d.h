@@ -537,6 +537,32 @@ class GGen_Data_2D{
 		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
 
+		void ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direction direction, bool shrink);
+
+		/**
+		 * Fills all areas within a distance in one direction from any value greater than 0 with 1. The rest of the map will be filled with 0.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void ExpandDirection(GGen_Distance distance, GGen_Direction direction);
+
+		/**
+		 * Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void ShrinkDirection(GGen_Distance distance, GGen_Direction direction);
+
+		/**
+		 * Fills all areas within a distance (in maximum metric) from any value greater than 0 with 1. The rest of the map will be filled with 0.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void Expand(GGen_Distance distance);
+
+		/**
+		 * Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void Shrink(GGen_Distance distance);
+
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
 				delete (*GGen_Data_2D::instances.begin());
