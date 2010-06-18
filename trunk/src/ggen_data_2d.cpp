@@ -1746,3 +1746,101 @@ GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
 
 	return this->GetValueOnPathBase(path, false);
 }
+
+void GGen_Data_2D::ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direction direction, bool shrink){
+	GGen_Script_Assert(distance > 0 && distance < this->width && distance < this->height);
+	
+	/* shrinking = inverse expanding */
+	if(shrink){
+		this->Invert();
+
+		/* To fix maps that had non-negative values only */
+		this->Add(1);
+	}
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* The current window value is a count of values greater than 0 in the current window. */
+
+	if (direction == GGEN_HORIZONTAL) {
+		for (GGen_Coord y = 0; y < height; y++) {
+			/* Prefill the window with value of the left edge + n leftmost values (where n is radius) */
+			GGen_Size window_size = distance * 2 + 1;
+			GGen_Height window_value = (GGen_Height) (this->data[this->width * y] > 0) * distance;
+
+			for (GGen_Distance x = 0; x < distance; x++) {
+				window_value += (GGen_Height) (this->data[x + this->width * y] > 0);
+			}
+
+			/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
+			value of rightmost + 1). i represents position of the central cell of the window. */
+			for (GGen_Coord x = 0; x < this->width; x++) {
+				/* If the window is approaching right border, use the rightmost value as fill. */
+				if (x < distance) {
+					window_value += (GGen_Height) (this->data[x + distance + this->width * y] > 0) - (GGen_Height) (this->data[this->width * y] > 0);
+				} else if (x + distance < this->width) {
+					window_value += (GGen_Height) (this->data[x + distance + this->width * y] > 0) - (GGen_Height) (this->data[x - distance + this->width * y] > 0);
+				} else {
+					window_value += (GGen_Height) (this->data[this->width - 1 + this->width * y] > 0) - (GGen_Height) (this->data[x - distance + this->width * y] > 0);
+				}
+
+				/* Set the value of current tile to 1 as long as there is at least one value greater than zero in the current window. */
+				new_data[x + this->width * y] = (GGen_Height) (window_value > 0) * (shrink ? -1 : 1);
+			}
+		}
+	} else { /* vertical */
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			/* Prefill the window with value of the left edge + n topmost values (where n is radius) */
+			GGen_Size window_size = distance * 2 + 1;
+			GGen_Height window_value = (GGen_Height) (this->data[x] > 0) * distance;
+
+			for (GGen_Distance y = 0; y < distance; y++) {
+				window_value += (GGen_Height) (this->data[x + y * this->width] > 0);
+			}
+
+			/* In every step shift the window one tile to the bottom  (= subtract its topmost cell and add
+			value of bottommost + 1). i represents position of the central cell of the window. */
+			for (GGen_Coord y = 0; y < this->height; y++) {
+				/* If the window is approaching right border, use the rightmost value as fill. */
+				if (y < distance) {
+					window_value += (GGen_Height) (this->data[x + (y + distance) * this->width] > 0) - (GGen_Height) (this->data[x] > 0);
+				} else if (y + distance < height) {
+					window_value += (GGen_Height) (this->data[x + (y + distance) * this->width] > 0) - (GGen_Height) (this->data[x + (y - distance) * this->width] > 0);
+				} else {
+					window_value += (GGen_Height) (this->data[x + (this->height - 1) * this->width] > 0) - (GGen_Height) (this->data[x + (y - distance) * this->width] > 0);
+				}
+
+				/* Set the value of current tile to 1 as long as there is at least one value greater than zero in the current window. */
+				new_data[x + this->width * y] = (GGen_Height) (window_value > 0) * (shrink ? -1 : 1);
+			}
+		}
+	}	
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;	
+
+	/* Shift the values from  range <-1, 0> to <0, 1> (we were working on an inverse) */
+	if(shrink) this->Add(1);
+}
+
+void GGen_Data_2D::ExpandDirection(GGen_Distance distance, GGen_Direction direction){
+	this->ExpandShrinkDirectionBase(distance, direction, false);
+}
+
+void GGen_Data_2D::ShrinkDirection(GGen_Distance distance, GGen_Direction direction){
+	this->ExpandShrinkDirectionBase(distance, direction, true);
+}
+
+void GGen_Data_2D::Expand(GGen_Distance distance){
+	this->ExpandDirection(distance, GGEN_HORIZONTAL);
+	this->ExpandDirection(distance, GGEN_VERTICAL);
+}
+
+void GGen_Data_2D::Shrink(GGen_Distance distance){
+	this->ShrinkDirection(distance, GGEN_HORIZONTAL);
+	this->ShrinkDirection(distance, GGEN_VERTICAL);
+}
