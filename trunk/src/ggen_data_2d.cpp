@@ -398,6 +398,19 @@ void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max)
 	}
 }
 
+void GGen_Data_2D::CropValues(GGen_Height min, GGen_Height max)
+{
+	GGen_Script_Assert(max > min);
+
+	for (GGen_Index i = 0; i < this->length; i++) {
+		if (this->data[i] > max) {
+			this->data[i] = 0;
+		} else if (data[i] < min) {
+			this->data[i] = 0;
+		}
+	}
+}
+
 void GGen_Data_2D::Union(GGen_Data_2D* victim)
 {
 	for (GGen_Coord y = 0; y < this->height; y++) {

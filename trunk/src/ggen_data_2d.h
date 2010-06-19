@@ -216,12 +216,18 @@ class GGen_Data_2D{
 		void FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 
 		/**
-		 * Clamps all values to range.
+		 * Clamps all values to range. All values outside the given range will be set either to min or max, whichever is closer.
 		 * @param min New minimum value.
 		 * @param max New maximum value.
-		 * @note All values outside the given range will be set either to min or max, whichever is closer.
 		 **/
 		void Clamp(GGen_Height min, GGen_Height max);
+
+		/**
+		 * Clamps all values to range. All values outside the given range will be set either to 0.
+		 * @param min New minimum value.
+		 * @param max New maximum value.
+		 **/
+		void CropValues(GGen_Height min, GGen_Height max);
 
 		/**
 		 * Returns the minimum of all values in the map.
