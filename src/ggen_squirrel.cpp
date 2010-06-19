@@ -194,6 +194,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Fill,_T("Fill")).
 		func(&GGen_Data_2D::ResizeCanvas,_T("ResizeCanvas")).
 		func(&GGen_Data_2D::Clamp,_T("Clamp")).
+		func(&GGen_Data_2D::CropValues,_T("CropValues")).
 		func(&GGen_Data_2D::Min,_T("Min")).
 		func(&GGen_Data_2D::Max,_T("Max")).
 		func(&GGen_Data_2D::Flip,_T("Flip")).
