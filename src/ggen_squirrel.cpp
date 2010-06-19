@@ -37,7 +37,7 @@ DECLARE_ENUM_TYPE(GGen_Overflow_Mode);
 DECLARE_ENUM_TYPE(GGen_Direction);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
 DECLARE_ENUM_TYPE(GGen_Voronoi_Noise_Mode);
-DECLARE_ENUM_TYPE(GGen_Comparsion_Mode);
+DECLARE_ENUM_TYPE(GGen_Comparison_Mode);
 DECLARE_ENUM_TYPE(GGen_Outline_Mode);
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
@@ -114,7 +114,7 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_BUBBLES, _SC("GGEN_BUBBLES"));
 	BindConstant(GGEN_RIDGES, _SC("GGEN_RIDGES"));
 
-	/* Enum: GGen_Comparsion_Mode */
+	/* Enum: GGen_Comparison_Mode */
 	BindConstant(GGEN_EQUAL_TO, _SC("GGEN_EQUAL_TO"));
 	BindConstant(GGEN_NOT_EQUAL_TO, _SC("GGEN_NOT_EQUAL_TO"));
 	BindConstant(GGEN_LESS_THAN, _SC("GGEN_LESS_THAN"));

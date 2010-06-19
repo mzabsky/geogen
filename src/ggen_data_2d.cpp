@@ -1048,10 +1048,10 @@ void GGen_Data_2D::ReturnAs(const GGen_String &name)
 	GGen::GetInstance()->return_callback(name, this->data, this->width, this->height);
 }
 
-void GGen_Data_2D::Monochrome(GGen_Height treshold)
+void GGen_Data_2D::Monochrome(GGen_Height threshold)
 {
 	for (GGen_Index i = 0; i < this->length; i++) {
-		this->data[i] = this->data[i] > treshold ? 1 : 0;
+		this->data[i] = this->data[i] > threshold ? 1 : 0;
 	}	
 }
 
@@ -1539,7 +1539,7 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 	}
 }
 
-void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only){
+void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only){
 	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
 	/* Bordering (potential spread) points will be stored in queue */
@@ -1567,12 +1567,12 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 
 		/* Check if the spread condition is valid for current tile */
 		if (
-			(mode == GGEN_EQUAL_TO && currentValue != treshold) ||
-			(mode == GGEN_NOT_EQUAL_TO && currentValue == treshold) ||
-			(mode == GGEN_LESS_THAN && currentValue >= treshold) ||
-			(mode == GGEN_GREATER_THAN && currentValue <= treshold) ||
-			(mode == GGEN_LESS_THAN_OR_EQUAL_TO && currentValue > treshold) ||
-			(mode == GGEN_GREATER_THAN_OR_EQUAL_TO && currentValue < treshold))
+			(mode == GGEN_EQUAL_TO && currentValue != threshold) ||
+			(mode == GGEN_NOT_EQUAL_TO && currentValue == threshold) ||
+			(mode == GGEN_LESS_THAN && currentValue >= threshold) ||
+			(mode == GGEN_GREATER_THAN && currentValue <= threshold) ||
+			(mode == GGEN_LESS_THAN_OR_EQUAL_TO && currentValue > threshold) ||
+			(mode == GGEN_GREATER_THAN_OR_EQUAL_TO && currentValue < threshold))
 		{
 			/* The condition failed -> skip this tile */
 
@@ -1617,16 +1617,16 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 	}
 }
 
-void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold){
+void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold){
 	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
-	this->FloodFillBase(start_x, start_y, fill_value, mode, treshold, false);
+	this->FloodFillBase(start_x, start_y, fill_value, mode, threshold, false);
 }
 
-void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparsion_Mode mode, GGen_Height treshold){
+void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparison_Mode mode, GGen_Height threshold){
 	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
-	this->FloodFillBase(start_x, start_y, 1, mode, treshold, true);
+	this->FloodFillBase(start_x, start_y, 1, mode, threshold, true);
 }
 
 GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
@@ -1845,7 +1845,7 @@ void GGen_Data_2D::Shrink(GGen_Distance distance){
 	this->ShrinkDirection(distance, GGEN_VERTICAL);
 }
 
-void GGen_Data_2D::Outline(GGen_Comparsion_Mode mode, GGen_Height treshold, GGen_Outline_Mode outlineMode)
+void GGen_Data_2D::Outline(GGen_Comparison_Mode mode, GGen_Height threshold, GGen_Outline_Mode outlineMode)
 {
 	/* Outside border = inside border with inverted condition */
 	if(outlineMode == GGEN_OUTSIDE){
@@ -1879,12 +1879,12 @@ void GGen_Data_2D::Outline(GGen_Comparsion_Mode mode, GGen_Height treshold, GGen
 			GGen_Height nextValue = this->data[x + 1 + yIndexOffset];
 
 			switch(mode){
-				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == treshold) && (!(nextValue == treshold) || !(prevValue == treshold))); break;
-				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != treshold) && (!(nextValue != treshold) || !(prevValue != treshold))); break;
-				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > treshold) && (!(nextValue > treshold) || !(prevValue > treshold))); break;
-				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= treshold) && (!(nextValue >= treshold) || !(prevValue >= treshold))); break;
-				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < treshold) && (!(nextValue < treshold) || !(prevValue < treshold))); break;
-				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= treshold) && (!(nextValue <= treshold) || !(prevValue <= treshold))); break;
+				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == threshold) && (!(nextValue == threshold) || !(prevValue == threshold))); break;
+				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != threshold) && (!(nextValue != threshold) || !(prevValue != threshold))); break;
+				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > threshold) && (!(nextValue > threshold) || !(prevValue > threshold))); break;
+				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= threshold) && (!(nextValue >= threshold) || !(prevValue >= threshold))); break;
+				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < threshold) && (!(nextValue < threshold) || !(prevValue < threshold))); break;
+				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= threshold) && (!(nextValue <= threshold) || !(prevValue <= threshold))); break;
 			}
 
 			new_data[x + yIndexOffset] = currentValue;
@@ -1901,12 +1901,12 @@ void GGen_Data_2D::Outline(GGen_Comparsion_Mode mode, GGen_Height treshold, GGen
 			GGen_Height nextValue = this->data[x + (y + 1) * this->width];
 
 			switch(mode){
-				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == treshold) && (!(nextValue == treshold) || !(prevValue == treshold))); break;
-				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != treshold) && (!(nextValue != treshold) || !(prevValue != treshold))); break;
-				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > treshold) && (!(nextValue > treshold) || !(prevValue > treshold))); break;
-				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= treshold) && (!(nextValue >= treshold) || !(prevValue >= treshold))); break;
-				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < treshold) && (!(nextValue < treshold) || !(prevValue < treshold))); break;
-				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= treshold) && (!(nextValue <= treshold) || !(prevValue <= treshold))); break;
+				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == threshold) && (!(nextValue == threshold) || !(prevValue == threshold))); break;
+				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != threshold) && (!(nextValue != threshold) || !(prevValue != threshold))); break;
+				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > threshold) && (!(nextValue > threshold) || !(prevValue > threshold))); break;
+				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= threshold) && (!(nextValue >= threshold) || !(prevValue >= threshold))); break;
+				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < threshold) && (!(nextValue < threshold) || !(prevValue < threshold))); break;
+				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= threshold) && (!(nextValue <= threshold) || !(prevValue <= threshold))); break;
 			}
 
 			/* The cell is in either "vertical border" or in "horizontal border" => it is part of the final border. */
