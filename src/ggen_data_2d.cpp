@@ -1844,3 +1844,78 @@ void GGen_Data_2D::Shrink(GGen_Distance distance){
 	this->ShrinkDirection(distance, GGEN_HORIZONTAL);
 	this->ShrinkDirection(distance, GGEN_VERTICAL);
 }
+
+void GGen_Data_2D::Outline(GGen_Comparsion_Mode mode, GGen_Height treshold, GGen_Outline_Mode outlineMode)
+{
+	/* Outside border = inside border with inverted condition */
+	if(outlineMode == GGEN_OUTSIDE){
+		outlineMode = GGEN_INSIDE;
+
+		switch(mode){
+			case GGEN_EQUAL_TO: mode = GGEN_NOT_EQUAL_TO; break;
+			case GGEN_NOT_EQUAL_TO: mode = GGEN_EQUAL_TO; break;
+			case GGEN_GREATER_THAN: mode = GGEN_LESS_THAN_OR_EQUAL_TO; break;
+			case GGEN_GREATER_THAN_OR_EQUAL_TO: mode = GGEN_LESS_THAN; break;
+			case GGEN_LESS_THAN: mode = GGEN_GREATER_THAN_OR_EQUAL_TO; break;
+			case GGEN_LESS_THAN_OR_EQUAL_TO:  mode = GGEN_GREATER_THAN; break;
+		}
+	}
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+	
+	/* First generate the border in horizontal direction... */
+	for(GGen_Coord y = 0; y < this->height; y++){
+
+		/* This value stays constant for all cells in the row. */
+		GGen_Index yIndexOffset = y * this->width;
+
+		/* A cell is part of a border, if it matches the condition and at least one of its neighbors doesn't. */
+		for(GGen_Coord x = 1; x < this->width - 1; x++){
+			GGen_Height prevValue = this->data[x - 1 + yIndexOffset];
+			GGen_Height currentValue = this->data[x + yIndexOffset];
+			GGen_Height nextValue = this->data[x + 1 + yIndexOffset];
+
+			switch(mode){
+				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == treshold) && (!(nextValue == treshold) || !(prevValue == treshold))); break;
+				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != treshold) && (!(nextValue != treshold) || !(prevValue != treshold))); break;
+				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > treshold) && (!(nextValue > treshold) || !(prevValue > treshold))); break;
+				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= treshold) && (!(nextValue >= treshold) || !(prevValue >= treshold))); break;
+				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < treshold) && (!(nextValue < treshold) || !(prevValue < treshold))); break;
+				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= treshold) && (!(nextValue <= treshold) || !(prevValue <= treshold))); break;
+			}
+
+			new_data[x + yIndexOffset] = currentValue;
+		}
+	}
+
+	/* First generate the border in vertical direction... */
+	for(GGen_Coord x = 0; x < this->width; x++){
+
+		/* A cell is part of a border, if it matches the condition and at least one of its neighbors doesn't. */
+		for(GGen_Coord y = 1; y < this->height - 1; y++){
+			GGen_Height prevValue = this->data[x + (y - 1) * this->width];
+			GGen_Height currentValue = this->data[x + y * this->width];
+			GGen_Height nextValue = this->data[x + (y + 1) * this->width];
+
+			switch(mode){
+				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == treshold) && (!(nextValue == treshold) || !(prevValue == treshold))); break;
+				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != treshold) && (!(nextValue != treshold) || !(prevValue != treshold))); break;
+				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > treshold) && (!(nextValue > treshold) || !(prevValue > treshold))); break;
+				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= treshold) && (!(nextValue >= treshold) || !(prevValue >= treshold))); break;
+				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < treshold) && (!(nextValue < treshold) || !(prevValue < treshold))); break;
+				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= treshold) && (!(nextValue <= treshold) || !(prevValue <= treshold))); break;
+			}
+
+			/* The cell is in either "vertical border" or in "horizontal border" => it is part of the final border. */
+			new_data[x + y * this->width] = MAX(currentValue, new_data[x + y * this->width]);
+		}
+	}
+	
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;	
+}
