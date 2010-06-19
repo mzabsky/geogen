@@ -38,6 +38,7 @@ DECLARE_ENUM_TYPE(GGen_Direction);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
 DECLARE_ENUM_TYPE(GGen_Voronoi_Noise_Mode);
 DECLARE_ENUM_TYPE(GGen_Comparsion_Mode);
+DECLARE_ENUM_TYPE(GGen_Outline_Mode);
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
 	GGen::GetInstance()->ThrowMessage(desc, GGEN_ERROR, line, column);
@@ -120,6 +121,10 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_GREATER_THAN, _SC("GGEN_GREATER_THAN"));
 	BindConstant(GGEN_LESS_THAN_OR_EQUAL_TO, _SC("GGEN_LESS_THAN_OR_EQUAL_TO"));
 	BindConstant(GGEN_GREATER_THAN_OR_EQUAL_TO, _SC("GGEN_GREATER_THAN_OR_EQUAL_TO"));
+
+	/* Enum: GGen_Outline_Mode */
+	BindConstant(GGEN_INSIDE, _SC("GGEN_INSIDE"));
+	BindConstant(GGEN_OUTSIDE, _SC("GGEN_OUTSIDE"));
 
 	/* Class: GGen_Data_1D */
 	SQClassDefNoConstructor<GGen_Data_1D>(_SC("GGen_Data_1D")).
@@ -230,7 +235,12 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::FloodFill,_T("FloodFill")).
 		func(&GGen_Data_2D::FloodSelect,_T("FloodSelect")).
 		func(&GGen_Data_2D::GetMaxValueOnPath,_T("GetMaxValueOnPath")).
-		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath"));
+		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath")).
+		func(&GGen_Data_2D::Expand,_T("Expand")).
+		func(&GGen_Data_2D::Shrink,_T("Shrink")).
+		func(&GGen_Data_2D::ExpandDirection,_T("ExpandDirection")).
+		func(&GGen_Data_2D::ShrinkDirection,_T("ShrinkDirection")).
+		func(&GGen_Data_2D::Outline,_T("Outline"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).

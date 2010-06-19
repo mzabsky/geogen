@@ -563,6 +563,14 @@ class GGen_Data_2D{
 		 **/
 		void Shrink(GGen_Distance distance);
 
+		/**
+		 * Draws a border (made of value 1) around an area matching a condition. The non-border areas are filled with 0.
+		 * @param mode Condition operator.
+		 * @param threshold Condition value.
+		 * @param outlineMode Inside or outside border.
+		 **/
+		void Outline(GGen_Comparsion_Mode mode, GGen_Height treshold, GGen_Outline_Mode outlineMode);
+
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
 				delete (*GGen_Data_2D::instances.begin());
