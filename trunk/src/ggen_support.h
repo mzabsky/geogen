@@ -259,7 +259,7 @@ enum GGen_Voronoi_Noise_Mode{
 /**
  * Arithmetic comparison operators.
  **/
-enum GGen_Comparsion_Mode{
+enum GGen_Comparison_Mode{
 	GGEN_EQUAL_TO, //!< Compared value is equal to threshold value. 
 	GGEN_NOT_EQUAL_TO, //!< Compared value is not equal to threshold value.
 	GGEN_LESS_THAN, //!< Compared value is less than threshold value.
