@@ -571,6 +571,11 @@ class GGen_Data_2D{
 		 **/
 		void Outline(GGen_Comparison_Mode mode, GGen_Height threshold, GGen_Outline_Mode outlineMode);
 
+		/**
+		 * Replaces values in the array with information about steepness of slope (change in value) in that particular value.
+		 **/
+		void ConvexityMap(GGen_Distance radius);
+
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
 				delete (*GGen_Data_2D::instances.begin());

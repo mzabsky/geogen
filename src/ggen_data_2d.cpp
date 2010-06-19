@@ -1919,3 +1919,19 @@ void GGen_Data_2D::Outline(GGen_Comparison_Mode mode, GGen_Height threshold, GGe
 	delete [] this->data;
 	this->data = new_data;	
 }
+
+void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
+{
+	/* Convexity map is a difference between the current map and its smoothed variant. Smoothing erases any terrain features
+	   that peak upwards (are convex) or bulge downwards (are concave). */ 
+	GGen_Data_2D* unsmoothed = this->Clone();
+	
+	this->Smooth(radius);
+
+	this->ReturnAs(GGen_Const_String("inSmooth"));
+
+	this->Invert();
+	this->AddMap(unsmoothed);
+
+	delete unsmoothed;
+}
