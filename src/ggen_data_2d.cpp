@@ -1928,8 +1928,6 @@ void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
 	
 	this->Smooth(radius);
 
-	this->ReturnAs(GGen_Const_String("inSmooth"));
-
 	this->Invert();
 	this->AddMap(unsmoothed);
 
