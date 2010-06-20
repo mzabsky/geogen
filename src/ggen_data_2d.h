@@ -579,8 +579,16 @@ class GGen_Data_2D{
 
 		/**
 		 * Replaces values in the array with information about steepness of slope (change in value) in that particular value.
+		 * @param radius Convexity measurement radius (how big a terrain feature must be to show on the convexity map).
 		 **/
 		void ConvexityMap(GGen_Distance radius);
+
+		/**
+		 * Applies a turbulence distortion filter on the height map.
+		 * @param waveLength Size of one distortion wave.
+		 * @param amplitude Strength of the distortion effect.
+		 **/
+		void Distort(GGen_Size waveLength, GGen_Distance amplitude);
 
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){

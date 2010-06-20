@@ -753,7 +753,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 						/* The Y coord of the point overflows the bottom border of the map */
 						bottom_right = new_data[nearest_horizontal + wave_length];
 					} else if( nearest_horizontal + wave_length + vertical_offset_next > (signed) (this->length - 1)) {
-						/* Product of the coords owerflows the length of the array */
+						/* Product of the coords overflows the length of the array */
 						bottom_right = new_data[0];
 					} else {
 						bottom_right = new_data[
@@ -1945,4 +1945,41 @@ void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
 	this->AddMap(unsmoothed);
 
 	delete unsmoothed;
+}
+
+void GGen_Data_2D::Distort(GGen_Size waveLength, GGen_Distance amplitude)
+{
+	/* Set up an Amplitude object with one wave length only. */
+	GGen_Amplitudes* amplitudeObject = new GGen_Amplitudes(waveLength);
+	amplitudeObject->AddAmplitude(waveLength, amplitude);
+
+	/* Use a different turbulence map for each coordinate (to prevent diagonal-oriented unnatural artifacts). */
+	GGen_Data_2D* turbulenceXMap = new GGen_Data_2D(this->width, this->height, 0);
+	turbulenceXMap->Noise(1, waveLength, amplitudeObject);
+
+	GGen_Data_2D* turbulenceYMap = new GGen_Data_2D(this->width, this->height, 0);
+	turbulenceYMap->Noise(1, waveLength, amplitudeObject);
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* Shift the coordinate of each cell by distortion values found in the turbulence maps. */
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			GGen_Coord distortedX = MAX(MIN((GGen_CoordOffset) x + (GGen_CoordOffset) turbulenceXMap->data[x + y * this->width], (GGen_CoordOffset) (this->width - 1)), 0);
+			GGen_Coord distortedY = MAX(MIN((GGen_CoordOffset) y + (GGen_CoordOffset) turbulenceYMap->data[x + y * this->width], (GGen_CoordOffset) (this->height - 1)), 0);
+
+			new_data[x + y * this->width] = this->data[distortedX + this->width * distortedY];
+		}
+	}
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;	
+
+	delete amplitudeObject;
+	delete turbulenceXMap;
+	delete turbulenceYMap;
 }
