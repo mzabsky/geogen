@@ -3,8 +3,7 @@ TODO:
 		- GCC Unicode support
 		- finish the 2D::CreateRiver function (underway in a separate branch)
 		- get rid of SqPlus (or at least replace it with better binder)
-		- add 2D::StrokePath
-		- add 2D::Turbulence	
+		- add 2D::StrokePath	
 	STUDIO:
 		- add overlay and map previews to overlay and map selection boxes
 		- printing in Studio
