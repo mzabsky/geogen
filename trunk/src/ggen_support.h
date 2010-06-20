@@ -119,9 +119,9 @@ typedef uint32 GGen_Distance;
 
 #define GGEN_UNRELATIVE_CAP GGEN_MAX_HEIGHT
 
-#define MAX(a,b) (a > b? a: b) 
-#define MIN(a,b) (a < b? a: b) 
-#define ABS(a) (a < 0? -(a): a) 
+#define MAX(a,b) ((a) > (b) ? (a) : (b)) 
+#define MIN(a,b) ((a) < (b) ? (a) : (b)) 
+#define ABS(a) ((a) < 0 ? -(a): (a)) 
 
 #ifdef _UNICODE
 	#ifndef GGEN_UNICODE 
