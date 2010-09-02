@@ -107,7 +107,7 @@ public:
 	unsigned short max_map_count;
 
 	GGen();
-	~GGen();
+	virtual ~GGen();
 
 	static GGen* GetInstance();
 
@@ -142,7 +142,7 @@ protected:
 	list<void*> presets;
 public:	
 	GGen_Squirrel();
-	~GGen_Squirrel();
+	virtual ~GGen_Squirrel();
 
 	virtual bool SetScript(const GGen_String& script);
 	virtual GGen_String GetInfo(const GGen_String& label);

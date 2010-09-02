@@ -72,7 +72,7 @@ public:
 	uint16 max_map_count;
 
 	GGen();
-	~GGen();
+	virtual ~GGen();
 
 	static GGen* GetInstance();
 
