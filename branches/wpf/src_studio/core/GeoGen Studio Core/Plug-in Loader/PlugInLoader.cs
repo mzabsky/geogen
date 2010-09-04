@@ -152,10 +152,13 @@ namespace GeoGen_Studio{
             string[] files = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories);
 
             foreach(string file in files){
+                /* Reflection methods require full file path */
+                FileInfo fileInfo = new FileInfo(file);
+
                 /* Test if the file is an .NET compatible assembly */
                 try
                 {
-                    AssemblyName.GetAssemblyName(file);
+                    AssemblyName.GetAssemblyName(fileInfo.FullName);
                 }
                 catch
                 {                    
@@ -166,7 +169,7 @@ namespace GeoGen_Studio{
                 try
                 {
                     /* The file is an assembly */
-                    Assembly assembly = Assembly.LoadFile(file);
+                    Assembly assembly = Assembly.LoadFile(fileInfo.FullName);
 
                     /* Load plug-ins from the assembly */
                     this.ParseAssembly(assembly);
