@@ -59,33 +59,5 @@ namespace GeoGen_Studio.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static System.Drawing.Bitmap vsobject_class {
-            get {
-                object obj = ResourceManager.GetObject("vsobject_class", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap vsobject_constant {
-            get {
-                object obj = ResourceManager.GetObject("vsobject_constant", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap vsobject_enumitem {
-            get {
-                object obj = ResourceManager.GetObject("vsobject_enumitem", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap vsobject_method {
-            get {
-                object obj = ResourceManager.GetObject("vsobject_method", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
