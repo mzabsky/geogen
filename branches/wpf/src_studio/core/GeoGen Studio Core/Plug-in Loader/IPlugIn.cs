@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GeoGen_Studio
 {
-    interface IPlugIn
+    public interface IPlugIn
     {
     }
 }
