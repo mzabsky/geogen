@@ -63,12 +63,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1724917FF2D02A77E2BFDD3FF92ABC8A"
-        "OwnerKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_187CE0CA58654809822289F7FF2FCE3C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -195,12 +189,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_40181B533BC22165CCA8880345207142"
-        "OwnerKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_450D9101A01A46C58751732AA99F59CF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -249,18 +237,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_57976300A2823731DD8EDB3BB56E7ABD"
-        "OwnerKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_57976300A2823731DD8EDB3BB56E7ABD"
-        "OwnerKey" = "8:_40181B533BC22165CCA8880345207142"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_64B6E33EEF424DA3AADC8B87BCD3DD28"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -269,12 +245,6 @@
         {
         "MsmKey" = "8:_67295F8465E24DECA84A2DA1C4D0372A"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6A588D055E727DFB3E48DB8C5B4B99A8"
-        "OwnerKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -399,12 +369,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_BF8B29F960C18464AEE02EC7C6889ACF"
-        "OwnerKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_C25B8C8373224C54A7FED32E775A9F1F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -489,12 +453,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F965522AC78848E2B814CE8755391C51"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -503,42 +461,6 @@
         {
         "MsmKey" = "8:_FF0758FA834A4DDEB33E4F61EC1D4CD5"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1724917FF2D02A77E2BFDD3FF92ABC8A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_40181B533BC22165CCA8880345207142"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_57976300A2823731DD8EDB3BB56E7ABD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6A588D055E727DFB3E48DB8C5B4B99A8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BF8B29F960C18464AEE02EC7C6889ACF"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -804,37 +726,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1724917FF2D02A77E2BFDD3FF92ABC8A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:PropertyGridEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_1724917FF2D02A77E2BFDD3FF92ABC8A"
-                    {
-                    "Name" = "8:PropertyGridEx.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:PropertyGridEx.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_187CE0CA58654809822289F7FF2FCE3C"
@@ -1257,37 +1148,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_40181B533BC22165CCA8880345207142"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OpenTK.GLControl, Version=0.9.9.5, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_40181B533BC22165CCA8880345207142"
-                    {
-                    "Name" = "8:OpenTK.GLControl.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OpenTK.GLControl.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_450D9101A01A46C58751732AA99F59CF"
             {
             "SourcePath" = "8:..\\..\\examples\\clutch.nut"
@@ -1448,37 +1308,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_57976300A2823731DD8EDB3BB56E7ABD"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OpenTK, Version=0.9.9.5, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_57976300A2823731DD8EDB3BB56E7ABD"
-                    {
-                    "Name" = "8:OpenTK.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OpenTK.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_64B6E33EEF424DA3AADC8B87BCD3DD28"
             {
             "SourcePath" = "8:..\\..\\docs_files\\html\\ggen__data__1d_8h.html"
@@ -1517,37 +1346,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6A588D055E727DFB3E48DB8C5B4B99A8"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ICSharpCode.AvalonEdit, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_6A588D055E727DFB3E48DB8C5B4B99A8"
-                    {
-                    "Name" = "8:ICSharpCode.AvalonEdit.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:ICSharpCode.AvalonEdit.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_755C700F219340BAAA29B5F838C62225"
@@ -1950,37 +1748,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BF8B29F960C18464AEE02EC7C6889ACF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:GeoGenNET, Version=1.0.3812.27421, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_BF8B29F960C18464AEE02EC7C6889ACF"
-                    {
-                    "Name" = "8:GeoGenNET.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:GeoGenNET.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C7F51064E6F444D381659DE86395730D"
             {
             "SourcePath" = "8:..\\..\\docs_files\\html\\ggen__amplitudes_8h.html"
@@ -2294,7 +2061,6 @@
             "IconIndex" = "3:0"
                 "Command"
                 {
-                "Command" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
                 }
                 "Verbs"
                 {
@@ -2317,7 +2083,6 @@
             "IconIndex" = "3:0"
                 "Command"
                 {
-                "Command" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
                 }
                 "Verbs"
                 {
@@ -2589,7 +2354,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
+            "Target" = "8:"
             "Folder" = "8:_48755DD75C054D09BF036E4BE68C9E3C"
             "WorkingFolder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
             "Icon" = "8:_2549E4E4142043CE84313793926AB501"
@@ -2603,7 +2368,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
+            "Target" = "8:"
             "Folder" = "8:_D2DE5F8518EA4DCA95FE1DAB3D7C9BC6"
             "WorkingFolder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
             "Icon" = "8:_2549E4E4142043CE84313793926AB501"
@@ -3272,7 +3037,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C25B8C8373224C54A7FED32E775A9F1F"
             {
-            "SourcePath" = "8:..\\..\\bin\\geogen.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
@@ -3293,34 +3058,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{66F6AB2A-F3C4-4BF2-A748-EFE501AFCE4B}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F0A9EAF787094CE2B5BF97B6CE70B5DC"
-            {
-            "SourcePath" = "8:..\\..\\src_gui\\obj\\Release\\GeoGen Studio.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8A828D8BD2B5408D9CA105F0E925F771"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{EE9C17D4-EA12-4E97-8532-E71E206806ED}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
