@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GeoGen_Studio.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -62,6 +65,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plug-in Loader\IPlugIn.cs" />
+    <Compile Include="Plug-in Loader\IPlugInInterface.cs" />
+    <Compile Include="Plug-in Loader\PlugInAttribute.cs" />
+    <Compile Include="Plug-in Loader\PlugInLoader.cs" />
+    <Compile Include="Plug-in Loader\Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +94,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
