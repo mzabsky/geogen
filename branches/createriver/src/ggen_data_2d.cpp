@@ -31,6 +31,11 @@
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
 
+#include <windows.h>
+#include <assert.h>
+#include <valarray>
+#include <cmath>
+
 uint16 GGen_Data_2D::num_instances = 0;
 
 GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
@@ -1724,19 +1729,38 @@ GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
 	return this->GetValueOnPathBase(path, false);
 }
 
+void GGen_Data_2D::FacingMap(){
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* Calculate facing direction information for individual cells */
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			new_data[x + y * this->width] = this->GetFacingDirection(x, y);
+		}	
+	}
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;
+}
+
 struct GGen_CreateRiver_TileInfo{
 	GGen_Coord x, y;
 
 	float waterAmount;
-	//float force;
-	//float sedimentCarriedAmount;
+	GGen_Height angle;
+	float force;
+	float sedimentCarriedAmount;
 
-	GGen_CreateRiver_TileInfo(GGen_Coord x, GGen_Coord y, float waterAmount, float force, float sedimentCarriedAmount):
+	GGen_CreateRiver_TileInfo(GGen_Coord x, GGen_Coord y, float waterAmount, GGen_Height angle, float force, float sedimentCarriedAmount):
 		x(x), 
 		y(y),
-		waterAmount(waterAmount)
-		//force(force),
-		//sedimentCarriedAmount(sedimentCarriedAmount)
+		waterAmount(waterAmount),
+		force(force),
+		sedimentCarriedAmount(sedimentCarriedAmount)
 	{}
 };
 
@@ -1757,14 +1781,39 @@ bool operator<(const GGen_CreateRiver_PointWithHeight& a, const GGen_CreateRiver
     return a.height < b.height;
 }
 
-
 void GGen_Data_2D::CreateRiver(){
-	GGen_Coord start_x = 200;
-	GGen_Coord start_y = 200;
-	unsigned spring_amount = 1;
+	GGen_Coord start_x = 900;
+	GGen_Coord start_y = 900;
+	GGen_Size springMaxSize = 3;
+	float spring_amount = 10;
+	float minimumFlow = 0.1;
+
+	GGen_Data_2D* copy = this->Clone();
+	copy->FacingMap();
+	copy->ReturnAs(GGen_Const_String("facingMap"));
+
+	this->ReturnAs(GGen_Const_String("beforeRiver"));
+
+	GGen_Height startAngle = this->GetFacingDirection(start_x, start_y);
+
+	GGen_Height springHeight = this->data[start_x + start_y * this->width];
+	GGen_Height originalSpringHeight = springHeight;
+
+	// zkusim umistit pramen trochu niz a dat mu vyssi hodnotu, aby se mohl trochu rozlit a nebyl jak kul v plote
+	for(GGen_Coord y = MAX(start_y, springMaxSize) - springMaxSize; y <= MIN(start_y, this->height - springMaxSize - 1) + springMaxSize; y++){
+		for(GGen_Coord x = MAX(start_x, springMaxSize) - springMaxSize; y <= MIN(start_x, this->width - springMaxSize - 1) + springMaxSize; y++){
+			if(this->data[x + y * this->width] < springHeight){
+				start_x = x;
+				start_y = y;
+				springHeight = this->data[x + y * this->width];
+			}
+		}
+	}
+
+	spring_amount += originalSpringHeight - springHeight;
 
 	queue<GGen_CreateRiver_TileInfo> wavefront;
-	wavefront.push(GGen_CreateRiver_TileInfo(start_x, start_y, spring_amount, 0, 0));
+	wavefront.push(GGen_CreateRiver_TileInfo(start_x, start_y, spring_amount, 0, 0, 0));
 
 	vector<bool> mask(this->length, false);
 
@@ -1774,58 +1823,161 @@ void GGen_Data_2D::CreateRiver(){
 		waterMap[i] = 0;
 	}
 
-	while(true){
+	waterMap[start_x + start_y * this->width] = spring_amount;
+
+
+
+	while(!wavefront.empty()){
+		// something went terribly wrong if every single tile in the map is in wavefront queue
+		assert(wavefront.size() < this->length);
+
+		
+
 		GGen_CreateRiver_TileInfo currentTile = wavefront.front();
 		wavefront.pop();
 
-		GGen_Height currentHeight = this->data[currentTile.x + currentTile.y * this->width];
-		GGen_Height currentHeightWithWater = currentHeight + currentTile.waterAmount;
+		float currentHeight = this->data[currentTile.x + currentTile.y * this->width];
+		float currentWaterAmount = waterMap[currentTile.x + currentTile.y * this->width];
+		float currentHeightWithWater = currentHeight + currentWaterAmount;
 
-		float heightDiffRight = currentHeightWithWater - (this->data[(currentTile.x + 1) + currentTile.y * this->width] + waterMap[(currentTile.x + 1) + currentTile.y * this->width]);
-		float heightDiffLeft = currentHeightWithWater - (this->data[(currentTile.x - 1) + currentTile.y * this->width] + waterMap[(currentTile.x - 1) + currentTile.y * this->width]);
-		float heightDiffTop = currentHeightWithWater - (this->data[currentTile.x + (currentTile.y + 1) * this->width] + waterMap[currentTile.x + (currentTile.y + 1) * this->width]);
-		float heightDiffBottom = currentHeightWithWater - (this->data[currentTile.x + (currentTile.y - 1) * this->width] + waterMap[currentTile.x + (currentTile.y - 1) * this->width]);
-		
-		if(heightDiffRight < 0) heightDiffRight = 0;
+
+		if(currentWaterAmount < minimumFlow) continue;
+
+		// precompute array indices to surrounding tiles
+		GGen_Index indexLeft = (currentTile.x - 1) + currentTile.y * this->width;
+		GGen_Index indexRight = (currentTile.x + 1) + currentTile.y * this->width;
+		GGen_Index indexTop = currentTile.x + (currentTile.y - 1) * this->width;
+		GGen_Index indexBottom = currentTile.x + (currentTile.y + 1) * this->width;
+
+		// HRANICE OBRAZKU, HUH?
+		float heightDiffLeft = currentTile.x > 0 ?					currentHeightWithWater - ((float) this->data[indexLeft] + waterMap[indexLeft]) : 0;
+		float heightDiffRight = currentTile.x < this->width -1 ?	currentHeightWithWater - ((float) this->data[indexRight] + waterMap[indexRight]) : 0;
+		float heightDiffTop = currentTile.y > 0 ?					currentHeightWithWater - ((float) this->data[indexTop] + waterMap[indexTop]) : 0;
+		float heightDiffBottom = currentTile.y < this->height - 1 ? currentHeightWithWater - ((float) this->data[indexBottom] + waterMap[indexBottom]) : 0;
+
+		// negative height difference (targeted tile is higher than current tile) => no flow
 		if(heightDiffLeft < 0) heightDiffLeft = 0;
+		if(heightDiffRight < 0) heightDiffRight = 0;
 		if(heightDiffTop < 0) heightDiffTop = 0;
 		if(heightDiffBottom < 0) heightDiffBottom = 0;
 
 		float heightDiffTotal = heightDiffRight + heightDiffLeft + heightDiffTop + heightDiffBottom;
 
-		if(heightDiffRight > 0){
-			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x + 1, currentTile.y, currentTile.waterAmount * heightDiffRight / heightDiffTotal, 0, 0));
+		if(heightDiffTotal < minimumFlow) continue;
+
+		float heightDiffMax = max(max(heightDiffBottom, heightDiffTop), max(heightDiffRight, heightDiffLeft));
+
+		if(heightDiffLeft > minimumFlow && springHeight < this->data[indexLeft]){
+			if(this->data[indexLeft] != 0){
+				/*float newWaterAmount = 
+					max(waterMap[indexLeft] - heightDiffLeft, 0) +
+					min(currentWaterAmount * heightDiffLeft / heightDiffTotal, heightDiffLeft);*/
+
+				//float newWaterAmount = min(currentWaterAmount/* * heightDiffLeft / heightDiffMax*/, (heightDiffLeft + waterMap[indexLeft]));
+
+				/*float newWaterAmount = min(
+					max(
+						currentWaterAmount, 
+						waterMap[indexLeft]
+					),
+					max(
+						waterMap[indexLeft],
+						waterMap[indexLeft] + currentWaterAmount * heightDiffLeft / heightDiffMax
+					)
+				);*/
+
+				float newWaterAmount = max(
+					waterMap[indexLeft],
+					waterMap[indexLeft] + min(
+						heightDiffLeft,
+						waterMap[indexLeft] + currentWaterAmount * heightDiffLeft / heightDiffMax
+					)
+				);
+
+				wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x - 1, currentTile.y, newWaterAmount, 0, 0, 0));
 		
-			if(this->data[(currentTile.x + 1) + currentTile.y * this->width] != 0){
-				waterMap[(currentTile.x + 1) + currentTile.y * this->width] += wavefront.back().waterAmount;
+				waterMap[indexLeft] = newWaterAmount;
 			}
 		}
 
-		if(heightDiffLeft > 0){
-			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x - 1, currentTile.y, currentTile.waterAmount * heightDiffLeft / heightDiffTotal, 0, 0));
+		if(heightDiffRight > minimumFlow && springHeight < this->data[indexRight]){			
+			if(this->data[indexRight] != 0){
+				/*float newWaterAmount = 
+					max(waterMap[indexRight] - heightDiffRight, 0) +
+					min(currentWaterAmount * heightDiffRight / heightDiffTotal, heightDiffRight);*/
 
-			if(this->data[(currentTile.x - 1) + currentTile.y * this->width] != 0){
-				waterMap[(currentTile.x + 1) - currentTile.y * this->width] += wavefront.back().waterAmount;
+				//float newWaterAmount = min(currentWaterAmount/* * heightDiffRight / heightDiffMax*/, (heightDiffRight + waterMap[indexRight]));
+
+				float newWaterAmount = max(
+					waterMap[indexRight],
+					waterMap[indexRight] + min(
+						heightDiffRight,
+						waterMap[indexRight] + currentWaterAmount * heightDiffRight / heightDiffMax
+					)
+				);
+
+				wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x + 1, currentTile.y, newWaterAmount, 0, 0, 0));
+
+				waterMap[indexRight] = newWaterAmount;
 			}
 		}
 
-		if(heightDiffTop > 0){
-			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x, currentTile.y - 1, currentTile.waterAmount * heightDiffTop / heightDiffTotal, 0, 0));
+		if(heightDiffTop > minimumFlow && springHeight < this->data[indexTop]){
+			if(this->data[indexTop] != 0){
+				/*float newWaterAmount = 
+					max(waterMap[indexTop] - heightDiffTop, 0) +
+					min(currentWaterAmount * heightDiffTop / heightDiffTotal, heightDiffTop);*/
 
-			if(this->data[currentTile.x + (currentTile.y - 1) * this->width] != 0){
-				waterMap[currentTile.x + (currentTile.y - 1) * this->width] += wavefront.back().waterAmount;
+				//float newWaterAmount = min(currentWaterAmount/* * heightDiffTop / heightDiffMax*/, (heightDiffTop + waterMap[indexTop]));
+
+				float newWaterAmount = max(
+					waterMap[indexTop],
+					waterMap[indexTop] + min(
+						heightDiffTop,
+						waterMap[indexTop] + currentWaterAmount * heightDiffTop / heightDiffMax
+					)
+				);
+
+				wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x, currentTile.y - 1, newWaterAmount, 0, 0, 0));
+
+				waterMap[indexTop] = newWaterAmount;
 			}
 		}
 
-		if(heightDiffBottom > 0){
-			wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x, currentTile.y + 1, currentTile.waterAmount * heightDiffTop / heightDiffTotal, 0, 0));
+		if(heightDiffBottom > minimumFlow && springHeight < this->data[indexBottom]){			
+			if(this->data[indexBottom] != 0){
+				/*float newWaterAmount = 
+					max(waterMap[indexBottom] - heightDiffBottom, 0) +
+					min(currentWaterAmount * heightDiffBottom / heightDiffTotal, heightDiffBottom);*/
 
-			if(this->data[currentTile.x + (currentTile.y + 1) * this->width] != 0){
-				waterMap[currentTile.x + (currentTile.y + 1) * this->width] += wavefront.back().waterAmount;
+				//float newWaterAmount = min(currentWaterAmount/* * heightDiffBottom / heightDiffMax*/, (heightDiffBottom + waterMap[indexBottom]));
+
+				float newWaterAmount = max(
+					waterMap[indexBottom],
+					waterMap[indexBottom] + min(
+						heightDiffBottom,
+						waterMap[indexBottom] + currentWaterAmount * heightDiffBottom / heightDiffMax
+					)
+				);
+
+				wavefront.push(GGen_CreateRiver_TileInfo(currentTile.x, currentTile.y + 1, newWaterAmount, 0, 0, 0));
+
+				waterMap[indexBottom] = newWaterAmount;
 			}
 		}
 
-		if(wavefront.empty()){
+		if(false && wavefront.size() % 100 == 0){
+			cout << currentTile.x << "x" << currentTile.y << "x" << currentHeight << " [" << currentTile.waterAmount << "]    !"<< heightDiffTotal << "! = " << (int)heightDiffLeft << " " << (int)heightDiffRight << " " << (int)heightDiffBottom << " " << (int)heightDiffTop << " (" << wavefront.size() << ")" << endl << flush;
+
+			Sleep(200);
+		}
+
+		// TEMP HACK
+		/*if(wavefront.empty()){
+			break;
+		}*/
+
+		/*if(false && wavefront.empty()){
 			// find the lowest currently reachable point
 			queue<GGen_Point> searchQueue;
 
@@ -1967,8 +2119,42 @@ void GGen_Data_2D::CreateRiver(){
 					searchQueue.push(GGen_Point(it->x, it->y));
 				}
 			}
-		}
+		}*/
 	}
-	
 
+	for(GGen_Index i = 0; i < this->length; i++){
+		this->data[i] = (int) waterMap[i];
+	}
+
+	delete [] waterMap;
+}
+
+GGen_Height GGen_Data_2D::GetFacingDirection( GGen_Coord x, GGen_Coord y )
+{
+
+	GGen_Index indexLeft = x > 0 ? (x - 1) + y * this->width : x + y * this->width;
+	GGen_Index indexRight = x < this->width ? (x + 1) + y * this->width : x + y * this->width;
+	GGen_Index indexTop = y > 0 ? x + (y - 1) * this->width : x + y * this->width;
+	GGen_Index indexBottom = y < this->height ? x + (y + 1) * this->width : x + y * this->width;
+
+	GGen_Height heightLeft = this->data[indexLeft];
+	GGen_Height heightRight = this->data[indexRight];
+	GGen_Height heightTop = this->data[indexTop];
+	GGen_Height heightBottom = this->data[indexBottom];
+
+	double vectorAX = 2;
+	double vectorAY = 0;
+	double vectorAZ = (double) this->data[indexLeft] - (double) this->data[indexRight];
+
+	double vectorBX = 0;
+	double vectorBY = -2;
+	double vectorBZ = (double) this->data[indexTop] - (double) this->data[indexBottom];
+
+	double productX = vectorAY * vectorBZ - vectorAZ * vectorBY;
+	double productY = vectorAZ * vectorBX - vectorAX * vectorBZ;
+	double productZ = vectorAX * vectorBY - vectorAY * vectorBX;
+
+	double angle = atan2(productY, productX);
+
+	return (GGen_Height) (angle / 3.14159 * GGEN_MAX_HEIGHT);
 }

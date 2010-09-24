@@ -236,7 +236,9 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::FloodFill,_T("FloodFill")).
 		func(&GGen_Data_2D::FloodSelect,_T("FloodSelect")).
 		func(&GGen_Data_2D::GetMaxValueOnPath,_T("GetMaxValueOnPath")).
-		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath"));
+		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath")).
+		func(&GGen_Data_2D::CreateRiver,_T("CreateRiver")).
+		func(&GGen_Data_2D::FacingMap,_T("FacingMap"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).

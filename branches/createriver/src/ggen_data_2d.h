@@ -525,6 +525,11 @@ class GGen_Data_2D{
 		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
 
+		void FacingMap();
+
 		void CreateRiver();
+
+		GGen_Height GetFacingDirection(GGen_Coord x, GGen_Coord y);
+
 };
 
