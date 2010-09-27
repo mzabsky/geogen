@@ -1729,7 +1729,7 @@ GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
 	return this->GetValueOnPathBase(path, false);
 }
 
-void GGen_Data_2D::FacingMap(){
+void GGen_Data_2D::NormalMap(){
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[this->length];
 
@@ -1738,7 +1738,7 @@ void GGen_Data_2D::FacingMap(){
 	/* Calculate facing direction information for individual cells */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
-			new_data[x + y * this->width] = this->GetFacingDirection(x, y);
+			new_data[x + y * this->width] = this->GetNormal(x, y);
 		}	
 	}
 
@@ -1785,22 +1785,22 @@ void GGen_Data_2D::CreateRiver(){
 	GGen_Coord start_x = 900;
 	GGen_Coord start_y = 900;
 	GGen_Size springMaxSize = 3;
-	float spring_amount = 10;
+	float spring_amount = 1000;
 	float minimumFlow = 0.1;
 
-	GGen_Data_2D* copy = this->Clone();
-	copy->FacingMap();
-	copy->ReturnAs(GGen_Const_String("facingMap"));
+	GGen_Data_2D* normalMap = this->Clone();
+	normalMap->NormalMap();
+	normalMap->ReturnAs(GGen_Const_String("normalMap"));
 
 	this->ReturnAs(GGen_Const_String("beforeRiver"));
 
-	GGen_Height startAngle = this->GetFacingDirection(start_x, start_y);
+	GGen_Height startAngle = this->GetNormal(start_x, start_y);
 
 	GGen_Height springHeight = this->data[start_x + start_y * this->width];
 	GGen_Height originalSpringHeight = springHeight;
 
 	// zkusim umistit pramen trochu niz a dat mu vyssi hodnotu, aby se mohl trochu rozlit a nebyl jak kul v plote
-	for(GGen_Coord y = MAX(start_y, springMaxSize) - springMaxSize; y <= MIN(start_y, this->height - springMaxSize - 1) + springMaxSize; y++){
+	/*for(GGen_Coord y = MAX(start_y, springMaxSize) - springMaxSize; y <= MIN(start_y, this->height - springMaxSize - 1) + springMaxSize; y++){
 		for(GGen_Coord x = MAX(start_x, springMaxSize) - springMaxSize; y <= MIN(start_x, this->width - springMaxSize - 1) + springMaxSize; y++){
 			if(this->data[x + y * this->width] < springHeight){
 				start_x = x;
@@ -1808,12 +1808,18 @@ void GGen_Data_2D::CreateRiver(){
 				springHeight = this->data[x + y * this->width];
 			}
 		}
-	}
+	}*/
 
-	spring_amount += originalSpringHeight - springHeight;
+	//spring_amount += originalSpringHeight - springHeight;
 
 	queue<GGen_CreateRiver_TileInfo> wavefront;
 	wavefront.push(GGen_CreateRiver_TileInfo(start_x, start_y, spring_amount, 0, 0, 0));
+
+	/* Wavefront items indexed by coordinates */
+	GGen_CreateRiver_TileInfo** tileInfos = new GGen_CreateRiver_TileInfo*[this->length];
+	memset(tileInfos, NULL, this->length * sizeof(GGen_CreateRiver_TileInfo*));
+	
+	tileInfos[start_x + start_y * this->width] = &(wavefront.front());
 
 	vector<bool> mask(this->length, false);
 
@@ -1825,7 +1831,7 @@ void GGen_Data_2D::CreateRiver(){
 
 	waterMap[start_x + start_y * this->width] = spring_amount;
 
-
+	return;
 
 	while(!wavefront.empty()){
 		// something went terribly wrong if every single tile in the map is in wavefront queue
@@ -1835,6 +1841,8 @@ void GGen_Data_2D::CreateRiver(){
 
 		GGen_CreateRiver_TileInfo currentTile = wavefront.front();
 		wavefront.pop();
+
+		tileInfos[currentTile.x * currentTile.y * this->width] = NULL;
 
 		float currentHeight = this->data[currentTile.x + currentTile.y * this->width];
 		float currentWaterAmount = waterMap[currentTile.x + currentTile.y * this->width];
@@ -2129,7 +2137,7 @@ void GGen_Data_2D::CreateRiver(){
 	delete [] waterMap;
 }
 
-GGen_Height GGen_Data_2D::GetFacingDirection( GGen_Coord x, GGen_Coord y )
+GGen_Height GGen_Data_2D::GetNormal( GGen_Coord x, GGen_Coord y )
 {
 
 	GGen_Index indexLeft = x > 0 ? (x - 1) + y * this->width : x + y * this->width;

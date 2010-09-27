@@ -525,11 +525,12 @@ class GGen_Data_2D{
 		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
 
-		void FacingMap();
+		/* Replaces all values with angle values representing surface normal in the tile. Angle 0° (eastern slope) is represented by value 0, angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are represented by positive values in range (0, GGEN_MAX_HEIGHT).
+		 * @note Flat areas (with normal pointing directly upward) are replaced with value 0. */
+		void NormalMap();
 
 		void CreateRiver();
 
-		GGen_Height GetFacingDirection(GGen_Coord x, GGen_Coord y);
+		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);
 
 };
-
