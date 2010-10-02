@@ -1983,3 +1983,99 @@ void GGen_Data_2D::Distort(GGen_Size waveLength, GGen_Distance amplitude)
 	delete turbulenceXMap;
 	delete turbulenceYMap;
 }
+
+void GGen_Data_2D::NormalMap(){
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* Calculate facing direction information for individual cells */
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			new_data[x + y * this->width] = this->GetNormal(x, y);
+		}	
+	}
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;
+}
+
+void GGen_Data_2D::NormalDifferenceMap(int32 angle){
+	/* Clamp the angle to the 0-360 range */
+	angle = angle % 360;
+
+	int32 oangle = angle;
+
+	/* Rescale the angle to the <GGEN_MIN_HEIGHT, GGEN_MAX_HEIGHT> interval */
+	angle = (int64) GGEN_MIN_HEIGHT + ((int64) angle * (int64) (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT)) / (int64) 360;
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* Calculate facing direction information for individual cells */
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+
+			GGen_Height normal = this->GetNormal(x, y);
+
+			/* Flat tiles aways return invalid angle */ 
+			if(normal == GGEN_INVALID_HEIGHT) {
+				new_data[x + y * this->width] = GGEN_INVALID_HEIGHT;
+				continue;
+			}
+
+			/* Difference of the two angles */
+			GGen_ExtHeight normalDifference = ABS(((GGen_ExtHeight) normal - (GGen_ExtHeight) angle));
+
+			/* The push angles (180°, 360°) into the (0°, 180°) range (we want angle difference, not absolute angle) */
+			if(normalDifference > (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT) / 2){
+				normalDifference = (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT) - normalDifference;
+			}
+
+			new_data[x + y * this->width] = normalDifference;
+		}	
+	}
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;
+}
+
+GGen_Height GGen_Data_2D::GetNormal( GGen_Coord x, GGen_Coord y )
+{
+
+	GGen_Index indexLeft = x > 0 ? (x - 1) + y * this->width : x + y * this->width;
+	GGen_Index indexRight = x < this->width ? (x + 1) + y * this->width : x + y * this->width;
+	GGen_Index indexTop = y > 0 ? x + (y - 1) * this->width : x + y * this->width;
+	GGen_Index indexBottom = y < this->height ? x + (y + 1) * this->width : x + y * this->width;
+
+	GGen_Height heightLeft = this->data[indexLeft];
+	GGen_Height heightRight = this->data[indexRight];
+	GGen_Height heightTop = this->data[indexTop];
+	GGen_Height heightBottom = this->data[indexBottom];
+
+	double vectorAX = 2;
+	double vectorAY = 0;
+	double vectorAZ = (double) this->data[indexLeft] - (double) this->data[indexRight];
+
+	double vectorBX = 0;
+	double vectorBY = -2;
+	double vectorBZ = (double) this->data[indexTop] - (double) this->data[indexBottom];
+
+	/* The tile has upwards normal (all the surrounding tiles have the same height) */
+	if(vectorAZ == 0 && vectorBZ == 0){
+		return GGEN_INVALID_HEIGHT;
+	}
+
+	double productX = vectorAY * vectorBZ - vectorAZ * vectorBY;
+	double productY = vectorAZ * vectorBX - vectorAX * vectorBZ;
+	double productZ = vectorAX * vectorBY - vectorAY * vectorBX;
+
+	double angle = atan2(productY, productX);
+
+	return (GGen_Height) (angle / 3.14159 * GGEN_MAX_HEIGHT);
+}

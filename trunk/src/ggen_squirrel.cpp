@@ -243,7 +243,10 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::ShrinkDirection,_T("ShrinkDirection")).
 		func(&GGen_Data_2D::Outline,_T("Outline")).
 		func(&GGen_Data_2D::ConvexityMap,_T("ConvexityMap")).
-		func(&GGen_Data_2D::Distort,_T("Distort"));
+		func(&GGen_Data_2D::Distort,_T("Distort")).
+		func(&GGen_Data_2D::NormalMap,_T("NormalMap")).
+		func(&GGen_Data_2D::NormalDifferenceMap,_T("NormalDifferenceMap")).
+		func(&GGen_Data_2D::GetNormal,_T("GetNormal"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
