@@ -14,7 +14,8 @@ TOFIX:
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
 		- only 32bpp RGBA color depth is supported for overlays
-		- add presets documentation	
+		- add presets documentation
+		- GGEN_MAX_HEIGHT overflows in "-h" mode	
 	STUDIO: 
 		- heightmap/texture import silently fails for overly big images (=> warning box should be shown)
 		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
