@@ -239,6 +239,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath")).
 		func(&GGen_Data_2D::CreateRiver,_T("CreateRiver")).
 		func(&GGen_Data_2D::NormalMap,_T("NormalMap")).
+		func(&GGen_Data_2D::NormalDifferenceMap,_T("NormalDifferenceMap")).
 		func(&GGen_Data_2D::GetNormal,_T("GetNormal"));
 
 	/* Class: GGen_Amplitudes */

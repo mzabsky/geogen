@@ -1747,6 +1747,49 @@ void GGen_Data_2D::NormalMap(){
 	this->data = new_data;
 }
 
+void GGen_Data_2D::NormalDifferenceMap(int32 angle){
+	/* Clamp the angle to the 0-360 range */
+	angle = angle % 360;
+
+	int32 oangle = angle;
+
+	/* Rescale the angle to the <GGEN_MIN_HEIGHT, GGEN_MAX_HEIGHT> interval */
+	angle = (int64) GGEN_MIN_HEIGHT + ((int64) angle * (int64) (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT)) / (int64) 360;
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* Calculate facing direction information for individual cells */
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			
+			GGen_Height normal = this->GetNormal(x, y);
+
+			/* Flat tiles aways return invalid angle */ 
+			if(normal == GGEN_INVALID_HEIGHT) {
+				new_data[x + y * this->width] = GGEN_INVALID_HEIGHT;
+				continue;
+			}
+			
+			/* Difference of the two angles */
+			GGen_ExtHeight normalDifference = ABS(((GGen_ExtHeight) normal - (GGen_ExtHeight) angle));
+
+			/* The push angles (180°, 360°) into the (0°, 180°) range (we want angle difference, not absolute angle) */
+			if(normalDifference > (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT) / 2){
+				normalDifference = (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT) - normalDifference;
+			}
+	
+			new_data[x + y * this->width] = normalDifference;
+		}	
+	}
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;
+}
+
 struct GGen_CreateRiver_TileInfo{
 	GGen_Coord x, y;
 
@@ -1789,7 +1832,6 @@ void GGen_Data_2D::CreateRiver(){
 	float minimumFlow = 0.1;
 
 	GGen_Data_2D* normalMap = this->Clone();
-	normalMap->NormalMap();
 	normalMap->ReturnAs(GGen_Const_String("normalMap"));
 
 	this->ReturnAs(GGen_Const_String("beforeRiver"));
@@ -2157,6 +2199,11 @@ GGen_Height GGen_Data_2D::GetNormal( GGen_Coord x, GGen_Coord y )
 	double vectorBX = 0;
 	double vectorBY = -2;
 	double vectorBZ = (double) this->data[indexTop] - (double) this->data[indexBottom];
+
+	/* The tile has upwards normal (all the surrounding tiles have the same height) */
+	if(vectorAZ == 0 && vectorBZ == 0){
+		return GGEN_INVALID_HEIGHT;
+	}
 
 	double productX = vectorAY * vectorBZ - vectorAZ * vectorBY;
 	double productY = vectorAZ * vectorBX - vectorAX * vectorBZ;
