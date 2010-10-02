@@ -590,6 +590,24 @@ class GGen_Data_2D{
 		 **/
 		void Distort(GGen_Size waveLength, GGen_Distance amplitude);
 
+		/* Replaces all values with values representing horizontal angle of surface normal in the tile. Angle 0° (eastern slope) is represented by value 0, 
+		 * angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are 
+		 * represented by positive values in range (0, GGEN_MAX_HEIGHT).
+		 * @note Flat areas (with normal pointing directly upward) are replaced with value GGEN_INVALID_HEIGHT. 
+		 **/
+		void NormalMap();
+
+		/* Replaces all values with values representing angle difference between surface normal in the tile and given angle. Angle difference of 0° is 
+		 * represented by value 0, angle difference of 180° is represented by GGEN_MAX_HEIGHT.
+		 * @param angle The angle in degrees.
+		 * @note Flat areas (with normal pointing directly upward) are replaced with value GGEN_INVALID_HEIGHT. 
+		 **/
+		void NormalDifferenceMap(int32 angle);
+
+		void CreateRiver();
+
+		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);	
+
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
 				delete (*GGen_Data_2D::instances.begin());
