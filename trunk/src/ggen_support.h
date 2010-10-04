@@ -7,7 +7,7 @@
     the Free Software Foundation, either version 2 of the License, or
     (at your option) any later version.
 
-    GeoGen is distributed in the hope that it will be useful,
+	GeoGen is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -281,7 +281,7 @@ enum GGen_Outline_Mode{
  */
 enum GGen_Status{ 
 	GGEN_NO_SCRIPT, //!< No script has been inserted yet, no actions but SetScript and setting map constraints are allowed. SetScript will rise the status to SCRIPT_LOADED.
-	GGEN_SCRIPT_LOADED, //!< Script has been successfully loaded, work with map info is now allowed (LoadArgs ca be called only now). LoadArgs will rise the status to READY_TO_GENERATE.
+	GGEN_SCRIPT_LOADED, //!< Script has been successfully loaded, work with map info is now allowed (LoadArgs can be called only now). LoadArgs will rise the status to READY_TO_GENERATE.
 	GGEN_READY_TO_GENERATE, //!< Script is ready to be executed.
 	GGEN_LOADING_MAP_INFO, //!< Map header is being mined for information, no work with map data of any kind is allowed.
 	GGEN_GENERATING, //!< Script is being executed. All script actions but adding new arguments is allowed.
