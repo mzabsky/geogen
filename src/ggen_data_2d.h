@@ -548,12 +548,14 @@ class GGen_Data_2D{
 		/**
 		 * Fills all areas within a distance in one direction from any value greater than 0 with 1. The rest of the map will be filled with 0.
 		 * @param distance The distance in maximum metric.
+		 * @param direction Direction of expansion.
 		 **/
 		void ExpandDirection(GGen_Distance distance, GGen_Direction direction);
 
 		/**
 		 * Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.
 		 * @param distance The distance in maximum metric.
+		 * @param direction Direction of shrinking.
 		 **/
 		void ShrinkDirection(GGen_Distance distance, GGen_Direction direction);
 
@@ -590,15 +592,14 @@ class GGen_Data_2D{
 		 **/
 		void Distort(GGen_Size waveLength, GGen_Distance amplitude);
 
-		/* Replaces all values with values representing horizontal angle of surface normal in the tile. Angle 0° (eastern slope) is represented by value 0, 
-		 * angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are 
-		 * represented by positive values in range (0, GGEN_MAX_HEIGHT).
+		/**
+		 * Replaces all values with values representing horizontal angle of surface normal in the tile. Angle 0° (eastern slope) is represented by value 0, angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are represented by positive values in range (0, GGEN_MAX_HEIGHT).
 		 * @note Flat areas (with normal pointing directly upward) are replaced with value GGEN_INVALID_HEIGHT. 
 		 **/
 		void NormalMap();
 
-		/* Replaces all values with values representing angle difference between surface normal in the tile and given angle. Angle difference of 0° is 
-		 * represented by value 0, angle difference of 180° is represented by GGEN_MAX_HEIGHT.
+		/** 
+		 * Replaces all values with values representing angle difference between surface normal in the tile and given angle. Angle difference of 0° is represented by value 0, angle difference of 180° is represented by GGEN_MAX_HEIGHT.
 		 * @param angle The angle in degrees.
 		 * @note Flat areas (with normal pointing directly upward) are replaced with value GGEN_INVALID_HEIGHT. 
 		 **/
@@ -606,6 +607,12 @@ class GGen_Data_2D{
 
 		void CreateRiver();
 
+		/** 
+		 * Returns surface normal angle in a tile. Angle 0° (eastern slope) is represented by value 0, angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are represented by positive values in range (0, GGEN_MAX_HEIGHT).
+		 * @param x X coordinate of the tile.
+		 * @param y Y coordinate of the tile.
+		 * @return Surface normal angle. 
+		 **/
 		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);	
 
 		static void FreeAllInstances(){
