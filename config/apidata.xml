@@ -367,7 +367,23 @@
     <Class>GGen_Data_2D</Class>
     <Name>Clamp</Name>
     <Type>void</Type>
-    <Description>Clamps all values to range.</Description>
+    <Description>Clamps all values to range. All values outside the given range will be set either to min or max, whichever is closer.</Description>
+    <Param>
+      <Name>min</Name>
+      <Type>GGen_Height</Type>
+      <Description>New minimum value.</Description>
+    </Param>
+    <Param>
+      <Name>max</Name>
+      <Type>GGen_Height</Type>
+      <Description>New maximum value.</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>CropValues</Name>
+    <Type>void</Type>
+    <Description>Clamps all values to range. All values outside the given range will be set either to 0.</Description>
     <Param>
       <Name>min</Name>
       <Type>GGen_Height</Type>
@@ -790,11 +806,11 @@
     <Class>GGen_Data_2D</Class>
     <Name>Monochrome</Name>
     <Type>void</Type>
-    <Description>Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.</Description>
+    <Description>Replaces each value with 0 if it is less than equal than the threshold or 1 otherwise.</Description>
     <Param>
-      <Name>treshold</Name>
+      <Name>threshold</Name>
       <Type>GGen_Height</Type>
-      <Description>Values above treshold will be 1, otherwise 0.</Description>
+      <Description>Values above threshold will be 1, otherwise 0.</Description>
     </Param>
   </Method>
   <Method>
@@ -996,11 +1012,11 @@
     </Param>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Comparsion_Mode</Type>
+      <Type>GGen_Comparison_Mode</Type>
       <Description>Arithmetic operator to be used in the condition.</Description>
     </Param>
     <Param>
-      <Name>treshold</Name>
+      <Name>threshold</Name>
       <Type>GGen_Height</Type>
       <Description>Value to be compared against.</Description>
     </Param>
@@ -1022,11 +1038,11 @@
     </Param>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Comparsion_Mode</Type>
+      <Type>GGen_Comparison_Mode</Type>
       <Description>Arithmetic operator to be used in the condition.</Description>
     </Param>
     <Param>
-      <Name>treshold</Name>
+      <Name>threshold</Name>
       <Type>GGen_Height</Type>
       <Description>Value to be compared against.</Description>
     </Param>
@@ -1052,6 +1068,114 @@
       <Type>GGen_Path*</Type>
       <Description>Sequence of points defining the path.</Description>
     </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>ExpandDirection</Name>
+    <Type>void</Type>
+    <Description>Fills all areas within a distance in one direction from any value greater than 0 with 1. The rest of the map will be filled with 0.</Description>
+    <Param>
+      <Name>distance</Name>
+      <Type>GGen_Distance</Type>
+      <Description>The distance in maximum metric.</Description>
+    </Param>
+    <Param>
+      <Name>direction</Name>
+      <Type>GGen_Direction</Type>
+      <Description>Direction of expansion.</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>ShrinkDirection</Name>
+    <Type>void</Type>
+    <Description>Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.</Description>
+    <Param>
+      <Name>distance</Name>
+      <Type>GGen_Distance</Type>
+      <Description>The distance in maximum metric.</Description>
+    </Param>
+    <Param>
+      <Name>direction</Name>
+      <Type>GGen_Direction</Type>
+      <Description>Direction of shrinking.</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>Expand</Name>
+    <Type>void</Type>
+    <Description>Fills all areas within a distance (in maximum metric) from any value greater than 0 with 1. The rest of the map will be filled with 0.</Description>
+    <Param>
+      <Name>distance</Name>
+      <Type>GGen_Distance</Type>
+      <Description>The distance in maximum metric.</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>Shrink</Name>
+    <Type>void</Type>
+    <Description>Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.</Description>
+    <Param>
+      <Name>distance</Name>
+      <Type>GGen_Distance</Type>
+      <Description>The distance in maximum metric.</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>Outline</Name>
+    <Type>void</Type>
+    <Description>Draws a border (made of value 1) around an area matching a condition. The non-border areas are filled with 0.</Description>
+    <Param>
+      <Name>mode</Name>
+      <Type>GGen_Comparison_Mode</Type>
+      <Description>Condition operator.</Description>
+    </Param>
+    <Param>
+      <Name>threshold</Name>
+      <Type>GGen_Height</Type>
+      <Description>Condition value.</Description>
+    </Param>
+    <Param>
+      <Name>outlineMode</Name>
+      <Type>GGen_Outline_Mode</Type>
+      <Description>Inside or outside border.</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>ConvexityMap</Name>
+    <Type>void</Type>
+    <Description>Replaces values in the array with information about steepness of slope (change in value) in that particular value.</Description>
+    <Param>
+      <Name>radius</Name>
+      <Type>GGen_Distance</Type>
+      <Description>Convexity measurement radius (how big a terrain feature must be to show on the convexity map).</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>Distort</Name>
+    <Type>void</Type>
+    <Description>Applies a turbulence distortion filter on the height map.</Description>
+    <Param>
+      <Name>waveLength</Name>
+      <Type>GGen_Size</Type>
+      <Description>Size of one distortion wave.</Description>
+    </Param>
+    <Param>
+      <Name>amplitude</Name>
+      <Type>GGen_Distance</Type>
+      <Description>Strength of the distortion effect.</Description>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>NormalMap</Name>
+    <Type>void</Type>
+    <Description>Replaces all values with values representing horizontal angle of surface normal in the tile. Angle 0� (eastern slope) is represented by value 0, angles in range (0�, 180�) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180�, 360�) are represented by positive values in range (0, GGEN_MAX_HEIGHT).</Description>
   </Method>
   <Method>
     <Class />
@@ -1352,11 +1476,11 @@
     <Class>GGen_Data_1D</Class>
     <Name>Monochrome</Name>
     <Type>void</Type>
-    <Description>Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.</Description>
+    <Description>Replaces each value with 0 if it is less than equal than the threshold or 1 otherwise.</Description>
     <Param>
-      <Name>treshold</Name>
+      <Name>threshold</Name>
       <Type>GGen_Height</Type>
-      <Description>Values above treshold will be 1, otherwise 0.</Description>
+      <Description>Values above threshold will be 1, otherwise 0.</Description>
     </Param>
   </Method>
   <Method>
@@ -2015,33 +2139,43 @@
   </Constant>
   <Constant>
     <Name>GGEN_EQUAL_TO</Name>
-    <Type>GGen_Comparsion_Mode</Type>
-    <Description>Compared value is equal to treshold value. </Description>
+    <Type>GGen_Comparison_Mode</Type>
+    <Description>Compared value is equal to threshold value. </Description>
   </Constant>
   <Constant>
     <Name>GGEN_NOT_EQUAL_TO</Name>
-    <Type>GGen_Comparsion_Mode</Type>
-    <Description>Compared value is not equal to treshold value.</Description>
+    <Type>GGen_Comparison_Mode</Type>
+    <Description>Compared value is not equal to threshold value.</Description>
   </Constant>
   <Constant>
     <Name>GGEN_LESS_THAN</Name>
-    <Type>GGen_Comparsion_Mode</Type>
-    <Description>Compared value is less than treshold value.</Description>
+    <Type>GGen_Comparison_Mode</Type>
+    <Description>Compared value is less than threshold value.</Description>
   </Constant>
   <Constant>
     <Name>GGEN_GREATER_THAN</Name>
-    <Type>GGen_Comparsion_Mode</Type>
-    <Description>Compared value is greater than treshold value.</Description>
+    <Type>GGen_Comparison_Mode</Type>
+    <Description>Compared value is greater than threshold value.</Description>
   </Constant>
   <Constant>
     <Name>GGEN_LESS_THAN_OR_EQUAL_TO</Name>
-    <Type>GGen_Comparsion_Mode</Type>
-    <Description>Compared value is less than or equal to treshold value.</Description>
+    <Type>GGen_Comparison_Mode</Type>
+    <Description>Compared value is less than or equal to threshold value.</Description>
   </Constant>
   <Constant>
     <Name>GGEN_GREATER_THAN_OR_EQUAL_TO</Name>
-    <Type>GGen_Comparsion_Mode</Type>
-    <Description>Compared value is greater than or equal to treshold value.</Description>
+    <Type>GGen_Comparison_Mode</Type>
+    <Description>Compared value is greater than or equal to threshold value.</Description>
+  </Constant>
+  <Constant>
+    <Name>GGEN_INSIDE</Name>
+    <Type>GGen_Outline_Mode</Type>
+    <Description>The border line will be just inside the bordered area (the last cells matching the condition while "looking" from inside the bordered area).</Description>
+  </Constant>
+  <Constant>
+    <Name>GGEN_OUTSIDE</Name>
+    <Type>GGen_Outline_Mode</Type>
+    <Description>The border line will be just outside the bordered area (the first cells not matching the condition while "looking" from inside the bordered area).</Description>
   </Constant>
   <Constant>
     <Name>GGEN_NO_SCRIPT</Name>
@@ -2051,7 +2185,7 @@
   <Constant>
     <Name>GGEN_SCRIPT_LOADED</Name>
     <Type>GGen_Status</Type>
-    <Description>Script has been successfully loaded, work with map info is now allowed (LoadArgs ca be called only now). LoadArgs will rise the status to READY_TO_GENERATE.</Description>
+    <Description>Script has been successfully loaded, work with map info is now allowed (LoadArgs can be called only now). LoadArgs will rise the status to READY_TO_GENERATE.</Description>
   </Constant>
   <Constant>
     <Name>GGEN_READY_TO_GENERATE</Name>
