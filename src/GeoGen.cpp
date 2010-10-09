@@ -29,6 +29,8 @@
 #include <assert.h>
 #include <time.h>
 
+///#include <vld.h>
+
 using namespace std;
 
 // hide "use our better secured function" warning
@@ -592,7 +594,7 @@ int main(int argc,char * argv[]){
 			
 			cin >> buf;
 
-			// use default (or random if in allrandom mode) value if fist char of the input is not number
+			// use default (or random if in allrandom mode) value if first char of the input is not a  number
 			if(buf[0] >= '0' && buf[0] <= '9') {
 				if(_params.all_random) current_arg->SetValue(random(current_arg->min_value, current_arg->max_value));
 				else current_arg->SetValue(atoi(buf));
