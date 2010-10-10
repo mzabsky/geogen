@@ -70,9 +70,15 @@ class GGen_Data_2D{
 		/**
 		 * Returns length of the map.
 		 * @return Length of the map.
-		 * @return Length is total number of tiles in the map (= width * height)
+		 * @note Length is total number of tiles in the map (= width * height)
 		 **/
 		GGen_Index GetLength();
+
+		/**
+		 * Returns maximum possible distance between two cells within the map.
+		 * @return Maximum distance within the map.
+		 **/
+		GGen_Distance GetMaxDistance();
 
 		/**
 		 * Sets value in one tile.
