@@ -595,7 +595,7 @@ void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGe
 			GGen_ExtExtHeight point_x = x - from_x;
 			GGen_ExtExtHeight point_y = y - from_y;
 
-			/* Get the point on the gradient vector (vector goint through both starting and target point) to which is the current point closest */
+			/* Get the point on the gradient vector (vector going through both starting and target point) to which is the current point closest */
 			GGen_ExtExtHeight cross_x = (target_x * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
 			GGen_ExtExtHeight cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
 		
@@ -675,7 +675,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 
 	this->Fill(0);
 
-	/* For each octave (goind from the higher wave lengths to the shorter)... */
+	/* For each octave (going from the higher wave lengths to the shorter)... */
 	for (GGen_Size wave_length = max_feature_size; wave_length >= 1; wave_length /= 2) {
 		GGen_Size frequency = GGen_log2(wave_length);
 		GGen_Height amplitude = amplitudes->data[frequency];
@@ -713,7 +713,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 					exist, wrap to the opposite border and pick a point from the opposite part of the array. This is
 					not an attempt to create seamlessly repeatable noise (which has no point while creating terrains).
 					The source points are picked just to have some data to interpolate with (to prevent creation of
-					unpretty unnatural artifacts) */
+					ugly unnatural artifacts) */
 					
 					/* Upper left corner */
 					GGen_Height upper_left = new_data[
@@ -893,7 +893,7 @@ void GGen_Data_2D::VoronoiNoise(GGen_Size cell_size, uint8 points_per_cell, GGen
 			/* The current cell */
 			points_waiting[0] = &VORONOINOISE_GET_POINT(cell_x, cell_y, 0);
 		
-			/* Collect points from the sorrounding cells */
+			/* Collect points from the surrounding cells */
 			if(cell_y > 0 && cell_x > 0)							{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x - 1, cell_y - 1, 0); ++num_points_waiting;}
 			if(cell_y > 0)											{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x,	 cell_y - 1, 0); ++num_points_waiting;}
 			if(cell_y > 0 && cell_x < num_cells_x - 1)				{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x + 1, cell_y - 1, 0); ++num_points_waiting;}
@@ -993,7 +993,7 @@ void GGen_Data_2D::SmoothDirection(GGen_Distance radius, GGen_Direction directio
 				window_value += this->data[x + this->width * y];
 			}
 
-			/* In every step shift the window one tile to the right  (= substract its leftmost cell and add
+			/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
 			value of rightmost + 1). i represents position of the central cell of the window. */
 			for (GGen_Coord x = 0; x < this->width; x++) {
 				/* If the window is approaching right border, use the rightmost value as fill. */
@@ -1019,7 +1019,7 @@ void GGen_Data_2D::SmoothDirection(GGen_Distance radius, GGen_Direction directio
 				window_value += this->data[x + y * this->width];
 			}
 
-			/* In every step shift the window one tile to the bottom  (= substract its topmost cell and add
+			/* In every step shift the window one tile to the bottom  (= subtract its topmost cell and add
 			value of bottommost + 1). i represents position of the central cell of the window. */
 			for (GGen_Coord y = 0; y < this->height; y++) {
 				/* If the window is approaching right border, use the rightmost value as fill. */
@@ -1098,7 +1098,7 @@ void GGen_Data_2D::SlopeMap()
 		}
 	}
 
-	/* Fixt the corners */
+	/* Fix the corners */
 	new_data[0] =  new_data[this->width + 1];
 	new_data[this->width - 1] = new_data[2 * this->width - 2];
 	new_data[this->length - this->width] = new_data[this->length - 2 * this->width + 1];
@@ -1253,7 +1253,7 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	double new_bottom_right_x = (this->width - 1) * a11 + (this->height - 1) * a12;
 	double new_bottom_right_y = (this->width - 1) * a21 + (this->height - 1) * a22;
 	
-	/* Find which bounding point is which (the rotations and such might change this). The zeroes
+	/* Find which bounding point is which (the rotations and such might change this). The zeros
 	represent the origin (upper left corner), which always stays the same. */
 	GGen_CoordOffset new_left_x = (int32) floor(MIN(MIN(0, new_top_right_x), MIN(new_bottom_left_x, new_bottom_right_x)));
 	GGen_CoordOffset new_right_x = (int32) ceil(MAX(MAX(0, new_top_right_x), MAX(new_bottom_left_x, new_bottom_right_x)));
@@ -1360,7 +1360,7 @@ void GGen_Data_2D::Rotate(int32 angle, bool preserve_size)
 }
 
 void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool preserve_size){
-	/* Verical and horizontal shear == 1 ==> the transformation matrix would be uninvertible */
+	/* Vertical and horizontal shear == 1 ==> the transformation matrix would be non-invertible */
 	GGen_Script_Assert(horizontal_shear != 1 || vertical_shear != 1);
 	
 	this->Transform(
@@ -1535,7 +1535,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 			/* Move X in direction of the edge */
 			edge->x += edge->dxy;
 
-			/* Detect distruptions in edge order. If there are any, request sort */
+			/* Detect disruptions in edge order. If there are any, request sort */
 			if(lastX > edge->x){
 				needsSorting= true;
 			}
@@ -1614,7 +1614,7 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 
 		GGen_Height currentValue = this->data[current.x + current.y * this->width];
 
-		/* Do not proces one tile more than once */
+		/* Do not process one tile more than once */
 		if(mask[current.x + current.y * this->width]) continue;
 
 		/* Mark the current tile as processed */
@@ -1642,7 +1642,7 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 		/* The condition is valid -> fill the current tile */
 		this->data[current.x + current.y * this->width] = fill_value;
 
-		/* Add sorrounding tiles to the fill queue (as long as they are within mao borders and are yet unworked) */
+		/* Add surrounding tiles to the fill queue (as long as they are within mao borders and are yet unworked) */
 		if (current.x > 0 && !mask[current.x - 1 + current.y * this->width]) {
 			queue.push(GGen_Point(current.x - 1, current.y));
 		}
