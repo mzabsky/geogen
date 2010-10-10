@@ -1548,10 +1548,48 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	}	
 }
 
-void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value) {
+void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius) {
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
-			
+			/* Calculate distance to the closest path segment */
+			GGen_Distance distance = this->GetMaxDistance();
+			for(GGen_Path::Iterator i = path->points.begin(); i != path->points.end(); ){
+				double currentDistanceSquared;
+				
+				GGen_Point point1 = *i;
+
+				i++;
+
+				if(i == path->points.end()) break;
+
+				GGen_Point point2 = *i;
+
+				double vx = point1.x - x;
+				double vy = point1.y - y;
+				double ux = point2.x - point1.x;
+				double uy = point2.y - point1.y;
+
+				double length = ux * ux + uy * uy;
+
+				double det = (-vx * ux) + (-vy * uy);
+
+				if(det < 0 || det > length)
+				{
+					ux = point2.x - x;
+					uy = point2.y - y;
+					currentDistanceSquared = MIN(vx * vx + vy * vy, ux * ux + uy * uy);
+				}
+				else {
+					det = ux * vy - uy * vx;
+					currentDistanceSquared = (det * det) / length;
+				}
+
+				distance = MIN(distance, sqrt(currentDistanceSquared));
+			}
+
+			if(distance < radius){
+				this->data[x + this->width * y] = brush->GetValueInterpolated(distance, radius);
+			}
 		}	
 	}
 }

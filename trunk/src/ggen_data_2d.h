@@ -506,7 +506,13 @@ class GGen_Data_2D{
 		 **/
 		void FillPolygon(GGen_Path* path, GGen_Height value);
 
-		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value);
+		/**
+		 * Paints a path with one-dimensional brush onto the map.
+		 * @param path The path to be stroked.
+		 * @param brush Brush used. Value with index 0 will be the closest to the path itself.
+		 * @param radius Resulting size of the stroke.
+		 **/
+		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius);
 
 		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only);	
 
