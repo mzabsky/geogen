@@ -93,6 +93,10 @@ GGen_Index GGen_Data_2D::GetLength()
 	return this->length;
 }
 
+GGen_Distance GGen_Data_2D::GetMaxDistance(){
+	return (GGen_Distance) sqrt((double) this->width * (double) this->height);
+}
+
 GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
 {
 	GGen_Script_Assert(x < this->width && y < this->height);
