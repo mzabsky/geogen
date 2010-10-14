@@ -290,6 +290,10 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_MIN_HEIGHT, _SC("GGEN_MIN_HEIGHT"));
 	BindConstant(GGEN_MAX_HEIGHT, _SC("GGEN_MAX_HEIGHT"));
 	BindConstant(GGEN_INVALID_HEIGHT, _SC("GGEN_INVALID_HEIGHT"));
+	BindConstant(GGEN_MAX_MAP_SIZE, _SC("GGEN_MAX_MAP_SIZE"));
+	BindConstant(GGEN_MAX_COORD, _SC("GGEN_MAX_COORD"));
+	BindConstant(GGEN_MAX_COORD_OFFSET, _SC("GGEN_MAX_COORD_OFFSET"));
+	BindConstant(GGEN_MIN_COORD_OFFSET, _SC("GGEN_MIN_COORD_OFFSET"));
 
 	#include "ggen_presets.h"
 }
