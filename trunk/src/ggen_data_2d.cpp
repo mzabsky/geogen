@@ -23,6 +23,7 @@
 #include <bitset>
 #include <cstring>
 #include <cmath>
+#include <stack>
 
 #include "ggen.h"
 #include "ggen_support.h"
@@ -1548,49 +1549,205 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	}	
 }
 
-void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius) {
-	for (GGen_Coord y = 0; y < this->height; y++) {
-		for (GGen_Coord x = 0; x < this->width; x++) {
-			/* Calculate distance to the closest path segment */
-			GGen_Distance distance = this->GetMaxDistance();
-			for(GGen_Path::Iterator i = path->points.begin(); i != path->points.end(); ){
-				double currentDistanceSquared;
+struct GGen_StrokePath_Quad{
+	GGen_Coord x, y;
+	GGen_Size width, height;
+
+	GGen_StrokePath_Quad(GGen_Coord x, GGen_Coord y, GGen_Size width, GGen_Size height):x(x), y(y), width(width), height(height){
+	}
+
+
+};
+
+
+
+void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, bool fill_outside) {
+	GGen_Height* segmentDistances = new GGen_Height[this->length];
+	uint32* segmentIndices = new uint32[this->length];
+
+	/* Fast random access to path segments will be needed with this algorithm. */
+	vector<GGen_Point> segmentArray = vector<GGen_Point>(path->points.begin(), path->points.end());
+
+	/* Prefill working arrays with empty data. */
+	for(GGen_Index i = 0; i < this->length; i++){
+		segmentDistances[i] = GGEN_INVALID_HEIGHT;
+		segmentIndices[i] = 0;
+	}
+	
+	stack<GGen_StrokePath_Quad> quadStack;
+	quadStack.push(GGen_StrokePath_Quad(0, 0, this->width, this->height));
+
+	while(!quadStack.empty()){
+		GGen_StrokePath_Quad currentQuad = quadStack.top();
+		quadStack.pop();		
+
+		/* Indexes of corner points order: top-left, top-right, bottom-left, bottom-right */
+		GGen_Point cornerPoints[4] = 
+			{
+				GGen_Point(currentQuad.x, currentQuad.y),
+				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y),
+				GGen_Point(currentQuad.x, currentQuad.y + currentQuad.height - 1),
+				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y + currentQuad.height - 1),
+			};
+		
+		uint32 firstCornerSegmentIndex = 0;
+		bool isSubdivisionNeeded = false;
+
+		/* For every corner of the current quad... */
+		for(int cornerNumber = 0; cornerNumber < 4; cornerNumber++){
+			GGen_Point currentPoint = cornerPoints[cornerNumber];
+			GGen_Index currentIndex = currentPoint.x + this->width * currentPoint.y;
+			
+			if(segmentDistances[currentIndex] == GGEN_INVALID_HEIGHT){				
+				/* Calculate distance to the closest path segment */
+				GGen_Distance distance = this->GetMaxDistance();
+				uint32 activeSegmentIndex = 0;
+				uint32 currentSegmentIndex = 0;
+				for(GGen_Path::Iterator i = path->points.begin(); i != path->points.end(); ){
+					double currentDistance;
+
+					GGen_Point point1 = *i; 
+
+					i++;
+
+					if(i == path->points.end()) break;
+
+					GGen_Point point2 = *i;
+
+					double vx = point1.x - currentPoint.x;
+					double vy = point1.y - currentPoint.y;
+					double ux = point2.x - point1.x;
+					double uy = point2.y - point1.y;
+
+					double length = ux * ux + uy * uy;
+
+					double det = (-vx * ux) + (-vy * uy);
+
+					if(det < 0 || det > length)
+					{
+						ux = point2.x - currentPoint.x;
+						uy = point2.y - currentPoint.y;
+						currentDistance = floor(sqrt(MIN(vx * vx + vy * vy, ux * ux + uy * uy)) + 0.5);						
+					}
+					else {
+						det = ux * vy - uy * vx;
+						currentDistance = floor(sqrt((det * det) / length) + 0.5);
+					}
+
+					if(currentDistance < distance){
+						distance = currentDistance;
+						activeSegmentIndex = currentSegmentIndex;
+					}
+					else if(currentDistance == distance){
+						
+						double angleBackward = atan2((double) (point1.x - segmentArray[activeSegmentIndex].x), (double) (point1.y - segmentArray[activeSegmentIndex].y));
+						double angleForward = atan2((double) (point1.x - point2.x), (double) (point1.y - point2.y));
+						double angleCurrent = atan2((double) (point1.x - currentPoint.x), (double) (point1.y - currentPoint.y));
+
+						double angleDiffBackward = ABS(angleBackward - angleCurrent);
+						double angleDiffForward = ABS(angleForward - angleCurrent);
+
+						if(angleDiffBackward > 3.14){
+							angleDiffBackward = 2 * 3.14 - angleDiffBackward;
+						}
+
+						if(angleDiffForward > 3.14){
+							angleDiffForward = 2 * 3.14 - angleDiffForward;
+						}
+
+						if(angleDiffBackward > angleDiffForward){
+							distance = currentDistance;
+							activeSegmentIndex = currentSegmentIndex;						
+						}
+					}
+					currentSegmentIndex++;
+				}
+
+				segmentDistances[currentIndex] = distance;
+				segmentIndices[currentIndex] = activeSegmentIndex;
+			}
+			else{
+				/* The distance has been already calculated */
+			}
+
+			if(cornerNumber == 0){
+				firstCornerSegmentIndex = segmentIndices[currentIndex];
+			}
+			else if(firstCornerSegmentIndex != segmentIndices[currentIndex]){
+				isSubdivisionNeeded = true;
+			}
+		}
 				
-				GGen_Point point1 = *i;
+		if(!isSubdivisionNeeded){
+			/* Further subdivision is not needed, we know which segment to use to fill the area. */
+			uint32 currentSegmentIndex = segmentIndices[currentQuad.x + this->width * currentQuad.y];
+			GGen_Point point1 = segmentArray[currentSegmentIndex];
+			GGen_Point point2 = segmentArray[currentSegmentIndex + 1];
 
-				i++;
+			for(GGen_CoordOffset offsetY = 0; offsetY < currentQuad.height; offsetY++){
+				for(GGen_CoordOffset offsetX = 0; offsetX < currentQuad.width; offsetX++){
+					GGen_Coord x = currentQuad.x + offsetX;
+					GGen_Coord y = currentQuad.y + offsetY;
+					
+					double currentDistance;
 
-				if(i == path->points.end()) break;
+					double vx = point1.x - x;
+					double vy = point1.y - y;
+					double ux = point2.x - point1.x;
+					double uy = point2.y - point1.y;
 
-				GGen_Point point2 = *i;
+					double length = ux * ux + uy * uy;
 
-				double vx = point1.x - x;
-				double vy = point1.y - y;
-				double ux = point2.x - point1.x;
-				double uy = point2.y - point1.y;
+					double det = (-vx * ux) + (-vy * uy);
 
-				double length = ux * ux + uy * uy;
+					if(det < 0 || det > length)
+					{
+						ux = point2.x - x;
+						uy = point2.y - y;
+						currentDistance = sqrt(MIN(vx * vx + vy * vy, ux * ux + uy * uy));						
+					}
+					else {
+						det = ux * vy - uy * vx;
+						currentDistance = sqrt((det * det) / length);
+					}
 
-				double det = (-vx * ux) + (-vy * uy);
-
-				if(det < 0 || det > length)
-				{
-					ux = point2.x - x;
-					uy = point2.y - y;
-					currentDistanceSquared = MIN(vx * vx + vy * vy, ux * ux + uy * uy);
+					segmentDistances[currentQuad.x + offsetX + this->width * (currentQuad.y + offsetY)] = currentDistance;
+					segmentIndices[currentQuad.x + offsetX + this->width * (currentQuad.y + offsetY)] = currentSegmentIndex;
 				}
-				else {
-					det = ux * vy - uy * vx;
-					currentDistanceSquared = (det * det) / length;
+			}
+		}
+		if(currentQuad.width > 1 || currentQuad.height > 1){
+			/* Break the quad into four equal (almost equal - the dimensions might be even numbers) parts. */
+			GGen_Size subdidedQuadWidth = currentQuad.width > 1 ? currentQuad.width / 2 : 1;
+			GGen_Size subdidedQuadHeight = currentQuad.height > 1 ? currentQuad.height / 2 : 1;
+
+			/* Subdivide horizontally and/or vertically (don't subdivide if only one tile in that direction is remaining). */
+			quadStack.push(GGen_StrokePath_Quad(currentQuad.x, currentQuad.y, subdidedQuadWidth, subdidedQuadHeight));
+			
+			if(currentQuad.width > 1){
+				quadStack.push(GGen_StrokePath_Quad(currentQuad.x + subdidedQuadWidth, currentQuad.y, currentQuad.width - subdidedQuadWidth, subdidedQuadHeight));
+			}
+			
+			if(currentQuad.height > 1){
+				quadStack.push(GGen_StrokePath_Quad(currentQuad.x, currentQuad.y + subdidedQuadHeight, subdidedQuadWidth, currentQuad.height - subdidedQuadHeight));
+				if(currentQuad.width > 1){
+					quadStack.push(GGen_StrokePath_Quad(currentQuad.x + subdidedQuadWidth, currentQuad.y + subdidedQuadHeight, currentQuad.width - subdidedQuadWidth, currentQuad.height - subdidedQuadHeight));
 				}
-
-				distance = MIN(distance, sqrt(currentDistanceSquared));
 			}
+		}
+	}
 
-			if(distance < radius){
-				this->data[x + this->width * y] = brush->GetValueInterpolated(distance, radius);
+	for(GGen_Coord y = 0; y < this->height; y++){
+		for(GGen_Coord x = 0; x < this->width; x++){
+			GGen_Distance currentDistance = segmentDistances[x + this->width * y];
+			
+			if(currentDistance < radius){
+				this->data[x + this->width * y] = brush->GetValueInterpolated(currentDistance, radius);
 			}
-		}	
+			else if(fill_outside){
+				this->data[x + this->width * y] = brush->data[brush->length - 1];
+			}
+		}
 	}
 }
 

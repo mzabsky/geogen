@@ -511,8 +511,10 @@ class GGen_Data_2D{
 		 * @param path The path to be stroked.
 		 * @param brush Brush used. Value with index 0 will be the closest to the path itself.
 		 * @param radius Resulting size of the stroke.
+		 * @param fill_outside Fill the area outside the brush stroke?
+		 * @note Computational complexity of this function directly depends on number of segments in the path.
 		 **/
-		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius);
+		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, bool fill_outside);
 
 		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only);	
 
