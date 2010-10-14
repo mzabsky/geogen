@@ -117,6 +117,26 @@ typedef uint32 GGen_Distance;
  **/
 #define GGEN_MAX_HEIGHT 32767
 
+/**
+ * Maximum map width/height(/length for 1D).
+ **/
+#define GGEN_MAX_MAP_SIZE 20000
+
+/**
+ * Maximum coordinate in a data array.
+ **/
+#define GGEN_MAX_COORD (GGEN_MAX_MAP_SIZE - 1)
+
+/**
+ * Maximum coordinate offset in a data array.
+ **/
+#define GGEN_MAX_COORD_OFFSET (GGEN_MAX_MAP_SIZE - 1)
+
+/**
+ * Maximum coordinate offset in a data array.
+ **/
+#define GGEN_MIN_COORD_OFFSET -GGEN_MAX_COORD_OFFSET
+
 #define GGEN_UNRELATIVE_CAP GGEN_MAX_HEIGHT
 
 #define MAX(a,b) ((a) > (b) ? (a) : (b)) 
