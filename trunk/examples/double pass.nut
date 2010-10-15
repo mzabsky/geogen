@@ -5,8 +5,8 @@ function GetInfo(info_type){
 		case "description":
 			return "Two valley areas separated by a massive mountain range.";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 10, 20000, 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 10, 20000, 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 10, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 10, GGen_GetMaxMapSize(), 1);
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			return 0;
 	}

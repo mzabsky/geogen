@@ -5,8 +5,8 @@ function GetInfo(info_type){
 		case "description":
 			return "Tournament style map emhasizing fair starting locations, for 16 players.";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 1000, 20000, 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 1000, 20000, 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 1000, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 1000, GGen_GetMaxMapSize(), 1);
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Rough;Smooth;Very Smooth;Extra Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 						

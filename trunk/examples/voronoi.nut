@@ -5,8 +5,8 @@ function GetInfo(info_type){
 		case "description":
 			return "VornoiNoise usage demonstration (that actually gives guite nice results).";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
 			
 			GGen_AddEnumArg("peak_size","Peak Size","Size of individual peaks.", 1, "Tiny;Medium;Large;Huge");
 			GGen_AddEnumArg("peak_prominence","Peak Prominence","Prominece of sharp peaks in comparison with sorrounding terrain.", 2, "Very Insignificant;Insignificant;Medium;Prominent;Very Prominent");
