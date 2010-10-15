@@ -27,6 +27,8 @@
 GGen_Data_1D::GGen_Data_1D(GGen_Size length, GGen_Height value)
 {
 	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
+	GGen_Script_Assert(length <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(length >= GGEN_MIN_MAP_SIZE);
 
 	GGen_Script_Assert(length > 1);
 
@@ -69,6 +71,8 @@ GGen_Height GGen_Data_1D::GetValue(GGen_Coord x)
 
 GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_x)
 {
+	GGen_Script_Assert(scale_to_x <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(scale_to_x >= GGEN_MIN_MAP_SIZE);
 	GGen_Script_Assert(x < scale_to_x);
 
 	/* No interpolation needed if the sizes are equal */
@@ -101,7 +105,9 @@ void GGen_Data_1D::SetValue(GGen_Coord x, GGen_Height value)
 
 void GGen_Data_1D::SetValueInRange(GGen_Coord from, GGen_Coord to, GGen_Height value)
 {
-	GGen_Script_Assert(from < this->length || to < this->length || from < to);
+	GGen_Script_Assert(from < this->length);
+	GGen_Script_Assert(to < this->length);
+	GGen_Script_Assert(from < to);	
 
 	for (GGen_Coord i = from; i <= to; i++) {
 		this->data[i] = value;
@@ -124,6 +130,8 @@ void GGen_Data_1D::Add(GGen_Height value)
 
 void GGen_Data_1D::AddArray(GGen_Data_1D* addend)
 {
+	GGen_Script_Assert(addend != NULL);
+
 	/* Scale the addend as necessary */
 	for (GGen_Coord i = 0; i < this->length; i++) {
 		this->data[i] += addend->GetValueInterpolated(i, this->length);
@@ -132,6 +140,10 @@ void GGen_Data_1D::AddArray(GGen_Data_1D* addend)
 
 void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset)
 {
+	GGen_Script_Assert(addend != NULL);
+	GGen_Script_Assert(offset > -this->length);
+	GGen_Script_Assert(offset < this->length);
+
 	/* Walk through the items where the array and the addend with ofset intersect */
 	for (GGen_Coord i = (GGen_Coord) MAX(0, offset); i < (GGen_Coord) MIN(this->length, offset + addend->length); i++) {
 		this->data[i] += addend->data[i - offset];
@@ -140,6 +152,9 @@ void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset)
 
 void GGen_Data_1D::AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool relative)
 {
+	GGen_Script_Assert(addend != NULL);
+	GGen_Script_Assert(mask != NULL);
+
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
@@ -152,7 +167,9 @@ void GGen_Data_1D::AddArrayMasked(GGen_Data_1D* addend, GGen_Data_1D* mask, bool
 }
 
 void GGen_Data_1D::AddMasked(GGen_Height value, GGen_Data_1D* mask, bool relative)
-{
+{	
+	GGen_Script_Assert(mask != NULL);
+
 	GGen_Height max = GGEN_UNRELATIVE_CAP;
  
 	if(relative){
@@ -173,6 +190,8 @@ void GGen_Data_1D::Multiply(double value)
 
 void GGen_Data_1D::MultiplyArray(GGen_Data_1D* factor)
 {
+	GGen_Script_Assert(factor != NULL);
+
 	for (GGen_Coord i = 0; i < this->length; i++) {
 		this->data[i] = (GGen_Height) ((double) this->data[i] * factor->GetValueInterpolated(i, this->length));
 	}
@@ -187,6 +206,9 @@ void GGen_Data_1D::Invert()
 
 void GGen_Data_1D::ScaleTo(GGen_Size new_length, bool scale_values)
 {
+	GGen_Script_Assert(new_length <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_length >= GGEN_MIN_MAP_SIZE);
+
 	GGen_Script_Assert(new_length > 1);
 
 	double ratio = new_length / this->length;
@@ -233,6 +255,11 @@ void GGen_Data_1D::Scale(double ratio, bool scale_values)
 
 void GGen_Data_1D::ResizeCanvas(GGen_Size new_length, GGen_CoordOffset new_zero)
 {
+	GGen_Script_Assert(new_length <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_length >= GGEN_MIN_MAP_SIZE);
+	GGen_Script_Assert(new_zero <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_zero >= -GGen::GetMaxMapSize());
+
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[new_length];
 
@@ -298,6 +325,9 @@ GGen_Height GGen_Data_1D::Max()
 
 void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode)
 {
+	GGen_Script_Assert(distance < this->length);
+	GGen_Script_Assert(distance > -this->length);
+
 	GGen_Script_Assert(distance < this->length && distance != 0 && distance > -this->length);
 	
 	/* Cycle mode */
@@ -375,6 +405,8 @@ void GGen_Data_1D::Shift(GGen_CoordOffset distance, GGen_Overflow_Mode mode)
 
 void GGen_Data_1D::Union(GGen_Data_1D* victim)
 {
+	GGen_Script_Assert(victim != NULL);
+
 	for (GGen_Coord i = 0; i < this->length; i++) {
 		this->data[i] = MIN(this->data[i], victim->GetValueInterpolated(i, this->length));
 	}
@@ -382,6 +414,8 @@ void GGen_Data_1D::Union(GGen_Data_1D* victim)
 
 void GGen_Data_1D::Intersection(GGen_Data_1D* victim)
 {
+	GGen_Script_Assert(victim != NULL);
+	
 	for (GGen_Coord i = 0; i < this->length; i++) {
 		this->data[i] = MAX(this->data[i], victim->GetValueInterpolated(i, this->length));
 	}
@@ -465,7 +499,8 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode)
 
 void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_value, GGen_Height to_value, bool fill_flat)
 {
-	GGen_Script_Assert(from < this->length || to < this->length);
+	GGen_Script_Assert(from < this->length);
+	GGen_Script_Assert(to < this->length);
 	
 	/* Swap values if necessary */
 	if (from > to) {
@@ -500,6 +535,10 @@ void GGen_Data_1D::Gradient(GGen_Coord from, GGen_Coord to, GGen_Height from_val
 void GGen_Data_1D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes)
 {
 	GGen_Script_Assert(amplitudes != NULL);
+	GGen_Script_Assert(min_feature_size >= 1);
+	GGen_Script_Assert(min_feature_size <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(max_feature_size >= 1);
+	GGen_Script_Assert(max_feature_size <= GGen::GetMaxMapSize());
 
 	uint16 frequency = GGen_log2(max_feature_size);
 	GGen_Height amplitude = amplitudes->data[frequency];
@@ -547,7 +586,8 @@ void GGen_Data_1D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 
 void GGen_Data_1D::Smooth(GGen_Distance radius)
 {
-	GGen_Script_Assert(radius > 0 && radius < this->length);
+	GGen_Script_Assert(radius >= 1);
+	GGen_Script_Assert(radius <= this->length);
 	
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[this->length];
@@ -589,7 +629,8 @@ void GGen_Data_1D::Smooth(GGen_Distance radius)
 
 void GGen_Data_1D::Flood(double water_amount)
 {
-	GGen_Script_Assert(water_amount < 1 && water_amount > 0);
+	GGen_Script_Assert(water_amount < 1);
+	GGen_Script_Assert(water_amount > 0);
 
 	/* Calculate how many tiles should be flooded in total */
 	GGen_Index target = (GGen_Index) (water_amount * (double) this->length);
@@ -630,6 +671,8 @@ void GGen_Data_1D::Flood(double water_amount)
 }
 
 GGen_Path* GGen_Data_1D::ToPath(uint16 point_count){
+	GGen_Script_Assert(point_count <= GGEN_MAX_PATH_LENGTH);
+	
 	GGen_Path* path = new GGen_Path;
 	
 	for(GGen_Index i = 0; i < point_count; i++){
