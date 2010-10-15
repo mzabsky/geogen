@@ -226,6 +226,7 @@
     <None Include="..\examples\valley.nut" />
     <None Include="..\examples\voronoi.nut" />
     <None Include="..\documentation.html" />
+    <None Include="..\Makefile" />
     <None Include="..\TODO.TXT" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
