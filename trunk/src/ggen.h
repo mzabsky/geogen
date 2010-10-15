@@ -68,7 +68,7 @@ public:
 
 	uint32 max_progress, current_progress;
 
-	GGen_Size max_width, max_height;
+	GGen_Size max_map_size;
 	uint16 max_map_count;
 
 	GGen();
@@ -91,13 +91,11 @@ public:
 	virtual vector<GGen_ScriptArg>* LoadArgs();
 	virtual int16* Generate() = 0;
 	
-	void SetMaxWidth(GGen_Size width);
-	void SetMaxHeight(GGen_Size height);
+	void SetMaxMapSize(GGen_Size size);
 	void SetMaxMapCount(uint16 count);
 
 	/* Constraint getters and progress methods must be static to be exported as globals to Squirrel */
-	static GGen_Size GetMaxWidth();
-	static GGen_Size GetMaxHeight();
+	static GGen_Size GetMaxMapSize();
 	static uint16 GetMaxMapCount();
 	
 	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label) = 0;

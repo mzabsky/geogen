@@ -87,8 +87,7 @@ GGen_Squirrel::GGen_Squirrel(){
 	RegisterGlobal(&GGen_IncreaseProgress, _SC("GGen_IncreaseProgress"));
 
 	/* Constraint getters */
-	RegisterGlobal(&GGen::GetMaxHeight, _SC("GGen_GetMaxHeight"));
-	RegisterGlobal(&GGen::GetMaxWidth, _SC("GGen_GetMaxWidth"));
+	RegisterGlobal(&GGen::GetMaxMapSize, _SC("GGen_GetMaxMapSize"));	
 	RegisterGlobal(&GGen::GetMaxMapCount, _SC("GGen_GetMaxMapCount"));
 
 	/* Enum: GGen_Normalization_Mode */
@@ -290,10 +289,7 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_MIN_HEIGHT, _SC("GGEN_MIN_HEIGHT"));
 	BindConstant(GGEN_MAX_HEIGHT, _SC("GGEN_MAX_HEIGHT"));
 	BindConstant(GGEN_INVALID_HEIGHT, _SC("GGEN_INVALID_HEIGHT"));
-	BindConstant(GGEN_MAX_MAP_SIZE, _SC("GGEN_MAX_MAP_SIZE"));
-	BindConstant(GGEN_MAX_COORD, _SC("GGEN_MAX_COORD"));
-	BindConstant(GGEN_MAX_COORD_OFFSET, _SC("GGEN_MAX_COORD_OFFSET"));
-	BindConstant(GGEN_MIN_COORD_OFFSET, _SC("GGEN_MIN_COORD_OFFSET"));
+	BindConstant(GGEN_MAX_PATH_LENGTH, _SC("GGEN_MAX_PATH_LENGTH"));
 
 	#include "ggen_presets.h"
 }
