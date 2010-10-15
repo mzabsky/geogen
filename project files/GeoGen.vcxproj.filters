@@ -134,5 +134,6 @@
     </None>
     <None Include="..\documentation.html" />
     <None Include="..\TODO.TXT" />
+    <None Include="..\Makefile" />
   </ItemGroup>
 </Project>
