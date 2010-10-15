@@ -36,9 +36,8 @@ GGen::GGen(){
 
 	this->status = GGEN_NO_SCRIPT;
 
-	/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */
-	this->max_height = -1;
-	this->max_width = -1;
+	/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */	
+	this->max_map_size = -1;
 	this->max_map_count = -1;
 
 	this->message_callback = NULL;
@@ -112,24 +111,16 @@ vector<GGen_ScriptArg>* GGen::LoadArgs(){
 	return &this->args;
 }
 
-void GGen::SetMaxWidth(GGen_Size width){
-	this->max_width = width;
-}
-
-void GGen::SetMaxHeight(GGen_Size height){
-	this->max_height = height;
+void GGen::SetMaxMapSize(GGen_Size size){
+	this->max_map_size = size;
 }
 
 void GGen::SetMaxMapCount(uint16 count){
 	this->max_map_count = count;
 }
 
-GGen_Size GGen::GetMaxWidth(){
-	return GGen::GetInstance()->max_width;
-}
-
-GGen_Size GGen::GetMaxHeight(){
-	return GGen::GetInstance()->max_height;
+GGen_Size GGen::GetMaxMapSize(){
+	return GGen::GetInstance()->max_map_size;
 }
 
 uint16 GGen::GetMaxMapCount(){
