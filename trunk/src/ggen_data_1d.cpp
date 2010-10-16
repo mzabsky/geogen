@@ -86,7 +86,7 @@ GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_
 		/* How much does the source tile overlap over the smaller grid? */
 		double remainder = (x / ratio) - floor(x / ratio);
 
-		/* Interpolate the value from two sorrounding values */
+		/* Interpolate the value from two surrounding values */
 		return (GGen_Height) ((double) data[(GGen_Coord) floor(x / ratio)] * (1 - remainder) + (double) data[(GGen_Coord) floor(x / ratio) + 1] * (remainder));
 	}
 
@@ -144,7 +144,7 @@ void GGen_Data_1D::AddTo(GGen_Data_1D* addend, GGen_CoordOffset offset)
 	GGen_Script_Assert(offset > -this->length);
 	GGen_Script_Assert(offset < this->length);
 
-	/* Walk through the items where the array and the addend with ofset intersect */
+	/* Walk through the items where the array and the addend with offset intersect */
 	for (GGen_Coord i = (GGen_Coord) MAX(0, offset); i < (GGen_Coord) MIN(this->length, offset + addend->length); i++) {
 		this->data[i] += addend->data[i - offset];
 	}
@@ -449,7 +449,7 @@ void GGen_Data_1D::SlopeMap()
 		new_data[i] = ABS(this->data[i - 1] - this->data[i + 1]);
 	}
 
-	/* Make sure the border items are treated correctly (use the neighbouring values) */
+	/* Make sure the border items are treated correctly (use the neighboring values) */
 	new_data[0] = new_data[1];
 	new_data[this->length-1] = new_data[this->length-2];
 
@@ -476,7 +476,7 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode)
 			}
 		}
 	} else {
-		/* Substractive mode */
+		/* Subtractive mode */
 		/* Fix left-to-right "uphills" */
 		for (GGen_Coord i = 1; i < this->length; i++) {
 			if (this->data[i] > this->data[i - 1] + 1) {
@@ -492,7 +492,7 @@ void GGen_Data_1D::Normalize(GGen_Normalization_Mode mode)
 		}
 	}
 
-	/* Make sure the border items are treated correctly (use the neighbouring values) */
+	/* Make sure the border items are treated correctly (use the neighboring values) */
 	this->data[0] = this->data[1];
 	this->data[this->length-1] = this->data[this->length-2];
 }
@@ -604,7 +604,7 @@ void GGen_Data_1D::Smooth(GGen_Distance radius)
 		window_value += this->data[i];
 	}
 
-	/* In every step shift the window one tile to the right  (= substract its leftmost cell and add
+	/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
 	value of rightmost + 1). i represents position of the central cell of the window. */
 	for(GGen_Coord i = 0; i < this->length; i++){
 		/* If the window is approaching right border, use the rightmost value as fill. */
