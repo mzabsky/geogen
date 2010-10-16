@@ -41,7 +41,8 @@ GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
 	GGen_Script_Assert(width > 1 && height > 1);
-	GGen_Script_Assert(width < GGen::GetMaxMapSize() && height < GGen::GetMaxMapSize());
+	GGen_Script_Assert(width < GGen::GetMaxMapSize());
+	GGen_Script_Assert(height < GGen::GetMaxMapSize());
 
 	GGen_Script_Assert(GGen_Data_2D::num_instances < GGen::GetMaxMapCount());
 	GGen_Data_2D::num_instances++;
@@ -107,7 +108,12 @@ GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
 
 GGen_Height GGen_Data_2D::GetValueInterpolated(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height)
 {
-	GGen_Script_Assert(y < scale_to_height && x < scale_to_width);
+	GGen_Script_Assert(y < scale_to_height)
+	GGen_Script_Assert(x < scale_to_width);
+	GGen_Script_Assert(scale_to_width >= GGEN_MIN_MAP_SIZE);
+	GGen_Script_Assert(scale_to_width <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(scale_to_height >= GGEN_MIN_MAP_SIZE);
+	GGen_Script_Assert(scale_to_height <= GGen::GetMaxMapSize());
 
 	/* No interpolation needed if the sizes are equal */
 	if (scale_to_width == width && scale_to_height == height) {
@@ -172,7 +178,10 @@ void GGen_Data_2D::SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, G
 
 void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale_values)
 {
-	GGen_Script_Assert(new_width > 1 && new_height > 1);
+	GGen_Script_Assert(new_width >= GGEN_MIN_MAP_SIZE);
+	GGen_Script_Assert(new_width <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_height >= GGEN_MIN_MAP_SIZE);
+	GGen_Script_Assert(new_height <= GGen::GetMaxMapSize());
 
 	/* Pick the ratio for values as arithmetic average of horizontal and vertical ratios */
 	double ratio = ((double) new_width / (double) this->width + (double) new_height / (double) this->height) / 2.0;
@@ -221,6 +230,15 @@ void GGen_Data_2D::Scale(double ratio, bool scale_values)
 
 void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_CoordOffset new_zero_x, GGen_CoordOffset new_zero_y)
 {
+	GGen_Script_Assert(new_width >= GGEN_MIN_MAP_SIZE);
+	GGen_Script_Assert(new_width <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_height >= GGEN_MIN_MAP_SIZE);
+	GGen_Script_Assert(new_height <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_zero_x <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_zero_x >= -GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_zero_y <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_zero_y >= -GGen::GetMaxMapSize());
+	
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[new_width * new_height];
 
@@ -253,6 +271,8 @@ void GGen_Data_2D::Fill(GGen_Height value)
 
 void GGen_Data_2D::FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative)
 {
+	GGen_Script_Assert(mask != NULL);
+
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
@@ -279,6 +299,8 @@ void GGen_Data_2D::Add(GGen_Height value)
 
 void GGen_Data_2D::AddMap(GGen_Data_2D* addend)
 {
+	GGen_Script_Assert(addend != NULL);
+
 	/* Scale the addend as necessary */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++)	{
@@ -300,6 +322,12 @@ void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace)
 
 void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
 {
+	GGen_Script_Assert(addend != NULL);
+	GGen_Script_Assert(offset_x > -this->width);
+	GGen_Script_Assert(offset_x < this->width);
+	GGen_Script_Assert(offset_y > -this->height);
+	GGen_Script_Assert(offset_y < this->height);
+
 	/* Walk through the items where the array and the addend with offset intersect */
 	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + addend->height); y++) {
 		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + addend->width); x++) {
@@ -310,6 +338,9 @@ void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_C
 
 void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative)
 {
+	GGen_Script_Assert(addend != NULL);
+	GGen_Script_Assert(mask != NULL);
+	
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if (relative){
@@ -327,6 +358,8 @@ void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool r
 
 void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative)
 {
+	GGen_Script_Assert(mask != NULL);
+
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
@@ -352,6 +385,8 @@ void GGen_Data_2D::Multiply(double factor)
 
 void GGen_Data_2D::MultiplyMap(GGen_Data_2D* factor)
 {
+	GGen_Script_Assert(factor != NULL);
+
 	/* Scale the factor as necessary */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++)	{
@@ -418,6 +453,8 @@ void GGen_Data_2D::CropValues(GGen_Height min, GGen_Height max)
 
 void GGen_Data_2D::Union(GGen_Data_2D* victim)
 {
+	GGen_Script_Assert(victim != NULL);
+
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
 			this->data[x + y * width] = MAX(this->data[x + y * this->width], victim->GetValueInterpolated(x, y, this->width, this->height));
@@ -427,6 +464,12 @@ void GGen_Data_2D::Union(GGen_Data_2D* victim)
 
 void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
 {
+	GGen_Script_Assert(victim != NULL);
+	GGen_Script_Assert(offset_x > -this->width);
+	GGen_Script_Assert(offset_x < this->width);
+	GGen_Script_Assert(offset_y > -this->height);
+	GGen_Script_Assert(offset_y < this->height);
+
 	/* Walk through the items where the array and the victim with offset intersect */
 	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + victim->height); y++) {
 		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + victim->width); x++) {
@@ -437,6 +480,8 @@ void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen
 
 void GGen_Data_2D::Intersection(GGen_Data_2D* victim)
 {
+	GGen_Script_Assert(victim != NULL);
+
 	for(GGen_Coord y = 0; y < this->height; y++) {
 		for(GGen_Coord x = 0; x < this->width; x++) {	
 			this->data[x + y * this->width] = MIN(this->data[x + y * this->width], victim->GetValueInterpolated(x, y, this->width, this->height));
@@ -446,6 +491,12 @@ void GGen_Data_2D::Intersection(GGen_Data_2D* victim)
 
 void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
 {
+	GGen_Script_Assert(victim != NULL);
+	GGen_Script_Assert(offset_x > -this->width);
+	GGen_Script_Assert(offset_x < this->width);
+	GGen_Script_Assert(offset_y > -this->height);
+	GGen_Script_Assert(offset_y < this->height);
+
 	/* Walk through the items where the array and the addend with offset intersect */
 	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + victim->height); y++) {
 		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + victim->width); x++) {
@@ -456,6 +507,9 @@ void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_
 
 void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative)
 {
+	GGen_Script_Assert(victim != NULL);
+	GGen_Script_Assert(mask != NULL);
+
 	GGen_Height max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
@@ -484,6 +538,8 @@ void GGen_Data_2D::Abs()
 
 void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction)
 {
+	GGen_Script_Assert(profile != NULL);
+
 	if (direction == GGEN_HORIZONTAL) {
 		for(GGen_Coord y = 0; y < this->height; y++) {
 			for(GGen_Coord x = 0; x < this->width; x++) {		
@@ -525,6 +581,8 @@ GGen_Data_1D* GGen_Data_2D::GetProfile(GGen_Direction direction, GGen_Coord coor
 
 void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode)
 {
+	GGen_Script_Assert(profile != NULL);
+
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[this->length];
 
@@ -585,6 +643,12 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 
 void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside)
 {
+	GGen_Script_Assert(pattern != NULL);
+	GGen_Script_Assert(from_x < this->width);
+	GGen_Script_Assert(from_y < this->height);
+	GGen_Script_Assert(to_x < this->width);
+	GGen_Script_Assert(to_y < this->height);
+
 	GGen_ExtExtHeight target_x = to_x - from_x;
 	GGen_ExtExtHeight target_y = to_y - from_y;
 	
@@ -620,6 +684,11 @@ void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGe
 
 void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside)
 {
+	GGen_Script_Assert(from_x < this->width);
+	GGen_Script_Assert(from_y < this->height);
+	GGen_Script_Assert(to_x < this->width);
+	GGen_Script_Assert(to_y < this->height);
+
 	/* Call the profile gradient with linear profile */
 	
 	GGen_Data_1D temp(2, 0);
@@ -631,7 +700,12 @@ void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_
 
 void GGen_Data_2D::RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside)
 {
-	GGen_Script_Assert(radius > 0 && pattern != NULL);
+	GGen_Script_Assert(pattern != NULL);
+	GGen_Script_Assert(center_x < this->width);
+	GGen_Script_Assert(center_y < this->height);
+
+	GGen_Script_Assert(radius > 0);
+	GGen_Script_Assert(pattern != NULL);
 
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
@@ -648,7 +722,10 @@ void GGen_Data_2D::RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord cen
 
 void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside)
 {
-	GGen_Script_Assert(radius > 0);
+	GGen_Script_Assert(center_x < this->width);
+	GGen_Script_Assert(center_y < this->height);
+
+	GGen_Script_Assert(radius > 0);	
 	
 	GGen_ExtExtHeight rel_max = max - min;
 
@@ -668,6 +745,10 @@ void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen
 void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes)
 {
 	GGen_Script_Assert(amplitudes != NULL);
+	GGen_Script_Assert(min_feature_size > 0);
+	GGen_Script_Assert(min_feature_size <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(max_feature_size > 0);
+	GGen_Script_Assert(max_feature_size <= GGen::GetMaxMapSize());
 
 	/* Prepare empty space for the work data */ 
 	GGen_Height* new_data = new GGen_Height[this->length];
@@ -971,13 +1052,15 @@ void GGen_Data_2D::Flood(double water_amount)
 
 void GGen_Data_2D::Smooth(GGen_Distance radius)
 {
+	GGen_Script_Assert(radius > 0);
+	
 	this->SmoothDirection(radius, GGEN_HORIZONTAL);
 	this->SmoothDirection(radius, GGEN_VERTICAL);
 }
 
 void GGen_Data_2D::SmoothDirection(GGen_Distance radius, GGen_Direction direction)
 {
-	GGen_Script_Assert(radius > 0 && radius < this->width && radius < this->height);
+	GGen_Script_Assert(radius > 0);
 	
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[this->length];
@@ -1147,6 +1230,8 @@ void GGen_Data_2D::Scatter(bool relative)
 
 void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 {
+	GGen_Script_Assert(profile != NULL);
+
 	GGen_Height min = 0;
 	GGen_Height max = GGEN_UNRELATIVE_CAP;
 
@@ -1430,7 +1515,7 @@ public:
 };
 
 void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
-
+	GGen_Script_Assert(path != NULL);
 
 	/* Create a full list of all non-horizontal edges (this is line algorithm, we can skip horizontal edges) */
 	list<GGen_FillPolygon_DownwardsEdge*> edges;
@@ -1562,6 +1647,10 @@ struct GGen_StrokePath_Quad{
 
 
 void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, bool fill_outside) {
+	GGen_Script_Assert(path != NULL);
+	GGen_Script_Assert(brush != NULL);
+	GGen_Script_Assert(radius > 0);	
+
 	GGen_Height* segmentDistances = new GGen_Height[this->length];
 	uint32* segmentIndices = new uint32[this->length];
 
@@ -1752,7 +1841,8 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 }
 
 void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only){
-	GGen_Script_Assert(start_x < this->width && start_y < this->height);
+	GGen_Script_Assert(start_x < this->width);
+	GGen_Script_Assert(start_y < this->height);		
 
 	/* Bordering (potential spread) points will be stored in queue */
 	queue<GGen_Point> queue;
@@ -1830,13 +1920,15 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 }
 
 void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold){
-	GGen_Script_Assert(start_x < this->width && start_y < this->height);
+	GGen_Script_Assert(start_x < this->width);
+	GGen_Script_Assert(start_y < this->height);		
 
 	this->FloodFillBase(start_x, start_y, fill_value, mode, threshold, false);
 }
 
 void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparison_Mode mode, GGen_Height threshold){
-	GGen_Script_Assert(start_x < this->width && start_y < this->height);
+	GGen_Script_Assert(start_x < this->width);
+	GGen_Script_Assert(start_y < this->height);		
 
 	this->FloodFillBase(start_x, start_y, 1, mode, threshold, true);
 }
@@ -1949,18 +2041,22 @@ GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
 
 GGen_Height GGen_Data_2D::GetMaxValueOnPath(GGen_Path* path){
 	GGen_Script_Assert(path != NULL);
+	GGen_Script_Assert(path->points.size() > 1);
 
 	return this->GetValueOnPathBase(path, true);
 }
 
 GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
 	GGen_Script_Assert(path != NULL);
+	GGen_Script_Assert(path->points.size() > 1);
 
 	return this->GetValueOnPathBase(path, false);
 }
 
 void GGen_Data_2D::ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direction direction, bool shrink){
-	GGen_Script_Assert(distance > 0 && distance < this->width && distance < this->height);
+	GGen_Script_Assert(distance > 0);
+	GGen_Script_Assert(direction == GGEN_VERTICAL || distance < this->width);
+	GGen_Script_Assert(direction == GGEN_HORIZONTAL || distance < this->height);
 	
 	/* shrinking = inverse expanding */
 	if(shrink){
@@ -2040,19 +2136,35 @@ void GGen_Data_2D::ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direct
 }
 
 void GGen_Data_2D::ExpandDirection(GGen_Distance distance, GGen_Direction direction){
+	GGen_Script_Assert(distance > 0);
+	GGen_Script_Assert(direction == GGEN_VERTICAL || distance < this->width);
+	GGen_Script_Assert(direction == GGEN_HORIZONTAL || distance < this->height);
+
 	this->ExpandShrinkDirectionBase(distance, direction, false);
 }
 
 void GGen_Data_2D::ShrinkDirection(GGen_Distance distance, GGen_Direction direction){
+	GGen_Script_Assert(distance > 0);
+	GGen_Script_Assert(direction == GGEN_VERTICAL || distance < this->width);
+	GGen_Script_Assert(direction == GGEN_HORIZONTAL || distance < this->height);
+
 	this->ExpandShrinkDirectionBase(distance, direction, true);
 }
 
 void GGen_Data_2D::Expand(GGen_Distance distance){
+	GGen_Script_Assert(distance > 0);
+	GGen_Script_Assert(distance < this->width);
+	GGen_Script_Assert(distance < this->height);
+
 	this->ExpandDirection(distance, GGEN_HORIZONTAL);
 	this->ExpandDirection(distance, GGEN_VERTICAL);
 }
 
 void GGen_Data_2D::Shrink(GGen_Distance distance){
+	GGen_Script_Assert(distance > 0);
+	GGen_Script_Assert(distance < this->width);
+	GGen_Script_Assert(distance < this->height);
+	
 	this->ShrinkDirection(distance, GGEN_HORIZONTAL);
 	this->ShrinkDirection(distance, GGEN_VERTICAL);
 }
@@ -2134,6 +2246,8 @@ void GGen_Data_2D::Outline(GGen_Comparison_Mode mode, GGen_Height threshold, GGe
 
 void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
 {
+	GGen_Script_Assert(radius > 0);
+
 	/* Convexity map is a difference between the current map and its smoothed variant. Smoothing erases any terrain features
 	   that peak upwards (are convex) or bulge downwards (are concave). */ 
 	GGen_Data_2D* unsmoothed = this->Clone();
@@ -2148,6 +2262,13 @@ void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
 
 void GGen_Data_2D::Distort(GGen_Size waveLength, GGen_Distance amplitude)
 {
+	GGen_Script_Assert(waveLength > 0);
+	GGen_Script_Assert(waveLength < this->width);
+	GGen_Script_Assert(waveLength < this->height);
+	GGen_Script_Assert(amplitude > 0);
+	GGen_Script_Assert(amplitude < this->width);
+	GGen_Script_Assert(amplitude < this->height);
+
 	/* Set up an Amplitude object with one wave length only. */
 	GGen_Amplitudes* amplitudeObject = new GGen_Amplitudes(waveLength);
 	amplitudeObject->AddAmplitude(waveLength, amplitude);
@@ -2246,6 +2367,8 @@ void GGen_Data_2D::NormalDifferenceMap(int32 angle){
 
 GGen_Height GGen_Data_2D::GetNormal( GGen_Coord x, GGen_Coord y )
 {
+	GGen_Script_Assert(x < this->width);
+	GGen_Script_Assert(y < this->height);
 
 	GGen_Index indexLeft = x > 0 ? (x - 1) + y * this->width : x + y * this->width;
 	GGen_Index indexRight = x < this->width ? (x + 1) + y * this->width : x + y * this->width;
