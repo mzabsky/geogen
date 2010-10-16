@@ -1634,52 +1634,98 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	}	
 }
 
+/* Helper data structure for the following algorithm. */
 struct GGen_StrokePath_Quad{
 	GGen_Coord x, y;
 	GGen_Size width, height;
 
 	GGen_StrokePath_Quad(GGen_Coord x, GGen_Coord y, GGen_Size width, GGen_Size height):x(x), y(y), width(width), height(height){
 	}
-
-
 };
 
 
+/* Helper function used to calculated distance from one map point to one path segment defined by two points. */
+GGen_Height GGen_StrokePath_GetDistanceToSegment(GGen_Point segmentPoint1, GGen_Point segmentPoint2, GGen_Point mapPoint){
+	GGen_Height currentDistance;
+	
+	double vx = segmentPoint1.x - mapPoint.x;
+	double vy = segmentPoint1.y - mapPoint.y;
+	double ux = segmentPoint2.x - segmentPoint1.x;
+	double uy = segmentPoint2.y - segmentPoint1.y;
+
+	double length = ux * ux + uy * uy;
+
+	double det = (-vx * ux) + (-vy * uy);
+
+	if(det < 0 || det > length)
+	{
+		ux = segmentPoint2.x - mapPoint.x;
+		uy = segmentPoint2.y - mapPoint.y;
+		currentDistance = (GGen_Distance) (sqrt(MIN(vx * vx + vy * vy, ux * ux + uy * uy)) + 0.5);						
+	}
+	else {
+		det = ux * vy - uy * vx;
+		currentDistance = (GGen_Distance) (sqrt((det * det) / length) + 0.5);
+	}
+
+	return currentDistance;
+}
 
 void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, bool fill_outside) {
 	GGen_Script_Assert(path != NULL);
 	GGen_Script_Assert(brush != NULL);
 	GGen_Script_Assert(radius > 0);	
 
-	GGen_Height* segmentDistances = new GGen_Height[this->length];
-	uint32* segmentIndices = new uint32[this->length];
+	/* This is quite typical divide-and-conquer algorithm. The map will be divided into four quads. The most adjacent
+	 * path segment will be calculated for each of it corners. If the quad has all four corners adjacent to the same
+	 * segment, no further subdivision will be needed and whole area will be painted with values depending on distances
+	 * to the segment. If at least one corner of the quad is adjacent to a different segment, the quad will be divided
+	 * into four more segments and the whole process will be repeated (not stopping until all the corners are adjacent
+	 * to the same segment or quad size of 1x1 is reached). */
 
-	/* Fast random access to path segments will be needed with this algorithm. */
+	/* Fast random access to path segments will be needed with this algorithm (the original std::list structure
+	 * of course provides random access with linear complexity only = unacceptable). */
 	vector<GGen_Point> segmentArray = vector<GGen_Point>(path->points.begin(), path->points.end());
 
-	/* Prefill working arrays with empty data. */
+	/* Distance from each tile to the nearest path segment. Tiles, that were not calculated yet hold GGEN_INVALID_HEIGHT. */
+	GGen_Height* segmentDistances = new GGen_Height[this->length];
+
+	/* Index of the nearest path segment (indexed from 0 from the beginning of the path). */
+	uint32* segmentIndices = new uint32[this->length];
+
+	/* Prefill working arrays with default data. */
 	for(GGen_Index i = 0; i < this->length; i++){
 		segmentDistances[i] = GGEN_INVALID_HEIGHT;
 		segmentIndices[i] = 0;
 	}
 	
+	/* This stack will be used to simulate recursion. True recursion is not advisable in this case,
+	 * since recursion on huge maps (10000+) would lead to huge call stack depths, possibly triggering
+	 * stack overflows. */
 	stack<GGen_StrokePath_Quad> quadStack;
+
+	/* First step will be on whole map. */
 	quadStack.push(GGen_StrokePath_Quad(0, 0, this->width, this->height));
 
+	/* Initiate the "recursion". */
 	while(!quadStack.empty()){
 		GGen_StrokePath_Quad currentQuad = quadStack.top();
 		quadStack.pop();		
 
-		/* Indexes of corner points order: top-left, top-right, bottom-left, bottom-right */
+		/* Corner points in order: top-left, top-right, bottom-left, bottom-right. The points are arranged in
+		 * an array, so and FOR cycle can work them easily. */
 		GGen_Point cornerPoints[4] = 
 			{
-				GGen_Point(currentQuad.x, currentQuad.y),
-				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y),
-				GGen_Point(currentQuad.x, currentQuad.y + currentQuad.height - 1),
-				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y + currentQuad.height - 1),
+				GGen_Point(currentQuad.x, currentQuad.y), // top-left
+				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y), // top-right
+				GGen_Point(currentQuad.x, currentQuad.y + currentQuad.height - 1), // bottom-left
+				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y + currentQuad.height - 1), // bottom-right
 			};
 		
-		uint32 firstCornerSegmentIndex = 0;
+		/* Segment index to which is the top-left corner the closest (this will be needed to tell if all the corners
+		 * of the current quad are influenced by the same path segment). */
+		uint32 topLeftCornerSegmentIndex = 0;
+		
 		bool isSubdivisionNeeded = false;
 
 		/* For every corner of the current quad... */
@@ -1693,8 +1739,6 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 				uint32 activeSegmentIndex = 0;
 				uint32 currentSegmentIndex = 0;
 				for(GGen_Path::Iterator i = path->points.begin(); i != path->points.end(); ){
-					double currentDistance;
-
 					GGen_Point point1 = *i; 
 
 					i++;
@@ -1703,39 +1747,38 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 
 					GGen_Point point2 = *i;
 
-					double vx = point1.x - currentPoint.x;
-					double vy = point1.y - currentPoint.y;
-					double ux = point2.x - point1.x;
-					double uy = point2.y - point1.y;
-
-					double length = ux * ux + uy * uy;
-
-					double det = (-vx * ux) + (-vy * uy);
-
-					if(det < 0 || det > length)
-					{
-						ux = point2.x - currentPoint.x;
-						uy = point2.y - currentPoint.y;
-						currentDistance = floor(sqrt(MIN(vx * vx + vy * vy, ux * ux + uy * uy)) + 0.5);						
-					}
-					else {
-						det = ux * vy - uy * vx;
-						currentDistance = floor(sqrt((det * det) / length) + 0.5);
-					}
+					GGen_Distance currentDistance = GGen_StrokePath_GetDistanceToSegment(point1, point2, currentPoint);
 
 					if(currentDistance < distance){
+						/* The segment is closer to the current tile than any segment tested yet. */
 						distance = currentDistance;
 						activeSegmentIndex = currentSegmentIndex;
 					}
 					else if(currentDistance == distance){
-						
+						/* The segment is tied with another segment, because at path segment joints there are TWO path
+						 * segments at one coordinate. The tie will be resolved by comparing angles to the current point. 
+						 * This will result in the area being split between the two segments "naturally", as if the two
+						 * segments didn't meet at exactly the same spot, but were spaced from each other a little bit. */
+
+						/* Calculate angles from the current path point to three different points. */
+
+						/* Angle to the "previous" path segment (the segment defined by the previous point in the path). */
 						double angleBackward = atan2((double) (point1.x - segmentArray[activeSegmentIndex].x), (double) (point1.y - segmentArray[activeSegmentIndex].y));
+						
+						/* Angle to the "next" path segment (the segment defined by the next point in the path). */
 						double angleForward = atan2((double) (point1.x - point2.x), (double) (point1.y - point2.y));
+
+						/* Angle to the current tile in the map. */
 						double angleCurrent = atan2((double) (point1.x - currentPoint.x), (double) (point1.y - currentPoint.y));
 
+						/* Calculate the angle defined by following points: previous path point, current path point, current map tile. */
 						double angleDiffBackward = ABS(angleBackward - angleCurrent);
+						
+						/* Calculate the angle defined by following points: next path point, current path point, current map tile. */
 						double angleDiffForward = ABS(angleForward - angleCurrent);
 
+						/* We are calculating angle differences, it will aways be in range <0°, 180°> (angles greater than 
+						 * 180° will be subtracted from 360°). */
 						if(angleDiffBackward > 3.14){
 							angleDiffBackward = 2 * 3.14 - angleDiffBackward;
 						}
@@ -1744,6 +1787,7 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 							angleDiffForward = 2 * 3.14 - angleDiffForward;
 						}
 
+						/* The current path segment is by angle closer to the current map point than the other path segment. */
 						if(angleDiffBackward > angleDiffForward){
 							distance = currentDistance;
 							activeSegmentIndex = currentSegmentIndex;						
@@ -1752,23 +1796,27 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 					currentSegmentIndex++;
 				}
 
+				/* Write the calculated results into the arrays. */
 				segmentDistances[currentIndex] = distance;
 				segmentIndices[currentIndex] = activeSegmentIndex;
 			}
 			else{
 				/* The distance has been already calculated */
 			}
-
+			
 			if(cornerNumber == 0){
-				firstCornerSegmentIndex = segmentIndices[currentIndex];
+				/* This is the top-left corner - other corners will be compared with this one. */
+				topLeftCornerSegmentIndex = segmentIndices[currentIndex];
 			}
-			else if(firstCornerSegmentIndex != segmentIndices[currentIndex]){
+			else if(topLeftCornerSegmentIndex != segmentIndices[currentIndex]){
+				/* Current corner's closest segment differs from the top-left corners' => further subdivision
+				 * will be needed. */
 				isSubdivisionNeeded = true;
 			}
 		}
 				
 		if(!isSubdivisionNeeded){
-			/* Further subdivision is not needed, we know which segment to use to fill the area. */
+			/* Further subdivision is not needed, we know which segment to use to fill whole quad. */
 			uint32 currentSegmentIndex = segmentIndices[currentQuad.x + this->width * currentQuad.y];
 			GGen_Point point1 = segmentArray[currentSegmentIndex];
 			GGen_Point point2 = segmentArray[currentSegmentIndex + 1];
@@ -1778,27 +1826,7 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 					GGen_Coord x = currentQuad.x + offsetX;
 					GGen_Coord y = currentQuad.y + offsetY;
 					
-					double currentDistance;
-
-					double vx = point1.x - x;
-					double vy = point1.y - y;
-					double ux = point2.x - point1.x;
-					double uy = point2.y - point1.y;
-
-					double length = ux * ux + uy * uy;
-
-					double det = (-vx * ux) + (-vy * uy);
-
-					if(det < 0 || det > length)
-					{
-						ux = point2.x - x;
-						uy = point2.y - y;
-						currentDistance = sqrt(MIN(vx * vx + vy * vy, ux * ux + uy * uy));						
-					}
-					else {
-						det = ux * vy - uy * vx;
-						currentDistance = sqrt((det * det) / length);
-					}
+					GGen_Distance currentDistance = GGen_StrokePath_GetDistanceToSegment(point1, point2, GGen_Point(x, y));
 
 					segmentDistances[currentQuad.x + offsetX + this->width * (currentQuad.y + offsetY)] = currentDistance;
 					segmentIndices[currentQuad.x + offsetX + this->width * (currentQuad.y + offsetY)] = currentSegmentIndex;
@@ -1806,6 +1834,8 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 			}
 		}
 		if(currentQuad.width > 1 || currentQuad.height > 1){
+			/* Don't subdivide 1x1 quads. */
+
 			/* Break the quad into four equal (almost equal - the dimensions might be even numbers) parts. */
 			GGen_Size subdidedQuadWidth = currentQuad.width > 1 ? currentQuad.width / 2 : 1;
 			GGen_Size subdidedQuadHeight = currentQuad.height > 1 ? currentQuad.height / 2 : 1;
@@ -1826,18 +1856,24 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 		}
 	}
 
+	/* Distance to all tiles have been calculated, map values into the main data array according to the brush. */ 
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
 			GGen_Distance currentDistance = segmentDistances[x + this->width * y];
 			
 			if(currentDistance < radius){
+				/* The distance is smaller than brush radius - get value form brush. */
 				this->data[x + this->width * y] = brush->GetValueInterpolated(currentDistance, radius);
 			}
 			else if(fill_outside){
+				/* The distance is larger than brush radius - use the outermost values from the brush (if asked to). */
 				this->data[x + this->width * y] = brush->data[brush->length - 1];
 			}
 		}
 	}
+
+	delete [] segmentDistances;
+	delete [] segmentIndices;
 }
 
 void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only){
