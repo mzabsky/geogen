@@ -12,7 +12,6 @@ TOFIX:
 		  getting rid of it should fix it, the only other solution might be manual instance tracking)
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
-		- only 32bpp RGBA color depth is supported for overlays
 		- add presets documentation
 		- GGEN_MAX_HEIGHT overflows in "-h" mode	
 	STUDIO: 
