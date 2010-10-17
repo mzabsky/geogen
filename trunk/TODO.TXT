@@ -12,8 +12,7 @@ TOFIX:
 		  getting rid of it should fix it, the only other solution might be manual instance tracking)
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
-		- add presets documentation
-		- GGEN_MAX_HEIGHT overflows in "-h" mode	
+		- add presets documentation	
 	STUDIO: 
 		- heightmap/texture import silently fails for overly big images (=> warning box should be shown)
 		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
