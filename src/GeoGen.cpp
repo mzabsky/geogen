@@ -180,8 +180,8 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 	long long int format_min = format->min;
 	
 	if(_params.split_range && format->min == 0){
-		format_max = (format->max + 1) / 2;
-		format_min = - (format->max + 1) / 2 - 1;
+		format_max = (format->max + 1) / 2 - 1;
+		format_min = - (format->max + 1) / 2 + 1;
 	}
 
 	GGen_String path_out;
