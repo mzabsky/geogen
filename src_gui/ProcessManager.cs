@@ -70,7 +70,7 @@ namespace GeoGen_Studio
             this.ggen.ProgressChanged += ProgressHandler;
             this.ggen.MessageThrown += PrintHandler;
 
-            this.ggen.MaximumMapHeight = ggen.MaximumMapWidth = (int)this.config.maxMapSize;
+            this.ggen.MaximumMapSize = (int)this.config.maxMapSize;
             this.ggen.MaximumMapCount = (int)this.config.maxMapCount;
 
             this.oldValues = null;
