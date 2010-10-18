@@ -102,13 +102,15 @@ namespace GeoGen_Studio
             System.Drawing.Imaging.BitmapData overlayData = overlayBitmap.LockBits(OverlayRect, System.Drawing.Imaging.ImageLockMode.ReadOnly, overlayBitmap.PixelFormat);
 
             // create a blank bitmap and prepare it for byte access
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(heights.Width, heights.Height);
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(heights.Width, heights.Height, overlayData.PixelFormat);
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, overlayBitmap.PixelFormat);
 
             // prepare memory space for the newly created color data
             byte[] bytes = new byte[data.Stride * bitmap.Height];
             byte[] overlayCopy = new byte[overlayData.Stride * overlayBitmap.Height];
+
+            int pixelSize = overlayData.Stride / overlayBitmap.Width;
 
             // get a pointer to the to first line (=first pixel)
             IntPtr ptr = data.Scan0;
@@ -122,27 +124,30 @@ namespace GeoGen_Studio
             // standard format overlay (positive values only)
             if (overlayBitmap.Width == 256)
             {
-                for (int i = 0; i < bytes.Length; i += 4)
+                for (int i = 0; i < bytes.Length; i += pixelSize)
                 {
-                    int current = (heights[i / 4] / 128);
+                    int current = (heights[i / pixelSize] / 128);
 
                     if (current < 0) current = 0;
 
                     // prevent water bleeding onto the coastline
-                    if (heights[i / 4] > 0 && current == 0) current = 1;
+                    if (heights[i / pixelSize] > 0 && current == 0) current = 1;
 
-                    bytes[i + 0] = overlayCopy[current * 3 + 0];
-                    bytes[i + 1] = overlayCopy[current * 3 + 1];
-                    bytes[i + 2] = overlayCopy[current * 3 + 2];
-                    bytes[i + 3] = 255;
+                    for (int channelIndex = 0; channelIndex < pixelSize; channelIndex++)
+                    {
+                        //bytes[i + 0] = overlayCopy[current * 3 + 0];
+                        bytes[i + channelIndex] = overlayCopy[current * pixelSize + channelIndex];
+                        //bytes[i + 2] = overlayCopy[current * 3 + 2];
+                        //bytes[i + 3] = 255;
+                    }
                 }
             }
             // extended overlay (positive AND negative values)
             else
             {
-                for (int i = 0; i < bytes.Length; i += 4)
+                for (int i = 0; i < bytes.Length; i += pixelSize)
                 {
-                    int current = 255 + (heights[i / 4] / 128);
+                    int current = 255 + (heights[i / pixelSize] / 128);
 
                     if (current < 0 || current > 511)
                     {
@@ -150,12 +155,15 @@ namespace GeoGen_Studio
                     }
                     
                     // prevent water bleeding onto the coastline
-                    if (current == 255 && heights[i / 4] > 0) current = 256;
+                    if (current == 255 && heights[i / pixelSize] > 0) current = 256;
 
-                    bytes[i + 0] = overlayCopy[current * 3 + 0];
-                    bytes[i + 1] = overlayCopy[current * 3 + 1];
-                    bytes[i + 2] = overlayCopy[current * 3 + 2];
-                    bytes[i + 3] = 255;
+                    for (int channelIndex = 0; channelIndex < pixelSize; channelIndex++)
+                    {
+                        //bytes[i + 0] = overlayCopy[current * 3 + 0];
+                        bytes[i + channelIndex] = overlayCopy[current * pixelSize + channelIndex];
+                        //bytes[i + 2] = overlayCopy[current * 3 + 2];
+                        //bytes[i + 3] = 255;
+                    }
                 }
             }
 
