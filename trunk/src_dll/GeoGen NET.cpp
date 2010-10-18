@@ -450,9 +450,9 @@ public:
 		}
 	}
 
-	property int MaximumMapWidth{
+	property int MaximumMapSize{
 		int get(){
-			return ggen->GetMaxWidth();
+			return GGen::GetMaxMapSize();
 		}
 
 		void set(int value){
@@ -460,21 +460,7 @@ public:
 				throw gcnew InvalidStatusException();
 			}
 			
-			ggen->SetMaxWidth(value);
-		}
-	}
-
-	property int MaximumMapHeight{
-		int get(){
-			return ggen->GetMaxHeight();
-		}
-
-		void set(int value){
-			if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
-				throw gcnew InvalidStatusException();
-			}
-			
-			ggen->SetMaxHeight(value);
+			ggen->SetMaxMapSize(value);
 		}
 	}
 

@@ -125,13 +125,11 @@ public:
 	virtual vector<GGen_ScriptArg>* LoadArgs();
 	virtual short* Generate() = 0;
 	
-	void SetMaxWidth(unsigned short width);
-	void SetMaxHeight(unsigned short height);
+	void SetMaxMapSize(unsigned short size);
 	void SetMaxMapCount(unsigned short count);
 
 	/* Constraint getters and progress methods must be static to be exported as globals to Squirrel */
-	static unsigned short GetMaxWidth();
-	static unsigned short GetMaxHeight();
+	static unsigned short GetMaxMapSize();
 	static unsigned short GetMaxMapCount();
 
 	void SetSeed(unsigned seed);
