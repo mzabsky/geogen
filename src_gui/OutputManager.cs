@@ -193,6 +193,8 @@ namespace GeoGen_Studio
                     if (this.currentImportedFile != null)
                     {
                         this.data = Main.LoadHeightmapFromImageFile(this.currentImportedFile);
+
+                        if (this.data == null) throw new Exception();
                     }
                     else
                     {
@@ -436,7 +438,18 @@ namespace GeoGen_Studio
             else
             {
                 // read the bitmap file
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(path);
+
+
+                System.Drawing.Bitmap bitmap;
+
+                try
+                {
+                    bitmap = new System.Drawing.Bitmap(path);
+                }
+                catch(ArgumentException){
+                    return null;
+                }
+
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
                 System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
