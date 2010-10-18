@@ -1192,7 +1192,7 @@ namespace GeoGen_Studio
 
         private void outputs3d_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.currentMap != -1 && this.heightData != null) this.RebuildTerrain(null);
+            if(this.currentMap != -1 && this.heightData != null && this.outputs3d.SelectedItem != "[Imported File]") this.RebuildTerrain(null);
         }
 
         private void texture_SelectedIndexChanged(object sender, EventArgs e)
