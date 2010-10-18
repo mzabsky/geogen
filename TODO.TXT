@@ -15,7 +15,7 @@ TOFIX:
 		- add presets documentation	
 	STUDIO: 
 		- texture import silently fails for overly big images (=> warning box should be shown)
-		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
+		- only 32bpp RGBA color depth is supported for overlays
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)
 		- studio asks for external texture each time map is regenerated
 		- seed 0 show as non-default in settings dialog

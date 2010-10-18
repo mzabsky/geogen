@@ -458,6 +458,8 @@ namespace GeoGen_Studio
                 // prepare memory space for the color data
                 byte[] bytes = new byte[data.Stride * bitmap.Height];
 
+                int pixelSize = data.Stride / data.Width;
+
                 // get a pointer to the to first line (=first pixel)
                 IntPtr ptr = data.Scan0;
 
@@ -465,9 +467,9 @@ namespace GeoGen_Studio
                 System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, data.Stride * bitmap.Height);
 
                 // create the color data
-                for (int i = 0; i < bytes.Length; i += 4)
+                for (int i = 0; i < bytes.Length; i += pixelSize)
                 {
-                    heights[i / 4] = (short)((short)bytes[i] * 128);
+                    heights[i / pixelSize] = (short)((short)bytes[i] * 128);
                 }
 
                 bitmap.UnlockBits(data);
