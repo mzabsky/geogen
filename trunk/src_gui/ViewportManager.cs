@@ -259,7 +259,17 @@ namespace GeoGen_Studio
             else
             {
                 data = Main.LoadHeightmapFromImageFile(path_override);
+
+                /* The map was not loaded */
+                if (data == null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Could not load the image!");
+                    this.OutputButtonsOff();
+                    return;
+                }
             }
+
+            
 
             this.ShowBuildingModel();
 
