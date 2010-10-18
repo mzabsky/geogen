@@ -118,7 +118,7 @@ namespace GeoGen_Studio
             set { mapDetailLevel = value; }
         }
 
-        [CategoryAttribute("Script Execution"), DescriptionAttribute("Random seed used to generate the terrain. Two terrains generated with the same seed, script and GeoGen version are guaranteed to be always exactly same. Use value '0' to create a new seed automatically every time script is executed."), DefaultValue(0)]
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("Random seed used to generate the terrain. Two terrains generated with the same seed, script and GeoGen version are guaranteed to be always exactly same. Use value '0' to create a new seed automatically every time script is executed."), DefaultValue((object) 0u)]
         public uint RandomSeed
         {
             get { return seed; }
