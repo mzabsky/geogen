@@ -26,22 +26,6 @@ namespace GeoGen_Studio
         public void Register(IMainWindow mainWindow)
         {
             mainWindow.Content = this;
-
-            AddAsDocumentContent("Test AddAsDocumentContent", "Avalon title", true);
-
-            AddAsDockableContent("Test AddAsDockableContent", "Dockable", false);
-            AddAsDockableContent("Test AddAsDockableContent 2", "Dockable2", false);
-
-            AddAsDockableContent("Test AddAsDockableContent in document pane", "Dockable in Doc", true);
-
-            AvalonDock.DockableContent dockable2 = new AvalonDock.DockableContent();
-            dockable2.Title = "Dockable2!";
-            dockable2.Content = "Some content2";
-            dockable2.Show(this.dockManager);
-
-            AddAsFloatableWindow("Test AddAsFloatingWindow", "FLoat", new Size(500, 50), false);
-            
-            //content.Activate();
         }
 
         public bool AddAsDocumentContent(object content, string title, bool focus = false){
