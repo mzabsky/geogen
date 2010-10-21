@@ -169,7 +169,7 @@ namespace GeoGen_Studio{
                 try
                 {
                     /* The file is an assembly */
-                    Assembly assembly = Assembly.LoadFile(fileInfo.FullName);
+                    Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
 
                     /* Load plug-ins from the assembly */
                     this.ParseAssembly(assembly);
@@ -181,7 +181,7 @@ namespace GeoGen_Studio{
             }            
         }
 
-        public void ParseAssembly(Assembly assembly){
+        public void ParseAssembly(Assembly assembly){                      
             /* Search the assembly for plug-in types */
             foreach (Type type in assembly.GetTypes())
             {
