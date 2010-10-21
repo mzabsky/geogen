@@ -24,6 +24,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen Studio Core", "src_s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeoGen Studio", "GeoGen Studio", "{B295DF00-0BF1-4C53-BD85-D6974B098681}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plug-ins", "Plug-ins", "{0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIn.MainWindow", "src_studio\plugins\Window\GGenStudio.PlugIn.Window\GGenStudio.PlugIn.MainWindow.csproj", "{71A77DFA-C195-4882-AD94-5F73FBF0F918}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -156,11 +160,27 @@ Global
 		{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}.Release|x64.ActiveCfg = Release|x86
 		{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}.Release|x86.ActiveCfg = Release|x86
 		{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}.Release|x86.Build.0 = Release|x86
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Release|Win32.ActiveCfg = Release|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Release|x64.ActiveCfg = Release|Any CPU
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7} = {B295DF00-0BF1-4C53-BD85-D6974B098681}
+		{0DC80F0B-4A3B-4D4B-B237-BC6C5105452F} = {B295DF00-0BF1-4C53-BD85-D6974B098681}
+		{71A77DFA-C195-4882-AD94-5F73FBF0F918} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 	EndGlobalSection
 EndGlobal
