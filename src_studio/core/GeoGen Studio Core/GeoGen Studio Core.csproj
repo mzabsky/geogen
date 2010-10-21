@@ -65,6 +65,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binding Manager\BindingException.cs" />
+    <Compile Include="Binding Manager\BindingManager.cs" />
+    <Compile Include="Binding Manager\BindingTable.cs" />
+    <Compile Include="Binding Manager\InvalidBoundPropertyException.cs" />
     <Compile Include="Plug-in Loader\IPlugIn.cs" />
     <Compile Include="Plug-in Loader\IPlugInInterface.cs" />
     <Compile Include="Plug-in Loader\PlugInAttribute.cs" />
