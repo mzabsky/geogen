@@ -147,16 +147,22 @@ namespace GeoGen_Studio
         public override string ToString()
         {
             string s = this.PluginType.Name + ".Register(";
-            string[] parameters = new string[this.DependsOn.Length];
-
-            int i = 0;
-            foreach (Type dependency in this.DependsOn)
+            
+            if (this.DependsOn != null)
             {
-                parameters[i] = dependency.ToString();
-                i++;
+                string[] parameters = new string[this.DependsOn.Length];
+
+                int i = 0;
+                foreach (Type dependency in this.DependsOn)
+                {
+                    parameters[i] = dependency.ToString();
+                    i++;
+                }
+
+                s += String.Join(", ", parameters);
             }
 
-            return s + String.Join(", ", parameters) + ")";
+            return s + ")";
         }
     }
 }
