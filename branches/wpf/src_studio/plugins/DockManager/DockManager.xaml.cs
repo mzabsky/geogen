@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 
 namespace GeoGen_Studio
 {    
-    public partial class DockManager : UserControl, IPlugIn
+    public partial class DockManager : UserControl, IPlugIn, IDockManager
     {
         Dictionary<object, object> registeredContents = new Dictionary<object, object>();        
 
