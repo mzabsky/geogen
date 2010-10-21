@@ -2,7 +2,7 @@
 
 namespace GeoGen_Studio
 {
-    public interface IMainWindow
+    public interface IMainWindow: IPlugInInterface
     {
         object Content{get; set;}
         ObservableCollection<object> TopBars { get; set; }
