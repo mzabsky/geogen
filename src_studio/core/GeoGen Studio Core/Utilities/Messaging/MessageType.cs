@@ -1,4 +1,4 @@
-﻿namespace GeoGen.Studio.Messaging
+﻿namespace GeoGen.Studio.Utilities.Messaging
 {
     public enum MessageType
     {

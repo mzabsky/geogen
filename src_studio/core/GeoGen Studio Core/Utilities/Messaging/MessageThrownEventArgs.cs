@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GeoGen.Studio.Messaging
+namespace GeoGen.Studio.Utilities.Messaging
 {
     public class MessageThrownEventArgs : RoutedEventArgs
     {
