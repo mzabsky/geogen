@@ -6,9 +6,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 
-namespace GeoGen_Studio{
+namespace GeoGen.Studio.PlugInLoader
+{
 
-    class PlugInLoader
+    class Loader
     {   
         #region Fields
         protected List<Registrator> rootRegistrators;
@@ -116,7 +117,7 @@ namespace GeoGen_Studio{
         }
         #endregion
 
-        public PlugInLoader(){
+        public Loader(){
             this.Registrators = new ObservableCollection<Registrator>();
             this.Instances = new ObservableCollection<object>();
 

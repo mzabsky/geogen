@@ -11,8 +11,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using GeoGen.Studio.PlugInLoader;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio.PlugIns
 {    
     public partial class DockManager : UserControl, IPlugIn, IDockManager
     {

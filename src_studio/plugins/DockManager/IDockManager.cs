@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using GeoGen.Studio.PlugInLoader;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio.PlugIns
 {
     public interface IDockManager: IPlugInInterface
     {

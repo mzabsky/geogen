@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using GeoGen.Studio.PlugInLoader;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio.PlugIns
 {
     public interface IMainWindow: IPlugInInterface
     {

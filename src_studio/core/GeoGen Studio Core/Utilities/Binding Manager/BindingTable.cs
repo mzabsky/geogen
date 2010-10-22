@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio.Utilities
 {
     internal class BindingTable{
         Dictionary<INotifyPropertyChanged, Dictionary<string, Dictionary<object, List<string>>>> bindings = new Dictionary<INotifyPropertyChanged, Dictionary<string, Dictionary<object, List<string>>>>();
