@@ -1,15 +1,16 @@
-﻿<Window x:Class="GeoGen.Studio.PlugIns.MainWindow"
+﻿<pb:Window x:Class="GeoGen.Studio.PlugIns.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
     mc:Ignorable="d" 
     d:DesignHeight="300" d:DesignWidth="300"
     Background="Aqua"
     Name="mainWindow"
     DataContext="{Binding ElementName=mainWindow}"
 >
-    <Window.Style>
+    <pb:Window.Style>
         <Style TargetType="{x:Type Window}">
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="Background" Value="Pink" />
@@ -41,5 +42,5 @@
                 />
             </DockPanel>
         </ControlTemplate>-->
-    </Window.Style>
-</Window>
+    </pb:Window.Style>
+</pb:Window>

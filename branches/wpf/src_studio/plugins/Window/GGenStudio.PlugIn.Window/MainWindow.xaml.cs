@@ -21,7 +21,7 @@ namespace GeoGen.Studio.PlugIns
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : PlugInBase.Window, IPlugIn, IMainWindow
+    public partial class MainWindow : GeoGen.Studio.Utilities.PlugInBase.Window, IPlugIn, IMainWindow
     {
         public static readonly DependencyProperty TopBarsProperty = DependencyProperty.Register(
             "TopBars", typeof(ObservableCollection<object>), typeof(MainWindow), new FrameworkPropertyMetadata(new ObservableCollection<object>())
