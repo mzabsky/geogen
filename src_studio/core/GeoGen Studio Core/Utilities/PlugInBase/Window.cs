@@ -5,7 +5,7 @@ using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio.Utilities.PlugInBase
 {
-    class Window: System.Windows.Window, INotifyPropertyChanged
+    public class Window: System.Windows.Window, INotifyPropertyChanged
     {
         public static readonly RoutedEvent MessageThrownEvent =
             EventManager.RegisterRoutedEvent("MessageThrown", RoutingStrategy.Bubble,
