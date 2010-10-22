@@ -37,7 +37,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>GeoGen_Studio.App</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,12 +66,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Messaging\Message.cs" />
-    <Compile Include="Messaging\MessageThrownEventArgs.cs" />
-    <Compile Include="Messaging\MessageThrownEventHandler.cs" />
-    <Compile Include="Messaging\MessageType.cs" />
+    <Compile Include="Utilities\Messaging\Message.cs" />
+    <Compile Include="Utilities\Messaging\MessageThrownEventArgs.cs" />
+    <Compile Include="Utilities\Messaging\MessageThrownEventHandler.cs" />
+    <Compile Include="Utilities\Messaging\MessageType.cs" />
     <Compile Include="Utilities\FileDialog.cs" />
     <Compile Include="Utilities\PlugInBase\Control.cs" />
+    <Compile Include="Utilities\PlugInBase\Window.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\Binding Manager\BindingException.cs" />
     <Compile Include="Utilities\Binding Manager\BindingManager.cs" />
