@@ -2,7 +2,7 @@
 {
     public class Message
     {
-        public string Message {get; set;}
+        public string Text {get; set;}
         public MessageType Type {get; set;}
     }
 }
