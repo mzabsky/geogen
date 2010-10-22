@@ -65,6 +65,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utilities\FileDialog.cs" />
+    <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\Binding Manager\BindingException.cs" />
     <Compile Include="Utilities\Binding Manager\BindingManager.cs" />
     <Compile Include="Utilities\Binding Manager\BindingTable.cs" />
