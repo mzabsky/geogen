@@ -26,11 +26,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeoGen Studio", "GeoGen Stu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plug-ins", "Plug-ins", "{0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIn.MainWindow", "src_studio\plugins\Window\GGenStudio.PlugIn.Window\GGenStudio.PlugIn.MainWindow.csproj", "{71A77DFA-C195-4882-AD94-5F73FBF0F918}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MainWindow", "src_studio\plugins\Window\GGenStudio.PlugIn.Window\GGenStudio.PlugIns.MainWindow.csproj", "{71A77DFA-C195-4882-AD94-5F73FBF0F918}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIn.DockManager", "src_studio\plugins\DockManager\GGenStudio.PlugIn.DockManager.csproj", "{800BDCE0-5B63-4B1B-927B-CDD568721938}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.DockManager", "src_studio\plugins\DockManager\GGenStudio.PlugIns.DockManager.csproj", "{800BDCE0-5B63-4B1B-927B-CDD568721938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIn.AvalonEditor", "src_studio\plugins\AvalonEditor\GGenStudio.PlugIn.AvalonEditor.csproj", "{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.AvalonEditor", "src_studio\plugins\AvalonEditor\GGenStudio.PlugIns.AvalonEditor.csproj", "{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution

@@ -8,7 +8,7 @@
     <ProjectGuid>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeoGen_Studio</RootNamespace>
+    <RootNamespace>GeoGen.Studio</RootNamespace>
     <AssemblyName>GeoGen Studio</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -65,10 +65,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Binding Manager\BindingException.cs" />
-    <Compile Include="Binding Manager\BindingManager.cs" />
-    <Compile Include="Binding Manager\BindingTable.cs" />
-    <Compile Include="Binding Manager\InvalidBoundPropertyException.cs" />
+    <Compile Include="Utilities\Binding Manager\BindingException.cs" />
+    <Compile Include="Utilities\Binding Manager\BindingManager.cs" />
+    <Compile Include="Utilities\Binding Manager\BindingTable.cs" />
+    <Compile Include="Utilities\Binding Manager\InvalidBoundPropertyException.cs" />
     <Compile Include="Plug-in Loader\IPlugIn.cs" />
     <Compile Include="Plug-in Loader\IPlugInInterface.cs" />
     <Compile Include="Plug-in Loader\PlugInAttribute.cs" />

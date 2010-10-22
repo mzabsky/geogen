@@ -5,8 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Reflection;
+using GeoGen.Studio.PlugInLoader;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -17,7 +18,7 @@ namespace GeoGen_Studio
         {
             try
             {
-                PlugInLoader loader = new PlugInLoader();
+                Loader loader = new Loader();
 
                 /* Load "plug-ins" from this executable */
                 loader.ParseAssembly(Assembly.GetExecutingAssembly());

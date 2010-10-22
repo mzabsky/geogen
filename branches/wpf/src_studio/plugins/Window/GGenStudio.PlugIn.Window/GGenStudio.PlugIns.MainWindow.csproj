@@ -8,7 +8,7 @@
     <ProjectGuid>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeoGen_Studio</RootNamespace>
+    <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
     <AssemblyName>GGenStudio.PlugIn.MainWindow</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -60,6 +60,7 @@
     <ProjectReference Include="..\..\..\core\GeoGen Studio Core\GeoGen Studio Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen Studio Core</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

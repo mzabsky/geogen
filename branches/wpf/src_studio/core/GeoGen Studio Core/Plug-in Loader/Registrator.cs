@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio.PlugInLoader
 {
     enum RegistratorFailureType{        
         UnreadableAssembly = 0,

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio.Utilities
 {
     public class BindingException: Exception
     {
