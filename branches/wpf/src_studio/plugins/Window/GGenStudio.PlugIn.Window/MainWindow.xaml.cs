@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Collections;
 using System.Collections.ObjectModel;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio.PlugIns
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
