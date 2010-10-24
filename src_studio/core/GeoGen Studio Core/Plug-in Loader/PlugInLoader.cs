@@ -156,10 +156,12 @@ namespace GeoGen.Studio.PlugInLoader
                 /* Reflection methods require full file path */
                 FileInfo fileInfo = new FileInfo(file);
 
+                AssemblyName assemblyName = null;
+
                 /* Test if the file is an .NET compatible assembly */
                 try
                 {
-                    AssemblyName.GetAssemblyName(fileInfo.FullName);
+                    assemblyName = AssemblyName.GetAssemblyName(fileInfo.FullName);
                 }
                 catch
                 {                    
@@ -170,7 +172,7 @@ namespace GeoGen.Studio.PlugInLoader
                 try
                 {
                     /* The file is an assembly */
-                    Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
+                    Assembly assembly = Assembly.Load(assemblyName);
 
                     /* Load plug-ins from the assembly */
                     this.ParseAssembly(assembly);
