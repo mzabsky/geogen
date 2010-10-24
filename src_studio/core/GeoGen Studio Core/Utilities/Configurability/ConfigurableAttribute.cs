@@ -7,6 +7,8 @@ namespace GeoGen.Studio.Utilities.Configurability
     {
         public object DefaultValue { get; private set; }
 
+        public ConfigurableAttribute(){}
+
         public ConfigurableAttribute(object defaultValue)
         {
             this.DefaultValue = defaultValue;
