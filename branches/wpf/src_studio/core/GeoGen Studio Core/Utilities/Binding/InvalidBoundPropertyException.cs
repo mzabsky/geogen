@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeoGen.Studio.Utilities
+namespace GeoGen.Studio.Utilities.Binding
 {
     public class InvalidBoundPropertyException: BindingException
     {
