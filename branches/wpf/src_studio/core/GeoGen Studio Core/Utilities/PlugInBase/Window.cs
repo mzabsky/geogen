@@ -9,7 +9,7 @@ namespace GeoGen.Studio.Utilities.PlugInBase
     {
         public static readonly RoutedEvent MessageThrownEvent =
             EventManager.RegisterRoutedEvent("MessageThrown", RoutingStrategy.Bubble,
-            typeof(MessageThrownEventHandler), typeof(Control));
+            typeof(MessageThrownEventHandler), typeof(Window));
 
         public event PropertyChangedEventHandler PropertyChanged;
 
