@@ -2,10 +2,11 @@
 using System.Windows.Controls;
 using System.ComponentModel;
 using GeoGen.Studio.Utilities.Messaging;
+using GeoGen.Studio.PlugInLoader;
 
 namespace GeoGen.Studio.Utilities.PlugInBase
 {
-    public class Window: System.Windows.Window, INotifyPropertyChanged
+    public class Window : System.Windows.Window, IPlugIn, INotifyPropertyChanged
     {
         public static readonly RoutedEvent MessageThrownEvent =
             EventManager.RegisterRoutedEvent("MessageThrown", RoutingStrategy.Bubble,
