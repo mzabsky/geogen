@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-namespace GeoGen.Studio.Utilities
+namespace GeoGen.Studio.Utilities.Binding
 {
     public static class BindingManager
     {

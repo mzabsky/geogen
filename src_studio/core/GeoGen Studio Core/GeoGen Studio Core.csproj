@@ -78,10 +78,10 @@
     <Compile Include="Utilities\PlugInBase\Control.cs" />
     <Compile Include="Utilities\PlugInBase\Window.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
-    <Compile Include="Utilities\Binding Manager\BindingException.cs" />
-    <Compile Include="Utilities\Binding Manager\BindingManager.cs" />
-    <Compile Include="Utilities\Binding Manager\BindingTable.cs" />
-    <Compile Include="Utilities\Binding Manager\InvalidBoundPropertyException.cs" />
+    <Compile Include="Utilities\Binding\BindingException.cs" />
+    <Compile Include="Utilities\Binding\BindingManager.cs" />
+    <Compile Include="Utilities\Binding\BindingTable.cs" />
+    <Compile Include="Utilities\Binding\InvalidBoundPropertyException.cs" />
     <Compile Include="Plug-in Loader\IPlugIn.cs" />
     <Compile Include="Plug-in Loader\IPlugInInterface.cs" />
     <Compile Include="Plug-in Loader\PlugInAttribute.cs" />
