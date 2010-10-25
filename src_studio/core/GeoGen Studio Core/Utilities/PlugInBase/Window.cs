@@ -14,7 +14,7 @@ namespace GeoGen.Studio.Utilities.PlugInBase
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event RoutedEventHandler MessageThrown
+        public event MessageThrownEventHandler MessageThrown
         {
             add
             {
