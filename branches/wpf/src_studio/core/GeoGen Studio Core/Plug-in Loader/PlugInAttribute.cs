@@ -20,7 +20,7 @@ namespace GeoGen.Studio.PlugInLoader
     };
 
     /// <summary>
-    /// Attribute specifying how <see cref="PlugInLoader"/> handles the plug-in. */
+    /// Attribute specifying how <see cref="Loader"/> handles the plug-in. */
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public class PlugInAttribute : Attribute
