@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace GeoGen.Studio.Utilities.Messaging
 {
-    interface IMessageProvider: IPlugInInterface
+    public interface IMessageProvider: IPlugInInterface
     {
         event RoutedEventHandler MessageThrown;
     }
