@@ -18,10 +18,11 @@ using ICSharpCode.AvalonEdit.Editing;
 using GeoGen.Studio.PlugInLoader;
 using GeoGen.Studio.Utilities;
 using GeoGen.Studio.Utilities.Messaging;
+using GeoGen.Studio.Utilities.Configurability;
 
 namespace GeoGen.Studio.PlugIns
 {
-    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, IPlugIn
+    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, IConfigurable
     {
         #region Dependency properties
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -67,6 +68,7 @@ namespace GeoGen.Studio.PlugIns
 
         public static readonly DependencyProperty LastFileNameProperty = LastFileNamePropertyKey.DependencyProperty;
 
+        [Configurable("")]
         public string LastFileName
         {
             get
@@ -78,11 +80,12 @@ namespace GeoGen.Studio.PlugIns
                 SetValue(LastFileNamePropertyKey, value);
             }
         }
-
+        
         public static readonly DependencyProperty TemplateFileProperty = DependencyProperty.Register(
             "TemplateFile", typeof(string), typeof(AvalonEditor), new FrameworkPropertyMetadata("template.nut")
         );
 
+        [Configurable("../examples/template.nut")]
         public string TemplateFile
         {
             get
@@ -247,6 +250,7 @@ namespace GeoGen.Studio.PlugIns
             "DefaultFontSize", typeof(int), typeof(AvalonEditor), new FrameworkPropertyMetadata(13)
         );
 
+        [Configurable(13)]
         public int DefaultFontSize
         {
             get
@@ -259,10 +263,12 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
+        
         public static readonly DependencyProperty WordWrapProperty = DependencyProperty.Register(
             "WordWrap", typeof(bool), typeof(AvalonEditor), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnWordWrapChanged))
         );
 
+        [Configurable(false)]
         public bool WordWrap
         {
             get
@@ -437,7 +443,8 @@ namespace GeoGen.Studio.PlugIns
         private ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
 
         public AvalonEditor()
-        {          
+        {            
+            MainConfig.Register(this);
             InitializeComponent();                        
         }
        
