@@ -331,7 +331,7 @@ namespace GeoGen.Studio.PlugInLoader
             /* If the plug-in/registrator is set to one instance mode, do not create another instance */
             if (registrator.InstanceCount == InstanceCount.One && this.InstancesByPlugInType.ContainsKey(registrator.PluginType) && this.InstancesByPlugInType[registrator.PluginType].Count > 0)
             {
-                return this.InstancesByPlugInType[registrator.PluginType];
+                return this.InstancesByPlugInType[registrator.PluginType][0];
             }
             else
             {
@@ -339,6 +339,18 @@ namespace GeoGen.Studio.PlugInLoader
                 {
                     object instance = Activator.CreateInstance(registrator.PluginType);
                     this.Instances.Add(instance);
+
+                    /*if (this.InstancesByPlugInType.ContainsKey(registrator.PluginType))
+                    {
+                        this.InstancesByPlugInType[registrator.PluginType].Add(instance);
+                    }
+                    else
+                    {
+                        List<object> instanceList = new List<object>();
+                        instanceList.Add(instance);
+                        this.instancesByPlugInType.Add(registrator.PluginType, instanceList);
+                    }*/
+                    
                     return instance;
                 }
                 catch (Exception e)
@@ -579,7 +591,7 @@ namespace GeoGen.Studio.PlugInLoader
             foreach (object instance in this.Instances)
             {
                 List<object> instanceList;
-                if (this.instancesByInterface.TryGetValue(instance.GetType(), out instanceList))
+                if (this.instancesByPlugInType.TryGetValue(instance.GetType(), out instanceList))
                 {
                     instanceList.Add(instance);
                 }
@@ -587,7 +599,7 @@ namespace GeoGen.Studio.PlugInLoader
                 {
                     instanceList = new List<object>();
                     instanceList.Add(instance);
-                    this.instancesByInterface.Add(instance.GetType(), instanceList);
+                    this.instancesByPlugInType.Add(instance.GetType(), instanceList);
                 }
             }
         }
