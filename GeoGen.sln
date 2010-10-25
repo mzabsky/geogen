@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.DockMana
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.AvalonEditor", "src_studio\plugins\AvalonEditor\GGenStudio.PlugIns.AvalonEditor.csproj", "{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.Logger", "src_studio\plugins\Logger\GGenStudio.PlugIns.Logger\GGenStudio.PlugIns.Logger.csproj", "{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -206,6 +208,20 @@ Global
 		{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}.Release|Win32.ActiveCfg = Release|Any CPU
 		{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}.Release|x64.ActiveCfg = Release|Any CPU
 		{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}.Release|x86.ActiveCfg = Release|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|Win32.ActiveCfg = Release|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|x64.ActiveCfg = Release|Any CPU
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,5 +232,6 @@ Global
 		{71A77DFA-C195-4882-AD94-5F73FBF0F918} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{800BDCE0-5B63-4B1B-927B-CDD568721938} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 	EndGlobalSection
 EndGlobal
