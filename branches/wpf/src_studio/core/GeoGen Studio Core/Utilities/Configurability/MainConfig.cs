@@ -79,11 +79,16 @@ namespace GeoGen.Studio.Utilities.Configurability
                 MainConfig.Initialize();
             }
 
-            if(!propertyStore.ContainsKey(configurable.GetType().ToString())){
+            /*if(!propertyStore.ContainsKey(configurable.GetType().ToString())){
                 return;
-            }
+            }*/
 
-            Dictionary<string, object> currentStore = MainConfig.propertyStore[configurable.GetType().ToString()];
+            Dictionary<string, object> currentStore;
+            
+            if(!MainConfig.propertyStore.TryGetValue(configurable.GetType().ToString(), out currentStore))
+            {
+                currentStore = new Dictionary<string, object>();
+            }
 
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
@@ -101,6 +106,21 @@ namespace GeoGen.Studio.Utilities.Configurability
                         if(property.PropertyType.IsAssignableFrom(storeValue.GetType())){
                             property.SetValue(configurable, storeValue, null);
                         }
+                    }
+                    /* The value is not in property store, but its default value is known. */
+                    else if(configurableAttribute.DefaultValue != null)
+                    {
+                        property.SetValue(configurable, configurableAttribute.DefaultValue, null);
+                    }
+                    /* The  property is of a value type - use that type's default value. */
+                    else if(property.PropertyType.IsValueType)
+                    {
+                        property.SetValue(configurable, Activator.CreateInstance(property.PropertyType), null);
+                    }
+                    /* The property is of a reference type - use null. */
+                    else
+                    {
+                        property.SetValue(configurable, null, null);
                     }
                 }
             }
