@@ -6,6 +6,10 @@ using System.Reflection;
 
 namespace GeoGen.Studio.Utilities.Configurability
 {
+    /* Exclude this class from both IntelliSense and documentation, it is of no purpose for anyone but MainConfig class.
+     * It is public only because XML serializer needs it to be. */
+
+    /// <exclude />
     [XmlRoot("PropertyStore")]
     [EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public class PropertyStore : Dictionary<string, Dictionary<string, object>>, IXmlSerializable
@@ -15,6 +19,7 @@ namespace GeoGen.Studio.Utilities.Configurability
             return null;
         }
 
+        /// <exclude />
         public void ReadXml(System.Xml.XmlReader reader)
         {
             bool wasEmpty = reader.IsEmptyElement;
@@ -89,6 +94,7 @@ namespace GeoGen.Studio.Utilities.Configurability
             reader.ReadEndElement();
         }
 
+        /// <exclude />
         public void WriteXml(System.Xml.XmlWriter writer)
         {
             XmlSerializer keySerializer = new XmlSerializer(typeof(Type));
