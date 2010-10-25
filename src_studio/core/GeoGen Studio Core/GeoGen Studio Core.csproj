@@ -70,6 +70,7 @@
     <Compile Include="Utilities\Configurability\MainConfig.cs" />
     <Compile Include="Utilities\Configurability\PropertyStore.cs" />
     <Compile Include="Utilities\Configurability\IConfigurable.cs" />
+    <Compile Include="Utilities\Messaging\IMessageProvider.cs" />
     <Compile Include="Utilities\Messaging\Message.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventArgs.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventHandler.cs" />
