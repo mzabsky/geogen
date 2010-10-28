@@ -65,6 +65,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utilities\Collections\IPriority.cs" />
+    <Compile Include="Utilities\Collections\PriorityComparer.cs" />
+    <Compile Include="Utilities\Collections\PriorityObservableCollection.cs" />
     <Compile Include="Utilities\Collections\SortedCollection.cs" />
     <Compile Include="Utilities\Collections\SortedObservableCollection.cs" />
   </ItemGroup>
