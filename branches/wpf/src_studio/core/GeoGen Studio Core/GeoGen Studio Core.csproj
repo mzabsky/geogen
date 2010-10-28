@@ -65,8 +65,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utilities\SortedCollection.cs" />
-    <Compile Include="Utilities\SortedObservableCollection.cs" />
+    <Compile Include="Utilities\Collections\SortedCollection.cs" />
+    <Compile Include="Utilities\Collections\SortedObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities\Configurability\ConfigurableAttribute.cs" />
