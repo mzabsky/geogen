@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace GeoGen.Studio.Utilities
+namespace GeoGen.Studio.Utilities.Collections
 {
     public class SortedCollection<TValue> : IList<TValue>
     {
