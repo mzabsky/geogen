@@ -4,6 +4,9 @@ using System.IO;
 
 namespace GeoGen.Studio.Utilities
 {
+    /// <summary>
+    /// Provides easy access to open and save file dialogs.
+    /// </summary>
     public static class FileDialog
     {
         private static string ShowBase(string path, string filter, bool isSaveDialog)
@@ -16,10 +19,10 @@ namespace GeoGen.Studio.Utilities
             dialog.Filter = filter;
 
             // add Examples shortcut, if the directory exists
-            if (Directory.Exists(@"../examples"))
+            /*if (Directory.Exists(@"../examples"))
             {
                 dialog.CustomPlaces.Add(new FileDialogCustomPlace(@"../examples"));
-            }
+            }*/
 
             try
             {
@@ -43,11 +46,25 @@ namespace GeoGen.Studio.Utilities
             throw new Exception();
         }
 
+        /// <summary>
+        /// Shows the Open File dialog.
+        /// </summary>
+        /// <param name="path">The initial path.</param>
+        /// <param name="filter">File type filter.</param>
+        /// <returns>Selected file.</returns>
+        /// <exception cref="Exception">Thrown when the user presses "Cancel" button in the dialog.</exception>
         public static string ShowOpen(string path, string filter)
         {
             return FileDialog.ShowBase(path, filter, false);
         }
 
+        /// <summary>
+        /// Shows the Save File dialog.
+        /// </summary>
+        /// <param name="path">The initial path.</param>
+        /// <param name="filter">File type filter.</param>
+        /// <returns>Selected file.</returns>
+        /// <exception cref="Exception">Thrown when the user presses "Cancel" button in the dialog.</exception>
         public static string ShowSave(string path, string filter)
         {
             return FileDialog.ShowBase(path, filter, true);
