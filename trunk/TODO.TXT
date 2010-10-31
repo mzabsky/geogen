@@ -14,9 +14,6 @@ TOFIX:
 		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
 		- add presets documentation	
 	STUDIO: 
-		- texture import silently fails for overly big images (=> warning box should be shown)
-		- only 32bpp RGBA color depth is supported for overlays
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)
 		- studio asks for external texture each time map is regenerated
-		- exceptions thrown in non-main thread are not atched by the universal exceptionc catcher
 		- squirrel std functions are missing from the code completion list
