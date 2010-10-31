@@ -94,6 +94,17 @@ namespace GeoGen.Studio.Utilities.Collections
                 // xor
                 index = ~index;
             }
+            //else{
+                while(index < this.size && this.comparer.Compare(this.values[index],value) == 0)
+                {
+                    index++;
+                }
+
+                /*if(index < this.size)
+                {
+                    index++;
+                }*/
+            //}
             Insert(index, value);
         }
 
