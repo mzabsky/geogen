@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace GeoGen.Studio.Utilities.Collections
 {
-    public class SortedCollection<TValue> : IList<TValue>
+    public class SortedCollection<TValue> : IList<TValue>, IList
     {
         // Fields
         private const int DEFAULT_CAPACITY = 4;
@@ -18,6 +18,10 @@ namespace GeoGen.Studio.Utilities.Collections
         private int size;
         // for enumeration
         private int version;
+
+        public bool IsFixedSize { get { return true;} }
+        public bool IsSynchronized { get { return false; } }
+        public object SyncRoot { get { return null; } }
 
         static SortedCollection()
         {
@@ -72,6 +76,11 @@ namespace GeoGen.Studio.Utilities.Collections
             this.version++;
         }
 
+        public virtual void Insert(int index, object value)
+        {
+            this.Insert(index, (TValue) value);
+        }
+
         public void Add(TValue value)
         {
             if (value == null)
@@ -86,6 +95,12 @@ namespace GeoGen.Studio.Utilities.Collections
                 index = ~index;
             }
             Insert(index, value);
+        }
+
+        public int Add(object value)
+        {
+            this.Add((TValue) value);
+            return this.IndexOf((TValue) value);
         }
 
         public virtual void Clear()
@@ -109,12 +124,27 @@ namespace GeoGen.Studio.Utilities.Collections
             return -1;
         }
 
+        public int IndexOf(object value)
+        {
+            return this.IndexOf((TValue) value);
+        }
+
         public bool Contains(TValue value)
         {
             return this.IndexOf(value) >= 0;
         }
 
+        public bool Contains(object value)
+        {
+            return this.Contains((TValue) value);
+        }
+
         public void CopyTo(TValue[] array, int arrayIndex)
+        {
+            Array.Copy(this.values, 0, array, arrayIndex, this.size);
+        }
+
+        public void CopyTo(System.Array array, int arrayIndex)
         {
             Array.Copy(this.values, 0, array, arrayIndex, this.size);
         }
@@ -138,6 +168,11 @@ namespace GeoGen.Studio.Utilities.Collections
             }
             RemoveAt(index);
             return true;
+        }
+
+        public void Remove(object value)
+        {
+            this.Remove((TValue) value);
         }
 
         public IEnumerator<TValue> GetEnumerator()
@@ -209,6 +244,27 @@ namespace GeoGen.Studio.Utilities.Collections
                     throw new ArgumentOutOfRangeException();
                 }
                 this.values[index] = value;
+                this.version++;
+            }
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= this.size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                return this.values[index];
+            }
+            set
+            {
+                if (index < 0 || index >= this.size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                this.values[index] = (TValue) value;
                 this.version++;
             }
         }
