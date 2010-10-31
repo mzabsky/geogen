@@ -645,12 +645,19 @@ namespace GeoGen_Studio
                 if(config.EnableBlackCompensation) Main.ApplyBlackCompensation(ref bitmap);
 
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+
+                System.Drawing.Bitmap convertedBitmap = new System.Drawing.Bitmap(bitmap.Width, bitmap.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                using (System.Drawing.Graphics gr = System.Drawing.Graphics.FromImage(convertedBitmap))
+                {
+                    gr.DrawImage(bitmap, rect);
+                }
+
                 System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
                 this.textureHandle = GL.GenTexture();
                 GL.BindTexture(TextureTarget.Texture2D, this.textureHandle);
 
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Three, data.Width, data.Height, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 
                 bitmap.UnlockBits(data);
@@ -679,6 +686,8 @@ namespace GeoGen_Studio
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
+            int pixelSize = data.Stride / data.Width;
+
             // prepare memory space for the newly created color data
             byte[] bytes = new byte[data.Stride * bitmap.Height];
 
@@ -689,12 +698,17 @@ namespace GeoGen_Studio
             System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, data.Stride * bitmap.Height);
 
             // apply the compensation
-            for (int i = 0; i < bytes.Length; i += 4)
+            for (int y = 0; y < bitmap.Height; y++)
             {
-                bytes[i + 0] = bytes[i + 0] > (byte)64 ? bytes[i + 0] : (byte)64;
-                bytes[i + 1] = bytes[i + 1] > (byte)64 ? bytes[i + 1] : (byte)64;
-                bytes[i + 2] = bytes[i + 2] > (byte)64 ? bytes[i + 2] : (byte)64;
-                bytes[i + 3] = 255;
+                for (int x = 0; x < bitmap.Width; x++)
+                {
+                    int index = y * data.Stride + x * pixelSize;
+
+                    for (int channelIndex = 0; channelIndex < pixelSize; channelIndex++)
+                    {
+                        bytes[index + channelIndex] = bytes[index + channelIndex] > (byte)64 ? bytes[index + channelIndex] : (byte)64;
+                    }                    
+                }
             }
 
             // copy the data into the bitmap
