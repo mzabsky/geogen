@@ -40,9 +40,8 @@ namespace GeoGen.Studio.PlugInLoader
     }
 
     /// <summary> 
-    ///    Represents one plug-in registrator. 
-    ///    <threadsafety static="true" instance="false"/> 
-    /// </summary> 
+    ///    Represents one plug-in registrator.      
+    /// </summary>     
     /// <remarks>
     ///     Registrator represents one <c>Register()</c> method of an plug-in. Each registrator is executed on all 
     ///     possible combinations of valid input parameters during <see cref="GeoGen.Studio.App"/> startup.    
