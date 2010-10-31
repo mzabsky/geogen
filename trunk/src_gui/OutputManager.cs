@@ -124,45 +124,49 @@ namespace GeoGen_Studio
             // standard format overlay (positive values only)
             if (overlayBitmap.Width == 256)
             {
-                for (int i = 0; i < bytes.Length; i += pixelSize)
+                for (int y = 0; y < heights.Height; y++)
                 {
-                    int current = (heights[i / pixelSize] / 128);
-
-                    if (current < 0) current = 0;
-
-                    // prevent water bleeding onto the coastline
-                    if (heights[i / pixelSize] > 0 && current == 0) current = 1;
-
-                    for (int channelIndex = 0; channelIndex < pixelSize; channelIndex++)
+                    for (int x = 0; x < heights.Width; x++)
                     {
-                        //bytes[i + 0] = overlayCopy[current * 3 + 0];
-                        bytes[i + channelIndex] = overlayCopy[current * pixelSize + channelIndex];
-                        //bytes[i + 2] = overlayCopy[current * 3 + 2];
-                        //bytes[i + 3] = 255;
+                        int index = y * data.Stride + x * pixelSize;
+
+                        int current = (heights[x + y * heights.Width] / 128);
+
+                        if (current < 0) current = 0;
+
+                        // prevent water bleeding onto the coastline
+                        if (heights[x + y * heights.Width] > 0 && current == 0) current = 1;
+
+                        for (int channelIndex = 0; channelIndex < pixelSize; channelIndex++)
+                        {
+                            bytes[index + channelIndex] = overlayCopy[current * pixelSize + channelIndex];
+                        }
                     }
                 }
             }
             // extended overlay (positive AND negative values)
             else
             {
-                for (int i = 0; i < bytes.Length; i += pixelSize)
+                for (int y = 0; y < heights.Height; y++)
                 {
-                    int current = 255 + (heights[i / pixelSize] / 128);
-
-                    if (current < 0 || current > 511)
+                    for(int x = 0; x < heights.Width; x++)
                     {
-                        throw new Exception("This cannot happen");
-                    }
-                    
-                    // prevent water bleeding onto the coastline
-                    if (current == 255 && heights[i / pixelSize] > 0) current = 256;
+                        int index = y * data.Stride + x * pixelSize;
 
-                    for (int channelIndex = 0; channelIndex < pixelSize; channelIndex++)
-                    {
-                        //bytes[i + 0] = overlayCopy[current * 3 + 0];
-                        bytes[i + channelIndex] = overlayCopy[current * pixelSize + channelIndex];
-                        //bytes[i + 2] = overlayCopy[current * 3 + 2];
-                        //bytes[i + 3] = 255;
+                        int current = 255 + (heights[x + y * heights.Width] / 128);
+
+                        if (current < 0 || current > 511)
+                        {
+                            throw new Exception("This cannot happen");
+                        }
+
+                        // prevent water bleeding onto the coastline
+                        if (current == 255 && heights[x + y * heights.Width] > 0) current = 256;
+                     
+                        for (int channelIndex = 0; channelIndex < pixelSize; channelIndex++)
+                        {
+                            bytes[index + channelIndex] = overlayCopy[current * pixelSize + channelIndex];
+                        }
                     }
                 }
             }
