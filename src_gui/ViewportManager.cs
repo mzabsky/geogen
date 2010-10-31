@@ -609,7 +609,15 @@ namespace GeoGen_Studio
                     try{
                         if (this.FileDialog(this.importTextureDialog, ref config.lastImportedTexture))
                         {
-                            bitmap = new System.Drawing.Bitmap(config.lastImportedTexture);    
+                            bitmap = new System.Drawing.Bitmap(config.lastImportedTexture);
+
+                            if(bitmap.Width > 4096 || bitmap.Height > 4096)
+                            {
+                                MessageBox.Show("The texture is too big.");
+                                bitmap.Dispose();
+                                this.viewport.Invalidate();
+                                return;
+                            }
                         }
                         else
                         {
