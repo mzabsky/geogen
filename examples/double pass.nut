@@ -38,7 +38,7 @@ function Generate(){
 	
 	pass.RadialGradient(1, height / 2, width > height ? height / 3 : width / 3, 1200, 0, true);
 
-	pass.Gradient(500, 0, 500, height / 6, 800, 0, false);
+	pass.Gradient(1, 0, 1, height / 6, 800, 0, false);
 	pass.Gradient(0, 5 * height / 6, 0, height - 1, 0, 800, false);
 
 	GGen_IncreaseProgress();
