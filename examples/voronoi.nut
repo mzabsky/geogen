@@ -5,8 +5,8 @@ function GetInfo(info_type){
 		case "description":
 			return "VornoiNoise usage demonstration (that actually gives guite nice results).";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
 			
 			GGen_AddEnumArg("peak_size","Peak Size","Size of individual peaks.", 1, "Tiny;Medium;Large;Huge");
 			GGen_AddEnumArg("peak_prominence","Peak Prominence","Prominece of sharp peaks in comparison with sorrounding terrain.", 2, "Very Insignificant;Insignificant;Medium;Prominent;Very Prominent");
@@ -34,11 +34,11 @@ function Generate(){
 	
 	local water_level = GGen_GetArgValue("water_level");
 	
-	local base = GGen_Data_2D(width, height, 0);
+	local base = GGen_Data_2D(width, height, GGEN_NATURAL_PROFILE.Max());
 	
-	base.VoronoiNoise((-10 + (50 * (1 + peak_size))) * ((width > height) ? height : width) / 300, 1, GGEN_BUBBLES);
+	base.VoronoiNoise((-10 + (37 * (1 + peak_size))) * ((width > height) ? height : width) / 300, 2, GGEN_BUBBLES);
 
-	base.Smooth(1 + 2 * peak_smoothness);
+	base.Smooth(1 + 2 * (peak_smoothness) + 2 - peak_size / 2);
 	
 	local copy = base.Clone();
 	local mask = base.Clone();
@@ -64,8 +64,8 @@ function Generate(){
 	noise.ScaleValuesTo((-prominence_fraction * base.Max()).tointeger(), (prominence_fraction * base.Max()).tointeger());
 	
 	base.AddMap(noise);
-	
-	base.Add(GGEN_MAX_HEIGHT * (2 - water_level) / 20);
+
+	base.Add(GGEN_MAX_HEIGHT * (3 - water_level) / 15);
 	
 	return base;
 }
