@@ -550,8 +550,13 @@ namespace GeoGen_Studio
 
         public void SetStatus(string str)
         {
-            this.status.Text = str;
-            System.Threading.Thread.Sleep(0);
+            this.Invoke(
+                new MethodInvoker(delegate()
+                {
+                    this.status.Text = str;
+                    System.Threading.Thread.Sleep(0);
+                }
+             ));
         }
 
         public void AddStatus(string status){
