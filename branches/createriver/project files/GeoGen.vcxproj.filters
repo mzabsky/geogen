@@ -53,6 +53,9 @@
     <ClCompile Include="..\src\GeoGen.cpp">
       <Filter>Implementation</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ggen_erosionsimulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ggen.h">
@@ -84,6 +87,9 @@
     </ClInclude>
     <ClInclude Include="..\src\ggen_squirrel.h">
       <Filter>GGen Squirrel API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_erosionsimulator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

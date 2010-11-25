@@ -20,6 +20,7 @@
 #pragma once
 
 #include "ggen_support.h"
+#include "ggen_data_1d.h"
 #include "ggen_path.h"
 
 /**
