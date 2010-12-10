@@ -28,10 +28,17 @@ namespace GeoGen.Studio.PlugInLoader
         /// <summary>
         /// List of all <see cref="Registrator">Registrators<see/> registered with this <see cref="Loader"/>.
         /// </summary>
-        /// <value>The registrators.</value>
+        /// <value>The <see cref="Registrator"> list.</value>
         public ObservableCollection<Registrator> Registrators { get; protected set; }
         public ObservableCollection<object> Instances { get; protected set; }
 
+        /// <summary>
+        /// List of all <see cref="Registrator">Registrators<see/> registered with this <see cref="Loader"/> which don't depend on any other plug-ins.
+        /// </summary>
+        /// <remarks>
+        /// There must always be at least one root registrator during program star-up. The <see cref=" Loader"/> will have to terminate the program otherwise.
+        /// </remarks>
+        /// <value>The root <see cref="Registrator"/> list.</value>        
         public List<Registrator> RootRegistrators
         {
             get
@@ -45,6 +52,13 @@ namespace GeoGen.Studio.PlugInLoader
             protected set { rootRegistrators = value; }
         }
 
+        /// <summary>
+        /// List of all <see cref="Registrator">Registrators<see/> registered with this <see cref="Loader"/> arranged in their final execution order.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="Registrator">Registrators</see> which failed earlier in the loading process will be ignored.
+        /// </remarks>
+        /// <value>The ordered <see cref="Registrator"/> list.</value>                
         public List<Registrator> OrderedRegistrators
         {
             get
@@ -58,7 +72,7 @@ namespace GeoGen.Studio.PlugInLoader
             protected set { orderedRegistrators = value; }
         }
 
-        protected Dictionary<Type, List<Registrator>> RegistratorsByInterface
+        private Dictionary<Type, List<Registrator>> RegistratorsByInterface
         {
             get
             {
@@ -71,7 +85,7 @@ namespace GeoGen.Studio.PlugInLoader
             set { registratorsByInterface = value; }
         }
 
-        protected Dictionary<Registrator, List<Registrator>> RegistratorsByParent
+        private Dictionary<Registrator, List<Registrator>> RegistratorsByParent
         {
             get
             {
@@ -84,7 +98,7 @@ namespace GeoGen.Studio.PlugInLoader
             set { registratorsByParent = value; }
         }
 
-        protected Dictionary<Type, List<Type>> PlugInTypesByInterface
+        private Dictionary<Type, List<Type>> PlugInTypesByInterface
         {
             get
             {
@@ -97,7 +111,7 @@ namespace GeoGen.Studio.PlugInLoader
             set { plugInTypesByInterface = value; }
         }
 
-        protected Dictionary<Type, List<object>> InstancesByInterface
+        private Dictionary<Type, List<object>> InstancesByInterface
         {
             get
             {
@@ -110,7 +124,7 @@ namespace GeoGen.Studio.PlugInLoader
             set { instancesByInterface = value; }
         }
 
-        protected Dictionary<Type, List<object>> InstancesByPlugInType
+        private Dictionary<Type, List<object>> InstancesByPlugInType
         {
             get
             {
@@ -522,7 +536,7 @@ namespace GeoGen.Studio.PlugInLoader
                 throw new ArgumentException("Passed registrator and instance types do not match.");
             }
 
-            else if (attribute.InstanceCount == InstanceCount.One && this.Instances.IndexOf(instance) > -1)
+            else if (attribute.InstanceCount == InstanceCount.One && this.Instances.IndexOf(instance) == -1)
             {
                 throw new ArgumentException("One instance of passed plug-in type is already registered in this Loader. Only one plug-in instance is allowed for this plug-in type.");
             }
