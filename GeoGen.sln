@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.AvalonEd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.Logger", "src_studio\plugins\Logger\GGenStudio.PlugIns.Logger\GGenStudio.PlugIns.Logger.csproj", "{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MenuBar", "src_studio\plugins\GGenStudio.PlugIns.MenuBar\GGenStudio.PlugIns.MenuBar.csproj", "{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -222,6 +224,20 @@ Global
 		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|Win32.ActiveCfg = Release|Any CPU
 		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|x64.ActiveCfg = Release|Any CPU
 		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Release|Win32.ActiveCfg = Release|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Release|x64.ActiveCfg = Release|Any CPU
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -233,5 +249,6 @@ Global
 		{800BDCE0-5B63-4B1B-927B-CDD568721938} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+		{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 	EndGlobalSection
 EndGlobal
