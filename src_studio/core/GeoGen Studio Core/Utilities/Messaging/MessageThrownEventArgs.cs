@@ -1,15 +1,14 @@
-﻿using System.Windows;
+﻿using System;
 
 namespace GeoGen.Studio.Utilities.Messaging
 {
-    public class MessageThrownEventArgs : RoutedEventArgs
+    public class MessageThrownEventArgs : EventArgs
     {
         public Message Message { get; private set; }
 
-        public MessageThrownEventArgs(Message message, RoutedEvent routedEvent)
+        public MessageThrownEventArgs(Message message)
         {
-            this.Message = message;            
-            this.RoutedEvent = routedEvent;
+            this.Message = message;
         }
     }
 }
