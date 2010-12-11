@@ -22,16 +22,14 @@ namespace GeoGen.Studio
 
         public string FileName { get; protected set; }
 
-        protected Size size;
         public Size Size
         {
             get
             {
-                return this.size;
+                return new Size(this.heightData.Width, this.heightData.Height);
             }
             set
-            {
-                this.size = value;
+            {                
                 this.heightData = HeightData.GetResizedHeightData(this.heightData, (int)this.Size.Width, (int) this.Size.Height);
                 this.RebuildImage(overlayOnly: false);
             }
@@ -56,7 +54,11 @@ namespace GeoGen.Studio
         public ImageSource BaseImage { get; protected set; }
         #endregion
 
-        public HeightData() { }
+        public HeightData(string name, GeoGen.Net.HeightData heightData) {
+            this.Name = name;
+            this.heightData = heightData;
+        }
+
         public HeightData(string path, double width, double height){
             if(!File.Exists(path)){
                 throw new FileNotFoundException("Height data file \"" + path + "\" not found.");
