@@ -8,27 +8,13 @@ namespace GeoGen.Studio.Utilities.PlugInBase
 {
     public class Window : System.Windows.Window, IPlugIn, IMessageProvider, INotifyPropertyChanged
     {
-        public static readonly RoutedEvent MessageThrownEvent =
-            EventManager.RegisterRoutedEvent("MessageThrown", RoutingStrategy.Bubble,
-            typeof(MessageThrownEventHandler), typeof(Window));
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event MessageThrownEventHandler MessageThrown
-        {
-            add
-            {
-                AddHandler(MessageThrownEvent, value);
-            }
-            remove
-            {
-                RemoveHandler(MessageThrownEvent, value);
-            }
-        }
+        public event MessageThrownEventHandler MessageThrown;
 
         protected void ThrowMessage(Message message)
         {
-            RaiseEvent(new MessageThrownEventArgs(message, Control.MessageThrownEvent));
+            MessageThrown(this, new MessageThrownEventArgs(message));
         }
 
         protected void NotifyPropertyChanged(string info)
