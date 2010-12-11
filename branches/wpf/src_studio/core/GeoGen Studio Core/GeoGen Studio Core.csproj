@@ -83,6 +83,7 @@
     <Compile Include="Utilities\Messaging\MessageType.cs" />
     <Compile Include="Utilities\FileDialog.cs" />
     <Compile Include="Utilities\PlugInBase\Control.cs" />
+    <Compile Include="Utilities\PlugInBase\Object.cs" />
     <Compile Include="Utilities\PlugInBase\Window.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\Binding\BindingException.cs" />
