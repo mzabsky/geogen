@@ -17,7 +17,7 @@ namespace GeoGen.Studio.Utilities.PlugInBase
             MessageThrown(this, new MessageThrownEventArgs(message));
         }
 
-        protected void NotifyPropertyChanged(string info)
+        protected void OnPropertyChanged(string info)
         {
             if (PropertyChanged != null)
             {
