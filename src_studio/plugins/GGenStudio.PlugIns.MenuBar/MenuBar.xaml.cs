@@ -49,7 +49,7 @@ namespace GeoGen.Studio.PlugIns
             // The menu contains only Exit item by default
             MenuEntry fileMenu = new MenuEntry(
                 header: "File",
-                priority: Double.MaxValue
+                priority: 0
             );
             
             this.AddMenu(fileMenu);
@@ -57,7 +57,7 @@ namespace GeoGen.Studio.PlugIns
             fileMenu.Items.Add(
                 new MenuEntry(
                     header: "Exit",
-                    priority: 0,
+                    priority: Double.MinValue,
                     command: new RelayCommand(param => App.Current.Shutdown()),
                     inputGestureText: "Alt+F4"
                 )
