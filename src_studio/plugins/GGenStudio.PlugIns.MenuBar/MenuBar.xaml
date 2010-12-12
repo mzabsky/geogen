@@ -17,7 +17,20 @@
                         <Setter Property="Command" Value="{Binding Command}" />
                         <Setter Property="Icon" Value="{Binding Icon}" />
                         <Setter Property="InputGestureText" Value="{Binding InputGestureText}" />
-                    </Style>
+                        
+                        <!-- Handle separators -->
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Header}" Value="[Separator]">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Separator />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>                    
                 </HierarchicalDataTemplate.ItemContainerStyle>
                 <ContentControl Content="{Binding Header}"/>                
             </HierarchicalDataTemplate>

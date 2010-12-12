@@ -1,5 +1,4 @@
 ﻿using GeoGen.Studio.Utilities;
-using GeoGen.Studio.Utilities.Collections;
 using System;
 
 namespace GeoGen.Studio.PlugIns
@@ -11,7 +10,7 @@ namespace GeoGen.Studio.PlugIns
             MenuEntry generatorMenu = new MenuEntry(
                 header: "Generator",
                 priority: -4,
-                items: new PriorityObservableCollection()
+                items: new MenuEntryObservableCollection()
                 {
                     new MenuEntry(
                         header: "Execute",

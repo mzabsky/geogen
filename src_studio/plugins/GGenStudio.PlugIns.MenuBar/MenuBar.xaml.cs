@@ -25,13 +25,13 @@ namespace GeoGen.Studio.PlugIns
     public partial class MenuBar : GeoGen.Studio.Utilities.PlugInBase.Control, IMenuBar
     {
         private static readonly DependencyProperty MenusProperty = DependencyProperty.Register(
-            "Menus", typeof(PriorityObservableCollection), typeof(MenuBar), new PropertyMetadata(new PriorityObservableCollection()));
+            "Menus", typeof(MenuEntryObservableCollection), typeof(MenuBar), new PropertyMetadata(new MenuEntryObservableCollection()));
 
-        private PriorityObservableCollection Menus
+        private MenuEntryObservableCollection Menus
         {
             get
             {
-                return (PriorityObservableCollection) GetValue(MenusProperty);
+                return (MenuEntryObservableCollection)GetValue(MenusProperty);
             }
             set
             {
@@ -62,6 +62,8 @@ namespace GeoGen.Studio.PlugIns
                     inputGestureText: "Alt+F4"
                 )
             );
+
+            fileMenu.Items.Add(new MenuSeparator());
         }
 
         /// <summary>
