@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows;
 using GeoGen.Studio.Utilities.Collections;
+using System.Windows.Data;
 
 namespace GeoGen.Studio.PlugIns
 {
@@ -102,18 +103,102 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
+        private static readonly DependencyProperty IsCheckedBindingProperty = DependencyProperty.Register(
+            "IsCheckedBinding", typeof(Binding), typeof(MenuEntry), new PropertyMetadata(null));
+
+        public Binding IsCheckedBinding
+        {
+            get
+            {
+                return (Binding)GetValue(IsCheckedBindingProperty);
+            }
+            set
+            {
+                SetValue(IsCheckedBindingProperty, value);
+            }
+        }
+
+        private static readonly DependencyProperty IsCheckableProperty = DependencyProperty.Register(
+            "IsCheckable", typeof(bool), typeof(MenuEntry), new PropertyMetadata(null));
+
+        public bool IsCheckable
+        {
+            get
+            {
+                return (bool)GetValue(IsCheckableProperty);
+            }
+            set
+            {
+                SetValue(IsCheckableProperty, value);
+            }
+        }
+
+        private static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(
+            "IsChecked", typeof(bool), typeof(MenuEntry), new PropertyMetadata(null));
+
+        public bool IsChecked
+        {
+            get
+            {
+                return (bool)GetValue(IsCheckedProperty);
+            }
+            set
+            {
+                SetValue(IsCheckedProperty, value);
+            }
+        }
+
+        private static readonly DependencyProperty DataContextProperty = DependencyProperty.Register(
+            "DataContext", typeof(object), typeof(MenuEntry), new PropertyMetadata(null));
+
+        public object DataContext
+        {
+            get
+            {
+                return (object)GetValue(DataContextProperty);
+            }
+            set
+            {
+                SetValue(DataContextProperty, value);
+            }
+        }
+
         public MenuEntry() {
             this.Items = new MenuEntryObservableCollection();
         }
 
-        public MenuEntry(string header, double priority = 0, ICommand command = null, string inputGestureText = null, ImageSource icon = null, MenuEntryObservableCollection items = null)
+        public MenuEntry(
+            string header, 
+            double priority = 0, 
+            ICommand command = null, 
+            string inputGestureText = null,
+            bool isCheckable = false,
+            bool isChecked = false,
+            Binding isCheckedBinding = null, 
+            object dataContext = null, 
+            ImageSource icon = null, 
+            MenuEntryObservableCollection items = null
+        )
         {
             this.Header = header;
             this.Priority = priority;
             this.Items = items ?? new MenuEntryObservableCollection();
             this.Command = command;
             this.InputGestureText = inputGestureText;
+            this.IsCheckable = isCheckable;
+            this.IsChecked = isChecked;
+            this.IsCheckedBinding = isCheckedBinding;
+            this.DataContext = dataContext;
             this.Icon = icon;
+
+            if(IsCheckedBinding != null)
+            {
+                if(isCheckedBinding.Source == null){
+                    isCheckedBinding.Source = dataContext;
+                }
+
+                BindingOperations.SetBinding(this, MenuEntry.IsCheckedProperty, this.IsCheckedBinding);
+            }
         }
 
         public static implicit operator MenuEntry(MenuItem victim)
