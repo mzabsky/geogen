@@ -453,6 +453,37 @@ namespace GeoGen.Studio.PlugIns
             dockManager.AddAsDocumentContent(this, "Code", true);
         }
 
+        /// <summary>
+        /// Registers window-wide hotkeys.
+        /// </summary>
+        /// <param name="mainWindow">The main window.</param>
+        public void Register(IMainWindow mainWindow)
+        {
+            mainWindow.RegisterInputGesture(
+                new KeyGesture(Key.N, ModifierKeys.Control),
+                this.NewCommand
+            );
+
+            mainWindow.RegisterInputGesture(
+                new KeyGesture(Key.O, ModifierKeys.Control),
+                this.OpenCommand
+            );
+
+            mainWindow.RegisterInputGesture(
+                new KeyGesture(Key.S, ModifierKeys.Control),
+                this.SaveCommand
+            );
+
+            mainWindow.RegisterInputGesture(
+                new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift),
+                this.SaveAsCommand
+            );
+        }
+
+        /// <summary>
+        /// Registers the editor into main window menu.
+        /// </summary>
+        /// <param name="menuBar">The menu bar.</param>
         public void Register(IMenuBar menuBar){
             string iconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.AvalonEditor;component/Images/Icons/";
 
