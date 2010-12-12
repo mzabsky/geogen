@@ -244,7 +244,10 @@ namespace GeoGen{
 					return this->type == ScriptArgType::Enum ? Options[Value] : "";
 				}
 			}
-		internal:
+
+			ScriptArg(){}
+		internal:			
+
 			ScriptArg(GGen_ScriptArg* unmanagedArg){
 				switch(unmanagedArg->type){
 				case GGEN_BOOL: this->type = ScriptArgType::Bool; break;
