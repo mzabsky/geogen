@@ -7,6 +7,7 @@ using System.Windows.Markup;
 using System.Windows;
 using GeoGen.Studio.Utilities.Collections;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace GeoGen.Studio.PlugIns
 {
@@ -74,13 +75,13 @@ namespace GeoGen.Studio.PlugIns
         }
 
         private static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-            "Icon", typeof(ImageSource), typeof(MenuEntry), new PropertyMetadata());
+            "Icon", typeof(object), typeof(MenuEntry), new PropertyMetadata());
 
-        public ImageSource Icon
+        public object Icon
         {
             get
             {
-                return (ImageSource)GetValue(IconProperty);
+                return (object)GetValue(IconProperty);
             }
             set
             {
@@ -176,7 +177,7 @@ namespace GeoGen.Studio.PlugIns
             bool isChecked = false,
             Binding isCheckedBinding = null, 
             object dataContext = null, 
-            ImageSource icon = null, 
+            object icon = null, 
             MenuEntryObservableCollection items = null
         )
         {
@@ -189,7 +190,22 @@ namespace GeoGen.Studio.PlugIns
             this.IsChecked = isChecked;
             this.IsCheckedBinding = isCheckedBinding;
             this.DataContext = dataContext;
-            this.Icon = icon;
+            
+            if(icon != null){
+                if(icon is string){
+                    Image iconImage = new Image();
+                    iconImage.Source = new BitmapImage(new Uri(icon as string));
+                    iconImage.Width = 16;
+                    iconImage.Height = 16;                    
+                    
+                    this.Icon = iconImage;
+                }
+                else
+                {
+                    this.Icon = icon;
+                }
+
+            }
 
             if(IsCheckedBinding != null)
             {
