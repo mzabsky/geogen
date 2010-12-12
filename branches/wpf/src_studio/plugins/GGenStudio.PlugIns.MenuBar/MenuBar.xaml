@@ -9,7 +9,7 @@
              d:DesignHeight="20" d:DesignWidth="600"
              Name="menuControl"
              DataContext="{Binding ElementName=menuControl}">    
-    <Menu ItemsSource="{Binding Menus}" Name="menu">
+    <Menu ItemsSource="{Binding Menus}" Name="menu">        
         <Menu.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type plugin:MenuEntry}">
                 <HierarchicalDataTemplate.ItemContainerStyle>
@@ -17,6 +17,8 @@
                         <Setter Property="Command" Value="{Binding Command}" />
                         <Setter Property="Icon" Value="{Binding Icon}" />
                         <Setter Property="InputGestureText" Value="{Binding InputGestureText}" />
+                        <Setter Property="IsCheckable" Value="{Binding IsCheckable}" />
+                        <Setter Property="IsChecked" Value="{Binding IsChecked}" />
                         
                         <!-- Handle separators -->
                         <Style.Triggers>
