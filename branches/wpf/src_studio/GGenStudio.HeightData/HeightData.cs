@@ -3,12 +3,23 @@ using System.Windows;
 using System.Windows.Media;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
 
 namespace GeoGen.Studio
 {
-    public class HeightData
+    public class HeightData: INotifyPropertyChanged
     {
         protected GeoGen.Net.HeightData heightData;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
 
         #region Properties
         public int this[int x, int y]{
@@ -198,6 +209,14 @@ namespace GeoGen.Studio
             }
 
             this.Image = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Rgb24, BitmapPalettes.Halftone256, bytes, this.heightData.Width * 3);
+        }
+
+        protected void OnPropertyChanged(string info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 }
