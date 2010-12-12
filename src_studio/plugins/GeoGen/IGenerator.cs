@@ -7,7 +7,7 @@ using GeoGen.Studio.PlugInLoader;
 
 namespace GeoGen.Studio.PlugIns
 {
-    interface IGenerator : IPlugInInterface, INotifyPropertyChanged
+    public interface IGenerator : IPlugInInterface, INotifyPropertyChanged
     {
         event GenerationFailedEventHandler GenerationFailed;
         event GenerationFinishedEventHandler GenerationFinished;
