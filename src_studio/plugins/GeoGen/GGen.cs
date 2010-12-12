@@ -25,6 +25,7 @@ namespace GeoGen.Studio.PlugIns
         protected Generator generator = new Generator();
 
         protected Thread thread;
+        protected bool killWorkerThread = false;
 
         // Maps will be put into this list until the generation is completed, then this ilist will replace the Maps list.
         protected ObservableCollection<HeightData> temporaryMapList = new ObservableCollection<HeightData>();
@@ -117,6 +118,7 @@ namespace GeoGen.Studio.PlugIns
                 this.ThrowMessage(new Message("Generation started.", MessageType.Message));
             }
 
+            this.killWorkerThread = false;
             System.Threading.ThreadStart starter = new System.Threading.ThreadStart(delegate()
             {
                 // Compile the script.
@@ -150,7 +152,7 @@ namespace GeoGen.Studio.PlugIns
                 }
 
                 // Update the argument values in GeoGen.
-                if(parametersOverride != null)
+                if(parametersOverride == null)
                 {
                     this.ImportArgsIntoGenerator();
                 }
@@ -175,25 +177,30 @@ namespace GeoGen.Studio.PlugIns
                     }*/
 
                     result = this.generator.Generate();
+
+                    if (this.killWorkerThread) return;
                 }
                 catch (GenerationFailedException)
                 {
+                    if (this.killWorkerThread) return;
+
                     this.OnGenerationFailed("Map generation failed!", true);
 
                     return;
-                }
+                }                
 
                 this.AddHeightDataToTemporaryMapList("[Main]", result);
 
                 this.OnGenerationFinished(new TimeSpan(System.DateTime.Now.Ticks - timeStartedInTicks));
             });
 
-            this.thread.Start(starter);
+            this.thread = new Thread(starter);
+            this.thread.Start();
         }
 
         public void Abort()
         {
-            this.thread.Abort();
+            this.killWorkerThread = true;
             this.thread = null;
             this.CurrentTaskType = TaskType.None;
         }
@@ -255,7 +262,10 @@ namespace GeoGen.Studio.PlugIns
                     new Message(message, MessageType.Error)
                 );
 
-                this.GenerationFailed(this, new GenerationFailedEventArgs(message, isHeaderLoaded));
+                if (this.HeaderLoaded != null)
+                {
+                    this.GenerationFailed(this, new GenerationFailedEventArgs(message, isHeaderLoaded));
+                }
             });         
         }
 
@@ -264,6 +274,15 @@ namespace GeoGen.Studio.PlugIns
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)  delegate()
             {
                 this.Progress = 0;
+                this.Maps.Clear();                
+                //this.temporaryMapList.CopyTo(this.Maps, 0);
+                
+                foreach(HeightData heightData in this.temporaryMapList)
+                {
+                    this.Maps.Add(heightData);
+                }
+                
+                this.temporaryMapList.Clear();
 
                 // Terminate the generator thread and put the generator back into ready state.
                 this.Abort();
@@ -272,7 +291,10 @@ namespace GeoGen.Studio.PlugIns
                     new Message("Map generated after " + timeSpan.ToString() + ".", MessageType.Message)
                 );
 
-                this.GenerationFinished(this, new GenerationFinishedEventArgs(timeSpan));
+                if (this.HeaderLoaded != null)
+                {
+                    this.GenerationFinished(this, new GenerationFinishedEventArgs(timeSpan));
+                }
             });
         }
 
@@ -280,7 +302,10 @@ namespace GeoGen.Studio.PlugIns
         {
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
-                this.HeaderLoaded(this, new EventArgs());
+                if (this.HeaderLoaded != null)
+                {
+                    this.HeaderLoaded(this, new EventArgs());
+                }
             });
         }
 
