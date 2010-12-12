@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using GeoGen.Studio.Utilities.Collections;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows;
+using GeoGen.Studio.Utilities.Collections;
 
 namespace GeoGen.Studio.PlugIns
 {
@@ -88,13 +88,13 @@ namespace GeoGen.Studio.PlugIns
         }
 
         private static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
-            "Items", typeof(PriorityObservableCollection), typeof(MenuEntry), new PropertyMetadata());
+            "Items", typeof(MenuEntryObservableCollection), typeof(MenuEntry), new PropertyMetadata());
 
-        public PriorityObservableCollection Items
+        public MenuEntryObservableCollection Items
         {
             get
             {
-                return (PriorityObservableCollection)GetValue(ItemsProperty);
+                return (MenuEntryObservableCollection)GetValue(ItemsProperty);
             }
             set
             {
@@ -102,15 +102,15 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
-        public MenuEntry() { 
-            this.Items = new PriorityObservableCollection();
+        public MenuEntry() {
+            this.Items = new MenuEntryObservableCollection();
         }
 
-        public MenuEntry(string header, double priority = 0, ICommand command = null, string inputGestureText = null, ImageSource icon = null, PriorityObservableCollection items = null)
+        public MenuEntry(string header, double priority = 0, ICommand command = null, string inputGestureText = null, ImageSource icon = null, MenuEntryObservableCollection items = null)
         {
             this.Header = header;
             this.Priority = priority;
-            this.Items = items ?? new PriorityObservableCollection();
+            this.Items = items ?? new MenuEntryObservableCollection();
             this.Command = command;
             this.InputGestureText = inputGestureText;
             this.Icon = icon;
@@ -129,6 +129,19 @@ namespace GeoGen.Studio.PlugIns
                 }
             }
 
+            return converted;
+        }
+
+        public static implicit operator MenuEntry(Separator victim)
+        {
+            MenuEntry converted = new MenuEntry("[Separator]");
+            return converted;
+        }
+
+        public static implicit operator MenuEntry(MenuSeparator victim)
+        {
+            MenuEntry converted = new MenuEntry("[Separator]");
+            converted.Priority = victim.Priority;
             return converted;
         }
 
