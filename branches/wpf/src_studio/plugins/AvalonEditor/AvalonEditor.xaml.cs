@@ -443,14 +443,151 @@ namespace GeoGen.Studio.PlugIns
         private ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
 
         public AvalonEditor()
-        {            
+        {                        
+            InitializeComponent();
             MainConfig.Register(this);
-            InitializeComponent();                        
         }
        
         public void Register(IDockManager dockManager)
         {
             dockManager.AddAsDocumentContent(this, "Code", true);
+        }
+
+        public void Register(IMenuBar menuBar){
+            string iconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.AvalonEditor;component/Images/Icons/";
+
+            menuBar.AddMenu(
+                new MenuEntry(
+                    header: "File",
+                    items: new MenuEntryObservableCollection()
+                    {
+                        new MenuEntry(
+                            header: "New",
+                            priority: 0,
+                            command: this.NewCommand,
+                            inputGestureText: "Ctrl+N",
+                            icon: iconPathPrefix + "new.png"
+                        ),
+                        new MenuEntry(
+                            header: "Open",
+                            priority: -1,
+                            command: this.OpenCommand,
+                            inputGestureText: "Ctrl+O",
+                            icon: iconPathPrefix + "open.png"
+                        ),
+                        new MenuEntry(
+                            header: "Save",
+                            priority: -2,
+                            command: this.SaveCommand,
+                            inputGestureText: "Ctrl+S",
+                            icon: iconPathPrefix + "save.png"
+                        ),
+                        new MenuEntry(
+                            header: "Save As...",
+                            priority: -3,
+                            command: this.SaveAsCommand,
+                            inputGestureText: "Ctrl+Shift+S",
+                            icon: iconPathPrefix + "save.png"
+                        ),
+                        new MenuSeparator(
+                            priority: -4
+                        )
+                    }
+                )
+            );
+
+            menuBar.AddMenu(
+                new MenuEntry(
+                    header: "Edit",
+                    priority: -1,
+                    items: new MenuEntryObservableCollection()
+                    {
+                        new MenuEntry(
+                            header: "Undo",
+                            priority: 0,
+                            command: this.UndoCommand,
+                            inputGestureText: "Ctrl+Z",
+                            icon: iconPathPrefix + "undo.png"
+                        ),
+                        new MenuEntry(
+                            header: "Redo",
+                            priority: -1,
+                            command: this.RedoCommand,
+                            inputGestureText: "Ctrl+Shift+Z",
+                            icon: iconPathPrefix + "redo.png"
+                        ),
+                        new MenuSeparator(
+                            priority: -2
+                        ),
+                        new MenuEntry(
+                            header: "Cut",
+                            priority: -3,
+                            command: ApplicationCommands.Cut,
+                            inputGestureText: "Ctrl+X",
+                            icon: iconPathPrefix + "cut.png"
+                        ),
+                        new MenuEntry(
+                            header: "Copy",
+                            priority: -4,
+                            command: ApplicationCommands.Copy,
+                            inputGestureText: "Ctrl+C",
+                            icon: iconPathPrefix + "copy.png"
+                        ),
+                        new MenuEntry(
+                            header: "Paste",
+                            priority: -5,
+                            command: ApplicationCommands.Paste,
+                            inputGestureText: "Ctrl+P",
+                            icon: iconPathPrefix + "paste.png"
+                        )
+                    }
+                )
+            );
+
+            menuBar.AddMenu(
+                new MenuEntry(
+                    header: "View",
+                    priority: -2,
+                    items: new MenuEntryObservableCollection()
+                    {
+                        new MenuEntry(
+                            header: "Code",
+                            priority: 0,
+                            command: null,
+                            icon: iconPathPrefix + "code.png"
+                        ),
+                        new MenuSeparator(
+                            priority: -20
+                        ),
+                        new MenuEntry(
+                            header: "Word Wrap",
+                            priority: -21,
+                            command: this.ToggleWordWrapCommand,
+                            isCheckable: true,
+                            dataContext: this,
+                            isCheckedBinding: new Binding("WordWrap")
+                        ),
+                        new MenuSeparator(
+                            priority: -22
+                        ),
+                        new MenuEntry(
+                            header: "Increase Font Size",
+                            priority: -23,
+                            command: this.IncreaseFontSizeCommand
+                        ),
+                        new MenuEntry(
+                            header: "Decrease Font Size",
+                            priority: -24,
+                            command: this.DecreaseFontSizeCommand
+                        ),
+                        new MenuEntry(
+                            header: "Reset Font Size",
+                            priority: -25,
+                            command: this.ResetFontSizeCommand
+                        ),
+                    }
+                )
+            );
         }
 
         private void editor_Loaded(object sender, RoutedEventArgs e)

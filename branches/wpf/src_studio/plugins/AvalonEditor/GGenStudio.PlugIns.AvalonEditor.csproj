@@ -98,6 +98,21 @@
       <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
       <Name>GGenStudio.PlugIns.DockManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GGenStudio.PlugIns.MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+      <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
+      <Name>GGenStudio.PlugIns.MenuBar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\code.png" />
+    <Resource Include="Images\Icons\copy.png" />
+    <Resource Include="Images\Icons\cut.png" />
+    <Resource Include="Images\Icons\new.png" />
+    <Resource Include="Images\Icons\open.png" />
+    <Resource Include="Images\Icons\paste.png" />
+    <Resource Include="Images\Icons\redo.png" />
+    <Resource Include="Images\Icons\save.png" />
+    <Resource Include="Images\Icons\undo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
