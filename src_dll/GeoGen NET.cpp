@@ -176,11 +176,19 @@ namespace GeoGen{
 				ScriptArgType get(){
 					return type;
 				}
+			protected: 
+				void set(ScriptArgType value){
+					type = value;
+				}
 			}
 
 			property String^ Name{
 				String^ get(){
 					return name;
+				}
+			protected: 
+				void set(String^ value){
+					name = value;
 				}
 			}
 
@@ -188,11 +196,19 @@ namespace GeoGen{
 				String^ get(){
 					return label;
 				}
+			protected: 
+				void set(String^ value){
+					label = value;
+				}
 			}
 
 			property String^ Description{
 				String^ get(){
 					return description;
+				}
+			protected: 
+				void set(String^ value){
+					description = value;
 				}
 			}
 
@@ -200,17 +216,29 @@ namespace GeoGen{
 				unsigned get(){
 					return default;
 				}
+			protected: 
+				void set(unsigned value){
+					default = value;
+				}
 			}
 
 			property unsigned Maximum{
 				unsigned get(){
 					return maximum;
 				}
+			protected: 
+				void set(unsigned value){
+					maximum = value;
+				}
 			}
 
 			property unsigned Minimum{
 				unsigned get(){
 					return minimum;
+				}
+			protected: 
+				void set(unsigned value){
+					minimum = value;
 				}
 			}
 
@@ -236,6 +264,10 @@ namespace GeoGen{
 			property array<System::String^>^ Options{
 				array<System::String^>^ get(){
 					return options;
+				}
+			protected: 
+				void set(array<System::String^>^ value){
+					options = value;
 				}
 			}
 
