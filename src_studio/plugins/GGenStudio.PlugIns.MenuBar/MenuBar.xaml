@@ -15,6 +15,8 @@
                 <HierarchicalDataTemplate.ItemContainerStyle>
                     <Style TargetType="MenuItem">
                         <Setter Property="Command" Value="{Binding Command}" />
+                        <Setter Property="Icon" Value="{Binding Icon}" />
+                        <Setter Property="InputGestureText" Value="{Binding InputGestureText}" />
                     </Style>
                 </HierarchicalDataTemplate.ItemContainerStyle>
                 <ContentControl Content="{Binding Header}"/>                
