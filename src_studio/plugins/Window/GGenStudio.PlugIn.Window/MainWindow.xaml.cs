@@ -55,6 +55,12 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
+        public void RegisterInputGesture(InputGesture gesture, ICommand command)
+        {
+            InputBinding inputBinding = new InputBinding(command, gesture);
+            this.InputBindings.Add(inputBinding);
+        }
+
         public MainWindow()
         {
             InitializeComponent();
