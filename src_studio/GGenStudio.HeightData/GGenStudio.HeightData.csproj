@@ -36,6 +36,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,4 +62,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <UsingTask TaskName="NotifyPropertyWeaverMsBuildTask.WeavingTask" AssemblyFile="$(SolutionDir)\msbuild\NotifyPropertyWeaverMsBuildTask.dll" />
+  <Target Name="AfterBuild">
+    <WeavingTask TargetPath="$(TargetPath)" CheckForEquality="true" TryToWeaveAllTypes="True" />
+  </Target>
 </Project>
