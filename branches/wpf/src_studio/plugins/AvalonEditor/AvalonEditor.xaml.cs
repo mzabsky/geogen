@@ -22,7 +22,7 @@ using GeoGen.Studio.Utilities.Configurability;
 
 namespace GeoGen.Studio.PlugIns
 {
-    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, IConfigurable
+    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, IConfigurable, ITextProvider, IEditor
     {
         #region Dependency properties
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(

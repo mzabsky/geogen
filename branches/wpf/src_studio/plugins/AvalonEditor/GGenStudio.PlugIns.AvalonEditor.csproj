@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BraceFoldingStrategy.cs" />
+    <Compile Include="IEditor.cs" />
+    <Compile Include="ITextProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
