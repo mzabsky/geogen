@@ -86,6 +86,8 @@ namespace GeoGen.Studio.PlugIns
             };
         }
 
+        public void Register() {}
+
         public void Start(string script, bool headerOnly = false, IEnumerable<uint> parametersOverride = null)
         {
             // Two GeoGens can't be running concurrently.
