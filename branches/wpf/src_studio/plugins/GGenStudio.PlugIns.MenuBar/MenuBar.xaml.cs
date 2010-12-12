@@ -62,8 +62,6 @@ namespace GeoGen.Studio.PlugIns
                     inputGestureText: "Alt+F4"
                 )
             );
-
-            fileMenu.Items.Add(new MenuSeparator());
         }
 
         /// <summary>
