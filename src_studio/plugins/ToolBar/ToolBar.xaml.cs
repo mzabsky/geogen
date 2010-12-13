@@ -54,18 +54,6 @@ namespace GeoGen.Studio.PlugIns
         public ToolBar()
         {
             InitializeComponent();
-
-            this.ToolBars.Add(new ToolBarButton(
-                toolTip: "Test",
-                icon: "C:\\Users\\Matej\\Pictures\\hello-kitty-1.jpg"
-            ));
-
-            this.ToolBars.Add(new ToolBarSeparator());
-
-            this.ToolBars.Add(new ToolBarCheckableButton(
-                icon: "C:\\Users\\Matej\\Pictures\\hello-kitty-1.jpg",
-                isChecked: true
-            ));
         }
 
         /// <summary>
