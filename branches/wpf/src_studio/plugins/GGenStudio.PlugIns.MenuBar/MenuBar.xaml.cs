@@ -22,8 +22,16 @@ namespace GeoGen.Studio.PlugIns
     /// <summary>
     /// A horizontal menu bar which displays items provided by other plug-ins.
     /// </summary>
-    public partial class MenuBar : GeoGen.Studio.Utilities.PlugInBase.Control, IMenuBar
+    public partial class MenuBar : GeoGen.Studio.Utilities.PlugInBase.Control, IMenuBar, IPriority
     {
+        public double Priority
+        {
+            get
+            {
+                return 1;
+            }
+        }
+
         private static readonly DependencyProperty MenusProperty = DependencyProperty.Register(
             "Menus", typeof(MenuEntryObservableCollection), typeof(MenuBar), new PropertyMetadata(new MenuEntryObservableCollection()));
 

@@ -23,8 +23,16 @@ namespace GeoGen.Studio.PlugIns
     /// <summary>
     /// A horizontal tool bar which displays items provided by other plug-ins.
     /// </summary>
-    public partial class ToolBar : GeoGen.Studio.Utilities.PlugInBase.Control
+    public partial class ToolBar : GeoGen.Studio.Utilities.PlugInBase.Control, IPriority
     {
+        public double Priority
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
         private static readonly DependencyProperty ToolBarsProperty = DependencyProperty.Register(
             "ToolBars", typeof(ToolBarEntryObservableCollection), typeof(ToolBar), new PropertyMetadata(new ToolBarEntryObservableCollection()));
 

@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using GeoGen.Studio.PlugInLoader;
 using GeoGen.Studio.Utilities;
+using GeoGen.Studio.Utilities.Collections;
 
 namespace GeoGen.Studio.PlugIns
 {
@@ -24,14 +25,14 @@ namespace GeoGen.Studio.PlugIns
     public partial class MainWindow : GeoGen.Studio.Utilities.PlugInBase.Window, IPlugIn, IMainWindow
     {
         public static readonly DependencyProperty TopBarsProperty = DependencyProperty.Register(
-            "TopBars", typeof(ObservableCollection<object>), typeof(MainWindow), new FrameworkPropertyMetadata(new ObservableCollection<object>())
+            "TopBars", typeof(PriorityObservableCollection), typeof(MainWindow), new FrameworkPropertyMetadata(new PriorityObservableCollection())
         );
 
-        public ObservableCollection<object> TopBars
+        public PriorityObservableCollection TopBars
         {
             get
             {
-                return (ObservableCollection<object>)GetValue(TopBarsProperty);
+                return (PriorityObservableCollection)GetValue(TopBarsProperty);
             }
             set
             {
@@ -40,14 +41,14 @@ namespace GeoGen.Studio.PlugIns
         }
 
         public static readonly DependencyProperty BottomBarsProperty = DependencyProperty.Register(
-            "BottomBars", typeof(ObservableCollection<object>), typeof(MainWindow), new FrameworkPropertyMetadata(new ObservableCollection<object>())
+            "BottomBars", typeof(PriorityObservableCollection), typeof(MainWindow), new FrameworkPropertyMetadata(new PriorityObservableCollection())
         );
 
-        public ObservableCollection<object> BottomBars
+        public PriorityObservableCollection BottomBars
         {
             get
             {
-                return (ObservableCollection<object>)GetValue(BottomBarsProperty);
+                return (PriorityObservableCollection)GetValue(BottomBarsProperty);
             }
             set
             {
