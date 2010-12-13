@@ -33,18 +33,18 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
-        private static readonly DependencyProperty ToolBarsProperty = DependencyProperty.Register(
-            "ToolBars", typeof(ToolBarEntryObservableCollection), typeof(ToolBar), new PropertyMetadata(new ToolBarEntryObservableCollection()));
+        private static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
+            "Items", typeof(ToolBarEntryObservableCollection), typeof(ToolBar), new PropertyMetadata(new ToolBarEntryObservableCollection()));
 
-        private ToolBarEntryObservableCollection ToolBars
+        private ToolBarEntryObservableCollection Items
         {
             get
             {
-                return (ToolBarEntryObservableCollection)GetValue(ToolBarsProperty);
+                return (ToolBarEntryObservableCollection)GetValue(ItemsProperty);
             }
             set
             {
-                SetValue(ToolBarsProperty, value);
+                SetValue(ItemsProperty, value);
             }
         }
 
@@ -74,7 +74,7 @@ namespace GeoGen.Studio.PlugIns
             // Null IS allowed (for simplicity's sake)
             if (ToolBar == null) return;
 
-            this.ToolBars.Add(ToolBar);
+            this.Items.Add(ToolBar);
         }
 
         /// <summary>
