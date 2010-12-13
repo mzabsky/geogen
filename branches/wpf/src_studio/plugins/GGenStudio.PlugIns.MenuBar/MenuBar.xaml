@@ -9,7 +9,7 @@
              d:DesignHeight="20" d:DesignWidth="600"
              Name="menuControl"
              DataContext="{Binding ElementName=menuControl}">    
-    <Menu ItemsSource="{Binding Menus}" Name="menu">        
+    <Menu ItemsSource="{Binding Menus}" Name="menu" Height="20">        
         <Menu.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type plugin:MenuEntry}">
                 <HierarchicalDataTemplate.ItemContainerStyle>
