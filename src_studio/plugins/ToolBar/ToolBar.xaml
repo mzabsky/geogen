@@ -1,0 +1,35 @@
+﻿<pb:Control x:Class="GeoGen.Studio.PlugIns.ToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
+             xmlns:plugin="clr-namespace:GeoGen.Studio.PlugIns"
+             mc:Ignorable="d" 
+             d:DesignHeight="26" d:DesignWidth="600"
+             Name="menuControl"
+             DataContext="{Binding ElementName=menuControl}">
+    <ToolBarTray>
+        <ToolBar ItemsSource="{Binding ToolBars}" Name="toolBar" ToolBarTray.IsLocked="True" VerticalAlignment="Top" Height="26">
+            <ToolBar.ItemTemplateSelector>
+                <plugin:ToolBarItemTemplateSelector>
+                    <plugin:ToolBarItemTemplateSelector.ToolBarButton>
+                        <DataTemplate>
+                            <Button Content="{Binding Icon}" ToolTip="{Binding ToolTip}" Command="{Binding Command}"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" />
+                        </DataTemplate>
+                    </plugin:ToolBarItemTemplateSelector.ToolBarButton>
+                    <plugin:ToolBarItemTemplateSelector.ToolBarCheckableButton>
+                        <DataTemplate>
+                            <ToggleButton Content="{Binding Icon}" ToolTip="{Binding ToolTip}" Command="{Binding Command}" IsChecked="{Binding IsChecked}" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" />
+                        </DataTemplate>
+                    </plugin:ToolBarItemTemplateSelector.ToolBarCheckableButton>
+                    <plugin:ToolBarItemTemplateSelector.ToolBarSeparator>
+                        <DataTemplate>
+                            <Rectangle Width="1" Height="19" Fill="DarkGray" Margin="2"></Rectangle>
+                        </DataTemplate>
+                    </plugin:ToolBarItemTemplateSelector.ToolBarSeparator>                    
+                </plugin:ToolBarItemTemplateSelector>
+            </ToolBar.ItemTemplateSelector>
+        </ToolBar>
+    </ToolBarTray>
+</pb:Control>
