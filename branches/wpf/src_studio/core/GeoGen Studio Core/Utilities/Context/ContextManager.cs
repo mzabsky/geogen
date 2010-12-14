@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace GeoGen.Studio.Utilities.Context
 {
@@ -25,20 +26,29 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns><c>true</c> if the <see cref="Context"/> was not active yet; otherwise <c>false</c>.</returns>
         public static bool EnterContext(Context context)
         {
+            bool result;
+            
             lock (ContextManager.contexts)
             {
                 // Can't enter one context twice
                 if (ContextManager.contexts.Contains(context))
                 {
-                    return false;
+                    result = false;
                 }
                 else
                 {
                     ContextManager.contexts.Add(context);
                     ContextManager.OnContextChanged();
-                    return true;
+                    result = true;
                 }
             }
+
+            if (result)
+            {
+                ContextManager.OnContextChanged();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -48,20 +58,28 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns><c>false</c> if the <see cref="Context"/> was not active; otherwise <c>true</c>.</returns>
         public static bool LeaveContext(Context context)
         {
+            bool result;
+            
             lock (ContextManager.contexts)
             {
                 if (ContextManager.contexts.Contains(context))
                 {
-                    ContextManager.contexts.Remove(context);
-                    ContextManager.OnContextChanged();
-                    return true;
+                    ContextManager.contexts.Remove(context);                    
+                    result = true;
                 }
                 else
                 {                    
                     // The manager was not in that context at all.
-                    return false;
+                    result = false;
                 }
             }
+
+            if(result)
+            {
+                ContextManager.OnContextChanged();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -84,17 +102,21 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns>List of known active <see cref="Context">contexts</see>.</returns>
         public static Context GetTopMostKnownActiveContext(IEnumerable<Context> knownContexts)
         {
+            Context result;
+
             lock (ContextManager.contexts)
             {
                 if (Enumerable.Any(ContextManager.contexts) && Enumerable.Any(knownContexts))
                 {
-                    return Enumerable.Last(Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts));
+                    result = Enumerable.Last(Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts));
                 }
                 else
                 {
-                    return null;
+                    result = null;
                 }
             }
+
+            return result;
         }
 
         /// <summary>
@@ -115,7 +137,7 @@ namespace GeoGen.Studio.Utilities.Context
         {
             if(ContextManager.ContextChanged != null)
             {
-                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, (Action)delegate()
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, (Action)delegate()
                 {
                     ContextManager.ContextChanged(null, new EventArgs());
                 });
