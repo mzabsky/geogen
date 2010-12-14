@@ -59,7 +59,7 @@ namespace GeoGen.Studio.PlugIns
 
             this.Priority = priority;
             this.Command = command;
-            this.ToolTip = ToolTip;
+            this.ToolTip = toolTip;
         }
     }
 }
