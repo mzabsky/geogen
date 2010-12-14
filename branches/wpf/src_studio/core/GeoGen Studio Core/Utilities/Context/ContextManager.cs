@@ -84,7 +84,17 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns>List of known active <see cref="Context">contexts</see>.</returns>
         public static Context GetTopMostKnownActiveContext(IEnumerable<Context> knownContexts)
         {
-            return Enumerable.Last(Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts));
+            lock (ContextManager.contexts)
+            {
+                if (Enumerable.Any(ContextManager.contexts) && Enumerable.Any(knownContexts))
+                {
+                    return Enumerable.Last(Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts));
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         /// <summary>
