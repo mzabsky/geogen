@@ -278,7 +278,7 @@ namespace GeoGen.Studio.PlugIns
         {
             GenerationStartingEventArgs args = new GenerationStartingEventArgs(script, headerOnly);
 
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {          
                 if (this.Starting != null)
                 {                
@@ -291,7 +291,7 @@ namespace GeoGen.Studio.PlugIns
 
         protected void OnStarted(string script, bool headerOnly)
         {
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
                 if (this.Started != null)
                 {
@@ -302,7 +302,7 @@ namespace GeoGen.Studio.PlugIns
 
         protected void OnHeaderLoaded()
         {
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
                 if (this.HeaderLoaded != null)
                 {
@@ -313,7 +313,7 @@ namespace GeoGen.Studio.PlugIns
 
         protected void OnAborted()
         {
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
                 this.ThrowMessage(
                     new Message("Generation aborted!", MessageType.Message)
@@ -327,7 +327,7 @@ namespace GeoGen.Studio.PlugIns
         }
 
         protected void OnFailed(string message, bool isHeaderLoaded){
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action) delegate()
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
                 // Terminate the generator thread and put the generator back into ready state.
                 this.Reset();
@@ -345,7 +345,7 @@ namespace GeoGen.Studio.PlugIns
 
         protected void OnFinished(TimeSpan timeSpan)
         {
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)  delegate()
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
                 this.Progress = 0;
                 this.Maps.Clear();                
