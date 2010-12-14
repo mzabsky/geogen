@@ -44,6 +44,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenerationStartingEventArgs.cs" />
+    <Compile Include="GenerationStartedEventArgs.cs" />
     <Compile Include="GenerationFinishedEventArgs.cs" />
     <Compile Include="GenerationFailedEventArgs.cs" />
     <Compile Include="GGen.cs" />
