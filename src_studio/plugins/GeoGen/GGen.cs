@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Threading;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace GeoGen.Studio.PlugIns
 {
