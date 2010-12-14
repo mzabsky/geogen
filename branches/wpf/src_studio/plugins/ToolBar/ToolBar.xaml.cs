@@ -23,7 +23,7 @@ namespace GeoGen.Studio.PlugIns
     /// <summary>
     /// A horizontal tool bar which displays items provided by other plug-ins.
     /// </summary>
-    public partial class ToolBar : GeoGen.Studio.Utilities.PlugInBase.Control, IPriority
+    public partial class ToolBar : GeoGen.Studio.Utilities.PlugInBase.Control, IToolBar, IPriority
     {
         public double Priority
         {
@@ -69,12 +69,12 @@ namespace GeoGen.Studio.PlugIns
         /// Adds one <see cref="ToolBarEntry"/> to the tool bar.
         /// </summary>
         /// <param name="ToolBar">The item.</param>
-        public void AddToolBar(ToolBarEntry ToolBar)
+        public void AddItem(ToolBarEntry item)
         {
             // Null IS allowed (for simplicity's sake)
-            if (ToolBar == null) return;
+            if (item == null) return;
 
-            this.Items.Add(ToolBar);
+            this.Items.Add(item);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace GeoGen.Studio.PlugIns
         /// <param name="entry">The item.</param>
         public void AddToolBar(Button entry)
         {
-            this.AddToolBar((ToolBarEntry)entry);
+            this.AddItem((ToolBarEntry)entry);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace GeoGen.Studio.PlugIns
         /// <param name="entry">The item.</param>
         public void AddToolBar(Separator entry)
         {
-            this.AddToolBar((ToolBarEntry)entry);
+            this.AddItem((ToolBarEntry)entry);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace GeoGen.Studio.PlugIns
         /// <param name="entry">The item.</param>
         public void AddToolBar(ToggleButton entry)
         {
-            this.AddToolBar((ToolBarEntry)entry);
+            this.AddItem((ToolBarEntry)entry);
         }
     }
 }
