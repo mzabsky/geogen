@@ -15,7 +15,9 @@ namespace GeoGen.Studio.PlugIns
         HeaderOnly,
         Full,
     }
-    
+
+    public delegate void GenerationStartingEventHandler(object sender, GenerationStartingEventArgs args);
+    public delegate void GenerationStartedEventHandler(object sender, GenerationStartedEventArgs args);    
     public delegate void GenerationFailedEventHandler(object sender, GenerationFailedEventArgs args);
     public delegate void GenerationFinishedEventHandler(object sender, GenerationFinishedEventArgs args);
 
@@ -24,18 +26,24 @@ namespace GeoGen.Studio.PlugIns
         // The GeoGen instance.
         protected Generator generator = new Generator();
 
+        // The generator will be runnoing in a separate thread (so it doesn't block the UI)
         protected Thread thread;
-        protected bool killWorkerThread = false;
+
+        // it the worker thread allowed to continue (true = request to stop)
+        protected bool killWorkerThread = false; 
 
         // Maps will be put into this list until the generation is completed, then this ilist will replace the Maps list.
         protected ObservableCollection<HeightData> temporaryMapList = new ObservableCollection<HeightData>();
         
-        public event GenerationFailedEventHandler GenerationFailed;
-        public event GenerationFinishedEventHandler GenerationFinished;
+        public event GenerationStartingEventHandler Starting;
+        public event GenerationStartedEventHandler Started;
         public event EventHandler HeaderLoaded;
+        public event EventHandler Aborted;
+        public event GenerationFailedEventHandler Failed;
+        public event GenerationFinishedEventHandler Finished;        
 
         private TaskType CurrentTaskType { get; set; }
-
+        
         public bool IsReady{
             get{
                 // Header-scans have lower priority (and will be killed if a full request comes).
@@ -91,6 +99,12 @@ namespace GeoGen.Studio.PlugIns
 
         public void Start(string script, bool headerOnly = false, IEnumerable<uint> parametersOverride = null)
         {
+            // Event handlers may prevent the generator from continuing.
+            if(!this.OnStarting(script, headerOnly))
+            {
+                return;
+            }
+            
             // Two GeoGens can't be running concurrently.
             if(!headerOnly && this.CurrentTaskType == TaskType.Full)
             {
@@ -118,6 +132,8 @@ namespace GeoGen.Studio.PlugIns
                 this.ThrowMessage(new Message("Generation started.", MessageType.Message));
             }
 
+            this.OnStarted(script, headerOnly);
+
             this.killWorkerThread = false;
             System.Threading.ThreadStart starter = new System.Threading.ThreadStart(delegate()
             {
@@ -128,7 +144,7 @@ namespace GeoGen.Studio.PlugIns
                 }
                 catch(SyntaxErrorException e)
                 {
-                    this.OnGenerationFailed(e.Message, false);
+                    this.OnFailed(e.Message, false);
 
                     return;
                 }
@@ -140,7 +156,7 @@ namespace GeoGen.Studio.PlugIns
                 }
                 catch (ArgsUnreadableException e)
                 {
-                    this.OnGenerationFailed(e.Message, false);
+                    this.OnFailed(e.Message, false);
 
                     return;
                 }
@@ -184,14 +200,14 @@ namespace GeoGen.Studio.PlugIns
                 {
                     if (this.killWorkerThread) return;
 
-                    this.OnGenerationFailed("Map generation failed!", true);
+                    this.OnFailed("Map generation failed!", true);
 
                     return;
                 }                
 
                 this.AddHeightDataToTemporaryMapList("[Main]", result);
 
-                this.OnGenerationFinished(new TimeSpan(System.DateTime.Now.Ticks - timeStartedInTicks));
+                this.OnFinished(new TimeSpan(System.DateTime.Now.Ticks - timeStartedInTicks));
             });
 
             this.thread = new Thread(starter);
@@ -199,6 +215,12 @@ namespace GeoGen.Studio.PlugIns
         }
 
         public void Abort()
+        {
+            this.Reset();            
+            this.OnAborted();
+        }
+
+        protected void Reset()
         {
             this.killWorkerThread = true;
             this.thread = null;
@@ -252,24 +274,76 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
-        protected void OnGenerationFailed(string message, bool isHeaderLoaded){
+        protected bool OnStarting(string script, bool headerOnly)
+        {
+            GenerationStartingEventArgs args = new GenerationStartingEventArgs(script, headerOnly);
+
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            {          
+                if (this.Starting != null)
+                {                
+                    this.Starting(this, args);
+                }
+            });
+
+            return args.Continue;
+        }
+
+        protected void OnStarted(string script, bool headerOnly)
+        {
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            {
+                if (this.Started != null)
+                {
+                    this.Started(this, new GenerationStartedEventArgs(script, headerOnly));
+                }
+            });
+        }
+
+        protected void OnHeaderLoaded()
+        {
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            {
+                if (this.HeaderLoaded != null)
+                {
+                    this.HeaderLoaded(this, new EventArgs());
+                }
+            });
+        }
+
+        protected void OnAborted()
+        {
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            {
+                this.ThrowMessage(
+                    new Message("Generation aborted!", MessageType.Message)
+                );
+
+                if (this.Aborted != null)
+                {
+                    this.Aborted(this, new EventArgs());
+                }
+            });
+        }
+
+        protected void OnFailed(string message, bool isHeaderLoaded){
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action) delegate()
             {
                 // Terminate the generator thread and put the generator back into ready state.
-                this.Abort();
+                this.Reset();
 
                 this.ThrowMessage(
                     new Message(message, MessageType.Error)
                 );
 
-                if (this.HeaderLoaded != null)
+                if (this.Failed != null)
                 {
-                    this.GenerationFailed(this, new GenerationFailedEventArgs(message, isHeaderLoaded));
+                    this.Failed(this, new GenerationFailedEventArgs(message, isHeaderLoaded));
                 }
             });         
         }
 
-        protected void OnGenerationFinished(TimeSpan timeSpan)
+        protected void OnFinished(TimeSpan timeSpan)
         {
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)  delegate()
             {
@@ -285,26 +359,15 @@ namespace GeoGen.Studio.PlugIns
                 this.temporaryMapList.Clear();
 
                 // Terminate the generator thread and put the generator back into ready state.
-                this.Abort();
+                this.Reset();
 
                 this.ThrowMessage(
                     new Message("Map generated after " + timeSpan.ToString() + ".", MessageType.Message)
                 );
 
-                if (this.HeaderLoaded != null)
+                if (this.Finished != null)
                 {
-                    this.GenerationFinished(this, new GenerationFinishedEventArgs(timeSpan));
-                }
-            });
-        }
-
-        protected void OnHeaderLoaded()
-        {
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
-            {
-                if (this.HeaderLoaded != null)
-                {
-                    this.HeaderLoaded(this, new EventArgs());
+                    this.Finished(this, new GenerationFinishedEventArgs(timeSpan));
                 }
             });
         }
