@@ -5,22 +5,43 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
              xmlns:plugin="clr-namespace:GeoGen.Studio.PlugIns"
+             xmlns:gseffect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect"
              mc:Ignorable="d" 
              d:DesignHeight="26" d:DesignWidth="600"
-             Name="menuControl"
-             DataContext="{Binding ElementName=menuControl}">
+             Name="toolBarControl"
+             DataContext="{Binding ElementName=toolBarControl}">
     <ToolBarTray>
-        <ToolBar ItemsSource="{Binding ToolBars}" Name="toolBar" ToolBarTray.IsLocked="True" VerticalAlignment="Top" Height="26">
+        <ToolBar ItemsSource="{Binding Items}" Name="toolBar" ToolBarTray.IsLocked="True" VerticalAlignment="Top" Height="26">
             <ToolBar.ItemTemplateSelector>
                 <plugin:ToolBarItemTemplateSelector>
                     <plugin:ToolBarItemTemplateSelector.ToolBarButton>
                         <DataTemplate>
-                            <Button Content="{Binding Icon}" ToolTip="{Binding ToolTip}" Command="{Binding Command}"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" />
+                            <Button Content="{Binding Icon}" ToolTip="{Binding ToolTip}" Command="{Binding Command}"   >
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEnabled,RelativeSource={RelativeSource Self}}" Value="False">
+                                                <Setter Property="Effect" Value="{DynamicResource GrayscaleEffect}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </DataTemplate>
                     </plugin:ToolBarItemTemplateSelector.ToolBarButton>
                     <plugin:ToolBarItemTemplateSelector.ToolBarCheckableButton>
                         <DataTemplate>
-                            <ToggleButton Content="{Binding Icon}" ToolTip="{Binding ToolTip}" Command="{Binding Command}" IsChecked="{Binding IsChecked}" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" />
+                            <ToggleButton Content="{Binding Icon}" ToolTip="{Binding ToolTip}" Command="{Binding Command}" IsChecked="{Binding IsChecked}">
+                                <ToggleButton.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEnabled,RelativeSource={RelativeSource Self}}" Value="False">
+                                                <Setter Property="Effect" Value="{DynamicResource GrayscaleEffect}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
                         </DataTemplate>
                     </plugin:ToolBarItemTemplateSelector.ToolBarCheckableButton>
                     <plugin:ToolBarItemTemplateSelector.ToolBarSeparator>
