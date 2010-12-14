@@ -81,7 +81,7 @@ namespace GeoGen.Studio.PlugIns
         /// Adds one <see cref="Button"/> to the tool bar.
         /// </summary>
         /// <param name="entry">The item.</param>
-        public void AddToolBar(Button entry)
+        public void AddItem(Button entry)
         {
             this.AddItem((ToolBarEntry)entry);
         }
@@ -90,7 +90,7 @@ namespace GeoGen.Studio.PlugIns
         /// Adds one <see cref="Separator"/> to the tool bar.
         /// </summary>
         /// <param name="entry">The item.</param>
-        public void AddToolBar(Separator entry)
+        public void AddItem(Separator entry)
         {
             this.AddItem((ToolBarEntry)entry);
         }
@@ -99,7 +99,7 @@ namespace GeoGen.Studio.PlugIns
         /// Adds one <see cref="ToggleButton"/> to the tool bar.
         /// </summary>
         /// <param name="entry">The item.</param>
-        public void AddToolBar(ToggleButton entry)
+        public void AddItem(ToggleButton entry)
         {
             this.AddItem((ToolBarEntry)entry);
         }
