@@ -621,6 +621,57 @@ namespace GeoGen.Studio.PlugIns
             );
         }
 
+        public void Register(IToolBar toolBar)
+        {
+            string iconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.AvalonEditor;component/Images/Icons/";
+
+            toolBar.AddItem(new ToolBarButton(
+                icon: iconPathPrefix + "new.png",
+                priority: 0,
+                toolTip: "New Script (Ctrl+N)",
+                command: this.NewCommand
+            ));
+
+            toolBar.AddItem(new ToolBarButton(
+                icon: iconPathPrefix + "open.png",
+                priority: -1,
+                toolTip: "Open Script (Ctrl+O)",
+                command: this.OpenCommand
+            ));
+
+            toolBar.AddItem(new ToolBarButton(
+                icon: iconPathPrefix + "save.png",
+                priority: -2,
+                toolTip: "Save Script (Ctrl+S)",
+                command: this.SaveCommand
+            ));
+
+            toolBar.AddItem(new ToolBarSeparator(
+                priority: -3
+            ));
+
+            toolBar.AddItem(new ToolBarButton(
+                icon: iconPathPrefix + "cut.png",
+                priority: -4,
+                toolTip: "Cut (Ctrl+X)",
+                command: ApplicationCommands.Cut
+            ));
+
+            toolBar.AddItem(new ToolBarButton(
+                icon: iconPathPrefix + "copy.png",
+                priority: -5,
+                toolTip: "Copy (Ctrl+C)",
+                command: ApplicationCommands.Copy
+            ));
+
+            toolBar.AddItem(new ToolBarButton(
+                icon: iconPathPrefix + "paste.png",
+                priority: -6,
+                toolTip: "Paste (Ctrl+P)",
+                command: ApplicationCommands.Paste
+            ));
+        }
+
         private void editor_Loaded(object sender, RoutedEventArgs e)
         {
             this.editor.TextArea.SnapsToDevicePixels = true;
