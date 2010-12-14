@@ -62,7 +62,7 @@ namespace GeoGen.Studio.PlugIns
             this.IsCheckedBinding = isCheckedBinding;
             this.Priority = priority;
             this.Command = command;
-            this.ToolTip = ToolTip;
+            this.ToolTip = toolTip;
             this.DataContext = dataContext;
 
             if (IsCheckedBinding != null)
