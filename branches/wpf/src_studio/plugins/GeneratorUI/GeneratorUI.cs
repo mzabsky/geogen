@@ -1,11 +1,44 @@
 ﻿using System;
 using System.Windows.Input;
 using GeoGen.Studio.Utilities;
+using GeoGen.Studio.Utilities.Context;
 
 namespace GeoGen.Studio.PlugIns
 {
     class GeneratorUI: GeoGen.Studio.Utilities.PlugInBase.Object
     {
+        protected Context executingContext = new Context("Executing");
+
+        /// <summary>
+        /// Subscribes to generator events.
+        /// </summary>
+        /// <param name="generator">The generator.</param>
+        public void Register(IGenerator generator)
+        {
+            generator.Started += delegate(object o, GenerationStartedEventArgs args)
+            {
+                if (!args.HeaderOnly)
+                {
+                    ContextManager.EnterContext(executingContext);
+                }
+            };
+
+            generator.Aborted += delegate(object o, EventArgs args)
+            {
+                ContextManager.LeaveContext(executingContext);
+            };
+
+            generator.Failed += delegate(object o, GenerationFailedEventArgs args)
+            {
+                ContextManager.LeaveContext(executingContext);
+            };
+
+            generator.Finished += delegate(object o, GenerationFinishedEventArgs args)
+            {
+                ContextManager.LeaveContext(executingContext);
+            };
+        }
+
         public void Register(IGenerator generator, IEditor editor, IMenuBar menuBar, IMainWindow mainWindow)
         {
             ICommand executeCommand = new RelayCommand(
@@ -44,6 +77,11 @@ namespace GeoGen.Studio.PlugIns
             );
 
             menuBar.AddMenu(generatorMenu);
+        }
+
+        public void Register(IGenerator generator, IApplicationStatusDisplay applicationStatusDisplay)
+        {
+            applicationStatusDisplay.RegisterApplicationStatusContext(executingContext);
         }
     }
 }
