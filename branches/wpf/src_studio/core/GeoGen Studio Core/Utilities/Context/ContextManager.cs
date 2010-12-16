@@ -26,6 +26,11 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns><c>true</c> if the <see cref="Context"/> was not active yet; otherwise <c>false</c>.</returns>
         public static bool EnterContext(Context context)
         {
+            if(context == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             bool result;
             
             lock (ContextManager.contexts)
@@ -58,6 +63,11 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns><c>false</c> if the <see cref="Context"/> was not active; otherwise <c>true</c>.</returns>
         public static bool LeaveContext(Context context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             bool result;
             
             lock (ContextManager.contexts)
@@ -89,6 +99,11 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns>List of known active <see cref="Context">contexts</see>.</returns>
         public static IEnumerable<Context> GetKnownActiveContexts(IEnumerable<Context> knownContexts)
         {
+            if (knownContexts == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             lock (ContextManager.contexts)
             {
                 return Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts);
@@ -102,13 +117,20 @@ namespace GeoGen.Studio.Utilities.Context
         /// <returns>List of known active <see cref="Context">contexts</see>.</returns>
         public static Context GetTopMostKnownActiveContext(IEnumerable<Context> knownContexts)
         {
+            if (knownContexts == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             Context result;
 
             lock (ContextManager.contexts)
             {
-                if (Enumerable.Any(ContextManager.contexts) && Enumerable.Any(knownContexts))
+                IEnumerable<Context> activeKnownContexts = Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts);
+
+                if (Enumerable.Any(activeKnownContexts))
                 {
-                    result = Enumerable.Last(Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts));
+                    result = Enumerable.Last(activeKnownContexts);
                 }
                 else
                 {
@@ -128,6 +150,10 @@ namespace GeoGen.Studio.Utilities.Context
         /// </returns>
         public static bool IsContextActive(Context context)
         {
+            if(context == null){
+                return false;
+            }
+
             lock (ContextManager.contexts){
                 return ContextManager.contexts.Contains(context);
             }
