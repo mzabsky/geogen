@@ -51,6 +51,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStatusBar.cs" />
+    <Compile Include="StatusBarEntry.cs" />
+    <Compile Include="StatusBarEntryObservableCollection.cs" />
     <Page Include="StatusBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
