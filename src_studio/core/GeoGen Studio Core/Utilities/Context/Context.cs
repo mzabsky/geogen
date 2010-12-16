@@ -14,6 +14,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Context"/> class.
         /// </summary>
+        public Context() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Context"/> class.
+        /// </summary>
         /// <param name="text">The label.</param>
         public Context(string label)
         {
