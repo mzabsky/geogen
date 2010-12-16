@@ -10,8 +10,15 @@
              Name="statusBarControl"
              DataContext="{Binding ElementName=statusBarControl}">
     <StatusBar Height="24" Name="statusBar">
-        <StatusBarItem Content="{Binding CurrentApplicationStatus}">
-            
-        </StatusBarItem>   
+        <StatusBarItem Content="{Binding CurrentApplicationStatus}" />
+        <StatusBarItem>
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Value}" Visibility="{Binding Visibility}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StatusBarItem>
     </StatusBar>
 </pb:Control>
