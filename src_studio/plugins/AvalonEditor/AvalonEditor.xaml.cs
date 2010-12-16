@@ -19,6 +19,7 @@ using GeoGen.Studio.PlugInLoader;
 using GeoGen.Studio.Utilities;
 using GeoGen.Studio.Utilities.Messaging;
 using GeoGen.Studio.Utilities.Configurability;
+using GeoGen.Studio.Utilities.Context;
 
 namespace GeoGen.Studio.PlugIns
 {
@@ -438,6 +439,7 @@ namespace GeoGen.Studio.PlugIns
         }
 #endregion
 
+        protected Context editorContext = new Context();
         private bool enablePropertyCallbacks = true;
         private ICSharpCode.AvalonEdit.Folding.AbstractFoldingStrategy foldingStrategy;
         private ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
@@ -446,6 +448,16 @@ namespace GeoGen.Studio.PlugIns
         {                        
             InitializeComponent();
             MainConfig.Register(this);
+
+            this.editor.GotFocus += delegate(object o, RoutedEventArgs args)
+            {
+                ContextManager.EnterContext(this.editorContext);
+            };
+
+            this.editor.LostFocus += delegate(object o, RoutedEventArgs args)
+            {
+                ContextManager.LeaveContext(this.editorContext);
+            };
         }
        
         public void Register(IDockManager dockManager)
@@ -670,6 +682,41 @@ namespace GeoGen.Studio.PlugIns
                 toolTip: "Paste (Ctrl+P)",
                 command: ApplicationCommands.Paste
             ));
+        }
+
+        public void Register(IStatusBar statusBar)
+        {
+            MultiBinding valueBinding = new MultiBinding();
+            valueBinding.StringFormat = "{0} x {1} [{2}]";
+            valueBinding.Bindings.Add(
+                new Binding
+                {
+                    Path = new PropertyPath("CaretLine"),
+                    Source = this
+                }
+            );
+            valueBinding.Bindings.Add(
+                new Binding
+                {
+                    Path = new PropertyPath("CaretColumn"),
+                    Source = this
+                }
+            );
+            valueBinding.Bindings.Add(
+                new Binding
+                {
+                    Path = new PropertyPath("SelectionLength"),
+                    Source = this
+                }
+            );
+
+            statusBar.AddItem(
+                new StatusBarEntry
+                {
+                    Context = this.editorContext,
+                    ValueBinding = valueBinding
+                }    
+            );
         }
 
         private void editor_Loaded(object sender, RoutedEventArgs e)
