@@ -8,13 +8,49 @@ namespace GeoGen.Studio.PlugIns
     class GeneratorUI: GeoGen.Studio.Utilities.PlugInBase.Object
     {
         protected Context executingContext = new Context("Executing");
+        protected IEditor editor = null;
+        protected IGenerator generator = null;
+
+        protected ICommand startCommand;
+        protected ICommand abortCommand;
 
         /// <summary>
-        /// Subscribes to generator events.
+        /// Gets a value indicating whether the generator is ready.
+        /// </summary>
+        /// <value><c>true</c> if the generator is ready; otherwise, <c>false</c>.</value>
+        protected bool IsReady
+        {
+            get
+            {
+                return generator.IsReady;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneratorUI"/> class.
+        /// </summary>
+        public GeneratorUI()
+        {
+            this.startCommand = new RelayCommand(
+                param => this.Start(),
+                param => this.IsReady
+            );
+
+            this.abortCommand = new RelayCommand(
+                param => this.Abort(),
+                param => !this.IsReady
+            );
+        }
+
+        /// <summary>
+        /// Subscribes to generator and editor events.
         /// </summary>
         /// <param name="generator">The generator.</param>
-        public void Register(IGenerator generator)
+        public void Register(IEditor editor, IGenerator generator)
         {
+            this.generator = generator;
+            this.editor = editor;
+
             generator.Started += delegate(object o, GenerationStartedEventArgs args)
             {
                 if (!args.HeaderOnly)
@@ -39,22 +75,15 @@ namespace GeoGen.Studio.PlugIns
             };
         }
 
-        public void Register(IGenerator generator, IEditor editor, IMenuBar menuBar, IMainWindow mainWindow)
+        public void Register(IEditor editor, IGenerator generator, IMainWindow mainWindow)
         {
-            ICommand executeCommand = new RelayCommand(
-                param => generator.Start(editor.Text),
-                param => generator.IsReady
-            );
-
-            ICommand abortCommand = new RelayCommand(
-                param => generator.Abort(),
-                param => !generator.IsReady
-            );
-
             // Register hotkeys
-            mainWindow.RegisterInputGesture(new KeyGesture(Key.F5), executeCommand);
-            mainWindow.RegisterInputGesture(new KeyGesture(Key.F6), abortCommand);
+            mainWindow.RegisterInputGesture(new KeyGesture(Key.F5), this.startCommand);
+            mainWindow.RegisterInputGesture(new KeyGesture(Key.F6), this.abortCommand);
+        }
 
+        public void Register(IEditor editor, IGenerator generator, IMenuBar menuBar)
+        {
             // Register window menu entries
             MenuEntry generatorMenu = new MenuEntry(
                 header: "Generator",
@@ -65,13 +94,13 @@ namespace GeoGen.Studio.PlugIns
                         header: "Execute",
                         priority: 10,
                         inputGestureText: "F5",
-                        command: executeCommand
+                        command: this.startCommand
                     ),
                     new MenuEntry(
                         header: "Abort",
                         priority: 9,
                         inputGestureText: "F6",
-                        command: abortCommand
+                        command: this.abortCommand
                     ),
                 }
             );
@@ -79,9 +108,19 @@ namespace GeoGen.Studio.PlugIns
             menuBar.AddMenu(generatorMenu);
         }
 
-        public void Register(IGenerator generator, IApplicationStatusDisplay applicationStatusDisplay)
+        public void Register(IEditor editor, IGenerator generator, IApplicationStatusDisplay applicationStatusDisplay)
         {
             applicationStatusDisplay.RegisterApplicationStatusContext(executingContext);
         }
+
+        protected void Start()
+        {
+            this.generator.Start(this.editor.Text);
+        }
+
+        protected void Abort()
+        {
+            this.generator.Abort();
+        }        
     }
 }
