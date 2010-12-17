@@ -30,7 +30,7 @@ namespace GeoGen.Studio
             }
             set {
                 // Clamp the incoming value into supported range.
-                this.value = Math.Min(this.Maximum, Math.Max(this.Minimum, value));
+                 this.value = Math.Min(this.Maximum, Math.Max(this.Minimum, value));
             }
         }
 
@@ -55,7 +55,7 @@ namespace GeoGen.Studio
             this.Minimum = arg.Minimum;
             this.Value = arg.Value;
 
-            this.Options = new string[this.Maximum];
+            this.Options = new string[this.Maximum + 1];
             arg.Options.CopyTo(this.Options, 0);
         }
 
