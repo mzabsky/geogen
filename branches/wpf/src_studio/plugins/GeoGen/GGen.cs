@@ -27,7 +27,7 @@ namespace GeoGen.Studio.PlugIns
         // The GeoGen instance.
         protected Generator generator = new Generator();
 
-        // The generator will be runnoing in a separate thread (so it doesn't block the UI)
+        // The generator will be running in a separate thread (so it doesn't block the UI)
         protected Thread thread;
 
         // it the worker thread allowed to continue (true = request to stop)
@@ -162,14 +162,10 @@ namespace GeoGen.Studio.PlugIns
                     return;
                 }
 
-                this.OnHeaderLoaded();
-
-                if(headerOnly){
-                    return;
-                }
+                this.ExportArgsFromGenerator();
 
                 // Update the argument values in GeoGen.
-                if(parametersOverride == null)
+                if (parametersOverride == null)
                 {
                     this.ImportArgsIntoGenerator();
                 }
@@ -177,6 +173,12 @@ namespace GeoGen.Studio.PlugIns
                 {
                     this.ImportArgsIntoGeneratorFromValues(parametersOverride);
                 }
+
+                this.OnHeaderLoaded();
+
+                if(headerOnly){
+                    return;
+                }                              
 
                 Int64 timeStartedInTicks = System.DateTime.Now.Ticks;
 
@@ -204,7 +206,7 @@ namespace GeoGen.Studio.PlugIns
                     this.OnFailed("Map generation failed!", true);
 
                     return;
-                }                
+                }        
 
                 this.AddHeightDataToTemporaryMapList("[Main]", result);
 
@@ -228,14 +230,55 @@ namespace GeoGen.Studio.PlugIns
             this.CurrentTaskType = TaskType.None;
         }
 
+        protected uint[] ExportArgsFromGeneratorToValues()
+        {
+            uint[] values = new uint[this.Args.Count];
+
+            int i = 0;
+            foreach(ScriptArg arg in this.Args)
+            {
+                values[i] = arg.Value;
+                i++;
+            }
+
+            return values;
+        }
+
         protected void ExportArgsFromGenerator()
         {
-            this.Args.Clear();
-
-            foreach(GeoGen.Net.ScriptArg geoGenArg in this.generator.Args)
+            if(this.generator.Args == null)
             {
-                this.Args.Add(new ScriptArg(geoGenArg));
+                // The args were not loaded from the generator yet;
+                this.Args.Clear();  
+                return;
             }
+
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            {
+                uint[] oldValues = new uint[this.Args.Count];
+
+                int i = 0;
+                foreach(ScriptArg arg in this.Args)
+                {
+                    oldValues[i] = arg.Value;
+                    i++;
+                }
+
+                this.Args.Clear();  
+
+                i = 0;
+                foreach (GeoGen.Net.ScriptArg geoGenArg in this.generator.Args)
+                {
+                    ScriptArg extendedArg = new ScriptArg(geoGenArg);
+                    if (oldValues.Length > i)
+                    {
+                        extendedArg.Value = oldValues[i];
+                    }
+                    this.Args.Add(extendedArg);
+                    
+                    i++;
+                }
+            });
         }
 
         protected void ImportArgsIntoGenerator()
@@ -273,7 +316,7 @@ namespace GeoGen.Studio.PlugIns
                 
                 i = 0;
             }
-        }
+        }        
 
         protected bool OnStarting(string script, bool headerOnly)
         {
