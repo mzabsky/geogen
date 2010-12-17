@@ -726,9 +726,9 @@ namespace GeoGen.Studio.PlugIns
             this.InitializeSyntaxHighlighing();
 
             // Code folding
-            this.foldingManager = ICSharpCode.AvalonEdit.Folding.FoldingManager.Install(editor.TextArea);
-            this.foldingStrategy = new BraceFoldingStrategy();
-            this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
+            //this.foldingManager = ICSharpCode.AvalonEdit.Folding.FoldingManager.Install(editor.TextArea);
+            //this.foldingStrategy = new BraceFoldingStrategy();
+            //this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
 
             // window might not always be available (for example in designer)
             try{
@@ -793,7 +793,7 @@ namespace GeoGen.Studio.PlugIns
             this.Text = this.editor.Text;
 
             this.enablePropertyCallbacks = true;
-            this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
+            //this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
             //this.ScheduleSyntaxCheck;
         }
 
