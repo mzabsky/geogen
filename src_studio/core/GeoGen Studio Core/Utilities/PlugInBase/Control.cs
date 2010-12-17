@@ -14,7 +14,10 @@ namespace GeoGen.Studio.Utilities.PlugInBase
 
         protected void ThrowMessage(Message message)
         {
-            MessageThrown(this, new MessageThrownEventArgs(message));
+            if(this.MessageThrown != null)
+            {
+                this.MessageThrown(this, new MessageThrownEventArgs(message));
+            }
         }
 
         protected void OnPropertyChanged(string info)
