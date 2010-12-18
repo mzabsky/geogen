@@ -18,20 +18,18 @@ namespace GeoGen.Studio
         {
             try
             {
-                Loader loader = new Loader();
-
                 /* Load "plug-ins" from this executable */
-                loader.ParseAssembly(Assembly.GetExecutingAssembly());
+                Loader.ParseAssembly(Assembly.GetExecutingAssembly());
 
                 /* Load plug-ins from the plug-in directory */
-                loader.ParseDirectory("./plugins");
+                Loader.ParseDirectory("./plugins");
 
                 /* Create plug-in instances and register their relationships */
-                loader.ExecuteAllRegistrators();
+                Loader.ExecuteAllRegistrators();
 
                 /* Check if all plug-ins successfully loaded */
                 List<string> messages = new List<string>();
-                foreach (Registrator registrator in loader.Registrators)
+                foreach (Registrator registrator in Loader.Registrators)
                 {
                     if(!registrator.Failed) continue;
 

@@ -10,129 +10,129 @@ namespace GeoGen.Studio.PlugInLoader
 {
 
     /// <summary>
-    /// This class detects, analyzes and loads plug-ins.
+    /// Loader class detects, analyzes and loads plug-ins.
     /// </summary>
-    public sealed class Loader
+    public static class Loader
     {   
         #region Fields
-        private List<Registrator> rootRegistrators;
-        private Dictionary<Type, List<Registrator>> registratorsByInterface = null;
-        private Dictionary<Registrator, List<Registrator>> registratorsByParent = null;
-        private Dictionary<Type, List<Type>> plugInTypesByInterface = null;
-        private Dictionary<Type, List<object>> instancesByInterface = null;
-        private Dictionary<Type, List<object>> instancesByPlugInType = null;
-        private List<Registrator> orderedRegistrators = null;
+        private static List<Registrator> rootRegistrators;
+        private static Dictionary<Type, List<Registrator>> registratorsByInterface = null;
+        private static Dictionary<Registrator, List<Registrator>> registratorsByParent = null;
+        private static Dictionary<Type, List<Type>> plugInTypesByInterface = null;
+        private static Dictionary<Type, List<object>> instancesByInterface = null;
+        private static Dictionary<Type, List<object>> instancesByPlugInType = null;
+        private static List<Registrator> orderedRegistrators = null;
         #endregion
 
         #region Properties
         /// <summary>
-        /// List of all <see cref="Registrator">Registrators<see/> registered with this <see cref="Loader"/>.
+        /// List of all <see cref="Registrator">Registrators<see/> registered with Loader <see cref="Loader"/>.
         /// </summary>
         /// <value>The <see cref="Registrator"> list.</value>
-        public ObservableCollection<Registrator> Registrators { get; protected set; }
-        public ObservableCollection<object> Instances { get; protected set; }
+        public static ObservableCollection<Registrator> Registrators { get; private set; }
+        public static ObservableCollection<object> Instances { get; private set; }
 
         /// <summary>
-        /// List of all <see cref="Registrator">Registrators<see/> registered with this <see cref="Loader"/> which don't depend on any other plug-ins.
+        /// List of all <see cref="Registrator">Registrators<see/> registered with Loader <see cref="Loader"/> which don't depend on any other plug-ins.
         /// </summary>
         /// <remarks>
         /// There must always be at least one root registrator during program star-up. The <see cref=" Loader"/> will have to terminate the program otherwise.
         /// </remarks>
         /// <value>The root <see cref="Registrator"/> list.</value>        
-        public List<Registrator> RootRegistrators
+        public static List<Registrator> RootRegistrators
         {
             get
             {
                 if (rootRegistrators == null)
                 {
-                    this.RebuildRootRegistratorIndex();
+                    Loader.RebuildRootRegistratorIndex();
                 }
                 return rootRegistrators;
             }
-            protected set { rootRegistrators = value; }
+            private set { rootRegistrators = value; }
         }
 
         /// <summary>
-        /// List of all <see cref="Registrator">Registrators<see/> registered with this <see cref="Loader"/> arranged in their final execution order.
+        /// List of all <see cref="Registrator">Registrators<see/> registered with Loader <see cref="Loader"/> arranged in their final execution order.
         /// </summary>
         /// <remarks>
         /// <see cref="Registrator">Registrators</see> which failed earlier in the loading process will be ignored.
         /// </remarks>
         /// <value>The ordered <see cref="Registrator"/> list.</value>                
-        public List<Registrator> OrderedRegistrators
+        public static List<Registrator> OrderedRegistrators
         {
             get
             {
                 if (orderedRegistrators == null)
                 {
-                    this.OrderRegistrators();
+                    Loader.OrderRegistrators();
                 }
                 return orderedRegistrators;
             }
-            protected set { orderedRegistrators = value; }
+            private set { orderedRegistrators = value; }
         }
 
-        private Dictionary<Type, List<Registrator>> RegistratorsByInterface
+        private static Dictionary<Type, List<Registrator>> RegistratorsByInterface
         {
             get
             {
-                if (this.registratorsByInterface == null)
+                if (Loader.registratorsByInterface == null)
                 {
-                    this.RebuildRegistratorsByInterfaceIndex();
+                    Loader.RebuildRegistratorsByInterfaceIndex();
                 }
-                return this.registratorsByInterface;
+                return Loader.registratorsByInterface;
             }
             set { registratorsByInterface = value; }
         }
 
-        private Dictionary<Registrator, List<Registrator>> RegistratorsByParent
+        private static Dictionary<Registrator, List<Registrator>> RegistratorsByParent
         {
             get
             {
                 if (registratorsByParent == null)
                 {
-                    this.RebuildRegistratorsByParentIndex();
+                    Loader.RebuildRegistratorsByParentIndex();
                 }
-                return this.registratorsByParent;
+                return Loader.registratorsByParent;
             }
             set { registratorsByParent = value; }
         }
 
-        private Dictionary<Type, List<Type>> PlugInTypesByInterface
+        private static Dictionary<Type, List<Type>> PlugInTypesByInterface
         {
             get
             {
                 if (plugInTypesByInterface == null)
                 {
-                    this.RebuildPlugInTypesByInterfaceIndex();
+                    Loader.RebuildPlugInTypesByInterfaceIndex();
                 }
-                return this.plugInTypesByInterface;
+                return Loader.plugInTypesByInterface;
             }
             set { plugInTypesByInterface = value; }
         }
 
-        private Dictionary<Type, List<object>> InstancesByInterface
+        private static Dictionary<Type, List<object>> InstancesByInterface
         {
             get
             {
                 if (instancesByInterface == null)
                 {
-                    this.RebuildInstancesByInterfaceIndex();
+                    Loader.RebuildInstancesByInterfaceIndex();
                 }
-                return this.instancesByInterface;
+                return Loader.instancesByInterface;
             }
             set { instancesByInterface = value; }
         }
 
-        private Dictionary<Type, List<object>> InstancesByPlugInType
+        private static Dictionary<Type, List<object>> InstancesByPlugInType
         {
             get
             {
                 if (instancesByPlugInType == null)
                 {
-                    this.RebuildInstancesByPlugInTypeIndex();
+                    Loader.RebuildInstancesByPlugInTypeIndex();
                 }
-                return this.instancesByPlugInType;
+                return Loader.instancesByPlugInType;
             }
             set { instancesByPlugInType = value; }
         }
@@ -142,39 +142,41 @@ namespace GeoGen.Studio.PlugInLoader
         /// Initializes a new instance of the <see cref="Loader"/> class.
         /// <threadsafety static="true" instance="false"/>
         /// </summary>
-        public Loader(){
-            this.Registrators = new ObservableCollection<Registrator>();
-            this.Instances = new ObservableCollection<object>();
+        static Loader(){
+            Loader.Registrators = new ObservableCollection<Registrator>();
+            Loader.Instances = new ObservableCollection<object>();
 
             /* Indexes are made obsolete every time the main collection changes */
-            this.Registrators.CollectionChanged += delegate(object sender, NotifyCollectionChangedEventArgs args)
+            Loader.Registrators.CollectionChanged += delegate(object sender, NotifyCollectionChangedEventArgs args)
             {
-                this.ForceRegistratorIndexRebuild();
+                Loader.ForceRegistratorIndexRebuild();
             };
-            this.Instances.CollectionChanged += delegate(object sender, NotifyCollectionChangedEventArgs args)
+            Loader.Instances.CollectionChanged += delegate(object sender, NotifyCollectionChangedEventArgs args)
             {
-                this.ForceInstanceIndexRebuild();
+                Loader.ForceInstanceIndexRebuild();
             };
         }
 
-        private void ForceRegistratorIndexRebuild(){
-            this.rootRegistrators = null;
-            this.registratorsByInterface = null;
-            this.registratorsByParent = null;
-            this.orderedRegistrators = null;
-        }
-
-        private void ForceInstanceIndexRebuild()
+        private static void ForceRegistratorIndexRebuild()
         {
-            this.InstancesByInterface = null;
-            this.InstancesByPlugInType = null;
+            Loader.rootRegistrators = null;
+            Loader.registratorsByInterface = null;
+            Loader.registratorsByParent = null;
+            Loader.orderedRegistrators = null;
+        }
+
+        private static void ForceInstanceIndexRebuild()
+        {
+            Loader.InstancesByInterface = null;
+            Loader.InstancesByPlugInType = null;
         }
 
         /// <summary>
         /// Reads all <see cref="Assembly">assemblies</see> and scans them for plug-ins. All found <see cref="Registrator"/>s will be added to the <see cref="Loader.Registrators">Registrator list</see>.
         /// </summary>
         /// <param name="directory">The directory path.</param>
-        public void ParseDirectory(string directory){
+        public static void ParseDirectory(string directory)
+        {
             if(!Directory.Exists(directory)){
                 throw new ArgumentException("Directory \"" + directory + "\" does not exist or is not readable.");
             }
@@ -204,7 +206,7 @@ namespace GeoGen.Studio.PlugInLoader
                     Assembly assembly = Assembly.Load(assemblyName);
 
                     /* Load plug-ins from the assembly */
-                    this.ParseAssembly(assembly);
+                    Loader.ParseAssembly(assembly);
                 }
                 catch
                 {
@@ -217,7 +219,8 @@ namespace GeoGen.Studio.PlugInLoader
         /// Scans one <see cref="Assembly"/> for plug-ins. All found <see cref="Registrator"/>s will be added to the <see cref="Loader.Registrators">Registrator list</see>.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
-        public void ParseAssembly(Assembly assembly){                      
+        public static void ParseAssembly(Assembly assembly)
+        {                      
             /* Search the assembly for plug-in types */
             foreach (Type type in assembly.GetTypes())
             {
@@ -229,7 +232,7 @@ namespace GeoGen.Studio.PlugInLoader
                     {
                         if (method.Name == "Register")
                         {
-                            this.Registrators.Add(new Registrator(method));
+                            Loader.Registrators.Add(new Registrator(method));
                         }
                     }
                 }
@@ -240,15 +243,15 @@ namespace GeoGen.Studio.PlugInLoader
         /// Checks the <see cref="Registrator.DependsOn">prerequisites</see> of all <see cref="Registrator">Registrators</see>. <see cref="Registrator"/>Registrators</see> with one or more missing <see cref="Registrator.DependsOn">prerequisites</see> will be marked as <see cref="Registrator.FailureTupe">failed</see> with according <see cref="RegistratorFailureType">failure type</see>.
         /// </summary>
         /// <remarks>
-        /// <see cref="Registrator"/> execution methods will automatically call this method when necessary.
+        /// <see cref="Registrator"/> execution methods will automatically call Loader method when necessary.
         /// </remarks>
-        public void CheckRegistratorPrequisites()
+        public static void CheckRegistratorPrequisites()
         {
             /* A failure of one registrator can cause a chain of missing dependencies -> detection must be done multiple times */
             bool changed = true;
             while(changed == true){
                 changed = false;
-                foreach (Registrator registrator in this.Registrators)
+                foreach (Registrator registrator in Loader.Registrators)
                 {
                     /* Ignore registrators, which failed earlier in the process. */
                     if (registrator.FailureType > RegistratorFailureType.UnimplementedInterface)
@@ -257,7 +260,7 @@ namespace GeoGen.Studio.PlugInLoader
                         List<string> errors = new List<string>();
                         foreach (Type dependency in registrator.DependsOn)
                         {
-                            if (!this.RegistratorsByInterface.ContainsKey(dependency))
+                            if (!Loader.RegistratorsByInterface.ContainsKey(dependency))
                             {
                                 errors.Add(dependency.ToString() + " is not implemented by any valid registrator");
                             }
@@ -267,7 +270,7 @@ namespace GeoGen.Studio.PlugInLoader
                         {
                             registrator.FailureType = RegistratorFailureType.UnimplementedInterface;
                             registrator.Exception = new Exception(String.Join(", ", errors));
-                            this.ForceRegistratorIndexRebuild();
+                            Loader.ForceRegistratorIndexRebuild();
                             changed = true;
                         }
                     }
@@ -279,13 +282,14 @@ namespace GeoGen.Studio.PlugInLoader
         /// Orders the <see cref="Registrator">Registrators</see> topologically, so all <see cref="Registrator">Registrators</see> know all their <see cref="Registrator.DependsOn">prerequisites</see> when executed.
         /// </summary>
         /// <remarks>
-        /// <see cref="OrderedRegistrators"/> will automatically call this method when necessary.
+        /// <see cref="OrderedRegistrators"/> will automatically call Loader method when necessary.
         /// </remarks>
-        public void OrderRegistrators(){
-            this.CheckRegistratorPrequisites();
+        public static void OrderRegistrators()
+        {
+            Loader.CheckRegistratorPrequisites();
 
-            /* Most errors could be fixed since last execution of this method */
-            foreach (Registrator registrator in this.Registrators)
+            /* Most errors could be fixed since last execution of Loader method */
+            foreach (Registrator registrator in Loader.Registrators)
             {
                 if(registrator.FailureType > RegistratorFailureType.UnimplementedInterface){
                     registrator.FailureType = RegistratorFailureType.Success;
@@ -293,11 +297,11 @@ namespace GeoGen.Studio.PlugInLoader
             }
 
             /* Some registrator could be missing from the indexes because of being marked as failed */
-            this.ForceRegistratorIndexRebuild();
+            Loader.ForceRegistratorIndexRebuild();
             
             /* Calculate how many edges lead to each registrator in the dependency graph */
             Dictionary<Registrator, int> numUnresolvedDependencies = new Dictionary<Registrator, int>();
-            foreach (Registrator registrator in this.Registrators)
+            foreach (Registrator registrator in Loader.Registrators)
             {
                 /* Ignore failed registrators. */
                 if (registrator.Failed) continue;
@@ -307,7 +311,7 @@ namespace GeoGen.Studio.PlugInLoader
                     int numDependencies = 0;
                     foreach (Type dependency in registrator.DependsOn)
                     {
-                        numDependencies += this.RegistratorsByInterface[dependency].Count;
+                        numDependencies += Loader.RegistratorsByInterface[dependency].Count;
                     }
 
                     numUnresolvedDependencies[registrator] = numDependencies;
@@ -315,7 +319,7 @@ namespace GeoGen.Studio.PlugInLoader
             }
 
             /* List of registrators without incoming edges */
-            Queue<Registrator> currentRootRegistrators = new Queue<Registrator>(this.RootRegistrators);
+            Queue<Registrator> currentRootRegistrators = new Queue<Registrator>(Loader.RootRegistrators);
 
             /* The sorting algorithm can't run without a starting point */
             if(currentRootRegistrators.Count == 0){
@@ -323,18 +327,18 @@ namespace GeoGen.Studio.PlugInLoader
             }
 
             /* Topological sorting algorithm */
-            this.orderedRegistrators = new List<Registrator>();
+            Loader.orderedRegistrators = new List<Registrator>();
             while (currentRootRegistrators.Count > 0)
             {
                 Registrator registrator = currentRootRegistrators.Dequeue();
 
-                this.orderedRegistrators.Add(registrator);
+                Loader.orderedRegistrators.Add(registrator);
 
                 /* Are there some edges going FROM the node? */
-                if (this.RegistratorsByParent.ContainsKey(registrator))
+                if (Loader.RegistratorsByParent.ContainsKey(registrator))
                 {
                     /* Remove all edges going from current node */
-                    List<Registrator> children = this.RegistratorsByParent[registrator];
+                    List<Registrator> children = Loader.RegistratorsByParent[registrator];
                     foreach (Registrator child in children)
                     {
                         if (!numUnresolvedDependencies.ContainsKey(child))
@@ -368,11 +372,11 @@ namespace GeoGen.Studio.PlugInLoader
         /// </summary>
         /// <param name="registrator">The registrator.</param>
         /// <returns></returns>
-        public object CreatePlugInInstance(Registrator registrator)
+        public static object CreatePlugInInstance(Registrator registrator)
         {
-            if (this.Registrators.IndexOf(registrator) == -1)
+            if (Loader.Registrators.IndexOf(registrator) == -1)
             {
-                throw new ArgumentException("Passed registrator does not belong to this Loader.");
+                throw new ArgumentException("Passed registrator does not belong to Loader Loader.");
             }
 
             else if (registrator.FailureType < RegistratorFailureType.ExceptionInConstructor)
@@ -381,16 +385,16 @@ namespace GeoGen.Studio.PlugInLoader
             }
 
             /* If the plug-in/registrator is set to one instance mode, do not create another instance */
-            if (registrator.InstanceCount == InstanceCount.One && this.InstancesByPlugInType.ContainsKey(registrator.PluginType) && this.InstancesByPlugInType[registrator.PluginType].Count > 0)
+            if (registrator.InstanceCount == InstanceCount.One && Loader.InstancesByPlugInType.ContainsKey(registrator.PluginType) && Loader.InstancesByPlugInType[registrator.PluginType].Count > 0)
             {
-                return this.InstancesByPlugInType[registrator.PluginType][0];
+                return Loader.InstancesByPlugInType[registrator.PluginType][0];
             }
             else
             {
                 try
                 {
                     object instance = Activator.CreateInstance(registrator.PluginType);
-                    this.Instances.Add(instance);
+                    Loader.Instances.Add(instance);
 
                     return instance;
                 }
@@ -406,11 +410,12 @@ namespace GeoGen.Studio.PlugInLoader
         /// <summary>
         /// Executes all <see cref="Registrator">Registrators</see>, which are not in a failure state. New plug-in instances will be created when necessary. The <see cref="Registrator">Registrators</see> will be executed on all possible valid combinations of parameters.
         /// </summary>
-        public void ExecuteAllRegistrators(){
+        public static void ExecuteAllRegistrators()
+        {
             /* Execute the first registrator in the hierarchy and let it execute all the registrators dependent on it -> all 
              * valid registrators will be executed */
 
-            this.ExecuteRegistrator(this.OrderedRegistrators[0], true);
+            Loader.ExecuteRegistrator(Loader.OrderedRegistrators[0], true);
         }
 
         /// <summary>
@@ -418,8 +423,9 @@ namespace GeoGen.Studio.PlugInLoader
         /// </summary>
         /// <param name="registrator">The registrator.</param>
         /// <param name="executeDependentRegistrators">If set to <c>true</c> all <see cref="Registrator">Registrators</see> following in the <see cref="Loader.OrderedRegistrators">Registrator queue</see> will be executed as well.</param>
-        public void ExecuteRegistrator(Registrator registrator, bool executeDependentRegistrators = true){
-            int registratorIndex = this.OrderedRegistrators.IndexOf(registrator);
+        public static void ExecuteRegistrator(Registrator registrator, bool executeDependentRegistrators = true)
+        {
+            int registratorIndex = Loader.OrderedRegistrators.IndexOf(registrator);
 
             if (registrator.FailureType < RegistratorFailureType.ExceptionInConstructor)
             {
@@ -428,13 +434,13 @@ namespace GeoGen.Studio.PlugInLoader
             /* The PlugInLoader must be able to place the registrator into its precalculated hierarchy */
             else if (registratorIndex == -1)
             {
-                throw new ArgumentException("Passed registrator does not belong to this Loader (or failed to be ordered).");
+                throw new ArgumentException("Passed registrator does not belong to Loader Loader (or failed to be ordered).");
             }
 
             /* Generate all combinations of available parameter instances.
              * Total count of combination is product of numbers of options.
              * Individual parameter sets are then for objects which takes parameters A, B and C where A has 2 options, B 2 as well and C 3 
-             * generated like this (where on X axis are param. sets and on Y axis parameters):
+             * generated like Loader (where on X axis are param. sets and on Y axis parameters):
              * A 1 2 1 2 1 2 1 2 1 2 1 2
              * B 1 1 2 2 1 1 2 2 1 1 2 2
              * C 1 1 1 1 2 2 2 2 3 3 3 3
@@ -445,16 +451,16 @@ namespace GeoGen.Studio.PlugInLoader
             int i = 0;
             foreach (Type dependency in registrator.DependsOn)
             {
-                /* There are no instances of a type this registrator depends on (but it was ready to instantiate and register) -> it failed 
+                /* There are no instances of a type Loader registrator depends on (but it was ready to instantiate and register) -> it failed 
                  * either in constructor or in registrator */
-                if (!this.InstancesByInterface.ContainsKey(dependency))
+                if (!Loader.InstancesByInterface.ContainsKey(dependency))
                 {
                     combinationCount = 0;
                     registrator.FailureType = RegistratorFailureType.ExceptionInDependency;
                     break;
                 } 
 
-                combinationCount *= this.InstancesByInterface[dependency].Count;
+                combinationCount *= Loader.InstancesByInterface[dependency].Count;
                 indexShifts[i] = combinationCount;
                 i++;
             }
@@ -462,7 +468,7 @@ namespace GeoGen.Studio.PlugInLoader
             List<object> currentRegistratorInstances = new List<object>();
             for (i = 0; i < combinationCount; i++)
             {
-                object instance = this.CreatePlugInInstance(registrator);
+                object instance = Loader.CreatePlugInInstance(registrator);
                 currentRegistratorInstances.Add(instance);
 
                 /* Instance creation might have failed. */
@@ -473,16 +479,16 @@ namespace GeoGen.Studio.PlugInLoader
                 
                 int j = 0;
                 foreach(Type interfaceType in registrator.DependsOn){
-                    parameters[j] = this.InstancesByInterface[interfaceType][i % indexShifts[j]];
+                    parameters[j] = Loader.InstancesByInterface[interfaceType][i % indexShifts[j]];
                     j++;
                 }
 
-                this.ExecuteRegistratorOnInstance(registrator, instance, parameters);
+                Loader.ExecuteRegistratorOnInstance(registrator, instance, parameters);
             }
 
             /* If there are any remaining registrators in the queue (and execution of dependent registrators is requested). */
-            if(executeDependentRegistrators && registratorIndex + 1 < this.OrderedRegistrators.Count){
-                this.ExecuteRegistrator(this.OrderedRegistrators[registratorIndex + 1], true);
+            if(executeDependentRegistrators && registratorIndex + 1 < Loader.OrderedRegistrators.Count){
+                Loader.ExecuteRegistrator(Loader.OrderedRegistrators[registratorIndex + 1], true);
             }
         }
 
@@ -491,13 +497,13 @@ namespace GeoGen.Studio.PlugInLoader
         /// </summary>
         /// <param name="registrator">The registrator.</param>
         /// <param name="parameters">The parameter set.</param>
-        public void ExecuteRegistrator(Registrator registrator, object[] parameters)
+        public static void ExecuteRegistrator(Registrator registrator, object[] parameters)
         {
-            object instance = this.CreatePlugInInstance(registrator);
+            object instance = Loader.CreatePlugInInstance(registrator);
 
             /* CreatePlugInInstance might have failed (failure is then described in the FailureType flag) */
             if(instance != null){
-                this.ExecuteRegistratorOnInstance(registrator, instance, parameters);
+                Loader.ExecuteRegistratorOnInstance(registrator, instance, parameters);
             }
         }
 
@@ -507,13 +513,13 @@ namespace GeoGen.Studio.PlugInLoader
         /// <param name="registrator">The registrator.</param>
         /// <param name="instance">The instance.</param>
         /// <param name="parameters">The parameters.</param>
-        public void ExecuteRegistratorOnInstance(Registrator registrator, object instance, object[] parameters)
+        public static void ExecuteRegistratorOnInstance(Registrator registrator, object instance, object[] parameters)
         {
             PlugInAttribute attribute = Attribute.GetCustomAttribute(registrator.PluginType, typeof(PlugInAttribute)) as PlugInAttribute ?? new PlugInAttribute();            
             
-            if (this.OrderedRegistrators.IndexOf(registrator) == -1)
+            if (Loader.OrderedRegistrators.IndexOf(registrator) == -1)
             {
-                throw new ArgumentException("Passed registrator does not belong to this Loader (or failed to be ordered).");
+                throw new ArgumentException("Passed registrator does not belong to Loader Loader (or failed to be ordered).");
             }
 
             else if(instance == null)
@@ -536,14 +542,14 @@ namespace GeoGen.Studio.PlugInLoader
                 throw new ArgumentException("Passed registrator and instance types do not match.");
             }
 
-            else if (attribute.InstanceCount == InstanceCount.One && this.Instances.IndexOf(instance) == -1)
+            else if (attribute.InstanceCount == InstanceCount.One && Loader.Instances.IndexOf(instance) == -1)
             {
-                throw new ArgumentException("One instance of passed plug-in type is already registered in this Loader. Only one plug-in instance is allowed for this plug-in type.");
+                throw new ArgumentException("One instance of passed plug-in type is already registered in Loader Loader. Only one plug-in instance is allowed for Loader plug-in type.");
             }
 
             /* The instance might be coming from outside -> make sure it is registered within the PlugInLoader */
-            if(this.Instances.IndexOf(instance) == -1){
-                this.Instances.Add(instance);
+            if(Loader.Instances.IndexOf(instance) == -1){
+                Loader.Instances.Add(instance);
             }
 
             try
@@ -557,20 +563,20 @@ namespace GeoGen.Studio.PlugInLoader
         }
 
         #region Index Rebuilders
-        private void RebuildRegistratorsByParentIndex()
+        private static void RebuildRegistratorsByParentIndex()
         {
-            this.RegistratorsByParent = new Dictionary<Registrator, List<Registrator>>();
+            Loader.RegistratorsByParent = new Dictionary<Registrator, List<Registrator>>();
 
-            foreach (Registrator registrator in this.Registrators)
+            foreach (Registrator registrator in Loader.Registrators)
             {
                 if(registrator.FailureType <= RegistratorFailureType.UnimplementedInterface) continue;
 
                 foreach (Type interfaceType in registrator.DependsOn)
                 {
-                    foreach (Registrator parent in this.RegistratorsByInterface[interfaceType])
+                    foreach (Registrator parent in Loader.RegistratorsByInterface[interfaceType])
                     {
                         List<Registrator> childrenList;
-                        if (this.registratorsByParent.TryGetValue(parent, out childrenList))
+                        if (Loader.registratorsByParent.TryGetValue(parent, out childrenList))
                         {
                             childrenList.Add(registrator);
                         }
@@ -578,40 +584,40 @@ namespace GeoGen.Studio.PlugInLoader
                         {
                             childrenList = new List<Registrator>();
                             childrenList.Add(registrator);
-                            this.registratorsByParent.Add(parent, childrenList);
+                            Loader.registratorsByParent.Add(parent, childrenList);
                         }
                     }
                 }
             }
         }
 
-        private void RebuildRootRegistratorIndex()
+        private static void RebuildRootRegistratorIndex()
         {
-            this.RootRegistrators = new List<Registrator>();
+            Loader.RootRegistrators = new List<Registrator>();
             
-            foreach (Registrator registrator in this.Registrators)
+            foreach (Registrator registrator in Loader.Registrators)
             {
                 if (registrator.FailureType <= RegistratorFailureType.BadRegistratorTemplate) continue;
 
                 if (registrator.IsRootRegistrator)
                 {
-                    this.rootRegistrators.Add(registrator);
+                    Loader.rootRegistrators.Add(registrator);
                 }
             }
         }
 
-        private void RebuildRegistratorsByInterfaceIndex()
+        private static void RebuildRegistratorsByInterfaceIndex()
         {
-            this.RegistratorsByInterface = new Dictionary<Type, List<Registrator>>();
+            Loader.RegistratorsByInterface = new Dictionary<Type, List<Registrator>>();
 
-            foreach (Registrator registrator in this.Registrators)
+            foreach (Registrator registrator in Loader.Registrators)
             {
                 if (registrator.FailureType <= RegistratorFailureType.UnimplementedInterface) continue;
 
                 foreach (Type interfaceType in registrator.Implements)
                 {
                     List<Registrator> implementingRegistrators;
-                    if (this.registratorsByInterface.TryGetValue(interfaceType, out implementingRegistrators))
+                    if (Loader.registratorsByInterface.TryGetValue(interfaceType, out implementingRegistrators))
                     {
                         implementingRegistrators.Add(registrator);
                     }
@@ -619,22 +625,22 @@ namespace GeoGen.Studio.PlugInLoader
                     {
                         implementingRegistrators = new List<Registrator>();
                         implementingRegistrators.Add(registrator);
-                        this.registratorsByInterface.Add(interfaceType, implementingRegistrators);
+                        Loader.registratorsByInterface.Add(interfaceType, implementingRegistrators);
                     }
                 }
             }
         }
 
-        private void RebuildPlugInTypesByInterfaceIndex()
+        private static void RebuildPlugInTypesByInterfaceIndex()
         {
-            this.PlugInTypesByInterface = new Dictionary<Type, List<Type>>();
+            Loader.PlugInTypesByInterface = new Dictionary<Type, List<Type>>();
 
-            foreach (Registrator registrator in this.Registrators)
+            foreach (Registrator registrator in Loader.Registrators)
             {
                 foreach (Type interfaceType in registrator.Implements)
                 {
                     List<Type> implementerList;
-                    if (this.plugInTypesByInterface.TryGetValue(interfaceType, out implementerList))
+                    if (Loader.plugInTypesByInterface.TryGetValue(interfaceType, out implementerList))
                     {
                         implementerList.Add(registrator.PluginType);
                     }
@@ -642,20 +648,20 @@ namespace GeoGen.Studio.PlugInLoader
                     {
                         implementerList = new List<Type>();
                         implementerList.Add(registrator.PluginType);
-                        this.plugInTypesByInterface.Add(interfaceType, implementerList);
+                        Loader.plugInTypesByInterface.Add(interfaceType, implementerList);
                     }
                 }
             }
         }
 
-        private void RebuildInstancesByPlugInTypeIndex()
+        private static void RebuildInstancesByPlugInTypeIndex()
         {
-            this.InstancesByPlugInType = new Dictionary<Type, List<object>>();
+            Loader.InstancesByPlugInType = new Dictionary<Type, List<object>>();
 
-            foreach (object instance in this.Instances)
+            foreach (object instance in Loader.Instances)
             {
                 List<object> instanceList;
-                if (this.instancesByPlugInType.TryGetValue(instance.GetType(), out instanceList))
+                if (Loader.instancesByPlugInType.TryGetValue(instance.GetType(), out instanceList))
                 {
                     instanceList.Add(instance);
                 }
@@ -663,21 +669,21 @@ namespace GeoGen.Studio.PlugInLoader
                 {
                     instanceList = new List<object>();
                     instanceList.Add(instance);
-                    this.instancesByPlugInType.Add(instance.GetType(), instanceList);
+                    Loader.instancesByPlugInType.Add(instance.GetType(), instanceList);
                 }
             }
         }
 
-        private void RebuildInstancesByInterfaceIndex()
+        private static void RebuildInstancesByInterfaceIndex()
         {
-            this.instancesByInterface = new Dictionary<Type, List<object>>();
+            Loader.instancesByInterface = new Dictionary<Type, List<object>>();
 
-            foreach (object instance in this.Instances)
+            foreach (object instance in Loader.Instances)
             {
                 foreach (Type interfaceType in instance.GetType().GetInterfaces())
                 {
                     List<object> implementerList;
-                    if (this.instancesByInterface.TryGetValue(interfaceType, out implementerList))
+                    if (Loader.instancesByInterface.TryGetValue(interfaceType, out implementerList))
                     {
                         implementerList.Add(instance);
                     }
@@ -685,7 +691,7 @@ namespace GeoGen.Studio.PlugInLoader
                     {
                         implementerList = new List<object>();
                         implementerList.Add(instance);
-                        this.instancesByInterface.Add(interfaceType, implementerList);
+                        Loader.instancesByInterface.Add(interfaceType, implementerList);
                     }
                 }
             }
