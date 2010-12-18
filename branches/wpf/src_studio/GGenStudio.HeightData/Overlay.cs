@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio
 {
@@ -37,6 +38,7 @@ namespace GeoGen.Studio
                     catch(Exception)
                     {
                         // The overlay might have been invalid
+                        Messenger.ThrowMessage(new Message("Could not open overlay \"" + overlayFile.Name + "\".", MessageType.Error));
                         continue;
                     }
                 }
@@ -63,11 +65,29 @@ namespace GeoGen.Studio
 
         public byte[] Bytes {get; private set;}
 
-        internal Overlay(FileInfo file)
+        public bool IsExtended
         {
+            get
+            {
+                return this.Bitmap.Width == 511;
+            }
+        }
+
+        internal Overlay(FileInfo file)
+        {            
             this.Bitmap = new BitmapImage(new Uri(file.FullName));
             this.FileName = file.FullName;
             this.Name = file.Name;
+
+            if(this.Bitmap.Height != 1 || (this.Bitmap.Width != 511 && this.Bitmap.Width != 256))
+            {
+                throw new ArgumentException("Incorrect overlay size.");
+            }
+
+            // copy the color data into the Bytes array
+            int stride = this.Bitmap.PixelWidth * this.BytesPerPixel;
+            this.Bytes = new byte[this.Bitmap.PixelHeight * stride];
+            this.Bitmap.CopyPixels(this.Bytes, stride, 0);
         }
     }
 }

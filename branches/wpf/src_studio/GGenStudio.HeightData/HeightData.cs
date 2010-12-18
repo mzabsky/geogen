@@ -13,14 +13,6 @@ namespace GeoGen.Studio
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
-        }
-
         #region Properties
         public int this[int x, int y]{
             get
@@ -46,16 +38,16 @@ namespace GeoGen.Studio
             }
         }
 
-        protected string overlayFileName;
-        public string OverlayFileName
+        protected Overlay overlay;
+        public Overlay Overlay
         {
             get
             {
-                return this.overlayFileName;
+                return this.overlay;
             }
             set
             {
-                this.overlayFileName = value;
+                this.overlay = value;
                 this.RebuildImage(overlayOnly: true);
             }
         }
@@ -154,54 +146,28 @@ namespace GeoGen.Studio
                 this.BaseImage = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Gray8, BitmapPalettes.Gray256, bytes, (int)this.heightData.Width);
             }
 
-            // load overlay file
-
-            if (this.OverlayFileName == null) return;
-
-            FileInfo fileInfo = new FileInfo(this.OverlayFileName);
-
-            BitmapImage overlayBitmap = new BitmapImage(new Uri(fileInfo.FullName));
-
-            FormatConvertedBitmap convertedOverlayBitmap = new FormatConvertedBitmap(overlayBitmap, PixelFormats.Rgb24, BitmapPalettes.Halftone256, 0);
-
-            int overlayStride = convertedOverlayBitmap.PixelWidth * 3;
-            byte[] overlayBytes = new byte[convertedOverlayBitmap.PixelHeight * overlayStride];
-            convertedOverlayBitmap.CopyPixels(overlayBytes, overlayStride, 0);
-
-            bool extendedOverlay;
-
-            if (convertedOverlayBitmap.PixelWidth == 256)
-            {
-                extendedOverlay = false;
-            }
-            else if (convertedOverlayBitmap.PixelWidth == 511)
-            {
-                extendedOverlay = true;
-            }
-            else{
-                throw new InvalidOperationException("Overlay \"" + this.OverlayFileName + "\"has incorrect width.");
-            }
+            if (this.Overlay == null) return;
             
             bytes = new Byte[this.heightData.Length * 3];
 
             for (int i = 0; i < this.heightData.Length; i++)
             {
                 // red
-                bytes[i * 3] = overlayBytes[(extendedOverlay ? (
+                bytes[i * 3] = this.Overlay.Bytes[(this.Overlay.IsExtended ? (
                         (this.heightData[i] / 128) + 256
                     ) : (
                         Math.Max(this.heightData[i] / 128, 0)
                     )) * 3];
 
                 // green
-                bytes[i * 3 + 1] = overlayBytes[(extendedOverlay ? (
+                bytes[i * 3 + 1] = this.Overlay.Bytes[(this.Overlay.IsExtended ? (
                         (this.heightData[i] / 128) + 256
                     ) : (
                         Math.Max(this.heightData[i] / 128, 0)
                     )) * 3 + 1];
 
                 //blue
-                bytes[i * 3 + 2] = overlayBytes[(extendedOverlay ? (
+                bytes[i * 3 + 2] = this.Overlay.Bytes[(this.Overlay.IsExtended ? (
                         (this.heightData[i] / 128) + 256
                     ) : (
                         Math.Max(this.heightData[i] / 128, 0)
@@ -209,6 +175,14 @@ namespace GeoGen.Studio
             }
 
             this.Image = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Rgb24, BitmapPalettes.Halftone256, bytes, this.heightData.Width * 3);
+        }
+
+        protected void OnPropertyChanged(string info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 }
