@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace GeoGen.Studio
 {
-    public class HeightData: INotifyPropertyChanged
+    sealed public class HeightData: INotifyPropertyChanged
     {
         protected GeoGen.Net.HeightData heightData;
 

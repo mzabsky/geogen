@@ -5,7 +5,7 @@ using GeoGen.Net;
 
 namespace GeoGen.Studio
 {
-    public class ScriptArg: INotifyPropertyChanged
+    sealed public class ScriptArg: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
