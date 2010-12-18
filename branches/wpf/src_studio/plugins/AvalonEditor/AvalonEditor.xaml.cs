@@ -780,7 +780,7 @@ namespace GeoGen.Studio.PlugIns
             }
             catch (System.IO.FileNotFoundException)
             {
-                this.ThrowMessage(new Message("Could not read syntax highlighter definitions file.", MessageType.Warning));
+                Messenger.ThrowMessage(new Message("Could not read syntax highlighter definitions file.", MessageType.Warning));
             }
         }
 
@@ -821,7 +821,7 @@ namespace GeoGen.Studio.PlugIns
                     this.editor.Text = System.IO.File.ReadAllText(this.TemplateFile);
                 }
                 catch {
-                    this.ThrowMessage(new Message("Could not open template file.", MessageType.Warning));
+                    Messenger.ThrowMessage(new Message("Could not open template file.", MessageType.Warning));
                 };
             }
             
@@ -865,7 +865,7 @@ namespace GeoGen.Studio.PlugIns
                 this.IsUnsaved = false;
             }
             catch {
-                this.ThrowMessage(new Message("File \"" + this.LastFileName + "\" is not readable", MessageType.Error));
+                Messenger.ThrowMessage(new Message("File \"" + this.LastFileName + "\" is not readable", MessageType.Error));
             };
         }
         

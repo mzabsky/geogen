@@ -84,12 +84,12 @@
     <Compile Include="Utilities\Configurability\IConfigurable.cs" />
     <Compile Include="Utilities\Context\Context.cs" />
     <Compile Include="Utilities\Context\ContextManager.cs" />
-    <Compile Include="Utilities\Messaging\IMessageProvider.cs" />
     <Compile Include="Utilities\Messaging\Message.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventArgs.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventHandler.cs" />
     <Compile Include="Utilities\Messaging\MessageType.cs" />
     <Compile Include="Utilities\FileDialog.cs" />
+    <Compile Include="Utilities\Messaging\Messenger.cs" />
     <Compile Include="Utilities\PlugInBase\Control.cs" />
     <Compile Include="Utilities\PlugInBase\Object.cs" />
     <Compile Include="Utilities\PlugInBase\Window.cs" />

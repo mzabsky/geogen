@@ -44,20 +44,22 @@ namespace GeoGen.Studio.PlugIns
             this.Items = new ObservableCollection<Message>();
             this.Items.CollectionChanged += this.CollectionChanged;
 
-            InitializeComponent();           
+            foreach(Message message in Messenger.MessageHistory)
+            {
+                this.Items.Add(message);
+            }
+
+            Messenger.MessageThrown += delegate(object o, MessageThrownEventArgs args)
+            {
+                this.Items.Add(args.Message);
+            };     
+
+            InitializeComponent();
         }
 
         public void Register(IDockManager dockManager)
         {
             dockManager.AddAsDockableContent(this, "Messages", false);
-        }
-
-        public void Register(IMessageProvider messageProvider)
-        {
-            messageProvider.MessageThrown += delegate(object o, MessageThrownEventArgs args)
-            {
-                this.Items.Add(args.Message);
-            };            
         }
 
         private void CollectionChanged(object sender, EventArgs args)

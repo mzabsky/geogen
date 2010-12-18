@@ -82,7 +82,7 @@ namespace GeoGen.Studio.PlugIns
                     case MessageLevel.Message: type = MessageType.Message; break;
                 }
 
-                this.ThrowMessage(new Message(text, type));
+                Messenger.ThrowMessage(new Message(text, type));
             };
 
             this.generator.ProgressChanged += delegate(object o, ProgressEventArgs args)
@@ -130,7 +130,7 @@ namespace GeoGen.Studio.PlugIns
                 this.CurrentTaskType = TaskType.Full;
                 this.Maps.Clear();
 
-                this.ThrowMessage(new Message("Generation started.", MessageType.Message));
+                Messenger.ThrowMessage(new Message("Generation started.", MessageType.Message));
             }
 
             this.OnStarted(script, headerOnly);
@@ -359,7 +359,7 @@ namespace GeoGen.Studio.PlugIns
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
-                this.ThrowMessage(
+                Messenger.ThrowMessage(
                     new Message("Generation aborted!", MessageType.Message)
                 );
 
@@ -376,7 +376,7 @@ namespace GeoGen.Studio.PlugIns
                 // Terminate the generator thread and put the generator back into ready state.
                 this.Reset();
 
-                this.ThrowMessage(
+                Messenger.ThrowMessage(
                     new Message(message, MessageType.Error)
                 );
 
@@ -405,7 +405,7 @@ namespace GeoGen.Studio.PlugIns
                 // Terminate the generator thread and put the generator back into ready state.
                 this.Reset();
 
-                this.ThrowMessage(
+                Messenger.ThrowMessage(
                     new Message("Map generated after " + timeSpan.ToString() + ".", MessageType.Message)
                 );
 
