@@ -6,19 +6,9 @@ using GeoGen.Studio.PlugInLoader;
 
 namespace GeoGen.Studio.Utilities.PlugInBase
 {
-    public class Control : UserControl, IPlugIn, IMessageProvider, INotifyPropertyChanged
+    public class Control : UserControl, IPlugIn, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public event MessageThrownEventHandler MessageThrown;
-
-        protected void ThrowMessage(Message message)
-        {
-            if(this.MessageThrown != null)
-            {
-                this.MessageThrown(this, new MessageThrownEventArgs(message));
-            }
-        }
 
         protected void OnPropertyChanged(string info)
         {

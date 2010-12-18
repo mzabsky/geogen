@@ -21,16 +21,21 @@ namespace GeoGen.Studio.PlugIns
             catch { };
         }
 
-        public void Register(IMessageProvider messageProvider)
+        public void Register()
         {
-            messageProvider.MessageThrown += this.MessageHandler;
+            foreach(Message message in Messenger.MessageHistory)
+            {
+                this.MessageHandler(null, new MessageThrownEventArgs(message));
+            }
+
+            Messenger.MessageThrown += this.MessageHandler;            
         }
 
         public void MessageHandler(object sender, MessageThrownEventArgs args)
         {
             try
             {
-                this.Writer.WriteLine("[" + sender.GetType().ToString() + " - " + args.Message.DateTime + "] " + args.Message.Type + ": " + args.Message.Text);
+                this.Writer.WriteLine("[" + args.Message.DateTime + "] " + args.Message.Type + ": " + args.Message.Text);
                 this.Writer.Flush();
             }
             catch {}

@@ -86,9 +86,12 @@ namespace GeoGen.Studio.Utilities.Binding
             try{
                 fromProperty = sender.GetType().GetProperty(args.PropertyName);
 
+
+
                 if(!BindingManager.IsPropertyReadable(fromProperty))
                 {
-                    throw new Exception();
+                    return;
+                    //throw new Exception();
                 }
             }
             catch
