@@ -35,7 +35,7 @@ namespace GeoGen.Studio.Utilities.Configurability
             {
                 reader.ReadStartElement("item");
 
-                reader.ReadStartElement("plugIn");
+                reader.ReadStartElement("owner");
                 string plugInName = reader.ReadString();
                 reader.ReadEndElement();
 
@@ -110,7 +110,7 @@ namespace GeoGen.Studio.Utilities.Configurability
 
                     writer.WriteStartElement("item");
 
-                    writer.WriteStartElement("plugIn");
+                    writer.WriteStartElement("owner");
                     writer.WriteValue(plugInName);
                     writer.WriteEndElement();
 
