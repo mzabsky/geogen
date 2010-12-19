@@ -71,6 +71,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plug-in Loader\LoaderConfig.cs" />
+    <Compile Include="Plug-in Loader\PlugIn.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
     <Compile Include="Utilities\Collections\PriorityComparer.cs" />
     <Compile Include="Utilities\Collections\PriorityObservableCollection.cs" />
@@ -101,7 +103,7 @@
     <Compile Include="Plug-in Loader\IPlugIn.cs" />
     <Compile Include="Plug-in Loader\IPlugInInterface.cs" />
     <Compile Include="Plug-in Loader\PlugInAttribute.cs" />
-    <Compile Include="Plug-in Loader\PlugInLoader.cs" />
+    <Compile Include="Plug-in Loader\Loader.cs" />
     <Compile Include="Plug-in Loader\Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
