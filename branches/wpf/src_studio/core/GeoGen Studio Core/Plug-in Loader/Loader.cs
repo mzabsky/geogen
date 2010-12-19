@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
+using GeoGen.Studio.Utilities.Configurability;
 
 namespace GeoGen.Studio.PlugInLoader
 {
@@ -21,7 +22,8 @@ namespace GeoGen.Studio.PlugInLoader
         private static Dictionary<Type, List<Type>> plugInTypesByInterface = null;
         private static Dictionary<Type, List<object>> instancesByInterface = null;
         private static Dictionary<Type, List<object>> instancesByPlugInType = null;
-        private static List<Registrator> orderedRegistrators = null;
+        private static List<Registrator> orderedRegistrators = null;        
+        private static LoaderConfig config = new LoaderConfig();
         #endregion
 
         #region Properties
@@ -140,9 +142,10 @@ namespace GeoGen.Studio.PlugInLoader
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Loader"/> class.
-        /// <threadsafety static="true" instance="false"/>
         /// </summary>
         static Loader(){
+            MainConfig.Register(config);
+
             Loader.Registrators = new ObservableCollection<Registrator>();
             Loader.Instances = new ObservableCollection<object>();
 
@@ -561,6 +564,8 @@ namespace GeoGen.Studio.PlugInLoader
                 registrator.Exception = e.InnerException;
             }
         }
+
+        
 
         #region Index Rebuilders
         private static void RebuildRegistratorsByParentIndex()
