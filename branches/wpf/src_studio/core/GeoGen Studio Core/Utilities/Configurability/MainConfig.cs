@@ -118,6 +118,16 @@ namespace GeoGen.Studio.Utilities.Configurability
                         property.SetValue(configurable, Activator.CreateInstance(property.PropertyType), null);
                     }
                     /* The property is of a reference type - use null. */
+                    else if(configurableAttribute.UseEmptyInstanceAsDefault)
+                    {
+                        try{
+                            property.SetValue(configurable, Activator.CreateInstance(property.PropertyType), null);
+                        }
+                        catch(Exception e)
+                        {
+                            throw new InvalidOperationException("Could not create a default instance for property \"" + property.ToString() + "\", see innerException for details.", e);
+                        }
+                    }
                     else
                     {
                         property.SetValue(configurable, null, null);
