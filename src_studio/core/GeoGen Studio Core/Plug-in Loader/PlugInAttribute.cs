@@ -26,16 +26,30 @@ namespace GeoGen.Studio.PlugInLoader
     public class PlugInAttribute : Attribute
     {
         /// <summary>
+        /// User-friendly name of the plug-in.
+        /// </summary>
+        /// <value>The name.</value>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Short description of the plug-in.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description { get; set; }
+        
+        /// <summary>
         /// Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.
         /// </summary>
-        public InstanceCount InstanceCount { get; private set; }
+        public InstanceCount InstanceCount { get; set; }        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlugInAttribute"/> class.
         /// </summary>
         /// <param name="instanceCount">Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.</param>
-        public PlugInAttribute(InstanceCount instanceCount = InstanceCount.One)
+        public PlugInAttribute(string name = "", string description = "", InstanceCount instanceCount = InstanceCount.One)
         {
+            this.Name = name;
+            this.Description = description;
             this.InstanceCount = instanceCount;
         }
     }
