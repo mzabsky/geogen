@@ -25,7 +25,7 @@ namespace GeoGen.Studio.PlugInLoader
         private static Dictionary<Type, List<object>> instancesByPlugInType = null;
         private static List<Registrator> orderedRegistrators = null;        
         private static LoaderConfig config = new LoaderConfig();
-        private static List<PlugIn> plugIns = null;
+        private static List<PlugIn> plugIns = null;        
         private static bool isFinished = false;
         #endregion
 
@@ -679,10 +679,32 @@ namespace GeoGen.Studio.PlugInLoader
 
         private static void BuildPlugInsList()
         {
+            List<Type> typesAlreadyAdded = new List<Type>();
+
             Loader.plugIns = new List<PlugIn>();
-            foreach(KeyValuePair<Type, List<object>> entry in Loader.InstancesByPlugInType)
+            foreach(Registrator registrator in Loader.Registrators)
             {
-                Loader.plugIns.Add(new PlugIn(entry.Key, entry.Value, Loader.RegistratorsByPlugInType[entry.Key]));
+                if(typesAlreadyAdded.Contains(registrator.PluginType))
+                {
+                    // A plug-in object was already created for this type
+                    continue;
+                }
+
+                List<object> instances;
+                Loader.InstancesByPlugInType.TryGetValue(registrator.PluginType, out instances);
+
+                List<Registrator> registrators;
+                Loader.RegistratorsByPlugInType.TryGetValue(registrator.PluginType, out registrators);
+
+                Loader.plugIns.Add(
+                    new PlugIn(
+                        plugInType: registrator.PluginType,
+                        instances: instances ?? new List<object>(),
+                        registrators: registrators ?? new List<Registrator>()
+                    )
+                );
+
+                typesAlreadyAdded.Add(registrator.PluginType);
             }
         }
 
