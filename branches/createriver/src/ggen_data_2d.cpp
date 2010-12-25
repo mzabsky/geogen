@@ -30,6 +30,7 @@
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
+#include "ggen_erosionsimulator.h"
 
 #include <windows.h>
 #include <assert.h>
@@ -1825,6 +1826,10 @@ bool operator<(const GGen_CreateRiver_PointWithHeight& a, const GGen_CreateRiver
 }
 
 void GGen_Data_2D::CreateRiver(){
+	GGen_ErosionSimulator erosionSimulator(this->width, this->height);
+	erosionSimulator.Erode(*this);
+
+	return;
 	GGen_Coord start_x = 900;
 	GGen_Coord start_y = 900;
 	GGen_Size springMaxSize = 3;

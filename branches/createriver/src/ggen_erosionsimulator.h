@@ -28,13 +28,41 @@
 #include "ggen_data_2d.h"
 #include <list>
 
+struct GGen_VelocityVector{
+	double x;
+	double y;
+};
+
+struct GGen_OutflowValues{
+	double left;
+	double right;
+	double top;
+	double bottom;
+};
+
 /**
  * GGen_Path represents a continuous linear sequence of GGen_Point objects.
  **/
 class GGen_ErosionSimulator{
 	protected:
-
+		GGen_Size width;
+		GGen_Size height;
+		GGen_TotalSize length;
+		double deltaT;
+		double pipeLength;
+		double graviationalAcceleration;
+		double sedimentCapacityConstant;
+		double dissolvingConstant;
+		double depositionConstant;
+		double minimumComputedSurfaceTilt;
 	public:
-		GGen_ErosionSimulator();
-		void Erode(GGen_Data_2D& heightMap);	
+		GGen_ErosionSimulator(GGen_Size width, GGen_Size height);
+		double* ImportHeightMap(GGen_Data_2D& heightMap);
+		double GetSurfaceTilt(double* heightMap, GGen_Coord x, GGen_Coord y );
+		void ExportHeightMap(double* heightMap, GGen_Data_2D& ggenHeightMap);
+		void Erode(GGen_Data_2D& ggenHeightMap);
+		void ApplyWaterSources(double* waterMap);
+		void ApplyEvaporation(double* waterMap);
+		void ApplyFlowSimulation(double* heightMap, double* waterMap, double* sedimentMap, GGen_OutflowValues* outflowFluxMap, GGen_VelocityVector* velocityVectorMap );
+		void ApplyErosion(double* heightMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap);
 };
