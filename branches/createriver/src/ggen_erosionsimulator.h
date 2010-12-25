@@ -60,6 +60,7 @@ class GGen_ErosionSimulator{
 		double* ImportHeightMap(GGen_Data_2D& heightMap);
 		double GetSurfaceTilt(double* heightMap, GGen_Coord x, GGen_Coord y );
 		void ExportHeightMap(double* heightMap, GGen_Data_2D& ggenHeightMap);
+		void ExportVelocityVectorMap(GGen_VelocityVector* velocityVectorMap, GGen_Data_2D& ggenHeightMap);
 		void Erode(GGen_Data_2D& ggenHeightMap);
 		void ApplyWaterSources(double* waterMap);
 		void ApplyEvaporation(double* waterMap);
