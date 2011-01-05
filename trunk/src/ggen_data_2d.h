@@ -368,11 +368,10 @@ class GGen_Data_2D{
 		void RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* profile, bool fill_outside);
 		
 		/**
-		 * Fills the array with random perlin noise (http://freespace.virgin.net/hugo.elias/models/m_perlin.htm).
+		 * Fills the array with random fractal noise.
 		 * @param min_feature_size Minimum wave length for amplitude to be used.
 		 * @param max_feature_size Maximum wave length for amplitude to be used.
 		 * @param amplitudes GGen_Amplitudes object.
-		 * @note Resulting computational complexity increases with number of amplitudes used.
 		 **/
 		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes);
 
