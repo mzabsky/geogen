@@ -742,132 +742,268 @@ void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen
 	}
 }
 
-void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes)
+// Returns value usable for interpolation from give coordinate. The coordinate might be outside the map.
+double Noise_GetGridPoint(GGen_Data_2D* map, GGen_CoordOffset x, GGen_CoordOffset y, GGen_Height* verticalOverflowBuffer, GGen_Height* horizontalOverflowBuffer){
+	// The value is outside the right border of the map - mirror the coordinate, so a realistically behaving value is used.
+	if(x < 0){
+		x = -x;
+	}
+
+	// The value is outside the right border - use value from the overflow buffer.
+	else if(x >= map->width){
+		return verticalOverflowBuffer[MAX(MIN(y, map->height), 0)];
+	}
+
+	// The value is outside the top border of the map - mirror the coordinate, so a realistically behaving value is used.
+	if(y < 0){
+		y = -y;
+	}
+	
+	// The value is outside the bottom border - use value from the overflow buffer.
+	else if(y >= map->height){
+		return horizontalOverflowBuffer[x];
+	}
+
+	// The point is within the map.
+	return map->data[x + map->width * y];
+}
+
+GGen_Height Noise_BicubicInterpolation(double p[4][4]){
+	// Prepare coefficients for the bicubic polynomial.
+	double a00 = p[1][1];
+	double a01 = -.5*p[1][0] + .5*p[1][2];
+	double a02 = p[1][0] - 2.5*p[1][1] + 2*p[1][2] - .5*p[1][3];
+	double a03 = -.5*p[1][0] + 1.5*p[1][1] - 1.5*p[1][2] + .5*p[1][3];
+	double a10 = -.5*p[0][1] + .5*p[2][1];
+	double a11 = .25*p[0][0] - .25*p[0][2] - .25*p[2][0] + .25*p[2][2];
+	double a12 = -.5*p[0][0] + 1.25*p[0][1] - p[0][2] + .25*p[0][3] + .5*p[2][0] - 1.25*p[2][1] + p[2][2] - .25*p[2][3];
+	double a13 = .25*p[0][0] - .75*p[0][1] + .75*p[0][2] - .25*p[0][3] - .25*p[2][0] + .75*p[2][1] - .75*p[2][2] + .25*p[2][3];
+	double a20 = p[0][1] - 2.5*p[1][1] + 2*p[2][1] - .5*p[3][1];
+	double a21 = -.5*p[0][0] + .5*p[0][2] + 1.25*p[1][0] - 1.25*p[1][2] - p[2][0] + p[2][2] + .25*p[3][0] - .25*p[3][2];
+	double a22 = p[0][0] - 2.5*p[0][1] + 2*p[0][2] - .5*p[0][3] - 2.5*p[1][0] + 6.25*p[1][1] - 5*p[1][2] + 1.25*p[1][3] + 2*p[2][0] - 5*p[2][1] + 4*p[2][2] - p[2][3] - .5*p[3][0] + 1.25*p[3][1] - p[3][2] + .25*p[3][3];
+	double a23 = -.5*p[0][0] + 1.5*p[0][1] - 1.5*p[0][2] + .5*p[0][3] + 1.25*p[1][0] - 3.75*p[1][1] + 3.75*p[1][2] - 1.25*p[1][3] - p[2][0] + 3*p[2][1] - 3*p[2][2] + p[2][3] + .25*p[3][0] - .75*p[3][1] + .75*p[3][2] - .25*p[3][3];
+	double a30 = -.5*p[0][1] + 1.5*p[1][1] - 1.5*p[2][1] + .5*p[3][1];
+	double a31 = .25*p[0][0] - .25*p[0][2] - .75*p[1][0] + .75*p[1][2] + .75*p[2][0] - .75*p[2][2] - .25*p[3][0] + .25*p[3][2];
+	double a32 = -.5*p[0][0] + 1.25*p[0][1] - p[0][2] + .25*p[0][3] + 1.5*p[1][0] - 3.75*p[1][1] + 3*p[1][2] - .75*p[1][3] - 1.5*p[2][0] + 3.75*p[2][1] - 3*p[2][2] + .75*p[2][3] + .5*p[3][0] - 1.25*p[3][1] + p[3][2] - .25*p[3][3];
+	double a33 = .25*p[0][0] - .75*p[0][1] + .75*p[0][2] - .25*p[0][3] - .75*p[1][0] + 2.25*p[1][1] - 2.25*p[1][2] + .75*p[1][3] + .75*p[2][0] - 2.25*p[2][1] + 2.25*p[2][2] - .75*p[2][3] - .25*p[3][0] + .75*p[3][1] - .75*p[3][2] + .25*p[3][3];
+
+	// Calculate value of the bicubic polynomial.
+	double value = (a00 + a01 * 0.5 + a02 * 0.5 * 0.5 + a03 * 0.5 * 0.5 * 0.5) +
+		(a10 + a11 * 0.5 + a12 * 0.5 * 0.5 + a13 * 0.5 * 0.5 * 0.5) * 0.5 +
+		(a20 + a21 * 0.5 + a22 * 0.5 * 0.5 + a23 * 0.5 * 0.5 * 0.5) * 0.5 * 0.5 +
+		(a30 + a31 * 0.5 + a32 * 0.5 * 0.5 + a33 * 0.5 * 0.5 * 0.5) * 0.5 * 0.5 * 0.5;
+
+	// Check for overflows.
+	if(!(value >= GGEN_MIN_HEIGHT && value <= GGEN_MAX_HEIGHT)){
+		cout << p[0][0] << " " << p[0][1] <<" " << p[0][2]<<" " <<p[0][3]<<" " <<p[1][0]<<" " <<p[0][0]<<" " <<p[1][1]<<" " <<p[1][2]<<" " <<p[1][2]<<" " <<p[1][3]<<" " <<p[2][0]<<" " <<p[2][1]<<" " <<p[2][2]<<" " <<p[2][3]<<" " <<p[3][0]<<" " <<p[3][1]<<" " <<p[3][2]<<" " <<p[3][3];
+		cout << value;
+	}
+
+	GGen_Script_Assert(value >= GGEN_MIN_HEIGHT && value <= GGEN_MAX_HEIGHT);
+
+	return (GGen_Height) value;
+}
+
+void GGen_Data_2D::Noise(GGen_Size minFeatureSize, GGen_Size maxFeatureSize, GGen_Amplitudes* amplitudes)
 {
-	GGen_Script_Assert(amplitudes != NULL);
-	GGen_Script_Assert(min_feature_size > 0);
-	GGen_Script_Assert(min_feature_size <= GGen::GetMaxMapSize());
-	GGen_Script_Assert(max_feature_size > 0);
-	GGen_Script_Assert(max_feature_size <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(amplitudes != NULL);	
+	GGen_Script_Assert(minFeatureSize > 0);
+	GGen_Script_Assert(minFeatureSize <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(maxFeatureSize > 0);
+	GGen_Script_Assert(maxFeatureSize <= GGen::GetMaxMapSize());
 
-	/* Prepare empty space for the work data */ 
-	GGen_Height* new_data = new GGen_Height[this->length];
+	/* This function uses the diamond-square mid-point displacement algorithm with bicubic interpolation. */
 
-	GGen_Script_Assert(new_data != NULL);
+	// Reset the map array, it will be filled with completely new values.
+	this->Fill(0);	
 
-	this->Fill(0);
+	/* The diamond-square algorithm by definition works on square maps only with side length equal to power  
+	 * of two plus one. But only one row-columns of points is enough to interpolate the points near the right 
+	 * and bottom borders (top and bottom borders are aligned with the grid, so they can be interpolated in much
+	 * simpler fashion) - Thanks to the fact that this is mid-point displacement algorithm,. The vertical buffer
+	 * stands for any points to outside the right border, the horizontal buffer then analogously serves as all 
+	 * points below the bottom border. The points outside both right and bottom border are represented by last
+	 * point in the vertical buffer. */	
+	GGen_Height* verticalOverflowBuffer = new GGen_Height[this->height + 1];
+	GGen_Height* horizontalOverflowBuffer = new GGen_Height[this->width];
 
-	/* For each octave (going from the higher wave lengths to the shorter)... */
-	for (GGen_Size wave_length = max_feature_size; wave_length >= 1; wave_length /= 2) {
-		GGen_Size frequency = GGen_log2(wave_length);
-		GGen_Height amplitude = amplitudes->data[frequency];
+	// The supplied wave length is likely not a power of two. Convert the number to the nearest lesser power of two.
+	unsigned waveLengthLog2 = (unsigned) GGen_log2(maxFeatureSize);
+	GGen_Size waveLength = 1 << waveLengthLog2;
+	GGen_Height amplitude = amplitudes->data[waveLengthLog2];
 
-		double pi_by_wave_length = 3.1415927 / wave_length;
-		
-		/* The wave length is shorter than the minimum desired wave length => done */
-		if (wave_length < min_feature_size) break;
-
-		/* Set up base noise grid values for  this round */
-		for (GGen_Coord y = 0; y < this->height; y += wave_length) {
-			for (GGen_Coord x = 0; x < this->width; x += wave_length) {
-				new_data[x + y * this->width] = GGen_Random<GGen_Height>(-amplitude, amplitude);
-			}
-		}		
-
-		if (wave_length > 1) {
-			for (GGen_Coord y = 0; y < this->height; y++) {
-				/* Precalculate some interpolation related values that are the same for whole */
-				GGen_Coord vertical_remainder = y % wave_length;
-				GGen_Coord nearest_vertical = y - vertical_remainder;
-				double vertical_fraction = (1 - cos(vertical_remainder * pi_by_wave_length)) * .5;
-			
-				GGen_Index vertical_offset = nearest_vertical * this->width;
-				GGen_Index vertical_offset_next = (nearest_vertical + wave_length) * this->width;
-			
-				for (GGen_Coord x = 0; x < this->width; x++) {
-					/* We are on the grid ==> no need for the interpolation */
-					if (vertical_remainder == 0 && x % wave_length == 0) continue;
-	 
-					/* Nearest horizontal noise grid coordinates */
-					GGen_Coord nearest_horizontal = x - x % wave_length;
-
-					/* Fetch values of four corners so we can interpolate the correct value. If such points don't 
-					exist, wrap to the opposite border and pick a point from the opposite part of the array. This is
-					not an attempt to create seamlessly repeatable noise (which has no point while creating terrains).
-					The source points are picked just to have some data to interpolate with (to prevent creation of
-					ugly unnatural artifacts) */
-					
-					/* Upper left corner */
-					GGen_Height upper_left = new_data[
-						nearest_horizontal +
-						vertical_offset
-					];
-
-					/* Upper right corner */
-					GGen_Height upper_right;
-					if (nearest_horizontal + wave_length > this->width - 1) {
-						upper_right = new_data[vertical_offset];
-					} else { 
-						/* The X coord of the point overflows the right border of the map */
-						upper_right = new_data[
-							nearest_horizontal + wave_length +
-							vertical_offset
-						];	
-					}
-					
-					/* Bottom left corner */
-					GGen_Height bottom_left;
-					if (nearest_vertical + wave_length > this->height - 1) {
-						bottom_left = new_data[nearest_horizontal];
-					} else {
-						/* The Y coord of the point overflows the bottom border of the map */
-						bottom_left = new_data[
-							nearest_horizontal +
-							vertical_offset_next
-						];	
-					}
-
-					/* Bottom right corner */
-					GGen_Height bottom_right;
-					/* Both coords of the point overflow the borders of the map */
-					if ((nearest_horizontal + wave_length > this->width - 1 && nearest_vertical + wave_length > this->height - 1) ) {
-						bottom_right = new_data[0];
-					} else if(nearest_horizontal + wave_length > this->width - 1) {
-						/* The X coord of the point overflows the right border of the map */
-						bottom_right = new_data[vertical_offset_next];
-					} else if (nearest_vertical + wave_length > this->height - 1) {
-						/* The Y coord of the point overflows the bottom border of the map */
-						bottom_right = new_data[nearest_horizontal + wave_length];
-					} else if( nearest_horizontal + wave_length + vertical_offset_next > (signed) (this->length - 1)) {
-						/* Product of the coords overflows the length of the array */
-						bottom_right = new_data[0];
-					} else {
-						bottom_right = new_data[
-							nearest_horizontal + wave_length +
-							vertical_offset_next
-						];	
-					}
-
-					/* Interpolate the value for the current tile from values of the four corners (using cosine interpolation) */
-					double horizontal_fraction = (1 - cos( (x % wave_length) * pi_by_wave_length)) * .5;
-					
-					double interpolated_top = upper_left * (1 - horizontal_fraction) +  upper_right * horizontal_fraction;
-					double interpolated_bottom = bottom_left * (1 - horizontal_fraction) + bottom_right * horizontal_fraction;
-
-					data[x + y * this->width] +=(GGen_Height) (interpolated_top * ( 1 - vertical_fraction) + interpolated_bottom * vertical_fraction);
+	// Generate the initial seed values (square corners).
+	for(GGen_Coord y = 0; ; y += waveLength){
+		if(y < this->height){
+			for(GGen_Coord x = 0; ; x += waveLength){
+				if(x < this->width){
+					this->data[x + this->width * y] = GGen_Random<GGen_Height>(-amplitude, amplitude);
 				}
-			} 
-		}
-
-		/* Add the current octave to previous octaves */
-		for(GGen_Coord y = 0; y < this->height; y += wave_length){
-			for(GGen_Coord x = 0; x < this->width; x += wave_length){
-				this->data[x + y * this->width] += new_data[x + y * this->width];
+				else{
+					verticalOverflowBuffer[y] = GGen_Random<GGen_Height>(-amplitude, amplitude);
+					break;
+				}
 			}
+		}
+		else {
+			for(GGen_Coord x = 0; ; x += waveLength){
+				if(x < this->width){
+					horizontalOverflowBuffer[x] = GGen_Random<GGen_Height>(-amplitude, amplitude);
+				}
+				else{
+					verticalOverflowBuffer[y] = GGen_Random<GGen_Height>(-amplitude, amplitude);
+					break;
+				}
+			}
+			break;
 		}
 	}
 
-	delete [] new_data;
+	amplitude = amplitudes->data[waveLengthLog2 - 1];
+
+	// Keep interpolating until there are uninterpolated tiles..
+	while(waveLength > 1){
+		GGen_Size halfWaveLength = waveLength / 2;
+
+		// The square step - put a randomly generated point into center of each square.
+		bool breakY = false;
+		for(GGen_Coord y = halfWaveLength; breakY == false; y += waveLength){			
+			for(GGen_Coord x = halfWaveLength; ; x += waveLength){
+				// Prepare the 4x4 value matrix for bicubic interpolation.
+				GGen_CoordOffset x0 = (int) x - (int) halfWaveLength - (int) waveLength;
+				GGen_CoordOffset x1 = (int) x - (int) halfWaveLength;
+				GGen_CoordOffset x2 = (int) x + (int) halfWaveLength;
+				GGen_CoordOffset x3 = (int) x + (int) halfWaveLength + (int) waveLength;
+
+				GGen_CoordOffset y0 = (int) y - (int) halfWaveLength - (int) waveLength;
+				GGen_CoordOffset y1 = (int) y - (int) halfWaveLength;
+				GGen_CoordOffset y2 = (int) y + (int) halfWaveLength;
+				GGen_CoordOffset y3 = (int) y + (int) halfWaveLength + (int) waveLength;
+
+				double data[4][4] = {
+					{
+						Noise_GetGridPoint(this, x0, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x1, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x2, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x3, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+					{
+						Noise_GetGridPoint(this, x0, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x1, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x2, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x3, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+					{
+						Noise_GetGridPoint(this,x0, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x1, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x2, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x3, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+					{
+						Noise_GetGridPoint(this, x0, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x1, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x2, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x3, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+				};
+
+				// Interpolate!
+				GGen_Height interpolatedHeight = Noise_BicubicInterpolation(data) + (waveLength < minFeatureSize ? 0 : GGen_Random<GGen_ExtHeight>(-amplitude, amplitude));
+
+				// Place the value into one of the overflow buffers, if it is outside the map.
+				if(x >= this->width){
+					verticalOverflowBuffer[MIN(y, this->height)] = interpolatedHeight;
+					break;
+				}
+				else if(y >= this->height) {
+					horizontalOverflowBuffer[x] = interpolatedHeight;
+					breakY = true;
+				}
+				else{
+					this->data[x + this->width * y] = interpolatedHeight;
+				}
+			}
+		}
+
+		// The diamond step - add point into middle of each diamond so each square from the square step is composed of 4 smaller squares.
+		breakY = false;
+		bool evenRow = true;
+		for(GGen_Coord y = 0; breakY == false; y += halfWaveLength){			
+			for(GGen_Coord x = evenRow ? halfWaveLength : 0; ; x += waveLength){							
+				// Prepare the 4x4 value matrix for bicubic interpolation (this time rotated by 45 degrees).
+				GGen_CoordOffset x0 = (int) x - (int) halfWaveLength - (int) waveLength;
+				GGen_CoordOffset x1 = (int) x - (int) waveLength;
+				GGen_CoordOffset x2 = (int) x - (int) halfWaveLength;
+				GGen_CoordOffset x3 = (int) x;
+				GGen_CoordOffset x4 = (int) x + (int) halfWaveLength;
+				GGen_CoordOffset x5 = (int) x + (int) waveLength;
+				GGen_CoordOffset x6 = (int) x + (int) halfWaveLength + (int) waveLength;
+
+				GGen_CoordOffset y0 = (int) y - (int) halfWaveLength - (int) waveLength;
+				GGen_CoordOffset y1 = (int) y - (int) waveLength;
+				GGen_CoordOffset y2 = (int) y - (int) halfWaveLength;
+				GGen_CoordOffset y3 = (int) y;
+				GGen_CoordOffset y4 = (int) y + (int) halfWaveLength;
+				GGen_CoordOffset y5 = (int) y + (int) waveLength;
+				GGen_CoordOffset y6 = (int) y + (int) halfWaveLength + (int) waveLength;
+
+				double data[4][4] = {
+					{
+						Noise_GetGridPoint(this, x0, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this,x1, y4, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x2, y5, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x3, y6, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+					{
+						Noise_GetGridPoint(this, x1, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x2, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x3, y4, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x4, y5, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+					{
+						Noise_GetGridPoint(this, x2, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x3, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x4, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x5, y4, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+					{
+						Noise_GetGridPoint(this, x3, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x4, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x5, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
+						Noise_GetGridPoint(this, x6, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
+					},
+				};
+
+				// Interpolate!
+				GGen_Height interpolatedHeight = Noise_BicubicInterpolation(data) + (waveLength < minFeatureSize ? 0 : GGen_Random<GGen_ExtHeight>(-amplitude, amplitude));
+
+				// Place the value into one of the overflow buffers, if it is outside the map.
+				if(x >= this->width){
+					verticalOverflowBuffer[y] = interpolatedHeight;
+					break;
+				}
+				else if(y >= this->height) {
+					horizontalOverflowBuffer[x] = interpolatedHeight;
+					breakY = true;
+				}
+				else{
+					this->data[x + this->width * y] = interpolatedHeight;
+				}
+			}
+
+			// The X coordinates are shifted by waveLength/2 in even rows.
+			evenRow = !evenRow;
+		}
+
+		// Decrease the wave length and amplitude.
+		waveLength /= 2;
+		amplitude = amplitudes->data[GGen_log2(waveLength / 2)];
+	}
+
+	delete [] verticalOverflowBuffer;
+	delete [] horizontalOverflowBuffer;
+
+	return;
 } 
 
 // NOT REALLY FINISHED!! NEEDS A LOT OF POLISH!!!
