@@ -818,9 +818,9 @@ void GGen_Data_2D::Noise(GGen_Size minFeatureSize, GGen_Size maxFeatureSize, GGe
 	this->Fill(0);	
 
 	/* The diamond-square algorithm by definition works on square maps only with side length equal to power  
-	 * of two plus one. But only one row-columns of points is enough to interpolate the points near the right 
+	 * of two plus one. But only two rows/columns of points are enough to interpolate the points near the right 
 	 * and bottom borders (top and bottom borders are aligned with the grid, so they can be interpolated in much
-	 * simpler fashion) - Thanks to the fact that this is mid-point displacement algorithm,. The vertical buffer
+	 * simpler fashion) - thanks to the fact that this is mid-point displacement algorithm. The vertical buffer
 	 * stands for any points to outside the right border, the horizontal buffer then analogously serves as all 
 	 * points below the bottom border. The points outside both right and bottom border are represented by last
 	 * point in the vertical buffer. */	
