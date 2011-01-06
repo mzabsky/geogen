@@ -78,12 +78,6 @@ GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_
 	if (scale_to_x == this->length) {
 		return this->data[x];
 	} else if (scale_to_x > this->length) {
-
-		if(x > 0){
-			int asd;
-			asd++;
-		}
-
 		// The target scale is larger, interpolation is necessary.
 		double ratio = (double) (scale_to_x - 1) / (double) (this->length - 1);
 
