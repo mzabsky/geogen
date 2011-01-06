@@ -21,11 +21,8 @@ RegisterPreset(ggen_std_noise, GGen_Const_String("GGEN_STD_NOISE"));
 
 /* GGEN_NATURAL_PROFILE */
 
-GGen_Data_1D* ggen_natural_profile = new GGen_Data_1D(6, 0);
-ggen_natural_profile->SetValue(1, 18 * 15);
-ggen_natural_profile->SetValue(2, 43 * 15);
-ggen_natural_profile->SetValue(3, 91 * 15);
-ggen_natural_profile->SetValue(4, 163 * 15);
-ggen_natural_profile->SetValue(5, 255 * 15);
+GGen_Data_1D* ggen_natural_profile = new GGen_Data_1D(3, 0);
+ggen_natural_profile->SetValue(1, 91 * 15);
+ggen_natural_profile->SetValue(2, 255 * 15);
 
 RegisterPreset(ggen_natural_profile, GGen_Const_String("GGEN_NATURAL_PROFILE"));
