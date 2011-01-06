@@ -71,7 +71,7 @@ GGen_Height GGen_Data_1D::GetValue(GGen_Coord x)
 
 GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_x)
 {
-	GGen_Script_Assert(scale_to_x <= GGen::GetMaxMapSize());
+	//GGen_Script_Assert(scale_to_x <= GGen::GetMaxMapSize());
 	GGen_Script_Assert(scale_to_x >= GGEN_MIN_MAP_SIZE);
 	GGen_Script_Assert(x < scale_to_x);
 
@@ -80,20 +80,42 @@ GGen_Height GGen_Data_1D::GetValueInterpolated(GGen_Coord x, GGen_Size scale_to_
 		return this->data[x];
 	} else if (scale_to_x > this->length) {
 
+		if(x > 0){
+			int asd;
+			asd++;
+		}
+
 		/* The target scale is larger, interpolation is necessary */
 		double ratio = (double) (scale_to_x - 1) / (double) (this->length - 1);
 
+		double scaledX = x / ratio;
+
 		/* How much does the source tile overlap over the smaller grid? */
-		double remainder = (x / ratio) - floor(x / ratio);
+		double remainder = scaledX - (int) scaledX;
+
+		double value0 = scaledX > 1 ? data[(int) scaledX - 1] : (data[0] == 0 ? 1 : data[0]);
+		double value1 = scaledX > 0 ? data[(int) scaledX] : data[0];
+		double value2 = scaledX + 1 < this->length ? data[(int) scaledX + 1] : data[this->length - 1];
+		double value3 = scaledX + 2 < this->length ? data[(int) scaledX + 2] : data[this->length - 1];
+
+		double a0 = (value3 - value2) - (value0 - value1);
+		double a1 = (value0 - value1) - a0;
+		double a2 = value2 - value0;
+		double a3 = value1;
+
+		double result = a0 * remainder * remainder * remainder + a1 * remainder * remainder + a2 * remainder + a3;
+
+		return (GGen_Height) result;
 
 		/* Interpolate the value from two surrounding values */
-		return (GGen_Height) ((double) data[(GGen_Coord) floor(x / ratio)] * (1 - remainder) + (double) data[(GGen_Coord) floor(x / ratio) + 1] * (remainder));
+		//return (GGen_Height) ((double) data[(GGen_Coord) floor(x / ratio)] * (1 - remainder) + (double) data[(GGen_Coord) floor(x / ratio) + 1] * (remainder));
 	}
+	else {
+		double ratio = (double) (scale_to_x - 1) / (double) (this->length - 1);
 
-	double ratio = (double) (scale_to_x - 1) / (double) (this->length - 1);
-
-	/* The target is smaller, pick the closest value */
-	return (GGen_Height) data[(GGen_Coord) floor((double)x / ratio + 0.5)];
+		/* The target is smaller, pick the closest value */
+		return (GGen_Height) data[(GGen_Coord) floor((double)x / ratio + 0.5)];
+	}
 }
 
 void GGen_Data_1D::SetValue(GGen_Coord x, GGen_Height value)
