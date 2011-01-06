@@ -846,7 +846,7 @@ void GGen_Data_2D::Noise(GGen_Size minFeatureSize, GGen_Size maxFeatureSize, GGe
 					horizontalOverflowBuffer[x] = GGen_Random<GGen_Height>(-amplitude, amplitude);
 				}
 				else{
-					verticalOverflowBuffer[y] = GGen_Random<GGen_Height>(-amplitude, amplitude);
+					verticalOverflowBuffer[this->height] = GGen_Random<GGen_Height>(-amplitude, amplitude);
 					break;
 				}
 			}
@@ -974,7 +974,7 @@ void GGen_Data_2D::Noise(GGen_Size minFeatureSize, GGen_Size maxFeatureSize, GGe
 
 				// Place the value into one of the overflow buffers, if it is outside the map.
 				if(x >= this->width){
-					verticalOverflowBuffer[y] = interpolatedHeight;
+					verticalOverflowBuffer[MIN(y, this->height)] = interpolatedHeight;
 					break;
 				}
 				else if(y >= this->height) {
@@ -1369,20 +1369,20 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 	if(relative){
 		max = this->Max();
 	}
-	
+
 	/* Smoothen the profile to prevent visible color jumps in the result */
-	GGen_Data_1D profile_copy = *profile->Clone();
-	profile_copy.ScaleTo(max + 1, false);
-	if(profile_copy.length > 80) profile_copy.Smooth(max / 40);
+	GGen_Data_1D profileCopy = *profile->Clone();
+	profileCopy.ScaleTo(max + 1, false);
+	if(profileCopy.length > 80) profileCopy.Smooth(max / 40);
 	
 	/* Make sure the smoothing didn't change the extremes */
-	profile_copy.ScaleValuesTo(profile->Min(), profile->Max());
+	profileCopy.ScaleValuesTo(profile->Min(), profile->Max());
 	
 	/* Transform the values */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
 			if (this->data[x + y * this->width] > 0) {
-				this->data[x + y * this->width] = profile_copy.GetValue(this->data[x + y * this->width]);
+				this->data[x + y * this->width] = profileCopy.GetValue(this->data[x + y * this->width]);
 			}
 		}
 	}
