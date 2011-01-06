@@ -1370,19 +1370,12 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 		max = this->Max();
 	}
 
-	/* Smoothen the profile to prevent visible color jumps in the result */
-	GGen_Data_1D profileCopy = *profile->Clone();
-	profileCopy.ScaleTo(max + 1, false);
-	if(profileCopy.length > 80) profileCopy.Smooth(max / 40);
-	
-	/* Make sure the smoothing didn't change the extremes */
-	profileCopy.ScaleValuesTo(profile->Min(), profile->Max());
-	
 	/* Transform the values */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
 			if (this->data[x + y * this->width] > 0) {
-				this->data[x + y * this->width] = profileCopy.GetValue(this->data[x + y * this->width]);
+				GGen_Height height = this->data[x + this->width * y];
+				this->data[x + y * this->width] = x > 0 ? profile->GetValueInterpolated(height, max + 1) : 0;
 			}
 		}
 	}
