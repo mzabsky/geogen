@@ -9,13 +9,18 @@ namespace GeoGen.Studio.Utilities.Configurability
     /* Exclude this class from both IntelliSense and documentation, it is of no purpose for anyone but MainConfig class.
      * It is public only because XML serializer needs it to be. */
 
-    /// <exclude />
+    /// <summary>
+    /// Serializable two-level dictionary tailored for purposes of MainConfig Class. 
+    /// </summary>
+    /// <exclude/>
     [XmlRoot("PropertyStore")]
     [EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public class PropertyStore : Dictionary<string, Dictionary<string, object>>, IXmlSerializable
+    public class PropertyStore : Dictionary<string /* owner type */, Dictionary<string /* property name */, object /* property value */>>, IXmlSerializable
     {
+        /// <exclude />
         public System.Xml.Schema.XmlSchema GetSchema()
         {
+            // Required by IXmlSerializable, but not necessary
             return null;
         }
 
@@ -64,7 +69,7 @@ namespace GeoGen.Studio.Utilities.Configurability
                 }
                 catch
                 {
-                    /* Try to resume deserialization on next item. */
+                    /* Deserialization of this property's value failed, try to resume deserialization on next item. */
                     reader.Skip();
                     reader.ReadEndElement(); // </value>
                     reader.ReadEndElement(); // </item>
