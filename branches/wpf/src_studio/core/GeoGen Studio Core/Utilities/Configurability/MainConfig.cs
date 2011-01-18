@@ -79,59 +79,16 @@ namespace GeoGen.Studio.Utilities.Configurability
                 MainConfig.Initialize();
             }
 
-            /*if(!propertyStore.ContainsKey(configurable.GetType().ToString())){
-                return;
-            }*/
-
-            Dictionary<string, object> currentStore;
-            
-            if(!MainConfig.propertyStore.TryGetValue(configurable.GetType().ToString(), out currentStore))
-            {
-                currentStore = new Dictionary<string, object>();
-            }
-
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
+                Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(configurable.GetType());
+
                 ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
 
                 /* Skip non-writable non-configurable properties. */
                 if(property.CanWrite && configurableAttribute != null)
                 {
-                    /* Does the property store contain this property? */
-                    if(currentStore.ContainsKey(property.Name))
-                    {
-                        object storeValue = currentStore[property.Name];
-
-                        /* Do the types match? */
-                        if(property.PropertyType.IsAssignableFrom(storeValue.GetType())){
-                            property.SetValue(configurable, storeValue, null);
-                        }
-                    }
-                    /* The value is not in property store, but its default value is known. */
-                    else if(configurableAttribute.DefaultValue != null)
-                    {
-                        property.SetValue(configurable, configurableAttribute.DefaultValue, null);
-                    }
-                    /* The  property is of a value type - use that type's default value. */
-                    else if(property.PropertyType.IsValueType)
-                    {
-                        property.SetValue(configurable, Activator.CreateInstance(property.PropertyType), null);
-                    }
-                    /* The property is of a reference type - use null. */
-                    else if(configurableAttribute.UseEmptyInstanceAsDefault)
-                    {
-                        try{
-                            property.SetValue(configurable, Activator.CreateInstance(property.PropertyType), null);
-                        }
-                        catch(Exception e)
-                        {
-                            throw new InvalidOperationException("Could not create a default instance for property \"" + property.ToString() + "\", see innerException for details.", e);
-                        }
-                    }
-                    else
-                    {
-                        property.SetValue(configurable, null, null);
-                    }
+                    property.SetValue(configurable, MainConfig.GetPropertyValue(property), null);
                 }
             }
         }
@@ -143,15 +100,8 @@ namespace GeoGen.Studio.Utilities.Configurability
                 MainConfig.Initialize();
             }
 
-            string confiurableName = configurable.GetType().ToString();
-
-            if (!MainConfig.propertyStore.ContainsKey(confiurableName))
-            {
-                MainConfig.propertyStore.Add(confiurableName, new Dictionary<string, object>());
-            }
-
-            Dictionary<string, object> currentStore = MainConfig.propertyStore[confiurableName];
-
+            Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(configurable.GetType());
+            
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
                 ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
@@ -162,6 +112,70 @@ namespace GeoGen.Studio.Utilities.Configurability
                     currentStore[property.Name] = property.GetValue(configurable, null);
                 }
             }
+        }
+
+        private static Dictionary<string, object> GetPropertyStoreForType(Type owner)
+        {
+            if (!MainConfig.propertyStore.ContainsKey(owner.Name))
+            {
+                MainConfig.propertyStore.Add(owner.Name, new Dictionary<string, object>());
+            }
+
+            return MainConfig.propertyStore[owner.Name];
+        }
+
+        public static object GetPropertyValue(PropertyInfo property)
+        {
+            Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(property.ReflectedType);
+
+            ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+
+            // Does the property store contain this property?
+            if(currentStore.ContainsKey(property.Name))
+            {
+                object storeValue = currentStore[property.Name];
+
+                // Do the types match?
+                if(property.PropertyType.IsAssignableFrom(storeValue.GetType())){
+                    return storeValue;
+                }
+                // Otherwise use one of the following default value modes
+            }
+
+            // The value is not in property store (or is not valid), but its default value is known.
+            if(configurableAttribute.DefaultValue != null)
+            {
+                // Do the types match?
+                if (property.PropertyType.IsAssignableFrom(configurableAttribute.DefaultValue.GetType()))
+                {
+                    return configurableAttribute.DefaultValue;
+                }
+                else
+                {
+                    throw new InvalidCastException("Default value for property \"" + property.ToString() + "\" is not compatible with its type.");
+                }
+            }
+            // The  property is of a value type - use that type's default value.
+            else if(property.PropertyType.IsValueType)
+            {
+                return Activator.CreateInstance(property.PropertyType);
+            }
+            // The property is of a reference type - use null.
+            else if(configurableAttribute.UseEmptyInstanceAsDefault)
+            {
+                try{
+                    return Activator.CreateInstance(property.PropertyType);
+                }
+                catch(Exception e)
+                {
+                    throw new InvalidOperationException("Could not create a default instance for property \"" + property.ToString() + "\", see innerException for details.", e);
+                }
+            }
+            // The property is of a reference type and no default other default value could be created - use null.
+            else
+            {
+                return null;
+            }          
         }
     }
 }
