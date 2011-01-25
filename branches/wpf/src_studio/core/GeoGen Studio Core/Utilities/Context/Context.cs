@@ -19,7 +19,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Context"/> class.
         /// </summary>
-        /// <param name="text">The label.</param>
+        /// <param name="label">The label.</param>
         public Context(string label)
         {
             this.Label = label;
