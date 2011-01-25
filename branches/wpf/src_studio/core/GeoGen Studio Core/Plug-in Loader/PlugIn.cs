@@ -4,14 +4,40 @@ using System.Reflection;
 
 namespace GeoGen.Studio.PlugInLoader
 {
+    /// <summary>
+    /// Holds all available information about a single plug-in.
+    /// </summary>
     public sealed class PlugIn
     {
+        /// <summary>
+        /// User-friendly name of the plug-in.
+        /// </summary>
+        /// <value>The name.</value>
         public string Name {get; private set;}
+
+        /// <summary>
+        /// Short user-friendly description of the plug-in.
+        /// </summary>
+        /// <value>The name.</value>
         public string Description { get; private set;}
+
+        /// <summary>
+        /// <see cref="Assembly"/> in which this plug-in is defined.
+        /// </summary>
+        /// <value>The <see cref="Assembly"/>.</value>
         public Assembly Assembly {get; private set;}
+
+        /// <summary>
+        /// <see cref="Type"/> defining this plug-in.
+        /// </summary>
+        /// <value>The <see cref="Type"/>.</value>
         public Type Type {get; private set;}
 
-        private List<object> instances = new List<object>();
+        private readonly List<object> instances = new List<object>();
+        /// <summary>
+        /// List of instances started by the <see cref="Loader"/>.
+        /// </summary>
+        /// <value>The instances.</value>
         public IEnumerable<object> Instances
         {
             get
@@ -20,7 +46,11 @@ namespace GeoGen.Studio.PlugInLoader
             }
         }
 
-        private List<Registrator> registrators = new List<Registrator>();
+        private readonly List<Registrator> registrators = new List<Registrator>();
+        /// <summary>
+        /// List of <see cref="Registrator">registrators</see> defined by this plug-in.
+        /// </summary>
+        /// <value>The <see cref="Registrator">registrators</see>.</value>
         public IEnumerable<Registrator> Registrators
         {
             get
@@ -29,6 +59,12 @@ namespace GeoGen.Studio.PlugInLoader
             }
         }
 
+        /// <summary>
+        /// Indicates whether this plug-in will be loaded next time the application is started.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this plug-in is enabled; otherwise, <c>false</c>.
+        /// </value>
         public bool IsEnabled {
             get
             {
@@ -47,6 +83,12 @@ namespace GeoGen.Studio.PlugInLoader
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether at least one instance of this plug-in is running.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if at least one instance of this plug-in is running; otherwise, <c>false</c>.
+        /// </value>
         public bool IsRunning {
             get
             {
@@ -62,14 +104,7 @@ namespace GeoGen.Studio.PlugInLoader
             PlugInAttribute plugInAttribute = Attribute.GetCustomAttribute(plugInType, typeof(PlugInAttribute)) as PlugInAttribute ?? new PlugInAttribute();
 
             // Use type name if the attribute didn't provide a nice name
-            if(plugInAttribute.Name != "")
-            {
-                this.Name = plugInAttribute.Name;
-            }
-            else
-            {
-                this.Name = plugInType.Name;
-            }
+            this.Name = plugInAttribute.Name != "" ? plugInAttribute.Name : plugInType.Name;
 
             this.Description = plugInAttribute.Description;
 

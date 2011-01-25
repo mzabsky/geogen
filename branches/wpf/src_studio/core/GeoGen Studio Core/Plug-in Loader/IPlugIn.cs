@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GeoGen.Studio.PlugInLoader
+﻿namespace GeoGen.Studio.PlugInLoader
 {
     /// <summary>
     /// Any type implementing this interface will be considered to be a plug-in.

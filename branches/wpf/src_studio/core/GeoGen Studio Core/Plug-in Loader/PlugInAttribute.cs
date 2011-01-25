@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GeoGen.Studio.PlugInLoader
 {
@@ -40,11 +37,13 @@ namespace GeoGen.Studio.PlugInLoader
         /// <summary>
         /// Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.
         /// </summary>
-        public InstanceCount InstanceCount { get; set; }        
+        public InstanceCount InstanceCount { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlugInAttribute"/> class.
-        /// </summary>
+        /// </summary>        
+        /// <param name="name">User-friendly name of the plug-in</param>
+        /// <param name="description">Short user-friendly description of the plug-in</param>        
         /// <param name="instanceCount">Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.</param>
         public PlugInAttribute(string name = "", string description = "", InstanceCount instanceCount = InstanceCount.One)
         {
