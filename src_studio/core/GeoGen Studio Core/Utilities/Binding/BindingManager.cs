@@ -13,7 +13,7 @@ namespace GeoGen.Studio.Utilities.Binding
     /// </remarks>
     public static class BindingManager
     {
-        static private BindingTable bindings = new BindingTable();
+        static private readonly BindingTable bindings = new BindingTable();
 
         /// <summary>
         /// Creates an one-way binding between two properties. The binding has to be manually <see cref="BindingManager.UnbindOneWay">unbound</see> before the bound objects can be propertly released.
@@ -81,7 +81,7 @@ namespace GeoGen.Studio.Utilities.Binding
 
         private static void OnBoundPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            PropertyInfo fromProperty = null;
+            PropertyInfo fromProperty;
 
             try{
                 fromProperty = sender.GetType().GetProperty(args.PropertyName);
@@ -103,13 +103,13 @@ namespace GeoGen.Studio.Utilities.Binding
 
             foreach (KeyValuePair<object, string> binding in foundBindings)
             {
-                PropertyInfo toProperty = null;
+                PropertyInfo toProperty;
 
                 try
                 {
                     toProperty = binding.Key.GetType().GetProperty(binding.Value);
 
-                    if (!BindingManager.IsPropertyWritable(toProperty, binding.Key.GetType()) || !BindingManager.IsPropertyReadable(toProperty))
+                    if (!BindingManager.IsPropertyWritable(toProperty) || !BindingManager.IsPropertyReadable(toProperty))
                     {
                         throw new Exception();
                     }
@@ -144,7 +144,7 @@ namespace GeoGen.Studio.Utilities.Binding
             ;
         }
 
-        private static bool IsPropertyWritable(PropertyInfo property, Type type)
+        private static bool IsPropertyWritable(PropertyInfo property)
         {
             return
                 property != null &&
