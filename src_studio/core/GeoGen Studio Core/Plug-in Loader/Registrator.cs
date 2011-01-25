@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Reflection;
 
 namespace GeoGen.Studio.PlugInLoader
@@ -132,9 +132,9 @@ namespace GeoGen.Studio.PlugInLoader
             this.Implements = method.DeclaringType.GetInterfaces();
 
             /* Use thee attribute defined by the plug-in (or default one if none is defined). */
-            PlugInAttribute PlugInAttribute = Attribute.GetCustomAttribute(this.PluginType, typeof(PlugInAttribute)) as PlugInAttribute ?? new PlugInAttribute();
+            PlugInAttribute plugInAttribute = Attribute.GetCustomAttribute(this.PluginType, typeof(PlugInAttribute)) as PlugInAttribute ?? new PlugInAttribute();
 
-            this.InstanceCount = PlugInAttribute.InstanceCount;
+            this.InstanceCount = plugInAttribute.InstanceCount;
 
             try
             {
@@ -154,16 +154,16 @@ namespace GeoGen.Studio.PlugInLoader
                         /* Only plain parameters are allowed. Also, all parameters must be an interface descendant of IPlugInInterface. */
                         if (parameter.IsIn || parameter.IsOut || parameter.IsRetval || !typeof(IPlugInInterface).IsAssignableFrom(parameter.ParameterType) || !parameter.ParameterType.IsInterface)
                         {
-                            failureMessages.Add("Incorrect Register parameter " + i + " " + parameter.ToString());
+                            failureMessages.Add("Incorrect Register parameter " + i + " " + parameter);
                         }
 
                         /* No two dependencies must be of the same type. */
-                        foreach(Type dependency in this.DependsOn){
-                            if(dependency == parameter.ParameterType){
-                                failureMessages.Add("Repeating parameter " + parameter.ToString() + ", two or more parameters of the same type are not allowed");
-                            }
-                        }
-                        
+                        failureMessages.AddRange(
+                            from dependency in this.DependsOn
+                            where dependency == parameter.ParameterType
+                            select "Repeating parameter " + parameter + ", two or more parameters of the same type are not allowed"
+                        );
+
                         this.DependsOn[i] = parameter.ParameterType;
 
                         i++;
