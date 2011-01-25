@@ -16,9 +16,10 @@ namespace GeoGen.Studio.Utilities.Converters
             try
             {
                 if (value == null || (string)value == "") return Visibility.Collapsed;
-                else return Visibility.Visible;
+                
+                return Visibility.Visible;
             }
-            catch { }
+            catch (InvalidCastException) { }
             return "<Unknown value>";
         }
 

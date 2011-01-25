@@ -14,10 +14,11 @@ namespace GeoGen.Studio.Utilities.Converters
         {
             try
             {
-                if ((bool)value) return "Yes";
-                else return "No";
+                if ((bool) value) return "Yes";
+                
+                return "No";
             }
-            catch { }
+            catch(InvalidCastException) { }
             return "<Unknown value>";
         }
 
