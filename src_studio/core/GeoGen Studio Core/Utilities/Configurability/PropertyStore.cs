@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace GeoGen.Studio.Utilities.Configurability
 {
@@ -52,24 +51,34 @@ namespace GeoGen.Studio.Utilities.Configurability
                 Type valueType = Type.GetType(reader.ReadString());
                 reader.ReadEndElement();
 
-                /* If the type failed to initialize, don't create the XmlSerializer object, the deserialization will
-                 * then crash on NullReferenceException and the catch statement will make sure the item is ignored. */
-                XmlSerializer valueSerializer = null;
+                // Attempt to deserialize the value type.
+                XmlSerializer valueSerializer;
                 if (valueType != null)
                 {
                     valueSerializer = new XmlSerializer(valueType);
                 }
+                else
+                {
+                    /* Deserialization of this property's value type, try to resume deserialization on next item. */
+                    reader.Skip();
+                    reader.ReadEndElement(); // </type>
+                    reader.Skip(); // <value></value>
+                    reader.ReadEndElement(); // </item>
+                    reader.MoveToContent();
+
+                    continue;
+                }
 
                 reader.ReadStartElement("value");
 
-                object value = null;
+                object value;
                 try
                 {
                     value = valueSerializer.Deserialize(reader);
                 }
                 catch
                 {
-                    /* Deserialization of this property's value failed, try to resume deserialization on next item. */
+                    // Deserialization of this property's value failed, try to resume deserialization on next item.
                     reader.Skip();
                     reader.ReadEndElement(); // </value>
                     reader.ReadEndElement(); // </item>
@@ -102,8 +111,6 @@ namespace GeoGen.Studio.Utilities.Configurability
         /// <exclude />
         public void WriteXml(System.Xml.XmlWriter writer)
         {
-            XmlSerializer keySerializer = new XmlSerializer(typeof(Type));
-
             foreach (string plugInName in this.Keys)
             {
                 Dictionary<string, object> plugInProperties = this[plugInName];

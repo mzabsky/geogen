@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Windows;
 
 namespace GeoGen.Studio.Utilities.Configurability
 {
+    /// <summary>
+    /// Offers a simple way to persistently store properties of objects on a per-type basis.
+    /// </summary>
     public static class MainConfig
     {
-        private static bool isInitialized = false;
-        private static PropertyStore propertyStore = null;
-        private static List<IConfigurable> registeredConfigurables = new List<IConfigurable>();
+        private static bool isInitialized;
+        private static PropertyStore propertyStore;
+        private static readonly List<IConfigurable> registeredConfigurables = new List<IConfigurable>();
 
         private static void Initialize()
         {
             /* Load the configuration  data from the config.xml file. */
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(PropertyStore));
 
-            System.IO.StreamReader reader = null;
             try
             {
-                reader = System.IO.File.OpenText("config.xml");
+                using(StreamReader reader = System.IO.File.OpenText("config.xml"))
 
                 MainConfig.propertyStore = xs.Deserialize(reader) as PropertyStore;
             }
@@ -26,17 +30,9 @@ namespace GeoGen.Studio.Utilities.Configurability
             {
                 MainConfig.propertyStore = new PropertyStore();
             }
-            finally
-            {
-                try
-                {
-                    reader.Close();
-                }
-                catch { };
-            }
 
             /* Save the config.xml when the application is terminating. */
-            GeoGen.Studio.App.Current.Exit += delegate(object o, System.Windows.ExitEventArgs args)
+            Application.Current.Exit += delegate
             {
                 MainConfig.SaveConfigurations();
             };
@@ -62,6 +58,11 @@ namespace GeoGen.Studio.Utilities.Configurability
             writer.Close();
         }
 
+        /// <summary>
+        /// Registers a configurable object for persistent storage. The object's properties will be updated from the storage upon registraation.
+        /// When the application shuts down, its properties will be saved into the storage.
+        /// </summary>
+        /// <param name="configurable">The configurable.</param>
         public static void Register(IConfigurable configurable)
         {
             if(!MainConfig.registeredConfigurables.Contains(configurable))
@@ -81,8 +82,6 @@ namespace GeoGen.Studio.Utilities.Configurability
 
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
-                Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(configurable.GetType());
-
                 ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
 
                 /* Skip non-writable non-configurable properties. */
@@ -93,6 +92,10 @@ namespace GeoGen.Studio.Utilities.Configurability
             }
         }
 
+        /// <summary>
+        /// Saves properties of the configurable object to the persistent storage. The object will be <see cref="MainConfig.Register">registered</see>, if it is not already.
+        /// </summary>
+        /// <param name="configurable">The configurable.</param>
         public static void SaveConfiguration(IConfigurable configurable)
         {
             if(!MainConfig.isInitialized)
@@ -124,11 +127,16 @@ namespace GeoGen.Studio.Utilities.Configurability
             return MainConfig.propertyStore[owner.Name];
         }
 
+        /// <summary>
+        /// Gets value of one specific property. If the property is not found on the storage, a default value according to its attributes will be used.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <returns></returns>
         public static object GetPropertyValue(PropertyInfo property)
         {
             Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(property.ReflectedType);
 
-            ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+            ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute ?? new ConfigurableAttribute();
 
             // Does the property store contain this property?
             if(currentStore.ContainsKey(property.Name))
@@ -150,32 +158,30 @@ namespace GeoGen.Studio.Utilities.Configurability
                 {
                     return configurableAttribute.DefaultValue;
                 }
-                else
-                {
-                    throw new InvalidCastException("Default value for property \"" + property.ToString() + "\" is not compatible with its type.");
-                }
+
+                throw new InvalidCastException("Default value for property \"" + property + "\" is not compatible with its type.");
             }
+            
             // The  property is of a value type - use that type's default value.
-            else if(property.PropertyType.IsValueType)
+            if(property.PropertyType.IsValueType)
             {
                 return Activator.CreateInstance(property.PropertyType);
             }
+            
             // The property is of a reference type - use null.
-            else if(configurableAttribute.UseEmptyInstanceAsDefault)
+            if(configurableAttribute.UseEmptyInstanceAsDefault)
             {
                 try{
                     return Activator.CreateInstance(property.PropertyType);
                 }
                 catch(Exception e)
                 {
-                    throw new InvalidOperationException("Could not create a default instance for property \"" + property.ToString() + "\", see innerException for details.", e);
+                    throw new InvalidOperationException("Could not create a default instance for property \"" + property + "\", see innerException for details.", e);
                 }
             }
+            
             // The property is of a reference type and no default other default value could be created - use null.
-            else
-            {
-                return null;
-            }          
+            return null;
         }
     }
 }
