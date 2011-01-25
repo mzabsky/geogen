@@ -22,8 +22,15 @@ namespace GeoGen.Studio.Utilities.Configurability
         /// </value>
         public bool UseEmptyInstanceAsDefault{get; set;}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurableAttribute"/> class.
+        /// </summary>
         public ConfigurableAttribute(){}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurableAttribute"/> class.
+        /// </summary>
+        /// <param name="defaultValue">The default value.</param>
         public ConfigurableAttribute(object defaultValue)
         {
             this.DefaultValue = defaultValue;
