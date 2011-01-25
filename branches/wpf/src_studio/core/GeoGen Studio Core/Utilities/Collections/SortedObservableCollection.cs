@@ -1,21 +1,38 @@
 ﻿// http://softcollections.codeplex.com/
 
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
 namespace GeoGen.Studio.Utilities.Collections
 {
+    /// <summary>
+    /// Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed. The items are sorted by a given comparer.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
     public class SortedObservableCollection<TValue> : SortedCollection<TValue>, INotifyPropertyChanged, INotifyCollectionChanged
     {
-        public SortedObservableCollection() : base() { }
+        /// <summary>
+        /// Initializes a new empty instance of the <see cref="SortedObservableCollection&lt;TValue&gt;"/> class.
+        /// </summary>
+        public SortedObservableCollection()
+        { }
 
+        /// <summary>
+        /// Initializes a new empty instance of the <see cref="SortedObservableCollection&lt;TValue&gt;"/> class.
+        /// </summary>
+        /// <param name="comparer">The comparer.</param>
         public SortedObservableCollection(IComparer<TValue> comparer) : base(comparer) { }
 
         // Events
+        /// <summary>
+        /// Occurs when the collection changes.
+        /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
@@ -36,10 +53,12 @@ namespace GeoGen.Studio.Utilities.Collections
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
         }
 
+/*
         private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
         {
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
         }
+*/
 
         private void OnCollectionReset()
         {

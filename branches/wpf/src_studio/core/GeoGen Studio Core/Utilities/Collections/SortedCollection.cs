@@ -6,12 +6,15 @@ using System.Collections;
 
 namespace GeoGen.Studio.Utilities.Collections
 {
+    /// <summary>
+    /// Represents a dynamic data collection. The items are sorted by a given comparer.
+    /// </summary>
     public class SortedCollection<TValue> : IList<TValue>, IList
     {
         // Fields
-        private const int DEFAULT_CAPACITY = 4;
+        private const int defaultCapacity = 4;
 
-        private static TValue[] emptyValues;
+        private static readonly TValue[] emptyValues;
 
         private readonly IComparer<TValue> comparer;
         private TValue[] values;
@@ -21,20 +24,27 @@ namespace GeoGen.Studio.Utilities.Collections
 
         public bool IsFixedSize { get { return true;} }
         public bool IsSynchronized { get { return false; } }
-        public object SyncRoot { get { return null; } }
+        public object SyncRoot { get { return new object(); } }
 
         static SortedCollection()
         {
             emptyValues = new TValue[0];
         }
 
-        // Constructors
+
+        /// <summary>
+        /// Initializes a new empty instance of the <see cref="SortedCollection&lt;TValue&gt;"/> class.
+        /// </summary>
         public SortedCollection()
         {
             this.values = emptyValues;
             this.comparer = Comparer<TValue>.Default;
         }
 
+        /// <summary>
+        /// Initializes a new empty instance of the <see cref="SortedCollection&lt;TValue&gt;"/> class.
+        /// </summary>
+        /// <param name="comparer">The comparer.</param>
         public SortedCollection(IComparer<TValue> comparer)
         {
             this.values = emptyValues;
@@ -45,7 +55,7 @@ namespace GeoGen.Studio.Utilities.Collections
         private void CheckCapacity(int min)
         {
             // double the capacity
-            int num = this.values.Length == 0 ? DEFAULT_CAPACITY : this.values.Length * 2;
+            int num = this.values.Length == 0 ? defaultCapacity : this.values.Length * 2;
             if (min > num)
             {
                 num = min;
@@ -88,7 +98,7 @@ namespace GeoGen.Studio.Utilities.Collections
                 throw new ArgumentException("Value can't be null");
             }
             // check where the element should be placed
-            int index = Array.BinarySearch<TValue>(values, 0, this.size, value, this.comparer);
+            int index = Array.BinarySearch(values, 0, this.size, value, this.comparer);
             if (index < 0)
             {
                 // xor
@@ -127,7 +137,7 @@ namespace GeoGen.Studio.Utilities.Collections
             {
                 throw new ArgumentException("Value can't be null.");
             }
-            int index = Array.BinarySearch<TValue>(values, 0, this.size, value, this.comparer);
+            int index = Array.BinarySearch(values, 0, this.size, value, this.comparer);
             if (index >= 0)
             {
                 return index;
@@ -196,7 +206,11 @@ namespace GeoGen.Studio.Utilities.Collections
             return new SortedCollectionEnumerator(this);
         }
 
-        // Properties
+
+        /// <summary>
+        /// Capacity of the collection.
+        /// </summary>
+        /// <value>The capacity.</value>
         public int Capacity
         {
             get { return this.values.Length; }
@@ -281,13 +295,13 @@ namespace GeoGen.Studio.Utilities.Collections
         }
 
         [Serializable]
-        private sealed class SortedCollectionEnumerator : IEnumerator<TValue>, IDisposable, IEnumerator
+        private sealed class SortedCollectionEnumerator : IEnumerator<TValue>
         {
             // Fields
             private readonly SortedCollection<TValue> collection;
             private TValue currentValue;
             private int index;
-            private int version;
+            private readonly int version;
 
             // Methods
             internal SortedCollectionEnumerator(SortedCollection<TValue> collection)
