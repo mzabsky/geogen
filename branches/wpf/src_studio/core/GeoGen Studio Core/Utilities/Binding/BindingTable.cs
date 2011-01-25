@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace GeoGen.Studio.Utilities.Binding
 {
     internal class BindingTable{
-        Dictionary<INotifyPropertyChanged, Dictionary<string, Dictionary<object, List<string>>>> bindings = new Dictionary<INotifyPropertyChanged, Dictionary<string, Dictionary<object, List<string>>>>();
+        private readonly Dictionary<INotifyPropertyChanged, Dictionary<string, Dictionary<object, List<string>>>> bindings = new Dictionary<INotifyPropertyChanged, Dictionary<string, Dictionary<object, List<string>>>>();
 
         public void Add(INotifyPropertyChanged fromObject, string fromProperty, object toObject, string toProperty)
         {
@@ -64,44 +64,40 @@ namespace GeoGen.Studio.Utilities.Binding
                 {
                     return;
                 }
-                else
+
+                Dictionary<object, List<string>> bindingsByToObject = bindingsByFromProperty[fromProperty];
+
+                /* Third dimension - toObject. */
+                if(toObject == null)
                 {
-                    Dictionary<object, List<string>> bindingsByToObject = bindingsByFromProperty[fromProperty];
+                    bindingsByToObject.Clear();
+                }
+                else{
+                    if(!bindingsByToObject.ContainsKey(toObject)){
+                        return;
+                    }
 
-                    /* Third dimension - toObject. */
-                    if(toObject == null)
+                    List<string> bindingsByToProperty = bindingsByToObject[toObject];
+
+                    /* Fourth dimension - toProperty. */
+                    if(toProperty == null)
                     {
-                        bindingsByToObject.Clear();
+                        bindingsByToProperty.Clear();
                     }
-                    else{
-                        if(!bindingsByToObject.ContainsKey(toObject)){
-                            return;
-                        }
-                        else
-                        {
-                            List<string> bindingsByToProperty = bindingsByToObject[toObject];
-
-                            /* Fourth dimension - toProperty. */
-                            if(toProperty == null)
-                            {
-                                bindingsByToProperty.Clear();
-                            }
-                            else
-                            {
-                                bindingsByToProperty.Remove(toProperty);
-                            }
-
-                            if(bindingsByToProperty.Count == 0)
-                            {
-                                bindingsByToObject.Remove(toObject);
-                            }
-                        }
-                    }
-
-                    if (bindingsByToObject.Count == 0)
+                    else
                     {
-                        bindingsByFromProperty.Remove(fromProperty);
+                        bindingsByToProperty.Remove(toProperty);
                     }
+
+                    if(bindingsByToProperty.Count == 0)
+                    {
+                        bindingsByToObject.Remove(toObject);
+                    }
+                }
+
+                if (bindingsByToObject.Count == 0)
+                {
+                    bindingsByFromProperty.Remove(fromProperty);
                 }
             }
 
