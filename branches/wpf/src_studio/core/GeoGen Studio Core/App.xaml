@@ -10,6 +10,42 @@
                 <ResourceDictionary>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <DrawingBrush x:Key="AppBackground" 
+                  TileMode="Tile"  
+                Viewport="0 0 5 5" 
+				ViewportUnits="Absolute" 
+				Stretch="None">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="#2C3D5A">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,10,10"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Pen>
+                                <Pen Thickness="1" Brush="#35496A" />
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <LineGeometry StartPoint="0,0" EndPoint="10,10" />
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Pen>
+                                <Pen Thickness="1" Brush="#293955" />
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <LineGeometry StartPoint="1,0" EndPoint="10,9" />
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
             <gseffect:GrayscaleEffect x:Key="GrayscaleEffect" DesaturationFactor="0.0" />
             <Style TargetType="ToolBarTray">
                 <Setter Property="Background" Value="#9caac1" />
@@ -33,7 +69,17 @@
             <Style TargetType="StatusBar">
                 <Setter Property="Background" Value="#293955" />
                 <Setter Property="Foreground" Value="White" />
-            </Style>           
+            </Style>
+            <Style TargetType="Border" x:Key="DialogButtonPanel">
+                <Setter Property="Padding" Value="10"/>
+                <Style.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Width" Value="100"/>
+                    </Style>                    
+                </Style.Resources>
+            </Style>
+            <SolidColorBrush x:Key="DialogControlBorderBrush" Color="#BCC7D8" />
         </ResourceDictionary>         
     </Application.Resources>
 </Application>
