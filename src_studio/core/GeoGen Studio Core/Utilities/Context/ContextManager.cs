@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
@@ -12,7 +11,7 @@ namespace GeoGen.Studio.Utilities.Context
     /// </summary>
     public static class ContextManager
     {
-        private static List<Context> contexts = new List<Context>();
+        private static readonly List<Context> contexts = new List<Context>();
 
         /// <summary>
         /// Occurs when the manager enter or leaves a <see cref="Context"/>.
@@ -106,7 +105,7 @@ namespace GeoGen.Studio.Utilities.Context
             
             lock (ContextManager.contexts)
             {
-                return Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts);
+                return ContextManager.contexts.Intersect(knownContexts);
             }
         }
 
@@ -126,16 +125,9 @@ namespace GeoGen.Studio.Utilities.Context
 
             lock (ContextManager.contexts)
             {
-                IEnumerable<Context> activeKnownContexts = Enumerable.Intersect(ContextManager.contexts as IEnumerable<Context>, knownContexts);
+                IEnumerable<Context> activeKnownContexts = ContextManager.contexts.Intersect(knownContexts);
 
-                if (Enumerable.Any(activeKnownContexts))
-                {
-                    result = Enumerable.Last(activeKnownContexts);
-                }
-                else
-                {
-                    result = null;
-                }
+                result = activeKnownContexts.Any() ? activeKnownContexts.Last() : null;
             }
 
             return result;
@@ -163,7 +155,7 @@ namespace GeoGen.Studio.Utilities.Context
         {
             if(ContextManager.ContextChanged != null)
             {
-                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, (Action)delegate()
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, (Action) delegate
                 {
                     ContextManager.ContextChanged(null, new EventArgs());
                 });
