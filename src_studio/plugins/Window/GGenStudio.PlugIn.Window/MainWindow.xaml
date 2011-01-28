@@ -20,7 +20,6 @@
                         <DockPanel>
                             <ItemsControl ItemsSource="{Binding TopBars}" DockPanel.Dock="Top"/>
                             <ItemsControl ItemsSource="{Binding BottomBars}" DockPanel.Dock="Bottom" />
-                            <TextBox DockPanel.Dock="Top"></TextBox>
                             <ContentPresenter DockPanel.Dock="Top"
                                 Content="{TemplateBinding Content}" 
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
