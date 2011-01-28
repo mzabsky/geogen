@@ -57,7 +57,7 @@ namespace GeoGen.Studio.PlugInLoader
         }
 
         /// <summary>
-        /// List of all <see cref="Registrator">Registrators</see>see> registered with <see cref="Loader"/>.
+        /// List of all <see cref="Registrator">registrators</see> registered with <see cref="Loader"/>.
         /// </summary>
         /// <value>The <see cref="Registrator" /> list.</value>
         public static ObservableCollection<Registrator> Registrators { get; private set; }
@@ -69,7 +69,7 @@ namespace GeoGen.Studio.PlugInLoader
         public static ObservableCollection<object> Instances { get; private set; }
 
         /// <summary>
-        /// List of all <see cref="Registrator">Registrators</see> registered with <see cref="Loader"/> which don't depend on any other plug-ins.
+        /// List of all <see cref="Registrator">registrators</see> registered with <see cref="Loader"/> which don't depend on any other plug-ins.
         /// </summary>
         /// <remarks>
         /// There must always be at least one root registrator during program star-up. The <see cref=" Loader"/> will have to terminate the program otherwise.
@@ -268,7 +268,7 @@ namespace GeoGen.Studio.PlugInLoader
         }
 
         /// <summary>
-        /// Scans one <see cref="Assembly"/> for plug-ins. All found <see cref="Registrator"/>s will be added to the <see cref="Loader.Registrators">Registrator list</see>.
+        /// Scans one <see cref="Assembly"/> for plug-ins. All found <see cref="Registrator">registrators</see> will be added to the <see cref="Loader.Registrators">Registrator list</see>.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         public static void ParseAssembly(Assembly assembly)
@@ -295,7 +295,7 @@ namespace GeoGen.Studio.PlugInLoader
         }
 
         /// <summary>
-        /// Checks the <see cref="Registrator.DependsOn">prerequisites</see> of all <see cref="Registrator">Registrators</see>. <see cref="Registrator">Registrators</see> with one or more missing <see cref="Registrator.DependsOn">prerequisites</see> will be marked as failed with according <see cref="RegistratorFailureType">failure type</see>.
+        /// Checks the <see cref="Registrator.DependsOn">prerequisites</see> of all <see cref="Registrator">registrators</see>. <see cref="Registrator">Registrators</see> with one or more missing <see cref="Registrator.DependsOn">prerequisites</see> will be marked as failed with according <see cref="RegistratorFailureType">failure type</see>.
         /// </summary>
         /// <remarks>
         /// This method will automatically call <see cref="OrderRegistrators"/> method when necessary.
@@ -331,7 +331,7 @@ namespace GeoGen.Studio.PlugInLoader
         }
 
         /// <summary>
-        /// Orders the <see cref="Registrator">Registrators</see> topologically, so all <see cref="Registrator">Registrators</see> know all their <see cref="Registrator.DependsOn">prerequisites</see> when executed.
+        /// Orders the <see cref="Registrator">registrators</see> topologically, so all <see cref="Registrator">registrators</see> know all their <see cref="Registrator.DependsOn">prerequisites</see> when executed.
         /// </summary>
         /// <remarks>
         /// <see cref="Loader"/> methods will automatically call this method when necessary.
@@ -414,7 +414,7 @@ namespace GeoGen.Studio.PlugInLoader
         }
 
         /// <summary>
-        /// Returns a plug-in instance for a specific registrator. The instance will be created only if plug-in settings allow it, otherwise existing instannce will be used.
+        /// Returns a plug-in instance for a specific <see cref="Registrator"/>. The instance will be created only if plug-in settings allow it, otherwise existing instannce will be used.
         /// </summary>
         /// <param name="registrator">The registrator.</param>
         /// <returns></returns>
@@ -452,7 +452,7 @@ namespace GeoGen.Studio.PlugInLoader
         }
 
         /// <summary>
-        /// Executes all <see cref="Registrator">Registrators</see>, which are not in a failure state. New plug-in instances will be created when necessary. The <see cref="Registrator">Registrators</see> will be executed on all possible valid combinations of parameters.
+        /// Executes all <see cref="Registrator">registrators</see>, which are not in a failure state. New plug-in instances will be created when necessary. The <see cref="Registrator">registrators</see> will be executed on all possible valid combinations of parameters.
         /// </summary>
         public static void ExecuteAllRegistrators()
         {
@@ -558,7 +558,7 @@ namespace GeoGen.Studio.PlugInLoader
         }*/
 
         /// <summary>
-        /// Executes one specific registrator with specific a set of parameters on a specific plug-in instance.
+        /// Executes one specific <see cref="Registrator"/> with specific a set of parameters on a specific plug-in instance.
         /// </summary>
         /// <param name="registrator">The registrator.</param>
         /// <param name="instance">The instance.</param>

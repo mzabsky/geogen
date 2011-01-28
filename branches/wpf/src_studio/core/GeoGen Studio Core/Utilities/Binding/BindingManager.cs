@@ -6,7 +6,7 @@ using System;
 namespace GeoGen.Studio.Utilities.Binding
 {
     /// <summary>
-    /// Provides easy way to synchronize two properties of two object properties. Neither of these properties must be <see cref="System.Windows.DependencyProperty"/>, but the source property (both properties in case of two-way binding) must implement the <see cref="INotifyPropertyChanged"/> interface.
+    /// Provides easy way to synchronize two properties of two objects. Neither of these properties must be <see cref="System.Windows.DependencyProperty"/>, but the source property (both properties in case of two-way binding) must implement the <see cref="INotifyPropertyChanged"/> interface.
     /// </summary>
     /// <remarks>
     /// Bindings created with this class must always be manually <see cref="BindingManager.Unbind">unbound</see> or memory leaks (zombie objects) may occur.
