@@ -3,7 +3,7 @@
 namespace GeoGen.Studio.Utilities.Messaging
 {
     /// <summary>
-    /// Represents a message with additional information about its severity and occurence time.
+    /// Represents a text message with additional information about its severity and occurence time.
     /// </summary>
     public class Message
     {

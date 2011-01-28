@@ -92,7 +92,7 @@ namespace GeoGen.Studio.Utilities.Context
         }
 
         /// <summary>
-        /// Gets a list of active <see cref="Context"/> (known to the caller).
+        /// Gets a list of active <see cref="Context">contexts</see> known to the caller.
         /// </summary>
         /// <param name="knownContexts">Known <see cref="Context">contexts</see>.</param>
         /// <returns>List of known active <see cref="Context">contexts</see>.</returns>
