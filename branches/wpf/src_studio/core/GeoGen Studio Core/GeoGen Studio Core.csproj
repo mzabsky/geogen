@@ -95,6 +95,7 @@
     <Compile Include="Utilities\Messaging\MessageType.cs" />
     <Compile Include="Utilities\FileDialog.cs" />
     <Compile Include="Utilities\Messaging\Messenger.cs" />
+    <Compile Include="Utilities\ObservableObject.cs" />
     <Compile Include="Utilities\PlugInBase\Control.cs" />
     <Compile Include="Utilities\PlugInBase\Object.cs" />
     <Compile Include="Utilities\PlugInBase\Window.cs" />
