@@ -86,6 +86,9 @@
     <Compile Include="Utilities\Configurability\IConfigurable.cs" />
     <Compile Include="Utilities\Context\Context.cs" />
     <Compile Include="Utilities\Context\ContextManager.cs" />
+    <Compile Include="Utilities\Converters\BoolToYesNoConverter.cs" />
+    <Compile Include="Utilities\Converters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="Utilities\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Utilities\Messaging\Message.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventArgs.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventHandler.cs" />
