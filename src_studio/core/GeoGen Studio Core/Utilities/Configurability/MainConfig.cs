@@ -101,9 +101,7 @@ namespace GeoGen.Studio.Utilities.Configurability
             if(!MainConfig.isInitialized)
             {
                 MainConfig.Initialize();
-            }
-
-            Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(configurable.GetType());
+            }            
             
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
@@ -112,7 +110,7 @@ namespace GeoGen.Studio.Utilities.Configurability
                 /* Skip non-readable non-configurable properties. */
                 if (property.CanWrite && configurableAttribute != null)
                 {
-                    currentStore[property.Name] = property.GetValue(configurable, null);
+                    MainConfig.SavePropertyValue(property, property.GetValue(configurable, null));
                 }
             }
         }
@@ -182,6 +180,18 @@ namespace GeoGen.Studio.Utilities.Configurability
             
             // The property is of a reference type and no default other default value could be created - use null.
             return null;
+        }
+
+        /// <summary>
+        /// Sets the property value that will be written into the configuration file next time it is updated.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="value">The value.</param>
+        static public void SavePropertyValue(PropertyInfo property, object value)
+        {
+            Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(property.DeclaringType);
+
+            currentStore[property.Name] = value;
         }
     }
 }
