@@ -12,7 +12,7 @@ namespace GeoGen.Studio.UI
             "Buttons", typeof(ObservableCollection<object>), typeof(DialogBody), new PropertyMetadata(null));
 
         /// <summary>
-        /// Collection of button displayed in the bottom bar.
+        /// Collection of buttons displayed in the bottom bar.
         /// </summary>
         /// <value>The buttons.</value>
         public ObservableCollection<object> Buttons
