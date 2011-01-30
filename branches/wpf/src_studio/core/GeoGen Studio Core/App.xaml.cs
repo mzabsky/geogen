@@ -34,6 +34,11 @@ namespace GeoGen.Studio
                 {
                     if(!registrator.Failed) continue;
 
+                    if(registrator.FailureType == RegistratorFailureType.UnimplementedInterface && !registrator.IsRequired)
+                    {
+                        continue;
+                    }
+
                     string message = registrator.ToString() + ": " + registrator.FailureType.ToString();
 
                     if(registrator.Exception != null){

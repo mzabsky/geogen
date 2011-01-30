@@ -72,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Plug-in Loader\LoaderConfig.cs" />
+    <Compile Include="Plug-in Loader\OptionalRegistratorAttribute.cs" />
     <Compile Include="Plug-in Loader\PlugIn.cs" />
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
