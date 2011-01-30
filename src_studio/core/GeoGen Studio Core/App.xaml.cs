@@ -12,11 +12,25 @@ namespace GeoGen.Studio
     public partial class App : Application
     {
         /// <summary>
+        /// Name of the application.
+        /// </summary>
+        /// <value>The name.</value>
+        public static string Name 
+        { 
+            get
+            {
+                return "GeoGen Studio";
+            } 
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// </summary>
         /// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application"/> class is created per <see cref="T:System.AppDomain"/>.</exception>
         public App()
         {
+            this.InitializeComponent();
+
             try
             {
                 // Load "plug-ins" from this executable.
