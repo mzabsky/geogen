@@ -120,6 +120,14 @@ namespace GeoGen.Studio.PlugInLoader
         public InstanceCount InstanceCount { get; private set; }
 
         /// <summary>
+        /// Specifies whether not loading this <see cref="Registrator"/> because of missing dependencies has negative impact on the plug-in.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is required; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsRequired { get; private set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Registrator"/> class.
         /// </summary>
         /// <param name="method">The <c>Register()</c> method to be represented by the registrator.</param>
@@ -130,6 +138,7 @@ namespace GeoGen.Studio.PlugInLoader
             this.Exception = null;
             this.PluginType = method.DeclaringType;
             this.Implements = method.DeclaringType.GetInterfaces();
+            this.IsRequired = Attribute.GetCustomAttribute(this.Method, typeof(OptionalRegistratorAttribute)) == null;
 
             /* Use thee attribute defined by the plug-in (or default one if none is defined). */
             PlugInAttribute plugInAttribute = Attribute.GetCustomAttribute(this.PluginType, typeof(PlugInAttribute)) as PlugInAttribute ?? new PlugInAttribute();
