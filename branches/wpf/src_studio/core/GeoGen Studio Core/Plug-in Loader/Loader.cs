@@ -649,7 +649,9 @@ namespace GeoGen.Studio.PlugInLoader
         /// <param name="plugInType">The plug-in type.</param>
         public static void DisablePlugInType(Type plugInType)
         {
-            Loader.config.DisabledPlugIns.Add(plugInType);
+            if(Loader.IsPlugInTypeEnabled(plugInType)){
+                Loader.config.DisabledPlugIns.Add(plugInType);
+            }
         }
 
         /// <summary>
