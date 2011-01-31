@@ -9,6 +9,7 @@
     Background="Aqua"
     Name="mainWindow"
     DataContext="{Binding ElementName=mainWindow}"
+    WindowState="Maximized"
 >
     <pb:Window.Style>
         <Style TargetType="{x:Type Window}">
