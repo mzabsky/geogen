@@ -60,13 +60,21 @@ namespace GeoGen.Studio.PlugIns
             {
                 Application.Current.Shutdown();
             };
+
+            Loader.Ready += delegate
+            {
+                //this.Opacity = 0;
+                this.Show();
+                //this.Visibility = System.Windows.Visibility.Hidden;
+            };
         }
 
         /// <summary>
         /// Registers this instance with the <see cref="Loader"/>.
         /// </summary>
         public void Register(){
-            this.Show();
+            
+            //this.Visibility
         }        
     }
 }
