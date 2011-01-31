@@ -48,6 +48,7 @@
     <Reference Include="GrayscaleEffect">
       <HintPath>..\..\..\bin\plugins\GrayscaleEffect.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -74,6 +75,12 @@
     <Compile Include="Plug-in Loader\LoaderConfig.cs" />
     <Compile Include="Plug-in Loader\OptionalRegistratorAttribute.cs" />
     <Compile Include="Plug-in Loader\PlugIn.cs" />
+    <Compile Include="UI\DialogBody.xaml.cs">
+      <DependentUpon>DialogBody.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MessageBox.xaml.cs">
+      <DependentUpon>MessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
     <Compile Include="Utilities\Collections\PriorityComparer.cs" />
@@ -135,7 +142,25 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="UI\DialogBody.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="UI\Images\splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Images\error.png" />
+    <Resource Include="UI\Images\message.png" />
+    <Resource Include="UI\Images\question.png" />
+    <Resource Include="UI\Images\waarning.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
