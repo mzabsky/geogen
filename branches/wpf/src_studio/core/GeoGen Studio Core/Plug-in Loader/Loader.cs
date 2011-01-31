@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 using GeoGen.Studio.Utilities.Configurability;
 
 namespace GeoGen.Studio.PlugInLoader
@@ -26,6 +27,11 @@ namespace GeoGen.Studio.PlugInLoader
         private static List<PlugIn> plugIns;        
         private static bool isFinished;
         #endregion
+
+        /// <summary>
+        /// Occurs when all plug-ins are loaded and the application is ready to use.
+        /// </summary>
+        public static event EventHandler Ready;
 
         #region Properties
         /// <summary>
@@ -460,6 +466,8 @@ namespace GeoGen.Studio.PlugInLoader
              * valid registrators will be executed */
 
             Loader.ExecuteRegistrator(Loader.OrderedRegistrators[0]);
+
+            Loader.Ready(Application.Current, new EventArgs());
         }
 
         /// <summary>
