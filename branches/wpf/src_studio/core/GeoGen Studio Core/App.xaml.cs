@@ -9,7 +9,7 @@ namespace GeoGen.Studio
     /// <summary>
     /// Implementation of <see cref="Application"/> for this program.
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         /// <summary>
         /// Name of the application.
@@ -48,12 +48,13 @@ namespace GeoGen.Studio
                 {
                     if(!registrator.Failed) continue;
 
+                    // don't show missing dependency errors for optional registrators
                     if(registrator.FailureType == RegistratorFailureType.UnimplementedInterface && !registrator.IsRequired)
                     {
                         continue;
                     }
 
-                    string message = registrator.ToString() + ": " + registrator.FailureType.ToString();
+                    string message = registrator + ": " + registrator.FailureType;
 
                     if(registrator.Exception != null){
                         message += " (" + registrator.Exception + ")";
@@ -63,12 +64,12 @@ namespace GeoGen.Studio
                 }
 
                 if(messages.Count > 0){
-                    MessageBox.Show("One or more plug-ins completely or partially failed to load" + Environment.NewLine + Environment.NewLine + "Details:" + Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, messages), "GeoGen Studio", MessageBoxButton.OK, MessageBoxImage.Error);
+                    UI.MessageBox.Show("One or more plug-ins completely or partially failed to load" + Environment.NewLine + Environment.NewLine + "Details:" + Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine + Environment.NewLine, messages));
                 }
             }
             // Any unhandled exception in this phase means the application cannot continue.
             catch(Exception e){
-                MessageBox.Show("GeoGen Studio plug-in loader failed with following message:" + Environment.NewLine + Environment.NewLine + e.Message, "GeoGen Studio", MessageBoxButton.OK, MessageBoxImage.Error);
+                UI.MessageBox.Show("GeoGen Studio plug-in loader failed with following message:" + Environment.NewLine + Environment.NewLine + e.Message + Environment.NewLine + Environment.NewLine + "The application will now be terminated.");
                 Application.Current.Shutdown();
             }
         }
