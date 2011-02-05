@@ -9,8 +9,8 @@ namespace GeoGen.Studio.PlugIns
     class GeneratorUI: GeoGen.Studio.Utilities.PlugInBase.Object
     {
         protected Context executingContext = new Context("Executing");
-        protected IEditor editor = null;
-        protected IGenerator generator = null;
+        protected IEditor editor;
+        protected IGenerator generator;
 
         protected ICommand startCommand;
         protected ICommand abortCommand;
