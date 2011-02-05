@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using GeoGen.Studio.PlugInLoader;
 using GeoGen.Studio.Utilities;
 using GeoGen.Studio.Utilities.Context;
 
@@ -46,6 +47,7 @@ namespace GeoGen.Studio.PlugIns
         /// Subscribes to generator and editor events.
         /// </summary>
         /// <param name="generator">The generator.</param>
+        [OptionalRegistrator]
         public void Register(IEditor editor, IGenerator generator)
         {
             this.generator = generator;
@@ -75,6 +77,7 @@ namespace GeoGen.Studio.PlugIns
             };
         }
 
+        [OptionalRegistrator]
         public void Register(IEditor editor, IGenerator generator, IMainWindow mainWindow)
         {
             // Register hotkeys
@@ -82,6 +85,7 @@ namespace GeoGen.Studio.PlugIns
             mainWindow.RegisterInputGesture(new KeyGesture(Key.F6), this.abortCommand);
         }
 
+        [OptionalRegistrator]
         public void Register(IEditor editor, IGenerator generator, IMenuBar menuBar)
         {
             // Register window menu entries
@@ -108,6 +112,7 @@ namespace GeoGen.Studio.PlugIns
             menuBar.AddMenu(generatorMenu);
         }
 
+        [OptionalRegistrator]
         public void Register(IEditor editor, IGenerator generator, IApplicationStatusDisplay applicationStatusDisplay)
         {
             applicationStatusDisplay.RegisterApplicationStatusContext(executingContext);
