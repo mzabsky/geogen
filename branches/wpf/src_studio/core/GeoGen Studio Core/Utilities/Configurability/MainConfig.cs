@@ -22,9 +22,9 @@ namespace GeoGen.Studio.Utilities.Configurability
 
             try
             {
-                using(StreamReader reader = System.IO.File.OpenText("config.xml"))
+                using (StreamReader reader = File.OpenText("config.xml"))
 
-                MainConfig.propertyStore = xs.Deserialize(reader) as PropertyStore;
+                    MainConfig.propertyStore = xs.Deserialize(reader) as PropertyStore;
             }
             catch
             {
@@ -43,14 +43,14 @@ namespace GeoGen.Studio.Utilities.Configurability
 
         private static void SaveConfigurations()
         {
-            foreach(IConfigurable configurable in MainConfig.registeredConfigurables)
+            foreach (IConfigurable configurable in MainConfig.registeredConfigurables)
             {
                 MainConfig.SaveConfiguration(configurable);
             }
 
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(PropertyStore));
 
-            System.IO.StreamWriter writer = System.IO.File.CreateText("config.xml");
+            StreamWriter writer = File.CreateText("config.xml");
 
             xs.Serialize(writer, MainConfig.propertyStore);
 
@@ -157,7 +157,7 @@ namespace GeoGen.Studio.Utilities.Configurability
                     return configurableAttribute.DefaultValue;
                 }
 
-                throw new InvalidCastException("Default value for property \"" + property + "\" is not compatible with its type.");
+                throw new InvalidCastException(string.Format("Default value for property \"{0}\" is not compatible with its type.", property));
             }
             
             // The  property is of a value type - use that type's default value.
@@ -174,7 +174,7 @@ namespace GeoGen.Studio.Utilities.Configurability
                 }
                 catch(Exception e)
                 {
-                    throw new InvalidOperationException("Could not create a default instance for property \"" + property + "\", see innerException for details.", e);
+                    throw new InvalidOperationException(string.Format("Could not create a default instance for property \"{0}\", see innerException for details.", property), e);
                 }
             }
             
