@@ -9,7 +9,7 @@ namespace GeoGen.Studio
 {
     sealed public class HeightData: INotifyPropertyChanged
     {
-        protected GeoGen.Net.HeightData heightData;
+        private GeoGen.Net.HeightData heightData;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -23,7 +23,7 @@ namespace GeoGen.Studio
 
         public string Name {get;set;}
 
-        public string FileName { get; protected set; }
+        public string FileName { get; private set; }
 
         public Size Size
         {
@@ -38,7 +38,7 @@ namespace GeoGen.Studio
             }
         }
 
-        protected Overlay overlay;
+        private Overlay overlay;
         public Overlay Overlay
         {
             get
@@ -62,21 +62,25 @@ namespace GeoGen.Studio
             this.heightData = heightData;
         }
 
-        public HeightData(string path, double width, double height){
-            if(!File.Exists(path)){
+        public HeightData(string path, double width, double height)
+        {
+            if (!File.Exists(path))
+            {
                 throw new FileNotFoundException("Height data file \"" + path + "\" not found.");
-            }            
+            }
 
-            try{
+            try
+            {
                 FileInfo fileInfo = new FileInfo(path);
-                
+
                 this.FileName = path;
                 this.Name = fileInfo.Name;
 
                 if (fileInfo.Extension == ".shd")
                 {
                     // byte-by-byte binary reading
-                    using(System.IO.BinaryReader reader = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))){
+                    using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open, FileAccess.Read)))
+                    {
 
                         // read first eight bytes with map dimensions
                         int originalWidth = reader.ReadInt32();
@@ -105,18 +109,19 @@ namespace GeoGen.Studio
 
                     for (int i = 0; i < bitmap.PixelWidth * bitmap.PixelHeight; i++)
                     {
-                        this.heightData[i] = (short)(((int)bytes[i * bytesPerPixel] - 128)  * 255);
+                        this.heightData[i] = (short)(((int)bytes[i * bytesPerPixel] - 128) * 255);
                     }
-                }                
+                }
             }
-            catch(Exception e){
+            catch (Exception e)
+            {
                 throw new FileNotFoundException("\"" + path + "\" is not a readable height map.", e);
             }
 
             this.Size = new Size(width, height); // property update callback will now resize the heightData and rebuild image
         }
 
-        protected static GeoGen.Net.HeightData GetResizedHeightData(GeoGen.Net.HeightData data, int width, int height)
+        private static GeoGen.Net.HeightData GetResizedHeightData(GeoGen.Net.HeightData data, int width, int height)
         {
             GeoGen.Net.HeightData resized = new GeoGen.Net.HeightData(width, height);
 
@@ -177,7 +182,7 @@ namespace GeoGen.Studio
             this.Image = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Rgb24, BitmapPalettes.Halftone256, bytes, this.heightData.Width * 3);
         }
 
-        protected void OnPropertyChanged(string info)
+        private void OnPropertyChanged(string info)
         {
             if (PropertyChanged != null)
             {
