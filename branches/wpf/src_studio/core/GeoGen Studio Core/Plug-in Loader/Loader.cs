@@ -284,8 +284,8 @@ namespace GeoGen.Studio.PlugInLoader
             {
                 if (typeof(IPlugIn).IsAssignableFrom(type) && !type.IsAbstract && !type.IsGenericType)
                 {
-                    if (Loader.IsPlugInTypeEnabled(type))
-                    {
+                    //if (Loader.IsPlugInTypeEnabled(type))
+                    //{
                         /* The type is an plug-in, look for registrators */
                         MethodInfo[] methods = type.GetMethods();
                         foreach (MethodInfo method in methods)
@@ -295,7 +295,7 @@ namespace GeoGen.Studio.PlugInLoader
                                 Loader.Registrators.Add(new Registrator(method));
                             }
                         }
-                    }
+                    //}
                 }
             }
         }
@@ -361,8 +361,8 @@ namespace GeoGen.Studio.PlugInLoader
             Dictionary<Registrator, int> numUnresolvedDependencies = new Dictionary<Registrator, int>();
             foreach (Registrator registrator in Loader.Registrators)
             {
-                /* Ignore failed registrators. */
-                if (registrator.Failed) continue;
+                /* Ignore failed and disabled registrators. */
+                if (registrator.Failed || !registrator.IsEnabled) continue;
 
                 if (registrator.DependsOn.Length > 0)
                 {                    
