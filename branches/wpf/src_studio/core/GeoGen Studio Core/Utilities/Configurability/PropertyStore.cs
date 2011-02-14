@@ -113,10 +113,10 @@ namespace GeoGen.Studio.Utilities.Configurability
         {
             foreach (string ownerName in this.Keys)
             {
-                Dictionary<string, object> plugInProperties = this[ownerName];
+                Dictionary<string, object> properties = this[ownerName];
 
-                foreach(string propertyName in plugInProperties.Keys){
-                    object currentValue = plugInProperties[propertyName];
+                foreach(string propertyName in properties.Keys){
+                    object currentValue = properties[propertyName];
 
                     XmlSerializer valueSerializer = new XmlSerializer(currentValue.GetType());
 
