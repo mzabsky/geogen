@@ -128,6 +128,21 @@ namespace GeoGen.Studio.PlugInLoader
         public bool IsRequired { get; private set; }
 
         /// <summary>
+        /// Specifies whether this plugin is enabled.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this plug-in is enabled; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsEnabled
+        { 
+            get
+            {
+                return Loader.IsPlugInTypeEnabled(this.PluginType);
+            }
+        
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Registrator"/> class.
         /// </summary>
         /// <param name="method">The <c>Register()</c> method to be represented by the registrator.</param>

@@ -49,7 +49,7 @@ namespace GeoGen.Studio
                     if(!registrator.Failed) continue;
 
                     // don't show missing dependency errors for optional registrators
-                    if(registrator.FailureType == RegistratorFailureType.UnimplementedInterface && !registrator.IsRequired)
+                    if(registrator.FailureType == RegistratorFailureType.UnimplementedInterface && !registrator.IsEnabled)
                     {
                         continue;
                     }
