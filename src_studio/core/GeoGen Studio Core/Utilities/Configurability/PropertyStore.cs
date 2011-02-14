@@ -40,7 +40,7 @@ namespace GeoGen.Studio.Utilities.Configurability
                 reader.ReadStartElement("item");
 
                 reader.ReadStartElement("owner");
-                string plugInName = reader.ReadString();
+                string ownerName = reader.ReadString();
                 reader.ReadEndElement();
 
                 reader.ReadStartElement("property");
@@ -91,18 +91,18 @@ namespace GeoGen.Studio.Utilities.Configurability
                 reader.ReadEndElement(); // </item>
                 reader.MoveToContent(); 
 
-                if(!this.ContainsKey(plugInName))
+                if(!this.ContainsKey(ownerName))
                 {
-                    this.Add(plugInName, new Dictionary<string, object>());
+                    this.Add(ownerName, new Dictionary<string, object>());
                 }
 
-                if(!this[plugInName].ContainsKey(propertyName))
+                if(!this[ownerName].ContainsKey(propertyName))
                 {
-                    this[plugInName].Add(propertyName, value);
+                    this[ownerName].Add(propertyName, value);
                 }
                 else
                 {
-                    this[plugInName][propertyName] = value;
+                    this[ownerName][propertyName] = value;
                 }
             }
             reader.ReadEndElement();
@@ -111,9 +111,9 @@ namespace GeoGen.Studio.Utilities.Configurability
         /// <exclude />
         public void WriteXml(System.Xml.XmlWriter writer)
         {
-            foreach (string plugInName in this.Keys)
+            foreach (string ownerName in this.Keys)
             {
-                Dictionary<string, object> plugInProperties = this[plugInName];
+                Dictionary<string, object> plugInProperties = this[ownerName];
 
                 foreach(string propertyName in plugInProperties.Keys){
                     object currentValue = plugInProperties[propertyName];
@@ -123,7 +123,7 @@ namespace GeoGen.Studio.Utilities.Configurability
                     writer.WriteStartElement("item");
 
                     writer.WriteStartElement("owner");
-                    writer.WriteValue(plugInName);
+                    writer.WriteValue(ownerName);
                     writer.WriteEndElement();
 
                     writer.WriteStartElement("property");
