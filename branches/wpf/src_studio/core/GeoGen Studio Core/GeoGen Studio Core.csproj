@@ -153,7 +153,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="UI\Images\splash.png" />
+    <SplashScreen Include="UI\Images\Splash.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Images\error.png" />
