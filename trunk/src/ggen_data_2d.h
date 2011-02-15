@@ -628,6 +628,14 @@ class GGen_Data_2D{
 		 **/
 		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);	
 
+		/** 
+		 * Modifies the map to appear eroded by long-term influence of water flowing over the terrain.
+		 * @param numRounds Number of streams generated for each tile, dramatically increases time complexity.
+		 * @param erosionFactor Number of height levels added/subtracted when the stream erodes the terrain/deposits the sediment.
+		 * @param enableSedimentation Toggles sedimentation. Enabled sedimentation can produce better results, but slows down the calculation.
+		 **/
+		void SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation);
+
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
 				delete (*GGen_Data_2D::instances.begin());

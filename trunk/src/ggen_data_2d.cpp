@@ -2561,3 +2561,76 @@ GGen_Height GGen_Data_2D::GetNormal( GGen_Coord x, GGen_Coord y )
 
 	return (GGen_Height) (angle / 3.14159 * GGEN_MAX_HEIGHT);
 }
+
+void GGen_Data_2D::SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation)
+{
+	//GGen_Script_Assert(this->width == flowMap->width && this->height == flowMap->height);
+	//GGen_Script_Assert(this->width == sedimentMap->width && this->height == sedimentMap->height);
+
+	// Each round is completely separate.
+	for(uint32 round = 0; round < numRounds * this->length; round++){
+		// Choose a random tile on the map.
+		GGen_Coord x = GGen_Random<GGen_Coord>(0, this->width - 1);
+		GGen_Coord y = GGen_Random<GGen_Coord>(0, this->height - 1);
+		
+		GGen_Height currentCarriedSediment = 0;
+
+		// Don't bother with water tiles.
+		if(this->data[x + this->width * y] <= 0) continue;
+
+		// Keep advancing from the initial tile until the water level is reached.
+		while(this->data[x + this->width * y] > 0){
+			// Find the lowest neighboring tile
+			GGen_Coord lowestNeighborX = x;
+			GGen_Coord lowestNeighborY = y;
+			GGen_Height lowestNeighborHeight = this->data[x + this->width * y];
+
+			// Try to look at 5 random points in the neighborhood (to add a little randomness into the flow).
+			for(uint8 i = 0; i < 5; i++){		
+				GGen_CoordOffset currentNeighborX = (GGen_CoordOffset) x + GGen_Random<int8>(-1, 1);
+				GGen_CoordOffset currentNeighborY = (GGen_CoordOffset) y + GGen_Random<int8>(-1, 1);
+
+				// Ignore the neighbor if it is outside the map
+				if(currentNeighborX < 0 || currentNeighborX == this->width || currentNeighborY < 0 || currentNeighborY == this->height){
+					continue;
+				}
+
+				if(this->data[currentNeighborX + this->width * currentNeighborY] < lowestNeighborHeight){
+					lowestNeighborX = currentNeighborX;
+					lowestNeighborY = currentNeighborY;
+					lowestNeighborHeight = this->data[currentNeighborX + this->width * currentNeighborY];
+				}
+			}
+
+			// If no lower neighbor was found, try to lift the tile with the suspended sediment.
+			if(lowestNeighborX == x && lowestNeighborY == y){
+				// If we are out of sediment, terminate the flow.
+				if(currentCarriedSediment <= 0) break;
+
+				this->data[x + this->width * y] += erosionFactor;
+
+				/*if(sedimentMap != null){
+					sedimentMap->data[x + this->width * y]++;
+				}*/
+
+				// Consume the suspended sediment at twice the erosion rate (to prevent infinite cycles of erosion and sedimentation).
+				currentCarriedSediment -= 2;
+			}
+			// A lower neighbor was found, lower the current tile and move the cursor to that neighbor.
+			else {
+				this->data[x + this->width * y] -= erosionFactor;
+				
+				/*if(sedimentMap != null){
+					flowMap->data[x + this->width * y]++;
+				}*/
+				
+				if(enableSedimentation){
+					currentCarriedSediment += 1;
+				}
+
+				x = lowestNeighborX;
+				y = lowestNeighborY;
+			}
+		}
+	}
+}
