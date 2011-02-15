@@ -294,7 +294,7 @@ enum GGen_Status{
 	GGEN_SCRIPT_LOADED, //!< Script has been successfully loaded, work with map info is now allowed (LoadArgs can be called only now). LoadArgs will rise the status to READY_TO_GENERATE.
 	GGEN_READY_TO_GENERATE, //!< Script is ready to be executed.
 	GGEN_LOADING_MAP_INFO, //!< Map header is being mined for information, no work with map data of any kind is allowed.
-	GGEN_GENERATING, //!< Script is being executed. All script actions but adding new arguments is allowed.
+	GGEN_GENERATING, //!< Script is being executed. All script actions but adding new arguments are allowed.
 };
 
 template <class T>
