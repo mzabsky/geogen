@@ -299,8 +299,7 @@ enum GGen_Status{
 
 template <class T>
 T GGen_Random(T min, T max){
-	double random = (double)rand() / (double) RAND_MAX;
-	T output = min + (T) (random * (double)(max - min + 1));
+	T output = min + (T) ((rand() * (int)(max - min) + RAND_MAX/(2*(max - min)))/ RAND_MAX);
 	return output;
 }
 
