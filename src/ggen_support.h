@@ -298,20 +298,8 @@ enum GGen_Status{
 };
 
 template <class T>
-T GGen_Random(T min, T max){
-	/*T output = min + (T) ((rand() * (int)(max - min) + RAND_MAX/(2*(max - min)))/ RAND_MAX);
-	return output;*/
-	
-	T t;
-	
-	/*int range = max - min;
-	double random = rand();
-	double truncated = random / (double)RAND_MAX;
-	return (truncated * range) + min;*/
-
+T GGen_Random(int min, int max){
 	return min + (rand() % (int)(max - min + 1));
-
-	//return retval - min;*/
 }
 
 inline int GGen_log2(int x){
