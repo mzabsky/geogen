@@ -11,7 +11,6 @@ TOFIX:
 		- TEMPORARILY FIXED: objects that are not manually relased in the script won't be deleted at all (bug most likely caused by SqPlus,
 		  getting rid of it should fix it, the only other solution might be manual instance tracking)
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
-		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
 		- add presets documentation	
 	STUDIO: 
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)
