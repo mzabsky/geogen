@@ -1689,8 +1689,9 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	list<GGen_FillPolygon_DownwardsEdge*> currentLineEdges;
 	bool needsSorting = true;
 
-	/* For each line ... */
-	for (GGen_Coord y = 0; y < this->height; y++) {
+	/* For each line from the top-most point to the bottom edge of the map */
+	for (GGen_CoordOffset y = (*edges.begin())->y; y < this->height; y++) {
+
 		/* Add edges starting on this line to the currently worked list */
 		list<GGen_FillPolygon_DownwardsEdge*>::iterator i = edges.begin();
 		while (i != edges.end() && (*i)->y == y) {
@@ -1715,24 +1716,27 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 			needsSorting = false;
 		}
 
-		/* Fill every segment between even and odd egde intersection with the current line */
-		bool odd = false;
-		i = currentLineEdges.begin(); /* Reuse the iterator variable from above - it won't be needed anymore */
-		for (GGen_Coord x = 0; x < this->width; x++) {
-			/* There could be multiple intersections on the same pixel */
-			while (i != currentLineEdges.end()) {
-				if ((double) x > (*i)->x) {
-					odd = !odd;
-					i++;
+		/* If we are in the map area, try to draw the pixels. */
+		if(y >= 0){
+			/* Fill every segment between even and odd edge intersection with the current line */
+			bool odd = false;
+			i = currentLineEdges.begin(); /* Reuse the iterator variable from above - it won't be needed anymore */
+			for (GGen_Coord x = 0; x < this->width; x++) {
+				/* There could be multiple intersections on the same pixel */
+				while (i != currentLineEdges.end()) {
+					if ((double) x > (*i)->x) {
+						odd = !odd;
+						i++;
+					}
+					else break;
 				}
-				else break;
-			}
 
-			/* If we are in the "odd setion" (between even and odd intersection) */
-			if (odd) {
-				this->data[x + this->width * y] = value;
+				/* If we are in the "odd section" (between even and odd intersection) */
+				if (odd) {
+					this->data[x + this->width * y] = value;
+				}
 			}
-		}	
+		}
 
 		/* Update the current working line list for next line */
 		double lastX = INT_MIN;
