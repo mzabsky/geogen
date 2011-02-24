@@ -59,7 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="IMainWindowToolBar.cs" />
     <Compile Include="IToolBar.cs" />
+    <Compile Include="MainWindowToolBar.cs" />
     <Compile Include="ToolBarCheckableButton.cs" />
     <Compile Include="ToolBarButton.cs" />
     <Compile Include="ToolBarEntry.cs" />
