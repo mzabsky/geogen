@@ -75,11 +75,12 @@
     <Compile Include="Plug-in Loader\LoaderConfig.cs" />
     <Compile Include="Plug-in Loader\OptionalRegistratorAttribute.cs" />
     <Compile Include="Plug-in Loader\PlugIn.cs" />
-    <Compile Include="UI\DialogBody.xaml.cs">
-      <DependentUpon>DialogBody.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="UI\DialogBody.cs" />
     <Compile Include="UI\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NumericBox.xaml.cs">
+      <DependentUpon>NumericBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
@@ -143,11 +144,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UI\DialogBody.xaml">
+    <Page Include="UI\MessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\MessageBox.xaml">
+    <Page Include="UI\NumericBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
