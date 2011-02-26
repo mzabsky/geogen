@@ -15,6 +15,16 @@
         Icon="{x:Null}"
         ResizeMode="NoResize"
         Background="White">
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding ReturnResultCommand}">
+            <KeyBinding.CommandParameter>
+                <s:Boolean>
+                    True
+                </s:Boolean>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
+        <KeyBinding Key="Esc" Command="{Binding ReturnResultCommand}" CommandParameter="{x:Null}" />
+    </Window.InputBindings>
     <Window.Style>
         <Style TargetType="{x:Type Window}">
             <Setter Property="Template">
