@@ -74,14 +74,14 @@ namespace GeoGen.Studio.PlugIns
             );
 
             this.closeCommand = new RelayCommand(
-                param => this.Close()
+                param => this.Hide()
             );
 
             this.okCommand = new RelayCommand(
                 param =>
                 {
                     this.ApplyChanges(); 
-                    this.Close();
+                    this.Hide();
                 }
             );
 
@@ -91,6 +91,12 @@ namespace GeoGen.Studio.PlugIns
                     (param as PlugInInfo).IsEnabled = !(param as PlugInInfo).IsEnabled;
                 }
             );
+
+            this.Closing += delegate(object sender, CancelEventArgs args)
+            {
+                args.Cancel = true;
+                this.Hide();
+            };
 
             InitializeComponent();
         }

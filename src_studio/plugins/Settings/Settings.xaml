@@ -12,152 +12,152 @@
              Title="Settings"
              Icon="Images/Icons/settings.png"
             >
-    <DockPanel>
-        <Border Style="{DynamicResource DialogButtonPanel}" Background="{DynamicResource AppBackground}" DockPanel.Dock="Bottom">
-            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Command="{Binding ApplyCommand}">Apply</Button>
-                <Button Command="{Binding OkCommand}">OK</Button>
-                <Button Command="{Binding CloseCommand}">Cancel</Button>
-            </StackPanel>
-        </Border>
-        <Border BorderThickness="0,0,0,5" BorderBrush="{DynamicResource DialogControlBorderBrush}">
-            <DockPanel DockPanel.Dock="Top">                
-                <ListBox DockPanel.Dock="Left" Width="200" ItemsSource="{Binding PlugIns}" Name="plugInList" BorderThickness="0,0,5,0" BorderBrush="{DynamicResource DialogControlBorderBrush}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding PlugIn.Name}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>        
-                <DockPanel DockPanel.Dock="Right" DataContext="{Binding SelectedItem, ElementName=plugInList}">
-                    <StackPanel Margin="15">
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Hidden"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Margin" Value="3" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock Text="{Binding PlugIn.Name}" FontSize="30"/>
-                        <TextBlock Text="Summary" FontSize="19" />
-                        <TextBlock Text="{Binding PlugIn.Description}" />
-                        <TextBlock>
-                            <TextBlock.ToolTip>
-                                Disabled plug-ins won't be loaded next time the application is started.
-                            </TextBlock.ToolTip>
-                            <Run>Enabled: </Run>
-                            <Run Text="{Binding IsEnabled, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
-                            <Run>    </Run>
-                            <Hyperlink Command="{Binding TogglePlugInCommand, ElementName=settingsWindow}" CommandParameter="{Binding}">
-                                <Run>
-                                    <Run.Style>
-                                        <Style TargetType="Run">
-                                            <Setter Property="Text" Value="Disable" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
-                                                    <Setter Property="Text" Value="Enable"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Run.Style>
-                                </Run>
-                            </Hyperlink>
-                        </TextBlock>
-                        <TextBlock>
-                            <TextBlock.ToolTip>
-                                Plug-in may not be running either because it is disabled or because it failed to start.
-                            </TextBlock.ToolTip>
-                            <Run>Running: </Run>
-                            <Run Text="{Binding PlugIn.IsRunning, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
-                        </TextBlock>
-                        <TextBlock Text="Options" FontSize="19" />
-                        <ItemsControl ItemsSource="{Binding Properties}">
-                            <ItemsControl.Resources>
-                                <Style TargetType="TextBlock" x:Key="PropertyLabel">
+    <ui:DialogBody Name="Body">
+        <ui:DialogBody.Buttons>
+            <Button Command="{Binding ApplyCommand}">Apply</Button>
+            <Button Command="{Binding OkCommand}">OK</Button>
+            <Button Command="{Binding CloseCommand}">Cancel</Button>            
+        </ui:DialogBody.Buttons>
+        <DockPanel>
+            <Border BorderThickness="0,0,0,5" BorderBrush="{DynamicResource DialogControlBorderBrush}">
+                <DockPanel DockPanel.Dock="Top">                
+                    <ListBox DockPanel.Dock="Left" Width="200" ItemsSource="{Binding PlugIns}" Name="plugInList" BorderThickness="0,0,5,0" BorderBrush="{DynamicResource DialogControlBorderBrush}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PlugIn.Name}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>        
+                    <DockPanel DockPanel.Dock="Right" DataContext="{Binding SelectedItem, ElementName=plugInList}">
+                        <StackPanel Margin="15">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="3" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <TextBlock Text="{Binding PlugIn.Name}" FontSize="30"/>
+                            <TextBlock Text="Summary" FontSize="19" />
+                            <TextBlock Text="{Binding PlugIn.Description}" />
+                            <TextBlock>
+                                <TextBlock.ToolTip>
+                                    Disabled plug-ins won't be loaded next time the application is started.
+                                </TextBlock.ToolTip>
+                                <Run>Enabled: </Run>
+                                <Run Text="{Binding IsEnabled, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
+                                <Run>    </Run>
+                                <Hyperlink Command="{Binding TogglePlugInCommand, ElementName=settingsWindow}" CommandParameter="{Binding}">
+                                    <Run>
+                                        <Run.Style>
+                                            <Style TargetType="Run">
+                                                <Setter Property="Text" Value="Disable" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                                                        <Setter Property="Text" Value="Enable"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Run.Style>
+                                    </Run>
+                                </Hyperlink>
+                            </TextBlock>
+                            <TextBlock>
+                                <TextBlock.ToolTip>
+                                    Plug-in may not be running either because it is disabled or because it failed to start.
+                                </TextBlock.ToolTip>
+                                <Run>Running: </Run>
+                                <Run Text="{Binding PlugIn.IsRunning, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
+                            </TextBlock>
+                            <TextBlock Text="Options" FontSize="19" />
+                            <ItemsControl ItemsSource="{Binding Properties}">
+                                <ItemsControl.Resources>
+                                    <Style TargetType="TextBlock" x:Key="PropertyLabel">
                                 
-                                </Style>
-                                <Style TargetType="TextBlock" x:Key="PropertyDescription">
-                                    <Setter Property="FontSize" Value="10"/>
-                                </Style>
-                                <Style x:Key="PropertyValue" TargetType="StackPanel">
-                                    <Setter Property="Margin" Value="50,5,0,20"/>
-                                </Style>
-                            </ItemsControl.Resources>
-                            <ItemsControl.ItemTemplateSelector>
-                                <local:ConfigurablePropertyItemTemplateSelector>
-                                    <local:ConfigurablePropertyItemTemplateSelector.Int>
-                                        <DataTemplate>
-                                            <StackPanel>
+                                    </Style>
+                                    <Style TargetType="TextBlock" x:Key="PropertyDescription">
+                                        <Setter Property="FontSize" Value="10"/>
+                                    </Style>
+                                    <Style x:Key="PropertyValue" TargetType="StackPanel">
+                                        <Setter Property="Margin" Value="50,5,0,20"/>
+                                    </Style>
+                                </ItemsControl.Resources>
+                                <ItemsControl.ItemTemplateSelector>
+                                    <local:ConfigurablePropertyItemTemplateSelector>
+                                        <local:ConfigurablePropertyItemTemplateSelector.Int>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Style="{StaticResource PropertyLabel}">
+                                                            <Run Text="{Binding Name}" />:
+                                                        </TextBlock>
+                                                        <TextBlock Style="{StaticResource PropertyDescription}" Visibility="{Binding Description, Converter={x:Static converters:StringToVisibilityConverter.Instance}}">
+                                                            (<Run Text="{Binding Description}" />)
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Style="{StaticResource PropertyValue}">
+                                                        <ui:NumericBox Value="{Binding Value}" Minimum="100" Maximum="400" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </local:ConfigurablePropertyItemTemplateSelector.Int>
+                                        <local:ConfigurablePropertyItemTemplateSelector.Float>
+                                            <DataTemplate>
+                                                <TextBlock>Float</TextBlock>
+                                            </DataTemplate>
+                                        </local:ConfigurablePropertyItemTemplateSelector.Float>
+                                        <local:ConfigurablePropertyItemTemplateSelector.String>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Style="{StaticResource PropertyLabel}">
+                                                            <Run Text="{Binding Name}" />: 
+                                                        </TextBlock>
+                                                        <TextBlock Style="{StaticResource PropertyDescription}" Visibility="{Binding Description, Converter={x:Static converters:StringToVisibilityConverter.Instance}}">
+                                                            (<Run Text="{Binding Description}" />)
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Style="{StaticResource PropertyValue}">
+                                                        <TextBox Text="{Binding Value}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </local:ConfigurablePropertyItemTemplateSelector.String>
+                                        <local:ConfigurablePropertyItemTemplateSelector.Bool>
+                                            <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding Value}"/>
                                                     <TextBlock Style="{StaticResource PropertyLabel}">
-                                                        <Run Text="{Binding Name}" />:
+                                                        <Run Text="{Binding Name}" />
                                                     </TextBlock>
                                                     <TextBlock Style="{StaticResource PropertyDescription}" Visibility="{Binding Description, Converter={x:Static converters:StringToVisibilityConverter.Instance}}">
                                                         (<Run Text="{Binding Description}" />)
                                                     </TextBlock>
                                                 </StackPanel>
-                                                <StackPanel Style="{StaticResource PropertyValue}">
-                                                    <ui:NumericBox Value="{Binding Value}" Minimum="100" Maximum="400" />
+                                            </DataTemplate>
+                                        </local:ConfigurablePropertyItemTemplateSelector.Bool>
+                                        <local:ConfigurablePropertyItemTemplateSelector.UnknownType>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                    <TextBlock><![CDATA[: <UNKNOWN TYPE>]]></TextBlock>
                                                 </StackPanel>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </local:ConfigurablePropertyItemTemplateSelector.Int>
-                                    <local:ConfigurablePropertyItemTemplateSelector.Float>
-                                        <DataTemplate>
-                                            <TextBlock>Float</TextBlock>
-                                        </DataTemplate>
-                                    </local:ConfigurablePropertyItemTemplateSelector.Float>
-                                    <local:ConfigurablePropertyItemTemplateSelector.String>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Style="{StaticResource PropertyLabel}">
-                                                        <Run Text="{Binding Name}" />: 
-                                                    </TextBlock>
-                                                    <TextBlock Style="{StaticResource PropertyDescription}" Visibility="{Binding Description, Converter={x:Static converters:StringToVisibilityConverter.Instance}}">
-                                                        (<Run Text="{Binding Description}" />)
-                                                    </TextBlock>
-                                                </StackPanel>
-                                                <StackPanel Style="{StaticResource PropertyValue}">
-                                                    <TextBox Text="{Binding Value}" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </local:ConfigurablePropertyItemTemplateSelector.String>
-                                    <local:ConfigurablePropertyItemTemplateSelector.Bool>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox IsChecked="{Binding Value}"/>
-                                                <TextBlock Style="{StaticResource PropertyLabel}">
-                                                    <Run Text="{Binding Name}" />
-                                                </TextBlock>
-                                                <TextBlock Style="{StaticResource PropertyDescription}" Visibility="{Binding Description, Converter={x:Static converters:StringToVisibilityConverter.Instance}}">
-                                                    (<Run Text="{Binding Description}" />)
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </local:ConfigurablePropertyItemTemplateSelector.Bool>
-                                    <local:ConfigurablePropertyItemTemplateSelector.UnknownType>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Name}" />
-                                                <TextBlock><![CDATA[: <UNKNOWN TYPE>]]></TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </local:ConfigurablePropertyItemTemplateSelector.UnknownType>
-                                </local:ConfigurablePropertyItemTemplateSelector>
-                            </ItemsControl.ItemTemplateSelector>
-                        </ItemsControl>
-                    </StackPanel>
-                </DockPanel>            
-            </DockPanel>
-        </Border>
-    </DockPanel>
+                                            </DataTemplate>
+                                        </local:ConfigurablePropertyItemTemplateSelector.UnknownType>
+                                    </local:ConfigurablePropertyItemTemplateSelector>
+                                </ItemsControl.ItemTemplateSelector>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DockPanel>            
+                </DockPanel>
+            </Border>
+        </DockPanel>
+    </ui:DialogBody>
 </pb:Window>
