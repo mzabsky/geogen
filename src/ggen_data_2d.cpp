@@ -991,8 +991,8 @@ void GGen_Data_2D::Noise(GGen_Size minFeatureSize, GGen_Size maxFeatureSize, GGe
 		}
 
 		// Decrease the wave length and amplitude.
-		if(waveLength > 1){			
-			waveLength /= 2;
+		waveLength /= 2;
+		if(waveLength > 1){						
 			amplitude = amplitudes->data[GGen_log2(waveLength / 2)];
 		}
 	}
