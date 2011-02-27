@@ -52,14 +52,42 @@ namespace GeoGen.Studio
             }
         }
 
-        public ImageSource Image {get; protected set;}
+        public ImageSource Image {get; private set;}
 
-        public ImageSource BaseImage { get; protected set; }
+        public ImageSource BaseImage { get; private set; }
+
+        public int Min
+        {
+            get
+            {
+                int min = Int16.MaxValue;
+                for (int i = 0; i < heightData.Length; i++)
+                {
+                    if (heightData[i] < min) min = heightData[i];
+                }
+                return min;
+            }
+        }
+
+        public int Max
+        {
+            get
+            {
+                int max = Int16.MinValue;
+                for (int i = 0; i < heightData.Length; i++)
+                {
+                    if (heightData[i] > max) max = heightData[i];
+                }
+                return max;
+            }
+        }
         #endregion
 
         public HeightData(string name, GeoGen.Net.HeightData heightData) {
             this.Name = name;
             this.heightData = heightData;
+            this.ExpandValuesToFullRange();
+            this.RebuildImage(overlayOnly: false);
         }
 
         public HeightData(string path, double width, double height)
@@ -180,6 +208,29 @@ namespace GeoGen.Studio
             }
 
             this.Image = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Rgb24, BitmapPalettes.Halftone256, bytes, this.heightData.Width * 3);
+        }
+
+        public void ExpandValuesToFullRange()
+        {
+            int min = this.Min;
+            int max = this.Max;
+
+            if (0 == min && 0 == max) return;
+
+            double ratio = 1;
+            if(min > max)
+            {
+                ratio = (double) short.MaxValue / (double) min;
+            }
+            else
+            {
+                ratio = (double) short.MaxValue / (double)max;
+            }
+
+            for(int i = 0; i < this.heightData.Length; i++)
+            {
+                this.heightData[i] = (short) (this.heightData[i] * ratio);
+            }
         }
 
         private void OnPropertyChanged(string info)
