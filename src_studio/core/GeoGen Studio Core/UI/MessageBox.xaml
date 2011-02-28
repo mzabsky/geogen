@@ -23,7 +23,7 @@
                 </s:Boolean>
             </KeyBinding.CommandParameter>
         </KeyBinding>
-        <KeyBinding Key="Esc" Command="{Binding ReturnResultCommand}" CommandParameter="{x:Null}" />
+        <KeyBinding Key="Escape" Command="{Binding ReturnResultCommand}" CommandParameter="{x:Null}" />
     </Window.InputBindings>
     <Window.Style>
         <Style TargetType="{x:Type Window}">
