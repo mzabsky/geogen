@@ -2,19 +2,38 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Xml.Schema;
 using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio
 {
-    sealed public class Overlay
+    sealed public class Overlay: IXmlSerializable
     {
+        public static string OverlayDirectory
+        {
+            get
+            {
+                return "../overlays/";
+            }
+        }
+
+        public static string DefaultOverlayName
+        {
+            get
+            {
+                return "TopoBathy.bmp";
+            }
+        }
+
         private static IEnumerable<Overlay> all;
 
         /// <summary>
         /// Returns all valid overlays found in the overlay directory.
         /// </summary>
         /// <value>All.</value>
-        private static IEnumerable<Overlay> All
+        public static IEnumerable<Overlay> All
         {
             get
             {
@@ -26,7 +45,7 @@ namespace GeoGen.Studio
 
                 List<Overlay> overlays = new List<Overlay>();
 
-                DirectoryInfo directoryInfo = new DirectoryInfo("../overlays");
+                DirectoryInfo directoryInfo = new DirectoryInfo(Overlay.OverlayDirectory);
 
                 // Load all overlay files in the directory
                 foreach(FileInfo overlayFile in directoryInfo.GetFiles("*.bmp"))
@@ -35,7 +54,7 @@ namespace GeoGen.Studio
                     {
                         overlays.Add(new Overlay(overlayFile));
                     }
-                    catch(Exception)
+                    catch(Exception e)
                     {
                         // The overlay might have been invalid
                         Messenger.ThrowMessage(new Message("Could not open overlay \"" + overlayFile.Name + "\".", MessageType.Error));
@@ -53,6 +72,8 @@ namespace GeoGen.Studio
         public string Name {get; private set;}
 
         public string FileName { get; private set; }
+
+        public FileInfo FileInfo { get; private set; }
 
         public BitmapImage Bitmap {get; private set;}
         
@@ -73,13 +94,24 @@ namespace GeoGen.Studio
             }
         }
 
-        internal Overlay(FileInfo file)
+        public Overlay()
+        {
+            this.LoadFromFile(new FileInfo(Overlay.OverlayDirectory + Overlay.DefaultOverlayName));
+        }
+
+        public Overlay(FileInfo file)
         {            
+            this.LoadFromFile(file);
+        }
+
+        private void LoadFromFile(FileInfo file)
+        {
             this.Bitmap = new BitmapImage(new Uri(file.FullName));
             this.FileName = file.FullName;
             this.Name = file.Name;
+            this.FileInfo = file;
 
-            if(this.Bitmap.Height != 1 || (this.Bitmap.Width != 511 && this.Bitmap.Width != 256))
+            if(this.Bitmap.PixelHeight != 1 || (this.Bitmap.PixelWidth != 511 && this.Bitmap.PixelWidth != 256))
             {
                 throw new ArgumentException("Incorrect overlay size.");
             }
@@ -88,6 +120,38 @@ namespace GeoGen.Studio
             int stride = this.Bitmap.PixelWidth * this.BytesPerPixel;
             this.Bytes = new byte[this.Bitmap.PixelHeight * stride];
             this.Bitmap.CopyPixels(this.Bytes, stride, 0);
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var overlay = obj as Overlay;
+
+            if (overlay != null)
+            {
+                return false;
+            }
+
+            return overlay.Name == this.Name;
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            this.LoadFromFile(new FileInfo(Overlay.OverlayDirectory + reader.ReadString()));
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteString(this.Name);
         }
     }
 }
