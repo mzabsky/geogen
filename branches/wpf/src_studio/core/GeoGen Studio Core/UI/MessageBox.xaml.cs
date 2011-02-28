@@ -18,7 +18,7 @@ namespace GeoGen.Studio.UI
         /// Command used by the message box buttons.
         /// </summary>
         /// <value>The return result command.</value>
-        protected ICommand ReturnResultCommand 
+        public ICommand ReturnResultCommand 
         {
             get
             {
