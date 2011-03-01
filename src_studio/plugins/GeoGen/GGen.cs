@@ -1,5 +1,4 @@
 ﻿using GeoGen.Net;
-using GeoGen.Studio;
 using GeoGen.Studio.Utilities.Messaging;
 using System.Diagnostics.Contracts;
 using System.Collections.ObjectModel;
@@ -418,9 +417,12 @@ namespace GeoGen.Studio.PlugIns
 
         protected void AddHeightDataToTemporaryMapList(string name, GeoGen.Net.HeightData heightData)
         {
-            this.temporaryMapList.Add(
-                new HeightData(name, heightData)
-            );
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action) delegate
+            {
+                this.temporaryMapList.Add(
+                    new HeightData(name, heightData)
+                );
+            });
         }
 
         [ContractInvariantMethod]   
