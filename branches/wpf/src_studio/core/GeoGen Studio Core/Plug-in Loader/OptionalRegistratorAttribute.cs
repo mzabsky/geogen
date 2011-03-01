@@ -6,7 +6,7 @@ namespace GeoGen.Studio.PlugInLoader
     /// Indicates that a <see cref="Registrator"/> is optional and will not throw error if not loaded because of missing dependencies.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
-    public class OptionalRegistratorAttribute : Attribute
+    public sealed class OptionalRegistratorAttribute : Attribute
     {
     }
 }
