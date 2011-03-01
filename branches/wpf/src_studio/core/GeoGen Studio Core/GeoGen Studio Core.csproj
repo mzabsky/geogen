@@ -90,6 +90,7 @@
     <Compile Include="Utilities\Collections\SortedObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utilities\Collections\UniqueObservableCollection.cs" />
     <Compile Include="Utilities\Configurability\ConfigurableAttribute.cs" />
     <Compile Include="Utilities\Configurability\MainConfig.cs" />
     <Compile Include="Utilities\Configurability\PropertyStore.cs" />
@@ -99,11 +100,14 @@
     <Compile Include="Utilities\Converters\BoolToYesNoConverter.cs" />
     <Compile Include="Utilities\Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Utilities\Extensions\FileInfo.cs" />
+    <Compile Include="Utilities\IO\FileDialog.cs" />
+    <Compile Include="Utilities\IO\FileEventArgs.cs" />
+    <Compile Include="Utilities\IO\FileService.cs" />
     <Compile Include="Utilities\Messaging\Message.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventArgs.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventHandler.cs" />
     <Compile Include="Utilities\Messaging\MessageType.cs" />
-    <Compile Include="Utilities\FileDialog.cs" />
     <Compile Include="Utilities\Messaging\Messenger.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
     <Compile Include="Utilities\PlugInBase\Control.cs" />
@@ -162,6 +166,7 @@
     <Resource Include="UI\Images\question.png" />
     <Resource Include="UI\Images\waarning.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
