@@ -7,7 +7,7 @@ namespace GeoGen.Studio.Utilities.PlugInBase
     /// <summary>
     /// Base class for plug-ins extending WPF <see cref="UserControl"/>. Provides <see cref="INotifyPropertyChanged"/> implementation.
     /// </summary>
-    public class Control : UserControl, IPlugIn, INotifyPropertyChanged
+    public class Control : UserControl, IPlugIn
     {
         /// <summary>
         /// Occurs when a property value changes.
