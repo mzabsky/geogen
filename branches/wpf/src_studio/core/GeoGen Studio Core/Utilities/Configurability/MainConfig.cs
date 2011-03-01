@@ -13,7 +13,7 @@ namespace GeoGen.Studio.Utilities.Configurability
     {
         private static bool isInitialized;
         private static PropertyStore propertyStore;
-        private static readonly List<IConfigurable> registeredConfigurables = new List<IConfigurable>();
+        private static readonly List<object> registeredConfigurables = new List<object>();
 
         private static void Initialize()
         {
@@ -43,7 +43,7 @@ namespace GeoGen.Studio.Utilities.Configurability
 
         private static void SaveConfigurations()
         {
-            foreach (IConfigurable configurable in MainConfig.registeredConfigurables)
+            foreach (object configurable in MainConfig.registeredConfigurables)
             {
                 MainConfig.SaveConfiguration(configurable);
             }
@@ -63,7 +63,7 @@ namespace GeoGen.Studio.Utilities.Configurability
         /// When the application shuts down, its properties will be saved into the storage.
         /// </summary>
         /// <param name="configurable">The configurable.</param>
-        public static void Register(IConfigurable configurable)
+        public static void Register(object configurable)
         {
             if(!MainConfig.registeredConfigurables.Contains(configurable))
             {
@@ -73,7 +73,7 @@ namespace GeoGen.Studio.Utilities.Configurability
             MainConfig.LoadConfiguration(configurable);
         }
 
-        private static void LoadConfiguration(IConfigurable configurable)
+        private static void LoadConfiguration(object configurable)
         {
             if(!MainConfig.isInitialized)
             {
@@ -96,7 +96,7 @@ namespace GeoGen.Studio.Utilities.Configurability
         /// Saves properties of the configurable object to the persistent storage. The object will be <see cref="MainConfig.Register">registered</see>, if it is not already.
         /// </summary>
         /// <param name="configurable">The configurable.</param>
-        public static void SaveConfiguration(IConfigurable configurable)
+        public static void SaveConfiguration(object configurable)
         {
             if(!MainConfig.isInitialized)
             {

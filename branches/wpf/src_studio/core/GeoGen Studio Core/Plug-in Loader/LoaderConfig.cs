@@ -3,7 +3,7 @@ using GeoGen.Studio.Utilities.Configurability;
 
 namespace GeoGen.Studio.PlugInLoader
 {
-    internal sealed class LoaderConfig: IConfigurable
+    internal sealed class LoaderConfig
     {
         [Configurable(UseEmptyInstanceAsDefault = true)]
         public TypeCollection DisabledPlugIns { get; private set; }

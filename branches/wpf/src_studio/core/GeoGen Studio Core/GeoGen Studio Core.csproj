@@ -94,7 +94,6 @@
     <Compile Include="Utilities\Configurability\ConfigurableAttribute.cs" />
     <Compile Include="Utilities\Configurability\MainConfig.cs" />
     <Compile Include="Utilities\Configurability\PropertyStore.cs" />
-    <Compile Include="Utilities\Configurability\IConfigurable.cs" />
     <Compile Include="Utilities\Context\Context.cs" />
     <Compile Include="Utilities\Context\ContextManager.cs" />
     <Compile Include="Utilities\Converters\BoolToYesNoConverter.cs" />
