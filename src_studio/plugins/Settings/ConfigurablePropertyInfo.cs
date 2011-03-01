@@ -13,5 +13,10 @@ namespace GeoGen.Studio.PlugIns
         public object OriginalValue {get; set;}
         public object Value { get; set; }
         public object Description { get; set; }
-    }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }    
 }
