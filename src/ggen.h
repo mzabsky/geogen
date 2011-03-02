@@ -76,7 +76,7 @@ public:
 
 	static GGen* GetInstance();
 
-	GGen_Status GetStatus();
+	const GGen_Status GetStatus();
 
 	const void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
 	//void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
