@@ -59,7 +59,7 @@ GGen_Status GGen::GetStatus(){
 	return this->status;
 }
 
-void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
+const void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
 	
 	if(message_callback != NULL){
 		this->message_callback(message, level, line, column);

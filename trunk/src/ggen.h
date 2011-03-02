@@ -78,7 +78,7 @@ public:
 
 	GGen_Status GetStatus();
 
-	void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
+	const void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
 	//void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
 
 	void SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column));
