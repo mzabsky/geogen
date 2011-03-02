@@ -55,7 +55,7 @@ GGen* GGen::GetInstance(){
 	return GGen::instance;
 }
 
-GGen_Status GGen::GetStatus(){
+const GGen_Status GGen::GetStatus(){
 	return this->status;
 }
 
