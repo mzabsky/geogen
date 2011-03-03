@@ -1,17 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Schema;
-using GeoGen.Studio.Utilities.Messaging;
+//using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio
 {
-    sealed public class Overlay: IXmlSerializable
+    sealed public class Overlay: IXmlSerializable, INotifyPropertyChanged
     {
-        public static string OverlayDirectory
+        /*public static string OverlayDirectory
         {
             get
             {
@@ -25,7 +26,7 @@ namespace GeoGen.Studio
             {
                 return "TopoBathy.bmp";
             }
-        }
+        }*/
 
         private static IEnumerable<Overlay> all;
 
@@ -45,7 +46,7 @@ namespace GeoGen.Studio
 
                 List<Overlay> overlays = new List<Overlay>();
 
-                DirectoryInfo directoryInfo = new DirectoryInfo(Overlay.OverlayDirectory);
+                DirectoryInfo directoryInfo = null;// new DirectoryInfo(Overlay.OverlayDirectory);
 
                 // Load all overlay files in the directory
                 foreach(FileInfo overlayFile in directoryInfo.GetFiles("*.bmp"))
@@ -57,7 +58,7 @@ namespace GeoGen.Studio
                     catch(Exception e)
                     {
                         // The overlay might have been invalid
-                        Messenger.ThrowMessage(new Message("Could not open overlay \"" + overlayFile.Name + "\".", MessageType.Error));
+                        //Messenger.ThrowMessage(new Message("Could not open overlay \"" + overlayFile.Name + "\".", MessageType.Error));
                         continue;
                     }
                 }
@@ -96,15 +97,15 @@ namespace GeoGen.Studio
 
         public Overlay()
         {
-            this.LoadFromFile(new FileInfo(Overlay.OverlayDirectory + Overlay.DefaultOverlayName));
+            //this.LoadFromFile(new FileInfo(Overlay.OverlayDirectory + Overlay.DefaultOverlayName));
         }
 
         public Overlay(FileInfo file)
         {            
-            this.LoadFromFile(file);
+            //this.LoadFromFile(file);
         }
 
-        private void LoadFromFile(FileInfo file)
+        /*private void LoadFromFile(FileInfo file)
         {
             this.Bitmap = new BitmapImage(new Uri(file.FullName));
             this.FileName = file.FullName;
@@ -137,7 +138,7 @@ namespace GeoGen.Studio
             }
 
             return overlay.Name == this.Name;
-        }
+        }*/
 
         public XmlSchema GetSchema()
         {
@@ -146,12 +147,19 @@ namespace GeoGen.Studio
 
         public void ReadXml(XmlReader reader)
         {
-            this.LoadFromFile(new FileInfo(Overlay.OverlayDirectory + reader.ReadString()));
+            //this.LoadFromFile(new FileInfo(Overlay.OverlayDirectory + reader.ReadString()));
         }
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteString(this.Name);
+            //writer.WriteString(this.Name);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }
