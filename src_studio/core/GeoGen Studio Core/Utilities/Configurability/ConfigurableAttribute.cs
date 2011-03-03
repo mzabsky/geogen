@@ -5,7 +5,7 @@ namespace GeoGen.Studio.Utilities.Configurability
     /// <summary>
     /// Makes a property persistent (if the object instance is registered with <see cref="MainConfig"/>).
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class ConfigurableAttribute : Attribute
     {
         /// <summary>

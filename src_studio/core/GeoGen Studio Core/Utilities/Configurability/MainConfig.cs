@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using GeoGen.Studio.PlugIns;
 
 namespace GeoGen.Studio.Utilities.Configurability
 {
@@ -13,6 +15,7 @@ namespace GeoGen.Studio.Utilities.Configurability
     {        
         private static PropertyStore propertyStore;
         private static readonly List<object> registeredConfigurables = new List<object>();
+        private static readonly List<Type> registeredStaticTypes = new List<Type>();
 
         static MainConfig()
         {
@@ -44,6 +47,11 @@ namespace GeoGen.Studio.Utilities.Configurability
                 MainConfig.SaveConfiguration(configurable);
             }
 
+            foreach (Type type in MainConfig.registeredStaticTypes)
+            {
+                MainConfig.SaveConfigurationForStaticType(type);
+            }
+
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(PropertyStore));
 
             StreamWriter writer = File.CreateText("config.xml");
@@ -69,6 +77,19 @@ namespace GeoGen.Studio.Utilities.Configurability
             MainConfig.LoadConfiguration(configurable);
         }
 
+        public static void RegisterStaticType(Type type)
+        {
+            // The type must be static.
+            Contract.Assert(type.IsAbstract && type.IsSealed);
+
+            if (!MainConfig.registeredStaticTypes.Contains(type))
+            {
+                MainConfig.registeredStaticTypes.Add(type);
+            }
+
+            MainConfig.LoadConfigurationForStaticType(type);
+        }
+
         private static void LoadConfiguration(object configurable)
         {
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
@@ -83,7 +104,23 @@ namespace GeoGen.Studio.Utilities.Configurability
             }
         }
 
+        private static void LoadConfigurationForStaticType(Type type)
+        {
+            // The type must be static.
+            Contract.Assert(type.IsAbstract && type.IsSealed);
 
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+
+                /* Skip non-writable non-configurable properties. */
+                if (property.CanWrite && configurableAttribute != null)
+                {
+                    object o = MainConfig.GetPropertyValue(property);
+                    property.SetValue(type, MainConfig.GetPropertyValue(property), null);
+                }
+            }
+        }
 
         /// <summary>
         /// Saves properties of the configurable object to the persistent storage. The object will be <see cref="MainConfig.Register">registered</see>, if it is not already.
@@ -99,6 +136,25 @@ namespace GeoGen.Studio.Utilities.Configurability
                 if (property.CanWrite && configurableAttribute != null)
                 {
                     MainConfig.SavePropertyValue(property, property.GetValue(configurable, null));
+                }
+            }
+        }
+
+        public static void SaveConfigurationForStaticType(Type type)
+        {
+            // The type must be static.
+            Contract.Assert(type.IsAbstract && type.IsSealed);
+
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+
+                /* Skip non-readable non-configurable properties. */
+                if (property.CanWrite && configurableAttribute != null)
+                {
+                    object o = property.GetValue(null, null);
+                    MainConfig.SavePropertyValue(property, property.GetValue(null, null));
+                    dynamic d = FileService.RecentFiles;
                 }
             }
         }
