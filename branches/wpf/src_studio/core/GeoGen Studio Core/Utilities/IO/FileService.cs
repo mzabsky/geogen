@@ -1,9 +1,8 @@
 ﻿using System.IO;
-using GeoGen.Studio.Utilities.Collections;
+using GeoGen.Studio.PlugIns;
 using GeoGen.Studio.Utilities.Configurability;
-using GeoGen.Studio.Utilities.IO;
 
-namespace GeoGen.Studio.PlugIns
+namespace GeoGen.Studio.Utilities.IO
 {    
     public static class FileService
     {

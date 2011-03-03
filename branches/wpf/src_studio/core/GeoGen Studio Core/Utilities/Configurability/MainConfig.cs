@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using GeoGen.Studio.PlugIns;
+using GeoGen.Studio.Utilities.IO;
 
 namespace GeoGen.Studio.Utilities.Configurability
 {
