@@ -84,6 +84,7 @@ namespace GeoGen.Studio
         #endregion
 
         public HeightData(string name, GeoGen.Net.HeightData heightData) {
+            this.Overlay = new Overlay();
             this.Name = name;
             this.heightData = heightData;
             this.ExpandValuesToFullRange();
@@ -166,6 +167,8 @@ namespace GeoGen.Studio
         }
 
         public void RebuildImage(bool overlayOnly = true){
+            if (this.heightData == null) return;
+
             Byte[] bytes;
 
             // don't redraw the base height map image if the height data didn't change
