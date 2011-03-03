@@ -1,11 +1,14 @@
 ﻿using System.IO;
 using GeoGen.Studio.Utilities.Collections;
+using GeoGen.Studio.Utilities.Configurability;
+using GeoGen.Studio.Utilities.IO;
 
 namespace GeoGen.Studio.PlugIns
-{
+{    
     public static class FileService
     {
-        public static UniqueObservableQueue<FileInfo> RecentFiles { get; private set; }
+        [Configurable(UseEmptyInstanceAsDefault = true)]
+        public static FileInfoObservableQueue RecentFiles { get; internal set; }
 
         public static event FileEventHandler FileOpened;
         public static event FileEventHandler FileClosed;
@@ -13,7 +16,8 @@ namespace GeoGen.Studio.PlugIns
 
         static FileService()
         {
-            FileService.RecentFiles = new UniqueObservableQueue<FileInfo>();
+            FileService.RecentFiles = new FileInfoObservableQueue();
+            MainConfig.RegisterStaticType(typeof (FileService));
         }
 
         public static void OnFileOpened(object sender, FileInfo fileInfo)
