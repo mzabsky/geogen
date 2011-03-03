@@ -146,7 +146,9 @@ namespace GeoGen.Studio
 
         public void ReadXml(XmlReader reader)
         {
+            reader.ReadStartElement();
             this.LoadFromFile(new FileInfo(Overlay.OverlayDirectory + reader.ReadString()));
+            reader.ReadEndElement();
         }
 
         public void WriteXml(XmlWriter writer)
