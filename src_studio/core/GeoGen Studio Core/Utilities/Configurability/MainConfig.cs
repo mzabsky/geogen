@@ -10,14 +10,13 @@ namespace GeoGen.Studio.Utilities.Configurability
     /// Offers a simple way to persistently store properties of objects on a per-type basis.
     /// </summary>
     public static class MainConfig
-    {
-        private static bool isInitialized;
+    {        
         private static PropertyStore propertyStore;
         private static readonly List<object> registeredConfigurables = new List<object>();
 
-        private static void Initialize()
+        static MainConfig()
         {
-            /* Load the configuration  data from the config.xml file. */
+            // Load the configuration  data from the config.xml file.
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(PropertyStore));
 
             try
@@ -31,14 +30,11 @@ namespace GeoGen.Studio.Utilities.Configurability
                 MainConfig.propertyStore = new PropertyStore();
             }
 
-            /* Save the config.xml when the application is terminating. */
+            // Save the config.xml when the application is terminating.
             Application.Current.Exit += delegate
             {
                 MainConfig.SaveConfigurations();
             };
-
-            /* The class is now ready to use. */
-            MainConfig.isInitialized = true;
         }
 
         private static void SaveConfigurations()
@@ -75,11 +71,6 @@ namespace GeoGen.Studio.Utilities.Configurability
 
         private static void LoadConfiguration(object configurable)
         {
-            if(!MainConfig.isInitialized)
-            {
-                MainConfig.Initialize();
-            }
-
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
                 ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
@@ -92,17 +83,14 @@ namespace GeoGen.Studio.Utilities.Configurability
             }
         }
 
+
+
         /// <summary>
         /// Saves properties of the configurable object to the persistent storage. The object will be <see cref="MainConfig.Register">registered</see>, if it is not already.
         /// </summary>
         /// <param name="configurable">The configurable.</param>
         public static void SaveConfiguration(object configurable)
         {
-            if(!MainConfig.isInitialized)
-            {
-                MainConfig.Initialize();
-            }            
-            
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
                 ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
