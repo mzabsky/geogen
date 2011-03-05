@@ -19,37 +19,39 @@
 
 #include "ggen_progress.h"
 
-void GGen_InitProgress(uint32 max_progress){
-	// show a script assert if we are in wrong script mode, ordinary assert otherwise
-	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
-	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+namespace GeoGen{
+	void GGen_InitProgress(uint32 max_progress){
+		// show a script assert if we are in wrong script mode, ordinary assert otherwise
+		if(Generator::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(Generator::GetInstance()->GetStatus() == GGEN_GENERATING);}
+		else assert(Generator::GetInstance()->GetStatus() == GGEN_GENERATING);
 
-	GGen::GetInstance()->max_progress = max_progress;
-	GGen::GetInstance()->current_progress = 0;
+		Generator::GetInstance()->max_progress = max_progress;
+		Generator::GetInstance()->current_progress = 0;
 
-	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(0, max_progress);
-}
+		if(Generator::GetInstance()->progress_callback != NULL) Generator::GetInstance()->progress_callback(0, max_progress);
+	}
 
-void GGen_SetProgress(uint32 current_progress){
-	// show a script assert if we are in wrong script mode, ordinary assert otherwise
-	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
-	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+	void GGen_SetProgress(uint32 current_progress){
+		// show a script assert if we are in wrong script mode, ordinary assert otherwise
+		if(Generator::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(Generator::GetInstance()->GetStatus() == GGEN_GENERATING);}
+		else assert(Generator::GetInstance()->GetStatus() == GGEN_GENERATING);
 
-	GGen_Script_Assert(current_progress <= GGen::GetInstance()->max_progress);
+		GGen_Script_Assert(current_progress <= Generator::GetInstance()->max_progress);
 
-	GGen::GetInstance()->current_progress = current_progress;
+		Generator::GetInstance()->current_progress = current_progress;
 
-	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(current_progress, GGen::GetInstance()->max_progress);
-}
+		if(Generator::GetInstance()->progress_callback != NULL) Generator::GetInstance()->progress_callback(current_progress, Generator::GetInstance()->max_progress);
+	}
 
-void GGen_IncreaseProgress(){
-	// show a script assert if we are in wrong script mode, ordinary assert otherwise
-	if(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);}
-	else assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+	void GGen_IncreaseProgress(){
+		// show a script assert if we are in wrong script mode, ordinary assert otherwise
+		if(Generator::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO) {GGen_Script_Assert(Generator::GetInstance()->GetStatus() == GGEN_GENERATING);}
+		else assert(Generator::GetInstance()->GetStatus() == GGEN_GENERATING);
 
-	GGen_Script_Assert(GGen::GetInstance()->current_progress + 1 < GGen::GetInstance()->max_progress);
+		GGen_Script_Assert(Generator::GetInstance()->current_progress + 1 < Generator::GetInstance()->max_progress);
 
-	GGen::GetInstance()->current_progress++;
+		Generator::GetInstance()->current_progress++;
 
-	if(GGen::GetInstance()->progress_callback != NULL) GGen::GetInstance()->progress_callback(GGen::GetInstance()->current_progress, GGen::GetInstance()->max_progress);
+		if(Generator::GetInstance()->progress_callback != NULL) Generator::GetInstance()->progress_callback(Generator::GetInstance()->current_progress, Generator::GetInstance()->max_progress);
+	}
 }

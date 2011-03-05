@@ -39,6 +39,10 @@ function Generate(){
 	// raise the water level so 9% of the map is under level 0
 	base.Flood(0.93 - 0.03 * lake_size);
 
+	base.SimpleErosion(2, 1, true);
+
+	//base.Erode(100);
+
 	base.TransformValues(GGEN_NATURAL_PROFILE, true);
 
 	return base;
