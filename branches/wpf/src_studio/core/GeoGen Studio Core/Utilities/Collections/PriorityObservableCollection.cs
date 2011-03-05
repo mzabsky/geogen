@@ -15,4 +15,12 @@ namespace GeoGen.Studio.Utilities.Collections
         /// </summary>
         public PriorityObservableCollection() : base(new PriorityComparer()) { }
     }
+
+    public class PriorityObservableCollection<T>: SortedObservableCollection<T> where T:IPriority
+    {
+        public PriorityObservableCollection()
+        {
+            this.comparer = (IComparer<T>) new PriorityComparer();
+        }
+    }
 }
