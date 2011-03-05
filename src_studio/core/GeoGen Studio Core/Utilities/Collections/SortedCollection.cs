@@ -16,7 +16,7 @@ namespace GeoGen.Studio.Utilities.Collections
 
         private static readonly TValue[] emptyValues;
 
-        private readonly IComparer<TValue> comparer;
+        protected IComparer<TValue> comparer;
         private TValue[] values;
         private int size;
         // for enumeration
