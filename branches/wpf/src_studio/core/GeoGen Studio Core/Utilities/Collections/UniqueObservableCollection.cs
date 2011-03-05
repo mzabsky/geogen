@@ -58,8 +58,10 @@ namespace GeoGen.Studio.Utilities.Collections
                 values.Insert(0, item);
 
                 this.OnCollectionChanged(
-                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, oldIndex, 0)
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, 0, oldIndex)
                     );
+
+                return;
             }
 
             // Crop the collection if it would be too long after the addition.
@@ -77,7 +79,7 @@ namespace GeoGen.Studio.Utilities.Collections
             // Finally add the item.
             this.values.Insert(0, item);
             this.OnCollectionChanged(
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item)
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, 0)
                 );
         }
 
@@ -136,7 +138,7 @@ namespace GeoGen.Studio.Utilities.Collections
 
             public bool MoveNext()
             {
-                if (this.index < this.collection.Count)
+                if (this.index < this.collection.Count - 1)
                 {
                     this.index++;
                     return true;
