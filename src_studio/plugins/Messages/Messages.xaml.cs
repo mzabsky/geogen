@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GeoGen.Studio.Utilities.Messaging;
 using System.Collections.ObjectModel;
 using GeoGen.Studio.PlugInLoader;
@@ -66,7 +56,10 @@ namespace GeoGen.Studio.PlugIns
         {
             this.IsEmpty = (this.Items.Count == 0);
 
-            if(this.scroller.ScrollableHeight == this.scroller.VerticalOffset) this.scroller.ScrollToBottom();
+            if (this.scroller != null)
+            {
+                if (this.scroller.ScrollableHeight == this.scroller.VerticalOffset) this.scroller.ScrollToBottom();
+            }
         }
 		
 		private void CopyToClipboard(object sender, RoutedEventArgs e){
