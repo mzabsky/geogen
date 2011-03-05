@@ -102,6 +102,7 @@
     <Compile Include="Utilities\Extensions\FileInfo.cs" />
     <Compile Include="Utilities\IO\FileDialog.cs" />
     <Compile Include="Utilities\IO\FileEventArgs.cs" />
+    <Compile Include="Utilities\IO\FileInfoObservableQueue.cs" />
     <Compile Include="Utilities\IO\FileService.cs" />
     <Compile Include="Utilities\Messaging\Message.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventArgs.cs" />

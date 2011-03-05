@@ -93,7 +93,7 @@
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen Studio Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GGenStudio.HeightData\GGenStudio.HeightData.csproj">
+    <ProjectReference Include="..\..\HeightData\GGenStudio.HeightData.csproj">
       <Project>{EA119B85-8F12-4E84-89AB-E47D8996D016}</Project>
       <Name>GGenStudio.HeightData</Name>
     </ProjectReference>

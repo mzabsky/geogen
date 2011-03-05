@@ -1,3 +1,4 @@
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen Dev", "project files\GeoGen.vcxproj", "{66F6AB2A-F3C4-4BF2-A748-EFE501AFCE4B}"
@@ -26,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeoGen Studio", "GeoGen Stu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plug-ins", "Plug-ins", "{0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MainWindow", "src_studio\plugins\Window\GGenStudio.PlugIn.Window\GGenStudio.PlugIns.MainWindow.csproj", "{71A77DFA-C195-4882-AD94-5F73FBF0F918}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MainWindow", "src_studio\plugins\Window\GGenStudio.PlugIns.MainWindow.csproj", "{71A77DFA-C195-4882-AD94-5F73FBF0F918}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.DockManager", "src_studio\plugins\DockManager\GGenStudio.PlugIns.DockManager.csproj", "{800BDCE0-5B63-4B1B-927B-CDD568721938}"
 EndProject
@@ -34,11 +35,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.AvalonEd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.Logger", "src_studio\plugins\Logger\GGenStudio.PlugIns.Logger\GGenStudio.PlugIns.Logger.csproj", "{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MenuBar", "src_studio\plugins\GGenStudio.PlugIns.MenuBar\GGenStudio.PlugIns.MenuBar.csproj", "{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MenuBar", "src_studio\plugins\MenuBar\GGenStudio.PlugIns.MenuBar.csproj", "{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.GGen", "src_studio\plugins\GeoGen\GGenStudio.PlugIns.GGen.csproj", "{5D0FF14C-459D-4801-A825-C406D5FD6051}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.HeightData", "src_studio\GGenStudio.HeightData\GGenStudio.HeightData.csproj", "{EA119B85-8F12-4E84-89AB-E47D8996D016}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.HeightData", "src_studio\HeightData\GGenStudio.HeightData.csproj", "{EA119B85-8F12-4E84-89AB-E47D8996D016}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.GeneratorUI", "src_studio\plugins\GeneratorUI\GGenStudio.PlugIns.GeneratorUI.csproj", "{17BE962C-BBD2-4AE7-987B-7D14971BE1A6}"
 EndProject
@@ -51,6 +52,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.Messages", "src_studio\plugins\Messages\GGenStudio.PlugIns.Messages.csproj", "{AAC31ADC-39D3-4DB0-9D6E-0F725A0B4FF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.ParamGrid", "src_studio\plugins\ParamGrid\GGenStudio.PlugIns.ParamGrid.csproj", "{CF438B60-3C0D-431F-9330-7658DC2953DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "src_studio\plugins\Settings\Settings.csproj", "{CD8B2300-5430-4357-BE95-0FB560B58589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.WelcomeScreen", "src_studio\plugins\WelcomeScreen\GGenStudio.PlugIns.WelcomeScreen.csproj", "{EEC27604-CE76-40B3-ADC8-105CB0731A58}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -380,6 +385,36 @@ Global
 		{CF438B60-3C0D-431F-9330-7658DC2953DB}.Release|Win32.ActiveCfg = Release|Any CPU
 		{CF438B60-3C0D-431F-9330-7658DC2953DB}.Release|x64.ActiveCfg = Release|Any CPU
 		{CF438B60-3C0D-431F-9330-7658DC2953DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Debug|x86.Build.0 = Debug|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Release|Win32.ActiveCfg = Release|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Release|x64.ActiveCfg = Release|Any CPU
+		{CD8B2300-5430-4357-BE95-0FB560B58589}.Release|x86.ActiveCfg = Release|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Debug|x86.Build.0 = Debug|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Release|Win32.ActiveCfg = Release|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Release|x64.ActiveCfg = Release|Any CPU
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -400,5 +435,10 @@ Global
 		{BDACE2EE-D55C-426B-84DA-8E1C6CB377BA} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{AAC31ADC-39D3-4DB0-9D6E-0F725A0B4FF0} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{CF438B60-3C0D-431F-9330-7658DC2953DB} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+		{CD8B2300-5430-4357-BE95-0FB560B58589} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+		{EEC27604-CE76-40B3-ADC8-105CB0731A58} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+	EndGlobalSection
+	GlobalSection(NDepend) = preSolution
+		Project = ".\GeoGen.ndproj"
 	EndGlobalSection
 EndGlobal

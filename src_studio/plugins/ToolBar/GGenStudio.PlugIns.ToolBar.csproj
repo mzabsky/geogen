@@ -64,6 +64,7 @@
     <Compile Include="MainWindowToolBar.cs" />
     <Compile Include="ToolBarCheckableButton.cs" />
     <Compile Include="ToolBarButton.cs" />
+    <Compile Include="ToolBarControl.cs" />
     <Compile Include="ToolBarEntry.cs" />
     <Compile Include="ToolBarEntryObservableCollection.cs" />
     <Compile Include="ToolBarItemTemplateSelector.cs" />
@@ -102,11 +103,12 @@
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen Studio Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Window\GGenStudio.PlugIn.Window\GGenStudio.PlugIns.MainWindow.csproj">
+    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
       <Name>GGenStudio.PlugIns.MainWindow</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

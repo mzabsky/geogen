@@ -92,7 +92,7 @@
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen Studio Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GGenStudio.PlugIns.MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
       <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
       <Name>GGenStudio.PlugIns.MenuBar</Name>
     </ProjectReference>
