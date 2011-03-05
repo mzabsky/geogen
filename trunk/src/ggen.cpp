@@ -27,111 +27,109 @@
 
 #include "ggen.h"
 
-namespace GeoGen{
-	Generator* Generator::instance = NULL;
+GGen* GGen::instance = NULL;
 
-	Generator::Generator(){
-		assert(Generator::instance == NULL);
+GGen::GGen(){
+	assert(GGen::instance == NULL);
 
-		Generator::instance = this;
+	GGen::instance = this;
 
-		this->status = GGEN_NO_SCRIPT;
+	this->status = GGEN_NO_SCRIPT;
 
-		/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */	
-		this->max_map_size = -1;
-		this->max_map_count = -1;
+	/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */	
+	this->max_map_size = -1;
+	this->max_map_count = -1;
 
-		this->message_callback = NULL;
-		this->return_callback = NULL;
-		this->progress_callback = NULL;
+	this->message_callback = NULL;
+	this->return_callback = NULL;
+	this->progress_callback = NULL;
 
-		this->max_progress = this->current_progress = 0;
-	}
+	this->max_progress = this->current_progress = 0;
+}
 
-	Generator::~Generator(){
-		Generator::instance = NULL;
-	}
+GGen::~GGen(){
+	GGen::instance = NULL;
+}
 
-	Generator* Generator::GetInstance(){
-		return Generator::instance;
-	}
+GGen* GGen::GetInstance(){
+	return GGen::instance;
+}
 
-	const GGen_Status Generator::GetStatus(){
-		return this->status;
-	}
+const GGen_Status GGen::GetStatus(){
+	return this->status;
+}
 
-	const void Generator::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
+const void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
 	
-		if(message_callback != NULL){
-			this->message_callback(message, level, line, column);
+	if(message_callback != NULL){
+		this->message_callback(message, level, line, column);
+	}
+	else{
+		switch(level){
+			case GGEN_MESSAGE:
+				if(line != -1) GGen_Cout << "GGen Message: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Message: " << message <<  "\n";
+				break;
+			case GGEN_NOTICE:
+				if(line != -1) GGen_Cout << "GGen Notice: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Notice: " << message <<  "\n";
+				break;
+			case GGEN_WARNING:
+				if(line != -1) GGen_Cout << "GGen Warning: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Warning: " << message <<  "\n";
+				break;
+			case GGEN_ERROR:
+				if(line != -1) GGen_Cout << "GGen Error: " << message << " on line " << line << "\n" << flush;
+				else GGen_Cout << "GGen Error: " << message <<  "\n" << flush;
+				break;
 		}
-		else{
-			switch(level){
-				case GGEN_MESSAGE:
-					if(line != -1) GGen_Cout << "GGen Message: " << message << " on line " << line << "\n" << flush;
-					else GGen_Cout << "GGen Message: " << message <<  "\n";
-					break;
-				case GGEN_NOTICE:
-					if(line != -1) GGen_Cout << "GGen Notice: " << message << " on line " << line << "\n" << flush;
-					else GGen_Cout << "GGen Notice: " << message <<  "\n";
-					break;
-				case GGEN_WARNING:
-					if(line != -1) GGen_Cout << "GGen Warning: " << message << " on line " << line << "\n" << flush;
-					else GGen_Cout << "GGen Warning: " << message <<  "\n";
-					break;
-				case GGEN_ERROR:
-					if(line != -1) GGen_Cout << "GGen Error: " << message << " on line " << line << "\n" << flush;
-					else GGen_Cout << "GGen Error: " << message <<  "\n" << flush;
-					break;
-			}
-		}
-
 	}
 
-	void Generator::SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column) ){
-		this->message_callback = message_callback;
-	}
+}
 
-	void Generator::SetReturnCallback( void (*return_callback) (const GGen_String& name, const int16* map, int width, int height) ){
-		this->return_callback = return_callback;
-	}
+void GGen::SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column) ){
+	this->message_callback = message_callback;
+}
 
-	void Generator::SetProgressCallback( void (*progress_callback) (int current_progress, int max_progress) ){
-		this->progress_callback = progress_callback;
-	}
+void GGen::SetReturnCallback( void (*return_callback) (const GGen_String& name, const int16* map, int width, int height) ){
+	this->return_callback = return_callback;
+}
 
-	vector<GGen_ScriptArg>* Generator::LoadArgs(){
-		assert(this->status == GGEN_SCRIPT_LOADED);
+void GGen::SetProgressCallback( void (*progress_callback) (int current_progress, int max_progress) ){
+	this->progress_callback = progress_callback;
+}
 
-		this->args.clear();
+vector<GGen_ScriptArg>* GGen::LoadArgs(){
+	assert(this->status == GGEN_SCRIPT_LOADED);
 
-		if(GetInfoInt(GGen_Const_String("args")) == -1) return NULL;
+	this->args.clear();
 
-		this->status = GGEN_READY_TO_GENERATE;
+	if(GetInfoInt(GGen_Const_String("args")) == -1) return NULL;
 
-		return &this->args;
-	}
+	this->status = GGEN_READY_TO_GENERATE;
 
-	void Generator::SetMaxMapSize(GGen_Size size){
-		this->max_map_size = size;
-	}
+	return &this->args;
+}
 
-	void Generator::SetMaxMapCount(uint16 count){
-		this->max_map_count = count;
-	}
+void GGen::SetMaxMapSize(GGen_Size size){
+	this->max_map_size = size;
+}
 
-	GGen_Size Generator::GetMaxMapSize(){
-		return Generator::GetInstance()->max_map_size;
-	}
+void GGen::SetMaxMapCount(uint16 count){
+	this->max_map_count = count;
+}
 
-	uint16 Generator::GetMaxMapCount(){
-		return Generator::GetInstance()->max_map_count;
-	}
+GGen_Size GGen::GetMaxMapSize(){
+	return GGen::GetInstance()->max_map_size;
+}
 
-	void Generator::SetSeed(unsigned seed){
-		GGen_Script_Assert(Generator::GetInstance()->GetStatus() != GGEN_GENERATING);
-		GGen_Script_Assert(Generator::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
+uint16 GGen::GetMaxMapCount(){
+	return GGen::GetInstance()->max_map_count;
+}
 
-		srand(seed);
-	}
+void GGen::SetSeed(unsigned seed){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
+
+	srand(seed);
 }

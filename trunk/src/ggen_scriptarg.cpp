@@ -25,118 +25,116 @@
 #include "ggen.h"
 #include "ggen_scriptarg.h"
 
-namespace GeoGen{
-	bool GGen_ScriptArg::SetValue(int new_value){
-		assert(Generator::GetInstance()->GetStatus() == GGEN_READY_TO_GENERATE);
-
-		if(new_value < min_value) {
-			value = min_value;
-			return false;
-		}
-
-		if(new_value > max_value) {
-			value = max_value;
-			return false;
-		}
-
-		if((new_value - min_value) % step_size != 0){
-			value = new_value - (new_value - min_value) % step_size;
-			return false;
-		}
-
-		value = new_value;
-
-		return true;
+bool GGen_ScriptArg::SetValue(int new_value){
+	assert(GGen::GetInstance()->GetStatus() == GGEN_READY_TO_GENERATE);
+	
+	if(new_value < min_value) {
+		value = min_value;
+		return false;
 	}
 
-	void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, int min_value, int max_value, int step_size){
-		GGen_Script_Assert(Generator::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
-
-		GGen_ScriptArg arg;
-
-		arg.type = GGEN_INT;
-
-		arg.name = name;
-		arg.label = label;
-		arg.description = description;
-		arg.default_value = default_value;
-		arg.min_value = min_value;
-		arg.max_value = max_value;
-		arg.step_size = step_size;
-
-		arg.value = default_value;
-
-		Generator::GetInstance()->args.push_back(arg);
-	};
-
-	void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, bool default_value){
-		GGen_Script_Assert(Generator::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
-
-		GGen_ScriptArg arg;
-
-		arg.type = GGEN_BOOL;
-
-		arg.name = name;
-		arg.label = label;
-		arg.description = description;
-		arg.default_value = default_value ? 1 : 0;
-		arg.min_value = 0;
-		arg.max_value = 1;
-		arg.step_size = 1;
-
-		arg.value = default_value;
-
-		Generator::GetInstance()->args.push_back(arg);
-	};
-
-	void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, const GGen_String& options){
-		GGen_Script_Assert(Generator::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
-
-		GGen_ScriptArg arg;
-
-		arg.type = GGEN_ENUM;
-
-		arg.name = name;
-		arg.label = label;
-		arg.description = description;
-		arg.default_value = default_value;
-
-		GGen_Script_Assert(options.length() > 0);
-
-		int from = 0;
-
-		for(uint16 i = 0; i <= options.length(); i++){
-			if(i == options.length() || options[i] == GGen_Const_String(';')){
-				arg.options.push_back(options.substr(from, i - from));
-
-				from = ++i;
-			}
-		}
-
-		GGen_Script_Assert((signed) arg.options.size() > default_value);
-
-		arg.min_value = 0;
-		arg.max_value = arg.options.size() - 1;
-		arg.step_size = 1;
-
-		arg.value = default_value;
-
-		Generator::GetInstance()->args.push_back(arg);
+	if(new_value > max_value) {
+		value = max_value;
+		return false;
 	}
 
+	if((new_value - min_value) % step_size != 0){
+		value = new_value - (new_value - min_value) % step_size;
+		return false;
+	}
 
-	int GGen_GetArgValue(const GGen_String& name){
-		GGen_Script_Assert(Generator::GetInstance()->GetStatus() == GGEN_GENERATING);
+	value = new_value;
 
-		for(unsigned i = 0; i < Generator::GetInstance()->args.size(); i++){
-			if(Generator::GetInstance()->args[i].name == name){
-				return Generator::GetInstance()->args[i].value;
-			}
-		}
-
-		Generator::GetInstance()->ThrowMessage(GGen_Const_String("Current map doesn't support requested argument."), GGEN_ERROR);
-
-		return 0;
+	return true;
 }
+
+void GGen_AddIntArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, int min_value, int max_value, int step_size){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
+	
+	GGen_ScriptArg arg;
+
+	arg.type = GGEN_INT;
+
+	arg.name = name;
+	arg.label = label;
+	arg.description = description;
+	arg.default_value = default_value;
+	arg.min_value = min_value;
+	arg.max_value = max_value;
+	arg.step_size = step_size;
+
+	arg.value = default_value;
+
+	GGen::GetInstance()->args.push_back(arg);
+};
+
+void GGen_AddBoolArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, bool default_value){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
+
+	GGen_ScriptArg arg;
+
+	arg.type = GGEN_BOOL;
+
+	arg.name = name;
+	arg.label = label;
+	arg.description = description;
+	arg.default_value = default_value ? 1 : 0;
+	arg.min_value = 0;
+	arg.max_value = 1;
+	arg.step_size = 1;
+
+	arg.value = default_value;
+
+	GGen::GetInstance()->args.push_back(arg);
+};
+
+void GGen_AddEnumArg(const GGen_String& name, const GGen_String& label, const GGen_String& description, int default_value, const GGen_String& options){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_LOADING_MAP_INFO);
+
+	GGen_ScriptArg arg;
+
+	arg.type = GGEN_ENUM;
+
+	arg.name = name;
+	arg.label = label;
+	arg.description = description;
+	arg.default_value = default_value;
+
+	GGen_Script_Assert(options.length() > 0);
+
+	int from = 0;
+
+	for(uint16 i = 0; i <= options.length(); i++){
+		if(i == options.length() || options[i] == GGen_Const_String(';')){
+			arg.options.push_back(options.substr(from, i - from));
+
+			from = ++i;
+		}
+	}
+
+	GGen_Script_Assert((signed) arg.options.size() > default_value);
+
+	arg.min_value = 0;
+	arg.max_value = arg.options.size() - 1;
+	arg.step_size = 1;
+
+	arg.value = default_value;
+
+	GGen::GetInstance()->args.push_back(arg);
+}
+
+
+int GGen_GetArgValue(const GGen_String& name){
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+
+	for(unsigned i = 0; i < GGen::GetInstance()->args.size(); i++){
+		if(GGen::GetInstance()->args[i].name == name){
+			return GGen::GetInstance()->args[i].value;
+		}
+	}
+
+	GGen::GetInstance()->ThrowMessage(GGen_Const_String("Current map doesn't support requested argument."), GGEN_ERROR);
+
+	return 0;
 }
 
