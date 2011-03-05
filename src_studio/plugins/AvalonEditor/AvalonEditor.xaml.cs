@@ -1,29 +1,18 @@
 ﻿using System;
-using System.Xml;
-using System.Runtime.Serialization;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
-using ICSharpCode.AvalonEdit.Editing;
-using GeoGen.Studio.PlugInLoader;
 using GeoGen.Studio.Utilities;
+using GeoGen.Studio.Utilities.Extensions;
+using GeoGen.Studio.Utilities.IO;
 using GeoGen.Studio.Utilities.Messaging;
 using GeoGen.Studio.Utilities.Configurability;
 using GeoGen.Studio.Utilities.Context;
 
 namespace GeoGen.Studio.PlugIns
 {
-    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, IConfigurable, ITextProvider, IEditor
+    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, ITextProvider, IEditor
     {
         #region Dependency properties
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -44,7 +33,12 @@ namespace GeoGen.Studio.PlugIns
 
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (((AvalonEditor)d).enablePropertyCallbacks) ((AvalonEditor)d).editor.Text = ((AvalonEditor)d).Text;
+            var avalonEditor = d as AvalonEditor;
+
+            if (avalonEditor != null)
+            {
+                if (avalonEditor.enablePropertyCallbacks) avalonEditor.editor.Text = avalonEditor.Text;
+            }
         }
 
         public static readonly DependencyPropertyKey CurrentFileNamePropertyKey = DependencyProperty.RegisterReadOnly(
@@ -449,14 +443,24 @@ namespace GeoGen.Studio.PlugIns
             InitializeComponent();
             MainConfig.Register(this);
 
-            this.editor.GotFocus += delegate(object o, RoutedEventArgs args)
+            this.editor.GotFocus += delegate
             {
                 ContextManager.EnterContext(this.editorContext);
             };
 
-            this.editor.LostFocus += delegate(object o, RoutedEventArgs args)
+            this.editor.LostFocus += delegate
             {
                 ContextManager.LeaveContext(this.editorContext);
+            };
+
+            FileService.FileOpened += delegate(object o, FileEventArgs args)
+            {
+                if(args.FileInfo.IsTextFile() || args.FileInfo.Extension == ".nut"){
+                    this.editor.Text = File.ReadAllText(args.FileInfo.FullName);
+                    this.CurrentFileName = this.LastFileName = args.FileInfo.FullName;                    
+
+                    this.IsUnsaved = false;
+                }
             };
         }
        
@@ -543,8 +547,8 @@ namespace GeoGen.Studio.PlugIns
                 new MenuEntry(
                     header: "Edit",
                     priority: -1,
-                    items: new MenuEntryObservableCollection()
-                    {
+                    items: new MenuEntryObservableCollection
+                        {
                         new MenuEntry(
                             header: "Undo",
                             priority: 0,
@@ -633,7 +637,7 @@ namespace GeoGen.Studio.PlugIns
             );
         }
 
-        public void Register(IToolBar toolBar)
+        public void Register(IMainWindowToolBar toolBar)
         {
             string iconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.AvalonEditor;component/Images/Icons/";
 
@@ -817,8 +821,8 @@ namespace GeoGen.Studio.PlugIns
             }
             else{
                 try
-                {                
-                    this.editor.Text = System.IO.File.ReadAllText(this.TemplateFile);
+                {
+                    System.IO.File.ReadAllText(this.TemplateFile);
                 }
                 catch {
                     Messenger.ThrowMessage(new Message("Could not open template file.", MessageType.Warning));
@@ -833,7 +837,7 @@ namespace GeoGen.Studio.PlugIns
         {
             try
             {
-                if(this.CurrentFileName == "") this.CurrentFileName = this.LastFileName = Utilities.FileDialog.ShowSave(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");
+                if(this.CurrentFileName == "") this.CurrentFileName = this.LastFileName = FileDialog.ShowSave(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");
 
                 File.WriteAllText(this.CurrentFileName, this.editor.Text);
 
@@ -845,7 +849,7 @@ namespace GeoGen.Studio.PlugIns
         public void SaveAs()
         {           
             try{
-                this.CurrentFileName = this.LastFileName = Utilities.FileDialog.ShowSave(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");
+                this.CurrentFileName = this.LastFileName = FileDialog.ShowSave(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");
                 
                 File.WriteAllText(this.CurrentFileName, this.editor.Text);
 
@@ -858,11 +862,18 @@ namespace GeoGen.Studio.PlugIns
         {
             try
             {
-                this.CurrentFileName = this.LastFileName = Utilities.FileDialog.ShowOpen(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");
+                string fileName = FileDialog.ShowOpen(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");                
 
-                this.editor.Text = File.ReadAllText(this.CurrentFileName);
+                //this.editor.Text = File.ReadAllText(this.CurrentFileName);
 
-                this.IsUnsaved = false;
+                try
+                {
+                	FileService.OnFileOpened(this, new FileInfo(fileName));
+                }
+                catch (System.Exception ex)
+                {
+                	
+                }
             }
             catch {
                 Messenger.ThrowMessage(new Message("File \"" + this.LastFileName + "\" is not readable", MessageType.Error));
