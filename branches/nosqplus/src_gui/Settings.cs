@@ -51,14 +51,6 @@ namespace GeoGen_Studio
         {
             Config config = Main.Get().GetConfig();
 
-            // the 3D view might need to reinitialize
-            if (Main.Get().GetConfig().enable3d)
-            {
-                Main main = Main.Get();
-                main.SetupViewport();
-                main.RebuildTerrain(null);
-                main.viewport.Invalidate();
-            }
 
             // check if global map resolution is >= than model/texture resolutions
             if ((int)config.mapDetailLevel < (int)config.ModelDetailLevel || (int)config.mapDetailLevel < (int)config.TextureDetailLevel)
@@ -68,6 +60,15 @@ namespace GeoGen_Studio
                     e.Cancel = true;
                 }
             }
+
+            // the 3D view might need to reinitialize
+            if (Main.Get().GetConfig().enable3d)
+            {
+                Main main = Main.Get();
+                main.SetupViewport();
+                main.RebuildTerrain(main.currentImportedFile);
+                main.viewport.Invalidate();
         }
     }
+}
 }

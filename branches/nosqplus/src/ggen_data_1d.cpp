@@ -26,7 +26,7 @@
 
 GGen_Data_1D::GGen_Data_1D(GGen_Size length, GGen_Height value)
 {
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
 	GGen_Script_Assert(length > 1);
 
@@ -396,10 +396,10 @@ void GGen_Data_1D::Abs()
 	}
 }
 
-void GGen_Data_1D::Monochrome(GGen_Height treshold)
+void GGen_Data_1D::Monochrome(GGen_Height threshold)
 {
 	for (GGen_Coord i = 0; i < this->length; i++) {
-		this->data[i] = this->data[i] > treshold ? 1 : 0;
+		this->data[i] = this->data[i] > threshold ? 1 : 0;
 	}	
 }
 

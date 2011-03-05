@@ -41,9 +41,6 @@
     <ClCompile Include="..\src\ggen_scriptarg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ggen_squirrel.cpp">
-      <Filter>GGen Squirrel API</Filter>
-    </ClCompile>
     <ClCompile Include="..\external\ArgDesc\ArgDesc.cpp">
       <Filter>Implementation</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
     </ClCompile>
     <ClCompile Include="..\src\GeoGen.cpp">
       <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_progress.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +83,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ggen_squirrel.h">
+      <Filter>GGen Squirrel API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_progress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_squirrel_helpers.h">
       <Filter>GGen Squirrel API</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,6 +133,6 @@
       <Filter>Examples</Filter>
     </None>
     <None Include="..\documentation.html" />
-    <None Include="..\src\TODO.txt" />
+    <None Include="..\TODO.TXT" />
   </ItemGroup>
 </Project>

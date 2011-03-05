@@ -21,6 +21,7 @@
 #include "ggen_support.h"
 #include "ggen_path.h"
 #include <iostream>
+#include <set>
 
 using namespace std;
 
@@ -30,6 +31,7 @@ using namespace std;
 class GGen_Data_2D{
 	protected:
 		static uint16 num_instances;
+		static set<GGen_Data_2D*> instances;
 
 	public:
 		GGen_Height* data;
@@ -214,12 +216,18 @@ class GGen_Data_2D{
 		void FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative);
 
 		/**
-		 * Clamps all values to range.
+		 * Clamps all values to range. All values outside the given range will be set either to min or max, whichever is closer.
 		 * @param min New minimum value.
 		 * @param max New maximum value.
-		 * @note All values outside the given range will be set either to min or max, whichever is closer.
 		 **/
 		void Clamp(GGen_Height min, GGen_Height max);
+
+		/**
+		 * Clamps all values to range. All values outside the given range will be set either to 0.
+		 * @param min New minimum value.
+		 * @param max New maximum value.
+		 **/
+		void CropValues(GGen_Height min, GGen_Height max);
 
 		/**
 		 * Returns the minimum of all values in the map.
@@ -398,10 +406,10 @@ class GGen_Data_2D{
 		void Pattern(GGen_Data_2D* pattern);
 
 		/**
-		 * Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.
-		 * @param treshold Values above treshold will be 1, otherwise 0.
+		 * Replaces each value with 0 if it is less than equal than the threshold or 1 otherwise.
+		 * @param threshold Values above threshold will be 1, otherwise 0.
 		 **/
-		void Monochrome(GGen_Height treshold);
+		void Monochrome(GGen_Height threshold);
 
 		/**
 		 * Replaces all occurrences of a value with 1, all other values will be replaced with 0. 
@@ -494,7 +502,7 @@ class GGen_Data_2D{
 
 		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value);
 
-		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only);	
+		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only);	
 
 		/**
 		 * Fills uniform area matching a simple arithmetic condition (all tiles matching the condition reachable from the starting point through tiles matching the condition are filled with value).
@@ -502,22 +510,22 @@ class GGen_Data_2D{
 		 * @param start_y Y coordinate of the starting point.
 		 * @param fill_value The value the matching area is filled with.
 		 * @param mode Arithmetic operator to be used in the condition.
-		 * @param treshold Value to be compared against.
+		 * @param threshold Value to be compared against.
 		 * @note If the starting point doesn't match the condition, no tiles are changed.
 		 * @note The filling is 4-directional (the spread is only along the main two axes).
 		 **/
-		void FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold);
+		void FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold);
 
 		/**
 		 * Replaces all values in an uniform area matching a simple arithmetic condition with 1 (all tiles matching the condition reachable from the starting point through tiles matching the condition are filled with 1). All other areas are filled with 0.
 		 * @param start_x X coordinate of the starting point.
 		 * @param start_y Y coordinate of the starting point.
 		 * @param mode Arithmetic operator to be used in the condition.
-		 * @param treshold Value to be compared against.
+		 * @param threshold Value to be compared against.
 		 * @note If the starting point doesn't match the condition, all tiles will be filed with 0.
 		 * @note The filling is 4-directional (the spread is only along the main two axes).
 		 **/
-		void FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparsion_Mode mode, GGen_Height treshold);
+		void FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparison_Mode mode, GGen_Height threshold);
 
 		GGen_Height GetValueOnPathBase(GGen_Path* path, bool max);
 
@@ -534,5 +542,58 @@ class GGen_Data_2D{
 		 * @return The minimum value found on the path.
 		 **/
 		GGen_Height GetMinValueOnPath(GGen_Path* path);
+
+		void ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direction direction, bool shrink);
+
+		/**
+		 * Fills all areas within a distance in one direction from any value greater than 0 with 1. The rest of the map will be filled with 0.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void ExpandDirection(GGen_Distance distance, GGen_Direction direction);
+
+		/**
+		 * Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void ShrinkDirection(GGen_Distance distance, GGen_Direction direction);
+
+		/**
+		 * Fills all areas within a distance (in maximum metric) from any value greater than 0 with 1. The rest of the map will be filled with 0.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void Expand(GGen_Distance distance);
+
+		/**
+		 * Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.
+		 * @param distance The distance in maximum metric.
+		 **/
+		void Shrink(GGen_Distance distance);
+
+		/**
+		 * Draws a border (made of value 1) around an area matching a condition. The non-border areas are filled with 0.
+		 * @param mode Condition operator.
+		 * @param threshold Condition value.
+		 * @param outlineMode Inside or outside border.
+		 **/
+		void Outline(GGen_Comparison_Mode mode, GGen_Height threshold, GGen_Outline_Mode outlineMode);
+
+		/**
+		 * Replaces values in the array with information about steepness of slope (change in value) in that particular value.
+		 * @param radius Convexity measurement radius (how big a terrain feature must be to show on the convexity map).
+		 **/
+		void ConvexityMap(GGen_Distance radius);
+
+		/**
+		 * Applies a turbulence distortion filter on the height map.
+		 * @param waveLength Size of one distortion wave.
+		 * @param amplitude Strength of the distortion effect.
+		 **/
+		void Distort(GGen_Size waveLength, GGen_Distance amplitude);
+
+		static void FreeAllInstances(){
+			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
+				delete (*GGen_Data_2D::instances.begin());
+			}
+};
 };
 

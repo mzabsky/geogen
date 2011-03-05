@@ -119,9 +119,9 @@ typedef uint32 GGen_Distance;
 
 #define GGEN_UNRELATIVE_CAP GGEN_MAX_HEIGHT
 
-#define MAX(a,b) (a > b? a: b) 
-#define MIN(a,b) (a < b? a: b) 
-#define ABS(a) (a < 0? -(a): a) 
+#define MAX(a,b) ((a) > (b) ? (a) : (b)) 
+#define MIN(a,b) ((a) < (b) ? (a) : (b)) 
+#define ABS(a) ((a) < 0 ? -(a): (a)) 
 
 #ifdef _UNICODE
 	#ifndef GGEN_UNICODE 
@@ -257,15 +257,23 @@ enum GGen_Voronoi_Noise_Mode{
 };
 
 /**
- * Arithmethic comparsion operators.
+ * Arithmetic comparison operators.
  **/
-enum GGen_Comparsion_Mode{
-	GGEN_EQUAL_TO, //!< Compared value is equal to treshold value. 
-	GGEN_NOT_EQUAL_TO, //!< Compared value is not equal to treshold value.
-	GGEN_LESS_THAN, //!< Compared value is less than treshold value.
-	GGEN_GREATER_THAN, //!< Compared value is greater than treshold value.
-	GGEN_LESS_THAN_OR_EQUAL_TO, //!< Compared value is less than or equal to treshold value.
-	GGEN_GREATER_THAN_OR_EQUAL_TO, //!< Compared value is greater than or equal to treshold value.
+enum GGen_Comparison_Mode{
+	GGEN_EQUAL_TO, //!< Compared value is equal to threshold value. 
+	GGEN_NOT_EQUAL_TO, //!< Compared value is not equal to threshold value.
+	GGEN_LESS_THAN, //!< Compared value is less than threshold value.
+	GGEN_GREATER_THAN, //!< Compared value is greater than threshold value.
+	GGEN_LESS_THAN_OR_EQUAL_TO, //!< Compared value is less than or equal to threshold value.
+	GGEN_GREATER_THAN_OR_EQUAL_TO, //!< Compared value is greater than or equal to threshold value.
+};
+
+/**
+ * Outline mode.
+ **/
+enum GGen_Outline_Mode{
+	GGEN_INSIDE, //!< The border line will be just inside the bordered area (the last cells matching the condition while "looking" from inside the bordered area).
+	GGEN_OUTSIDE //!< The border line will be just outside the bordered area (the first cells not matching the condition while "looking" from inside the bordered area).
 };
 
 /**

@@ -26,7 +26,7 @@
 
 GGen_Amplitudes::GGen_Amplitudes(GGen_Size max_feature_size)
 { 
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
 	GGen_Size size = GGen_log2(max_feature_size) + 1;
 

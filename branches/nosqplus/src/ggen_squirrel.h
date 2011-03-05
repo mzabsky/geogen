@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include <list>
+
 #include "../external/squirrel/sqplus.h"
 #include "../external/squirrel/sqstdmath.h"
 #include "../external/squirrel/sqstdio.h"
@@ -66,9 +68,14 @@ DECLARE_INSTANCE_TYPE(GGen_Point)
 DECLARE_INSTANCE_TYPE(GGen_Path)
 
 class GGEN_EXPORT GGen_Squirrel: public GGen{
+protected:
+	list<void*> presets;
 public:	
+	bool isClassOpen;
+	HSQUIRRELVM squirrelVM;
+
 	GGen_Squirrel();
-	~GGen_Squirrel();
+	virtual ~GGen_Squirrel();
 
 	virtual bool SetScript(const GGen_String& script);
 	virtual GGen_String GetInfo(const GGen_String& label);
@@ -78,7 +85,13 @@ public:
 	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label);
 	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label);
 	virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label);
-	
-	SquirrelObject* presetTarget;
-};
 
+private:
+	template<typename Class, typename Method, int numConstructorParameters>
+	void StartClass(GGen_String name, GGen_String constructorParameters);
+	void EndClass();
+	void RegisterMethod(GGen_String name, SQFUNCTION method, int16 numParameters, GGen_String parameters, void *userdata = NULL, int size = 0);
+	template <typename Class, typename Method>
+	void RegisterMethod(GGen_String name, Method method, int16 numParameters, GGen_String parameters);
+	void RegisterConstans(GGen_String name, int value);
+};

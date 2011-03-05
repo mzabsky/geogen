@@ -111,7 +111,7 @@ namespace GeoGen_Studio
             set { actionAfterExec = value; }
         }
 
-        [CategoryAttribute("Script Execution"), DescriptionAttribute("Maximum map size accepted by GeoGen Studio. All maps will be downcaled to match this size. Decrease this value if the application is frequently running out of memory."), DefaultValue(Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels)]
+        [CategoryAttribute("Script Execution"), DescriptionAttribute("Maximum map size accepted by GeoGen Studio. All maps will be downcaled to match this size. Decrease this value if the application is frequently running out of memory. This setting will take effect only after the displayed map is regenerated or the application is restarted."), DefaultValue(Main.BitmapDetailLevel.VeryHigh_2048x2048Pixels)]
         public Main.BitmapDetailLevel MapDetailLevel
         {
             get { return mapDetailLevel; }
@@ -146,19 +146,19 @@ namespace GeoGen_Studio
             set { textureDetailLevel = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Should the underwater terrain be modelled in 3D? Change of this setting will take effect once the model is rebuilt."), DefaultValue(false)]
+        [CategoryAttribute("3D View"), DescriptionAttribute("Should the underwater terrain be modeled in 3D? Change of this setting will take effect once the model is rebuilt."), DefaultValue(false)]
         public bool EnableTerrainUnderZero
         {
             get { return enableTerrainUnderZero; }
             set { enableTerrainUnderZero = value; }
         }
 
-        [CategoryAttribute("3D View"), DescriptionAttribute("Enable/disable the 3D view."), DefaultValue(true)]
-        public bool Enable3D
+        //[CategoryAttribute("3D View"), DescriptionAttribute("Enable/disable the 3D view."), DefaultValue(true)]
+        /*public bool Enable3D
         {
             get { return enable3d; }
             set { enable3d = value; }
-        }
+        }*/
 
         [CategoryAttribute("3D View"), DescriptionAttribute("Color covering the unpainted areas of the 3D viewport."), DefaultValue(Main.ViewportBackground.Black)]
         public Main.ViewportBackground BackgroundColor3d
@@ -248,7 +248,7 @@ namespace GeoGen_Studio
             /* Basic settings */
             templateFile = "./../examples/template.nut";
             openLastFileOnStartup = true;
-            lastFile = "";
+            lastFile = "../examples/";
             lastImportedFile = "";
             lastExportedFile = "";
             lastImportedTexture = "";

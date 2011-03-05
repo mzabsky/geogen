@@ -61,15 +61,7 @@ namespace GeoGen_Studio
 
                 this.outputs3d.SelectedIndex = 0;
 
-
-                if (this.currentTextureIndex < this.texture.Items.Count)
-                {
-                    this.texture.SelectedIndex = this.currentTextureIndex;
-                }
-                else
-                {
-                    this.texture.SelectedIndex = Main.defaultTextureIndex;
-                }
+                this.ReselectTexture();
 
                 this.currentImportedFile = null;
             }
@@ -296,7 +288,7 @@ namespace GeoGen_Studio
                 this.overlays.SelectedIndex = currentOverlayIndex;
             }
 
-            this.texture.SelectedIndex = this.currentTextureIndex;
+            this.ReselectTexture();
         }
 
         public void SaveOutput()
@@ -519,6 +511,8 @@ namespace GeoGen_Studio
                     {
                         Main.HeightDataToBitmap(toExport).Save(path);
                     }
+
+                    toExport.Dispose();
                 }
             }
         }

@@ -24,14 +24,9 @@ function Generate(){
 
 	local quarter = GGen_Data_2D(width / 2, height / 2, 0);
 	
-	local profile = GGen_Data_1D(2, 0);
-	
-	profile.SetValue(0, 100); 
-	profile.SetValue(1, -100); 
-	
 	GGen_IncreaseProgress();
 	
-	quarter.RadialGradientFromProfile(width / 4, height / 4, (width > height ? height : width) / 4, profile, true);
+	quarter.RadialGradient(width / 4, height / 4, (width > height ? height : width) / 4, GGEN_MAX_HEIGHT / 2, GGEN_MIN_HEIGHT / 2, true);
 
 	GGen_IncreaseProgress();
 
@@ -40,7 +35,7 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	noise.ScaleValuesTo(-110, 110);
+	noise.ScaleValuesTo(GGEN_MIN_HEIGHT / 2, GGEN_MAX_HEIGHT / 2);
 	
 	quarter.AddMap(noise);
 	
@@ -52,25 +47,31 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	quarter.Flip(GGEN_VERTICAL);
+	quarter.Flip(GGEN_HORIZONTAL);
 	
 	base.AddTo(quarter, 0, height / 2);
 	
 	GGen_IncreaseProgress();
 	
-	quarter.Flip(GGEN_HORIZONTAL);
+	quarter.Flip(GGEN_VERTICAL);
 	
 	base.AddTo(quarter, width / 2, height / 2);
 	
 	GGen_IncreaseProgress();
 	
-	quarter.Flip(GGEN_VERTICAL);
+	quarter.Flip(GGEN_HORIZONTAL);
 	
 	base.AddTo(quarter, width / 2, 0);
 	
 	GGen_IncreaseProgress();
 	
 	base.TransformValues(GGEN_NATURAL_PROFILE, true);
+	
+	base.Invert();
+
+	base.TransformValues(GGEN_NATURAL_PROFILE, true);
+
+	base.Invert();
 	
 	return base;
 }

@@ -21,6 +21,7 @@
 
 #include <vector>
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -37,10 +38,14 @@ using namespace std;
 	#define GGEN_WIDEN(x) L ## x
 	#define GGen_Const_String(a) GGEN_WIDEN(a)
 	#define GGen_Cout		wcout
+	#define GGen_Cin		wcin
+	#define GGen_Strtol		wcstol
 #else
 	typedef char GGen_Char;
 	#define GGen_Const_String(a) a
 	#define GGen_Cout		cout
+	#define GGen_Cin		cin
+	#define GGen_Strtol		strtol
 #endif
 
 typedef basic_string<GGen_Char> GGen_String;
@@ -102,7 +107,7 @@ public:
 	unsigned short max_map_count;
 
 	GGen();
-	~GGen();
+	virtual ~GGen();
 
 	static GGen* GetInstance();
 
@@ -133,14 +138,20 @@ public:
 };
 
 class GGen_Squirrel: public GGen{
+protected:
+	list<void*> presets;
 public:	
 	GGen_Squirrel();
-	~GGen_Squirrel();
+	virtual ~GGen_Squirrel();
 
 	virtual bool SetScript(const GGen_String& script);
 	virtual GGen_String GetInfo(const GGen_String& label);
 	virtual int GetInfoInt(const GGen_String& label);
 	virtual short* Generate();
 
-	void* presetTarget;
+	//virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label);
+	//virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label);
+	//virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label);
 };
+
+void GGen_DeleteNativeArrayPtr(void* ptr);

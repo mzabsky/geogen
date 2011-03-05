@@ -232,10 +232,10 @@ class GGen_Data_1D{
 		void Abs();
 		
 		/**
-		 * Replaces each value with 0 if it is less than equal than the treshold or 1 otherwise.
-		 * @param treshold Values above treshold will be 1, otherwise 0.
+		 * Replaces each value with 0 if it is less than equal than the threshold or 1 otherwise.
+		 * @param threshold Values above threshold will be 1, otherwise 0.
 		 **/
-		void Monochrome(GGen_Height treshold);
+		void Monochrome(GGen_Height threshold);
 		
 		/**
 		 * Makes sure that there are no slopes steeper than 45° in the array. Steeper slopes will be dealt with according to mode.

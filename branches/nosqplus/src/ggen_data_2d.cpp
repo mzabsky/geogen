@@ -30,18 +30,22 @@
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
+#include <assert.h>
 
 uint16 GGen_Data_2D::num_instances = 0;
+set<GGen_Data_2D*> GGen_Data_2D::instances;
 
 GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 {
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
 	GGen_Script_Assert(width > 1 && height > 1);
 	GGen_Script_Assert(width < GGen::GetMaxWidth() && height < GGen::GetMaxHeight());
 
 	GGen_Script_Assert(GGen_Data_2D::num_instances < GGen::GetMaxMapCount());
 	GGen_Data_2D::num_instances++;
+
+	GGen_Data_2D::instances.insert(this);
 
 	this->length = width * height;
 	this->width = width;
@@ -67,7 +71,10 @@ GGen_Data_2D* GGen_Data_2D::Clone()
 
 GGen_Data_2D::~GGen_Data_2D()
 {
+	assert(GGen_Data_2D::instances.find(this) != GGen_Data_2D::instances.end());
+
 	GGen_Data_2D::num_instances--;
+	GGen_Data_2D::instances.erase(this);
 	delete [] this->data;
 }
 
@@ -387,6 +394,19 @@ void GGen_Data_2D::Clamp(GGen_Height min, GGen_Height max)
 			this->data[i] = max;
 		} else if (data[i] < min) {
 			this->data[i] = min;
+		}
+	}
+}
+
+void GGen_Data_2D::CropValues(GGen_Height min, GGen_Height max)
+{
+	GGen_Script_Assert(max > min);
+
+	for (GGen_Index i = 0; i < this->length; i++) {
+		if (this->data[i] > max) {
+			this->data[i] = 0;
+		} else if (data[i] < min) {
+			this->data[i] = 0;
 		}
 	}
 }
@@ -733,7 +753,7 @@ void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size,
 						/* The Y coord of the point overflows the bottom border of the map */
 						bottom_right = new_data[nearest_horizontal + wave_length];
 					} else if( nearest_horizontal + wave_length + vertical_offset_next > (signed) (this->length - 1)) {
-						/* Product of the coords owerflows the length of the array */
+						/* Product of the coords overflows the length of the array */
 						bottom_right = new_data[0];
 					} else {
 						bottom_right = new_data[
@@ -1041,10 +1061,10 @@ void GGen_Data_2D::ReturnAs(const GGen_String &name)
 	GGen::GetInstance()->return_callback(name, this->data, this->width, this->height);
 }
 
-void GGen_Data_2D::Monochrome(GGen_Height treshold)
+void GGen_Data_2D::Monochrome(GGen_Height threshold)
 {
 	for (GGen_Index i = 0; i < this->length; i++) {
-		this->data[i] = this->data[i] > treshold ? 1 : 0;
+		this->data[i] = this->data[i] > threshold ? 1 : 0;
 	}	
 }
 
@@ -1532,7 +1552,7 @@ void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distanc
 	}
 }
 
-void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold, bool select_only){
+void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only){
 	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
 	/* Bordering (potential spread) points will be stored in queue */
@@ -1560,12 +1580,12 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 
 		/* Check if the spread condition is valid for current tile */
 		if (
-			(mode == GGEN_EQUAL_TO && currentValue != treshold) ||
-			(mode == GGEN_NOT_EQUAL_TO && currentValue == treshold) ||
-			(mode == GGEN_LESS_THAN && currentValue >= treshold) ||
-			(mode == GGEN_GREATER_THAN && currentValue <= treshold) ||
-			(mode == GGEN_LESS_THAN_OR_EQUAL_TO && currentValue > treshold) ||
-			(mode == GGEN_GREATER_THAN_OR_EQUAL_TO && currentValue < treshold))
+			(mode == GGEN_EQUAL_TO && currentValue != threshold) ||
+			(mode == GGEN_NOT_EQUAL_TO && currentValue == threshold) ||
+			(mode == GGEN_LESS_THAN && currentValue >= threshold) ||
+			(mode == GGEN_GREATER_THAN && currentValue <= threshold) ||
+			(mode == GGEN_LESS_THAN_OR_EQUAL_TO && currentValue > threshold) ||
+			(mode == GGEN_GREATER_THAN_OR_EQUAL_TO && currentValue < threshold))
 		{
 			/* The condition failed -> skip this tile */
 
@@ -1610,16 +1630,16 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 	}
 }
 
-void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparsion_Mode mode, GGen_Height treshold){
+void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold){
 	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
-	this->FloodFillBase(start_x, start_y, fill_value, mode, treshold, false);
+	this->FloodFillBase(start_x, start_y, fill_value, mode, threshold, false);
 }
 
-void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparsion_Mode mode, GGen_Height treshold){
+void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparison_Mode mode, GGen_Height threshold){
 	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
-	this->FloodFillBase(start_x, start_y, 1, mode, treshold, true);
+	this->FloodFillBase(start_x, start_y, 1, mode, threshold, true);
 }
 
 GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
@@ -1738,4 +1758,228 @@ GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
 	GGen_Script_Assert(path != NULL);
 
 	return this->GetValueOnPathBase(path, false);
+}
+
+void GGen_Data_2D::ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direction direction, bool shrink){
+	GGen_Script_Assert(distance > 0 && distance < this->width && distance < this->height);
+	
+	/* shrinking = inverse expanding */
+	if(shrink){
+		this->Invert();
+
+		/* To fix maps that had non-negative values only */
+		this->Add(1);
+	}
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* The current window value is a count of values greater than 0 in the current window. */
+
+	if (direction == GGEN_HORIZONTAL) {
+		for (GGen_Coord y = 0; y < height; y++) {
+			/* Prefill the window with value of the left edge + n leftmost values (where n is radius) */
+			GGen_Size window_size = distance * 2 + 1;
+			GGen_Height window_value = (GGen_Height) (this->data[this->width * y] > 0) * distance;
+
+			for (GGen_Distance x = 0; x < distance; x++) {
+				window_value += (GGen_Height) (this->data[x + this->width * y] > 0);
+			}
+
+			/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
+			value of rightmost + 1). i represents position of the central cell of the window. */
+			for (GGen_Coord x = 0; x < this->width; x++) {
+				/* If the window is approaching right border, use the rightmost value as fill. */
+				if (x < distance) {
+					window_value += (GGen_Height) (this->data[x + distance + this->width * y] > 0) - (GGen_Height) (this->data[this->width * y] > 0);
+				} else if (x + distance < this->width) {
+					window_value += (GGen_Height) (this->data[x + distance + this->width * y] > 0) - (GGen_Height) (this->data[x - distance + this->width * y] > 0);
+				} else {
+					window_value += (GGen_Height) (this->data[this->width - 1 + this->width * y] > 0) - (GGen_Height) (this->data[x - distance + this->width * y] > 0);
+				}
+
+				/* Set the value of current tile to 1 as long as there is at least one value greater than zero in the current window. */
+				new_data[x + this->width * y] = (GGen_Height) (window_value > 0) * (shrink ? -1 : 1);
+			}
+		}
+	} else { /* vertical */
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			/* Prefill the window with value of the left edge + n topmost values (where n is radius) */
+			GGen_Size window_size = distance * 2 + 1;
+			GGen_Height window_value = (GGen_Height) (this->data[x] > 0) * distance;
+
+			for (GGen_Distance y = 0; y < distance; y++) {
+				window_value += (GGen_Height) (this->data[x + y * this->width] > 0);
+			}
+
+			/* In every step shift the window one tile to the bottom  (= subtract its topmost cell and add
+			value of bottommost + 1). i represents position of the central cell of the window. */
+			for (GGen_Coord y = 0; y < this->height; y++) {
+				/* If the window is approaching right border, use the rightmost value as fill. */
+				if (y < distance) {
+					window_value += (GGen_Height) (this->data[x + (y + distance) * this->width] > 0) - (GGen_Height) (this->data[x] > 0);
+				} else if (y + distance < height) {
+					window_value += (GGen_Height) (this->data[x + (y + distance) * this->width] > 0) - (GGen_Height) (this->data[x + (y - distance) * this->width] > 0);
+				} else {
+					window_value += (GGen_Height) (this->data[x + (this->height - 1) * this->width] > 0) - (GGen_Height) (this->data[x + (y - distance) * this->width] > 0);
+				}
+
+				/* Set the value of current tile to 1 as long as there is at least one value greater than zero in the current window. */
+				new_data[x + this->width * y] = (GGen_Height) (window_value > 0) * (shrink ? -1 : 1);
+			}
+		}
+	}	
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;	
+
+	/* Shift the values from  range <-1, 0> to <0, 1> (we were working on an inverse) */
+	if(shrink) this->Add(1);
+}
+
+void GGen_Data_2D::ExpandDirection(GGen_Distance distance, GGen_Direction direction){
+	this->ExpandShrinkDirectionBase(distance, direction, false);
+}
+
+void GGen_Data_2D::ShrinkDirection(GGen_Distance distance, GGen_Direction direction){
+	this->ExpandShrinkDirectionBase(distance, direction, true);
+}
+
+void GGen_Data_2D::Expand(GGen_Distance distance){
+	this->ExpandDirection(distance, GGEN_HORIZONTAL);
+	this->ExpandDirection(distance, GGEN_VERTICAL);
+}
+
+void GGen_Data_2D::Shrink(GGen_Distance distance){
+	this->ShrinkDirection(distance, GGEN_HORIZONTAL);
+	this->ShrinkDirection(distance, GGEN_VERTICAL);
+}
+
+void GGen_Data_2D::Outline(GGen_Comparison_Mode mode, GGen_Height threshold, GGen_Outline_Mode outlineMode)
+{
+	/* Outside border = inside border with inverted condition */
+	if(outlineMode == GGEN_OUTSIDE){
+		outlineMode = GGEN_INSIDE;
+
+		switch(mode){
+			case GGEN_EQUAL_TO: mode = GGEN_NOT_EQUAL_TO; break;
+			case GGEN_NOT_EQUAL_TO: mode = GGEN_EQUAL_TO; break;
+			case GGEN_GREATER_THAN: mode = GGEN_LESS_THAN_OR_EQUAL_TO; break;
+			case GGEN_GREATER_THAN_OR_EQUAL_TO: mode = GGEN_LESS_THAN; break;
+			case GGEN_LESS_THAN: mode = GGEN_GREATER_THAN_OR_EQUAL_TO; break;
+			case GGEN_LESS_THAN_OR_EQUAL_TO:  mode = GGEN_GREATER_THAN; break;
+		}
+	}
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+	
+	/* First generate the border in horizontal direction... */
+	for(GGen_Coord y = 0; y < this->height; y++){
+
+		/* This value stays constant for all cells in the row. */
+		GGen_Index yIndexOffset = y * this->width;
+
+		/* A cell is part of a border, if it matches the condition and at least one of its neighbors doesn't. */
+		for(GGen_Coord x = 1; x < this->width - 1; x++){
+			GGen_Height prevValue = this->data[x - 1 + yIndexOffset];
+			GGen_Height currentValue = this->data[x + yIndexOffset];
+			GGen_Height nextValue = this->data[x + 1 + yIndexOffset];
+
+			switch(mode){
+				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == threshold) && (!(nextValue == threshold) || !(prevValue == threshold))); break;
+				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != threshold) && (!(nextValue != threshold) || !(prevValue != threshold))); break;
+				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > threshold) && (!(nextValue > threshold) || !(prevValue > threshold))); break;
+				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= threshold) && (!(nextValue >= threshold) || !(prevValue >= threshold))); break;
+				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < threshold) && (!(nextValue < threshold) || !(prevValue < threshold))); break;
+				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= threshold) && (!(nextValue <= threshold) || !(prevValue <= threshold))); break;
+			}
+
+			new_data[x + yIndexOffset] = currentValue;
+		}
+	}
+
+	/* First generate the border in vertical direction... */
+	for(GGen_Coord x = 0; x < this->width; x++){
+
+		/* A cell is part of a border, if it matches the condition and at least one of its neighbors doesn't. */
+		for(GGen_Coord y = 1; y < this->height - 1; y++){
+			GGen_Height prevValue = this->data[x + (y - 1) * this->width];
+			GGen_Height currentValue = this->data[x + y * this->width];
+			GGen_Height nextValue = this->data[x + (y + 1) * this->width];
+
+			switch(mode){
+				case GGEN_EQUAL_TO: currentValue = (GGen_Height) ((currentValue == threshold) && (!(nextValue == threshold) || !(prevValue == threshold))); break;
+				case GGEN_NOT_EQUAL_TO: currentValue = (GGen_Height) ((currentValue != threshold) && (!(nextValue != threshold) || !(prevValue != threshold))); break;
+				case GGEN_GREATER_THAN: currentValue = (GGen_Height) ((currentValue > threshold) && (!(nextValue > threshold) || !(prevValue > threshold))); break;
+				case GGEN_GREATER_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue >= threshold) && (!(nextValue >= threshold) || !(prevValue >= threshold))); break;
+				case GGEN_LESS_THAN: currentValue = (GGen_Height) ((currentValue < threshold) && (!(nextValue < threshold) || !(prevValue < threshold))); break;
+				case GGEN_LESS_THAN_OR_EQUAL_TO: currentValue = (GGen_Height) ((currentValue <= threshold) && (!(nextValue <= threshold) || !(prevValue <= threshold))); break;
+			}
+
+			/* The cell is in either "vertical border" or in "horizontal border" => it is part of the final border. */
+			new_data[x + y * this->width] = MAX(currentValue, new_data[x + y * this->width]);
+		}
+	}
+	
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;	
+}
+
+void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
+{
+	/* Convexity map is a difference between the current map and its smoothed variant. Smoothing erases any terrain features
+	   that peak upwards (are convex) or bulge downwards (are concave). */ 
+	GGen_Data_2D* unsmoothed = this->Clone();
+	
+	this->Smooth(radius);
+
+	this->Invert();
+	this->AddMap(unsmoothed);
+
+	delete unsmoothed;
+}
+
+void GGen_Data_2D::Distort(GGen_Size waveLength, GGen_Distance amplitude)
+{
+	/* Set up an Amplitude object with one wave length only. */
+	GGen_Amplitudes* amplitudeObject = new GGen_Amplitudes(waveLength);
+	amplitudeObject->AddAmplitude(waveLength, amplitude);
+
+	/* Use a different turbulence map for each coordinate (to prevent diagonal-oriented unnatural artifacts). */
+	GGen_Data_2D* turbulenceXMap = new GGen_Data_2D(this->width, this->height, 0);
+	turbulenceXMap->Noise(1, waveLength, amplitudeObject);
+
+	GGen_Data_2D* turbulenceYMap = new GGen_Data_2D(this->width, this->height, 0);
+	turbulenceYMap->Noise(1, waveLength, amplitudeObject);
+
+	/* Allocate the new array */
+	GGen_Height* new_data = new GGen_Height[this->length];
+
+	GGen_Script_Assert(new_data != NULL);
+
+	/* Shift the coordinate of each cell by distortion values found in the turbulence maps. */
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			GGen_Coord distortedX = MAX(MIN((GGen_CoordOffset) x + (GGen_CoordOffset) turbulenceXMap->data[x + y * this->width], (GGen_CoordOffset) (this->width - 1)), 0);
+			GGen_Coord distortedY = MAX(MIN((GGen_CoordOffset) y + (GGen_CoordOffset) turbulenceYMap->data[x + y * this->width], (GGen_CoordOffset) (this->height - 1)), 0);
+
+			new_data[x + y * this->width] = this->data[distortedX + this->width * distortedY];
+		}
+	}
+
+	/* Relink and delete the original array data */
+	delete [] this->data;
+	this->data = new_data;	
+
+	delete amplitudeObject;
+	delete turbulenceXMap;
+	delete turbulenceYMap;
 }

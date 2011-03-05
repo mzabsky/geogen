@@ -22,7 +22,7 @@
 #include "ggen_path.h"
 
 GGen_Path::GGen_Path() {
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() == GGEN_GENERATING);
+	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 }
 
 void GGen_Path::AddPoint(GGen_Point& point){

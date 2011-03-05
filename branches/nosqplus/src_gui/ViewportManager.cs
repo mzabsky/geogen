@@ -39,7 +39,7 @@ namespace GeoGen_Studio
             Low_256x256Polygons = 256,
             Medium_512x512Polygons = 512,
             High_1024x1024Polygons = 1024,
-            VeryHigh_2048x2048Polygons = 2048,/*
+            VeryHigh_2048x2048Polygons = 2048/*,
             Extreme_4096x4096Polygons = 4096*/
         };
 
@@ -84,7 +84,7 @@ namespace GeoGen_Studio
             }
         }
 
-        public static int defaultTextureIndex = 9;
+        public static string defaultTexture = "Overlay: TopoBathy.bmp";
 
         public GGenNet.HeightData heightData;
 
@@ -96,7 +96,7 @@ namespace GeoGen_Studio
         public float targetX = 50; // default position is square center
         public float targetY = 50;
         public int currentMap = -1;
-        public int currentTextureIndex = defaultTextureIndex;
+        public string currentTexture = defaultTexture;
 
         private int vertexBufferHandle;
         private int indexBufferHandle;
@@ -127,6 +127,16 @@ namespace GeoGen_Studio
         public void Init()
         {
             this.SetupViewport();
+        }
+
+        public void ReselectTexture(){
+            int index = this.texture.Items.IndexOf(this.currentTexture);
+            if(index != -1){
+                this.texture.SelectedIndex = index;
+            }
+            else {
+                this.texture.SelectedIndex = Math.Max(0, this.texture.Items.IndexOf(Main.defaultTexture));
+            }
         }
 
         public void SetupViewport(){
@@ -177,6 +187,8 @@ namespace GeoGen_Studio
             }
 
             // release the height data
+            if(this.heightData != null) this.heightData.Dispose();
+            if (this.textureBase != null) this.textureBase.Dispose();
             this.heightData = null;
             this.textureBase = null;
 
@@ -287,7 +299,7 @@ namespace GeoGen_Studio
                 int originalHeight = original.Height;
                 int originalWidth = original.Width;
                 // load the overlay pattern
-                System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
+                //System.Drawing.Bitmap overlayBitmap = new System.Drawing.Bitmap("../overlays/Topographic.bmp");
 
                 // prepare memory space for the newly created color data
                 this.heightData = Main.GetResizedHeightData(original, Math.Min(original.Width, (int)config.ModelDetailLevel), Math.Min(original.Height, (int)config.ModelDetailLevel));
@@ -653,7 +665,7 @@ namespace GeoGen_Studio
 
         private static void ApplyBlackCompensation(ref System.Drawing.Bitmap bitmap)
         {
-            // create a blank bitmap and prepare it for byte accessa
+            // create a blank bitmap and prepare it for byte access
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 

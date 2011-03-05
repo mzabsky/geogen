@@ -31,13 +31,17 @@
 #include "ggen_progress.h"
 
 #include "ggen_squirrel.h"
+#include "ggen_squirrel_helpers.h"
 
 DECLARE_ENUM_TYPE(GGen_Normalization_Mode);
 DECLARE_ENUM_TYPE(GGen_Overflow_Mode);
 DECLARE_ENUM_TYPE(GGen_Direction);
 DECLARE_ENUM_TYPE(GGen_Message_Level);
 DECLARE_ENUM_TYPE(GGen_Voronoi_Noise_Mode);
-DECLARE_ENUM_TYPE(GGen_Comparsion_Mode);
+DECLARE_ENUM_TYPE(GGen_Comparison_Mode);
+DECLARE_ENUM_TYPE(GGen_Outline_Mode);
+
+using namespace SQConvert;
 
 void GGen_ErrorHandler(HSQUIRRELVM,const SQChar * desc,const SQChar * source,SQInteger line,SQInteger column){
 	GGen::GetInstance()->ThrowMessage(desc, GGEN_ERROR, line, column);
@@ -49,12 +53,6 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 	va_start(vl,s);
 	GGen_Vsprintf( temp,s,vl);
 
-	//scvsprintf(
-
-	//scvsprintf(
-
-	//GGen_Vsprintf(
-
 	va_end(vl);
 
 	GGen::GetInstance()->ThrowMessage(temp, GGEN_ERROR);
@@ -63,13 +61,15 @@ void GGen_PrintHandler(HSQUIRRELVM v,const SQChar * s,...){
 GGen_Squirrel::GGen_Squirrel(){
 	
 
-	HSQUIRRELVM v = sq_open(1024);
+	this->squirrelVM = sq_open(1024);
 
-	sq_pushroottable(v);
+	sq_pushroottable(this->squirrelVM);
 
-	sq_pop(v,1);
+	sq_pop(this->squirrelVM, 1);
 
-	SquirrelVM::InitNoRef(v);
+	SquirrelVM::InitNoRef(this->squirrelVM);
+
+	//SquirrelVM::Init();
 
 	sqstd_register_mathlib(SquirrelVM::GetVMPtr());
 
@@ -117,7 +117,7 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_BUBBLES, _SC("GGEN_BUBBLES"));
 	BindConstant(GGEN_RIDGES, _SC("GGEN_RIDGES"));
 
-	/* Enum: GGen_Comparsion_Mode */
+	/* Enum: GGen_Comparison_Mode */
 	BindConstant(GGEN_EQUAL_TO, _SC("GGEN_EQUAL_TO"));
 	BindConstant(GGEN_NOT_EQUAL_TO, _SC("GGEN_NOT_EQUAL_TO"));
 	BindConstant(GGEN_LESS_THAN, _SC("GGEN_LESS_THAN"));
@@ -125,9 +125,10 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_LESS_THAN_OR_EQUAL_TO, _SC("GGEN_LESS_THAN_OR_EQUAL_TO"));
 	BindConstant(GGEN_GREATER_THAN_OR_EQUAL_TO, _SC("GGEN_GREATER_THAN_OR_EQUAL_TO"));
 
+	/* Enum: GGen_Outline_Mode */
+	BindConstant(GGEN_INSIDE, _SC("GGEN_INSIDE"));
+	BindConstant(GGEN_OUTSIDE, _SC("GGEN_OUTSIDE"));
 
-	// WARNING: I'm too lazy to replace these with the TypeDefs currently. Maybe later...
-	
 	/* Class: GGen_Data_1D */
 	SQClassDefNoConstructor<GGen_Data_1D>(_SC("GGen_Data_1D")).
 		overloadConstructor<GGen_Data_1D(*)(uint16, int16)>().
@@ -196,6 +197,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::Fill,_T("Fill")).
 		func(&GGen_Data_2D::ResizeCanvas,_T("ResizeCanvas")).
 		func(&GGen_Data_2D::Clamp,_T("Clamp")).
+		func(&GGen_Data_2D::CropValues,_T("CropValues")).
 		func(&GGen_Data_2D::Min,_T("Min")).
 		func(&GGen_Data_2D::Max,_T("Max")).
 		func(&GGen_Data_2D::Flip,_T("Flip")).
@@ -237,7 +239,14 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::FloodFill,_T("FloodFill")).
 		func(&GGen_Data_2D::FloodSelect,_T("FloodSelect")).
 		func(&GGen_Data_2D::GetMaxValueOnPath,_T("GetMaxValueOnPath")).
-		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath"));
+		func(&GGen_Data_2D::GetMinValueOnPath,_T("GetMinValueOnPath")).
+		func(&GGen_Data_2D::Expand,_T("Expand")).
+		func(&GGen_Data_2D::Shrink,_T("Shrink")).
+		func(&GGen_Data_2D::ExpandDirection,_T("ExpandDirection")).
+		func(&GGen_Data_2D::ShrinkDirection,_T("ShrinkDirection")).
+		func(&GGen_Data_2D::Outline,_T("Outline")).
+		func(&GGen_Data_2D::ConvexityMap,_T("ConvexityMap")).
+		func(&GGen_Data_2D::Distort,_T("Distort"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
@@ -281,11 +290,20 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_MIN_HEIGHT, _SC("GGEN_MIN_HEIGHT"));
 	BindConstant(GGEN_MAX_HEIGHT, _SC("GGEN_MAX_HEIGHT"));
 	BindConstant(GGEN_INVALID_HEIGHT, _SC("GGEN_INVALID_HEIGHT"));
+
+	StartClass<GGen_Data_2D,void (GGen_Data_2D::*)(), 1>(GGen_Const_String("GGen_Data_2D"), GGen_Const_String("xiii"));
 }
 
-GGen_Squirrel::~GGen_Squirrel(){
+GGen_Squirrel::~GGen_Squirrel(){	
+	// delete contents of all presets
+	for(list<void*>::iterator it = this->presets.begin(); it != this->presets.end(); it++){
+		delete *it;
+	}
+
+	// empty the preset list
+	this->presets.clear();
+
 	SquirrelVM::Shutdown();	
-	//sq_close(SquirrelVM::GetVMPtr()); 
 }
 
 
@@ -319,7 +337,7 @@ GGen_String GGen_Squirrel::GetInfo(const GGen_String& label){
 
 		return GGen_String(output);
 	}
-	catch(SquirrelError &){
+	catch(...){
 		this->status = statusBackup;
 
 		return NULL;
@@ -342,7 +360,7 @@ int GGen_Squirrel::GetInfoInt(const GGen_String& label){
 
 		return value;
 	}
-	catch(SquirrelError &){
+	catch(...){
 		this->status = statusBackup;
 
 		return -1;
@@ -352,53 +370,92 @@ int GGen_Squirrel::GetInfoInt(const GGen_String& label){
 int16* GGen_Squirrel::Generate(){		
 	assert(this->status == GGEN_READY_TO_GENERATE);
 	
+	HSQUIRRELVM v = SquirrelVM::GetVMPtr();
+
+	// remember the current state of the stack (so it can be restored later)
+	int top = sq_gettop(v);
+
 	try {
 		int16* return_data;
 		GGen_Data_2D* data;
 
 		{
-			SquirrelFunction<GGen_Data_2D*> callFunc(GGen_Const_String("Generate"));
-			
-			presetTarget = &callFunc.object;
-			
-			this->status = GGEN_GENERATING;
+			this->status = GGEN_GENERATING;			
 
-			#include "ggen_presets.h"
-			
-			presetTarget = NULL;
+			sq_pushroottable(v);
 
-			data =  callFunc();	
+			// name of the function being called
+			sq_pushstring(v, GGen_Const_String("Generate"),-1); 
+			
+			// does the Generate() function exist?
+			if(SQ_SUCCEEDED(sq_get(v,-2))) {
+				// push "this" (since Generate() is supposed to be a global function use root table)
+				sq_pushroottable(v);
+
+				// invoke the function
+				sq_call(v, 1, true, true);							
+
+				// the output instance
+				SQUserPointer outInstance;
+
+				// did the function return an instance of a GGen_Data_2D class?
+				if(SQ_SUCCEEDED(sq_getinstanceup(v, -1, &outInstance, ClassType<GGen_Data_2D>::type()))){
+					data = (GGen_Data_2D*) outInstance;
+				}
+				else {
+					throw SquirrelError();
+				}
+			}
+			else {
+				GGen::GetInstance()->ThrowMessage(GGen_Const_String("\"Generate()\" function was not found in the script!"), GGEN_ERROR, -1);
+
+				throw SquirrelError();
+			}
+
+			// restore original state of the stack
+			sq_settop(v, top);
 
 			this->status = GGEN_READY_TO_GENERATE;
 		}
 
-		GGen_Script_Assert(data != NULL && data->data != NULL);
+		assert(data != NULL && data->data != NULL);
 
 		output_width = data->width;
 		output_height = data->height;
 
 		return_data = new int16[output_width * output_height];
 
-		GGen_Script_Assert(return_data != NULL);
+		assert(return_data != NULL);
 
 		memcpy(return_data, data->data, sizeof(int16) * output_width * output_height);
 
-		delete data;
+		/* The internal squirrel reference to the returned object is not released until next c++ => squirrel
+		call. So we call the script header with most likely nonexistant identification string to release the 
+		reference held by squirrel.h */
+		this->GetInfoInt(GGen_Const_String("voidCall"));
 
-		return return_data;
-		
+		/* Free all remaining 2D instances (those created via Clone) */
+		GGen_Data_2D::FreeAllInstances();
+
+		return return_data;		
     } 
-    catch (SquirrelError &) {
+    catch (SquirrelError &) {		
+		GGen_Data_2D::FreeAllInstances();		
+
 		this->status = GGEN_READY_TO_GENERATE;
 
 		return NULL;
     }
 	catch (GGen_ScriptAssertException &) {
+		GGen_Data_2D::FreeAllInstances();
+
 		this->status = GGEN_READY_TO_GENERATE;
 
 		return NULL;
     }
     catch (bad_alloc){
+		GGen_Data_2D::FreeAllInstances();
+
 		this->status = GGEN_READY_TO_GENERATE;
 		
 		GGen::GetInstance()->ThrowMessage(GGen_Const_String("GGen_Data memory allocation failed!"), GGEN_ERROR, -1);
@@ -408,15 +465,40 @@ int16* GGen_Squirrel::Generate(){
 }
 
 void GGen_Squirrel::RegisterPreset(GGen_Data_1D* preset, const GGen_String& label){
-	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+//	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
 }
 
 void GGen_Squirrel::RegisterPreset(GGen_Data_2D* preset, const GGen_String& label){
-	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+//	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
 }
 
 void GGen_Squirrel::RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label){
-	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
+//	BindVariable(*presetTarget, preset, label.c_str(), VAR_ACCESS_READ_ONLY);
 }
 
+template<typename Class, typename Method, int numConstructorParameters>
+void GGen_Squirrel::StartClass( GGen_String name, GGen_String constructorParameters )
+{
+	sq_pushroottable(this->squirrelVM);
+	sq_pushstring(this->squirrelVM, name.c_str(), -1);
+	sq_newclass(this->squirrelVM, false);
 
+	this->RegisterMethod(GGen_Const_String("constructor"), DefSQConstructorCallback<Class, Method, numConstructorParameters>, numConstructorParameters, constructorParameters, NULL, 0);
+}
+
+void GGen_Squirrel::EndClass(){
+	sq_newslot(this->squirrelVM, -3, false);
+	sq_pop(this->squirrelVM, 1);
+}
+
+void GGen_Squirrel::RegisterMethod( GGen_String name, SQFUNCTION method, int16 numParameters, GGen_String parameters, void *userdata, int size)
+{
+
+}
+
+/*
+template <typename Method>
+void GGen_Squirrel::RegisterMethod( GGen_String name, Method method, int16 numParameters, GGen_String parameters )
+{
+
+}*/
