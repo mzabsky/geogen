@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Collections.ObjectModel;
-using GeoGen.Studio.Utilities.Binding;
-using System.Windows.Threading;
 
 namespace GeoGen.Studio.PlugIns
 {
@@ -120,7 +108,7 @@ namespace GeoGen.Studio.PlugIns
 
         private void Randomize(object sender, RoutedEventArgs e)
         {
-            Random random = new Random((int)System.DateTime.Now.Ticks);
+            Random random = new Random((int)DateTime.Now.Ticks);
 
             ((ScriptArg)((MenuItem)sender).DataContext).Value = (uint)random.Next((int)((ScriptArg)((MenuItem)sender).DataContext).Minimum, (int)((ScriptArg)((MenuItem)sender).DataContext).Maximum + 1);
         }
@@ -137,7 +125,7 @@ namespace GeoGen.Studio.PlugIns
         {
             foreach (ScriptArg arg in this.Items)
             {
-                Random random = new Random((int)System.DateTime.Now.Ticks);
+                Random random = new Random((int)DateTime.Now.Ticks);
 
                 arg.Value = (uint)random.Next((int)arg.Minimum, (int)arg.Maximum + 1);
             }
