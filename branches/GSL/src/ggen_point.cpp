@@ -21,27 +21,29 @@
 #include "ggen.h"
 #include "ggen_point.h"
 
-GGen_Point::GGen_Point(GGen_CoordOffset x, GGen_CoordOffset y): x(x), y(y) {
-	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
-}
+namespace GeoGen{
+	Point::Point(CoordOffset x, CoordOffset y): x(x), y(y) {
+		ScriptAssert(Generator::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
+	}
 
-GGen_CoordOffset GGen_Point::GetX(){
-	return this->x;
-}
+	CoordOffset Point::GetX(){
+		return this->x;
+	}
 
-GGen_CoordOffset GGen_Point::GetY(){
-	return this->y;
-}
+	CoordOffset Point::GetY(){
+		return this->y;
+	}
 
-void GGen_Point::SetX(GGen_CoordOffset x){
-	this->x = x;
-}
+	void Point::SetX(CoordOffset x){
+		this->x = x;
+	}
 
-void GGen_Point::SetY(GGen_CoordOffset y){
-	this->y = y;
-}
+	void Point::SetY(CoordOffset y){
+		this->y = y;
+	}
 
-void GGen_Point::SetCoords(GGen_CoordOffset x, GGen_CoordOffset y){
-	this->x = x;
-	this->y = x;
+	void Point::SetCoords(CoordOffset x, CoordOffset y){
+		this->x = x;
+		this->y = x;
+	}
 }

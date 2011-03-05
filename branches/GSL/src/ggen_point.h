@@ -18,56 +18,58 @@
 */
 
 /** 
- * @file ggen_point.h GGen_Point represents one point in GGen coordinate system.
+ * @file ggen_point.h Point represents one point in GGen coordinate system.
  **/
 
 #pragma once
 
 #include "ggen_amplitudes.h"
 
-/**
- * GGen_Point represents one point in GGen coordinate system.
- **/
-class GGen_Point{
-	public:
-		GGen_CoordOffset x;
-		GGen_CoordOffset y;
+namespace GeoGen{
+	/**
+	 * Point represents one point in GGen coordinate system.
+	 **/
+	class Point{
+		public:
+			CoordOffset x;
+			CoordOffset y;
 
-		/**
-		 * Creates a new point object.
-		 * @param x X coordinate of the point.
-		 * @param y Y coordinate of the point.
-		 **/
-		GGen_Point(GGen_CoordOffset x, GGen_CoordOffset y);
+			/**
+			 * Creates a new point object.
+			 * @param x X coordinate of the point.
+			 * @param y Y coordinate of the point.
+			 **/
+			Point(CoordOffset x, CoordOffset y);
 
-		/**
-		 * Returns X coordinate of the point.
-		 * @return X coordinate of the point.
-		 **/
-		GGen_CoordOffset GetX();
+			/**
+			 * Returns X coordinate of the point.
+			 * @return X coordinate of the point.
+			 **/
+			CoordOffset GetX();
 		
-		/**
-		 * Returns Y coordinate of the point.
-		 * @return Y coordinate of the point.
-		 **/
-		GGen_CoordOffset GetY();
+			/**
+			 * Returns Y coordinate of the point.
+			 * @return Y coordinate of the point.
+			 **/
+			CoordOffset GetY();
 
-		/**
-		 * Sets X coordinate of the point.
-		 * @param x X coordinate of the point.
-		 **/
-		void SetX(GGen_CoordOffset x);
+			/**
+			 * Sets X coordinate of the point.
+			 * @param x X coordinate of the point.
+			 **/
+			void SetX(CoordOffset x);
 		
-		/**
-		 * Sets Y coordinate of the point.
-		 * @param y Y coordinate of the point.
-		 **/
-		void SetY(GGen_CoordOffset y);
+			/**
+			 * Sets Y coordinate of the point.
+			 * @param y Y coordinate of the point.
+			 **/
+			void SetY(CoordOffset y);
 
-		/**
-		 * Sets coordinates of the point.
-		 * @param x X coordinate of the point.
-		 * @param y Y coordinate of the point.
-		 **/
-		void SetCoords(GGen_CoordOffset x, GGen_CoordOffset y);
-};
+			/**
+			 * Sets coordinates of the point.
+			 * @param x X coordinate of the point.
+			 * @param y Y coordinate of the point.
+			 **/
+			void SetCoords(CoordOffset x, CoordOffset y);
+	};
+}

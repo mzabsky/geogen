@@ -35,12 +35,14 @@
 #pragma warning(disable:4996)
 #define _CRT_SECURE_NO_WARNINGS
 
+using namespace GeoGen;
+
 class ArgDesc{
     struct Argument{
-        GGen_Char short_name;
-        GGen_String long_name;
-        GGen_String desc;
-        GGen_String param_name;
+        Char short_name;
+        String long_name;
+        String desc;
+        String param_name;
         char type;
         void* var;        
     };
@@ -58,9 +60,9 @@ class ArgDesc{
     };
 
 
-    std::vector<GGen_String> args_in;
+    std::vector<String> args_in;
     std::vector<Argument> args_def;
-    std::vector<GGen_String>* pos_args;
+    std::vector<String>* pos_args;
 
 public:
 
@@ -78,7 +80,7 @@ public:
 		}
 
 		// convert the unwieldy array into vector
-        args_in = std::vector<GGen_String>(wargv, wargv + argc);
+        args_in = std::vector<String>(wargv, wargv + argc);
 
 		for(int i = 0; i < argc; i++){
 			delete [] wargv[i];
@@ -87,11 +89,11 @@ public:
 		delete [] wargv;
 #else
 		// convert the unwieldy array into vector
-		args_in = std::vector<GGen_String>(argv, argv + argc);
+		args_in = std::vector<String>(argv, argv + argc);
 #endif
     }
 
-    void AddBoolArg(char short_name, GGen_String long_name, GGen_String desc, bool* var){
+    void AddBoolArg(char short_name, String long_name, String desc, bool* var){
         Argument p;
         p.short_name = short_name;
         p.long_name = long_name;
@@ -102,7 +104,7 @@ public:
         args_def.push_back(p);
     }
 
-    void AddStringArg(char short_name, GGen_String long_name, GGen_String desc, GGen_String param_name, GGen_String* var){
+    void AddStringArg(char short_name, String long_name, String desc, String param_name, String* var){
         Argument p;
         p.short_name = short_name;
         p.long_name = long_name;
@@ -114,7 +116,7 @@ public:
         args_def.push_back(p);
     }
 
-    void AddIntArg(char short_name, GGen_String long_name, GGen_String desc, GGen_String param_name, int* var){
+    void AddIntArg(char short_name, String long_name, String desc, String param_name, int* var){
         Argument p;
         p.short_name = short_name;
         p.long_name = long_name;
@@ -126,7 +128,7 @@ public:
         args_def.push_back(p);
     }
     
-    void SetPosArgsVector(std::vector<GGen_String>& pos_args){
+    void SetPosArgsVector(std::vector<String>& pos_args){
 		this->pos_args = &pos_args;
     }
 
@@ -146,7 +148,7 @@ public:
 
             //expecting string
             else if(next_action == E_STR){
-                *(GGen_String*) next_var = args_in[i];
+                *(String*) next_var = args_in[i];
 
                 next_action = UNKNOWN;
                 continue;
@@ -154,7 +156,7 @@ public:
             
             // arg named by its long name
             else if(args_in[i][0] == '-' && args_in[i][1] == '-'){
-                GGen_String name = args_in[i].substr(2, args_in[i].length() - 2);
+                String name = args_in[i].substr(2, args_in[i].length() - 2);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
                     if(name == args_def[j].long_name){
@@ -174,7 +176,7 @@ public:
             }
             // arg named by its short name
             else if(args_in[i][0] == '-'){
-                GGen_Char name = args_in[i].substr(1 + offset, args_in[i].length() - 1 - offset).at(0);
+                Char name = args_in[i].substr(1 + offset, args_in[i].length() - 1 - offset).at(0);
                 
                 for(unsigned j = 0; j < args_def.size(); j++){                
                     if(name == args_def[j].short_name){

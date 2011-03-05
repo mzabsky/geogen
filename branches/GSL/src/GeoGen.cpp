@@ -61,8 +61,10 @@ using namespace std;
 #include "../external/EasyBMP/EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
+using namespace GeoGen;
+
 struct OutputFormat{
-	GGen_String suffix;
+	String suffix;
 	string name;
 	long long int min;
 	long long int max;
@@ -72,20 +74,20 @@ struct OutputFormat{
 #define NUM_FORMATS 3 // overlay virtual formats are not included
 
 OutputFormat _formats[] = {
-	{GGen_Const_String("bmp"), "Windows Bitmap", 0, 255, true},
-	{GGen_Const_String("shd"), "GeoGen Short Data", -(2 << 14) + 1, (2 << 14) - 1, false},
-	{GGen_Const_String("pgm"), "Portable Gray Map", 0, 2 << 13, false},
-	{GGen_Const_String("bmp"), "Overlay", 0, 255, true},
-	{GGen_Const_String("bmp"), "Ext overlay", -255, 254, true}
+	{StaticString("bmp"), "Windows Bitmap", 0, 255, true},
+	{StaticString("shd"), "GeoGen Short Data", -(2 << 14) + 1, (2 << 14) - 1, false},
+	{StaticString("pgm"), "Portable Gray Map", 0, 2 << 13, false},
+	{StaticString("bmp"), "Overlay", 0, 255, true},
+	{StaticString("bmp"), "Ext overlay", -255, 254, true}
 };
 
 struct GGen_Params{
 	OutputFormat* output_format;
 
-	GGen_String input_file;
-	GGen_String output_file;
-	GGen_String output_directory;
-	GGen_String overlay_file;
+	String input_file;
+	String output_file;
+	String output_directory;
+	String overlay_file;
 	
 	int random_seed;
 	
@@ -102,14 +104,14 @@ struct GGen_Params{
 	int grid_size;
 	bool split_range;
 	
-	vector<GGen_String> script_args;
+	vector<String> script_args;
 	
 	GGen_Params()
 		:output_format(&_formats[0]),
-		input_file(GGen_Const_String("")),
-		output_file(GGen_Const_String("../temp/out.bmp")),
-		output_directory(GGen_Const_String("../temp/")),
-		overlay_file(GGen_Const_String("")),
+		input_file(StaticString("")),
+		output_file(StaticString("../temp/out.bmp")),
+		output_directory(StaticString("../temp/")),
+		overlay_file(StaticString("")),
 		random_seed(-1),
 		all_random(false),
 		no_rescaling(false),
@@ -128,17 +130,17 @@ struct GGen_Params{
 
 GGen_Params _params;
 
-bool Save(const short* data, unsigned int width, unsigned int height, const GGen_String* implicit_path, const GGen_String* name = NULL, bool enable_overlay = false){
+bool Save(const short* data, unsigned int width, unsigned int height, const String* implicit_path, const String* name = NULL, bool enable_overlay = false){
 	bool deleteData = false;
 
 	// overlay is to be saved separately -> create its name	
 	if(_params.overlay_as_copy && _params.overlay_file.length() > 0 && !enable_overlay){
-		GGen_String buf;
+		String buf;
 		if(name != NULL){
-			buf = GGen_String(*name) + GGen_Const_String("_overlay");
+			buf = String(*name) + StaticString("_overlay");
 		}
 		else {
-			buf = GGen_Const_String("out_overlay");
+			buf = StaticString("out_overlay");
 		}
 		
 		Save(data, width, height, implicit_path, &buf, true);
@@ -184,22 +186,22 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 		format_min = - (format->max + 1) / 2 + 1;
 	}
 
-	GGen_String path_out;
+	String path_out;
 
 	if(name == NULL){
 		path_out = *implicit_path;
-		GGen_Cout << GGen_Const_String("Saving main bitmap as \"") << *implicit_path << GGen_Const_String("\" ...\n") << flush;
+		GGen_Cout << StaticString("Saving main bitmap as \"") << *implicit_path << StaticString("\" ...\n") << flush;
 	}
 	else if(_params.disable_secondary_maps){
 		return false;
 	}
 	else{
 
-		GGen_String compatible_directory_name(_params.output_directory.length(), GGen_Const_String(' '));
+		String compatible_directory_name(_params.output_directory.length(), StaticString(' '));
 		copy(_params.output_directory.begin(), _params.output_directory.end(), compatible_directory_name.begin());
 
-		path_out += compatible_directory_name + GGen_Const_String("/") + *name + GGen_Const_String(".") + format->suffix;
-		GGen_Cout << GGen_Const_String("Saving map \"") << *name << GGen_Const_String("\" as \"") << path_out << GGen_Const_String("\"...\n") << flush;
+		path_out += compatible_directory_name + StaticString("/") + *name + StaticString(".") + format->suffix;
+		GGen_Cout << StaticString("Saving map \"") << *name << StaticString("\" as \"") << path_out << StaticString("\"...\n") << flush;
 	}
 	
 	// is scaling wanted?
@@ -261,14 +263,14 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 #endif
 
 
-		if(format->suffix == GGen_Const_String("bmp")){
+		if(format->suffix == StaticString("bmp")){
 			BMP output;
 
 			output.SetBitDepth(32);
 
 			output.SetSize(width, height);
 
-			if(_params.overlay_file == GGen_Const_String("") || !enable_overlay){
+			if(_params.overlay_file == StaticString("") || !enable_overlay){
 				for(unsigned int i = 0; i < height; i++){
 					for(unsigned int j = 0; j < width; j++){
 						output(j,i)->Red = output(j,i)->Green = output(j,i)->Blue = (ebmpBYTE) data[j + width * i];
@@ -299,14 +301,14 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 
 		output.WriteToFile(path_out_cstr);
 	}
-	else if(format->suffix == GGen_Const_String("shd")){
+	else if(format->suffix == StaticString("shd")){
 		int iWidth = width;
 		int iHeight = height;
 
 		ofstream out(path_out_cstr, ios_base::out | ios_base::binary | ios::ate);
 		
 		if(out.bad()){
-			GGen_Cout << GGen_Const_String("Could not write ") << path_out << GGen_Const_String("!\n") << flush;
+			GGen_Cout << StaticString("Could not write ") << path_out << StaticString("!\n") << flush;
 		}
 		else{
 			out.write((char*) &iWidth, sizeof(iWidth));
@@ -317,10 +319,10 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 		
 		out.close();
 	}
-	else if(format->suffix == GGen_Const_String("pgm")){
+	else if(format->suffix == StaticString("pgm")){
 		ofstream out(path_out_cstr, ios_base::out);
 		if(out.bad()){
-			GGen_Cout << GGen_Const_String("Could not write ") << path_out << GGen_Const_String("!\n") << flush;
+			GGen_Cout << StaticString("Could not write ") << path_out << StaticString("!\n") << flush;
 		}
 		else{
 			out << "P2" << endl;
@@ -358,7 +360,7 @@ T random(T min, T max){
 	return output;
 }
 
-void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
+void ReturnHandler(const String& name, const short* map, int width, int height){
 	Save(map, width, height, NULL, &name); 
 }
 
@@ -371,25 +373,25 @@ int main(int argc,char * argv[]){
 	ArgDesc args(argc, argv);
 	args.SetPosArgsVector(_params.script_args);
 	
-	args.AddStringArg(GGen_Const_String('i'), GGen_Const_String("input"), GGen_Const_String("Input squirrel script to be executed."), GGen_Const_String("FILE"), &_params.input_file); 
-	args.AddStringArg(GGen_Const_String('o'), GGen_Const_String("output"), GGen_Const_String("Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default."), GGen_Const_String("FILE"), &_params.output_file);
-	args.AddStringArg(GGen_Const_String('d'), GGen_Const_String("output-directory"), GGen_Const_String("Directory where secondary maps will be saved. Set to \"../temp/\" by default."), GGen_Const_String("DIRECTORY"), &_params.output_directory);
-	args.AddStringArg(GGen_Const_String('v'), GGen_Const_String("overlay"), GGen_Const_String("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and either 256 or 511 pixels wide."), GGen_Const_String("FILE"), &_params.overlay_file);
+	args.AddStringArg(StaticString('i'), StaticString("input"), StaticString("Input squirrel script to be executed."), StaticString("FILE"), &_params.input_file); 
+	args.AddStringArg(StaticString('o'), StaticString("output"), StaticString("Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default."), StaticString("FILE"), &_params.output_file);
+	args.AddStringArg(StaticString('d'), StaticString("output-directory"), StaticString("Directory where secondary maps will be saved. Set to \"../temp/\" by default."), StaticString("DIRECTORY"), &_params.output_directory);
+	args.AddStringArg(StaticString('v'), StaticString("overlay"), StaticString("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and either 256 or 511 pixels wide."), StaticString("FILE"), &_params.overlay_file);
 	
-	args.AddIntArg(GGen_Const_String('s'), GGen_Const_String("seed"), GGen_Const_String("Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same."), GGen_Const_String("SEED"), &_params.random_seed);
+	args.AddIntArg(StaticString('s'), StaticString("seed"), StaticString("Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same."), StaticString("SEED"), &_params.random_seed);
 	
-	args.AddBoolArg(GGen_Const_String('a'), GGen_Const_String("all-random"), GGen_Const_String("All unset script arguments are generated randomly."), &_params.all_random);
-	args.AddBoolArg(GGen_Const_String('z'), GGen_Const_String("ignore-zero"), GGen_Const_String("Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap)."), &_params.ignore_zero);
-	args.AddBoolArg(GGen_Const_String('n'), GGen_Const_String("no-rescaling"), GGen_Const_String("The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>."), &_params.no_rescaling);
-	args.AddBoolArg(GGen_Const_String('?'), GGen_Const_String("help"), GGen_Const_String("Displays this help."), &_params.help);
-	args.AddBoolArg(GGen_Const_String('x'), GGen_Const_String("syntax-check"), GGen_Const_String("Will print OKAY if script is compilable or descibe the error found."), &_params.syntax_check_mode);
-	args.AddBoolArg(GGen_Const_String('p'), GGen_Const_String("param-list"), GGen_Const_String("Lists the script's parameters in machine-readable format."), &_params.param_list_mode);
-	args.AddBoolArg(GGen_Const_String('e'), GGen_Const_String("simple"), GGen_Const_String("Mode which allows all necessary data to be entered interactively. This mode is automatically activaded if no params were entered."), &_params.stupid_mode);
-	args.AddBoolArg(GGen_Const_String('m'), GGen_Const_String("manual"), GGen_Const_String("Script arguments will be entered interactively."), &_params.manual_mode);
-	args.AddBoolArg(GGen_Const_String('D'), GGen_Const_String("disable-secondary-maps"), GGen_Const_String("All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped."), &_params.disable_secondary_maps);
-	args.AddBoolArg(GGen_Const_String('V'), GGen_Const_String("overlay-as-copy"), GGen_Const_String("Color files with overlays will be saved as copies."), &_params.overlay_as_copy);
-	args.AddIntArg( GGen_Const_String('g'), GGen_Const_String("grid"), GGen_Const_String("Renders a grid onto the overlay file."), GGen_Const_String("SIZE"), &_params.grid_size);
-	args.AddBoolArg(GGen_Const_String('h'), GGen_Const_String("split-range"), GGen_Const_String("Splits the value range of a file format, which doesn't support negative values, so lower half of the range covers negaive values and upper half covers positive values. Value \"(max + 1) / 2\" will be treated as zero."), &_params.split_range);
+	args.AddBoolArg(StaticString('a'), StaticString("all-random"), StaticString("All unset script arguments are generated randomly."), &_params.all_random);
+	args.AddBoolArg(StaticString('z'), StaticString("ignore-zero"), StaticString("Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap)."), &_params.ignore_zero);
+	args.AddBoolArg(StaticString('n'), StaticString("no-rescaling"), StaticString("The height data will not be rescaled at all. Might cause color overflows if the format's value range is lower than <-32787, 32787>."), &_params.no_rescaling);
+	args.AddBoolArg(StaticString('?'), StaticString("help"), StaticString("Displays this help."), &_params.help);
+	args.AddBoolArg(StaticString('x'), StaticString("syntax-check"), StaticString("Will print OKAY if script is compilable or descibe the error found."), &_params.syntax_check_mode);
+	args.AddBoolArg(StaticString('p'), StaticString("param-list"), StaticString("Lists the script's parameters in machine-readable format."), &_params.param_list_mode);
+	args.AddBoolArg(StaticString('e'), StaticString("simple"), StaticString("Mode which allows all necessary data to be entered interactively. This mode is automatically activaded if no params were entered."), &_params.stupid_mode);
+	args.AddBoolArg(StaticString('m'), StaticString("manual"), StaticString("Script arguments will be entered interactively."), &_params.manual_mode);
+	args.AddBoolArg(StaticString('D'), StaticString("disable-secondary-maps"), StaticString("All secondary maps will be immediately discarded, ReturnAs calls will be effectively skipped."), &_params.disable_secondary_maps);
+	args.AddBoolArg(StaticString('V'), StaticString("overlay-as-copy"), StaticString("Color files with overlays will be saved as copies."), &_params.overlay_as_copy);
+	args.AddIntArg( StaticString('g'), StaticString("grid"), StaticString("Renders a grid onto the overlay file."), StaticString("SIZE"), &_params.grid_size);
+	args.AddBoolArg(StaticString('h'), StaticString("split-range"), StaticString("Splits the value range of a file format, which doesn't support negative values, so lower half of the range covers negaive values and upper half covers positive values. Value \"(max + 1) / 2\" will be treated as zero."), &_params.split_range);
 	
 	
 	// read the arguments
@@ -422,7 +424,7 @@ int main(int argc,char * argv[]){
 	}
 
 	// no input file -> ask the user
-	if(_params.input_file == GGen_Const_String("")){
+	if(_params.input_file == StaticString("")){
 		cout << "Please enter path to a script file: ";
 		GGen_Cin >> _params.input_file;
 	}
@@ -479,17 +481,17 @@ int main(int argc,char * argv[]){
 	
 #ifdef GGEN_UNICODE
 	// convert the script  to unicode
-	GGen_Char* preparedScript = new GGen_Char[strlen(strTotal.c_str()) + 1];
+	Char* preparedScript = new Char[strlen(strTotal.c_str()) + 1];
 
 	mbstowcs(preparedScript, strTotal.c_str(), strlen(strTotal.c_str()));
 
-	preparedScript[strlen(strTotal.c_str())] = GGen_Const_String('\0');
+	preparedScript[strlen(strTotal.c_str())] = StaticString('\0');
 #else
-	const GGen_Char* preparedScript = strTotal.c_str();
+	const Char* preparedScript = strTotal.c_str();
 #endif
 
 	// create the primary GeoGen object (use Squirrel script interface)
-	GGen_Squirrel* ggen = new GGen_Squirrel();
+	SquirrelGenerator* ggen = new SquirrelGenerator();
 
 	cout << "Compiling...\n" << flush;
 
@@ -497,7 +499,7 @@ int main(int argc,char * argv[]){
 	ggen->SetProgressCallback(ProgressHandler);
 
 	// pump the script into the engine and compile it
-	if(!ggen->SetScript(GGen_String(preparedScript))){
+	if(!ggen->SetScript(String(preparedScript))){
 		cout << "Compilation failed!\n" << flush;
 		delete ggen;
 		if(_params.stupid_mode) system("pause");
@@ -513,7 +515,7 @@ int main(int argc,char * argv[]){
 	cout << "Loading map info...\n" << flush;
 
 	// fetch the list of arguments from the script file
-	vector<GGen_ScriptArg>* script_args = ggen->LoadArgs();
+	vector<ScriptArg>* script_args = ggen->LoadArgs();
 	
 	if(script_args == NULL){
 		cout << "Could not retrieve map information!\n" << flush;
@@ -535,25 +537,25 @@ int main(int argc,char * argv[]){
 	if(_params.param_list_mode){
 		cout << "PARAMS\n" << flush;
 		for(unsigned i = 0; i < script_args->size(); i++){
-			GGen_ScriptArg* current_arg = &(*script_args)[i];
+			ScriptArg* current_arg = &(*script_args)[i];
 			
-			GGen_Char type = GGen_Const_String('N');
+			Char type = StaticString('N');
 			
 			switch(current_arg->type){
-				case GGEN_BOOL : type = GGen_Const_String('B'); break;
-				case GGEN_INT : type = GGen_Const_String('I'); break;
-				case GGEN_ENUM : type = GGen_Const_String('E'); break;
+				case GGEN_BOOL : type = StaticString('B'); break;
+				case GGEN_INT : type = StaticString('I'); break;
+				case GGEN_ENUM : type = StaticString('E'); break;
 			}
 			
 			GGen_Cout << 
-				current_arg->label << GGen_Const_String(";") <<  
-				current_arg->description << GGen_Const_String(";") << 
-				type << GGen_Const_String(";") << 
-				current_arg->default_value << GGen_Const_String(";") << 
-				current_arg->min_value << GGen_Const_String(";") << 
-				current_arg->max_value << GGen_Const_String(";") << 
-				current_arg->step_size << GGen_Const_String(";") << 
-				current_arg->options.size() << GGen_Const_String(";");
+				current_arg->label << StaticString(";") <<  
+				current_arg->description << StaticString(";") << 
+				type << StaticString(";") << 
+				current_arg->default_value << StaticString(";") << 
+				current_arg->min_value << StaticString(";") << 
+				current_arg->max_value << StaticString(";") << 
+				current_arg->step_size << StaticString(";") << 
+				current_arg->options.size() << StaticString(";");
 		
 			if(current_arg->type == GGEN_ENUM){
 				for(unsigned j = 0; j < current_arg->options.size(); j++){
@@ -576,18 +578,18 @@ int main(int argc,char * argv[]){
 		
 		// loop through all the map arguments 
 		for(unsigned i = 0; i < script_args->size(); i++){
-			GGen_ScriptArg* current_arg = &(*script_args)[i];
+			ScriptArg* current_arg = &(*script_args)[i];
 
 			char* buf = new char[16];
 
-			GGen_Cout << GGen_Const_String("	") << current_arg->label << GGen_Const_String(" (");
+			GGen_Cout << StaticString("	") << current_arg->label << StaticString(" (");
 			
 			if(current_arg->type == GGEN_INT) cout << "integer in range " << current_arg->min_value << "-" << current_arg->max_value << "): ";
 			else if(current_arg->type == GGEN_BOOL) cout << "0 = No, 1 = Yes): ";
 			else if(current_arg->type == GGEN_ENUM) {
 				for(unsigned j = 0; j < current_arg->options.size(); j++){
 					if(j > 0) cout << ", ";
-					GGen_Cout << j << GGen_Const_String(" = ") << current_arg->options[j];
+					GGen_Cout << j << StaticString(" = ") << current_arg->options[j];
 				}
 				cout << "): ";
 			}
@@ -607,14 +609,14 @@ int main(int argc,char * argv[]){
 	else{
 		// loop through all the map arguments 
 		for(unsigned i = 0; i < script_args->size(); i++){
-			GGen_ScriptArg* current_arg = &(*script_args)[i];
+			ScriptArg* current_arg = &(*script_args)[i];
 
-			if(i < _params.script_args.size() && _params.script_args[i] != GGen_Const_String("r") && _params.script_args[i] != GGen_Const_String("d")){
+			if(i < _params.script_args.size() && _params.script_args[i] != StaticString("r") && _params.script_args[i] != StaticString("d")){
 				current_arg->SetValue((int) GGen_Strtol(_params.script_args[i].c_str(), NULL, 10));
 			}
 
 			// should the value be generated randomly?
-			else if(_params.all_random || (i < _params.script_args.size() && _params.script_args[i] == GGen_Const_String("r"))){
+			else if(_params.all_random || (i < _params.script_args.size() && _params.script_args[i] == StaticString("r"))){
 				current_arg->SetValue(random(current_arg->min_value, current_arg->max_value));
 			}
 		}
@@ -636,7 +638,7 @@ int main(int argc,char * argv[]){
 	
 	assert(data != NULL);
 
-	GGen_String compatible_file_name(_params.output_file.length(), GGen_Const_String(' '));
+	String compatible_file_name(_params.output_file.length(), StaticString(' '));
 	copy(_params.output_file.begin(), _params.output_file.end(), compatible_file_name.begin());
 
 	// flush the bitmap

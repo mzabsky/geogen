@@ -30,10 +30,12 @@
 #include "../external/squirrel/sqstdblob.h"
 #include "../external/squirrel/sqstdsystem.h"
 
+using namespace ::SqPlus;
+
 #include "ggen_support.h"
 #include "ggen.h"
 
-using namespace SqPlus;
+
 
 #define SQ_REL_PATH "../external/squirrel_lib/"
 
@@ -61,26 +63,29 @@ using namespace SqPlus;
 #endif
 #endif
 
-DECLARE_INSTANCE_TYPE(GGen_Data_1D)
-DECLARE_INSTANCE_TYPE(GGen_Data_2D)
-DECLARE_INSTANCE_TYPE(GGen_Amplitudes)
-DECLARE_INSTANCE_TYPE(GGen_Point)
-DECLARE_INSTANCE_TYPE(GGen_Path)
 
-class GGEN_EXPORT GGen_Squirrel: public GGen{
-protected:
-	list<void*> presets;
-public:	
-	GGen_Squirrel();
-	virtual ~GGen_Squirrel();
+DECLARE_INSTANCE_TYPE(GeoGen::Data_1D)
+DECLARE_INSTANCE_TYPE(GeoGen::Data_2D)
+DECLARE_INSTANCE_TYPE(GeoGen::Amplitudes)
+DECLARE_INSTANCE_TYPE(GeoGen::Point)
+DECLARE_INSTANCE_TYPE(GeoGen::Path)
 
-	virtual bool SetScript(const GGen_String& script);
-	virtual GGen_String GetInfo(const GGen_String& label);
-	virtual int GetInfoInt(const GGen_String& label);
-	virtual int16* Generate();
+namespace GeoGen{
+	class GGEN_EXPORT SquirrelGenerator: public Generator{
+	protected:
+		list<void*> presets;
+	public:	
+		SquirrelGenerator();
+		virtual ~SquirrelGenerator();
+
+		virtual bool SetScript(const String& script);
+		virtual String GetInfo(const String& label);
+		virtual int GetInfoInt(const String& label);
+		virtual int16* Generate();
 	
-	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label);
-	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label);
-	virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label);
-};
+		virtual void RegisterPreset(Data_1D* preset, const String& label);
+		virtual void RegisterPreset(Data_2D* preset, const String& label);
+		virtual void RegisterPreset(Amplitudes* preset, const String& label);
+	};
+}
 
