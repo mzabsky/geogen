@@ -61,6 +61,8 @@ using namespace std;
 #include "../external/EasyBMP/EasyBMP.h"
 #include "../external/ArgDesc/ArgDesc.cpp"
 
+using namespace GeoGen;
+
 struct OutputFormat{
 	GGen_String suffix;
 	string name;

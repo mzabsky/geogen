@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -96,9 +96,6 @@
     <None Include="..\examples\archipelago.nut">
       <Filter>Examples</Filter>
     </None>
-    <None Include="..\examples\atoll.nut">
-      <Filter>Examples</Filter>
-    </None>
     <None Include="..\examples\basic.nut">
       <Filter>Examples</Filter>
     </None>
@@ -136,5 +133,8 @@
     <None Include="..\TODO.TXT" />
     <None Include="..\Makefile" />
     <None Include="..\test.bat" />
+    <None Include="..\examples\atoll.nut">
+      <Filter>Examples</Filter>
+    </None>
   </ItemGroup>
 </Project>

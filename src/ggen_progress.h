@@ -27,21 +27,23 @@
 #include "ggen.h"
 #include <assert.h>
 
-/**
- * Sets the maximum progress value.
- * @param max_progress New maximum progress value.
- **/
-void GGen_InitProgress(uint32 max_progress);
+namespace GeoGen{
+	/**
+	 * Sets the maximum progress value.
+	 * @param max_progress New maximum progress value.
+	 **/
+	void GGen_InitProgress(uint32 max_progress);
 
-/**
- * Sets the current progress value.
- * @param current_progress New current progress value.
- * @note The GGen_InitProgress function must be called before calling GGen_SetProgress.
- **/
-void GGen_SetProgress(uint32 current_progress);
+	/**
+	 * Sets the current progress value.
+	 * @param current_progress New current progress value.
+	 * @note The GGen_InitProgress function must be called before calling GGen_SetProgress.
+	 **/
+	void GGen_SetProgress(uint32 current_progress);
 
-/**
- * Increases the current progress value by 1.
- * @note The GGen_InitProgress function must be called before calling GGen_IncreaseProgress.
- **/
-void GGen_IncreaseProgress();
+	/**
+	 * Increases the current progress value by 1.
+	 * @note The GGen_InitProgress function must be called before calling GGen_IncreaseProgress.
+	 **/
+	void GGen_IncreaseProgress();
+}
