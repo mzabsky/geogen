@@ -98,9 +98,5 @@ function Generate(){
 	
 	base.TransformValues(GGEN_NATURAL_PROFILE, true);
 
-	print("Eroding");
-
-	base.Erode();
-
 	return base;
 }

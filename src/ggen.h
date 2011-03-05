@@ -50,59 +50,57 @@
 #include "ggen_data_2d.h"
 #include "ggen_scriptarg.h"
 
-namespace GeoGen{
-	class Generator;
+class GGen;
 
-	class GGEN_EXPORT Generator{
-	protected: 
-		static Generator* instance;
+class GGEN_EXPORT GGen{
+protected: 
+	static GGen* instance;
 
-		GGen_Status status;
-	public:
-		void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column);
-		void (*return_callback) (const GGen_String& name, const int16* map, int width, int height);
-		void (*progress_callback) (int current_progress, int max_progress);
+	GGen_Status status;
+public:
+	void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column);
+	void (*return_callback) (const GGen_String& name, const int16* map, int width, int height);
+	void (*progress_callback) (int current_progress, int max_progress);
 
-		vector<GGen_ScriptArg> args;
+	vector<GGen_ScriptArg> args;
 
-		uint16 output_width, output_height;
+	uint16 output_width, output_height;
 
-		uint32 max_progress, current_progress;
+	uint32 max_progress, current_progress;
 
-		GGen_Size max_map_size;
-		uint16 max_map_count;
+	GGen_Size max_map_size;
+	uint16 max_map_count;
 
-		Generator();
-		virtual ~Generator();
+	GGen();
+	virtual ~GGen();
 
-		static Generator* GetInstance();
+	static GGen* GetInstance();
 
-		const GGen_Status GetStatus();
+	const GGen_Status GetStatus();
 
-		const void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
-		//void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
+	const void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
+	//void ThrowMessage(const wchar_t* message, GGen_Message_Level level, int line = -1, int column = -1);
 
-		void SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column));
-		void SetReturnCallback( void (*return_callback) (const GGen_String& name, const int16* map, int width, int height) );
-		void SetProgressCallback( void (*return_callback) (int current_progress, int max_progress));
+	void SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column));
+	void SetReturnCallback( void (*return_callback) (const GGen_String& name, const int16* map, int width, int height) );
+	void SetProgressCallback( void (*return_callback) (int current_progress, int max_progress));
 	
-		virtual bool SetScript(const GGen_String& script) = 0;
-		virtual GGen_String GetInfo(const GGen_String& label) = 0;
-		virtual int GetInfoInt(const GGen_String& label) = 0;
-		virtual vector<GGen_ScriptArg>* LoadArgs();
-		virtual int16* Generate() = 0;
+	virtual bool SetScript(const GGen_String& script) = 0;
+	virtual GGen_String GetInfo(const GGen_String& label) = 0;
+	virtual int GetInfoInt(const GGen_String& label) = 0;
+	virtual vector<GGen_ScriptArg>* LoadArgs();
+	virtual int16* Generate() = 0;
 	
-		void SetMaxMapSize(GGen_Size size);
-		void SetMaxMapCount(uint16 count);
+	void SetMaxMapSize(GGen_Size size);
+	void SetMaxMapCount(uint16 count);
 
-		/* Constraint getters and progress methods must be static to be exported as globals to Squirrel */
-		static GGen_Size GetMaxMapSize();
-		static uint16 GetMaxMapCount();
+	/* Constraint getters and progress methods must be static to be exported as globals to Squirrel */
+	static GGen_Size GetMaxMapSize();
+	static uint16 GetMaxMapCount();
 	
-		virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label) = 0;
-		virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label) = 0;
-		virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label) = 0;
+	virtual void RegisterPreset(GGen_Data_1D* preset, const GGen_String& label) = 0;
+	virtual void RegisterPreset(GGen_Data_2D* preset, const GGen_String& label) = 0;
+	virtual void RegisterPreset(GGen_Amplitudes* preset, const GGen_String& label) = 0;
 
-		void SetSeed(unsigned seed);
-	};
-}
+	void SetSeed(unsigned seed);
+};

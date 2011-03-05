@@ -34,23 +34,11 @@ function Generate(){
 	
 	if(water_distribution == 1) base.Abs();
 	
-	base.Flood(0.99);
+	base.Flood(1 - water_level);
 	
 	GGen_IncreaseProgress();
 	
-	//base.TransformValues(GGEN_NATURAL_PROFILE, true)
-		
-	//base.Erode(100);
-
-	local path = GGen_Path();
-	path.AddPointByCoords(100, 100);
-	path.AddPointByCoords(800, 800);
-	path.AddPointByCoords(700, 100);	
-	path.AddPointByCoords(200, 900);	
-	path.AddPointByCoords(50, 300);
-	path.AddPointByCoords(800, 100);
-
-	base.StrokePath(path, GGEN_NATURAL_PROFILE, 100, false);
+	base.TransformValues(GGEN_NATURAL_PROFILE, true)
 			
 	return base;
 }
