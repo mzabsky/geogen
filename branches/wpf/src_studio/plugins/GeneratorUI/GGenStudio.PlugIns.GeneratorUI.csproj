@@ -92,7 +92,7 @@
       <Project>{5D0FF14C-459D-4801-A825-C406D5FD6051}</Project>
       <Name>GGenStudio.PlugIns.GGen</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GGenStudio.PlugIns.MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
       <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
       <Name>GGenStudio.PlugIns.MenuBar</Name>
     </ProjectReference>
@@ -100,7 +100,7 @@
       <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
       <Name>GGenStudio.PlugIns.StatusBar</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Window\GGenStudio.PlugIn.Window\GGenStudio.PlugIns.MainWindow.csproj">
+    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
       <Name>GGenStudio.PlugIns.MainWindow</Name>
     </ProjectReference>
