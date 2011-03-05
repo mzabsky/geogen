@@ -21,12 +21,6 @@ namespace GeoGen.Studio.PlugIns
             this.PlugIn = plugIn;
             this.Properties = new List<ConfigurablePropertyInfo>();            
 
-            // Not every plug-in is necessarily configurable
-            if (!typeof(IConfigurable).IsAssignableFrom(this.PlugIn.Type))
-            {
-                return ;
-            }
-
             // Build the list of configurable properties
             foreach (PropertyInfo property in plugIn.Type.GetProperties())
             {              
@@ -56,6 +50,11 @@ namespace GeoGen.Studio.PlugIns
                     this.Properties.Add(configurablePropertyInfo);
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return this.PlugIn.Name;
         }
     }
 }

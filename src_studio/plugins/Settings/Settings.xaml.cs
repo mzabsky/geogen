@@ -131,11 +131,8 @@ namespace GeoGen.Studio.PlugIns
             List<PlugInInfo> list = new List<PlugInInfo>();
 
             foreach(PlugIn plugIn in Loader.PlugIns)
-            {
-                if (typeof(IConfigurable).IsAssignableFrom(plugIn.Type) && plugIn.IsRunning)
-                {
-                    MainConfig.SaveConfiguration(plugIn.Instances.Last() as IConfigurable);
-                }
+            {               
+                MainConfig.SaveConfiguration(plugIn.Instances.Last());                
 
                 list.Add(new PlugInInfo(plugIn));
             }
@@ -152,17 +149,14 @@ namespace GeoGen.Studio.PlugIns
                 // Update enabled status
                 plugInInfo.PlugIn.IsEnabled = plugInInfo.IsEnabled;
 
-                // Do not apply configuration changes for non-configurable plug-ins
-                if(!typeof (IConfigurable).IsAssignableFrom(plugInInfo.PlugIn.Type))
-                {
-                    continue;
-                }
-
+                // Do not apply configuration changes for non-configurable plug-ins              
                 foreach(ConfigurablePropertyInfo property in plugInInfo.Properties)
                 {
+                    object o = property.Value;
+
                     MainConfig.SavePropertyValue(property.Property, property.Value);
 
-                    foreach(IConfigurable instance in plugInInfo.PlugIn.Instances)
+                    foreach(object instance in plugInInfo.PlugIn.Instances)
                     {
                         property.Property.SetValue(instance, property.Value, null);
                     }                    
