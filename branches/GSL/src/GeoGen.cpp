@@ -55,7 +55,7 @@ using namespace std;
 	#include "../include/geogen.h"
 #else
 	#include "ggen.h"
-	#include "ggen_squirrel.h"
+	#include "gsl.h"
 #endif
 
 #include "../external/EasyBMP/EasyBMP.h"
@@ -491,7 +491,7 @@ int main(int argc,char * argv[]){
 #endif
 
 	// create the primary GeoGen object (use Squirrel script interface)
-	SquirrelGenerator* ggen = new SquirrelGenerator();
+	GSL::GSLGenerator* ggen = new GSL::GSLGenerator();
 
 	cout << "Compiling...\n" << flush;
 

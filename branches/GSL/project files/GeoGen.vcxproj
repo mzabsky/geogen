@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -193,10 +193,10 @@
     <ClCompile Include="..\src\ggen_point.cpp" />
     <ClCompile Include="..\src\ggen_progress.cpp" />
     <ClCompile Include="..\src\ggen_scriptarg.cpp" />
-    <ClCompile Include="..\src\ggen_squirrel.cpp" />
     <ClCompile Include="..\external\ArgDesc\ArgDesc.cpp" />
     <ClCompile Include="..\external\EasyBMP\EasyBMP.cpp" />
     <ClCompile Include="..\src\GeoGen.cpp" />
+    <ClCompile Include="..\src\gsl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ggen.h" />
@@ -209,7 +209,7 @@
     <ClInclude Include="..\src\ggen_progress.h" />
     <ClInclude Include="..\src\ggen_scriptarg.h" />
     <ClInclude Include="..\src\ggen_support.h" />
-    <ClInclude Include="..\src\ggen_squirrel.h" />
+    <ClInclude Include="..\src\gsl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\examples\archipelago.nut" />
