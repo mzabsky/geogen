@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Schema;
+using System.Windows.Media;
 using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio
@@ -75,7 +76,7 @@ namespace GeoGen.Studio
 
         public FileInfo FileInfo { get; private set; }
 
-        public BitmapImage Bitmap {get; private set;}
+        public BitmapSource Bitmap {get; private set;}
         
         public int BytesPerPixel {
             get
@@ -90,7 +91,7 @@ namespace GeoGen.Studio
         {
             get
             {
-                return this.Bitmap.Width == 511;
+                return this.Bitmap.PixelWidth == 511;
             }
         }
 
@@ -106,7 +107,9 @@ namespace GeoGen.Studio
 
         private void LoadFromFile(FileInfo file)
         {
-            this.Bitmap = new BitmapImage(new Uri(file.FullName));
+            FormatConvertedBitmap convertedBitmap = new FormatConvertedBitmap(new BitmapImage(new Uri(file.FullName)), PixelFormats.Rgb24, BitmapPalettes.Halftone256, 1);
+
+            this.Bitmap = convertedBitmap;             
             this.FileName = file.FullName;
             this.Name = file.Name;
             this.FileInfo = file;
