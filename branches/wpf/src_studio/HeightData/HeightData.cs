@@ -224,7 +224,7 @@ namespace GeoGen.Studio
 
             Byte[] bytes;
 
-            // don't redraw the base height map image if the height data didn't change
+            // Don't redraw the base height map image if the height data didn't change.
             if(!overlayOnly){
                 bytes = new Byte[this.heightData.Length];
 
@@ -239,22 +239,37 @@ namespace GeoGen.Studio
             
             bytes = new Byte[this.heightData.Length * 3];
 
+            // Calculate the color value for each pixel.
             for (int i = 0; i < this.heightData.Length; i++)
             {
                 short currentHeight = this.heightData[i];
 
+                int overlayPixelIndex;
                 if(this.Overlay.IsExtended)
                 {
-                    bytes[i * 3] = this.Overlay.Bytes[((currentHeight / 128) + 255) * 3];
-                    bytes[i * 3 + 1] = this.Overlay.Bytes[((currentHeight / 128) + 255) * 3 + 1];
-                    bytes[i * 3 + 2] = this.Overlay.Bytes[((currentHeight / 128) + 255) * 3 + 2];
+                    overlayPixelIndex = ((currentHeight / 128) + 255);
+
+                    // Fix the water level being expanded into >0 levels by integer division artifacts.
+                    if (currentHeight > 0 && overlayPixelIndex == 255)
+                    {
+                        overlayPixelIndex = 256;
+                    }
                 }
                 else
                 {
-                    bytes[i * 3] = this.Overlay.Bytes[Math.Max(currentHeight / 128, 0) * 3];
-                    bytes[i * 3 + 1] = this.Overlay.Bytes[Math.Max(currentHeight / 128, 0) * 3 + 1];
-                    bytes[i * 3 + 2] = this.Overlay.Bytes[Math.Max(currentHeight / 128, 0) * 3 + 2];
+                    overlayPixelIndex = Math.Max(currentHeight / 128, 0);
+
+                    // Fix the water level being expanded into >0 levels by integer division artifacts.
+                    if(currentHeight > 0 && overlayPixelIndex == 0)
+                    {
+                        overlayPixelIndex = 1;
+                    }
                 }
+
+                // Assign the color values by individual channels.
+                bytes[i * 3] = this.Overlay.Bytes[overlayPixelIndex * 3];
+                bytes[i * 3 + 1] = this.Overlay.Bytes[overlayPixelIndex * 3 + 1];
+                bytes[i * 3 + 2] = this.Overlay.Bytes[overlayPixelIndex * 3 + 2];
             }
 
             this.Image = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Rgb24, BitmapPalettes.Halftone256, bytes, this.heightData.Width * 3);
