@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Media;
 using System.IO;
@@ -240,26 +241,20 @@ namespace GeoGen.Studio
 
             for (int i = 0; i < this.heightData.Length; i++)
             {
-                // red
-                bytes[i * 3] = this.Overlay.Bytes[(this.Overlay.IsExtended ? (
-                        (this.heightData[i] / 128) + 256
-                    ) : (
-                        Math.Max(this.heightData[i] / 128, 0)
-                    )) * 3];
+                short currentHeight = this.heightData[i];
 
-                // green
-                bytes[i * 3 + 1] = this.Overlay.Bytes[(this.Overlay.IsExtended ? (
-                        (this.heightData[i] / 128) + 256
-                    ) : (
-                        Math.Max(this.heightData[i] / 128, 0)
-                    )) * 3 + 1];
-
-                //blue
-                bytes[i * 3 + 2] = this.Overlay.Bytes[(this.Overlay.IsExtended ? (
-                        (this.heightData[i] / 128) + 256
-                    ) : (
-                        Math.Max(this.heightData[i] / 128, 0)
-                    )) * 3 + 2];
+                if(this.Overlay.IsExtended)
+                {
+                    bytes[i * 3] = this.Overlay.Bytes[((currentHeight / 128) + 255) * 3];
+                    bytes[i * 3 + 1] = this.Overlay.Bytes[((currentHeight / 128) + 255) * 3 + 1];
+                    bytes[i * 3 + 2] = this.Overlay.Bytes[((currentHeight / 128) + 255) * 3 + 2];
+                }
+                else
+                {
+                    bytes[i * 3] = this.Overlay.Bytes[Math.Max(currentHeight / 128, 0) * 3];
+                    bytes[i * 3 + 1] = this.Overlay.Bytes[Math.Max(currentHeight / 128, 0) * 3 + 1];
+                    bytes[i * 3 + 2] = this.Overlay.Bytes[Math.Max(currentHeight / 128, 0) * 3 + 2];
+                }
             }
 
             this.Image = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Rgb24, BitmapPalettes.Halftone256, bytes, this.heightData.Width * 3);
