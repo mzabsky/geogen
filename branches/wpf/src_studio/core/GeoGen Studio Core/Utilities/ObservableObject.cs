@@ -5,7 +5,7 @@ namespace GeoGen.Studio.Utilities
     /// <summary>
     /// Provides <see cref="INotifyPropertyChanged"/> implementation.
     /// </summary>
-    public class ObservableObject: INotifyPropertyChanged
+    public class ObservableObject
     {
         /// <summary>
         /// Occurs when a property value changes.
