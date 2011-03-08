@@ -4,16 +4,22 @@ using System.Windows.Media;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.ComponentModel;
+using GeoGen.Studio.Utilities;
 
 namespace GeoGen.Studio
 {
-    sealed public class HeightData: INotifyPropertyChanged
+    /// <summary>
+    /// Advanced WPF wrapper around <see cref="GeoGen.Net.HeightData">GeoGen height map</see>. Supports application of <see cref="Overlay">overlays</see>.
+    /// </summary>
+    sealed public class HeightData: ObservableObject, INotifyPropertyChanged
     {
         private GeoGen.Net.HeightData heightData;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         #region Properties
+        /// <summary>
+        /// Gets height in given tile.
+        /// </summary>
+        /// <value></value>
         public int this[int x, int y]{
             get
             {
@@ -21,10 +27,22 @@ namespace GeoGen.Studio
             }
         }
 
+        /// <summary>
+        /// Name associated with the height map.
+        /// </summary>
+        /// <value>The name.</value>
         public string Name {get;set;}
 
-        public string FileName { get; private set; }
+        /// <summary>
+        /// File from which was the height map loaded.
+        /// </summary>
+        /// <value>The name of the file.</value>
+        public string FileName { get; private set; }        
 
+        /// <summary>
+        /// Width and height of the map.
+        /// </summary>
+        /// <value>The size.</value>
         public Size Size
         {
             get
@@ -33,12 +51,16 @@ namespace GeoGen.Studio
             }
             set
             {                
-                this.heightData = HeightData.GetResizedHeightData(this.heightData, (int)this.Size.Width, (int) this.Size.Height);
+                this.heightData = HeightData.GetResizedHeightData(this.heightData, (int) value.Width, (int) value.Height);
                 this.RebuildImage(overlayOnly: false);
             }
         }
 
         private Overlay overlay;
+        /// <summary>
+        /// Gets or sets the <see cref="Overlay"/>.
+        /// </summary>
+        /// <value>The overlay.</value>
         public Overlay Overlay
         {
             get
@@ -52,10 +74,21 @@ namespace GeoGen.Studio
             }
         }
 
+        /// <summary>
+        /// Grayscale <see cref="ImageSource">image</see> of the height map.
+        /// </summary>
+        /// <value>The image.</value>
         public ImageSource Image {get; private set;}
 
+        /// <summary>
+        /// Colored <see cref="ImageSource">image</see> of the height map with applied <see cref="Overlay"/>.
+        /// </summary>
         public ImageSource BaseImage { get; private set; }
 
+        /// <summary>
+        /// Gets minimum height in the map.
+        /// </summary>
+        /// <value>The min.</value>
         public int Min
         {
             get
@@ -69,6 +102,10 @@ namespace GeoGen.Studio
             }
         }
 
+        /// <summary>
+        /// Maximum height in the map.
+        /// </summary>
+        /// <value>The max.</value>
         public int Max
         {
             get
@@ -83,6 +120,11 @@ namespace GeoGen.Studio
         }
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HeightData"/> class from passed <see cref="GeoGen.Net.HeightData">GeoGen heigh tmap</see> object.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="heightData">The height data.</param>
         public HeightData(string name, GeoGen.Net.HeightData heightData) {
             this.Overlay = new Overlay();
             this.Name = name;
@@ -91,6 +133,12 @@ namespace GeoGen.Studio
             this.RebuildImage(overlayOnly: false);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HeightData"/> class from passed height map file.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
         public HeightData(string path, double width, double height)
         {
             if (!File.Exists(path))
@@ -138,7 +186,7 @@ namespace GeoGen.Studio
 
                     for (int i = 0; i < bitmap.PixelWidth * bitmap.PixelHeight; i++)
                     {
-                        this.heightData[i] = (short)(((int)bytes[i * bytesPerPixel] - 128) * 255);
+                        this.heightData[i] = (short)((bytes[i * bytesPerPixel] - 128) * 255);
                     }
                 }
             }
@@ -166,6 +214,10 @@ namespace GeoGen.Studio
             return resized;
         }
 
+        /// <summary>
+        /// Rebuilds the image(s) provided by this height map.
+        /// </summary>
+        /// <param name="overlayOnly">if set to <c>true</c>, only the overlaid image will be regenerated.</param>
         public void RebuildImage(bool overlayOnly = true){
             if (this.heightData == null) return;
 
@@ -179,7 +231,7 @@ namespace GeoGen.Studio
                     bytes[i] = (byte)((this.heightData[i] / 256) + 128);
                 }
 
-                this.BaseImage = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Gray8, BitmapPalettes.Gray256, bytes, (int)this.heightData.Width);
+                this.BaseImage = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Gray8, BitmapPalettes.Gray256, bytes, this.heightData.Width);
             }
 
             if (this.Overlay == null) return;
@@ -213,6 +265,9 @@ namespace GeoGen.Studio
             this.Image = BitmapSource.Create(this.heightData.Width, this.heightData.Height, 96, 96, PixelFormats.Rgb24, BitmapPalettes.Halftone256, bytes, this.heightData.Width * 3);
         }
 
+        /// <summary>
+        /// Expands the values to full value range.
+        /// </summary>
         public void ExpandValuesToFullRange()
         {
             int min = this.Min;
@@ -233,14 +288,6 @@ namespace GeoGen.Studio
             for(int i = 0; i < this.heightData.Length; i++)
             {
                 this.heightData[i] = (short) (this.heightData[i] * ratio);
-            }
-        }
-
-        private void OnPropertyChanged(string info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
             }
         }
     }
