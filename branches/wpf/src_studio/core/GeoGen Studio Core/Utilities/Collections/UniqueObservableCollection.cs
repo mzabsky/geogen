@@ -35,11 +35,31 @@ namespace GeoGen.Studio.Utilities.Collections
             }
         }
 
-        public UniqueObservableQueue()
+        /// <summary>
+        /// Default capacity off the collection.
+        /// </summary>
+        /// <value>The default capacity.</value>
+        public static int DefaultCapacity
         {
-            this.Capacity = 20;
+            get
+            {
+                return 20;
+            }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UniqueObservableQueue&lt;TValue&gt;"/> class with default capacity (20).
+        /// </summary>
+        public UniqueObservableQueue()
+        {
+            this.Capacity = UniqueObservableQueue<TValue>.DefaultCapacity;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UniqueObservableQueue&lt;TValue&gt;"/> class.
+        /// </summary>
+        /// <param name="capacity">The capacity.</param>
+        /// <param name="comparer">The comparer.</param>
         public UniqueObservableQueue(int capacity = 20, IEqualityComparer<TValue> comparer = null)
         {
             this.values.Capacity = capacity;
@@ -47,6 +67,10 @@ namespace GeoGen.Studio.Utilities.Collections
             this.Comparer = comparer;
         }
 
+        /// <summary>
+        /// Adds new item to the collection. If that item already is in the collection, it will be moved to the first position. If the collection is full, the last item will be dropped.
+        /// </summary>
+        /// <param name="item">The item.</param>
         public virtual void Add(TValue item)
         {
             // The collection already contains the item - we will be only moving.            
@@ -56,14 +80,11 @@ namespace GeoGen.Studio.Utilities.Collections
                 TValue oldItem = default(TValue);
 
                 // Find the item in the array (cannot use IndexOf, because it doesn't support custom comparer).
-                foreach (TValue value in this.values)
+                foreach (TValue value in this.values.Where(value => this.Comparer.Equals(item, value)))
                 {
-                    if (this.Comparer.Equals(item, value))
-                    {
-                        oldIndex = values.IndexOf(value);
-                        oldItem = value;
-                        break;
-                    }
+                    oldIndex = values.IndexOf(value);
+                    oldItem = value;
+                    break;
                 }
 
                 // The item is already the first -> no need to do anything.
