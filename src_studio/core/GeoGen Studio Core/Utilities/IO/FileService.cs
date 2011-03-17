@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using GeoGen.Studio.PlugIns;
+using GeoGen.Studio.Utilities.Collections;
 using GeoGen.Studio.Utilities.Configurability;
 
 namespace GeoGen.Studio.Utilities.IO
