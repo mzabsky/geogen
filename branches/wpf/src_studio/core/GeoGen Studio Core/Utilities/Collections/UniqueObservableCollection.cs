@@ -17,6 +17,8 @@ namespace GeoGen.Studio.Utilities.Collections
 
         public int Capacity { get; private set; }
 
+        public IEqualityComparer<TValue> Comparer { get; private set; }
+
         public int Count
         {
             get
@@ -38,27 +40,44 @@ namespace GeoGen.Studio.Utilities.Collections
             this.Capacity = 20;
         }
 
-        public UniqueObservableQueue(int capacity)
+        public UniqueObservableQueue(int capacity = 20, IEqualityComparer<TValue> comparer = null)
         {
             this.values.Capacity = capacity;
             this.Capacity = capacity;
+            this.Comparer = comparer;
         }
 
         public virtual void Add(TValue item)
         {
             // The collection already contains the item - we will be only moving.            
-            if(values.Contains(item))
+            if(values.Contains(item, this.Comparer))
             {
-                int oldIndex = this.values.IndexOf(item);
+                int oldIndex = -1;
+                TValue oldItem = default(TValue);
+
+                // Find the item in the array (cannot use IndexOf, because it doesn't support custom comparer).
+                foreach (TValue value in this.values)
+                {
+                    if (this.Comparer.Equals(item, value))
+                    {
+                        oldIndex = values.IndexOf(value);
+                        oldItem = value;
+                        break;
+                    }
+                }
 
                 // The item is already the first -> no need to do anything.
                 if (oldIndex == 0) return;
 
-                values.Remove(item);
+                values.RemoveAt(oldIndex);
                 values.Insert(0, item);
 
                 this.OnCollectionChanged(
-                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, 0, oldIndex)
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, oldIndex)
+                    );
+
+                this.OnCollectionChanged(
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, 0)
                     );
 
                 return;
