@@ -38,6 +38,12 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
+        static ToolBarButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBarButton),
+                new FrameworkPropertyMetadata(typeof(ToolBarButton)));            
+        }
+
         public ToolBarButton(){}
 
         public ToolBarButton(object icon, double priority = 0, ICommand command = null, object toolTip = null)

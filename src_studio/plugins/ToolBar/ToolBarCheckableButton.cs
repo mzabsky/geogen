@@ -39,6 +39,12 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
+        static ToolBarCheckableButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBarCheckableButton),
+                new FrameworkPropertyMetadata(typeof(ToolBarCheckableButton)));            
+        }
+
         public ToolBarCheckableButton(){}
 
         public ToolBarCheckableButton(object icon, double priority = 0, ICommand command = null, object toolTip = null, bool isChecked = false, Binding isCheckedBinding = null, object dataContext = null)
