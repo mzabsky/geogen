@@ -3,6 +3,9 @@ using GeoGen.Studio.Utilities.Collections;
 
 namespace GeoGen.Studio.PlugIns
 {
+    /// <summary>
+    /// Implementation of main window toolbar.
+    /// </summary>
     public class MainWindowToolBar: ToolBar, IMainWindowToolBar, IPlugIn, IPriority
     {
         public double Priority

@@ -9,10 +9,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="26" d:DesignWidth="600"
              Name="toolBarControl"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             DataContext="{Binding ElementName=toolBarControl}">
     <ToolBarTray>
         <ToolBar ItemsSource="{Binding Items}" Name="toolBar" ToolBarTray.IsLocked="True" VerticalAlignment="Top" Height="26">
-            <ToolBar.ItemTemplateSelector>
+            <!--<ToolBar.ItemTemplateSelector>
                 <plugin:ToolBarItemTemplateSelector>
                     <plugin:ToolBarItemTemplateSelector.ToolBarButton>
                         <DataTemplate>
@@ -48,9 +48,14 @@
                         <DataTemplate>
                             <Rectangle Width="1" Height="19" Fill="DarkGray" Margin="2"></Rectangle>
                         </DataTemplate>
-                    </plugin:ToolBarItemTemplateSelector.ToolBarSeparator>                    
+                    </plugin:ToolBarItemTemplateSelector.ToolBarSeparator>
+                    <plugin:ToolBarItemTemplateSelector.ToolBarControl>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Content}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </plugin:ToolBarItemTemplateSelector.ToolBarControl>
                 </plugin:ToolBarItemTemplateSelector>
-            </ToolBar.ItemTemplateSelector>
+            </ToolBar.ItemTemplateSelector>-->
         </ToolBar>
     </ToolBarTray>
 </UserControl>

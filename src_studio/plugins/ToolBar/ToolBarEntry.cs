@@ -12,7 +12,7 @@ using System.Windows.Controls.Primitives;
 
 namespace GeoGen.Studio.PlugIns
 {
-    abstract public class ToolBarEntry : DependencyObject, IPriority
+    abstract public class ToolBarEntry : Control, IPriority
     {
         private static readonly DependencyProperty PriorityProperty = DependencyProperty.Register(
             "Priority", typeof(double), typeof(ToolBarEntry), new PropertyMetadata(0d));
