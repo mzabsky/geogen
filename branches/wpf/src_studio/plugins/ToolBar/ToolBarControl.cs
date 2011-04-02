@@ -1,8 +1,16 @@
+using System.Windows;
+
 namespace GeoGen.Studio.PlugIns
 {
     public class ToolBarControl: ToolBarEntry
     {
         public object Content { get; set; }
+
+        static ToolBarControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBarControl),
+                new FrameworkPropertyMetadata(typeof(ToolBarControl)));            
+        }
 
         public ToolBarControl() {}
 
