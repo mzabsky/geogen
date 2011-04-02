@@ -1,0 +1,13 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:PlugIns="clr-namespace:GeoGen.Studio.PlugIns"
+    >
+    <ControlTemplate TargetType="{x:Type PlugIns:ToolBarButton}" x:Key="toolBarButtonDefaultTemplate">
+        <Button><TextBlock>LOL</TextBlock></Button>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type PlugIns:ToolBarButton}">
+        <Setter Property="Control.Template" Value="{StaticResource toolBarButtonDefaultTemplate}"/>
+    </Style>
+</ResourceDictionary>

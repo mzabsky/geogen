@@ -8,6 +8,7 @@ namespace GeoGen.Studio.PlugIns
         public DataTemplate ToolBarCheckableButton { get; set; }
         public DataTemplate ToolBarButton { get; set; }
         public DataTemplate ToolBarSeparator { get; set; }
+        public DataTemplate ToolBarControl { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -22,6 +23,10 @@ namespace GeoGen.Studio.PlugIns
             else if (item is ToolBarSeparator)
             {
                 return ToolBarSeparator;
+            }
+            else if (item is ToolBarControl)
+            {
+                return ToolBarControl;
             }
             return base.SelectTemplate(item, container);
         }
