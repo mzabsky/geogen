@@ -1,22 +1,32 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace GeoGen.Studio.Utilities.Collections
 {
-    public class UniqueObservableQueue<TValue> : IEnumerable<TValue>, INotifyCollectionChanged
+    /// <summary>
+    /// Collection of unique records, provides update notifications. Has limited capacity - items from the back ot the collection will
+    /// be discarded when the capacity is reached.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
+    public class UniqueObservableQueue<TValue> : ICollection<TValue>, INotifyCollectionChanged
     {
-        protected List<TValue> values = new List<TValue>();
+        private readonly List<TValue> values = new List<TValue>();
 
+        /// <summary>
+        /// Occurs when the collection changes.
+        /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        /// <summary>
+        /// Capacity of the collection.
+        /// </summary>
         public int Capacity { get; private set; }
 
+        /// <summary>
+        /// Comparer used to detect duplicates in the collection.
+        /// </summary>
         public IEqualityComparer<TValue> Comparer { get; private set; }
 
         public int Count
@@ -27,6 +37,17 @@ namespace GeoGen.Studio.Utilities.Collections
             }
         }
 
+        public bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the value at the specified index.
+        /// </summary>
         public TValue this [int index]
         {
             get
@@ -123,12 +144,19 @@ namespace GeoGen.Studio.Utilities.Collections
                 );
         }
 
-        public virtual void Remove(TValue item)
+        public void CopyTo(TValue[] array, int arrayIndex)
         {
-            this.values.Remove(item);
+            this.values.CopyTo(array, arrayIndex);
+        }
+
+        public virtual bool Remove(TValue item)
+        {
+            bool result = this.values.Remove(item);
             this.OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item)
                 );
+
+            return result;
         }
 
         public virtual void Clear()
@@ -139,9 +167,14 @@ namespace GeoGen.Studio.Utilities.Collections
                 );
         }
 
+        public bool Contains(TValue item)
+        {
+            return this.values.Contains(item);
+        }
+
         public virtual IEnumerator<TValue> GetEnumerator()
         {
-            return new UniqueObservableQueueEnumerator(this);
+            return this.values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -154,67 +187,6 @@ namespace GeoGen.Studio.Utilities.Collections
             if (this.CollectionChanged != null)
             {
                 this.CollectionChanged(this, e);
-            }
-        }
-
-        [Serializable]
-        public sealed class UniqueObservableQueueEnumerator : IEnumerator<TValue>
-        {
-            // Fields
-            private readonly UniqueObservableQueue<TValue> collection;
-            private int index;
-
-            // Methods
-            internal UniqueObservableQueueEnumerator(UniqueObservableQueue<TValue> collection)
-            {
-                this.collection = collection;
-                this.index = -1;
-            }
-
-            public void Dispose()
-            {
-                this.index = -1;
-            }
-
-            public bool MoveNext()
-            {
-                if (this.index < this.collection.Count - 1)
-                {
-                    this.index++;
-                    return true;
-                }
-                this.index = this.collection.Count;
-                return false;
-            }
-
-            void IEnumerator.Reset()
-            {
-                this.index = -1;
-            }
-
-            // Properties
-            public TValue Current
-            {
-                get
-                {
-                    if ((this.index == -1) || (this.index == this.collection.Count))
-                    {
-                        throw new ArgumentException("Enumerator not initialized. Call MoveNext first.");
-                    }
-                    return this.collection[this.index];
-                }
-            }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    if ((this.index == -1) || (this.index == this.collection.Count))
-                    {
-                        throw new ArgumentException("Enumerator not initialized. Call MoveNext first.");
-                    }
-                    return this.collection[this.index];
-                }
             }
         }
     }
