@@ -9,7 +9,7 @@ namespace GeoGen.Studio.Utilities.Converters
     /// Converts an <see cref="object"/> to <see cref="Visibility"/>. Null will be converted to value Collapsed, any other string will be converted to Visible.
     /// </summary>
     [ValueConversion(typeof(object), typeof(Visibility))]
-    public class ObjectToVisibilityConverter : IValueConverter
+    public sealed class ObjectToVisibilityConverter : IValueConverter
     {
         private static readonly IValueConverter instance = new ObjectToVisibilityConverter();
         /// <summary>

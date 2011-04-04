@@ -8,7 +8,7 @@ namespace GeoGen.Studio.Utilities.Converters
     /// Converts a boolean value to a "Yes"/"No" string value.
     /// </summary>
     [ValueConversion(typeof(bool), typeof(String))]
-    public class BoolToYesNoConverter: IValueConverter
+    public sealed class BoolToYesNoConverter: IValueConverter
     {
         private static readonly IValueConverter instance = new BoolToYesNoConverter();
         /// <summary>
