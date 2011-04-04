@@ -9,7 +9,7 @@ namespace GeoGen.Studio.Utilities.Converters
     /// Converts a string to <see cref="Visibility"/>. Empty string (or null) will be converted to value Collapsed, any other string will be converted to Visible.
     /// </summary>
     [ValueConversion(typeof(string), typeof(Visibility))]
-    public class StringToVisibilityConverter : IValueConverter
+    public sealed class StringToVisibilityConverter : IValueConverter
     {
         private static readonly IValueConverter instance = new StringToVisibilityConverter();
         /// <summary>
@@ -28,7 +28,7 @@ namespace GeoGen.Studio.Utilities.Converters
         {
             try
             {
-                if (value == null || (string)value == "") return Visibility.Collapsed;
+                if (string.IsNullOrEmpty(value as string)) return Visibility.Collapsed;
                 
                 return Visibility.Visible;
             }
