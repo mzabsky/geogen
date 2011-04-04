@@ -104,7 +104,7 @@ namespace GeoGen.Studio.PlugInLoader
             PlugInAttribute plugInAttribute = Attribute.GetCustomAttribute(plugInType, typeof(PlugInAttribute)) as PlugInAttribute ?? new PlugInAttribute();
 
             // Use type name if the attribute didn't provide a nice name
-            this.Name = plugInAttribute.Name != "" ? plugInAttribute.Name : plugInType.Name;
+            this.Name = plugInAttribute.Name.Length > 0 ? plugInAttribute.Name : plugInType.Name;
 
             this.Description = plugInAttribute.Description;
 
