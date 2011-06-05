@@ -22,14 +22,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-namespace GeoGen_Studio
+using GeoGen.Net;
+
+namespace GeoGen.Studio
 {
     partial class Main
     {
         public System.Drawing.Image currentImage;
         public System.Drawing.Image currentImageWithOverlay;
         public string currentImportedFile = null;
-        public GGenNet.HeightData data;
+        public HeightData data;
 
         private int currentOverlayIndex;
 
@@ -95,7 +97,7 @@ namespace GeoGen_Studio
             }
         }
 
-        public System.Drawing.Bitmap ApplyOverlay(GGenNet.HeightData heights, System.Drawing.Bitmap overlayBitmap)
+        public System.Drawing.Bitmap ApplyOverlay(HeightData heights, System.Drawing.Bitmap overlayBitmap)
         {
             // prepare byte access to the overlay bitmap
             System.Drawing.Rectangle OverlayRect = new System.Drawing.Rectangle(0, 0, overlayBitmap.Width, overlayBitmap.Height);
@@ -210,7 +212,7 @@ namespace GeoGen_Studio
                     }
                     else
                     {
-                        this.data = (GGenNet.HeightData)this.maps[this.outputs.SelectedItem];
+                        this.data = (HeightData)this.maps[this.outputs.SelectedItem];
                     }
                     currentImage = HeightDataToBitmap(this.data);
                 }
@@ -327,7 +329,7 @@ namespace GeoGen_Studio
             }
         }
 
-        public static System.Drawing.Bitmap HeightDataToBitmap(GGenNet.HeightData data){
+        public static System.Drawing.Bitmap HeightDataToBitmap(HeightData data){
             // create a blank bitmap
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(data.Width, data.Height);
 
@@ -363,7 +365,7 @@ namespace GeoGen_Studio
         }
 
         // preserves 0 level!!!
-        public static void StretchHeightValues(ref GGenNet.HeightData data){
+        public static void StretchHeightValues(ref HeightData data){
             // find minimum and maximum values
             short max = short.MinValue;
             short min = short.MaxValue;
@@ -381,7 +383,7 @@ namespace GeoGen_Studio
             }
         }
 
-        public static void ScaleHeightValues(ref GGenNet.HeightData data, short newMin, short newMax)
+        public static void ScaleHeightValues(ref HeightData data, short newMin, short newMax)
         {
             // find minimum and maximum values
             int max = short.MinValue;
@@ -403,9 +405,9 @@ namespace GeoGen_Studio
             }
         }
 
-        public static GGenNet.HeightData GetResizedHeightData(GGenNet.HeightData data, int width, int height)
+        public static HeightData GetResizedHeightData(HeightData data, int width, int height)
         {
-            GGenNet.HeightData resized = new GGenNet.HeightData((UInt16)width, (UInt16)height);
+            HeightData resized = new HeightData((UInt16)width, (UInt16)height);
             
             // use nearest neighbor scaling algorithm
             for (int x = 0; x < width; x++)
@@ -419,10 +421,10 @@ namespace GeoGen_Studio
             return resized;
         }
 
-        public static GGenNet.HeightData LoadHeightmapFromImageFile(string path){
+        public static HeightData LoadHeightmapFromImageFile(string path){
             Config config = Main.Get().GetConfig();
             
-            GGenNet.HeightData heights;
+            HeightData heights;
             
             string ext = path.Substring(path.LastIndexOf('.'), path.Length - path.LastIndexOf('.')).ToLower();
 
@@ -435,7 +437,7 @@ namespace GeoGen_Studio
                 int width = reader.ReadInt32();
                 int height = reader.ReadInt32();
 
-                heights = new GGenNet.HeightData((UInt16) width,(UInt16) height);
+                heights = new HeightData((UInt16) width,(UInt16) height);
 
                 // read the double bytes containing the height data
                 for (int i = 0; i < width * height; i++)
@@ -465,7 +467,7 @@ namespace GeoGen_Studio
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
                 System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
-                heights = new GGenNet.HeightData((UInt16) bitmap.Width, (UInt16)bitmap.Height);
+                heights = new HeightData((UInt16) bitmap.Width, (UInt16)bitmap.Height);
 
                 // prepare memory space for the color data
                 byte[] bytes = new byte[data.Stride * bitmap.Height];
@@ -489,7 +491,7 @@ namespace GeoGen_Studio
                 bitmap.Dispose();
             }
 
-            GGenNet.HeightData heights2 = Main.GetResizedHeightData(heights, Math.Min(heights.Width, (int)config.mapDetailLevel), Math.Min(heights.Height, (int)config.mapDetailLevel));
+            HeightData heights2 = Main.GetResizedHeightData(heights, Math.Min(heights.Width, (int)config.mapDetailLevel), Math.Min(heights.Height, (int)config.mapDetailLevel));
 
             return heights2;
         }
@@ -516,7 +518,7 @@ namespace GeoGen_Studio
 
                     config.exportRescaleMode = export.subzeroMode2.Checked;
 
-                    GGenNet.HeightData toExport = Main.GetResizedHeightData(this.heightData, (int)export.width.Value, (int)export.height.Value);
+                    HeightData toExport = Main.GetResizedHeightData(this.heightData, (int)export.width.Value, (int)export.height.Value);
 
                     // rescale the values if necessary
                     if (ext != ".shd" && export.subzeroMode2.Checked) Main.ScaleHeightValues(ref toExport, 0, short.MaxValue - 1);

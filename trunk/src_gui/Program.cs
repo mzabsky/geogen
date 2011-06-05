@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio
 {
     static class Program
     {         
@@ -72,7 +72,7 @@ namespace GeoGen_Studio
             {                
 
                 // first of all, make sure the edited script is not lost
-                System.IO.File.WriteAllText("../emergencyBackup.nut", GeoGen_Studio.Main.Get().editorBackup);
+                System.IO.File.WriteAllText("../emergencyBackup.nut", GeoGen.Studio.Main.Get().editorBackup);
 
                 // also write the exception to disk
                 System.IO.File.WriteAllText("../exceptionInfo.txt", args.Exception.ToString());
@@ -80,14 +80,14 @@ namespace GeoGen_Studio
                 // hide the loading dialog (if it is displayed)
                 try
                 {
-                    GeoGen_Studio.Main.Get().loading.Hide();
+                    GeoGen.Studio.Main.Get().loading.Hide();
                 }
                 catch { }
 
 
                 Crash dialog = new Crash();
 
-                dialog.errorInfo.Text = GeoGen_Studio.Main.Get().ToString();
+                dialog.errorInfo.Text = GeoGen.Studio.Main.Get().ToString();
 
                 dialog.ShowDialog();
             }

@@ -20,7 +20,7 @@
 using System;
 using System.ComponentModel;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio
 {
     [System.Xml.Serialization.XmlInclude(typeof(Main.ActionAfterExectution))]
     [System.Xml.Serialization.XmlInclude(typeof(Main.ModelDetailLevel))]

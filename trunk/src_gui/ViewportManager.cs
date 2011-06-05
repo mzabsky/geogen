@@ -29,7 +29,9 @@ using OpenTK.Graphics.OpenGL;
 
 using System.Runtime.InteropServices;
 
-namespace GeoGen_Studio
+using GeoGen.Net;
+
+namespace GeoGen.Studio
 {
     public partial class Main
     {
@@ -86,7 +88,7 @@ namespace GeoGen_Studio
 
         public static string defaultTexture = "Overlay: TopoBathy.bmp";
 
-        public GGenNet.HeightData heightData;
+        public HeightData heightData;
 
         public System.Threading.Thread modelThread;
 
@@ -106,7 +108,7 @@ namespace GeoGen_Studio
 
         //private float heightScale = 8f;
 
-        private GGenNet.HeightData textureBase;
+        private HeightData textureBase;
         /*
         public float HeightScale
         {
@@ -246,7 +248,7 @@ namespace GeoGen_Studio
         {
             Config config = this.GetConfig();
 
-            GGenNet.HeightData data;
+            HeightData data;
 
             this.currentMap = this.outputs3d.SelectedIndex;
 
@@ -254,7 +256,7 @@ namespace GeoGen_Studio
 
             if (path_override == null)
             {
-                data = (GGenNet.HeightData)this.maps[this.outputs3d.SelectedItem];
+                data = (HeightData)this.maps[this.outputs3d.SelectedItem];
             }
             else
             {
@@ -300,7 +302,7 @@ namespace GeoGen_Studio
         }
 
 
-        public void SetTerrain(GGenNet.HeightData original){
+        public void SetTerrain(HeightData original){
             Config config = this.GetConfig();
 
             try
@@ -647,7 +649,7 @@ namespace GeoGen_Studio
                 // "Map: " type texture
                 else if (selected[0] == 'M')
                 {
-                    bitmap = Main.HeightDataToBitmap((GGenNet.HeightData)this.maps[selected.Substring(5, selected.Length - 5)]);
+                    bitmap = Main.HeightDataToBitmap((HeightData)this.maps[selected.Substring(5, selected.Length - 5)]);
                 }
 
                 if(config.EnableBlackCompensation) Main.ApplyBlackCompensation(ref bitmap);

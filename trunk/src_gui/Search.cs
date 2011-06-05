@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio
 {
     public partial class Search : Form
     {

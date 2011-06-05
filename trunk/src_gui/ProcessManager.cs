@@ -22,12 +22,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Linq;
 
-namespace GeoGen_Studio
+using GeoGen.Net;
+
+namespace GeoGen.Studio
 {
     public partial class Main
     {
-        private GGenNet ggen;
+        private Generator ggen;
 
         private enum Mode
         {
@@ -64,7 +67,7 @@ namespace GeoGen_Studio
 
             this.maps = new Hashtable();
 
-            this.ggen = new GGenNet();
+            this.ggen = new Generator();
 
             this.ggen.MapReturned += ReturnHandler;
             this.ggen.ProgressChanged += ProgressHandler;
@@ -107,10 +110,10 @@ namespace GeoGen_Studio
             this.benchmarkStatus = null;
         }
 
-        public void ReturnHandler(object sender, GGenNet.MapReturnedEventArgs e){
+        public void ReturnHandler(object sender, MapReturnedEventArgs e){
             Config config = Main.Get().GetConfig();
 
-            GGenNet.HeightData data = Main.GetResizedHeightData(e.HeightMap, Math.Min(e.HeightMap.Width, (int)config.mapDetailLevel), Math.Min(e.HeightMap.Height, (int)config.mapDetailLevel));
+            HeightData data = Main.GetResizedHeightData(e.HeightMap, Math.Min(e.HeightMap.Width, (int)config.mapDetailLevel), Math.Min(e.HeightMap.Height, (int)config.mapDetailLevel));
 
             e.HeightMap.Dispose();
 
@@ -119,7 +122,7 @@ namespace GeoGen_Studio
             this.maps.Add(e.Label, data);
         }
 
-        public void ProgressHandler(object sender, GGenNet.ProgressEventArgs e)
+        public void ProgressHandler(object sender, ProgressEventArgs e)
         {
             this.Invoke(new MethodInvoker(delegate()
             {
@@ -128,7 +131,7 @@ namespace GeoGen_Studio
             }));
         }
 
-        public void PrintHandler(object sender, GGenNet.MessageEventArgs e)
+        public void PrintHandler(object sender, MessageEventArgs e)
         {
             this.Invoke(new MethodInvoker(delegate
             {
@@ -136,10 +139,10 @@ namespace GeoGen_Studio
 
                 switch (e.Level)
                 {
-                    case GGenNet.MessageLevel.Error: level = "Error"; break;
-                    case GGenNet.MessageLevel.Warning: level = "Warning"; break;
-                    case GGenNet.MessageLevel.Message: level = "Message"; break;
-                    case GGenNet.MessageLevel.Notice: level = "Notice"; break;
+                    case MessageLevel.Error: level = "Error"; break;
+                    case MessageLevel.Warning: level = "Warning"; break;
+                    case MessageLevel.Message: level = "Message"; break;
+                    case MessageLevel.Notice: level = "Notice"; break;
                 }
 
                 if (this.mode == Mode.Standard) this.WriteToConsole(level + ": " + e.Message);
@@ -171,7 +174,7 @@ namespace GeoGen_Studio
 
             foreach (DictionaryEntry data in this.maps)
             {
-                ((GGenNet.HeightData) data.Value).Dispose();
+                ((HeightData) data.Value).Dispose();
             }
 
             this.maps.Clear();
@@ -258,7 +261,7 @@ namespace GeoGen_Studio
                     {
                         ggen.SetScript(script);
                     }
-                    catch (GGenNet.SyntaxErrorException)
+                    catch (SyntaxErrorException)
                     {
                         this.MapGenerationFailed("Compilation failed!");
 
@@ -269,7 +272,7 @@ namespace GeoGen_Studio
                     {
                         ggen.LoadArgs();
                     }
-                    catch (GGenNet.ArgsUnreadableException)
+                    catch (ArgsUnreadableException)
                     {
                         this.MapGenerationFailed("Map header is unreadable!");
 
@@ -282,46 +285,79 @@ namespace GeoGen_Studio
                         // no list of arguments was passed to the function -> use params from the param table
                         if (parameters == null)
                         {
-                            int i = 0;
+                            var zipped = this.parameters.Item.Cast<PropertyGridEx.CustomProperty>().Zip(ggen.Args, (Property, Arg) => new { Property, Arg });
+
+                            foreach (var item in zipped)
+                            {
+                                // fill in only matching arguments
+                                if (item.Property.Type.Name == "Boolean" && item.Arg.Type == ScriptArgType.Bool)
+                                {
+                                    item.Arg.Value = (uint)item.Property.Value;
+                                }
+
+                                else if (item.Property.Type.Name == "UInt32" && item.Arg.Type == ScriptArgType.Int)
+                                {
+                                    item.Arg.Value = (uint)item.Property.Value;
+                                }
+                                else if (item.Property.Type.Name == "Int32" && item.Arg.Type == ScriptArgType.Int)
+                                {
+                                    item.Arg.Value = (uint)((int)item.Property.Value);
+                                }
+                                else if (item.Property.Type.Name == "String" && item.Arg.Type == ScriptArgType.Enum)
+                                {
+                                    item.Arg.Value = (uint)item.Property.Choices.IndexOf(item.Property.Value);
+                                }
+                            }
+
+                            /*int i = 0;
                             foreach (PropertyGridEx.CustomProperty property in this.parameters.Item)
                             {
-                                GGenNet.ScriptArg arg = ggen.Args[i];
+                                
+                                
+                                Generator.ScriptArg arg = ggen.Args[i];
 
                                 // we ran out of parameters...
-                                if (i == ggen.Args.Length)
+                                if (i == ggen.Args.Count())
                                 {
                                     break;
                                 }
 
                                 // fill in only matching arguments
-                                if (property.Type.Name == "Boolean" && arg.Type == GGenNet.ScriptArgType.Bool)
+                                if (property.Type.Name == "Boolean" && arg.Type == ScriptArgType.Bool)
                                 {
                                     arg.Value = (uint)property.Value;
                                 }
 
-                                else if (property.Type.Name == "UInt32" && arg.Type == GGenNet.ScriptArgType.Int)
+                                else if (property.Type.Name == "UInt32" && arg.Type == ScriptArgType.Int)
                                 {
                                     arg.Value = (uint)property.Value;
                                 }
-                                else if (property.Type.Name == "Int32" && arg.Type == GGenNet.ScriptArgType.Int)
+                                else if (property.Type.Name == "Int32" && arg.Type == ScriptArgType.Int)
                                 {
                                     arg.Value = (uint)((int)property.Value);
                                 }
-                                else if (property.Type.Name == "String" && arg.Type == GGenNet.ScriptArgType.Enum)
+                                else if (property.Type.Name == "String" && arg.Type == ScriptArgType.Enum)
                                 {
                                     arg.Value = (uint)property.Choices.IndexOf(property.Value);
                                 }
 
                                 i++;
-                            }
+                            }*/
                         }
                         // the argument list was passed to the function
                         else
                         {
-                            int i = 0;
+                            var zipped = parameters.Zip(ggen.Args, (Param, Arg) => new { Param, Arg });
+
+                            foreach (var item in zipped)
+                            {
+                                item.Arg.Value = item.Param;
+                            }
+
+                            /*int i = 0;
                             foreach (uint currentParam in parameters)
                             {
-                                GGenNet.ScriptArg arg = ggen.Args[i];
+                                Generator.ScriptArg arg = ggen.Args[i];
 
                                 // we ran out of parameters...
                                 if (i == ggen.Args.Length)
@@ -332,12 +368,12 @@ namespace GeoGen_Studio
                                 arg.Value = currentParam;
 
                                 i++;
-                            }
+                            }*/
                         }
 
                         this.startTime = System.DateTime.Now.Ticks / 10000;
 
-                        GGenNet.HeightData result;
+                        HeightData result;
                         try
                         {
                             if (this.config.seed == 0)
@@ -351,7 +387,7 @@ namespace GeoGen_Studio
 
                             result = ggen.Generate();
                         }
-                        catch (GGenNet.GenerationFailedException)
+                        catch (GenerationFailedException)
                         {
                             this.MapGenerationFailed("Map generation failed!");
 
@@ -359,7 +395,7 @@ namespace GeoGen_Studio
                         }
 
                         // map was generated successfully
-                        GGenNet.HeightData result2 = Main.GetResizedHeightData(result, Math.Min(result.Width, (int)config.mapDetailLevel), Math.Min(result.Height, (int)config.mapDetailLevel));
+                        HeightData result2 = Main.GetResizedHeightData(result, Math.Min(result.Width, (int)config.mapDetailLevel), Math.Min(result.Height, (int)config.mapDetailLevel));
 
                         result.Dispose();
 
@@ -395,7 +431,7 @@ namespace GeoGen_Studio
                         }));
                     }
                 }
-                catch (GGenNet.InternalErrorException e)
+                catch (InternalErrorException e)
                 {
                     this.WriteToConsole("Error: " + e.InnerException.Message);
                     this.MapGenerationFailed("GeoGen has unexpectedly crashed!");
@@ -455,28 +491,28 @@ namespace GeoGen_Studio
             this.parameters.Item.Clear();
 
             int i = 0;
-            foreach (GGenNet.ScriptArg arg in ggen.Args)
+            foreach (ScriptArg arg in ggen.Args)
             {
                 PropertyGridEx.CustomProperty property = null;
 
-                if (arg.Type == GGenNet.ScriptArgType.Bool)
+                if (arg.Type == ScriptArgType.Bool)
                 {
                     property = new PropertyGridEx.CustomProperty(arg.Label, arg.Default == 1 ? true : false, false, "Script parameters:", arg.Description, true);
 
                     if (oldValues.Length > i) property.Value = oldValues[i] == 1 ? true : false;
                 }
-                else if (arg.Type == GGenNet.ScriptArgType.Int)
+                else if (arg.Type == ScriptArgType.Int)
                 {
                     property = new PropertyGridEx.CustomProperty(arg.Label, (UInt32) arg.Default, false, "Script parameters:", arg.Description, true);
 
                     if (oldValues.Length > i) property.Value = (uint) (Math.Max(Math.Min(oldValues[i], arg.Maximum), arg.Minimum));
                 }
-                else if (arg.Type == GGenNet.ScriptArgType.Enum)
+                else if (arg.Type == ScriptArgType.Enum)
                 {
-                    property = new PropertyGridEx.CustomProperty(arg.Label, arg.Options[arg.Default], false, "Script parameters:", arg.Description, true);
-                    property.Choices = new PropertyGridEx.CustomChoices(arg.Options, false);
+                    property = new PropertyGridEx.CustomProperty(arg.Label, arg.Options.ElementAt((int) arg.Default), false, "Script parameters:", arg.Description, true);
+                    property.Choices = new PropertyGridEx.CustomChoices(arg.Options.ToArray(), false);
 
-                    if (oldValues.Length > i) property.Value = arg.Options.Length > oldValues[i] ? arg.Options[oldValues[i]] : arg.Options[arg.Default];
+                    if (oldValues.Length > i) property.Value = arg.Options.Count() > oldValues[i] ? arg.Options.ElementAt((int)oldValues[i]) : arg.Options.ElementAt((int)arg.Default);
                 }
 
                 if (property != null)
