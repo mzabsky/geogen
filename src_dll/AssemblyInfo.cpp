@@ -28,12 +28,12 @@ using namespace System::Security::Permissions;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly:AssemblyTitleAttribute("GeoGen .NET")];
-[assembly:AssemblyDescriptionAttribute(".NET Wrapper for Geogen - an open-source procedural heightmap generator.")];
+[assembly:AssemblyTitleAttribute("GeoGen .Net")];
+[assembly:AssemblyDescriptionAttribute(".Net Wrapper for Geogen - an open-source procedural heightmap generator.")];
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("Matìj Zábský")];
-[assembly:AssemblyProductAttribute("GeoGen .NET")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c) Matìj Zábský 2010")];
+[assembly:AssemblyProductAttribute("GeoGen .Net")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) Matìj Zábský 2011")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 
@@ -55,3 +55,5 @@ using namespace System::Security::Permissions;
 [assembly:CLSCompliantAttribute(true)];
 
 [assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
+
+[assembly:RuntimeCompatibilityAttribute(WrapNonExceptionThrows = true)];

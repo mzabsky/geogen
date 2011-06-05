@@ -106,13 +106,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src_dll\AssemblyInfo.cpp" />
-    <ClCompile Include="..\src_dll\GeoGen NET.cpp" />
+    <ClCompile Include="..\src_dll\Generator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="GeoGen DLL.vcxproj">
       <Project>{1f6b5205-6feb-42f8-9dc7-7f8c2bf84165}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src_dll\EventArgs.h" />
+    <ClInclude Include="..\src_dll\Exception.h" />
+    <ClInclude Include="..\src_dll\HeightData.h" />
+    <ClInclude Include="..\src_dll\ScriptArg.h" />
+    <ClInclude Include="..\src_dll\StringUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
