@@ -13,7 +13,7 @@ using System.Windows.Forms.Integration;
 using ICSharpCode.AvalonEdit.Utils;
 using System.Windows.Controls.Primitives;
 
-namespace GeoGen_Studio
+namespace GeoGen.Studio
 {
     public class GGenMethod : ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData
     {

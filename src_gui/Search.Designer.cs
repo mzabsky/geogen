@@ -1,4 +1,4 @@
-﻿namespace GeoGen_Studio
+﻿namespace GeoGen.Studio
 {
     partial class Search
     {
