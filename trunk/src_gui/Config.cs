@@ -210,9 +210,9 @@ namespace GeoGen.Studio
         private void Serialize(string file, Config config)
         {
             // make sure the config directory exists
-            if (!System.IO.Directory.Exists("../config"))
+            if (!System.IO.Directory.Exists(Program.BasePath + "/config"))
             {
-                System.IO.Directory.CreateDirectory("../config");
+                System.IO.Directory.CreateDirectory(Program.BasePath + "/config");
             }
 
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(Config));
@@ -246,9 +246,9 @@ namespace GeoGen.Studio
         private void LoadDefaults() 
         { 
             /* Basic settings */
-            templateFile = "./../examples/template.nut";
+            templateFile = Program.BasePath + "/examples/template.nut";
             openLastFileOnStartup = true;
-            lastFile = "../examples/";
+            lastFile = Program.BasePath + "/examples/";
             lastImportedFile = "";
             lastExportedFile = "";
             lastImportedTexture = "";
@@ -271,18 +271,18 @@ namespace GeoGen.Studio
 
             /* Execution settings */
             actionAfterExec = Main.ActionAfterExectution.GoTo3DOutput;
-            geoGenPath = "../bin/geogen.exe";
-            geoGenWorkingDirectory = "../temp/studio_maps/temp";
-            scriptTempFile = "../../studio_temp.nut";
-            mainMapOutputFile = "../main.shd";
+            geoGenPath = Program.BasePath + "/bin/geogen.exe";
+            geoGenWorkingDirectory = Program.BasePath + "/temp/studio_maps/temp";
+            scriptTempFile = Program.BasePath + "/studio_temp.nut";
+            mainMapOutputFile = Program.BasePath + "/main.shd";
             maxMapSize = 6000;
             maxMapCount = 15;
 
             /* Output Viewer settings */
-            overlayDirectory = "../overlays";
+            overlayDirectory = Program.BasePath + "/overlays";
 
             /* Documentation Viewer settings */
-            documentationPath = "../documentation.html";
+            documentationPath = Program.BasePath + "/documentation.html";
 
             /* 3D view */
             modelDetailLevel = Main.ModelDetailLevel.Medium_512x512Polygons;
@@ -298,7 +298,7 @@ namespace GeoGen.Studio
         public void Save()
         {
             Main.Get().SaveInterfaceSettings();
-            Serialize("../config/studio.xml", this);
+            Serialize(Program.BasePath + "/config/studio.xml", this);
         }
 
         public static void Load()
@@ -308,7 +308,7 @@ namespace GeoGen.Studio
             // try to load the config
             try
             {
-                Config c = Deserialize("../config/studio.xml");
+                Config c = Deserialize(Program.BasePath + "/config/studio.xml");
 
                 main.config = c;
 
@@ -324,7 +324,7 @@ namespace GeoGen.Studio
                 main.config = c;
 
                 // save the newly created cofig
-                c.Serialize("../config/studio.xml", c);
+                c.Serialize(Program.BasePath + "/config/studio.xml", c);
             }
         }
     }

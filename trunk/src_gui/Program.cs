@@ -24,7 +24,14 @@ using System.Windows.Forms;
 namespace GeoGen.Studio
 {
     static class Program
-    {         
+    {
+
+#if DEBUG
+        public static readonly string BasePath = "../";
+#else
+        public static readonly string BasePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/GeoGen/";
+#endif
+ 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -72,10 +79,10 @@ namespace GeoGen.Studio
             {                
 
                 // first of all, make sure the edited script is not lost
-                System.IO.File.WriteAllText("../emergencyBackup.nut", GeoGen.Studio.Main.Get().editorBackup);
+                System.IO.File.WriteAllText(Program.BasePath + "/emergencyBackup.nut", GeoGen.Studio.Main.Get().editorBackup);
 
                 // also write the exception to disk
-                System.IO.File.WriteAllText("../exceptionInfo.txt", args.Exception.ToString());
+                System.IO.File.WriteAllText(Program.BasePath + "/exceptionInfo.txt", args.Exception.ToString());
 
                 // hide the loading dialog (if it is displayed)
                 try

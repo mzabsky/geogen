@@ -202,7 +202,7 @@ namespace GeoGen.Studio
 
             try
             {
-                System.IO.StreamReader reader = System.IO.File.OpenText("../config/apidata.xml");
+                System.IO.StreamReader reader = System.IO.File.OpenText(Program.BasePath + "/config/apidata.xml");
 
                 GGenAPIData apiData = (GGenAPIData) xs.Deserialize(reader);
 
