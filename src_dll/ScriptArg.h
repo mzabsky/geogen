@@ -114,35 +114,39 @@ namespace GeoGen{
 
             ScriptArg(){}
         internal:			
-            ScriptArg(GGen_ScriptArg* unmanagedArg){
+            static ScriptArg^ CreateFromNative(GGen_ScriptArg* unmanagedArg){
+                ScriptArg^ newObject = gcnew ScriptArg();
+                
                 switch(unmanagedArg->type){
                 case GGEN_BOOL: 
-                    this->type = ScriptArgType::Bool; 
+                    newObject->type = ScriptArgType::Bool; 
                     break;
                 case GGEN_INT: 
-                    this->type = ScriptArgType::Int; 
+                    newObject->type = ScriptArgType::Int; 
                     break;
                 case GGEN_ENUM: 
-                    this->type = ScriptArgType::Enum; 
+                    newObject->type = ScriptArgType::Enum; 
                     break;
                 default:
                     throw gcnew System::InvalidOperationException("Invalid ScriptArg type.");
                 }
 
-                name = StringUtil::UnmanagedToManagedString(unmanagedArg->name);
-                label = StringUtil::UnmanagedToManagedString(unmanagedArg->label);
-                description = StringUtil::UnmanagedToManagedString(unmanagedArg->description);
+                newObject->name = StringUtil::UnmanagedToManagedString(unmanagedArg->name);
+                newObject->label = StringUtil::UnmanagedToManagedString(unmanagedArg->label);
+                newObject->description = StringUtil::UnmanagedToManagedString(unmanagedArg->description);
 
-                default = unmanagedArg->default_value;
-                maximum = unmanagedArg->max_value;
-                minimum = unmanagedArg->min_value;
-                value = unmanagedArg->default_value;
+                newObject->default = unmanagedArg->default_value;
+                newObject->maximum = unmanagedArg->max_value;
+                newObject->minimum = unmanagedArg->min_value;
+                newObject->value = unmanagedArg->default_value;
 
-                options = gcnew array<System::String^>(unmanagedArg->options.size());
+                newObject->options = gcnew array<System::String^>(unmanagedArg->options.size());
 
                 for(unsigned i = 0; i < unmanagedArg->options.size(); i++){
-                    options[i] = StringUtil::UnmanagedToManagedString(unmanagedArg->options[i]);
+                    newObject->options[i] = StringUtil::UnmanagedToManagedString(unmanagedArg->options[i]);
                 }
+
+                return newObject;
             }
         };
     }

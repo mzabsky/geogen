@@ -131,19 +131,21 @@ namespace GeoGen{
             }
 
         internal:
-            HeightData(unsigned short width, unsigned short height, const short* data){
-                this->width = width;
-                this->height = height;
-                this->length = width * height;
+            static HeightData^ CreateFromNative(unsigned short width, unsigned short height, const short* data){
+                HeightData^ newObject = gcnew HeightData(width, height);
 
-                this->data = new short[(unsigned int) this->length];
+                newObject->width = width;
+                newObject->height = height;
+                newObject->length = width * height;
 
                 try{
-                    memcpy(this->data, data, (unsigned int) this->length * sizeof(short));
+                    memcpy(newObject->data, data, (unsigned int) newObject->length * sizeof(short));
                 }
                 catch(System::Exception^){
                     throw gcnew OutOfMemoryException;
                 }
+
+                return newObject;
             }
         };
     }
