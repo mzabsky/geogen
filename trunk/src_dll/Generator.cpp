@@ -251,7 +251,7 @@ namespace GeoGen{
 				this->args = gcnew array<ScriptArg^>(unmanagedArgs->size());
 
 				for(unsigned i = 0; i < unmanagedArgs->size(); i++){
-					this->args[i] = gcnew ScriptArg(&(*unmanagedArgs)[i]);
+					this->args[i] = ScriptArg::CreateFromNative(&(*unmanagedArgs)[i]);
 				}
 
 				return this->args;
@@ -300,7 +300,7 @@ namespace GeoGen{
 					return nullptr;
 				}
 
-				HeightData^ heightData = gcnew HeightData(ggen->output_width, ggen->output_height, pureData);
+				HeightData^ heightData = HeightData::CreateFromNative(ggen->output_width, ggen->output_height, pureData);
 
 				GGen_DeleteNativeArrayPtr(pureData);
 
@@ -328,7 +328,7 @@ namespace GeoGen{
 
 			void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
 				try{
-					this->MapReturned(this, %MapReturnedEventArgs(StringUtil::UnmanagedToManagedString(name), gcnew HeightData(width, height, map)));
+					this->MapReturned(this, %MapReturnedEventArgs(StringUtil::UnmanagedToManagedString(name), HeightData::CreateFromNative(width, height, map)));
 				}
 				catch(System::Exception^ e){
 					throw gcnew ExceptionInCallbackException(e);
