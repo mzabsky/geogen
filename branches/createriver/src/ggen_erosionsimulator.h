@@ -64,6 +64,6 @@ class GGen_ErosionSimulator{
 		void Erode(GGen_Data_2D& ggenHeightMap);
 		void ApplyWaterSources(double* waterMap);
 		void ApplyEvaporation(double* waterMap);
-		void ApplyFlowSimulation(double* heightMap, double* waterMap, double* sedimentMap, GGen_OutflowValues* outflowFluxMap, GGen_VelocityVector* velocityVectorMap );
+		void ApplyFlowSimulation(double* heightMap, double* waterMap, GGen_OutflowValues* outflowFluxMap, GGen_VelocityVector* velocityVectorMap );
 		void ApplyErosion(double* heightMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap);
 };
