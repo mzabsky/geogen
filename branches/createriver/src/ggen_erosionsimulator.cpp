@@ -146,13 +146,14 @@ double GGen_ErosionSimulator::GetSurfaceTilt(double* heightMap, GGen_Coord x, GG
 
 void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 {	
-	this->deltaT = 0.005;
+	this->deltaT = 0.01;
 	this->pipeLength = 1;
 	this->graviationalAcceleration = 9.7;
 	this->sedimentCapacityConstant = 5;
 	this->dissolvingConstant = 0.2;
 	this->depositionConstant = 0.2;
 	this->minimumComputedSurfaceTilt = 0.2;
+    this->talusAngle = 0.1;
 
 	double* heightMap = ImportHeightMap(ggenHeightMap);
 	ExportHeightMap(heightMap, ggenHeightMap);
@@ -244,6 +245,8 @@ void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 		//memcpy(waterMap, waterMap3, this->length * sizeof(double));
 
 		//delete [] waterMap3;
+
+        this->ApplyThermalWeathering(heightMap, 2);
 
 		this->ApplyEvaporation(waterMap);	
 
@@ -1205,4 +1208,148 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 
 	//delete [] sedimentMapCopy;
 	delete [] sedimentToMoveMap;
+}
+
+void GGen_ErosionSimulator::ApplyThermalWeathering(double* heightMap, double powerMultiplier){
+    //GGen_ThermalWeatheringValues* weatheringData = new GGen_ThermalWeatheringValues[this->length];
+    //memset(weatheringData, 0, this->length * sizeof(GGen_ThermalWeatheringValues));
+
+    double* heightMapCopy = new double[this->length];
+    memcpy(heightMapCopy, heightMap, this->length * sizeof(double));
+
+    for(GGen_Coord y = 0; y < this->height; y++){
+		for(GGen_Coord x = 0; x < this->width; x++){
+			GGen_Index currentIndex = x + this->width * y;
+            double currentHeight = heightMap[currentIndex];
+
+            double heightDiffTopLeft = 0;
+            double heightDiffTop = 0;
+            double heightDiffTopRight = 0;
+            double heightDiffRight = 0;
+            double heightDiffBottomLeft = 0;
+            double heightDiffBottom = 0;
+            double heightDiffBottomRight = 0;
+            double heightDiffLeft = 0;
+
+            if(y > 0){
+                if(x > 0){
+                    heightDiffTopLeft = currentHeight - heightMapCopy[currentIndex - this->width - 1];
+                }
+
+                heightDiffTop = currentHeight - heightMapCopy[currentIndex - this->width];
+
+                if(x < this->width - 1){
+                    heightDiffTopRight = currentHeight - heightMapCopy[currentIndex - this->width + 1];
+                }
+            }
+
+            if(x < this->width - 1){
+                heightDiffRight = currentHeight - heightMapCopy[currentIndex + 1];
+            }
+
+            if(y < this->height - 1){
+                if(x > 0){
+                    heightDiffBottomLeft = currentHeight - heightMapCopy[currentIndex + this->width - 1];
+                }
+
+                heightDiffBottom = currentHeight - heightMapCopy[currentIndex + this->width];
+
+                if(x < this->width - 1){
+                    heightDiffBottomRight = currentHeight - heightMapCopy[currentIndex + this->width + 1];
+                }
+            }
+
+            if(x > 0){
+                heightDiffLeft = currentHeight - heightMapCopy[currentIndex - 1];
+            }
+
+            double maxHeightDiff = 0;
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffTopLeft);
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffTop);
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffTopRight);
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffRight);
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffBottomLeft);
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffBottom);
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffBottomRight);
+            maxHeightDiff = MAX(maxHeightDiff, heightDiffLeft);
+
+            if(maxHeightDiff < this->talusAngle)
+            {
+                continue;
+            }
+
+            double amountToTransport = maxHeightDiff / 2 * this->deltaT * powerMultiplier;
+
+            double totalTransportableAmount = 0;
+
+            if(heightDiffTopLeft >= this->talusAngle){
+                totalTransportableAmount += heightDiffTopLeft;
+            }
+
+            if(heightDiffTop >= this->talusAngle){
+                totalTransportableAmount += heightDiffTop;
+            }
+
+            if(heightDiffTopRight >= this->talusAngle){
+                totalTransportableAmount += heightDiffTopRight;
+            }
+
+            if(heightDiffRight >= this->talusAngle){
+                totalTransportableAmount += heightDiffRight;
+            }
+
+            if(heightDiffBottomLeft >= this->talusAngle){
+                totalTransportableAmount += heightDiffBottomLeft;
+            }
+
+            if(heightDiffBottom >= this->talusAngle){
+                totalTransportableAmount += heightDiffBottom;
+            }
+
+            if(heightDiffBottomRight >= this->talusAngle){
+                totalTransportableAmount += heightDiffBottomRight;
+            }
+
+            if(heightDiffLeft >= this->talusAngle){
+                totalTransportableAmount += heightDiffLeft;
+            }
+
+            heightMap[currentIndex] -= amountToTransport;
+
+            if(y > 0){
+                if(x > 0){
+                    heightMap[currentIndex - this->width - 1] += amountToTransport * heightDiffTopLeft / totalTransportableAmount;
+                }
+
+                heightMap[currentIndex - this->width] += amountToTransport * heightDiffTop / totalTransportableAmount;
+
+                if(x < this->width - 1){
+                    heightMap[currentIndex - this->width + 1] += amountToTransport * heightDiffTopRight / totalTransportableAmount;
+                }
+            }
+
+            if(x < this->width - 1){
+                heightMap[currentIndex + 1] += amountToTransport * heightDiffRight / totalTransportableAmount;
+            }
+
+            if(y < this->height - 1){
+                if(x > 0){
+                    heightMap[currentIndex + this->width - 1] += amountToTransport * heightDiffBottomLeft / totalTransportableAmount;
+                }
+
+                heightMap[currentIndex + this->width] += amountToTransport * heightDiffBottom / totalTransportableAmount;
+
+                if(x < this->width - 1){
+                    heightMap[currentIndex + this->width + 1] += amountToTransport * heightDiffBottomLeft / totalTransportableAmount;
+                }
+            }
+
+            if(x > 0){
+                heightMap[currentIndex - 1] += amountToTransport * heightDiffLeft / totalTransportableAmount;
+            }
+        }
+    }
+
+    //delete [] weatheringData;
+    delete [] heightMapCopy;
 }

@@ -40,6 +40,17 @@ struct GGen_OutflowValues{
 	double bottom;
 };
 
+struct GGen_ThermalWeatheringValues{
+    double topLeft;
+    double top;
+    double topRight;
+    double right;
+    double bottomRight;
+    double bottom;
+    double bottomLeft;
+    double left;
+};
+
 /**
  * GGen_Path represents a continuous linear sequence of GGen_Point objects.
  **/
@@ -55,6 +66,7 @@ class GGen_ErosionSimulator{
 		double dissolvingConstant;
 		double depositionConstant;
 		double minimumComputedSurfaceTilt;
+        double talusAngle;
 	public:
 		GGen_ErosionSimulator(GGen_Size width, GGen_Size height);
 		double* ImportHeightMap(GGen_Data_2D& heightMap);
@@ -66,4 +78,5 @@ class GGen_ErosionSimulator{
 		void ApplyEvaporation(double* waterMap);
 		void ApplyFlowSimulation(double* heightMap, double* waterMap, GGen_OutflowValues* outflowFluxMap, GGen_VelocityVector* velocityVectorMap );
 		void ApplyErosion(double* heightMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap);
+        void ApplyThermalWeathering(double* heightMap, double powerMultiplier = 1);
 };
