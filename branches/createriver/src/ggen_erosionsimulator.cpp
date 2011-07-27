@@ -146,15 +146,15 @@ double GGen_ErosionSimulator::GetSurfaceTilt(double* heightMap, GGen_Coord x, GG
 
 void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 {	
-	this->deltaT = 0.02;
+	this->deltaT = 0.015;
 	this->pipeLength = 1;
     this->pipeCrossectionArea = 20;
 	this->graviationalAcceleration = 9.7;
-	this->sedimentCapacityConstant = 1;
-	this->dissolvingConstant = 0.5;
-	this->depositionConstant = 1;
+	this->sedimentCapacityConstant = 5;
+	this->dissolvingConstant = 2;
+	this->depositionConstant = 4;
 	this->minimumComputedSurfaceTilt = 0.1;
-    this->talusAngle = 0.1;
+    this->talusAngle = 0.2;
 
 	double* heightMap = ImportHeightMap(ggenHeightMap);
 	ExportHeightMap(heightMap, ggenHeightMap);
@@ -217,10 +217,10 @@ void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 
 		// Clone the water map.
 
-		if((round % 10 == 0) && (round < roundCount / 2)) {
+		//if((round % 10 == 0) && (round < roundCount / 2)) {
 			this->ApplyWaterSources(waterMap);
-			cout << "W";
-		}
+			//cout << "W";
+		//}
 
 		//double* waterMap3 = new double[this->length];
 		//memcpy(waterMap3, waterMap, this->length * sizeof(double));
@@ -283,8 +283,8 @@ void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 		//memcpy(waterMap, waterMap3, this->length * sizeof(double));
 
 		//delete [] waterMap3;
-
-        //this->ApplyThermalWeathering(heightMap, 0.5);
+        
+        this->ApplyThermalWeathering(heightMap, 0.4);
 
 		this->ApplyEvaporation(waterMap);	
 
@@ -353,7 +353,7 @@ void GGen_ErosionSimulator::ApplyWaterSources(double* waterMap)
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
             //if(x % 20  == 0 || y % 20 == 0){
-            waterMap[x + y * this->width] += 5.1 * this->deltaT;
+            waterMap[x + y * this->width] += 1.5 * this->deltaT;
             //}
 		}
 	}
@@ -363,7 +363,7 @@ void GGen_ErosionSimulator::ApplyEvaporation( double* waterMap )
 {
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){			
-			waterMap[x + y * this->width] *= 0.99;
+			waterMap[x + y * this->width] *= 0.985;
 		}
 	}
 }
@@ -538,8 +538,8 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
             ///velocityVectorMap[x + width * y].x /= waterAverage * this->pipeLength;
             //velocityVectorMap[x + width * y].y /= waterAverage * this->pipeLength;
 
-            if(velocityVectorMap[x + width * y].x > 1 || velocityVectorMap[x + width * y].y > 1){
-                //cout << "e";
+            if(velocityVectorMap[x + width * y].x * this->deltaT > 1 || velocityVectorMap[x + width * y].y * this->deltaT > 1){
+                cout << "e";
             }
 		}
 	}
@@ -667,7 +667,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
             }
 
             if(sedimentCapacity < -10 ||sedimentCapacity > 10){
-                cout << "e";
+                //cout << "e";
             }
 
 			if(sedimentCapacity < 0){
@@ -757,12 +757,13 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 			//currentVelocityVector.x *= -1; // TODO: Vyzkouset to bez toho
 			//currentVelocityVector.y *= -1;
 
-			GGen_CoordOffset coordinateOffsetX = (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT);//currentVelocityVector.x > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.x * this->deltaT);
-			GGen_CoordOffset coordinateOffsetY = (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT); //currentVelocityVector.y > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.y * this->deltaT);
-			GGen_Coord baseCoordinateX = x - coordinateOffsetX;
-			GGen_Coord baseCoordinateY = y - coordinateOffsetY;
-			double coordinatePartX = currentVelocityVector.x * this->deltaT - coordinateOffsetX;
-			double coordinatePartY = currentVelocityVector.y * this->deltaT - coordinateOffsetY;	
+			GGen_CoordOffset coordinateOffsetX = currentVelocityVector.x < 0 ? -1 : 0;//floor(currentVelocityVector.x * this->deltaT);//currentVelocityVector.x > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.x * this->deltaT);
+            GGen_CoordOffset coordinateOffsetY = currentVelocityVector.y < 0 ? -1 : 0;//floor(currentVelocityVector.y * this->deltaT);//currentVelocityVector.y > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.y * this->deltaT);
+            GGen_CoordOffset baseCoordinateX = x + coordinateOffsetX;
+            GGen_CoordOffset baseCoordinateY = y + coordinateOffsetY;
+            double coordinatePartX = currentVelocityVector.x * this->deltaT - coordinateOffsetX;
+            double coordinatePartY = currentVelocityVector.y * this->deltaT - coordinateOffsetY;	
+
 
 			/*if(coordinatePartX < 0){
 				coordinatePartX += 1;
@@ -829,7 +830,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 			}
 
 			if(sedimentSum * sedimentWeightSum > 10){
-				cout << "e";
+				//cout << "e";
 			}
 
             if(sedimentSum < 0){
