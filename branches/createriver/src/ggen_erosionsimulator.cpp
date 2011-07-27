@@ -146,13 +146,14 @@ double GGen_ErosionSimulator::GetSurfaceTilt(double* heightMap, GGen_Coord x, GG
 
 void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 {	
-	this->deltaT = 0.01;
+	this->deltaT = 0.02;
 	this->pipeLength = 1;
+    this->pipeCrossectionArea = 20;
 	this->graviationalAcceleration = 9.7;
-	this->sedimentCapacityConstant = 10;
-	this->dissolvingConstant = 0.1;
-	this->depositionConstant = 0.1;
-	this->minimumComputedSurfaceTilt = 0.2;
+	this->sedimentCapacityConstant = 1;
+	this->dissolvingConstant = 0.5;
+	this->depositionConstant = 1;
+	this->minimumComputedSurfaceTilt = 0.1;
     this->talusAngle = 0.1;
 
 	double* heightMap = ImportHeightMap(ggenHeightMap);
@@ -203,7 +204,10 @@ void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 
 	cout << "Initial Average Height " << (sum / this->length) << endl;
 
-    double* flowSizeMap = new double[this->length];
+    double* combinedMap = new double[this->length];
+    //double* flowSizeMap = new double[this->length];
+    //double* flowXMap = new double[this->length];
+    //double* flowYMap = new double[this->length];
 
 	int roundCount = 500;
 	for(int round = 0; round < roundCount; round++){
@@ -238,18 +242,41 @@ void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 
 	    exportMap.ReturnAs(ss.str());
 
-        this->ApplyErosion(heightMap, velocityVectorMap, sedimentMap);
+        this->ApplyErosion(heightMap, waterMap, velocityVectorMap, sedimentMap);
         
         for(int i = 0; i < this->length; i++){
-            flowSizeMap[i] = heightMap[i] + waterMap[i]; //sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
+            combinedMap[i] = heightMap[i] + waterMap[i]; //sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
+            //flowSizeMap[i] = sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
+            //flowXMap[i] = velocityVectorMap[i].x;
+            //flowYMap[i] = velocityVectorMap[i].y;
         }
 
-        this->ExportHeightMap(flowSizeMap, exportMap);
+        this->ExportHeightMap(combinedMap, exportMap);
         wstringstream ss3;
         ss3 << GGen_Const_String("combinedMapProgress");
         ss3 << round;
+        exportMap.ReturnAs(ss3.str());
 
-	    exportMap.ReturnAs(ss3.str());
+        /*this->ExportHeightMap(flowSizeMap, exportMap);
+        wstringstream ss4;
+        ss4 << GGen_Const_String("flowSizeMapProgress");
+        ss4 << round;
+        exportMap.ReturnAs(ss4.str());
+
+        this->ExportHeightMap(flowXMap, exportMap);
+        wstringstream ss5;
+        ss5 << GGen_Const_String("flowXMapProgress");
+        ss5 << round;
+        exportMap.ReturnAs(ss5.str());
+
+        this->ExportHeightMap(flowYMap, exportMap);
+        wstringstream ss6;
+        ss6 << GGen_Const_String("flowYMapProgress");
+        ss6 << round;
+        exportMap.ReturnAs(ss6.str());*/
+
+
+	    
 
 		delete [] velocityVectorMap;
 
@@ -257,7 +284,7 @@ void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 
 		//delete [] waterMap3;
 
-        this->ApplyThermalWeathering(heightMap, 0.5);
+        //this->ApplyThermalWeathering(heightMap, 0.5);
 
 		this->ApplyEvaporation(waterMap);	
 
@@ -319,89 +346,6 @@ void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
 	
 
 	return;
-
-	// Calculate normal map.
-	/*GGen_Data_2D* normalMap = heightMap.Clone();
-	normalMap->NormalMap();
-
-	// Build an erosion data array from the rainfall and height maps
-	GGen_ErosionPointData* erosionData = new GGen_ErosionPointData[heightMap.length];
-	
-	for(GGen_Index i = 0; i < heightMap.length; i++){
-		erosionData[i].height = heightMap.data[i];
-		erosionData->waterAmount = 5;
-		erosionData->sedimentAmount = 0;
-		erosionData->vectorX = 0;
-		erosionData->vectorY = 0;
-	}
-
-	// Repeat until the number of tiles with non-zero water value is lower than a set threshold
-	uint32 tileWithWaterCount = heightMap.length;
-	while(tileWithWaterCount > 0){
-		// Create a copy the erosion data array and the height map itself (operations on individual tiles will modify neighboring tiles) 	
-		GGen_ErosionPointData* erosionDataCopy = new GGen_ErosionPointData[heightMap.length];		
-		memcpy(erosionDataCopy, erosionData, heightMap.length * sizeof(GGen_ErosionPointData));
-
-		// For every tile until the number of tiles with non-zero water value is greater than a threshold number.
-		for(GGen_Coord y = 0; y < heightMap.height; y++){
-			for(GGen_Coord x = 0; x < heightMap.width; x++){
-				GGen_Index tileIndex = x + y * heightMap.width;
-				double currentTileFlowForce = sqrt(erosionData[tileIndex].vectorX * erosionData[tileIndex].vectorX + erosionData[tileIndex].vectorY * erosionData[tileIndex].vectorY);
-
-				// Don't bother with the tile if there is no water there.
-				if(erosionData[tileIndex].waterAmount < minimumWaterAmount){
-					continue;
-				}
-
-				// Calculate modification of the flow vector from terrain shape.				
-				double terrainVectorX = GGen_GetVectorX(normalMap->data[tileIndex], currentTileFlowForce);
-				double terrainVectorY = GGen_GetVectorY(normalMap->data[tileIndex], currentTileFlowForce);
-				erosionDataCopy[tileIndex].vectorX += terrainVectorX;
-				erosionDataCopy[tileIndex].vectorY += terrainVectorY;
-
-				// Update the flow force (the flow vector has changed when terrain shape modification was applied)
-				currentTileFlowForce = sqrt(erosionDataCopy[tileIndex].vectorX * erosionDataCopy[tileIndex].vectorX + erosionData[tileIndex].vectorY * erosionData[tileIndex].vectorY);
-
-				// Calculate the height change from sedimentation/erosion.
-				// TODO: A CO PRO 0?????
-				double sedimentCapacity = currentTileFlowForce * sedimentCarriedPerUnitOfForce;
-				double sedimentChange = 0;
-				if(erosionData[tileIndex].sedimentAmount > sedimentCapacity){
-					// The flow is carrying too much sediment, some of it must be released
-					sedimentChange = MAX(sedimentCapacity - erosionData[tileIndex].sedimentAmount, -currentTileFlowForce * sedimentReleasedPerUnitOfForce);
-				}
-				else {
-					// The flow can carry some more material
-					sedimentChange = MIN(sedimentCapacity - erosionData[tileIndex].sedimentAmount, currentTileFlowForce * sedimentPickedPerUnitOfForce);
-				}
-
-				erosionData[tileIndex].sedimentAmount += sedimentChange;
-				erosionData[tileIndex].height -= sedimentChange;
-				
-				// Build a list of tiles, in which will the water spread.
-				int asd = 5;
-				asd += 5;
-				queue<int> spreadIndexList();
-				//spreadIndexList.back();
-				if(currentTileFlowForce == 0){
-					//spreadIndexList.push(tileIndex - heightMap.width - 1);
-				}
-
-				// Spread the water into all tiles in the spread list.
-					// Calculate the amount of water and sediment carried into target tile.
-					// Add the water and sediment values to the target tile.
-					// Modify the target tile's flow vector using the vector sum formula (significance of each vector is determined by flow amount ratio).
-				// Modify the height change from sedimentation/erosion.
-			}
-		}
-	}
-	// Apply the height changes from the erosion data array onto the main height array.  				
-	// Initialize the wavefront queue.
-	// Convert the data from the erosion data array into the wavefront queue
-	// Until the wavefront is empty
-		// Pretty much the same as above.
-
-	*/
 }
 
 void GGen_ErosionSimulator::ApplyWaterSources(double* waterMap)
@@ -409,7 +353,7 @@ void GGen_ErosionSimulator::ApplyWaterSources(double* waterMap)
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
             //if(x % 20  == 0 || y % 20 == 0){
-            waterMap[x + y * this->width] += 1.1 * this->deltaT;
+            waterMap[x + y * this->width] += 5.1 * this->deltaT;
             //}
 		}
 	}
@@ -429,15 +373,6 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 	double* waterMapCopy  = new double[this->length];
 	memcpy(waterMapCopy, waterMap, this->length * sizeof(double));
 
-	double sumWater = 0;
-	for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; x++){
-			sumWater += waterMap[x + this->width * y];
-		}
-	}
-
-	//cout << "Sum water (before): " << (int) sumWater << endl;
-
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
 			GGen_Index currentIndex = x + this->width * y;
@@ -450,25 +385,25 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 			// Calculate outflow values for individual directions.
 			if(x > 0){
 				double heightDifference = currentHeight + waterMapCopy[currentIndex] - heightMap[currentIndex - 1] - waterMapCopy[currentIndex - 1];
-				double flowValue = outflowFluxMap[currentIndex].left + this->deltaT * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
+				double flowValue = outflowFluxMap[currentIndex].left + this->deltaT * this->pipeCrossectionArea * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
 				outflowFluxMap[currentIndex].left = MAX(0, flowValue);
 			}
 
 			if(x + 1 < this->width){
 				double heightDifference = currentHeight + waterMapCopy[currentIndex] - heightMap[currentIndex + 1] - waterMapCopy[currentIndex + 1];
-				double flowValue = outflowFluxMap[currentIndex].right + this->deltaT * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
+				double flowValue = outflowFluxMap[currentIndex].right + this->deltaT * this->pipeCrossectionArea * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
 				outflowFluxMap[currentIndex].right = MAX(0, flowValue);
 			}
 
 			if(y > 0){
                 double heightDifference = currentHeight + waterMapCopy[currentIndex] - heightMap[currentIndex - this->width] - waterMapCopy[currentIndex - this->width];
-				double flowValue = outflowFluxMap[currentIndex].top + this->deltaT * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
+				double flowValue = outflowFluxMap[currentIndex].top + this->deltaT * this->pipeCrossectionArea * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
 				outflowFluxMap[currentIndex].top = MAX(0, flowValue);
 			}
 
 			if(y + 1 < this->height){
                 double heightDifference = currentHeight + waterMapCopy[currentIndex] - heightMap[currentIndex + this->width] - waterMapCopy[currentIndex + this->width];
-				double flowValue = outflowFluxMap[currentIndex].bottom + this->deltaT * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
+				double flowValue = outflowFluxMap[currentIndex].bottom + this->deltaT * this->pipeCrossectionArea * (this->graviationalAcceleration * heightDifference) / this->pipeLength;
 				outflowFluxMap[currentIndex].bottom = MAX(0, flowValue);
 			}
 
@@ -504,166 +439,6 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 		}		
 	}
 
-    /*GGen_OutflowValues* outflowFluxMapCopy  = new GGen_OutflowValues[this->length];
-    memcpy(outflowFluxMapCopy, outflowFluxMap, this->length * sizeof(GGen_OutflowValues));
-
-    for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; x++){
-            GGen_Index currentIndex = x + this->width * y;
-            double currentHeight = heightMap[currentIndex];
-            
-            // Update water level using outflow and inflow information from surrounding cells.
-			double sumOutflow = 
-				outflowFluxMapCopy[currentIndex].left + 
-				outflowFluxMapCopy[currentIndex].right + 
-				outflowFluxMapCopy[currentIndex].top + 
-				outflowFluxMapCopy[currentIndex].bottom;
-
-			double sumInflow = 0;
-			if(x > 0){
-				sumInflow += outflowFluxMapCopy[currentIndex - 1].right;
-			}
-
-			if(x + 1 < this->width){
-				sumInflow += outflowFluxMapCopy[currentIndex + 1].left;
-			}
-
-			if(y > 0){
-				sumInflow += outflowFluxMapCopy[currentIndex - this->width].bottom;
-			}
-
-			if(y + 1 < this->height){
-				sumInflow += outflowFluxMapCopy[currentIndex + this->width].top;
-			}
-		
-            double oldWaterLevel =  waterMap[currentIndex];
-			double newWaterLevel = waterMap[currentIndex] + (this->deltaT * (sumInflow - sumOutflow)) / (this->pipeLength * this->pipeLength);
-
-            double leftContributionOverflow = 0;
-            double rightContributionOverflow = 0;
-            double topContributionOverflow = 0;
-            double bottomContributionOverflow = 0;
-
-            if(x > 0 && outflowFluxMapCopy[currentIndex - 1].right > 0){
-                leftContributionOverflow = currentHeight + newWaterLevel - heightMap[currentIndex - 1] - waterMap[currentIndex - 1];
-                leftContributionOverflow = MAX(0, leftContributionOverflow);
-            }
-
-            if(x < this->width - 1 && outflowFluxMapCopy[currentIndex + 1].left > 0){
-                rightContributionOverflow = currentHeight + newWaterLevel - heightMap[currentIndex + 1] - waterMap[currentIndex + 1];
-                rightContributionOverflow = MAX(0, rightContributionOverflow);
-            }
-
-            if(y > 0 && outflowFluxMapCopy[currentIndex - this->width].bottom > 0){
-                topContributionOverflow = currentHeight + newWaterLevel - heightMap[currentIndex - this->width] - waterMap[currentIndex - this->width];
-                topContributionOverflow = MAX(0, topContributionOverflow);
-            }
-
-            if(y < this->height - 1 && outflowFluxMapCopy[currentIndex + this->width].top > 0){
-                bottomContributionOverflow = currentHeight + newWaterLevel - heightMap[currentIndex + this->width] - waterMap[currentIndex + this->width];
-                bottomContributionOverflow = MAX(0, bottomContributionOverflow);
-            }
-
-            double totalContributionOverflow = 
-                leftContributionOverflow + 
-                rightContributionOverflow +
-                topContributionOverflow + 
-                bottomContributionOverflow;
-
-            double sumInflow2 = 0;
-			if(x > 0 && leftContributionOverflow > 0){
-				sumInflow2 += outflowFluxMapCopy[currentIndex - 1].right;
-			}
-
-			if(x + 1 < this->width && rightContributionOverflow > 0){
-				sumInflow2 += outflowFluxMapCopy[currentIndex + 1].left;
-			}
-
-			if(y > 0 && topContributionOverflow > 0){
-				sumInflow2 += outflowFluxMapCopy[currentIndex - this->width].bottom;
-			}
-
-			if(y + 1 < this->height && bottomContributionOverflow > 0){
-				sumInflow2 += outflowFluxMapCopy[currentIndex + this->width].top;
-			}
-
-            double factor = 1 - (sumInflow2 != 0 ? (totalContributionOverflow / sumInflow2) : 0);
-
-            //factor = MIN(1, MAX(factor, 0));
-            factor = MAX(factor, 0);
-
-            if(factor > 1 || factor < 0){
-                cout << "E";
-            }
-
-            if(factor != 1 && factor != 0){
-                //cout << "R";
-            }
-
-
-            if(factor > 0){
-                if(x > 0 && leftContributionOverflow > 0){
-				    outflowFluxMap[currentIndex - 1].right *= factor; // sem taky outflowFluxMapCopy?
-			    }
-
-			    if(x + 1 < this->width && rightContributionOverflow > 0){
-				    outflowFluxMap[currentIndex + 1].left *= factor;
-			    }
-
-			    if(y > 0 && topContributionOverflow > 0){
-				    outflowFluxMap[currentIndex - this->width].bottom *= factor;
-			    }
-
-			    if(y + 1 < this->height && bottomContributionOverflow > 0){
-				    outflowFluxMap[currentIndex + this->width].top *= factor;
-			    }
-            }
-            else{
-                if(x > 0 && leftContributionOverflow > 0){
-				    outflowFluxMap[currentIndex].left += outflowFluxMap[currentIndex - 1].right * factor * -1; // sem taky outflowFluxMapCopy?
-                    outflowFluxMap[currentIndex - 1].right = 0;
-			    }
-
-			    if(x + 1 < this->width && rightContributionOverflow > 0){
-				    outflowFluxMap[currentIndex].right += outflowFluxMap[currentIndex + 1].left * factor * -1;
-                    outflowFluxMap[currentIndex + 1].left = 0;
-			    }
-
-			    if(y > 0 && topContributionOverflow > 0){
-				    outflowFluxMap[currentIndex].top += outflowFluxMap[currentIndex - this->width].bottom * factor * -1;
-                    outflowFluxMap[currentIndex - this->width].bottom = 0;
-			    }
-
-			    if(y + 1 < this->height && bottomContributionOverflow > 0){
-				    outflowFluxMap[currentIndex].bottom += outflowFluxMap[currentIndex + this->width].top * factor * -1;
-                    outflowFluxMap[currentIndex + this->width].top = 0;
-			    }
-            }
-
-            if(factor != 1){
-                //cout << "R";
-            }
-
-   //         if(x > 0){
-			//	outflowFluxMap[currentIndex - 1].right *= factor;
-			//}
-
-			//if(x + 1 < this->width){
-			//	outflowFluxMap[currentIndex + 1].left *= factor;
-			//}
-
-			//if(y > 0){
-			//	outflowFluxMap[currentIndex - this->width].bottom *= factor;
-			//}
-
-			//if(y + 1 < this->height){
-			//	outflowFluxMap[currentIndex + this->width].top *= factor;
-			//}
-        }
-    }
-
-    delete [] outflowFluxMapCopy;*/
-
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
 			GGen_Index currentIndex = x + this->width * y;
@@ -695,21 +470,14 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
             double oldWaterLevel =  waterMapCopy[currentIndex];
 			double newWaterLevel = waterMapCopy[currentIndex] + (this->deltaT * (sumInflow - sumOutflow)) / (this->pipeLength * this->pipeLength);
 
-            if(oldWaterLevel - newWaterLevel != 0){
-                //cout << "A";
-            }
-
 			waterMap[currentIndex] = MAX(0, newWaterLevel);
             double waterAverage = (oldWaterLevel + waterMap[currentIndex]) / 2;
 
-			if((int)waterMap[currentIndex] < 0){
+			if(waterMap[currentIndex] < 0){
 				cout << 'E';
 			}
 
 			// The velocity field must be updated
-
-
-            // TODO: PROVÌØIT - ZDE MUZE PRAMENIT AXIAL BIAS
 
 			// Horizontal (x-axis) velocity field vector component
 			if(x == 0) {
@@ -771,68 +539,30 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
             //velocityVectorMap[x + width * y].y /= waterAverage * this->pipeLength;
 
             if(velocityVectorMap[x + width * y].x > 1 || velocityVectorMap[x + width * y].y > 1){
-                cout << "e";
+                //cout << "e";
             }
-
-			//cout << "Change[" << x <<","<<y<<"] " << (this->deltaT * (sumInflow - sumOutflow)) / (this->pipeLength * this->pipeLength) << endl;
-			//Sleep(100);
 		}
 	}
-
-	sumWater = 0;
-	double sumVelocity = 0;
-	for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; x++){
-			sumWater += waterMap[x + this->width * y];
-			sumVelocity += sqrt(velocityVectorMap[x + y * this->width].x * velocityVectorMap[x + y * this->width].x + velocityVectorMap[x + y * this->width].y * velocityVectorMap[x + y * this->width].y);
-
-			if((int)sumWater < 0){
-		cout << 'E';
-			}
-		}
-	}
-
-	sumVelocity /= this->length;
-
-	if((int)sumWater < 0){
-		cout << 'E';
-	}
-
-	//cout << "Sum water (after): " << (int) sumWater << endl;
-	//cout << "Average velocity (after): " << sumVelocity << endl;
 
 	delete [] waterMapCopy;
 }
 
-void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap )
+void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap )
 {
-	//double* sedimentMapCopy = new double[this->length];
-	//memcpy(sedimentMapCopy, sedimentMap, this->length * sizeof(double));
-
 	double* sedimentToMoveMap = new double[this->length];
     double* tiltMap = new double[this->length];
 
-	/*for(GGen_Index i = 0; i < this->length; i++){
-		sedimentMap[i] = 0;
-	}*/
-
-	// Update sediment amount carried by water in the current tile
-	cout << "capacities: ";
-	double capacitySum = 0;
+	// Update sediment amount carried by water in the current tile	
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
 			GGen_Index currentIndex = x + this->width * y;
-			//GGen_VelocityVector currentVelocityVector = velocityVectorMap[currentIndex];
 
-			//double velocityVectorLength = sqrt(currentVelocityVector.x + currentVelocityVector.x + currentVelocityVector.y + currentVelocityVector.y);
-
-			/* Sediment's location will be changed by the velocity vector's coordinates. But since velocity vector
-			 * might not be a whole number, the target coordinate likely won't be located on the map grid. The sediment
-			 * will be added proportionally to all four surrounding grid points. */ 
+            sedimentToMoveMap[currentIndex] = 0;
 
             GGen_VelocityVector currentVelocityVector = velocityVectorMap[currentIndex];
 
-            //GGen_Script_Assert(currentVelocityVector.x < 1 && currentVelocityVector.x > -1 && currentVelocityVector.y < 1 && currentVelocityVector.y > -1)
+            			//currentVelocityVector.x *= -1;
+			//currentVelocityVector.y *= -1;
 
             GGen_CoordOffset coordinateOffsetX = currentVelocityVector.x < 0 ? -1 : 0;//floor(currentVelocityVector.x * this->deltaT);//currentVelocityVector.x > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.x * this->deltaT);
             GGen_CoordOffset coordinateOffsetY = currentVelocityVector.y < 0 ? -1 : 0;//floor(currentVelocityVector.y * this->deltaT);//currentVelocityVector.y > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.y * this->deltaT);
@@ -850,11 +580,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 				coordinatePartY += 1;
 			}
 
-			/*if(coordinatePartX > 1 || coordinatePartY > 1 || coordinatePartX < 0 || coordinatePartY < 0){
-				cout << "E";
-			}*/
-
-			// Calculate current height of the target point (it will likely to be interpolated from 4 surrounding points).
+			// Calculate current height of the target point (it will likely have to be interpolated from 4 surrounding points).
 			
 			// Top left point.
 			double heightSum = 0;
@@ -906,13 +632,6 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 					heightWeightSum += currentWeight;
 			}
 
-            // TODO: KOREKTNI VZOREC PRO VAZENY PRUMER
-
-			/*if(heightWeightSum == 0){
-				// 
-				continue;
-			}*/
-
 			if(heightWeightSum == 0){
 				cout << "e";
 			}
@@ -920,15 +639,11 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 			double targetPointHeightDiff = heightSum / heightWeightSum - heightMap[currentIndex];
 			//double targetPointDistance = sqrt(coordinatePartX * coordinatePartX + coordinatePartY * coordinatePartY);
 
-
-            // VYPLEPSIT ANGLE CALCULATION - ABY BRALA VEKTOR V POTAZ
-            double velocityVectorLength = sqrt(velocityVectorMap[currentIndex].x * velocityVectorMap[currentIndex].x + velocityVectorMap[currentIndex].y * velocityVectorMap[currentIndex].y) * this->deltaT;
-
-            
+            double velocityVectorLength = sqrt(velocityVectorMap[currentIndex].x * velocityVectorMap[currentIndex].x + velocityVectorMap[currentIndex].y * velocityVectorMap[currentIndex].y);// * this->deltaT;            
 
 			double surfaceTilt;
             
-
+            //TODO: co s timhle if(targetPointHeightDiff < 0) continue;
 
             if(velocityVectorLength > 0){
                 surfaceTilt = atan2(targetPointHeightDiff, velocityVectorLength);//1 - sin(this->GetSurfaceTilt(heightMap, x, y));
@@ -938,17 +653,14 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
             }
 
             tiltMap[x + this->width * y] = surfaceTilt;
+            
 
             //surfaceTilt = 1;
 
-			double sedimentCapacity = this->sedimentCapacityConstant * MAX(0.2, surfaceTilt) * velocityVectorLength;
+            surfaceTilt = MAX(0.2, surfaceTilt);
+
+			double sedimentCapacity = this->sedimentCapacityConstant * surfaceTilt * velocityVectorLength;
 			double sedimentToMove = 0;
-
-            if(x == 199 && y == 0){
-                cout << "e";
-            }
-
-            //cout << sedimentCapacity << endl;
 
             if(surfaceTilt < -4 || surfaceTilt > 4){
                 cout << "e";
@@ -962,17 +674,11 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 				cout << "e";
 			}
 
-			capacitySum += sedimentCapacity;
-
-            if(capacitySum < 0){
-                cout << "e";
-            } 
-
-            if(capacitySum != capacitySum){
+            if(sedimentCapacity != sedimentCapacity){
                 cout << "e";
             }
 
-			if(sedimentMap[currentIndex] == 0 &&  sedimentCapacity == 0) {
+			if(sedimentMap[currentIndex] == 0 &&  sedimentCapacity <= 0) {
 				sedimentToMoveMap[currentIndex] = 0;
 				continue;
 			};
@@ -993,27 +699,35 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 
 			//if(sedimentChange < )
 
+
+
 			double sedimentChange;
 			if(sedimentCapacity > sedimentMap[currentIndex]) {
 				// The water can carry more sediment - some sediment will be picked up
-				sedimentChange = this->dissolvingConstant * (sedimentCapacity - sedimentMap[currentIndex]);
+				sedimentChange = this->dissolvingConstant * this->deltaT * (sedimentCapacity - sedimentMap[currentIndex]);
 
-				if(sedimentChange > 10){
+				if(sedimentChange > 1 || sedimentChange != sedimentChange){
 					cout << "e";
 				}
+                
 
 				heightMap[currentIndex] -= sedimentChange;
+                waterMap[currentIndex] += sedimentChange;
 				sedimentToMove = sedimentMap[currentIndex] + sedimentChange;
 			}
 			else if(sedimentCapacity < sedimentMap[currentIndex]){
 				// The water is over saturated with sediment - some sediment will be deposited
-				sedimentChange = this->depositionConstant * (sedimentMap[currentIndex] - sedimentCapacity);
+				sedimentChange = this->depositionConstant * this->deltaT * (sedimentMap[currentIndex] - sedimentCapacity);
 
-				if(sedimentChange > 10){
+				if(sedimentChange > 1 || sedimentChange != sedimentChange){
 					cout << "e";
 				}
 
 				heightMap[currentIndex] += sedimentChange;
+                waterMap[currentIndex] -= sedimentChange;                
+                if(waterMap[currentIndex] < 0){
+                    waterMap[currentIndex] = 0;
+                }
 
 				sedimentToMove = sedimentMap[currentIndex] - sedimentChange;
 			}
@@ -1040,8 +754,8 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 			if(sedimentToMoveMap[currentIndex] == 0) continue;			
 
 			// we are doing a step backwards in time, so inverse vector has to be used
-			currentVelocityVector.x *= -1;
-			currentVelocityVector.y *= -1;
+			//currentVelocityVector.x *= -1; // TODO: Vyzkouset to bez toho
+			//currentVelocityVector.y *= -1;
 
 			GGen_CoordOffset coordinateOffsetX = (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT);//currentVelocityVector.x > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.x * this->deltaT);
 			GGen_CoordOffset coordinateOffsetY = (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT); //currentVelocityVector.y > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.y * this->deltaT);
@@ -1073,7 +787,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 				baseCoordinateY < this->height &&
 				y >= -coordinateOffsetY
 				){
-					double currentWeight = coordinatePartX * coordinatePartY;
+					double currentWeight = (1 - coordinatePartX) * (1 - coordinatePartY);
 					sedimentSum += sedimentToMoveMap[baseCoordinateX + this->width * baseCoordinateY] * currentWeight;
 					sedimentWeightSum += currentWeight;
 			}
@@ -1085,7 +799,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 				baseCoordinateY < this->height &&
 				y >= -coordinateOffsetY
 				){
-					double currentWeight = (1 - coordinatePartX) * coordinatePartY;
+					double currentWeight = coordinatePartX * (1 - coordinatePartY);
 					sedimentSum += sedimentToMoveMap[baseCoordinateX + 1 + this->width * baseCoordinateY] * currentWeight;
 					sedimentWeightSum += currentWeight;
 			}
@@ -1097,7 +811,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 				baseCoordinateY + 1 < this->height &&
 				y + 1 >= -coordinateOffsetY
 				){
-					double currentWeight = coordinatePartX * (1 - coordinatePartY);
+					double currentWeight = (1 - coordinatePartX) * coordinatePartY;
 					sedimentSum += sedimentToMoveMap[baseCoordinateX + this->width * (baseCoordinateY + 1)] * currentWeight;
 					sedimentWeightSum += currentWeight;
 			}
@@ -1109,7 +823,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 				baseCoordinateY + 1 < this->height &&
 				y + 1 >= -coordinateOffsetY
 				){
-					double currentWeight = (1 - coordinatePartX) * (1 - coordinatePartY);
+					double currentWeight = coordinatePartX * coordinatePartY;
 					sedimentSum += sedimentToMoveMap[baseCoordinateX + 1 + this->width * (baseCoordinateY + 1)] * currentWeight;
 					sedimentWeightSum += currentWeight;
 			}
@@ -1118,23 +832,17 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, GGen_VelocityVector
 				cout << "e";
 			}
 
-            /*if(x > 100 && y > 100){
-                cout << "E";
-            }*/
+            if(sedimentSum < 0){
+                cout << "e";
+            }
 
 			sedimentMap[currentIndex] = sedimentWeightSum > 0 ? sedimentSum / sedimentWeightSum : 0;
+
+            /*if(sedimentMap[currentIndex] > 1){
+                cout << "e";
+            }*/
 		}
 	}
-
-    GGen_Data_2D exportMap(this->width, this->height, 0);
-    this->ExportHeightMap(tiltMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("tiltMap"));
-
-    if(capacitySum != capacitySum){
-        cout << "e" << endl;
-    }
-
-	cout << (capacitySum / this->length) << endl;
 
 	//delete [] sedimentMapCopy;
 	delete [] sedimentToMoveMap;

@@ -61,6 +61,7 @@ class GGen_ErosionSimulator{
 		GGen_TotalSize length;
 		double deltaT;
 		double pipeLength;
+        double pipeCrossectionArea;
 		double graviationalAcceleration;
 		double sedimentCapacityConstant;
 		double dissolvingConstant;
@@ -77,6 +78,6 @@ class GGen_ErosionSimulator{
 		void ApplyWaterSources(double* waterMap);
 		void ApplyEvaporation(double* waterMap);
 		void ApplyFlowSimulation(double* heightMap, double* waterMap, GGen_OutflowValues* outflowFluxMap, GGen_VelocityVector* velocityVectorMap );
-		void ApplyErosion(double* heightMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap);
+		void ApplyErosion(double* heightMap, double* waterMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap);
         void ApplyThermalWeathering(double* heightMap, double powerMultiplier = 1);
 };
