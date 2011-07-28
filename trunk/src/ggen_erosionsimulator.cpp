@@ -108,16 +108,6 @@ void GGen_ErosionSimulator::ExportVelocityVectorMap( GGen_VelocityVector* veloci
 
 double GGen_ErosionSimulator::GetSurfaceTilt(double* heightMap, GGen_Coord x, GGen_Coord y )
 {
-	/*if(x == 0 || x + 1 == this->width || y == 0 || y + 1 == this->width) return 0;
-
-	double tilt = 
-	MAX(
-		ABS(heightMap[x + y * this->width - 1] - heightMap[x + y * this->width + 1]), 
-		ABS(heightMap[x + y * this->width - this->width] - heightMap[x + y * this->width + this->width])
-	);
-
-	return tilt;*/
-	
 	GGen_Index indexLeft = x > 0 ? (x - 1) + y * this->width : x + y * this->width;
 	GGen_Index indexRight = x + 1 < this->width ? (x + 1) + y * this->width : x + y * this->width;
 	GGen_Index indexTop = y > 0 ? x + (y - 1) * this->width : x + y * this->width;
@@ -156,194 +146,6 @@ double GGen_ErosionSimulator::GetSurfaceTilt(double* heightMap, GGen_Coord x, GG
 	//return (GGen_Height) (angle / 3.14159 * GGEN_MAX_HEIGHT);
 }
 
-/*void GGen_ErosionSimulator::Erode(GGen_Data_2D& ggenHeightMap)
-{	
-	this->deltaT = 0.015;
-	this->pipeLength = 1;
-    this->pipeCrossectionArea = 20;
-	this->graviationalAcceleration = 9.7;
-	this->sedimentCapacityConstant = 5;
-	this->dissolvingConstant = 2;
-	this->depositionConstant = 4;
-	this->minimumComputedSurfaceTilt = 0.1;
-    this->talusAngle = 0.2;
-
-	double* heightMap = ImportHeightMap(ggenHeightMap);
-	ExportHeightMap(heightMap, ggenHeightMap);
-	ggenHeightMap.ReturnAs(GGen_Const_String("imported"));
-
-	double* originalMap = new double[this->length];
-	memcpy(originalMap, heightMap, this->length * sizeof(double));
-
-	double* waterMap = new double[this->length];
-	double* sedimentMap = new double[this->length];
-	GGen_OutflowValues* outflowFluxMap = new GGen_OutflowValues[this->length];	
-	//double 	
-
-	double* tiltMap = new double[this->length];
-
-	// Initialize values in maps to zero where necessary
-	for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; x++){
-			GGen_Index currentIndex = x + y * this->width;
-			
-			waterMap[currentIndex] = heightMap > 0 ? 0 : -heightMap[currentIndex];
-			outflowFluxMap[currentIndex].left = 0;
-			outflowFluxMap[currentIndex].right = 0;
-			outflowFluxMap[currentIndex].top = 0;
-			outflowFluxMap[currentIndex].bottom = 0;
-			sedimentMap[currentIndex] = 0;
-			tiltMap[currentIndex] = 1 - sin(this->GetSurfaceTilt(heightMap, x, y));
-
-            if(heightMap[x + y * this->width] < 0){
-                cout << "E";
-            }
-		}
-	}
-
-	GGen_Data_2D exportMap(this->width, this->height, 0);
-
-	ExportHeightMap(tiltMap, exportMap); exportMap.ReturnAs(GGen_Const_String("tilt"));
-
-
-	
-	double sum = 0;
-	for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; x++){
-			sum += heightMap[x + this->width * y];			
-		}
-	}
-
-	cout << "Initial Average Height " << (sum / this->length) << endl;
-
-    double* combinedMap = new double[this->length];
-    //double* flowSizeMap = new double[this->length];
-    //double* flowXMap = new double[this->length];
-    //double* flowYMap = new double[this->length];
-
-	int roundCount = 500;
-	for(int round = 0; round < roundCount; round++){
-		cout << "round " << round << endl;
-
-		GGen_VelocityVector* velocityVectorMap = new GGen_VelocityVector[this->length];
-
-		// Clone the water map.
-
-		//if((round % 10 == 0) && (round < roundCount / 2)) {
-			this->ApplyWaterSources(waterMap);
-			//cout << "W";
-		//}
-
-		//double* waterMap3 = new double[this->length];
-		//memcpy(waterMap3, waterMap, this->length * sizeof(double));
-		//delete [] waterMapWithWaterSources;
-
-		//GGen_OutflowValues* outflowFluxMap2 = new GGen_OutflowValues[this->length];
-		//memcpy(outflowFluxMap2, outflowFluxMap, this->length * sizeof(GGen_OutflowValues));
-
-		//double* sedimentMap1 = new double[this->heightMap.length];
-		//memcpy(sedimentMap1, sedimentMap, this->heightMap.length * sizeof(double));
-
-
-		this->ApplyFlowSimulation(heightMap, waterMap, outflowFluxMap, velocityVectorMap);
-		
-        this->ExportHeightMap(waterMap, exportMap);
-        wstringstream ss;
-        ss << GGen_Const_String("waterMapProgress");
-        ss << round;
-
-	    exportMap.ReturnAs(ss.str());
-
-        this->ApplyErosion(heightMap, waterMap, velocityVectorMap, sedimentMap);
-        
-        for(int i = 0; i < this->length; i++){
-            combinedMap[i] = heightMap[i] + waterMap[i]; //sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
-            //flowSizeMap[i] = sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
-            //flowXMap[i] = velocityVectorMap[i].x;
-            //flowYMap[i] = velocityVectorMap[i].y;
-        }
-
-        this->ExportHeightMap(combinedMap, exportMap);
-        wstringstream ss3;
-        ss3 << GGen_Const_String("combinedMapProgress");
-        ss3 << round;
-        exportMap.ReturnAs(ss3.str());
-
-
-
-
-	    
-
-		delete [] velocityVectorMap;
-
-		//memcpy(waterMap, waterMap3, this->length * sizeof(double));
-
-		//delete [] waterMap3;
-        
-        this->ApplyThermalWeathering(heightMap, 0.4);
-
-		this->ApplyEvaporation(waterMap);	
-
-
-        this->ExportHeightMap(heightMap, exportMap);
-        wstringstream ss2;
-        ss2 << GGen_Const_String("heightMapProgress");
-        ss2 << round;
-
-        exportMap.ReturnAs(ss2.str());
-
-		double heightSum = 0;
-		double sedimentSum = 0;
-		for(unsigned i = 0; i < this->length; i++){
-			if(heightMap[i] > GGEN_MAX_HEIGHT || heightMap[i] < GGEN_MIN_HEIGHT){
-				cout << "E";
-			}
-
-
-			heightSum += heightMap[i];
-			sedimentSum += sedimentMap[i];			
-		}
-
-		cout << ((heightSum + sedimentSum) / this->length) << " = " << heightSum / this->length << " + " << sedimentSum / this->length << endl;
-	}
-
-	this->ExportHeightMap(sedimentMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("sedimentMap"));
-
-	this->ExportHeightMap(waterMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("waterMap"));
-
-	this->ExportHeightMap(waterMap, ggenHeightMap);
-	ggenHeightMap.ReturnAs(GGen_Const_String("eroded"));
-
-	double* addedMap = new double[this->length];
-	double* removedMap = new double[this->length];
-
-     
-
-	//ggenHeightMap.AddMap(&exportMap);
-
-	for(GGen_Index i = 0; i < this->length; i++){
-		addedMap[i] = originalMap[i] < heightMap[i] ? heightMap[i] - originalMap[i] : 0;
-		removedMap[i] = originalMap[i] > heightMap[i] ? originalMap[i] - heightMap[i] : 0;
-	}
-
-	ExportHeightMap(addedMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("added"));
-
-	ExportHeightMap(removedMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("removed"));
-
-	delete [] heightMap;
-	delete [] waterMap;
-	delete [] sedimentMap;
-	delete [] outflowFluxMap;
-
-	
-
-	return;
-}*/
-
 void GGen_ErosionSimulator::ApplyWaterSources(double* waterMap, double waterAmount)
 {
 	for(GGen_Coord y = 0; y < this->height; y++){
@@ -373,7 +175,7 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 			double currentHeight = heightMap[x + this->width * y];
 			
             if(outflowFluxMap[currentIndex].left < 0 || outflowFluxMap[currentIndex].right < 0 || outflowFluxMap[currentIndex].top < 0 || outflowFluxMap[currentIndex].bottom < 0){
-                cout << "E";
+                GGen_Script_Error("Erosion error: Negative outflux value.");
             }
 
 			// Calculate outflow values for individual directions.
@@ -409,11 +211,11 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 				outflowFluxMap[currentIndex].bottom;
 
 			if((int)sumOutflow < 0){
-				cout << 'E';
+				GGen_Script_Error("Erosion error: Negative outflow sum.");
 			}
 
 			if(sumOutflow > waterMap[currentIndex]){
-                double factor = MIN(1, waterMap[currentIndex] * this->pipeLength * this->pipeLength / sumOutflow/* * this->deltaT*/);
+                double factor = MIN(1, waterMap[currentIndex] * this->pipeLength * this->pipeLength / sumOutflow);
 
 				outflowFluxMap[currentIndex].left *= factor;
 				outflowFluxMap[currentIndex].right *= factor;
@@ -425,10 +227,6 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 					outflowFluxMap[currentIndex].right + 
 					outflowFluxMap[currentIndex].top + 
 					outflowFluxMap[currentIndex].bottom;
-
-				if((int)sumOutflow < 0){
-					cout << 'E';
-				}
 			}
 		}		
 	}
@@ -473,7 +271,7 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
             double waterAverage = (oldWaterLevel + waterMap[currentIndex]) / 2;
 
 			if(waterMap[currentIndex] < 0){
-				cout << 'E';
+				GGen_Script_Error("Erosion error: Negative water height after update.");
 			}
 
 			// The velocity field must be updated
@@ -538,7 +336,7 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
             //velocityVectorMap[x + width * y].y /= waterAverage * this->pipeLength;
 
             if(velocityVectorMap[x + width * y].x * this->deltaT > 1 || velocityVectorMap[x + width * y].y * this->deltaT > 1){
-                cout << "e";
+                GGen_Script_Error("Erosion error: Too long velocity vector.");
             }
 		}
 	}
@@ -549,8 +347,7 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, GGen_VelocityVector* velocityVectorMap, double* sedimentMap )
 {
 	double* sedimentToMoveMap = new double[this->length];
-    double* tiltMap = new double[this->length];
-
+    
 	// Update sediment amount carried by water in the current tile	
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
@@ -560,11 +357,11 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 
             GGen_VelocityVector currentVelocityVector = velocityVectorMap[currentIndex];
 
-            			//currentVelocityVector.x *= -1;
+            //currentVelocityVector.x *= -1;
 			//currentVelocityVector.y *= -1;
 
-            GGen_CoordOffset coordinateOffsetX = currentVelocityVector.x < 0 ? -1 : 0;//floor(currentVelocityVector.x * this->deltaT);//currentVelocityVector.x > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.x * this->deltaT);
-            GGen_CoordOffset coordinateOffsetY = currentVelocityVector.y < 0 ? -1 : 0;//floor(currentVelocityVector.y * this->deltaT);//currentVelocityVector.y > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.y * this->deltaT);
+            GGen_CoordOffset coordinateOffsetX = currentVelocityVector.x < 0 ? -1 : 0;
+            GGen_CoordOffset coordinateOffsetY = currentVelocityVector.y < 0 ? -1 : 0;
             GGen_CoordOffset baseCoordinateX = x + coordinateOffsetX;
             GGen_CoordOffset baseCoordinateY = y + coordinateOffsetY;
             double coordinatePartX = currentVelocityVector.x * this->deltaT - coordinateOffsetX;
@@ -632,7 +429,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 			}
 
 			if(heightWeightSum == 0){
-				cout << "e";
+				GGen_Script_Error("Erosion error: No height for interpolation.");
 			}
 
 			double targetPointHeightDiff = heightSum / heightWeightSum - heightMap[currentIndex];
@@ -651,30 +448,13 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
                 surfaceTilt = 0;
             }
 
-            tiltMap[x + this->width * y] = surfaceTilt;
-            
-
-            //surfaceTilt = 1;
-
             surfaceTilt = MAX(0.2, surfaceTilt);
 
 			double sedimentCapacity = this->sedimentCapacityConstant * surfaceTilt * velocityVectorLength;
 			double sedimentToMove = 0;
 
-            if(surfaceTilt < -4 || surfaceTilt > 4){
-                cout << "e";
-            }
-
-            if(sedimentCapacity < -10 ||sedimentCapacity > 10){
-                //cout << "e";
-            }
-
-			if(sedimentCapacity < 0){
-				cout << "e";
-			}
-
-            if(sedimentCapacity != sedimentCapacity){
-                cout << "e";
+            if(sedimentCapacity < 0 || sedimentCapacity != sedimentCapacity){
+                GGen_Script_Error("Erosion error: Invalid sediment capacity.");
             }
 
 			if(sedimentMap[currentIndex] == 0 &&  sedimentCapacity <= 0) {
@@ -685,20 +465,8 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 			double originalHeight = heightMap[currentIndex];
 
 			if(sedimentMap[x + this->width * y] < 0){
-				cout << "E";
+				GGen_Script_Error("Erosion error: Negative sediment bef1ore update.");
 			}
-
-			//if(sedimentMapCopy[currentIndex] != 0)
-			//cout << "Before:" << heightMap[currentIndex];
-			//
-
-			/*if (sedimentMap[currentIndex] != 0) {
- 				cout << "e";
-			}*/
-
-			//if(sedimentChange < )
-
-
 
 			double sedimentChange;
 			if(sedimentCapacity > sedimentMap[currentIndex]) {
@@ -706,7 +474,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 				sedimentChange = this->dissolvingConstant * this->deltaT * (sedimentCapacity - sedimentMap[currentIndex]);
 
 				if(sedimentChange > 1 || sedimentChange != sedimentChange){
-					cout << "e";
+					//GGen_Script_Error("Erosion error: Excessive negative sediment change.");
 				}
                 
 
@@ -719,7 +487,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 				sedimentChange = this->depositionConstant * this->deltaT * (sedimentMap[currentIndex] - sedimentCapacity);
 
 				if(sedimentChange > 1 || sedimentChange != sedimentChange){
-					cout << "e";
+					//GGen_Script_Error("Erosion error: Excessive positive sediment change.");
 				}
 
 				heightMap[currentIndex] += sedimentChange;
@@ -732,7 +500,7 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 			}
 
 			if(sedimentToMove < 0){
-				cout << "E";
+				GGen_Script_Error("Erosion error: Negative sediment to move.");
 			}
 
 			sedimentToMoveMap[currentIndex] = sedimentToMove;
@@ -743,34 +511,20 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 		for(GGen_Coord x = 0; x < this->width; x++){
 			GGen_Index currentIndex = x + this->width * y;
 			GGen_VelocityVector currentVelocityVector = velocityVectorMap[currentIndex];
-			//if(sedimentMapCopy[currentIndex] != 0){
-			//cout << " After:" << heightMap[currentIndex] << " Capacity:" << sedimentCapacity << " ToMove:" << sedimentToMove << " Change:" << sedimentChange << endl;
-			//Sleep(100);}
 
 			// Move the sediment according to the velocity field map
-			
-
 			if(sedimentToMoveMap[currentIndex] == 0) continue;			
 
 			// we are doing a step backwards in time, so inverse vector has to be used
 			//currentVelocityVector.x *= -1; // TODO: Vyzkouset to bez toho
 			//currentVelocityVector.y *= -1;
 
-			GGen_CoordOffset coordinateOffsetX = currentVelocityVector.x < 0 ? -1 : 0;//floor(currentVelocityVector.x * this->deltaT);//currentVelocityVector.x > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.x * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.x * this->deltaT);
-            GGen_CoordOffset coordinateOffsetY = currentVelocityVector.y < 0 ? -1 : 0;//floor(currentVelocityVector.y * this->deltaT);//currentVelocityVector.y > 0 ? (GGen_CoordOffset) floor(currentVelocityVector.y * this->deltaT) : (GGen_CoordOffset) ceil(currentVelocityVector.y * this->deltaT);
+			GGen_CoordOffset coordinateOffsetX = currentVelocityVector.x < 0 ? -1 : 0;
+            GGen_CoordOffset coordinateOffsetY = currentVelocityVector.y < 0 ? -1 : 0;
             GGen_CoordOffset baseCoordinateX = x + coordinateOffsetX;
             GGen_CoordOffset baseCoordinateY = y + coordinateOffsetY;
             double coordinatePartX = currentVelocityVector.x * this->deltaT - coordinateOffsetX;
             double coordinatePartY = currentVelocityVector.y * this->deltaT - coordinateOffsetY;	
-
-
-			/*if(coordinatePartX < 0){
-				coordinatePartX += 1;
-			}
-
-			if(coordinatePartY < 0){
-				coordinatePartY += 1;
-			}*/
 
 			if(coordinatePartX > 1 || coordinatePartY > 1 || coordinatePartX < 0 || coordinatePartY < 0){
 				cout << "E";
@@ -828,25 +582,15 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 					sedimentWeightSum += currentWeight;
 			}
 
-			if(sedimentSum * sedimentWeightSum > 10){
-				//cout << "e";
-			}
-
             if(sedimentSum < 0){
-                cout << "e";
+                GGen_Script_Error("Erosion error: Negative interpolated sediment value.");
             }
 
 			sedimentMap[currentIndex] = sedimentWeightSum > 0 ? sedimentSum / sedimentWeightSum : 0;
-
-            /*if(sedimentMap[currentIndex] > 1){
-                cout << "e";
-            }*/
 		}
 	}
-
-	//delete [] sedimentMapCopy;
+	
 	delete [] sedimentToMoveMap;
-    delete [] tiltMap;
 }
 
 void GGen_ErosionSimulator::ApplyThermalWeathering(double* heightMap, double powerMultiplier){
