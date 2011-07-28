@@ -247,7 +247,8 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::NormalDifferenceMap,_T("NormalDifferenceMap")).
 		func(&GGen_Data_2D::GetNormal,_T("GetNormal")).
 		func(&GGen_Data_2D::FlowMap,_T("FlowMap")).
-        func(&GGen_Data_2D::ThermalWeathering,_T("ThermalWeathering"));
+        func(&GGen_Data_2D::ThermalWeathering,_T("ThermalWeathering")).
+        func(&GGen_Data_2D::Erosion,_T("Erosion"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).

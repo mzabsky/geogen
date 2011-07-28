@@ -2694,3 +2694,81 @@ void GGen_Data_2D::ThermalWeathering(double duration){
 
     delete [] heightMap;    
 }
+
+void GGen_Data_2D::Erosion(double duration, double intensity){
+	GGen_Data_2D exportMap(this->width, this->height, 0);
+    
+    GGen_ErosionSimulator simulator(this->width, this->height);
+    double* heightMap = simulator.ImportHeightMap(*this);
+    simulator.sedimentCapacityConstant *= intensity;
+
+	double* waterMap = new double[this->length];
+	double* sedimentMap = new double[this->length];
+	GGen_OutflowValues* outflowFluxMap = new GGen_OutflowValues[this->length];			
+    GGen_VelocityVector* velocityVectorMap = new GGen_VelocityVector[this->length];
+
+	// Initialize values in maps to zero where necessary
+	for(GGen_Coord y = 0; y < this->height; y++){
+		for(GGen_Coord x = 0; x < this->width; x++){
+			GGen_Index currentIndex = x + y * this->width;
+			
+			waterMap[currentIndex] = heightMap > 0 ? 0 : -heightMap[currentIndex];
+			outflowFluxMap[currentIndex].left = 0;
+			outflowFluxMap[currentIndex].right = 0;
+			outflowFluxMap[currentIndex].top = 0;
+			outflowFluxMap[currentIndex].bottom = 0;
+			sedimentMap[currentIndex] = 0;
+		}
+	}
+	
+	for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
+		cout << "Time remaining: " << tRemaining << endl;
+
+
+
+        GGen_StringStream ss;
+        ss << GGen_Const_String("Erosion time remaining: ");
+        ss << tRemaining;
+
+        GGen::GetInstance()->ThrowMessage(ss.str(), GGEN_MESSAGE);
+
+		simulator.ApplyWaterSources(waterMap, 1);
+
+		simulator.ApplyFlowSimulation(heightMap, waterMap, outflowFluxMap, velocityVectorMap);
+		
+        /*this->ExportHeightMap(waterMap, exportMap);
+        wstringstream ss;
+        ss << GGen_Const_String("waterMapProgress");
+        ss << round;
+
+	    exportMap.ReturnAs(ss.str());*/
+
+        simulator.ApplyErosion(heightMap, waterMap, velocityVectorMap, sedimentMap);		
+
+        simulator.ApplyThermalWeathering(heightMap, 0.4);
+
+		simulator.ApplyEvaporation(waterMap);	
+
+
+        /*this->ExportHeightMap(heightMap, exportMap);
+        wstringstream ss2;
+        ss2 << GGen_Const_String("heightMapProgress");
+        ss2 << round;
+
+        exportMap.ReturnAs(ss2.str());*/		
+	}
+
+	simulator.ExportHeightMap(sedimentMap, exportMap);
+	exportMap.ReturnAs(GGen_Const_String("sedimentMap"));
+
+	simulator.ExportHeightMap(waterMap, exportMap);
+	exportMap.ReturnAs(GGen_Const_String("waterMap"));
+
+    simulator.ExportHeightMap(heightMap, *this);
+
+	delete [] heightMap;
+	delete [] waterMap;
+	delete [] sedimentMap;
+	delete [] outflowFluxMap;
+    delete [] velocityVectorMap;	
+}
