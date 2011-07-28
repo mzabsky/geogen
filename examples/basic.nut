@@ -39,6 +39,12 @@ function Generate(){
 	GGen_IncreaseProgress();
 	
 	base.TransformValues(GGEN_NATURAL_PROFILE, true)
+
+	base.ScaleValuesTo(1, GGEN_MAX_HEIGHT);
+
+	base.ReturnAs("base");
+
+	base.FlowMap(20.0, 1.0);
 			
 	return base;
 }
