@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\ggen_erosionsimulator.cpp" />
     <ClCompile Include="..\src\ggen_progress.cpp" />
     <ClCompile Include="..\src_dll\dllmain.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -119,6 +120,7 @@
     <ClInclude Include="..\src\ggen_amplitudes.h" />
     <ClInclude Include="..\src\ggen_data_1d.h" />
     <ClInclude Include="..\src\ggen_data_2d.h" />
+    <ClInclude Include="..\src\ggen_erosionsimulator.h" />
     <ClInclude Include="..\src\ggen_path.h" />
     <ClInclude Include="..\src\ggen_point.h" />
     <ClInclude Include="..\src\ggen_presets.h" />

@@ -44,7 +44,7 @@ function Generate(){
 
 	base.ReturnAs("base");
 
-	base.FlowMap(20.0, 1.0);
+	base.Erosion(10.0, 1.0);
 			
 	return base;
 }
