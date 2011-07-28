@@ -219,6 +219,11 @@ struct GGen_ScriptAssertException{};
 		}}
 #endif
 
+#define GGen_Script_Error(message) \
+	GGen::GetInstance()->ThrowMessage(GGen_Const_String(message), GGEN_ERROR, -1); \
+	throw GGen_ScriptAssertException();
+
+
 /**
  * Normalization mode (for GGen_Data_1D::Normalize and GGen_Data_2D::Normalize) defining behavior for too steep slopes.
  **/
