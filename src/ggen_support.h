@@ -185,6 +185,7 @@ typedef uint32 GGen_Distance;
 #endif 
 
 typedef GGEN_EXPORT basic_string<GGen_Char> GGen_String;
+typedef basic_stringstream<GGen_Char> GGen_StringStream;
 
 struct GGen_ScriptAssertException{};
 
