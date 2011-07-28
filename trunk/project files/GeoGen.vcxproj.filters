@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -56,6 +56,9 @@
     <ClCompile Include="..\src\ggen_squirrel.cpp">
       <Filter>GGen Squirrel API</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ggen_erosionsimulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ggen.h">
@@ -89,6 +92,9 @@
       <Filter>GGen Squirrel API</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ggen_progress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_erosionsimulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

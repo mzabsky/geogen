@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -189,6 +189,7 @@
     <ClCompile Include="..\src\ggen_amplitudes.cpp" />
     <ClCompile Include="..\src\ggen_data_1d.cpp" />
     <ClCompile Include="..\src\ggen_data_2d.cpp" />
+    <ClCompile Include="..\src\ggen_erosionsimulator.cpp" />
     <ClCompile Include="..\src\ggen_path.cpp" />
     <ClCompile Include="..\src\ggen_point.cpp" />
     <ClCompile Include="..\src\ggen_progress.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="..\src\ggen_amplitudes.h" />
     <ClInclude Include="..\src\ggen_data_1d.h" />
     <ClInclude Include="..\src\ggen_data_2d.h" />
+    <ClInclude Include="..\src\ggen_erosionsimulator.h" />
     <ClInclude Include="..\src\ggen_path.h" />
     <ClInclude Include="..\src\ggen_point.h" />
     <ClInclude Include="..\src\ggen_presets.h" />

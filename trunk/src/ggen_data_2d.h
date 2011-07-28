@@ -20,6 +20,7 @@
 
 #include "ggen_support.h"
 #include "ggen_path.h"
+#include "ggen_data_1d.h"
 #include <iostream>
 #include <set>
 
@@ -635,6 +636,8 @@ class GGen_Data_2D{
 		 * @param enableSedimentation Toggles sedimentation. Enabled sedimentation can produce better results, but slows down the calculation.
 		 **/
 		void SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation);
+
+        double FlowMap(double duration, double waterAmount);
 
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){

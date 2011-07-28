@@ -31,6 +31,7 @@
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
+#include "ggen_erosionsimulator.h"
 #include <assert.h>
 
 uint16 GGen_Data_2D::num_instances = 0;
@@ -2639,4 +2640,40 @@ void GGen_Data_2D::SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enab
 			}
 		}
 	}
+}
+
+double GGen_Data_2D::FlowMap(double duration, double waterRate){
+    GGen_Script_Assert(duration > 0);
+    GGen_Script_Assert(waterRate > 0);
+
+    GGen_ErosionSimulator simulator(this->width, this->height);
+    double* heightMap = simulator.ImportHeightMap(*this);
+
+    double* waterMap = new double[this->length];
+
+    memset(waterMap, 0, this->length * sizeof(double));
+
+    GGen_OutflowValues* outflowFluxMap = new GGen_OutflowValues[this->length];
+
+    memset(outflowFluxMap, 0, this->length * sizeof(GGen_OutflowValues));
+
+    for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
+        simulator.ApplyWaterSources(waterMap);
+        simulator.ApplyFlowSimulation(heightMap, waterMap, outflowFluxMap, NULL);
+        simulator.ApplyEvaporation(waterMap);
+    }
+
+    for(GGen_Index i = 0; i < this->length; i++){
+        if(this->data[i] <= 0){
+            waterMap[i] = 0;
+        }
+    }
+
+    double scale = simulator.ExportHeightMap(waterMap, *this);
+
+    delete [] waterMap;
+    delete [] heightMap;
+    delete [] outflowFluxMap;
+
+    return scale;
 }

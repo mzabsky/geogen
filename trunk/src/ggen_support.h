@@ -125,7 +125,7 @@ typedef uint32 GGen_Distance;
 /**
  * Maximum number of points in a path object.
  **/
-#define GGEN_MAX_PATH_LENGTH 5000
+#define GGEN_MAX_PATH_LENGTH 20000
 
 #define GGEN_UNRELATIVE_CAP GGEN_MAX_HEIGHT
 
