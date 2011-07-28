@@ -2677,3 +2677,20 @@ double GGen_Data_2D::FlowMap(double duration, double waterRate){
 
     return scale;
 }
+
+void GGen_Data_2D::ThermalWeathering(double duration){
+    GGen_Script_Assert(duration > 0);
+
+    GGen_ErosionSimulator simulator(this->width, this->height);
+    double* heightMap = simulator.ImportHeightMap(*this);
+
+    simulator.deltaT = 0.1;
+
+    for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
+        simulator.ApplyThermalWeathering(heightMap, 1);
+    }
+
+    simulator.ExportHeightMap(heightMap, *this);
+
+    delete [] heightMap;    
+}

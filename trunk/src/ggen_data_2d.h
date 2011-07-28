@@ -639,6 +639,8 @@ class GGen_Data_2D{
 
         double FlowMap(double duration, double waterAmount);
 
+        void ThermalWeathering(double duration);
+
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
 				delete (*GGen_Data_2D::instances.begin());
