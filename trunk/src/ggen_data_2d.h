@@ -641,6 +641,8 @@ class GGen_Data_2D{
 
         void ThermalWeathering(double duration);
 
+        void Erosion(double duration, double intensity);
+
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
 				delete (*GGen_Data_2D::instances.begin());

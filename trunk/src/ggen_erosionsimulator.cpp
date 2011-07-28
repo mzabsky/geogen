@@ -44,7 +44,7 @@ double GGen_GetVectorY(GGen_Height angle, double force){
 GGen_ErosionSimulator::GGen_ErosionSimulator(GGen_Size width, GGen_Size height)
 	:width(width), height(height), length(width * height)
 {
-    this->deltaT = 0.015;
+    this->deltaT = 0.02;
 	this->pipeLength = 1;
     this->pipeCrossectionArea = 20;
 	this->graviationalAcceleration = 9.7;
