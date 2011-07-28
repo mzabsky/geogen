@@ -22,6 +22,7 @@
 
 #include "math.h"
 #include <string>
+#include <sstream>
 #include <cstdlib>
 #include <limits.h>
 
