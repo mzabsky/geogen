@@ -2658,7 +2658,7 @@ double GGen_Data_2D::FlowMap(double duration, double waterRate){
     memset(outflowFluxMap, 0, this->length * sizeof(GGen_OutflowValues));
 
     for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
-        simulator.ApplyWaterSources(waterMap);
+        simulator.ApplyWaterSources(waterMap, waterRate);
         simulator.ApplyFlowSimulation(heightMap, waterMap, outflowFluxMap, NULL);
         simulator.ApplyEvaporation(waterMap);
     }

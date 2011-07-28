@@ -344,11 +344,11 @@ double GGen_ErosionSimulator::GetSurfaceTilt(double* heightMap, GGen_Coord x, GG
 	return;
 }*/
 
-void GGen_ErosionSimulator::ApplyWaterSources(double* waterMap)
+void GGen_ErosionSimulator::ApplyWaterSources(double* waterMap, double waterAmount)
 {
 	for(GGen_Coord y = 0; y < this->height; y++){
 		for(GGen_Coord x = 0; x < this->width; x++){
-            waterMap[x + y * this->width] += 1.5 * this->deltaT;
+            waterMap[x + y * this->width] += waterAmount * this->deltaT;
 		}
 	}
 }
