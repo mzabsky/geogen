@@ -786,6 +786,15 @@ namespace GeoGen.Studio
             {
                 this.needsSaving = true;
 
+                if (args.Text == "." && this.config.openCompletionOnDot)
+                {
+                    this.ShowCompletionWindow("");
+                }
+                else if (completionWindow == null || completionWindow.Visible == false)
+                {
+                    return;
+                }
+
                 if (args.Text.Length == 1 && completionWindow != null && completionWindow.Visible == true && (args.Text[0] == '_' || Char.IsLetterOrDigit(args.Text[0])))
                 {
                     this.completionWindow.Str += args.Text[0];
@@ -797,14 +806,9 @@ namespace GeoGen.Studio
                 else {
                     this.CloseCompletionWindow();
                 }
-
-                if (args.Text == "." && this.config.openCompletionOnDot)
-                {
-                    this.ShowCompletionWindow("");
-                }
             };
 
-            editor.TextArea.TextEntering += delegate(object s, System.Windows.Input.TextCompositionEventArgs args)
+            /*editor.TextArea.TextEntering += delegate(object s, System.Windows.Input.TextCompositionEventArgs args)
             {
                 /*if (args.Text.Length > 0 && completionWindow != null)
                 {
@@ -814,14 +818,11 @@ namespace GeoGen.Studio
                         // insert the currently selected element.
                         completionWindow.CompletionList.RequestInsertion(args);
                     }
-                }*/
-            };
+                }
+            };*/
 
             editor.PreviewKeyDown += delegate(object s, System.Windows.Input.KeyEventArgs args)
             {
-                System.Windows.Input.KeyConverter converter = new System.Windows.Input.KeyConverter();
-                string code = converter.ConvertToString(args.Key);
-
                 if (args.KeyboardDevice.IsKeyDown(System.Windows.Input.Key.LeftCtrl) && args.KeyboardDevice.IsKeyDown(System.Windows.Input.Key.Space))
                 {
                     this.ShowCompletionWindow(GuessCompletionPrefix());
