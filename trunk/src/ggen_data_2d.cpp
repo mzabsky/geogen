@@ -804,9 +804,11 @@ void GGen_Data_2D::Noise(GGen_Size minFeatureSize, GGen_Size maxFeatureSize, GGe
 {
 	GGen_Script_Assert(amplitudes != NULL);	
 	GGen_Script_Assert(minFeatureSize > 0);
-	GGen_Script_Assert(minFeatureSize <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(minFeatureSize < this->width);
+    GGen_Script_Assert(minFeatureSize < this->height);
 	GGen_Script_Assert(maxFeatureSize > 0);
-	GGen_Script_Assert(maxFeatureSize <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(maxFeatureSize < this->width);
+    GGen_Script_Assert(maxFeatureSize < this->height);
 
 	/* This function uses the diamond-square mid-point displacement algorithm with bicubic interpolation. */
 
