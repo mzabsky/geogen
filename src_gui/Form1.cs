@@ -270,8 +270,6 @@ namespace GeoGen.Studio
         public void CreateEditor(){
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
 
-            ICSharpCode.AvalonEdit.Highlighting.Xshd.XshdSyntaxDefinition xshd = new ICSharpCode.AvalonEdit.Highlighting.Xshd.XshdSyntaxDefinition();
-            //XshdSyntaxDefinition ;
             using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader("../config/squirrel.xshd"))
             {
                 try
@@ -306,39 +304,6 @@ namespace GeoGen.Studio
             foldingManager = ICSharpCode.AvalonEdit.Folding.FoldingManager.Install(editor.TextArea);
             foldingStrategy = new AvalonEdit.Sample.BraceFoldingStrategy();
             this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
-            
-
-            //this.editor.SyntaxHighlighting = new ICSharpCode.AvalonEdit.Highlighting.
-
-
-            /*this.editor.CallTip.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Caret.BlinkRate = 500;
-            this.editor.ConfigurationManager.CustomLocation = "../config/scintilla.xml";
-            this.editor.ConfigurationManager.IsBuiltInEnabled = false;
-            this.editor.ConfigurationManager.IsUserEnabled = false;
-            this.editor.ConfigurationManager.Language = "cs";
-            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editor.Location = new System.Drawing.Point(3, 3);
-            this.editor.Margins.FoldMarginColor = System.Drawing.Color.Gray;
-            this.editor.Margins.FoldMarginHighlightColor = System.Drawing.Color.LightGray;
-            this.editor.Margins.Margin0.Width = 30;
-            this.editor.Margins.Margin1.Width = 0;
-            this.editor.Margins.Margin2.Width = 20;
-            this.editor.Name = "editor";
-            this.editor.Size = new System.Drawing.Size(795, 400);
-            this.editor.Styles.BraceBad.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.BraceLight.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.CallTip.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.ControlChar.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.IndentGuide.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.LastPredefined.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.Styles.Max.BackColor = System.Drawing.SystemColors.Window;
-            this.editor.TabIndex = 0;*/
-
-            //this.codeTab.Controls.Add(this.editor);
-
-            //this.tabs.TabPages[0].Controls.Add(this.editor);
 
             this.editorHost.Child = this.editor;
         }
