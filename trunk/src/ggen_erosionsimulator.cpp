@@ -29,18 +29,6 @@
 #include "ggen.h"
 #include <windows.h>
 
-double GGen_AngleToRadians(GGen_Height angle){
-	return (double)((int32) angle + (int32) GGEN_MAX_HEIGHT) * 3.14 / GGEN_MAX_HEIGHT;
-}
-
-double GGen_GetVectorX(GGen_Height angle, double force){
-	return cos(GGen_AngleToRadians(angle)) * force;
-}
-
-double GGen_GetVectorY(GGen_Height angle, double force){
-	return sin(GGen_AngleToRadians(angle)) * force;
-}
-
 GGen_ErosionSimulator::GGen_ErosionSimulator(GGen_Size width, GGen_Size height)
 	:width(width), height(height), length(width * height)
 {
@@ -89,61 +77,13 @@ double GGen_ErosionSimulator::ExportHeightMap( double* heightMap, GGen_Data_2D& 
 		if(heightMap[i] < min) min  = heightMap[i];
 	}
 
-	cout << "Min << " << min << "  ---- MAX: " << max << endl;
+	//cout << "Min << " << min << "  ---- MAX: " << max << endl;
 
 	for(GGen_Index i = 0; i < this->length; i++){
 		ggenHeightMap.data[i] = (GGen_Height) (heightMap[i] * GGEN_MAX_HEIGHT / max);
 	}
 
     return GGEN_MAX_HEIGHT / max;
-}
-
-void GGen_ErosionSimulator::ExportVelocityVectorMap( GGen_VelocityVector* velocityVectorMap, GGen_Data_2D& ggenHeightMap )
-{
-	for(GGen_Index i = 0; i < this->length; i++){
-		ggenHeightMap.data[i] = (GGen_Height) sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
-	}
-}
-
-
-double GGen_ErosionSimulator::GetSurfaceTilt(double* heightMap, GGen_Coord x, GGen_Coord y )
-{
-	GGen_Index indexLeft = x > 0 ? (x - 1) + y * this->width : x + y * this->width;
-	GGen_Index indexRight = x + 1 < this->width ? (x + 1) + y * this->width : x + y * this->width;
-	GGen_Index indexTop = y > 0 ? x + (y - 1) * this->width : x + y * this->width;
-	GGen_Index indexBottom = y + 1 < this->height ? x + (y + 1) * this->width : x + y * this->width;
-
-	double heightLeft = heightMap[indexLeft];
-	double heightRight = heightMap[indexRight];
-	double heightTop = heightMap[indexTop];
-	double heightBottom = heightMap[indexBottom];
-
-	double vectorAX = 2;
-	double vectorAY = 0;
-	double vectorAZ = (double) heightMap[indexLeft] - (double) heightMap[indexRight];
-
-	double vectorBX = 0;
-	double vectorBY = -2;
-	double vectorBZ = (double) heightMap[indexTop] - (double) heightMap[indexBottom];
-
-	/* The tile has upwards normal (all the surrounding tiles have the same height) */
-	/*if(vectorAZ == 0 && vectorBZ == 0){
-		return GGEN_INVALID_HEIGHT;
-	}*/
-
-	double productX = vectorAY * vectorBZ - vectorAZ * vectorBY;
-	double productY = vectorAZ * vectorBX - vectorAX * vectorBZ;
-	double productZ = vectorAX * vectorBY - vectorAY * vectorBX;
-
-	double angle = acos(sqrt(productX * productX + productY * productY) / sqrt(productX * productX + productY * productY + productZ * productZ)); //(ABS(productX) + ABS(productY)) / 2; //ABS(sin(productZ));
-
-	if(angle > 3.15){
-		cout << "E";
-	}
-
-	return angle;
-
-	//return (GGen_Height) (angle / 3.14159 * GGEN_MAX_HEIGHT);
 }
 
 void GGen_ErosionSimulator::ApplyWaterSources(double* waterMap, double waterAmount)
