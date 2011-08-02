@@ -619,8 +619,6 @@ class GGen_Data_2D{
 		 **/
 		void NormalDifferenceMap(int32 angle);
 
-		void CreateRiver();
-
 		/** 
 		 * Returns surface normal angle in a tile. Angle 0° (eastern slope) is represented by value 0, angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are represented by positive values in range (0, GGEN_MAX_HEIGHT).
 		 * @param x X coordinate of the tile.
@@ -637,11 +635,27 @@ class GGen_Data_2D{
 		 **/
 		void SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation);
 
+        /** 
+		 * Generates a map representing flow of water of over the current height map.
+		 * @param duration Duration of the simulation, dramatically increases time complexity.
+		 * @param waterAmount Water amount multiplier in (0, 10) range.		 
+		 **/
         double FlowMap(double duration, double waterAmount);
 
-        void ThermalWeathering(double duration);
+        /** 
+		 * Applies thermal erosion onto the height map.
+		 * @param duration Duration of the simulation, dramatically increases time complexity.
+		 * @param talusAngle Angle towards which will all slopes be eroded.		 
+		 **/
+        void ThermalWeathering(double duration, double talusAngle);
 
-        void Erosion(double duration, double intensity);
+        /** 
+		 * Applies hydraulic and thermal erosion onto the height map.
+		 * @param duration Duration of the simulation, dramatically increases time complexity.
+		 * @param thermalWeatheringAmount Thermal weathering effect multiplier.		 
+         * @param waterAmount Water amount multiplier in (0, 10) range.		 
+		 **/
+        void Erosion(double duration, double thermalWeatheringAmount, double waterAmount);
 
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){

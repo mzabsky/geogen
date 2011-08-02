@@ -44,15 +44,15 @@ double GGen_GetVectorY(GGen_Height angle, double force){
 GGen_ErosionSimulator::GGen_ErosionSimulator(GGen_Size width, GGen_Size height)
 	:width(width), height(height), length(width * height)
 {
-    this->deltaT = 0.02;
+    this->deltaT = 0.005;
 	this->pipeLength = 1;
     this->pipeCrossectionArea = 20;
 	this->graviationalAcceleration = 9.7;
-	this->sedimentCapacityConstant = 5;
-	this->dissolvingConstant = 2;
-	this->depositionConstant = 4;
+	this->sedimentCapacityConstant = 1;
+	this->dissolvingConstant = 0.5;
+	this->depositionConstant = 1;
 	this->minimumComputedSurfaceTilt = 0.1;
-    this->talusAngle = 0.2;
+    this->talusAngle = 0.5;
 }
 
 struct GGen_ErosionPointData{
@@ -215,7 +215,7 @@ void GGen_ErosionSimulator::ApplyFlowSimulation(double* heightMap, double* water
 			}
 
 			if(sumOutflow > waterMap[currentIndex]){
-                double factor = MIN(1, waterMap[currentIndex] * this->pipeLength * this->pipeLength / sumOutflow);
+                double factor = MIN(1, waterMap[currentIndex] * this->pipeLength * this->pipeLength / (sumOutflow * this->deltaT));
 
 				outflowFluxMap[currentIndex].left *= factor;
 				outflowFluxMap[currentIndex].right *= factor;
@@ -516,8 +516,8 @@ void GGen_ErosionSimulator::ApplyErosion( double* heightMap, double* waterMap, G
 			if(sedimentToMoveMap[currentIndex] == 0) continue;			
 
 			// we are doing a step backwards in time, so inverse vector has to be used
-			//currentVelocityVector.x *= -1; // TODO: Vyzkouset to bez toho
-			//currentVelocityVector.y *= -1;
+			currentVelocityVector.x *= -1; // TODO: Vyzkouset to bez toho
+			currentVelocityVector.y *= -1;
 
 			GGen_CoordOffset coordinateOffsetX = currentVelocityVector.x < 0 ? -1 : 0;
             GGen_CoordOffset coordinateOffsetY = currentVelocityVector.y < 0 ? -1 : 0;
@@ -701,34 +701,34 @@ void GGen_ErosionSimulator::ApplyThermalWeathering(double* heightMap, double pow
 
             if(y > 0){
                 if(x > 0){
-                    heightMap[currentIndex - this->width - 1] += amountToTransport * heightDiffTopLeft / totalTransportableAmount;
+                    if(heightDiffTopLeft >= this->talusAngle) heightMap[currentIndex - this->width - 1] += amountToTransport * heightDiffTopLeft / totalTransportableAmount;
                 }
 
-                heightMap[currentIndex - this->width] += amountToTransport * heightDiffTop / totalTransportableAmount;
+                if(heightDiffTop >= this->talusAngle) heightMap[currentIndex - this->width] += amountToTransport * heightDiffTop / totalTransportableAmount;
 
                 if(x < this->width - 1){
-                    heightMap[currentIndex - this->width + 1] += amountToTransport * heightDiffTopRight / totalTransportableAmount;
+                    if(heightDiffTopRight >= this->talusAngle) heightMap[currentIndex - this->width + 1] += amountToTransport * heightDiffTopRight / totalTransportableAmount;
                 }
             }
 
             if(x < this->width - 1){
-                heightMap[currentIndex + 1] += amountToTransport * heightDiffRight / totalTransportableAmount;
+                if(heightDiffRight >= this->talusAngle) heightMap[currentIndex + 1] += amountToTransport * heightDiffRight / totalTransportableAmount;
             }
 
             if(y < this->height - 1){
                 if(x > 0){
-                    heightMap[currentIndex + this->width - 1] += amountToTransport * heightDiffBottomLeft / totalTransportableAmount;
+                    if(heightDiffBottomLeft >= this->talusAngle) heightMap[currentIndex + this->width - 1] += amountToTransport * heightDiffBottomLeft / totalTransportableAmount;
                 }
 
-                heightMap[currentIndex + this->width] += amountToTransport * heightDiffBottom / totalTransportableAmount;
+                if(heightDiffBottom >= this->talusAngle) heightMap[currentIndex + this->width] += amountToTransport * heightDiffBottom / totalTransportableAmount;
 
                 if(x < this->width - 1){
-                    heightMap[currentIndex + this->width + 1] += amountToTransport * heightDiffBottomLeft / totalTransportableAmount;
+                    if(heightDiffBottomRight >= this->talusAngle) heightMap[currentIndex + this->width + 1] += amountToTransport * heightDiffBottomRight / totalTransportableAmount;
                 }
             }
 
             if(x > 0){
-                heightMap[currentIndex - 1] += amountToTransport * heightDiffLeft / totalTransportableAmount;
+                if(heightDiffLeft >= this->talusAngle) heightMap[currentIndex - 1] += amountToTransport * heightDiffLeft / totalTransportableAmount;
             }
         }
     }

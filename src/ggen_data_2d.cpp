@@ -1378,7 +1378,7 @@ void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 		for (GGen_Coord x = 0; x < this->width; x++) {	
 			if (this->data[x + y * this->width] > 0) {
 				GGen_Height height = this->data[x + this->width * y];
-				this->data[x + y * this->width] = x > 0 ? profile->GetValueInterpolated(height, max + 1) : 0;
+				this->data[x + y * this->width] = profile->GetValueInterpolated(height, max + 1);
 			}
 		}
 	}
@@ -2645,6 +2645,7 @@ void GGen_Data_2D::SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enab
 double GGen_Data_2D::FlowMap(double duration, double waterRate){
     GGen_Script_Assert(duration > 0);
     GGen_Script_Assert(waterRate > 0);
+    GGen_Script_Assert(waterRate < 10);
 
     GGen_ErosionSimulator simulator(this->width, this->height);
     double* heightMap = simulator.ImportHeightMap(*this);
@@ -2678,16 +2679,18 @@ double GGen_Data_2D::FlowMap(double duration, double waterRate){
     return scale;
 }
 
-void GGen_Data_2D::ThermalWeathering(double duration){
+void GGen_Data_2D::ThermalWeathering(double duration, double talusAngle){
     GGen_Script_Assert(duration > 0);
+    GGen_Script_Assert(talusAngle > 0 && talusAngle < 1);
 
     GGen_ErosionSimulator simulator(this->width, this->height);
     double* heightMap = simulator.ImportHeightMap(*this);
+    simulator.talusAngle = talusAngle;
 
     simulator.deltaT = 0.1;
 
     for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
-        simulator.ApplyThermalWeathering(heightMap, 1);
+        simulator.ApplyThermalWeathering(heightMap, 4);
     }
 
     simulator.ExportHeightMap(heightMap, *this);
@@ -2695,12 +2698,15 @@ void GGen_Data_2D::ThermalWeathering(double duration){
     delete [] heightMap;    
 }
 
-void GGen_Data_2D::Erosion(double duration, double intensity){
-	GGen_Data_2D exportMap(this->width, this->height, 0);
+void GGen_Data_2D::Erosion(double duration, double thermalWeatheringAmount, double waterAmount){
+	GGen_Script_Assert(duration > 0);
+    GGen_Script_Assert(waterAmount > 0);
+    GGen_Script_Assert(waterAmount < 10);
+    
+    //GGen_Data_2D exportMap(this->width, this->height, 0);
     
     GGen_ErosionSimulator simulator(this->width, this->height);
-    double* heightMap = simulator.ImportHeightMap(*this);
-    simulator.sedimentCapacityConstant *= intensity;
+    double* heightMap = simulator.ImportHeightMap(*this);    
 
 	double* waterMap = new double[this->length];
 	double* sedimentMap = new double[this->length];
@@ -2721,18 +2727,17 @@ void GGen_Data_2D::Erosion(double duration, double intensity){
 		}
 	}
 	
+    GGen::GetInstance()->ThrowMessage(GGen_Const_String("Starting erosion..."), GGEN_MESSAGE);
+
 	for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
-		cout << "Time remaining: " << tRemaining << endl;
+		if(tRemaining >= simulator.deltaT){
+            GGen_StringStream ss;
+            ss << GGen_Const_String("Erosion time remaining: ");
+            ss << tRemaining;
+            GGen::GetInstance()->ThrowMessage(ss.str(), GGEN_MESSAGE);
+        }        
 
-
-
-        GGen_StringStream ss;
-        ss << GGen_Const_String("Erosion time remaining: ");
-        ss << tRemaining;
-
-        GGen::GetInstance()->ThrowMessage(ss.str(), GGEN_MESSAGE);
-
-		simulator.ApplyWaterSources(waterMap, 1);
+		simulator.ApplyWaterSources(waterMap, 0.05 * waterAmount);
 
 		simulator.ApplyFlowSimulation(heightMap, waterMap, outflowFluxMap, velocityVectorMap);
 		
@@ -2745,10 +2750,20 @@ void GGen_Data_2D::Erosion(double duration, double intensity){
 
         simulator.ApplyErosion(heightMap, waterMap, velocityVectorMap, sedimentMap);		
 
-        simulator.ApplyThermalWeathering(heightMap, 0.4);
+        simulator.ApplyThermalWeathering(heightMap, thermalWeatheringAmount);
 
 		simulator.ApplyEvaporation(waterMap);	
 
+        double maxLength = 0;
+        for(GGen_Index i = 0; i < this->length; i++){
+            double length = sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
+            if(length > maxLength){
+                maxLength = length;
+            }
+        }
+
+        simulator.deltaT = 1 / (2 * maxLength);
+        simulator.deltaT = MIN(simulator.deltaT, 0.05);
 
         /*this->ExportHeightMap(heightMap, exportMap);
         wstringstream ss2;
@@ -2758,11 +2773,13 @@ void GGen_Data_2D::Erosion(double duration, double intensity){
         exportMap.ReturnAs(ss2.str());*/		
 	}
 
-	simulator.ExportHeightMap(sedimentMap, exportMap);
+    GGen::GetInstance()->ThrowMessage(GGen_Const_String("Finished erosion..."), GGEN_MESSAGE);
+
+	/*simulator.ExportHeightMap(sedimentMap, exportMap);
 	exportMap.ReturnAs(GGen_Const_String("sedimentMap"));
 
 	simulator.ExportHeightMap(waterMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("waterMap"));
+	exportMap.ReturnAs(GGen_Const_String("waterMap"));*/
 
     simulator.ExportHeightMap(heightMap, *this);
 
