@@ -81,6 +81,10 @@ double GGen_ErosionSimulator::ExportHeightMap( double* heightMap, GGen_Data_2D& 
 
 	for(GGen_Index i = 0; i < this->length; i++){
 		ggenHeightMap.data[i] = (GGen_Height) (heightMap[i] * GGEN_MAX_HEIGHT / max);
+
+        if(heightMap[i] <= -100.){
+            ggenHeightMap.data[i] = GGEN_MIN_HEIGHT;
+        }
 	}
 
     return GGEN_MAX_HEIGHT / max;
