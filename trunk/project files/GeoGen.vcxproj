@@ -219,6 +219,7 @@
     <None Include="..\examples\basic.nut" />
     <None Include="..\examples\clutch.nut" />
     <None Include="..\examples\double pass.nut" />
+    <None Include="..\examples\erosion.nut" />
     <None Include="..\examples\highlands lake.nut" />
     <None Include="..\examples\seaside country.nut" />
     <None Include="..\examples\template.nut" />

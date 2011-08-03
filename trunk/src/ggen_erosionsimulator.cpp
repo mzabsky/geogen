@@ -20,7 +20,6 @@
 #include <iostream>
 #include <list>
 #include <queue>
-#include <tuple>
 #include <math.h>
 #include <sstream>
 
