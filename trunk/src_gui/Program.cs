@@ -20,17 +20,15 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GeoGen.Studio
 {
     static class Program
     {
 
-#if DEBUG
-        public static readonly string BasePath = "../";
-#else
-        public static readonly string BasePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/GeoGen/";
-#endif
+        public static string BasePath = "../";
+        public static readonly string AlternateBasePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/GeoGen/";
  
         /// <summary>
         /// The main entry point for the application.
@@ -63,7 +61,12 @@ namespace GeoGen.Studio
                 catch{}
             }
 
-
+            // use local config if possible, use program files config otherwise
+            if (!File.Exists(Program.BasePath + "config/studio.xml") && Directory.Exists(Program.AlternateBasePath))
+            {
+                MessageBox.Show("My Documents");
+                Program.BasePath = Program.AlternateBasePath;
+            }
 
                 // emergency save will be done by the UncaughtExceptionHandler in release mode
 #if DEBUG 
