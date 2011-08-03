@@ -50,6 +50,8 @@ function Generate(){
 	base.SetValueInRect(0, 0, size / 4, size / 4, -12000);
 	base.SetValueInRect(3 * size / 4, 3 * size / 4, size - 1, size - 1, -12000);	
 	
+	base.ScaleValuesTo(2 * GGEN_MIN_HEIGHT / 8, GGEN_MIN_HEIGHT / 10);
+	
 	GGen_IncreaseProgress();
 	
 	base.Smooth(100);
@@ -60,9 +62,9 @@ function Generate(){
 	mask.Clamp(-8000, GGEN_MAX_HEIGHT);
 	
 	mask.ScaleValuesTo(0,GGEN_MAX_HEIGHT / 2);
-	mask.Add(GGEN_MAX_HEIGHT / 5);
+	mask.Add(GGEN_MAX_HEIGHT / 10);
 	mask.Clamp(0, GGEN_MAX_HEIGHT / 2);
-	mask.ScaleValuesTo(0, GGEN_MAX_HEIGHT);
+	mask.ScaleValuesTo(GGEN_MAX_HEIGHT / 30, GGEN_MAX_HEIGHT);
 
 	GGen_IncreaseProgress();
 
@@ -71,8 +73,8 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	noise.ScaleValuesTo(-2000, 12000);
-	
+	noise.ScaleValuesTo(0, 12000);
+
 	base.AddMapMasked(noise, mask, false);
 
 	GGen_IncreaseProgress();
