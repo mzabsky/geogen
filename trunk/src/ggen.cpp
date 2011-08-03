@@ -133,3 +133,7 @@ void GGen::SetSeed(unsigned seed){
 
 	srand(seed);
 }
+
+void GGen::Reset(){
+    this->status = GGEN_NO_SCRIPT;
+}

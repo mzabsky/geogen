@@ -90,6 +90,8 @@ public:
 	virtual int GetInfoInt(const GGen_String& label) = 0;
 	virtual vector<GGen_ScriptArg>* LoadArgs();
 	virtual int16* Generate() = 0;
+
+    virtual void Reset();
 	
 	void SetMaxMapSize(GGen_Size size);
 	void SetMaxMapCount(uint16 count);
