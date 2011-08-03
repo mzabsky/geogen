@@ -307,6 +307,10 @@ namespace GeoGen{
 				return heightData;
 			}
 
+            void Reset(){
+                this->ggen->Reset();
+            }
+
 		internal:
 			void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column){
 				try{
