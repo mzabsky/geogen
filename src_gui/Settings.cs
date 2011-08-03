@@ -63,8 +63,9 @@ namespace GeoGen.Studio
 
             // the 3D view might need to reinitialize
             if (Main.Get().GetConfig().enable3d)
-            {
+            {                
                 Main main = Main.Get();
+                main.Output3dButtonsOff();
                 main.SetupViewport();
                 main.RebuildTerrain(main.currentImportedFile);
                 main.viewport.Invalidate();
