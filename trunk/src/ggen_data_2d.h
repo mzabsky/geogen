@@ -230,7 +230,7 @@ class GGen_Data_2D{
 		void Clamp(GGen_Height min, GGen_Height max);
 
 		/**
-		 * Clamps all values to range. All values outside the given range will be set either to 0.
+		 * Clamps all values to range. All values outside the given range will be set to 0.
 		 * @param min New minimum value.
 		 * @param max New maximum value.
 		 **/
@@ -625,7 +625,7 @@ class GGen_Data_2D{
 		 * @param y Y coordinate of the tile.
 		 * @return Surface normal angle. 
 		 **/
-		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);	
+		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);
 
 		/** 
 		 * Modifies the map to appear eroded by long-term influence of water flowing over the terrain.
@@ -635,27 +635,27 @@ class GGen_Data_2D{
 		 **/
 		void SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation);
 
-        /** 
+		/** 
 		 * Generates a map representing flow of water of over the current height map.
 		 * @param duration Duration of the simulation, dramatically increases time complexity.
-		 * @param waterAmount Water amount multiplier in (0, 10) range.		 
+		 * @param waterAmount Water amount multiplier in (0, 10) range. 
 		 **/
-        double FlowMap(double duration, double waterAmount);
+		double FlowMap(double duration, double waterAmount);
 
-        /** 
+		/** 
 		 * Applies thermal erosion onto the height map.
 		 * @param duration Duration of the simulation, dramatically increases time complexity.
-		 * @param talusAngle Angle towards which will all slopes be eroded.		 
+		 * @param talusAngle Angle towards which will all slopes be eroded.
 		 **/
-        void ThermalWeathering(double duration, double talusAngle);
+		void ThermalWeathering(double duration, double talusAngle);
 
-        /** 
+		/** 
 		 * Applies hydraulic and thermal erosion onto the height map.
 		 * @param duration Duration of the simulation, dramatically increases time complexity.
-		 * @param thermalWeatheringAmount Thermal weathering effect multiplier.		 
-         * @param waterAmount Water amount multiplier in (0, 10) range.		 
+		 * @param thermalWeatheringAmount Thermal weathering effect multiplier.
+		 * @param waterAmount Water amount multiplier in (0, 10) range. 
 		 **/
-        void Erosion(double duration, double thermalWeatheringAmount, double waterAmount);
+		void Erosion(double duration, double thermalWeatheringAmount, double waterAmount);
 
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){
