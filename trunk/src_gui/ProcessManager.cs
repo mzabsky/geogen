@@ -120,7 +120,15 @@ namespace GeoGen.Studio
 
             Main.StretchHeightValues(ref data);
 
-            this.maps.Add(e.Label, data);
+            if (this.maps.Contains(e.Label))
+            {
+                this.WriteToConsole("Warning: Map with label \"" + e.Label + "\" was returned more than once!");
+                this.maps[e.Label] = data;
+            }
+            else
+            {
+                this.maps.Add(e.Label, data);
+            }
         }
 
         public void ProgressHandler(object sender, ProgressEventArgs e)
