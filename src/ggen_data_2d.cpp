@@ -2764,7 +2764,7 @@ void GGen_Data_2D::Erosion(double duration, double thermalWeatheringAmount, doub
             }
         }
 
-        simulator.deltaT = 1 / (2 * maxLength);
+        simulator.deltaT = 1 / (1.5 * maxLength);
         simulator.deltaT = MIN(simulator.deltaT, 0.05);
 
         /*this->ExportHeightMap(heightMap, exportMap);
