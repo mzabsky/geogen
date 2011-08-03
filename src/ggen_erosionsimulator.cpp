@@ -27,7 +27,6 @@
 #include "ggen_support.h"
 #include "ggen_erosionsimulator.h"
 #include "ggen.h"
-#include <windows.h>
 
 GGen_ErosionSimulator::GGen_ErosionSimulator(GGen_Size width, GGen_Size height)
 	:width(width), height(height), length(width * height)
