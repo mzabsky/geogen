@@ -619,7 +619,7 @@ class GGen_Data_2D{
 		 **/
 		void NormalDifferenceMap(int32 angle);
 
-		/** 
+		/**
 		 * Returns surface normal angle in a tile. Angle 0° (eastern slope) is represented by value 0, angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are represented by positive values in range (0, GGEN_MAX_HEIGHT).
 		 * @param x X coordinate of the tile.
 		 * @param y Y coordinate of the tile.
@@ -627,29 +627,23 @@ class GGen_Data_2D{
 		 **/
 		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);
 
-		/** 
-		 * Modifies the map to appear eroded by long-term influence of water flowing over the terrain.
-		 * @param numRounds Number of streams generated for each tile, dramatically increases time complexity.
-		 * @param erosionFactor Number of height levels added/subtracted when the stream erodes the terrain/deposits the sediment.
-		 * @param enableSedimentation Toggles sedimentation. Enabled sedimentation can produce better results, but slows down the calculation.
-		 **/
 		void SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation);
 
-		/** 
+		/**
 		 * Generates a map representing flow of water of over the current height map.
 		 * @param duration Duration of the simulation, dramatically increases time complexity.
 		 * @param waterAmount Water amount multiplier in (0, 10) range. 
 		 **/
 		double FlowMap(double duration, double waterAmount);
 
-		/** 
+		/**
 		 * Applies thermal erosion onto the height map.
 		 * @param duration Duration of the simulation, dramatically increases time complexity.
 		 * @param talusAngle Angle towards which will all slopes be eroded.
 		 **/
 		void ThermalWeathering(double duration, double talusAngle);
 
-		/** 
+		/**
 		 * Applies hydraulic and thermal erosion onto the height map.
 		 * @param duration Duration of the simulation, dramatically increases time complexity.
 		 * @param thermalWeatheringAmount Thermal weathering effect multiplier.
