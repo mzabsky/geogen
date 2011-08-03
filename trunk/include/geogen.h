@@ -124,6 +124,7 @@ public:
 	virtual int GetInfoInt(const GGen_String& label) = 0;
 	virtual vector<GGen_ScriptArg>* LoadArgs();
 	virtual short* Generate() = 0;
+    virtual void Reset();
 	
 	void SetMaxMapSize(unsigned short size);
 	void SetMaxMapCount(unsigned short count);
