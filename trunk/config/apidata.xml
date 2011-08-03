@@ -7,24 +7,27 @@
     <Description>Creates new GGen_Data_2D object of given size.</Description>
     <Param>
       <Name>width</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Width of the map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>height</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Height of the map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Default value for all cells.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
     <Class>GGen_Data_2D</Class>
     <Name>Clone</Name>
-    <Type>GGen_Data_2D*</Type>
+    <Type>GGen_Data_2D</Type>
     <Description>Creates a 1:1 copy of the current object.</Description>
   </Method>
   <Method>
@@ -47,23 +50,32 @@
   </Method>
   <Method>
     <Class>GGen_Data_2D</Class>
+    <Name>GetMaxDistance</Name>
+    <Type>GGen_Distance</Type>
+    <Description>Returns maximum possible distance between two cells within the map.</Description>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
     <Name>SetValue</Name>
     <Type>void</Type>
     <Description>Sets value in one tile.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the tile.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the tile.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to use.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -73,28 +85,33 @@
     <Description>Sets value in all tiles inside a rectangle (bounds are included).</Description>
     <Param>
       <Name>x1</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the left border</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y1</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the top borer.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>x2</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the right border.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y2</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the bottom border.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to use.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -104,13 +121,15 @@
     <Description>Returns one value from the array.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the tile.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the tile.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -120,23 +139,27 @@
     <Description>Return one value from the array interpolated to a different map size.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the tile (in the interpolated map).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the tile (in the interpolated map).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>scale_to_width</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Interpolated array width.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>scale_to_height</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Interpolated array height.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -146,8 +169,9 @@
     <Description>Adds an integer to all values in the map.</Description>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to be added to values in the map.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -157,8 +181,9 @@
     <Description>Adds another map to the current map.</Description>
     <Param>
       <Name>addend</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>Map to be added. This map will be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -168,18 +193,21 @@
     <Description>Adds another map to the current map. Its coordinates will be shifted by an offset.</Description>
     <Param>
       <Name>addend</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>Map to be added. This map will NOT be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>offset_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinates of the addend will be shifted by this value along the X axis.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>offset_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinates of the addend will be shifted by this value along the Y axis.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -189,18 +217,21 @@
     <Description>Adds another map to the current map. The percentage of each value from the addend will depend on corresponding value from the mask.</Description>
     <Param>
       <Name>addend</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>Map to be added. This map will be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mask</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>Map used to mask the added value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>relative</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Toggles relative mode.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -210,18 +241,21 @@
     <Description>Adds a percentage of an integer to all values in the map. The percentage added will depend on corresponding value from the mask.</Description>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to be added to values in the map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mask</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>Map used to mask the added value. This map will be scaled to match the current map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>relative</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Toggles relative mode.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -231,8 +265,9 @@
     <Description>Multiplies each value in the map by a real number.</Description>
     <Param>
       <Name>factor</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Real number to multiply all values in the map.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -242,8 +277,9 @@
     <Description>Multiplies each value in the map by a corresponding value from factor.</Description>
     <Param>
       <Name>factor</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>Array to be multiplied by. This map will be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -259,13 +295,15 @@
     <Description>Scales size of the map by a real number.</Description>
     <Param>
       <Name>ratio</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Scaling ratio (0.5 = 50%, 2.0 = 200%).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>scale_values</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Multiply the values by the ratio as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -275,18 +313,21 @@
     <Description>Scales size of the map to new size.</Description>
     <Param>
       <Name>new_width</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Target array width.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>new_height</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Target array height.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>scale_values</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Scale the values correspondingly as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -296,13 +337,15 @@
     <Description>Scales values in the map to fit a new value range.</Description>
     <Param>
       <Name>new_min</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New minimum value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>new_max</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New maximum value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -312,23 +355,27 @@
     <Description>Crops or expands the array without changing its values.</Description>
     <Param>
       <Name>new_width</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>New array width.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>new_height</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>New array height.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>new_zero_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of new origin relative to the original zero.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>new_zero_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of new origin relative to the original zero.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -338,8 +385,9 @@
     <Description>Sets all values in the map.</Description>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The fill value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -349,18 +397,21 @@
     <Description>Sets all values in the map. The percentage of value changed in each tile will depend on corresponding values in the mask.</Description>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The fill value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mask</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>Map used to mask the filled value. This map will be scaled to match the current map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>relative</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Toggles relative mode.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -370,29 +421,33 @@
     <Description>Clamps all values to range. All values outside the given range will be set either to min or max, whichever is closer.</Description>
     <Param>
       <Name>min</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New minimum value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>max</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New maximum value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
     <Class>GGen_Data_2D</Class>
     <Name>CropValues</Name>
     <Type>void</Type>
-    <Description>Clamps all values to range. All values outside the given range will be set either to 0.</Description>
+    <Description>Clamps all values to range. All values outside the given range will be set to 0.</Description>
     <Param>
       <Name>min</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New minimum value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>max</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New maximum value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -414,8 +469,9 @@
     <Description>Performs a set intersection of the map graphs (higher of two respective values is applied).</Description>
     <Param>
       <Name>victim</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>The intersection map. This map will be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -425,18 +481,21 @@
     <Description>Performs a set intersection of the map graphs (higher of two respective values is applied). The intersection map coordinates will be shifted by an offset.</Description>
     <Param>
       <Name>victim</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>The intersection map. This map will NOT be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>offset_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinates of the intersection map will be shifted by this value along the X axis.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>offset_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinates of the intersection map will be shifted by this value along the Y axis.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -446,8 +505,9 @@
     <Description>Performs a set union of the map graphs (higher of two respective values is applied).</Description>
     <Param>
       <Name>victim</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>The union map. This map will be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -457,18 +517,21 @@
     <Description>Performs a set union of the map graphs (higher of two respective values is applied). The union map coordinates will be shifted by an offset.</Description>
     <Param>
       <Name>victim</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>The union map. This map will NOT be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>offset_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinates of the intersection map will be shifted by this value along the X axis.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>offset_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinates of the intersection map will be shifted by this value along the Y axis.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -478,18 +541,21 @@
     <Description>Combines the current map with another map according to corresponding values in mask.</Description>
     <Param>
       <Name>victim</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>The intersection map. This map will NOT be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mask</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>The second map. This map will be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>relative</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>The mask used to determine value percentage from each map used. This map will NOT be scaled to match the original map.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -499,13 +565,15 @@
     <Description>Replaces all occurrences of a value with a different value.</Description>
     <Param>
       <Name>needle</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The replaced value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>replace</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The new value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -521,18 +589,21 @@
     <Description>Shifts all values in the array towards a direction by a corresponding value from profile.</Description>
     <Param>
       <Name>profile</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>The shift profile.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>Direction towards which will the shiting be done.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Overflow_Mode</Type>
+      <ype>GGen_Overflow_Mode</ype>
       <Description>The overflow mode (see GGen_Overflow_Mode).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -542,29 +613,33 @@
     <Description>Extrudes one-dimensional profile towards a direction.</Description>
     <Param>
       <Name>profile</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>The profile to be projected.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>The extrusion direction.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
     <Class>GGen_Data_2D</Class>
     <Name>GetProfile</Name>
-    <Type>GGen_Data_1D*</Type>
+    <Type>GGen_Data_1D</Type>
     <Description>Extracts a one-dimensional slice from the map. </Description>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>Determines if a row (GGEN_HORIZONTAL) or column will be extracted.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>coordinate</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Coordinate of the row/column.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -574,38 +649,45 @@
     <Description>Creates a smooth gradient between two coords. The values will make transition between two values.</Description>
     <Param>
       <Name>from_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The starting point X coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>from_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The starting point Y coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The ending point X coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The starting point Y coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>from_value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The starting transition base.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to_value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The ending transition base.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>fill_outside</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Should the values outside gradient area be filled as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -615,33 +697,39 @@
     <Description>Creates a smooth gradient between two coords. The values will be picked from the gradient profile according to the point's position on the gradient.</Description>
     <Param>
       <Name>from_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The starting point X coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>from_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The starting point Y coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The ending point X coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The starting point Y coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>profile</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>The gradient profile.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>fill_outside</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Should the values outside gradient area be filled as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -651,33 +739,39 @@
     <Description>Creates a radial gradient. The values will make a smooth transition between the center and the outer rim.</Description>
     <Param>
       <Name>center_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the gradient center.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>center_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the gradient center.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>radius</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The gradient radius.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>from_value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value in the center.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to_value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value on the outer rim.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>fill_outside</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Should the values outside gradient area be filled as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -687,49 +781,57 @@
     <Description>Creates a radial gradient. The values will be picked from the gradient profile according to the point's position on the gradient.</Description>
     <Param>
       <Name>center_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the gradient center.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>center_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the gradient center.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>radius</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>The gradient radius.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>profile</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>The gradient profile.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>fill_outside</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Should the values outside gradient area be filled as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
     <Class>GGen_Data_2D</Class>
     <Name>Noise</Name>
     <Type>void</Type>
-    <Description>Fills the array with random perlin noise (http://freespace.virgin.net/hugo.elias/models/m_perlin.htm).</Description>
+    <Description>Fills the array with random fractal noise.</Description>
     <Param>
       <Name>min_feature_size</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Minimum wave length for amplitude to be used.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>max_feature_size</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Maximum wave length for amplitude to be used.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>amplitudes</Name>
-      <Type>GGen_Amplitudes*</Type>
+      <ype>GGen_Amplitudes</ype>
       <Description>GGen_Amplitudes object.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -739,18 +841,21 @@
     <Description>Fills the array with random voronoi noise.</Description>
     <Param>
       <Name>cell_size</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Size of one cell (cells are considered to be squares).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>points_per_cell</Name>
-      <Type>uint8</Type>
+      <ype>uint8</ype>
       <Description>Number of points randomly placed in each cell.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Voronoi_Noise_Mode</Type>
+      <ype>GGen_Voronoi_Noise_Mode</ype>
       <Description>The noise mode (see GGen_Voronoi_Noise_Mode).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -760,13 +865,15 @@
     <Description>Blurs the map in one direction. Uses linear smoothing algorithm.</Description>
     <Param>
       <Name>radius</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>The smoothing kernel radius.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>Direction in which is the smoothing done.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -776,8 +883,9 @@
     <Description>Blurs the map. Uses linear smoothing algorithm.</Description>
     <Param>
       <Name>radius</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>The smoothing kernel radius.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -787,8 +895,9 @@
     <Description>Changes the values so only given percentage of values is higher than 0.</Description>
     <Param>
       <Name>land_amount</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>The percentage of values to be higher than 0. 0 means no "land", 1.0 means no "water".</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -798,8 +907,9 @@
     <Description>Fills the current map with repeating pattern.</Description>
     <Param>
       <Name>pattern</Name>
-      <Type>GGen_Data_2D*</Type>
+      <ype>GGen_Data_2D</ype>
       <Description>The pattern.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -809,8 +919,9 @@
     <Description>Replaces each value with 0 if it is less than equal than the threshold or 1 otherwise.</Description>
     <Param>
       <Name>threshold</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Values above threshold will be 1, otherwise 0.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -820,8 +931,9 @@
     <Description>Replaces all occurrences of a value with 1, all other values will be replaced with 0. </Description>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The selected value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -837,8 +949,9 @@
     <Description>Replaces each value with 1 with a probability defined by its value, all other values will be replaced with 1.</Description>
     <Param>
       <Name>relative</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Toggles relative mode.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -848,13 +961,15 @@
     <Description>Replaces each value with a corresponding value from profile. Coordinate of the corresponding value is determined by the original value - the higher the value, the higher the coordinate in profile is. </Description>
     <Param>
       <Name>profile</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>The transformation profile.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>relative</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Toggles relative mode.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -864,8 +979,9 @@
     <Description>Makes sure that there are no slopes steeper than 45� in the map. Steeper slopes will be dealt with according to mode.</Description>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Normalization_Mode</Type>
+      <ype>GGen_Normalization_Mode</ype>
       <Description>The normalization mode (see GGen_Normalization_Mode).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -875,13 +991,15 @@
     <Description>Makes sure that there are no slopes steeper than 45� in either horizontal or vertical direction. Steeper slopes will be dealt with according to mode.</Description>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>Direction of the normalization.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Normalization_Mode</Type>
+      <ype>GGen_Normalization_Mode</ype>
       <Description>The normalization mode (see GGen_Normalization_Mode).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -891,28 +1009,33 @@
     <Description>Applies a linear transformation matrix onto the map.</Description>
     <Param>
       <Name>a11</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (1,1).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>a12</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (1,2).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>a21</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (2,1).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>a22</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (2,2).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>preserve_size</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>matrix must be invertible (a11 * a22 - a12 * a21 != 0).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -922,13 +1045,15 @@
     <Description>Rotates the map by an angle counter-clockwise.</Description>
     <Param>
       <Name>angle</Name>
-      <Type>int32</Type>
+      <ype>int32</ype>
       <Description>The angle in degrees.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>preserve_size</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>If set to true, the result will be cropped to match its original boundaries.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -938,18 +1063,21 @@
     <Description>Shears the map vertically and/or horizontally.</Description>
     <Param>
       <Name>horizontal_shear</Name>
-      <Type>int32</Type>
+      <ype>int32</ype>
       <Description>Horizontal shear factor (0 means no horizontal shearing).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>vertical_shear</Name>
-      <Type>int32</Type>
+      <ype>int32</ype>
       <Description>Horizontal shear factor (1 means no horizontal shearing).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>preserve_size</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>If set to true, the result will be cropped to match its original boundaries.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -959,8 +1087,9 @@
     <Description>Flips the map along one coordinate axis.</Description>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>The axis, along which the map will be flipped.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -970,8 +1099,9 @@
     <Description>Calls the API return handler.</Description>
     <Param>
       <Name>label</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Label identifying the returned map.</Description>
+      <Const>true</Const>
     </Param>
   </Method>
   <Method>
@@ -981,13 +1111,45 @@
     <Description>Fills a polygon defined by its outer path.</Description>
     <Param>
       <Name>path</Name>
-      <Type>GGen_Path*</Type>
+      <ype>GGen_Path</ype>
       <Description>Sequence of points defining the polygon's shape. The polygon is enclosed by connecting the first and last points of the sequence.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to be filled with.</Description>
+      <Const>false</Const>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>StrokePath</Name>
+    <Type>void</Type>
+    <Description>Paints a path with one-dimensional brush onto the map.</Description>
+    <Param>
+      <Name>path</Name>
+      <ype>GGen_Path</ype>
+      <Description>The path to be stroked.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>brush</Name>
+      <ype>GGen_Data_1D</ype>
+      <Description>Brush used. Value with index 0 will be the closest to the path itself.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>radius</Name>
+      <ype>GGen_Distance</ype>
+      <Description>Resulting size of the stroke.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>fill_outside</Name>
+      <ype>bool</ype>
+      <Description>Fill the area outside the brush stroke?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -997,28 +1159,33 @@
     <Description>Fills uniform area matching a simple arithmetic condition (all tiles matching the condition reachable from the starting point through tiles matching the condition are filled with value).</Description>
     <Param>
       <Name>start_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the starting point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>start_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the starting point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>fill_value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The value the matching area is filled with.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Comparison_Mode</Type>
+      <ype>GGen_Comparison_Mode</ype>
       <Description>Arithmetic operator to be used in the condition.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>threshold</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to be compared against.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1028,23 +1195,27 @@
     <Description>Replaces all values in an uniform area matching a simple arithmetic condition with 1 (all tiles matching the condition reachable from the starting point through tiles matching the condition are filled with 1). All other areas are filled with 0.</Description>
     <Param>
       <Name>start_x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>X coordinate of the starting point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>start_y</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Y coordinate of the starting point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Comparison_Mode</Type>
+      <ype>GGen_Comparison_Mode</ype>
       <Description>Arithmetic operator to be used in the condition.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>threshold</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to be compared against.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1054,8 +1225,9 @@
     <Description>Returns the highest value found in tiles touching a path.</Description>
     <Param>
       <Name>path</Name>
-      <Type>GGen_Path*</Type>
+      <ype>GGen_Path</ype>
       <Description>Sequence of points defining the path.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1065,8 +1237,9 @@
     <Description>Returns the lowest value found in tiles touching a path.</Description>
     <Param>
       <Name>path</Name>
-      <Type>GGen_Path*</Type>
+      <ype>GGen_Path</ype>
       <Description>Sequence of points defining the path.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1076,13 +1249,15 @@
     <Description>Fills all areas within a distance in one direction from any value greater than 0 with 1. The rest of the map will be filled with 0.</Description>
     <Param>
       <Name>distance</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>The distance in maximum metric.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>Direction of expansion.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1092,13 +1267,15 @@
     <Description>Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.</Description>
     <Param>
       <Name>distance</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>The distance in maximum metric.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>Direction of shrinking.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1108,8 +1285,9 @@
     <Description>Fills all areas within a distance (in maximum metric) from any value greater than 0 with 1. The rest of the map will be filled with 0.</Description>
     <Param>
       <Name>distance</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>The distance in maximum metric.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1119,8 +1297,9 @@
     <Description>Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.</Description>
     <Param>
       <Name>distance</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>The distance in maximum metric.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1130,18 +1309,21 @@
     <Description>Draws a border (made of value 1) around an area matching a condition. The non-border areas are filled with 0.</Description>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Comparison_Mode</Type>
+      <ype>GGen_Comparison_Mode</ype>
       <Description>Condition operator.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>threshold</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Condition value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>outlineMode</Name>
-      <Type>GGen_Outline_Mode</Type>
+      <ype>GGen_Outline_Mode</ype>
       <Description>Inside or outside border.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1151,8 +1333,9 @@
     <Description>Replaces values in the array with information about steepness of slope (change in value) in that particular value.</Description>
     <Param>
       <Name>radius</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>Convexity measurement radius (how big a terrain feature must be to show on the convexity map).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1162,13 +1345,15 @@
     <Description>Applies a turbulence distortion filter on the height map.</Description>
     <Param>
       <Name>waveLength</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Size of one distortion wave.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>amplitude</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>Strength of the distortion effect.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1178,25 +1363,105 @@
     <Description>Replaces all values with values representing horizontal angle of surface normal in the tile. Angle 0� (eastern slope) is represented by value 0, angles in range (0�, 180�) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180�, 360�) are represented by positive values in range (0, GGEN_MAX_HEIGHT).</Description>
   </Method>
   <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>GetNormal</Name>
+    <Type>GGen_Height</Type>
+    <Description>Returns surface normal angle in a tile. Angle 0� (eastern slope) is represented by value 0, angles in range (0�, 180�) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180�, 360�) are represented by positive values in range (0, GGEN_MAX_HEIGHT).</Description>
+    <Param>
+      <Name>x</Name>
+      <ype>GGen_Coord</ype>
+      <Description>X coordinate of the tile.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>y</Name>
+      <ype>GGen_Coord</ype>
+      <Description>Y coordinate of the tile.</Description>
+      <Const>false</Const>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>FlowMap</Name>
+    <Type>double</Type>
+    <Description>Generates a map representing flow of water of over the current height map.</Description>
+    <Param>
+      <Name>duration</Name>
+      <ype>double</ype>
+      <Description>Duration of the simulation, dramatically increases time complexity.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>waterAmount</Name>
+      <ype>double</ype>
+      <Description>Water amount multiplier in (0, 10) range. </Description>
+      <Const>false</Const>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>ThermalWeathering</Name>
+    <Type>void</Type>
+    <Description>Applies thermal erosion onto the height map.</Description>
+    <Param>
+      <Name>duration</Name>
+      <ype>double</ype>
+      <Description>Duration of the simulation, dramatically increases time complexity.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>talusAngle</Name>
+      <ype>double</ype>
+      <Description>Angle towards which will all slopes be eroded.</Description>
+      <Const>false</Const>
+    </Param>
+  </Method>
+  <Method>
+    <Class>GGen_Data_2D</Class>
+    <Name>Erosion</Name>
+    <Type>void</Type>
+    <Description>Applies hydraulic and thermal erosion onto the height map.</Description>
+    <Param>
+      <Name>duration</Name>
+      <ype>double</ype>
+      <Description>Duration of the simulation, dramatically increases time complexity.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>thermalWeatheringAmount</Name>
+      <ype>double</ype>
+      <Description>Thermal weathering effect multiplier.</Description>
+      <Const>false</Const>
+    </Param>
+    <Param>
+      <Name>waterAmount</Name>
+      <ype>double</ype>
+      <Description>Water amount multiplier in (0, 10) range. </Description>
+      <Const>false</Const>
+    </Param>
+  </Method>
+  <Method>
     <Class />
     <Name>GGen_Data_1D</Name>
     <Type>GGen_Data_1D</Type>
     <Description>Creates new GGen_Data_1D object of given length.</Description>
     <Param>
       <Name>length</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Length of the array.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Default value for all cells.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
     <Class>GGen_Data_1D</Class>
     <Name>Clone</Name>
-    <Type>GGen_Data_1D*</Type>
+    <Type>GGen_Data_1D</Type>
     <Description>Creates a 1:1 copy of the current object.</Description>
   </Method>
   <Method>
@@ -1212,13 +1477,15 @@
     <Description>Sets value in one tile.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Coordinate to set.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to use.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1228,18 +1495,21 @@
     <Description>Sets value in all tiles in range (bounds are included).</Description>
     <Param>
       <Name>from</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Starting point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Ending point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to use.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1249,8 +1519,9 @@
     <Description>Returns one value from the array.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Tile coordinate.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1260,13 +1531,15 @@
     <Description>Return one value from the array interpolated to a different array length.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>Tile coordinate (in the interpolated array).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>scale_to_length</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Interpolated array length.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1276,8 +1549,9 @@
     <Description>Adds an integer to all values in the array.</Description>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Value to be added to values in the array.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1287,8 +1561,9 @@
     <Description>Adds another array to the current array.</Description>
     <Param>
       <Name>addend</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>Array to be added. This array will be scaled to match the original array.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1298,13 +1573,15 @@
     <Description>Adds another array to the current array. Its coordinates will be shifted by an offset.</Description>
     <Param>
       <Name>addend</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>Array to be added. This array will NOT be scaled to match the original array.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>offset</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinates of the addend will be shifted by this value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1314,8 +1591,9 @@
     <Description>Multiplies each value in the array by a real number.</Description>
     <Param>
       <Name>factor</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Real number to multiply all values in the array.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1325,8 +1603,9 @@
     <Description>Multiplies each value in the array by a corresponding value from factor.</Description>
     <Param>
       <Name>factor</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>Array to be multiplied by. This array will be scaled to match the original array.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1342,13 +1621,15 @@
     <Description>Scales length of the array by a real number.</Description>
     <Param>
       <Name>ratio</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Scaling ratio (0.5 = 50%, 2.0 = 200%).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>scale_values</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Multiply the values by the ratio as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1358,13 +1639,15 @@
     <Description>Scales length of the array to new length.</Description>
     <Param>
       <Name>new_length</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Target array length.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>scale_values</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Scale the valuess correspondingly as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1374,13 +1657,15 @@
     <Description>Scales values in the array to fit a new value range.</Description>
     <Param>
       <Name>new_min</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New minimum value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>new_max</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New maximum value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1390,8 +1675,9 @@
     <Description>Sets all values in the array.</Description>
     <Param>
       <Name>value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The fill value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1401,13 +1687,15 @@
     <Description>Crops or expands the array without changing its values.</Description>
     <Param>
       <Name>new_length</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>New array length.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>new_zero</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Coordinate of new origin relative to the original zero.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1417,13 +1705,15 @@
     <Description>Clamps all values to range.</Description>
     <Param>
       <Name>min</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New minimum value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>max</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>New maximum value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1451,8 +1741,9 @@
     <Description>Performs a set union of the array graphs (higher of two respective values is applied).</Description>
     <Param>
       <Name>victim</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>The union array. This array will be scaled to match the original array.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1462,8 +1753,9 @@
     <Description>Performs a set intersection of the array graphs (higher of two respective values is applied).</Description>
     <Param>
       <Name>victim</Name>
-      <Type>GGen_Data_1D*</Type>
+      <ype>GGen_Data_1D</ype>
       <Description>The intersection array. This array will be scaled to match the original array.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1479,8 +1771,9 @@
     <Description>Replaces each value with 0 if it is less than equal than the threshold or 1 otherwise.</Description>
     <Param>
       <Name>threshold</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>Values above threshold will be 1, otherwise 0.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1490,8 +1783,9 @@
     <Description>Makes sure that there are no slopes steeper than 45� in the array. Steeper slopes will be dealt with according to mode.</Description>
     <Param>
       <Name>mode</Name>
-      <Type>GGen_Normalization_Mode</Type>
+      <ype>GGen_Normalization_Mode</ype>
       <Description>The normalization mode (see GGen_Normalization_Mode).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1507,28 +1801,33 @@
     <Description>Creates a smooth gradient between two coords. The values will make transition between two values.</Description>
     <Param>
       <Name>from</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The left bound coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to</Name>
-      <Type>GGen_Coord</Type>
+      <ype>GGen_Coord</ype>
       <Description>The right bound coordinate.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>from_value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The left transition base.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>to_value</Name>
-      <Type>GGen_Height</Type>
+      <ype>GGen_Height</ype>
       <Description>The right transition base.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>fill_outside</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Should the values outside gradient interval be filled as well?</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1538,18 +1837,21 @@
     <Description>Fills the array with random perlin noise (http://freespace.virgin.net/hugo.elias/models/m_perlin.htm).</Description>
     <Param>
       <Name>min_feature_size</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Minimum wave length for amplitude to be used.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>max_feature_size</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>Maximum wave length for amplitude to be used.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>amplitudes</Name>
-      <Type>GGen_Amplitudes*</Type>
+      <ype>GGen_Amplitudes</ype>
       <Description>GGen_Amplitudes object.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1559,8 +1861,9 @@
     <Description>Smooths differences between values in the array. Uses linear smoothing algorithm.</Description>
     <Param>
       <Name>radius</Name>
-      <Type>GGen_Distance</Type>
+      <ype>GGen_Distance</ype>
       <Description>Smoothing kernel radius.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1570,19 +1873,21 @@
     <Description>Changes the values so given percentage of values is higher than 0.</Description>
     <Param>
       <Name>land_amount</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>The percentage of values to be higher than 0. 0 means no "land", 1.0 means no "water".</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
     <Class>GGen_Data_1D</Class>
     <Name>ToPath</Name>
-    <Type>GGen_Path*</Type>
+    <Type>GGen_Path</Type>
     <Description>Creates a GGen_Path object from current object.</Description>
     <Param>
       <Name>point_count</Name>
-      <Type>uint16</Type>
+      <ype>uint16</ype>
       <Description>Number of points in the newly created path object.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1592,8 +1897,9 @@
     <Description>Creates a new GGen_Amplitudes object.</Description>
     <Param>
       <Name>max_feature_size</Name>
-      <Type>GGen_Size</Type>
+      <ype>GGen_Size</ype>
       <Description>The object will have space for amplitudes for wave lengths up to this number.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1603,13 +1909,15 @@
     <Description>Adds a new amplitude to the object.</Description>
     <Param>
       <Name>feature_size</Name>
-      <Type>uint16</Type>
+      <ype>uint16</ype>
       <Description>Wave length this amplitude will be assigned to.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>amplitude</Name>
-      <Type>uint16</Type>
+      <ype>uint16</ype>
       <Description>The amplitude value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1625,8 +1933,9 @@
     <Description>Adds a point to the end of the path.</Description>
     <Param>
       <Name>point</Name>
-      <Type>GGen_Point&amp;</Type>
+      <ype>GGen_Point</ype>
       <Description>Point to be added.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1636,13 +1945,15 @@
     <Description>Adds a point to the end of the path.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of the point to be added.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of the point to be added.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1652,8 +1963,9 @@
     <Description>Removes a single point from the path.</Description>
     <Param>
       <Name>index</Name>
-      <Type>uint32</Type>
+      <ype>uint32</ype>
       <Description>Index of the point to be removed (starting at 0).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1663,13 +1975,15 @@
     <Description>Inserts a point into specific place in the path.</Description>
     <Param>
       <Name>index</Name>
-      <Type>uint32</Type>
+      <ype>uint32</ype>
       <Description>Index of the point, after which the new point is inserted (starting at 0).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>point</Name>
-      <Type>GGen_Point&amp;</Type>
+      <ype>GGen_Point</ype>
       <Description>Point to be added.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1679,18 +1993,21 @@
     <Description>Inserts a point into specific place in the path.</Description>
     <Param>
       <Name>index</Name>
-      <Type>uint32</Type>
+      <ype>uint32</ype>
       <Description>Index of the point, after which the new point is inserted (starting at 0).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of the point to be added.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of the point to be added.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1730,13 +2047,15 @@
     <Description>Moves all points in the path by an offset.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X offset.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y offset.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1746,33 +2065,39 @@
     <Description>Applies a linear transformation matrix onto the path.</Description>
     <Param>
       <Name>origin_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of the transformation origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>origin_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of the transformation origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>a11</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (1,1).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>a12</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (1,2).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>a21</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (2,1).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>a22</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Matrix element (2,2).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1782,18 +2107,21 @@
     <Description>Rotates whole path around a point.</Description>
     <Param>
       <Name>origin_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of the point around which is the rotation performed.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>origin_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of the point around which is the rotation performed.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>angle</Name>
-      <Type>int32</Type>
+      <ype>int32</ype>
       <Description>Rotation angle in degrees.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1803,23 +2131,27 @@
     <Description>Shears the path vertically and/or horizontally.</Description>
     <Param>
       <Name>origin_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of shear origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>origin_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of shear origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>horizontal_shear</Name>
-      <Type>int32</Type>
+      <ype>int32</ype>
       <Description>Horizontal shear factor (0 means no horizontal shearing).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>vertical_shear</Name>
-      <Type>int32</Type>
+      <ype>int32</ype>
       <Description>Horizontal shear factor (1 means no horizontal shearing).</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1829,18 +2161,21 @@
     <Description>Flips the path vertically or horizontally.</Description>
     <Param>
       <Name>origin_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of flip origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>origin_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of flip origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>direction</Name>
-      <Type>GGen_Direction</Type>
+      <ype>GGen_Direction</ype>
       <Description>Direction along which is the flip performed.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1850,23 +2185,27 @@
     <Description>Scales the path.</Description>
     <Param>
       <Name>origin_x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of scale origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>origin_y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of scale origin.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>ratio_x</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Horizontal scale ratio.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>ratio_y</Name>
-      <Type>double</Type>
+      <ype>double</ype>
       <Description>Vertical scale ratio</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1876,13 +2215,15 @@
     <Description>Creates a new point object.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of the point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of the point.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1904,8 +2245,9 @@
     <Description>Sets X coordinate of the point.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of the point.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1915,8 +2257,9 @@
     <Description>Sets Y coordinate of the point.</Description>
     <Param>
       <Name>y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of the point.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1926,13 +2269,15 @@
     <Description>Sets coordinates of the point.</Description>
     <Param>
       <Name>x</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>X coordinate of the point.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>y</Name>
-      <Type>GGen_CoordOffset</Type>
+      <ype>GGen_CoordOffset</ype>
       <Description>Y coordinate of the point.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1942,8 +2287,9 @@
     <Description>Sets the maximum progress value.</Description>
     <Param>
       <Name>max_progress</Name>
-      <Type>uint32</Type>
+      <ype>uint32</ype>
       <Description>New maximum progress value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1953,8 +2299,9 @@
     <Description>Sets the current progress value.</Description>
     <Param>
       <Name>current_progress</Name>
-      <Type>uint32</Type>
+      <ype>uint32</ype>
       <Description>New current progress value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -1970,38 +2317,45 @@
     <Description>Defines a new integral script argument. Can be called only within script header.</Description>
     <Param>
       <Name>name</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Unique internal name.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>label</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Label (name presented to users).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>description</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Detailed description.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>default_value</Name>
-      <Type>int</Type>
+      <ype>int</ype>
       <Description>Default value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>min_value</Name>
-      <Type>int</Type>
+      <ype>int</ype>
       <Description>Minimum value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>max_value</Name>
-      <Type>int</Type>
+      <ype>int</ype>
       <Description>Maximum value.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>step_size</Name>
-      <Type>int</Type>
+      <ype>int</ype>
       <Description>Step size (UI only - represents value change for various up/down arrows or sliders). This setting will not be enforced - user can be allowed to manually type in values between steps.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -2011,23 +2365,27 @@
     <Description>Defines a new boolean script argument. Can be called only within script header.</Description>
     <Param>
       <Name>name</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Unique internal name.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>label</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Label (name presented to users).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>description</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Detailed description.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>default_value</Name>
-      <Type>bool</Type>
+      <ype>bool</ype>
       <Description>Default value.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -2037,28 +2395,33 @@
     <Description>Defines a new enumeration script argument. Can be called only within script header.</Description>
     <Param>
       <Name>name</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Unique internal name.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>label</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Label (name presented to users).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>description</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Detailed description.</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>default_value</Name>
-      <Type>int</Type>
+      <ype>int</ype>
       <Description>Default value (index of default option starting at 0).</Description>
+      <Const>false</Const>
     </Param>
     <Param>
       <Name>options</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Semicolon-separated list of options.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Method>
@@ -2068,8 +2431,9 @@
     <Description>Returns value of one script argument. Can be called only within script body.</Description>
     <Param>
       <Name>name</Name>
-      <Type>GGen_String&amp;</Type>
+      <ype>GGen_String</ype>
       <Description>Name of the argument.</Description>
+      <Const>false</Const>
     </Param>
   </Method>
   <Constant>
@@ -2086,6 +2450,16 @@
     <Name>GGEN_MAX_HEIGHT</Name>
     <Type>int</Type>
     <Description>Maximum reachable height.</Description>
+  </Constant>
+  <Constant>
+    <Name>GGEN_MIN_MAP_SIZE</Name>
+    <Type>int</Type>
+    <Description>Minimum map width/height(/length for 1D).</Description>
+  </Constant>
+  <Constant>
+    <Name>GGEN_MAX_PATH_LENGTH</Name>
+    <Type>int</Type>
+    <Description>Maximum number of points in a path object.</Description>
   </Constant>
   <Constant>
     <Name>GGEN_ADDITIVE</Name>
@@ -2200,6 +2574,6 @@
   <Constant>
     <Name>GGEN_GENERATING</Name>
     <Type>GGen_Status</Type>
-    <Description>Script is being executed. All script actions but adding new arguments is allowed.</Description>
+    <Description>Script is being executed. All script actions but adding new arguments are allowed.</Description>
   </Constant>
 </APIData>
