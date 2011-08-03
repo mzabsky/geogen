@@ -49,7 +49,7 @@ function Generate(){
 	
 	noise.ScaleValuesTo(-GGEN_MAX_HEIGHT / 3, GGEN_MAX_HEIGHT / 3);
 	
-	base.AddMap(noise);
+	base.AddMapMasked(noise, base, true);
 	
 	GGen_IncreaseProgress();
 	
