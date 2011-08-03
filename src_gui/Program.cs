@@ -64,7 +64,6 @@ namespace GeoGen.Studio
             // use local config if possible, use program files config otherwise
             if (!File.Exists(Program.BasePath + "config/studio.xml") && Directory.Exists(Program.AlternateBasePath))
             {
-                MessageBox.Show("My Documents");
                 Program.BasePath = Program.AlternateBasePath;
             }
 
