@@ -22,6 +22,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 using System.Linq;
 
 using GeoGen.Net;
@@ -392,6 +393,22 @@ namespace GeoGen.Studio
                             this.MapGenerationFailed("Map generation failed!");
 
                             return;
+                        }
+                        catch (ExceptionInCallbackException e)
+                        {
+                            // the thread was aborted
+                            if (e.InnerException is ThreadAbortException)
+                            {
+                                this.ggen.Reset();
+                                this.BeginInvoke(new MethodInvoker(delegate()
+                                {
+                                    this.MapGenerationFailed("Aborted!");
+                                }));
+                                return;
+                            }
+
+                            // else unknown exception, we want to debug this case
+                            throw;
                         }
 
                         // map was generated successfully
