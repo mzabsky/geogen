@@ -65,9 +65,9 @@
             this.label2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.Location = new System.Drawing.Point(12, 137);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(317, 19);
+            this.label2.Size = new System.Drawing.Size(264, 19);
             this.label2.TabIndex = 3;
-            this.label2.Text = "GeoGen Studio Pre-beta Development Snapshot";
+            this.label2.Text = "GeoGen Studio Bachelor Thesis Version";
             // 
             // label3
             // 
@@ -78,7 +78,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(267, 19);
             this.label3.TabIndex = 4;
-            this.label3.Text = "©2009 Matěj Zábský  <matej@ihvar.cz>";
+            this.label3.Text = "©2011 Matěj Zábský  <matej@ihvar.cz>";
             // 
             // button1
             // 
@@ -110,7 +110,7 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "About";
-            this.Opacity = 0;
+            this.Opacity = 0D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
