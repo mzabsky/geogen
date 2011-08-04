@@ -39,8 +39,6 @@ function Generate(){
 	GGen_IncreaseProgress();
 	
 	base.TransformValues(GGEN_NATURAL_PROFILE, true)
-
-	base.ScaleValuesTo(1, GGEN_MAX_HEIGHT);
 			
 	return base;
 }
