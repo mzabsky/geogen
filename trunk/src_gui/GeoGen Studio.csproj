@@ -59,10 +59,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GeoGenNET, Version=1.0.3756.28676, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\GeoGenNET.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\project files\GeoGen NET.vcxproj">
+      <Project>{7B76756E-BC8F-4D6C-82EF-98F26FAD855F}</Project>
+      <Name>GeoGen NET</Name>
+    </ProjectReference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\bin\ICSharpCode.AvalonEdit.dll</HintPath>
