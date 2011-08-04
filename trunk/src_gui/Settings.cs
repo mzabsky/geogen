@@ -55,7 +55,7 @@ namespace GeoGen.Studio
             // check if global map resolution is >= than model/texture resolutions
             if ((int)config.mapDetailLevel < (int)config.ModelDetailLevel || (int)config.mapDetailLevel < (int)config.TextureDetailLevel)
             {
-                if (System.Windows.Forms.MessageBox.Show("The selected map resolution is lower than selected model and/or texture resolution. This will result in model and/or txture resolution being limited by the overall map detail level.", "GeoGen Studio Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                if (System.Windows.Forms.MessageBox.Show("The selected map resolution is lower than selected model and/or texture resolution. This will result in model and/or texture resolution being limited by the overall map detail level.", "GeoGen Studio Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 {
                     e.Cancel = true;
                 }
