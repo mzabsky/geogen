@@ -626,7 +626,7 @@ namespace GeoGen.Studio
 
         public void Benchmark()
         {
-            string benchScript = System.IO.File.ReadAllText("../examples/basic.nut");
+            string benchScript = System.IO.File.ReadAllText(Program.BasePath + "examples/basic.nut");
 
             uint[][] parameters = new uint[][] {
                 new uint[]{1024, 1024},
@@ -635,6 +635,8 @@ namespace GeoGen.Studio
             };
 
             int totalPhases = 2 * parameters.Length;
+
+            this.GGenThread = null;
 
             // the benchmark is starting right now
             if (this.benchmarkStatus == null)
