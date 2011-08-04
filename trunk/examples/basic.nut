@@ -41,10 +41,6 @@ function Generate(){
 	base.TransformValues(GGEN_NATURAL_PROFILE, true)
 
 	base.ScaleValuesTo(1, GGEN_MAX_HEIGHT);
-
-	base.ReturnAs("base");
-
-	base.Erosion(10.0, 1.0);
 			
 	return base;
 }
