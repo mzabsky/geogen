@@ -465,6 +465,7 @@ namespace GeoGen.Studio
             this.resetToolStripButton.Enabled = true;
             this.exportToolStripMenuItem.Enabled = true;
             this.exportToolStripButton.Enabled = true;
+            this.output.Visible = true;
         }
 
         public void OutputButtonsOff()
@@ -477,6 +478,7 @@ namespace GeoGen.Studio
             this.resetToolStripButton.Enabled = false;
             this.exportToolStripMenuItem.Enabled = false;
             this.exportToolStripButton.Enabled = false;
+            this.output.Visible = false;
         }
 
         public void Output3dButtonsOn()
@@ -827,14 +829,15 @@ namespace GeoGen.Studio
 
                 this.output.Update();
                 this.outputContainer.Update();
+
+
+                System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)output.Image;
+
+                if (e.X > 0 && e.Y > 0 && e.X < output.Width && e.Y < output.Height) this.coords.Text = (e.X * output.Image.Width / output.Width) + " x " + (e.Y * output.Image.Height / output.Height) + " [" + bitmap.GetPixel((e.X * output.Image.Width / output.Width), (e.Y * output.Image.Height / output.Height)).R + "]";
             }
 
             this.outputLastMouseX = e.X;
             this.outputLastMouseY = e.Y;
-
-            System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)output.Image;
-
-            if (e.X > 0 && e.Y > 0 && e.X < output.Width && e.Y < output.Height) this.coords.Text = (e.X * output.Image.Width / output.Width) + " x " + (e.Y * output.Image.Height / output.Height) + " [" + bitmap.GetPixel((e.X * output.Image.Width / output.Width), (e.Y * output.Image.Height / output.Height)).R + "]";
         }
 
         private void terminateToolStripMenuItem_Click(object sender, EventArgs e)
