@@ -120,7 +120,7 @@
   <data name="label1.Text" xml:space="preserve">
     <value>GeoGen Studio has encountered an unrecoverable fatal error and the application had to be terminated.
 
-The currently opened document was saved as emergencyBackup.nut into GeoGen installation directory.
+The currently opened document was saved as emergencyBackup.nut into GeoGen data directory (where the "examples" directory is located).
 
 Please copy following error information and send it to the email address found in the Help -&gt; About dialog along with short description of how the error occured. Reported errors will be fixed as soon as possible.</value>
   </data>
@@ -128,7 +128,7 @@ Please copy following error information and send it to the email address found i
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6
-        JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAACXBIWXMAAAsSAAALEgHS3X78AAAPGklE
+        JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAACXBIWXMAAAsRAAALEQF/ZF+RAAAPGklE
         QVRoQ+1ZaVhUZ5otV0REpRX3gLgQIyZxjEunY8iITtRRMhpGxWAyY/IwrXEjrgmaRU3cEzNREVA2ZVVA
         KBAoCpBiKUF2XHDByFplFVVANfuip8+9QCadmMSFftL9PPPjPPdC3eWc93vf873fdyUAJP/M+KcmLwT+
         /wX83un3dxkBt9MelmHhF3yioqLyPTw8Pbds2TpdIpEYET26W3C3C/D28u4bGBR4MCYmFgkJiQgPv/Bw

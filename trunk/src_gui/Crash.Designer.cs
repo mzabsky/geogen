@@ -41,7 +41,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(69, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(298, 130);
+            this.label1.Size = new System.Drawing.Size(298, 150);
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
@@ -49,7 +49,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(12, 151);
+            this.label2.Location = new System.Drawing.Point(12, 159);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 13);
             this.label2.TabIndex = 1;
@@ -57,10 +57,10 @@
             // 
             // errorInfo
             // 
-            this.errorInfo.Location = new System.Drawing.Point(15, 167);
+            this.errorInfo.Location = new System.Drawing.Point(15, 175);
             this.errorInfo.Multiline = true;
             this.errorInfo.Name = "errorInfo";
-            this.errorInfo.Size = new System.Drawing.Size(352, 334);
+            this.errorInfo.Size = new System.Drawing.Size(352, 326);
             this.errorInfo.TabIndex = 2;
             this.errorInfo.WordWrap = false;
             // 
