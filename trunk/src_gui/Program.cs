@@ -61,11 +61,16 @@ namespace GeoGen.Studio
                 catch{}
             }
 
-            // use local config if possible, use program files config otherwise
-            if (!File.Exists(Program.BasePath + "config/studio.xml") && Directory.Exists(Program.AlternateBasePath))
+            
+
+            // use local config if possible, use my documents config otherwise
+            if (
+                System.Reflection.Assembly.GetExecutingAssembly().Location.Contains(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)) || 
+                (!File.Exists(Program.BasePath + "config/studio.xml") && Directory.Exists(Program.AlternateBasePath)))
             {
                 Program.BasePath = Program.AlternateBasePath;
             }
+
 
                 // emergency save will be done by the UncaughtExceptionHandler in release mode
 #if DEBUG 

@@ -270,7 +270,7 @@ namespace GeoGen.Studio
         public void CreateEditor(){
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
 
-            using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader("../config/squirrel.xshd"))
+            using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(Program.BasePath + "config/squirrel.xshd"))
             {
                 try
                 {
