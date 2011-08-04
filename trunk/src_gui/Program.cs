@@ -65,7 +65,8 @@ namespace GeoGen.Studio
 
             // use local config if possible, use my documents config otherwise
             if (
-                System.Reflection.Assembly.GetExecutingAssembly().Location.Contains(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)) || 
+                System.Reflection.Assembly.GetExecutingAssembly().Location.Contains(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)) ||
+                System.Reflection.Assembly.GetExecutingAssembly().Location.Contains(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)) || 
                 (!File.Exists(Program.BasePath + "config/studio.xml") && Directory.Exists(Program.AlternateBasePath)))
             {
                 Program.BasePath = Program.AlternateBasePath;
@@ -101,7 +102,7 @@ namespace GeoGen.Studio
 
                 Crash dialog = new Crash();
 
-                dialog.errorInfo.Text = GeoGen.Studio.Main.Get().ToString();
+                dialog.errorInfo.Text = args.Exception.ToString();
 
                 dialog.ShowDialog();
             }
