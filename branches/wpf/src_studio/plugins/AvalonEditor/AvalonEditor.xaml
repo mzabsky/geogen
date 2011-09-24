@@ -7,7 +7,6 @@
              xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Loaded="editor_Loaded"
             >
     <ae:TextEditor 
             Name="editor"  

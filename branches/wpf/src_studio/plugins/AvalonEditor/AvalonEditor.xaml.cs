@@ -437,11 +437,17 @@ namespace GeoGen.Studio.PlugIns
         private bool enablePropertyCallbacks = true;
         private ICSharpCode.AvalonEdit.Folding.AbstractFoldingStrategy foldingStrategy;
         private ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
+        private Guid currentFileSessionGuid;
 
         public AvalonEditor()
         {                        
             InitializeComponent();
             MainConfig.Register(this);
+
+            // load the template and mark the content as unsaved
+            this.New();
+
+            this.editor.Loaded += this.EditorLoaded;
 
             this.editor.GotFocus += delegate
             {
@@ -453,11 +459,27 @@ namespace GeoGen.Studio.PlugIns
                 ContextManager.LeaveContext(this.editorContext);
             };
 
+            FileService.FileCreated += delegate(object o, FileEventArgs args)
+            {
+                if (args.FileSession.Extension == ".nut")
+                {
+                    this.editor.Text = File.ReadAllText(this.TemplateFile);
+                    this.CurrentFileName = this.LastFileName = args.FileSession.FileInfo.FullName;
+                    this.currentFileSessionGuid = args.FileSession.FileSessionGuid;
+
+                    this.IsUnsaved = false;
+                }
+            };
+
             FileService.FileOpened += delegate(object o, FileEventArgs args)
             {
-                if(args.FileInfo.IsTextFile() || args.FileInfo.Extension == ".nut"){
-                    this.editor.Text = File.ReadAllText(args.FileInfo.FullName);
-                    this.CurrentFileName = this.LastFileName = args.FileInfo.FullName;                    
+                if (args.FileSession.FileInfo.IsTextFile() || args.FileSession.Extension == ".nut")
+                {               
+                    this.editor.Text = File.ReadAllText(args.FileSession.FileInfo.FullName);
+                    this.CurrentFileName = this.LastFileName = args.FileSession.FileInfo.FullName;
+                    this.currentFileSessionGuid = args.FileSession.FileSessionGuid;
+
+                    //GeoGen.Studio.UI.MessageBox.Show(this.editor.Text);
 
                     this.IsUnsaved = false;
                 }
@@ -723,7 +745,21 @@ namespace GeoGen.Studio.PlugIns
             );
         }
 
-        private void editor_Loaded(object sender, RoutedEventArgs e)
+        public void Register(IQuickActionDisplay quickActionDisplay)
+        {
+            quickActionDisplay.RegisterQuickAction(new QuickAction(){
+                Label = "Create new map script",
+                Command = new RelayCommand(p => this.New())
+            });
+
+            quickActionDisplay.RegisterQuickAction(new QuickAction()
+            {
+                Label = "Open map script",
+                Command = new RelayCommand(p => this.Open())
+            });
+        }
+
+        private void EditorLoaded(object sender, EventArgs e)
         {
             this.editor.TextArea.SnapsToDevicePixels = true;
             this.IsUnsaved = false;
@@ -744,9 +780,7 @@ namespace GeoGen.Studio.PlugIns
             this.editor.TextChanged += new System.EventHandler(editor_TextChanged);
             this.editor.TextArea.TextEntered += new System.Windows.Input.TextCompositionEventHandler(editor_TextChanged);
             this.editor.TextArea.SelectionChanged += new System.EventHandler(editor_SelectionChanged);
-            this.editor.TextArea.Caret.PositionChanged += new System.EventHandler(editor_SelectionChanged);                
-
-            this.New();
+            this.editor.TextArea.Caret.PositionChanged += new System.EventHandler(editor_SelectionChanged);                            
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -822,10 +856,11 @@ namespace GeoGen.Studio.PlugIns
             else{
                 try
                 {
-                    System.IO.File.ReadAllText(this.TemplateFile);
+                    this.editor.Text = System.IO.File.ReadAllText(this.TemplateFile);
                 }
                 catch {
                     Messenger.ThrowMessage(new Message("Could not open template file.", MessageType.Warning));
+                    this.editor.Text = "";
                 };
             }
             
@@ -866,14 +901,14 @@ namespace GeoGen.Studio.PlugIns
 
                 //this.editor.Text = File.ReadAllText(this.CurrentFileName);
 
-                try
-                {
+                //try
+                //{
                 	FileService.OnFileOpened(this, new FileInfo(fileName));
-                }
-                catch (System.Exception ex)
-                {
+                //}
+                //catch (System.Exception ex)
+                //{
                 	
-                }
+                //}
             }
             catch {
                 Messenger.ThrowMessage(new Message("File \"" + this.LastFileName + "\" is not readable", MessageType.Error));
