@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -12,7 +13,7 @@ using GeoGen.Studio.Utilities.Context;
 
 namespace GeoGen.Studio.PlugIns
 {
-    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, ITextProvider, IEditor
+    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, ITextProvider, IEditor, INotifyPropertyChanged
     {
         #region Dependency properties
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -795,7 +796,7 @@ namespace GeoGen.Studio.PlugIns
         {
             if(this.IsUnsaved){
 
-                MessageBoxResult result = UI.MessageBox.Show("Do you wish to save unsaved content?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);                
+                MessageBoxResult result = UI.MessageBox.Show("Do you wish to save unsaved content?", "GeoGen Studio", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);                
 
                 switch(result){
                     case MessageBoxResult.Yes:
