@@ -466,7 +466,10 @@ namespace GeoGen.Studio.PlugInLoader
              * valid registrators will be executed. */
             Loader.ExecuteRegistrator(Loader.OrderedRegistrators[0]);
 
-            Loader.Ready(Application.Current, new EventArgs());
+            if (Loader.Ready != null)
+            {
+                Loader.Ready(Application.Current, new EventArgs());
+            }
         }
 
         /// <summary>
@@ -478,14 +481,6 @@ namespace GeoGen.Studio.PlugInLoader
         {
             Contract.Requires(registrator.FailureType >= RegistratorFailureType.ExceptionInConstructor);
             Contract.Requires(Loader.OrderedRegistrators.Contains(registrator));
-
-            int registratorIndex = Loader.OrderedRegistrators.IndexOf(registrator);
-
-            // The Loader must be able to place the registrator into its precalculated hierarchy.
-            if (registratorIndex == -1)
-            {
-                throw new ArgumentException("Passed registrator does not belong to Loader Loader (or failed to be ordered).");
-            }
 
             /* Generate all combinations of available parameter instances.
              * Total count of combination is product of numbers of options.
@@ -537,6 +532,7 @@ namespace GeoGen.Studio.PlugInLoader
             }
 
             // If there are any remaining registrators in the queue (and execution of dependent registrators is requested).
+            int registratorIndex = Loader.OrderedRegistrators.IndexOf(registrator);
             if(executeDependentRegistrators && registratorIndex + 1 < Loader.OrderedRegistrators.Count){
                 Loader.ExecuteRegistrator(Loader.OrderedRegistrators[registratorIndex + 1]);
             }
@@ -546,22 +542,6 @@ namespace GeoGen.Studio.PlugInLoader
                 Loader.IsFinished = true;
             }
         }
-
-        /*
-        /// <summary>
-        /// Executes one specific registrator with specific a set of parameters. The plug-in will be instantiated depending on its settings.
-        /// </summary>
-        /// <param name="registrator">The registrator.</param>
-        /// <param name="parameters">The parameter set.</param>
-        private static void ExecuteRegistrator(Registrator registrator, object[] parameters)
-        {
-            object instance = Loader.CreatePlugInInstance(registrator);
-
-            // CreatePlugInInstance might have failed (failure is then described in the FailureType flag)
-            if(instance != null){
-                Loader.ExecuteRegistratorOnInstance(registrator, instance, parameters);
-            }
-        }*/
 
         /// <summary>
         /// Executes one specific <see cref="Registrator"/> with specific a set of parameters on a specific plug-in instance.
