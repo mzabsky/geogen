@@ -175,6 +175,7 @@ namespace GeoGen.Studio
                         reader.Close();
                     }
                 }
+                // common image format .Net can read
                 else
                 {
                     BitmapImage bitmap = new BitmapImage(new Uri(path));
@@ -280,7 +281,7 @@ namespace GeoGen.Studio
         /// </summary>
         public void ExpandValuesToFullRange()
         {
-            int min = this.Min;
+            int min = -this.Min;
             int max = this.Max;
 
             if (0 == min && 0 == max) return;
@@ -288,12 +289,14 @@ namespace GeoGen.Studio
             double ratio = 1;
             if(min > max)
             {
-                ratio = (double) short.MaxValue / (double) min;
+                ratio = (double) short.MaxValue / (double) (min);
             }
             else
             {
-                ratio = (double) short.MaxValue / (double)max;
+                ratio = (double) short.MaxValue / (double) max;
             }
+
+            MessageBox.Show(min + " MAX " + max + " RATION " + ratio);
 
             for(int i = 0; i < this.heightData.Length; i++)
             {
