@@ -447,6 +447,22 @@ namespace GeoGen.Studio.PlugIns
             // load the template and mark the content as unsaved
             this.New();
 
+            this.editor.TextArea.SnapsToDevicePixels = true;
+
+            this.InitializeSyntaxHighlighing();
+
+            // Code folding
+            //this.foldingManager = ICSharpCode.AvalonEdit.Folding.FoldingManager.Install(editor.TextArea);
+            //this.foldingStrategy = new BraceFoldingStrategy();
+            //this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
+
+            // window might not always be available (for example in designer)
+
+            this.editor.TextChanged += editor_TextChanged;
+            this.editor.TextArea.TextEntered += editor_TextChanged;
+            this.editor.TextArea.SelectionChanged += editor_SelectionChanged;
+            this.editor.TextArea.Caret.PositionChanged += editor_SelectionChanged;
+            
             this.editor.Loaded += this.EditorLoaded;
 
             this.editor.GotFocus += delegate
@@ -761,33 +777,25 @@ namespace GeoGen.Studio.PlugIns
 
         private void EditorLoaded(object sender, EventArgs e)
         {
-            this.editor.TextArea.SnapsToDevicePixels = true;
-            this.IsUnsaved = false;
-            this.InitializeSyntaxHighlighing();
 
-            // Code folding
-            //this.foldingManager = ICSharpCode.AvalonEdit.Folding.FoldingManager.Install(editor.TextArea);
-            //this.foldingStrategy = new BraceFoldingStrategy();
-            //this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
-
-            // window might not always be available (for example in designer)
-            try{
-                // we want to ask the user if 
-                Window.GetWindow(this).Closing += new System.ComponentModel.CancelEventHandler(Window_Closing);
+            try
+            {
+                // we want to ask the user if he wants to save unsaved content
+                // but prevent repeated even registration (loaded can be called repeatedly)
+                Window.GetWindow(this).Closing -= Window_Closing;
+                Window.GetWindow(this).Closing += Window_Closing;
             }
-            catch (NullReferenceException) { };
-            
-            this.editor.TextChanged += new System.EventHandler(editor_TextChanged);
-            this.editor.TextArea.TextEntered += new System.Windows.Input.TextCompositionEventHandler(editor_TextChanged);
-            this.editor.TextArea.SelectionChanged += new System.EventHandler(editor_SelectionChanged);
-            this.editor.TextArea.Caret.PositionChanged += new System.EventHandler(editor_SelectionChanged);                            
+            catch (NullReferenceException)
+            {
+                Console.Write("asd");
+            };
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if(this.IsUnsaved){
 
-                MessageBoxResult result = MessageBox.Show("Do you wish to save unsaved content?", "", MessageBoxButton.YesNoCancel);                
+                MessageBoxResult result = UI.MessageBox.Show("Do you wish to save unsaved content?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);                
 
                 switch(result){
                     case MessageBoxResult.Yes:
