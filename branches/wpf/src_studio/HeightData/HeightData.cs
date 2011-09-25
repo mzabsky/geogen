@@ -289,14 +289,12 @@ namespace GeoGen.Studio
             double ratio = 1;
             if(min > max)
             {
-                ratio = (double) short.MaxValue / (double) (min);
+                ratio = (double) short.MaxValue / (double) (min);                
             }
             else
             {
                 ratio = (double) short.MaxValue / (double) max;
             }
-
-            MessageBox.Show(min + " MAX " + max + " RATION " + ratio);
 
             for(int i = 0; i < this.heightData.Length; i++)
             {
