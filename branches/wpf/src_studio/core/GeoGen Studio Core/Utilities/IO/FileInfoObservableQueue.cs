@@ -1,9 +1,10 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-using GeoGen.Studio.Utilities.Collections;
-
-namespace GeoGen.Studio.Utilities.IO
+﻿namespace GeoGen.Studio.Utilities.IO
 {
+    using GeoGen.Studio.Utilities.Collections;
+    using System.IO;
+    using System.Linq;    
+    using System.Xml.Serialization;    
+
     /// <summary>
     /// Observable collection of files. Each file can be only once in the collection. The collection has total capacity of 20 entries.
     /// </summary>
@@ -49,13 +50,17 @@ namespace GeoGen.Studio.Utilities.IO
                 {                    
                 }
             }
-            reader.ReadEndElement();
+            reader.ReadEndElement();            
         }
 
         /// <exclude />
         public void WriteXml(System.Xml.XmlWriter writer)
         {
-            foreach (FileInfo fileInfo in this)
+            // write the elements in  reverse order (so the XML can be read as a queue)
+            var reversed = this.ToList();
+            reversed.Reverse();
+
+            foreach (FileInfo fileInfo in reversed)
             {
                 writer.WriteStartElement("item");
                 writer.WriteValue(fileInfo.FullName);
