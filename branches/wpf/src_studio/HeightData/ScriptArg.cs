@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using GeoGen.Net;
 
 namespace GeoGen.Studio
@@ -55,8 +56,8 @@ namespace GeoGen.Studio
             this.Minimum = arg.Minimum;
             this.Value = arg.Value;
 
-            this.Options = new string[this.Maximum + 1];
-            arg.Options.CopyTo(this.Options, 0);
+            this.Options = arg.Options.ToArray(); //new string[this.Maximum + 1];
+            //arg.Options.CopyTo(this.Options, 0);
         }
 
         protected void OnPropertyChanged(string info)
