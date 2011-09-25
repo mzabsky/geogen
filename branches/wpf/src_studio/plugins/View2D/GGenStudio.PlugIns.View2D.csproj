@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BDACE2EE-D55C-426B-84DA-8E1C6CB377BA}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
+    <AssemblyName>GGenStudio.PlugIn.View2D</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\bin\plugins\GGenStudio.PlugIn.View2D.XML</DocumentationFile>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View2D.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="View2D.xaml.cs">
+      <DependentUpon>View2D.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen Studio Core.csproj">
+      <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
+      <Name>GeoGen Studio Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\HeightData\GGenStudio.HeightData.csproj">
+      <Project>{EA119B85-8F12-4E84-89AB-E47D8996D016}</Project>
+      <Name>GGenStudio.HeightData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DockManager\GGenStudio.PlugIns.DockManager.csproj">
+      <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
+      <Name>GGenStudio.PlugIns.DockManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoGen\GGenStudio.PlugIns.GGen.csproj">
+      <Project>{5D0FF14C-459D-4801-A825-C406D5FD6051}</Project>
+      <Name>GGenStudio.PlugIns.GGen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+      <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
+      <Name>GGenStudio.PlugIns.MenuBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusBar\GGenStudio.PlugIns.StatusBar.csproj">
+      <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
+      <Name>GGenStudio.PlugIns.StatusBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
+      <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
+      <Name>GGenStudio.PlugIns.ToolBar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\export.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Backgrounds\checkers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\toggleOverlay.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <UsingTask TaskName="NotifyPropertyWeaverMsBuildTask.WeavingTask" AssemblyFile="$(SolutionDir)\msbuild\NotifyPropertyWeaverMsBuildTask.dll" />
+  <Target Name="AfterBuild">
+    <WeavingTask TargetPath="$(TargetPath)" CheckForEquality="true" TryToWeaveAllTypes="True" />
+  </Target>
+</Project>
