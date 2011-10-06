@@ -8,6 +8,7 @@ namespace GeoGen.Studio.PlugIns
     /// <summary>
     /// Main window for the application, that can place any number of horizontal bars on top and bottom side of the window and one control as its content.
     /// </summary>
+    [PlugIn(VisibleInList = false)]
     public partial class MainWindow : IMainWindow
     {
         private static readonly DependencyProperty topBarsProperty = DependencyProperty.Register(
