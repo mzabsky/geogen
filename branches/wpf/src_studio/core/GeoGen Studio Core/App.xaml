@@ -101,13 +101,22 @@
                                                     </Style.Resources>
                                                 </Style>
                                             </Border.Style>
-                                            <ItemsControl ItemsSource="{TemplateBinding Buttons}" DockPanel.Dock="Bottom">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>
+                                            <DockPanel DockPanel.Dock="Bottom">
+                                                <ItemsControl ItemsSource="{TemplateBinding Buttons}" DockPanel.Dock="Right">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                </ItemsControl>
+                                                <ContentPresenter Content="{TemplateBinding BottomBarContent}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
+                                                    <ContentPresenter.Style>
+                                                        <Style>
+                                                            <Setter Property="TextBlock.Foreground" Value="White"/>
+                                                        </Style>
+                                                    </ContentPresenter.Style>
+                                                </ContentPresenter>
+                                            </DockPanel>
                                         </Border>
                                     </DockPanel>
                                 </Border>
