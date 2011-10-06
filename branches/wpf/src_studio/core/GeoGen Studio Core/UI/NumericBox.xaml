@@ -8,7 +8,7 @@
              Name="numericBox"
              DataContext="{Binding ElementName=numericBox}">
     <DockPanel>
-        <TextBox Width="100" DockPanel.Dock="Left" Margin="0,0,10,0" Text="{Binding Value}" />
+        <TextBox Width="100" DockPanel.Dock="Left" Margin="0,0,10,0" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock DockPanel.Dock="Left" Text="{Binding Minimum}" />        
         <TextBlock DockPanel.Dock="Right" Text="{Binding Maximum}" />
         <Slider Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}"/>
