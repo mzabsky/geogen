@@ -9,7 +9,7 @@ namespace GeoGen.Studio.UI
     /// </summary>
     public partial class NumericBox : UserControl
     {
-        private static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             "Value", typeof(int), typeof(NumericBox), new FrameworkPropertyMetadata(0, new PropertyChangedCallback(OnValueChanged))
         );
 
