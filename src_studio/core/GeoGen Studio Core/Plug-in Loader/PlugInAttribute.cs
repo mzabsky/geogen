@@ -30,7 +30,7 @@ namespace GeoGen.Studio.PlugInLoader
 
         /// <summary>
         /// Short description of the plug-in.
-        /// </summary>
+        /// </summaisry>
         /// <value>The description.</value>
         public string Description { get; set; }
         
@@ -40,16 +40,22 @@ namespace GeoGen.Studio.PlugInLoader
         public InstanceCount InstanceCount { get; set; }
 
         /// <summary>
+        /// True if this plug-in is showing in plug-in lists.
+        /// </summary>
+        public bool VisibleInList { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PlugInAttribute"/> class.
         /// </summary>        
         /// <param name="name">User-friendly name of the plug-in</param>
         /// <param name="description">Short user-friendly description of the plug-in</param>        
         /// <param name="instanceCount">Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.</param>
-        public PlugInAttribute(string name = "", string description = "", InstanceCount instanceCount = InstanceCount.One)
+        public PlugInAttribute(string name = "", string description = "", InstanceCount instanceCount = InstanceCount.One, bool visibleInList = true)
         {
             this.Name = name;
             this.Description = description;
             this.InstanceCount = instanceCount;
+            this.VisibleInList = visibleInList;
         }
     }
 }

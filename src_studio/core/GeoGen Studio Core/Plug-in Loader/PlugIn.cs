@@ -33,6 +33,8 @@ namespace GeoGen.Studio.PlugInLoader
         /// <value>The <see cref="Type"/>.</value>
         public Type Type {get; private set;}
 
+        public bool VisibleInList {get; private set;}
+
         private readonly List<object> instances = new List<object>();
         /// <summary>
         /// List of instances started by the <see cref="Loader"/>.
@@ -105,8 +107,8 @@ namespace GeoGen.Studio.PlugInLoader
 
             // Use type name if the attribute didn't provide a nice name
             this.Name = plugInAttribute.Name.Length > 0 ? plugInAttribute.Name : plugInType.Name;
-
             this.Description = plugInAttribute.Description;
+            this.VisibleInList = plugInAttribute.VisibleInList;
 
             this.instances = new List<object>(instances);
             this.registrators = new List<Registrator>(registrators);
