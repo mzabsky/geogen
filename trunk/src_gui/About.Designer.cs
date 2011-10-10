@@ -65,9 +65,9 @@
             this.label2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.Location = new System.Drawing.Point(12, 137);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(264, 19);
+            this.label2.Size = new System.Drawing.Size(180, 19);
             this.label2.TabIndex = 3;
-            this.label2.Text = "GeoGen Studio Bachelor Thesis Version";
+            this.label2.Text = "GeoGen Studio Preview a8";
             // 
             // label3
             // 
