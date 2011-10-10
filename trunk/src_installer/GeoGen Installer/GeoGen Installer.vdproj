@@ -678,7 +678,7 @@
             {
             "Enabled" = "11:TRUE"
             "PromptEnabled" = "11:TRUE"
-            "PrerequisitesLocation" = "2:2"
+            "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
                 "Items"
@@ -2177,7 +2177,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:GeoGenNET, Version=1.0.4232.35292, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:GeoGenNET, Version=1.0.4233.19355, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_BF8B29F960C18464AEE02EC7C6889ACF"
@@ -2826,7 +2826,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GeoGen"
         "ProductCode" = "8:{F8301214-83C0-45AF-AD0C-A46749D23B30}"
-        "PackageCode" = "8:{440807C3-E762-4F25-B97D-BFCD3F8EA77E}"
+        "PackageCode" = "8:{DF096DAF-5E61-49E0-BC9C-5CB9333DBC53}"
         "UpgradeCode" = "8:{85AAC0C9-639C-4F4A-971E-D39EBD6AE427}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
