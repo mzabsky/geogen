@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="GGen Squirrel API">
+      <UniqueIdentifier>{e8a72924-0aa6-4e1a-8be8-c941082f92b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{9770295b-f3a8-4a97-851e-04f5a302a9b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples">
+      <UniqueIdentifier>{0eca4e1b-b95e-4e8a-82a0-8bca7351261c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\ggen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_amplitudes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_data_1d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_data_2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_scriptarg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\ArgDesc\ArgDesc.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\EasyBMP\EasyBMP.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeoGen.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_progress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_squirrel.cpp">
+      <Filter>GGen Squirrel API</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ggen_erosionsimulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\ggen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_amplitudes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_data_1d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_data_2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_presets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_scriptarg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_support.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_squirrel.h">
+      <Filter>GGen Squirrel API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_progress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ggen_erosionsimulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\examples\archipelago.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\atoll.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\basic.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\clutch.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\double pass.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\highlands lake.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\seaside country.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\template.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\test.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\tournament islands I.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\tournament islands II.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\valley.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\examples\voronoi.nut">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="..\documentation.html" />
+    <None Include="..\TODO.TXT" />
+    <None Include="..\Makefile" />
+    <None Include="..\test.bat" />
+    <None Include="..\examples\erosion.nut">
+      <Filter>Examples</Filter>
+    </None>
+  </ItemGroup>
+</Project>
