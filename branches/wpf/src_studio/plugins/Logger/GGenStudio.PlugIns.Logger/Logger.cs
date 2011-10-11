@@ -5,6 +5,7 @@ using System.IO;
 
 namespace GeoGen.Studio.PlugIns
 {
+    [PlugIn(VisibleInList = false)]
     public class Logger: IPlugIn
     {
         protected TextWriter Writer {get; set;}
