@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using GeoGen.Net;
-
-namespace GeoGen.Studio
+﻿namespace GeoGen.Studio
 {
-    sealed public class ScriptArg: INotifyPropertyChanged
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using GeoGen.Net;
+    using GeoGen.Studio.Utilities;
+
+    sealed public class ScriptArg: ObservableObject, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ScriptArgType Type { get; protected set; }
+        public ScriptArgType Type { get; private set; }
 
-        public string Name {get; protected set;}
+        public string Name {get; private set;}
 
-        public string Label { get; protected set; }
+        public string Label { get; private set; }
 
-        public string Description { get; protected set; }
+        public string Description { get; private set; }
 
         public uint Default {get; set;}
 
@@ -35,7 +36,7 @@ namespace GeoGen.Studio
             }
         }
 
-        public string[] Options { get; protected set; }
+        public string[] Options { get; private set; }
 
         public string CurrentOption {
             get {

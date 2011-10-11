@@ -142,6 +142,11 @@ namespace GeoGen.Studio
             return overlay.Name == this.Name;
         }
 
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode();
+        }
+
         public XmlSchema GetSchema()
         {
             return null;
