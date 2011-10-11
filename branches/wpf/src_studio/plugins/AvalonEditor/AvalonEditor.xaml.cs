@@ -439,6 +439,7 @@ namespace GeoGen.Studio.PlugIns
         private ICSharpCode.AvalonEdit.Folding.AbstractFoldingStrategy foldingStrategy;
         private ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
         private Guid currentFileSessionGuid;
+        private IDockManager dockManager;
 
         public AvalonEditor()
         {                        
@@ -485,6 +486,12 @@ namespace GeoGen.Studio.PlugIns
                     this.currentFileSessionGuid = args.FileSession.FileSessionGuid;
 
                     this.IsUnsaved = false;
+
+                    // switch to this tab after creating a file
+                    if (this.dockManager != null)
+                    {
+                        this.dockManager.Activate(this);
+                    }
                 }
             };
 
@@ -499,12 +506,19 @@ namespace GeoGen.Studio.PlugIns
                     //GeoGen.Studio.UI.MessageBox.Show(this.editor.Text);
 
                     this.IsUnsaved = false;
+
+                    // switch to this tab after opening a file
+                    if (this.dockManager != null)
+                    {
+                        this.dockManager.Activate(this);
+                    }
                 }
             };
         }
        
         public void Register(IDockManager dockManager)
         {
+            this.dockManager = dockManager;
             dockManager.AddAsDocumentContent(this, "Code", true);
         }
 
@@ -875,6 +889,12 @@ namespace GeoGen.Studio.PlugIns
             
             this.CurrentFileName = "";
             this.IsUnsaved = false;
+
+            // switch to this tab after creating a new file
+            if (this.dockManager != null)
+            {
+                this.dockManager.Activate(this);
+            }
         }
 
         public void Save()
@@ -912,12 +932,12 @@ namespace GeoGen.Studio.PlugIns
 
                 //try
                 //{
-                	FileService.OnFileOpened(this, new FileInfo(fileName));
+                FileService.OnFileOpened(this, new FileInfo(fileName));
                 //}
                 //catch (System.Exception ex)
                 //{
                 	
-                //}
+                //}                
             }
             catch {
                 Messenger.ThrowMessage(new Message("File \"" + this.LastFileName + "\" is not readable", MessageType.Error));

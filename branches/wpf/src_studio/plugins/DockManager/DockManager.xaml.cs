@@ -15,6 +15,7 @@ using GeoGen.Studio.PlugInLoader;
 
 namespace GeoGen.Studio.PlugIns
 {    
+    [PlugIn(VisibleInList = false)]
     public partial class DockManager : UserControl, IPlugIn, IDockManager
     {
         Dictionary<object, object> registeredContents = new Dictionary<object, object>();        
@@ -113,6 +114,17 @@ namespace GeoGen.Studio.PlugIns
             registeredContents.Add(content, avalonContent);
 
             return true;
+        }
+
+        public void Activate(object content)
+        {
+            if (!registeredContents.ContainsKey(content))
+            {
+                throw new InvalidOperationException("Passed content is not registered with this dock manager.");
+            }
+            
+            dynamic avalonContent = registeredContents[content];
+            avalonContent.Activate();
         }
     
     }

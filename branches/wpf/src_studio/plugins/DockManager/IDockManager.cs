@@ -9,5 +9,6 @@ namespace GeoGen.Studio.PlugIns
         bool AddAsDocumentContent(object content, string title, bool focus = false);
         bool AddAsDockableContent(object content, string title, bool showInMainArea = false);
         bool AddAsFloatableWindow(object content, string title, Size size, bool dockable = true);
+        void Activate(object content);
     }
 }
