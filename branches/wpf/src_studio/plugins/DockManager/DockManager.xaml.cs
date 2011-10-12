@@ -15,117 +15,180 @@ using GeoGen.Studio.PlugInLoader;
 
 namespace GeoGen.Studio.PlugIns
 {    
-    [PlugIn(VisibleInList = false)]
-    public partial class DockManager : UserControl, IPlugIn, IDockManager
-    {
-        Dictionary<object, object> registeredContents = new Dictionary<object, object>();        
+	[PlugIn(VisibleInList = false)]
+	public partial class DockManager : UserControl, IPlugIn, IDockManager
+	{
+		Dictionary<object, object> registeredContents = new Dictionary<object, object>();        
 
-        public DockManager()
-        {
-            this.InitializeComponent();
-        }
+		public DockManager()
+		{
+			this.InitializeComponent();
+			this.dockManager.RestoringLayout = true;
 
-        public void Register(IMainWindow mainWindow)
-        {
-            mainWindow.Content = this;
-        }
+			Loader.Ready += delegate
+			{
+				this.dockManager.RestoringLayout = false;
+			};
+		}
 
-        public bool AddAsDocumentContent(object content, string title, bool focus = false){
-            if(registeredContents.ContainsKey(content))
-            {
-                dynamic existingContent = registeredContents[content];
-                
-                if (!existingContent.IsArrangeValid) existingContent.Show();
-                existingContent.Activate();
+		public void Register(IMainWindow mainWindow)
+		{
+			mainWindow.Content = this;
+		}
 
-                return false;
-            }
+		// TODO
+		// - zrusit focus (udelat podle priority)
 
-            AvalonDock.DocumentContent avalonContent = new AvalonDock.DocumentContent();
-            avalonContent.Content = content;
-            avalonContent.Title = title;
-            avalonContent.Show(this.dockManager);
+		public bool AddAsDocumentContent(object content, string title, bool focus = false){
+			if(registeredContents.ContainsKey(content))
+			{
+				dynamic existingContent = registeredContents[content];
+				
+				if (!existingContent.IsArrangeValid) existingContent.Show();
+				existingContent.Activate();
 
-            if(focus)
-            {
-                avalonContent.Activate();
-            }
+				return false;
+			}
 
-            registeredContents.Add(content, avalonContent);
+			AvalonDock.DocumentContent avalonContent = new AvalonDock.DocumentContent();
+			avalonContent.Content = content;
+			avalonContent.Title = title;
+			avalonContent.Show(this.dockManager);
 
-            return true;
-        }
+			if(focus)
+			{
+				avalonContent.Activate();
+			}
 
-        public bool AddAsDockableContent(object content, string title, bool showInMainArea = false)
-        {
-            if (registeredContents.ContainsKey(content))
-            {
-                dynamic existingContent = registeredContents[content];
+			registeredContents.Add(content, avalonContent);
 
-                if (!existingContent.IsArrangeValid) existingContent.Show();
-                existingContent.Activate();
+			return true;
+		}
 
-                return false;
-            }
+		public bool AddAsDockableContent(object content, string title, DockingLocation preferredLocation)
+		{
+			if (registeredContents.ContainsKey(content))
+			{
+				dynamic existingContent = registeredContents[content];
 
-            AvalonDock.DockableContent avalonContent = new AvalonDock.DockableContent();
-            avalonContent.Content = content;
-            avalonContent.Title = title;
-            avalonContent.Show(this.dockManager);
+				if (!existingContent.IsArrangeValid) existingContent.Show();
+				existingContent.Activate();
 
-            if(showInMainArea)
-            {
-                avalonContent.ShowAsDocument(this.dockManager);
-            }
-            else
-            {
-                avalonContent.Show();
-            }
+				return false;
+			}
 
-            registeredContents.Add(content, avalonContent);
+			AvalonDock.DockableContent avalonContent = new AvalonDock.DockableContent();
+			avalonContent.Content = content;
+			avalonContent.Title = title;
+			avalonContent.SavedStateAndPosition = this.GetDockingStateByLocation(preferredLocation) as AvalonDock.DockableContentStateAndPosition;
+			avalonContent.SavedStateAndPosition.ContainerPane.Items.Add(avalonContent);
+			//avalonContent.ContainerPane = avalonContent.SavedStateAndPosition.ContainerPane;
+			//avalonContent.Show(this.dockManager);
 
-            return true;
-        }
+			if (avalonContent.ContainerPane is AvalonDock.DocumentPane)
+			{
+				avalonContent.ShowAsDocument(this.dockManager);
+			}
+			else
+			{
+				avalonContent.Show();
+			}
 
-        public bool AddAsFloatableWindow(object content, string title, Size size, bool dockable = true)
-        {
-            if (registeredContents.ContainsKey(content))
-            {
-                dynamic existingContent = registeredContents[content];
+			registeredContents.Add(content, avalonContent);
 
-                if (!existingContent.IsArrangeValid) existingContent.ShowAsFloatingWindow();
-                existingContent.Activate();
+			return true;
+		}
 
-                return false;
-            }
+		public bool AddAsFloatableWindow(object content, string title, Size size, bool dockable = true)
+		{
+			if (registeredContents.ContainsKey(content))
+			{
+				dynamic existingContent = registeredContents[content];
 
-            AvalonDock.DockableContent avalonContent = new AvalonDock.DockableContent();
-            avalonContent.Content = content;
-            avalonContent.Title = title;
-            avalonContent.Show(this.dockManager);
+				if (!existingContent.IsArrangeValid) existingContent.ShowAsFloatingWindow();
+				existingContent.Activate();
 
-            if(size != null)
-            {
-                avalonContent.FloatingWindowSize = size;
-            }
+				return false;
+			}
 
-            avalonContent.ShowAsFloatingWindow(this.dockManager, dockable);
+			AvalonDock.DockableContent avalonContent = new AvalonDock.DockableContent();
+			avalonContent.Content = content;
+			avalonContent.Title = title;
+			avalonContent.Show(this.dockManager);
 
-            registeredContents.Add(content, avalonContent);
+			if(size != null)
+			{
+				avalonContent.FloatingWindowSize = size;
+			}
 
-            return true;
-        }
+			avalonContent.ShowAsFloatingWindow(this.dockManager, dockable);
 
-        public void Activate(object content)
-        {
-            if (!registeredContents.ContainsKey(content))
-            {
-                throw new InvalidOperationException("Passed content is not registered with this dock manager.");
-            }
-            
-            dynamic avalonContent = registeredContents[content];
-            avalonContent.Activate();
-        }
-    
-    }
+			registeredContents.Add(content, avalonContent);
+
+			return true;
+		}
+
+		public void Activate(object content)
+		{
+			if (!registeredContents.ContainsKey(content))
+			{
+				throw new InvalidOperationException("Passed content is not registered with this dock manager.");
+			}
+			
+			dynamic avalonContent = registeredContents[content];
+			avalonContent.Activate();
+		}
+
+		public object GetDockingState(object content) 
+		{
+			throw new NotImplementedException(); 
+		}
+
+		public object GetDockingStateByLocation(DockingLocation location) {
+			AvalonDock.Pane pane;
+			AvalonDock.DockableContentState state;
+			switch (location)
+			{
+				case DockingLocation.LeftTop:
+					pane = this.leftTopPane;
+					state = AvalonDock.DockableContentState.Docked;
+					break;
+				case DockingLocation.LeftBottom:
+					pane = this.leftBottomPane;
+					state = AvalonDock.DockableContentState.Docked;
+					break;
+				case DockingLocation.RightTop:
+					pane = this.rightTopPane;
+					state = AvalonDock.DockableContentState.Docked;
+					break;
+				case DockingLocation.RightBottom:
+					pane = this.rightBottomPane;
+					state = AvalonDock.DockableContentState.Docked;
+					break;
+				case DockingLocation.Top:
+					pane = this.topPane;
+					state = AvalonDock.DockableContentState.Docked;
+					break;
+				case DockingLocation.Bottom:
+					pane = this.bottomPane;
+					state = AvalonDock.DockableContentState.Docked;
+					break;
+				case DockingLocation.Document:
+					pane = this.documentPane;
+					state = AvalonDock.DockableContentState.Document;
+					break;
+				default:
+					throw new NotImplementedException();
+			}
+
+			return new AvalonDock.DockableContentStateAndPosition(	
+				containerPane: pane,
+				childIndex: 0,
+				width: Math.Max(pane.ActualWidth, 100.0),
+				height: Math.Max(pane.ActualHeight, 100.0),
+				anchor: AvalonDock.AnchorStyle.None,
+				state: state				
+			);
+		}
+	}
 }
