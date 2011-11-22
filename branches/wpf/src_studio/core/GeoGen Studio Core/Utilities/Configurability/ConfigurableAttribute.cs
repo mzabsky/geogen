@@ -23,6 +23,14 @@ namespace GeoGen.Studio.Utilities.Configurability
         public bool UseEmptyInstanceAsDefault{get; set;}
 
         /// <summary>
+        /// Allow visual configuration of this property.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> this property should be displayed in visual configuration tools, <c>false</c>.
+        /// </value>
+        public bool EnableVisualConfiguration { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableAttribute"/> class.
         /// </summary>
         public ConfigurableAttribute(){}
@@ -31,9 +39,10 @@ namespace GeoGen.Studio.Utilities.Configurability
         /// Initializes a new instance of the <see cref="ConfigurableAttribute"/> class.
         /// </summary>
         /// <param name="defaultValue">The default value.</param>
-        public ConfigurableAttribute(object defaultValue)
+        public ConfigurableAttribute(object defaultValue = null)
         {
             this.DefaultValue = defaultValue;
+            this.EnableVisualConfiguration = true;
         }
     }
 }

@@ -77,6 +77,16 @@ namespace GeoGen.Studio.UI
                 }
             );
 
+            // CTRL+C will copy the text into system clipboard
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    ApplicationCommands.Copy,
+                    delegate
+                    {
+                        Clipboard.SetText(this.Content.ToString(), TextDataFormat.Text);
+                    }));
+                    
+
             this.Buttons = buttons;
             this.Image = image;
 

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-
-namespace GeoGen.Studio.Utilities
+﻿namespace GeoGen.Studio.Utilities
 {
+    using System.ComponentModel;
+
     /// <summary>
     /// Provides <see cref="INotifyPropertyChanged"/> implementation.
     /// </summary>
