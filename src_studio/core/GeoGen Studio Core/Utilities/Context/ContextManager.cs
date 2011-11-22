@@ -27,7 +27,7 @@ namespace GeoGen.Studio.Utilities.Context
                 }
             }
 
-            set
+            internal set
             {
                 ContextManager.dispatcher = value;
             }
