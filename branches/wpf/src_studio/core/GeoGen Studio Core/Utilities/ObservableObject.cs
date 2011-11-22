@@ -5,7 +5,7 @@
     /// <summary>
     /// Provides <see cref="INotifyPropertyChanged"/> implementation.
     /// </summary>
-    public class ObservableObject
+    public abstract class ObservableObject
     {
         /// <summary>
         /// Occurs when a property value changes.
