@@ -24,5 +24,10 @@
         {
             this.Label = label;
         }
+
+        public override bool Equals(object obj)
+        {
+            return object.ReferenceEquals(this, obj);
+        }
     }
 }

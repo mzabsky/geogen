@@ -12,6 +12,26 @@ namespace GeoGen.Studio.Utilities.Context
     public static class ContextManager
     {
         private static readonly List<Context> contexts = new List<Context>();
+        private static Dispatcher dispatcher;
+        
+        public static Dispatcher Dispatcher {
+            get
+            {
+                if (ContextManager.dispatcher != null)
+                {
+                    return ContextManager.dispatcher;
+                }
+                else
+                {
+                    return Application.Current.Dispatcher;
+                }
+            }
+
+            set
+            {
+                ContextManager.dispatcher = value;
+            }
+        }
 
         /// <summary>
         /// Occurs when the manager enter or leaves a <see cref="Context"/>.
@@ -42,7 +62,6 @@ namespace GeoGen.Studio.Utilities.Context
                 else
                 {
                     ContextManager.contexts.Add(context);
-                    ContextManager.OnContextChanged();
                     result = true;
                 }
             }
@@ -102,9 +121,9 @@ namespace GeoGen.Studio.Utilities.Context
             {
                 throw new ArgumentNullException();
             }
-            
+
             lock (ContextManager.contexts)
-            {
+            {   
                 return ContextManager.contexts.Intersect(knownContexts);
             }
         }
@@ -142,8 +161,9 @@ namespace GeoGen.Studio.Utilities.Context
         /// </returns>
         public static bool IsContextActive(Context context)
         {
-            if(context == null){
-                return false;
+            if (context == null)
+            {
+                throw new ArgumentNullException();
             }
 
             lock (ContextManager.contexts){
@@ -155,7 +175,7 @@ namespace GeoGen.Studio.Utilities.Context
         {
             if(ContextManager.ContextChanged != null)
             {
-                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, (Action) delegate
+                ContextManager.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)delegate
                 {
                     ContextManager.ContextChanged(null, new EventArgs());
                 });
