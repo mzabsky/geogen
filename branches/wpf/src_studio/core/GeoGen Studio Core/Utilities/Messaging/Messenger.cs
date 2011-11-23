@@ -10,6 +10,28 @@ namespace GeoGen.Studio.Utilities.Messaging
     /// </summary>
     public static class Messenger
     {
+        private static Dispatcher dispatcher;
+
+        public static Dispatcher Dispatcher
+        {
+            get
+            {
+                if (Messenger.dispatcher != null)
+                {
+                    return Messenger.dispatcher;
+                }
+                else
+                {
+                    return Application.Current.Dispatcher;
+                }
+            }
+
+            internal set
+            {
+                Messenger.dispatcher = value;
+            }
+        }
+        
         /// <summary>
         /// Occurs when a <see cref="Message"/> is broadcasted.
         /// </summary>
@@ -34,15 +56,20 @@ namespace GeoGen.Studio.Utilities.Messaging
         /// <param name="message">The message.</param>
         public static void ThrowMessage(Message message)
         {
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            Messenger.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
             {
                 Messenger.messageHistory.Add(message);
 
-                if(MessageThrown != null)
+                if (Messenger.MessageThrown != null)
                 {
                     Messenger.MessageThrown(null, new MessageThrownEventArgs(message));
                 }
             });
+        }
+
+        internal static void ClearHistory()
+        {
+            Messenger.messageHistory.Clear();
         }
     }
 }
