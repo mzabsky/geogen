@@ -128,6 +128,7 @@
     <Compile Include="Utilities\Converters\CollectionToCountConverter.cs" />
     <Compile Include="Utilities\Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Utilities\Extensions\Dispatcher.cs" />
     <Compile Include="Utilities\Extensions\FileInfo.cs" />
     <Compile Include="Utilities\IO\FileDialog.cs" />
     <Compile Include="Utilities\IO\FileEventArgs.cs" />
