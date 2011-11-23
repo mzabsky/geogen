@@ -1,10 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using GeoGen.Studio.PlugInLoader;
-using GeoGen.Studio.Utilities.Collections;
-
-namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns
 {
+    using GeoGen.Studio.PlugInLoader;
+    using GeoGen.Studio.Utilities.Collections;
+    using System.Windows;
+    using System.Windows.Input;    
+
     /// <summary>
     /// Main window for the application, that can place any number of horizontal bars on top and bottom side of the window and one control as its content.
     /// </summary>
