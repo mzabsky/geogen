@@ -134,7 +134,7 @@ namespace GeoGen.Studio
         {
             var overlay = obj as Overlay;
 
-            if (overlay != null)
+            if (overlay == null)
             {
                 return false;
             }
