@@ -19,7 +19,16 @@ namespace GeoGen.Studio.PlugIns
         {
             this.IsEnabled = Loader.IsPlugInEnabled(plugIn);
             this.PlugIn = plugIn;
-            this.Properties = new List<ConfigurablePropertyInfo>();            
+            this.Properties = new List<ConfigurablePropertyInfo>();
+
+            this.PropertyChanged += delegate(object a, PropertyChangedEventArgs args)
+            {
+                int i = 0;
+                i++;
+            };
+
+            this.IsEnabled = false;
+            this.IsEnabled = true;
 
             // Build the list of configurable properties
             foreach (PropertyInfo property in plugIn.Type.GetProperties())
@@ -27,7 +36,11 @@ namespace GeoGen.Studio.PlugIns
                 ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
 
                 /* Skip non-readable non-readable non-configurable properties. */
-                if (property.CanWrite && property.CanRead && configurableAttribute != null)
+                if (
+                    property.CanWrite && 
+                    property.CanRead && 
+                    configurableAttribute != null && 
+                    configurableAttribute.EnableVisualConfiguration)
                 {
                     ConfigurablePropertyInfo configurablePropertyInfo = new ConfigurablePropertyInfo();
                     configurablePropertyInfo.Name = property.Name;

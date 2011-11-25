@@ -76,9 +76,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen Studio Core.csproj">
+    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
-      <Name>GeoGen Studio Core</Name>
+      <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\AvalonEditor\GGenStudio.PlugIns.AvalonEditor.csproj">
       <Project>{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}</Project>

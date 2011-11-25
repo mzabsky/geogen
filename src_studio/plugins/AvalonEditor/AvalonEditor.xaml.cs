@@ -13,7 +13,7 @@ using GeoGen.Studio.Utilities.Context;
 
 namespace GeoGen.Studio.PlugIns
 {
-    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.Control, ITextProvider, IEditor, INotifyPropertyChanged
+    public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.ControlBase, ITextProvider, IEditor, INotifyPropertyChanged
     {
         #region Dependency properties
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(

@@ -70,13 +70,6 @@ namespace GeoGen.Studio.PlugIns
             }
         }
 
-        public StatusBarEntry() {}
-
-        public StatusBarEntry(double priority, string value = "", BindingBase valueBinding = null)
-        {
-            this.Priority = priority;
-            this.Value = value;
-            this.ValueBinding = valueBinding;
-        }
-    }
+        	public StatusBarEntry() {}
+        	public StatusBarEntry(double priority, string value = "", BindingBase valueBinding = null)        	{            	this.Priority = priority;            	this.Value = value;            	this.ValueBinding = valueBinding;        	}    	}
 }

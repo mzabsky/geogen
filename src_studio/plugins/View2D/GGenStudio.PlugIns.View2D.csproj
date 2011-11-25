@@ -113,6 +113,10 @@
       <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
       <Name>GGenStudio.PlugIns.ToolBar</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
+      <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
+      <Name>GGenStudio.PlugIns.MainWindow</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\export.png" />

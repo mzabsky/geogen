@@ -22,7 +22,7 @@ namespace GeoGen.Studio.PlugIns
     /// <summary>
     /// A horizontal menu bar which displays items provided by other plug-ins.
     /// </summary>
-    public partial class MenuBar : GeoGen.Studio.Utilities.PlugInBase.Control, IMenuBar, IPriority
+    public partial class MenuBar : GeoGen.Studio.Utilities.PlugInBase.ControlBase, IMenuBar, IPriority
     {
         public double Priority
         {

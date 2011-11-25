@@ -101,6 +101,9 @@
     <Compile Include="Plug-in Loader\LoaderConfig.cs" />
     <Compile Include="Plug-in Loader\OptionalRegistratorAttribute.cs" />
     <Compile Include="Plug-in Loader\PlugIn.cs" />
+    <Compile Include="PlugIns\Interfaces\IControl.cs" />
+    <Compile Include="PlugIns\Interfaces\IWindow.cs" />
+    <Compile Include="UI\BusyAdorner.cs" />
     <Compile Include="UI\DialogBody.cs" />
     <Compile Include="UI\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
@@ -124,8 +127,10 @@
     <Compile Include="Utilities\Configurability\PropertyStore.cs" />
     <Compile Include="Utilities\Context\Context.cs" />
     <Compile Include="Utilities\Context\ContextManager.cs" />
+    <Compile Include="Utilities\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\BoolToYesNoConverter.cs" />
     <Compile Include="Utilities\Converters\CollectionToCountConverter.cs" />
+    <Compile Include="Utilities\Converters\CollectionToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Utilities\Extensions\Dispatcher.cs" />
@@ -141,9 +146,9 @@
     <Compile Include="Utilities\Messaging\MessageType.cs" />
     <Compile Include="Utilities\Messaging\Messenger.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
-    <Compile Include="Utilities\PlugInBase\Control.cs" />
-    <Compile Include="Utilities\PlugInBase\Object.cs" />
-    <Compile Include="Utilities\PlugInBase\Window.cs" />
+    <Compile Include="Utilities\PlugInBase\ControlBase.cs" />
+    <Compile Include="Utilities\PlugInBase\ObjectBase.cs" />
+    <Compile Include="Utilities\PlugInBase\WindowBase.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\Binding\BindingException.cs" />
     <Compile Include="Utilities\Binding\BindingManager.cs" />
