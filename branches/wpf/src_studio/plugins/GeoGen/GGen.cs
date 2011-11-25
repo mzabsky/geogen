@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows.Threading;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -21,7 +22,7 @@ namespace GeoGen.Studio.PlugIns
     public delegate void GenerationFailedEventHandler(object sender, GenerationFailedEventArgs args);
     public delegate void GenerationFinishedEventHandler(object sender, GenerationFinishedEventArgs args);
 
-    public class GGen : GeoGen.Studio.Utilities.PlugInBase.Object, IGenerator
+    public class GGen : GeoGen.Studio.Utilities.PlugInBase.ObjectBase, IGenerator
     {
         // The GeoGen instance.
         protected Generator generator = new Generator();
@@ -96,6 +97,21 @@ namespace GeoGen.Studio.PlugIns
         }
 
         public void Register() {}
+
+        public void Register(IQuickActionDisplay quickActionDisplay)
+        {
+            
+        }
+
+        public void Register(IMenuBar menuBar)
+        {
+            
+        }
+
+        public void Register(IMainWindowToolBar toolBar)
+        {
+            
+        }
 
         public void Start(string script, bool headerOnly = false, IEnumerable<uint> parametersOverride = null)
         {
@@ -282,10 +298,10 @@ namespace GeoGen.Studio.PlugIns
 
         protected void ImportArgsIntoGenerator()
         {
-            int i = 0;
+            /*int i = 0;
             foreach(ScriptArg arg in this.Args)
             {                
-                if (i == this.generator.Args.Length)
+                if (i == this.generator.Args.Count())
                 {
                     // We ran out of parameters...
                     break;
@@ -297,15 +313,30 @@ namespace GeoGen.Studio.PlugIns
                 }
 
                 i++;
+            }*/
+
+            var zipped = this.Args.Zip(this.generator.Args, (LocalArg, GeneratorArg) => new { LocalArg, GeneratorArg});
+
+            foreach (var item in zipped)
+            {
+                if (item.LocalArg.Type == item.GeneratorArg.Type)
+                {
+                    item.LocalArg.Value = item.GeneratorArg.Value;
+                }
             }
         }
 
         protected void ImportArgsIntoGeneratorFromValues(IEnumerable<uint> values)
         {
-            int i = 0;
-            foreach(uint value in values)
+            var zipped = this.generator.Args.Zip(values, (Arg, Value) => new {Arg, Value});
+
+            foreach(var item in zipped){
+                item.Arg.Value = item.Value;
+            }
+
+            /*foreach(uint value in values)
             {
-                if (i == this.generator.Args.Length)
+                if (i == this.generator.Args.Count())
                 {
                     // We ran out of parameters...
                     break;
@@ -314,7 +345,7 @@ namespace GeoGen.Studio.PlugIns
                 this.generator.Args[i].Value = value;
                 
                 i = 0;
-            }
+            }*/
         }        
 
         protected bool OnStarting(string script, bool headerOnly)

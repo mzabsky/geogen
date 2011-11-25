@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using System.ComponentModel;
-using GeoGen.Studio.Utilities;
-using GeoGen.Studio.PlugInLoader;
-using GeoGen.Studio.Utilities.Configurability;
-
-namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
-    public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.Window, INotifyPropertyChanged
+    using System.ComponentModel;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Input;
+    using GeoGen.Studio.PlugInLoader;
+    using GeoGen.Studio.Utilities;    
+    using GeoGen.Studio.Utilities.Configurability;
+
+    public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.WindowBase, INotifyPropertyChanged
     {
         private readonly ICommand showCommand;
         private readonly ICommand applyCommand;
@@ -58,11 +55,23 @@ namespace GeoGen.Studio.PlugIns
 
         public IEnumerable<PlugInInfo> PlugIns {get; private set;}
 
+        [Configurable(DefaultValue = false, EnableVisualConfiguration = false)]
+        public bool ShowHiddenPlugIns { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
         /// </summary>
         public Settings()
         {
+            this.PropertyChanged += delegate(object o, PropertyChangedEventArgs args)
+            {
+                if (args.PropertyName == "ShowHiddenPlugIns")
+                {
+                    bool a = this.ShowHiddenPlugIns;
+                    int i = 0;
+                }
+            };
+            
             ICommand command = this.ShowCommand;
 
             this.showCommand = new RelayCommand(
@@ -89,6 +98,7 @@ namespace GeoGen.Studio.PlugIns
                 param =>
                 {
                     (param as PlugInInfo).IsEnabled = !(param as PlugInInfo).IsEnabled;
+                    int i = 0;
                 }
             );
 
@@ -98,7 +108,11 @@ namespace GeoGen.Studio.PlugIns
                 this.Hide();
             };
 
+            this.PlugIns = Enumerable.Empty<PlugInInfo>();
+
             InitializeComponent();
+
+            MainConfig.Register(this);
         }
 
         /// <summary>
@@ -113,11 +127,11 @@ namespace GeoGen.Studio.PlugIns
                     priority: -1,
                     items: new MenuEntryObservableCollection {
                         new MenuSeparator(
-                            priority: -2000
+                            priority: -31
                         ),
                         new MenuEntry(
                             header: "Settings",                            
-                            priority: double.MinValue,
+                            priority: -32,
                             command: this.showCommand,
                             icon: "pack://application:,,,/GGenStudio.PlugIn.Settings;component/Images/Icons/settings.png"
                         )
@@ -130,6 +144,8 @@ namespace GeoGen.Studio.PlugIns
         {            
             List<PlugInInfo> list = new List<PlugInInfo>();
 
+            bool a = this.ShowHiddenPlugIns;
+
             foreach(PlugIn plugIn in Loader.PlugIns)
             {               
                 MainConfig.SaveConfiguration(plugIn.Instances.Last());                
@@ -137,7 +153,7 @@ namespace GeoGen.Studio.PlugIns
                 list.Add(new PlugInInfo(plugIn));
             }
 
-            this.PlugIns = list;
+            this.PlugIns = list.OrderBy(p => p.PlugIn.Name);            
 
             this.ShowDialog();
         }

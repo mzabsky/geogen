@@ -8,7 +8,7 @@ namespace GeoGen.Studio.PlugIns
 	/// <summary>
 	/// Interaction logic for UserControl1.xaml
 	/// </summary>
-	public partial class ParamGrid : GeoGen.Studio.Utilities.PlugInBase.Control
+	public partial class ParamGrid : GeoGen.Studio.Utilities.PlugInBase.ControlBase
 	{
 		private static readonly DependencyPropertyKey ItemsPropertyKey = DependencyProperty.RegisterReadOnly(
 			"Items", typeof(ObservableCollection<ScriptArg>), typeof(ParamGrid), new PropertyMetadata(new ObservableCollection<ScriptArg>()));

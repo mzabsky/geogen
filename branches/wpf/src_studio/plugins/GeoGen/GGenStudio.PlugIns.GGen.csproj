@@ -59,13 +59,25 @@
       <Project>{7B76756E-BC8F-4D6C-82EF-98F26FAD855F}</Project>
       <Name>GeoGen NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen Studio Core.csproj">
+    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
-      <Name>GeoGen Studio Core</Name>
+      <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\HeightData\GGenStudio.HeightData.csproj">
       <Project>{EA119B85-8F12-4E84-89AB-E47D8996D016}</Project>
       <Name>GGenStudio.HeightData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+      <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
+      <Name>GGenStudio.PlugIns.MenuBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
+      <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
+      <Name>GGenStudio.PlugIns.ToolBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WelcomeScreen\GGenStudio.PlugIns.WelcomeScreen.csproj">
+      <Project>{EEC27604-CE76-40B3-ADC8-105CB0731A58}</Project>
+      <Name>GGenStudio.PlugIns.WelcomeScreen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
