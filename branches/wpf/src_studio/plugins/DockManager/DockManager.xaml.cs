@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Collections.ObjectModel;
-using GeoGen.Studio.PlugInLoader;
+﻿namespace GeoGen.Studio.PlugIns
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.Text;
+	using System.Windows;
+	using System.Windows.Controls;
+	using System.Windows.Data;
+	using System.Windows.Documents;
+	using System.Windows.Input;
+	using System.Windows.Media;
+	using System.Windows.Media.Imaging;
+	using System.Windows.Navigation;
+	using System.Windows.Shapes;
+	using GeoGen.Studio.PlugInLoader;
+	using GeoGen.Studio.PlugIns.Interfaces;
 
-namespace GeoGen.Studio.PlugIns
-{    
 	[PlugIn(VisibleInList = false)]
 	public partial class DockManager : UserControl, IPlugIn, IDockManager
 	{
-		Dictionary<object, object> registeredContents = new Dictionary<object, object>();        
+		Dictionary<object, AvalonDock.ManagedContent> registeredContents = new Dictionary<object, AvalonDock.ManagedContent>();        
 
 		public DockManager()
 		{
@@ -42,7 +43,7 @@ namespace GeoGen.Studio.PlugIns
 		public bool AddAsDocumentContent(object content, string title, bool focus = false){
 			if(registeredContents.ContainsKey(content))
 			{
-				dynamic existingContent = registeredContents[content];
+				AvalonDock.ManagedContent existingContent = registeredContents[content];
 				
 				if (!existingContent.IsArrangeValid) existingContent.Show();
 				existingContent.Activate();
@@ -83,7 +84,7 @@ namespace GeoGen.Studio.PlugIns
 			avalonContent.SavedStateAndPosition = this.GetDockingStateByLocation(preferredLocation) as AvalonDock.DockableContentStateAndPosition;
 			avalonContent.SavedStateAndPosition.ContainerPane.Items.Add(avalonContent);
 			//avalonContent.ContainerPane = avalonContent.SavedStateAndPosition.ContainerPane;
-			//avalonContent.Show(this.dockManager);
+			//avalonContent.Show(this.dockManager);			
 
 			if (avalonContent.ContainerPane is AvalonDock.DocumentPane)
 			{
@@ -103,9 +104,9 @@ namespace GeoGen.Studio.PlugIns
 		{
 			if (registeredContents.ContainsKey(content))
 			{
-				dynamic existingContent = registeredContents[content];
+				AvalonDock.ManagedContent existingContent = registeredContents[content];
 
-				if (!existingContent.IsArrangeValid) existingContent.ShowAsFloatingWindow();
+				// TODO: fix this if (!existingContent.IsArrangeValid) existingContent.ShowAsFloatingWindow();
 				existingContent.Activate();
 
 				return false;
@@ -136,7 +137,7 @@ namespace GeoGen.Studio.PlugIns
 			}
 			
 			dynamic avalonContent = registeredContents[content];
-			avalonContent.Activate();
+			avalonContent.Activate();			
 		}
 
 		public object GetDockingState(object content) 
@@ -189,6 +190,17 @@ namespace GeoGen.Studio.PlugIns
 				anchor: AvalonDock.AnchorStyle.None,
 				state: state				
 			);
+		}
+
+		public bool IsContentActive(object content)
+		{
+			if (!registeredContents.ContainsKey(content))
+			{
+				throw new InvalidOperationException("Passed content is not registered with this dock manager.");
+			}
+
+			AvalonDock.ManagedContent avalonContent = registeredContents[content];
+			return avalonContent.IsActiveContent;			
 		}
 	}
 }

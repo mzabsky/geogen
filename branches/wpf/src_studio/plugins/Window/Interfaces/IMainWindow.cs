@@ -1,9 +1,8 @@
-﻿namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns.Interfaces
 {
 	using System.Windows.Input;
 	using GeoGen.Studio.PlugInLoader;	
-	using GeoGen.Studio.Utilities.Collections;
-	using GeoGen.Studio.PlugIns.Interfaces;
+	using GeoGen.Studio.Utilities.Collections;	
 
 	/// <summary>
 	/// Main window for the application, that can place any number of horizontal bars on top and bottom side of the window and one control as its content.
