@@ -71,7 +71,6 @@
     <Compile Include="ToolBars\ToolBarControl.cs" />
     <Compile Include="ToolBars\ToolBarEntry.cs" />
     <Compile Include="ToolBars\ToolBarEntryObservableCollection.cs" />
-    <Compile Include="ToolBars\ToolBarItemTemplateSelector.cs" />
     <Compile Include="ToolBars\ToolBarSeparator.cs" />
     <Compile Include="ToolBars\ToolBar.xaml.cs">
       <DependentUpon>ToolBar.xaml</DependentUpon>
