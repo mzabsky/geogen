@@ -1,4 +1,4 @@
-namespace GeoGen.Studio.PlugIns
+namespace GeoGen.Studio.PlugIns.ToolBars
 {
 	using GeoGen.Studio.PlugInLoader;
 	using GeoGen.Studio.PlugIns.Interfaces;

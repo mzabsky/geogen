@@ -1,8 +1,9 @@
-﻿using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-
-namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns.Interfaces
 {
+	using System.Windows.Controls;
+	using System.Windows.Controls.Primitives;
+	using GeoGen.Studio.PlugIns.ToolBars;
+
     /// <summary>
     /// Base for other toolbar-related interfaces.
     /// </summary>

@@ -59,21 +59,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToolBar.xaml">
+    <Page Include="ToolBars\ToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="IMainWindowToolBar.cs" />
-    <Compile Include="IToolBar.cs" />
-    <Compile Include="MainWindowToolBar.cs" />
-    <Compile Include="ToolBarCheckableButton.cs" />
-    <Compile Include="ToolBarButton.cs" />
-    <Compile Include="ToolBarControl.cs" />
-    <Compile Include="ToolBarEntry.cs" />
-    <Compile Include="ToolBarEntryObservableCollection.cs" />
-    <Compile Include="ToolBarItemTemplateSelector.cs" />
-    <Compile Include="ToolBarSeparator.cs" />
-    <Compile Include="ToolBar.xaml.cs">
+    <Compile Include="Interfaces\IMainWindowToolBar.cs" />
+    <Compile Include="Interfaces\IToolBar.cs" />
+    <Compile Include="ToolBars\MainWindowToolBar.cs" />
+    <Compile Include="ToolBars\ToolBarCheckableButton.cs" />
+    <Compile Include="ToolBars\ToolBarButton.cs" />
+    <Compile Include="ToolBars\ToolBarControl.cs" />
+    <Compile Include="ToolBars\ToolBarEntry.cs" />
+    <Compile Include="ToolBars\ToolBarEntryObservableCollection.cs" />
+    <Compile Include="ToolBars\ToolBarItemTemplateSelector.cs" />
+    <Compile Include="ToolBars\ToolBarSeparator.cs" />
+    <Compile Include="ToolBars\ToolBar.xaml.cs">
       <DependentUpon>ToolBar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
