@@ -49,7 +49,7 @@
 						IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsChecked}"
 						DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext}">
 						<ToggleButton.Style>
-							<Style TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+							<Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
 								<Style.Triggers>
 									<DataTrigger Binding="{Binding IsEnabled,RelativeSource={RelativeSource Self}}" Value="False">
 										<Setter Property="Effect" Value="{StaticResource grayscaleEffect}" />

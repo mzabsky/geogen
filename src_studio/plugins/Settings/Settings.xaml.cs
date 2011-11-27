@@ -1,188 +1,190 @@
 ﻿namespace GeoGen.Studio.PlugIns
 {
-    using System.ComponentModel;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Input;
-    using GeoGen.Studio.PlugInLoader;
-    using GeoGen.Studio.Utilities;    
-    using GeoGen.Studio.Utilities.Configurability;
+	using System.ComponentModel;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Windows.Input;
+	using GeoGen.Studio.PlugInLoader;
+	using GeoGen.Studio.PlugIns.Interfaces;
+	using GeoGen.Studio.PlugIns.MenuBars;
+	using GeoGen.Studio.Utilities;    
+	using GeoGen.Studio.Utilities.Configurability;
 
-    public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.WindowBase, INotifyPropertyChanged
-    {
-        private readonly ICommand showCommand;
-        private readonly ICommand applyCommand;
-        private readonly ICommand closeCommand;
-        private readonly ICommand okCommand;
-        private readonly ICommand togglePlugInCommand;
+	public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.WindowBase, INotifyPropertyChanged
+	{
+		private readonly ICommand showCommand;
+		private readonly ICommand applyCommand;
+		private readonly ICommand closeCommand;
+		private readonly ICommand okCommand;
+		private readonly ICommand togglePlugInCommand;
 
-        public ICommand ShowCommand {
-            get
-            {
-                return this.showCommand;
-            }
-        }
+		public ICommand ShowCommand {
+			get
+			{
+				return this.showCommand;
+			}
+		}
 
-        public ICommand ApplyCommand {
-            get
-            {
-                return this.applyCommand;
-            }
-        }
+		public ICommand ApplyCommand {
+			get
+			{
+				return this.applyCommand;
+			}
+		}
 
-        public ICommand CloseCommand {
-            get
-            {
-                return this.closeCommand;
-            }
-        }
+		public ICommand CloseCommand {
+			get
+			{
+				return this.closeCommand;
+			}
+		}
 
-        public ICommand OkCommand
-        {
-            get
-            {
-                return this.okCommand;
-            }
-        }
+		public ICommand OkCommand
+		{
+			get
+			{
+				return this.okCommand;
+			}
+		}
 
-        public ICommand TogglePlugInCommand
-        {
-            get
-            {
-                return this.togglePlugInCommand;
-            }
-        }
+		public ICommand TogglePlugInCommand
+		{
+			get
+			{
+				return this.togglePlugInCommand;
+			}
+		}
 
-        public IEnumerable<PlugInInfo> PlugIns {get; private set;}
+		public IEnumerable<PlugInInfo> PlugIns {get; private set;}
 
-        [Configurable(DefaultValue = false, EnableVisualConfiguration = false)]
-        public bool ShowHiddenPlugIns { get; set; }
+		[Configurable(DefaultValue = false, EnableVisualConfiguration = false)]
+		public bool ShowHiddenPlugIns { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Settings"/> class.
-        /// </summary>
-        public Settings()
-        {
-            this.PropertyChanged += delegate(object o, PropertyChangedEventArgs args)
-            {
-                if (args.PropertyName == "ShowHiddenPlugIns")
-                {
-                    bool a = this.ShowHiddenPlugIns;
-                    int i = 0;
-                }
-            };
-            
-            ICommand command = this.ShowCommand;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Settings"/> class.
+		/// </summary>
+		public Settings()
+		{
+			this.PropertyChanged += delegate(object o, PropertyChangedEventArgs args)
+			{
+				if (args.PropertyName == "ShowHiddenPlugIns")
+				{
+					bool a = this.ShowHiddenPlugIns;
+					int i = 0;
+				}
+			};
+			
+			ICommand command = this.ShowCommand;
 
-            this.showCommand = new RelayCommand(
-                param => this.ShowWindow()
-            );
+			this.showCommand = new RelayCommand(
+				param => this.ShowWindow()
+			);
 
-            this.applyCommand = new RelayCommand(
-                param => this.ApplyChanges()
-            );
+			this.applyCommand = new RelayCommand(
+				param => this.ApplyChanges()
+			);
 
-            this.closeCommand = new RelayCommand(
-                param => this.Hide()
-            );
+			this.closeCommand = new RelayCommand(
+				param => this.Hide()
+			);
 
-            this.okCommand = new RelayCommand(
-                param =>
-                {
-                    this.ApplyChanges(); 
-                    this.Hide();
-                }
-            );
+			this.okCommand = new RelayCommand(
+				param =>
+				{
+					this.ApplyChanges(); 
+					this.Hide();
+				}
+			);
 
-            this.togglePlugInCommand = new RelayCommand(
-                param =>
-                {
-                    (param as PlugInInfo).IsEnabled = !(param as PlugInInfo).IsEnabled;
-                    int i = 0;
-                }
-            );
+			this.togglePlugInCommand = new RelayCommand(
+				param =>
+				{
+					(param as PlugInInfo).IsEnabled = !(param as PlugInInfo).IsEnabled;
+					int i = 0;
+				}
+			);
 
-            this.Closing += delegate(object sender, CancelEventArgs args)
-            {
-                args.Cancel = true;
-                this.Hide();
-            };
+			this.Closing += delegate(object sender, CancelEventArgs args)
+			{
+				args.Cancel = true;
+				this.Hide();
+			};
 
-            this.PlugIns = Enumerable.Empty<PlugInInfo>();
+			this.PlugIns = Enumerable.Empty<PlugInInfo>();
 
-            InitializeComponent();
+			InitializeComponent();
 
-            MainConfig.Register(this);
-        }
+			MainConfig.Register(this);
+		}
 
-        /// <summary>
-        /// Adds a button to the main menu bar.
-        /// </summary>
-        /// <param name="menuBar">The menu bar.</param>
-        public void Register(IMenuBar menuBar)
-        {
-            menuBar.AddMenu(
-                new MenuEntry(
-                    header: "Edit",
-                    priority: -1,
-                    items: new MenuEntryObservableCollection {
-                        new MenuSeparator(
-                            priority: -31
-                        ),
-                        new MenuEntry(
-                            header: "Settings",                            
-                            priority: -32,
-                            command: this.showCommand,
-                            icon: "pack://application:,,,/GGenStudio.PlugIn.Settings;component/Images/Icons/settings.png"
-                        )
-                    }
-                )
-            );
-        }
+		/// <summary>
+		/// Adds a button to the main menu bar.
+		/// </summary>
+		/// <param name="menuBar">The menu bar.</param>
+		public void Register(IMenuBar menuBar)
+		{
+			menuBar.AddMenu(
+				new MenuEntry(
+					header: "Edit",
+					priority: -1,
+					items: new MenuEntryObservableCollection {
+						new MenuSeparator(
+							priority: -31
+						),
+						new MenuEntry(
+							header: "Settings",                            
+							priority: -32,
+							command: this.showCommand,
+							icon: "pack://application:,,,/GGenStudio.PlugIn.Settings;component/Images/Icons/settings.png"
+						)
+					}
+				)
+			);
+		}
 
-        private void ShowWindow()
-        {            
-            List<PlugInInfo> list = new List<PlugInInfo>();
+		private void ShowWindow()
+		{            
+			List<PlugInInfo> list = new List<PlugInInfo>();
 
-            bool a = this.ShowHiddenPlugIns;
+			bool a = this.ShowHiddenPlugIns;
 
-            foreach(PlugIn plugIn in Loader.PlugIns)
-            {               
-                MainConfig.SaveConfiguration(plugIn.Instances.Last());                
+			foreach(PlugIn plugIn in Loader.PlugIns)
+			{               
+				MainConfig.SaveConfiguration(plugIn.Instances.Last());                
 
-                list.Add(new PlugInInfo(plugIn));
-            }
+				list.Add(new PlugInInfo(plugIn));
+			}
 
-            this.PlugIns = list.OrderBy(p => p.PlugIn.Name);            
+			this.PlugIns = list.OrderBy(p => p.PlugIn.Name);            
 
-            this.ShowDialog();
-        }
+			this.ShowDialog();
+		}
 
-        private void ApplyChanges()
-        {
-            foreach(PlugInInfo plugInInfo in this.PlugIns)
-            {
-                // Update enabled status
-                plugInInfo.PlugIn.IsEnabled = plugInInfo.IsEnabled;
+		private void ApplyChanges()
+		{
+			foreach(PlugInInfo plugInInfo in this.PlugIns)
+			{
+				// Update enabled status
+				plugInInfo.PlugIn.IsEnabled = plugInInfo.IsEnabled;
 
-                // Do not apply configuration changes for non-configurable plug-ins              
-                foreach(ConfigurablePropertyInfo property in plugInInfo.Properties)
-                {
-                    object o = property.Value;
+				// Do not apply configuration changes for non-configurable plug-ins              
+				foreach(ConfigurablePropertyInfo property in plugInInfo.Properties)
+				{
+					object o = property.Value;
 
-                    MainConfig.SavePropertyValue(property.Property, property.Value);
+					MainConfig.SavePropertyValue(property.Property, property.Value);
 
-                    foreach(object instance in plugInInfo.PlugIn.Instances)
-                    {
-                        property.Property.SetValue(instance, property.Value, null);
-                    }                    
-                }
-            }
-        }
+					foreach(object instance in plugInInfo.PlugIn.Instances)
+					{
+						property.Property.SetValue(instance, property.Value, null);
+					}                    
+				}
+			}
+		}
 
-        private void TogglePlugInEnabled(PlugInInfo plugInInfo)
-        {
-            plugInInfo.IsEnabled = !plugInInfo.IsEnabled;
-        }
-    }
+		private void TogglePlugInEnabled(PlugInInfo plugInInfo)
+		{
+			plugInInfo.IsEnabled = !plugInInfo.IsEnabled;
+		}
+	}
 }

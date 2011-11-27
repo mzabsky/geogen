@@ -49,7 +49,6 @@ namespace GeoGen.Studio.PlugIns
             {
                 return UnknownType;
             }
-            return base.SelectTemplate(item, container);
         }
 
         public ConfigurablePropertyItemTemplateSelector()

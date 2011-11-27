@@ -1,4 +1,4 @@
-﻿namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns.MenuBars
 {
 	using System;
 	using System.Windows;
