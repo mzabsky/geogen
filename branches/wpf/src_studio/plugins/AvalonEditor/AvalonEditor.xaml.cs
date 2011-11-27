@@ -9,6 +9,7 @@
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.MenuBars;
 	using GeoGen.Studio.PlugIns.ToolBars;
+	using GeoGen.Studio.PlugIns.StatusBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.Extensions;
 	using GeoGen.Studio.Utilities.IO;
