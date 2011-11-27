@@ -4,6 +4,7 @@
 	using System.Windows.Input;
 	using GeoGen.Studio.PlugInLoader;
 	using GeoGen.Studio.PlugIns.Interfaces;
+	using GeoGen.Studio.PlugIns.MenuBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.Context;
 

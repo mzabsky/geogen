@@ -50,20 +50,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MenuBar.xaml">
+    <Page Include="MenuBars\MenuBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="MenuEntryObservableCollection.cs" />
-    <Compile Include="IMenuBar.cs" />
-    <Compile Include="MenuBar.xaml.cs">
+    <Compile Include="MenuBars\MenuEntryObservableCollection.cs" />
+    <Compile Include="Interfaces\IMenuBar.cs" />
+    <Compile Include="MenuBars\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MenuEntry.cs" />
-    <Compile Include="MenuSeparator.cs" />
+    <Compile Include="MenuBars\MenuEntry.cs" />
+    <Compile Include="MenuBars\MenuSeparator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

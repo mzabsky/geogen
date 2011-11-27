@@ -7,6 +7,7 @@
 	using System.Windows.Input;
 	using System.IO;
 	using GeoGen.Studio.PlugIns.Interfaces;
+	using GeoGen.Studio.PlugIns.MenuBars;
 	using GeoGen.Studio.PlugIns.ToolBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.Extensions;
