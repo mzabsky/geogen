@@ -17,7 +17,7 @@
 	public class FullScreen: ObjectBase, IPlugIn, INotifyPropertyChanged
 	{
 		private Window mainWindow;
-		private List<Control> bars;
+		private List<Control> bars = new List<Control>();
 
 		private ICommand toggleFullScreenCommand;
 
@@ -62,7 +62,7 @@
 				)
 			);
 
-			//bars.Add(toolBar);
+			bars.Add(toolBar.Control);
 		}
 
 		public void Register(IMenuBar menuBar){
@@ -85,9 +85,13 @@
 				)
 			);
 
-			//bars.Add(toolBar);
+			bars.Add(menuBar.Control);
 		}
 
+		public void Register(IStatusBar statusBar)
+		{
+			bars.Add(statusBar.Control);
+		}
 
 		private void ToggleFullScreen()
 		{
@@ -103,13 +107,18 @@
 
 				foreach (Control bar in this.bars)
 				{
-
+					bar.Visibility = Visibility.Collapsed;
 				}
 			}
 			else
 			{
 				this.mainWindow.WindowState = this.windowStateBackup;
 				this.mainWindow.WindowStyle = WindowStyle.SingleBorderWindow;
+
+				foreach (Control bar in this.bars)
+				{
+					bar.Visibility = Visibility.Visible;
+				}
 			}
 
 			GeoGen.Studio.App.Current.Dispatcher.BeginInvoke((Action)delegate{this.OnPropertyChanged("IsFullScreen");});
