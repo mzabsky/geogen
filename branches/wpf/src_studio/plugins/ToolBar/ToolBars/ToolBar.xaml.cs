@@ -4,11 +4,12 @@
 	using System.Windows.Controls;
 	using System.Windows.Controls.Primitives;
 	using GeoGen.Studio.PlugIns.Interfaces;
+	using GeoGen.Studio.Utilities.PlugInBase;
 
 	/// <summary>
 	/// A horizontal tool bar which displays items provided by other plug-ins.
 	/// </summary>
-	public partial class ToolBar : UserControl, IToolBar
+	public partial class ToolBar : ControlBase, IToolBar
 	{
 		private static readonly DependencyProperty itemsProperty = DependencyProperty.Register(
 			"Items", typeof(ToolBarEntryObservableCollection), typeof(ToolBar));
