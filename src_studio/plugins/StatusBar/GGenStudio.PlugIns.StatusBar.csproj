@@ -51,15 +51,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IStatusBar.cs" />
-    <Compile Include="StatusBarEntry.cs" />
-    <Compile Include="StatusBarEntryObservableCollection.cs" />
-    <Page Include="StatusBar.xaml">
+    <Compile Include="Interfaces\IStatusBar.cs" />
+    <Compile Include="StatusBars\StatusBarEntry.cs" />
+    <Compile Include="StatusBars\StatusBarEntryObservableCollection.cs" />
+    <Page Include="StatusBars\StatusBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="IApplicationStatusDisplay.cs" />
-    <Compile Include="StatusBar.xaml.cs">
+    <Compile Include="Interfaces\IApplicationStatusDisplay.cs" />
+    <Compile Include="StatusBars\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
