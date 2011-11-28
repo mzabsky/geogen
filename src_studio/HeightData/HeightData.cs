@@ -66,35 +66,6 @@
 			}
 		}
 
-		//private Overlay overlay;
-		/// <summary>
-		/// Gets or sets the <see cref="Overlay"/>.
-		/// </summary>
-		/// <value>The overlay.</value>
-		/*public Overlay Overlay
-		{
-			get
-			{
-				return this.overlay;
-			}
-			set
-			{
-				this.overlay = value;
-				this.RebuildImage(overlayOnly: true);
-			}
-		}*/
-
-		/// <summary>
-		/// Grayscale <see cref="ImageSource">image</see> of the height map.
-		/// </summary>
-		/// <value>The image.</value>
-		//public ImageSource Image {get; private set;}
-
-		/// <summary>
-		/// Colored <see cref="ImageSource">image</see> of the height map with applied <see cref="Overlay"/>.
-		/// </summary>
-		//public ImageSource BaseImage { get; private set; }
-
 		/// <summary>
 		/// Gets minimum height in the map.
 		/// </summary>
