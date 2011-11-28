@@ -15,7 +15,10 @@
 	/// </summary>
 	sealed public class HeightData : ObservableObject, INotifyPropertyChanged
 	{
+		public const int PREVIEW_SIZE = 50;
+
 		private GeoGen.Net.HeightData heightData;
+		private HeightData preview;
 
 		#region Properties
 		/// <summary>
@@ -119,6 +122,23 @@
 					if (heightData[i] > max) max = heightData[i];
 				}
 				return max;
+			}
+		}
+
+		/// <summary>
+		/// Small version of the map.
+		/// </summary>
+		/// <value>The preview.</value>
+		public HeightData Preview
+		{
+			get
+			{
+				if (this.preview == null)
+				{
+					this.preview = new HeightData(this.Name + "(Preview)", HeightData.GetResizedHeightData(this.heightData, HeightData.PREVIEW_SIZE, HeightData.PREVIEW_SIZE));
+				}
+
+				return this.preview;
 			}
 		}
 		#endregion
@@ -304,6 +324,8 @@
 			{
 				this.heightData[i] = (short)(this.heightData[i] * ratio);
 			}
+
+			this.preview = null;
 		}
 
 		public override string ToString()
