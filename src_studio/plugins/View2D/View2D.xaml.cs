@@ -1,204 +1,306 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using GeoGen.Studio.Utilities;
-using GeoGen.Studio.Utilities.Configurability;
+﻿namespace GeoGen.Studio.PlugIns
+{
+	using System;
+	using System.ComponentModel;
+	using System.Linq;
+	using System.Windows.Controls;
+	using System.Windows.Documents;
+	using System.Windows.Input;
+	using System.Windows.Media;
+	using GeoGen.Studio.PlugIns.Interfaces;
+	using GeoGen.Studio.Utilities;
+	using GeoGen.Studio.Utilities.Configurability;
 
-namespace GeoGen.Studio.PlugIns
-{    
-    public partial class View2D : INotifyPropertyChanged
-    {
-        private bool scrolling;
-        private double lastDragX;
-        private double lastDragY;
-        private double dragPointX;
-        private double dragPointY;
+	public partial class View2D : INotifyPropertyChanged
+	{
+		private Adorner adorner;
 
-        private const double MinimumVisibleTip = 20;
+		private bool scrolling;
+		private double lastDragX;
+		private double lastDragY;
+		private double dragPointX;
+		private double dragPointY;
 
-        public IGenerator Generator { get; private set; }
+		private const double MinimumVisibleTip = 20;
 
-        public HeightData SelectedMap { get; set; }
+		private ICommand zoomInCommand;
+		private ICommand zoomOutCommand;
+		private ICommand resetZoomCommand;
 
-        [Configurable(UseEmptyInstanceAsDefault = true)]
-        public Overlay SelectedOverlay { get; set; }
+		private Overlay selectedOverlay;
 
-        public double ZoomFactor { get; set; }
+		public IDockManager DockManager { get; private set; }
+		
+		public IGenerator Generator { get; private set; }
 
-        public double MouseX { get; private set; }
+		public HeightData SelectedMap { get; set; }
 
-        public double MouseY { get; private set; }
+		[Configurable(UseEmptyInstanceAsDefault = true)]
+		public Overlay SelectedOverlay {
+			get
+			{
+				return selectedOverlay;
+			}
+			set
+			{
+				/*
 
-        public int? SelectedValueX { get; private set; }
+				foreach (var map in this.Generator.Maps)
+				{
+					map.Overlay = value;
+				}*/
 
-        public int? SelectedValueY { get; private set; }
+				this.selectedOverlay = value;
+			}
+		}
 
-        public int? SelectedValue { get; private set; }
+		public double ZoomFactor { get; set; }
 
-        public bool IsMouseOverMap { get; private set; }
+		public double MouseX { get; private set; }
 
-        public View2D()
-        {
-            this.ZoomFactor = 1;
+		public double MouseY { get; private set; }
 
-            InitializeComponent();
-            MainConfig.Register(this);
+		public int? SelectedValueX { get; private set; }
 
-            var items = toolbar.Items;
+		public int? SelectedValueY { get; private set; }
 
-            this.image.MouseDown += delegate(object sender, MouseButtonEventArgs args)
-            {
-                if (args.ChangedButton != MouseButton.Left)
-                {
-                    return;
-                }
+		public int? SelectedValue { get; private set; }
 
-                this.dragPointX = Mouse.GetPosition(this.image).X;
-                this.dragPointY = Mouse.GetPosition(this.image).Y;
-                this.lastDragX = (double) this.image.GetValue(Canvas.LeftProperty) + dragPointX;  //Mouse.GetPosition(this.canvas).X;
-                this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + dragPointY;
+		public bool IsMouseOverMap { get; private set; }
 
-                this.image.CaptureMouse();
-            };
+		public ICommand ZoomInCommand
+		{
+			get
+			{
+				if (this.zoomInCommand == null)
+				{
+					this.zoomInCommand = new RelayCommand(param => this.ZoomIn(), p => this.DockManager.IsContentActive(this));
+				}
 
-            this.image.LostMouseCapture += delegate(object sender, MouseEventArgs args){
-                this.image.ReleaseMouseCapture();
-            };
+				return this.zoomInCommand;
+			}
+		}
 
-            this.image.MouseUp += delegate(object sender, MouseButtonEventArgs args)
-            {
-                this.image.ReleaseMouseCapture();
-            };
+		public ICommand ZoomOutCommand
+		{
+			get
+			{
+				if (this.zoomOutCommand == null)
+				{
+					this.zoomOutCommand = new RelayCommand(param => this.ZoomOut());
+				}
 
-            this.image.TextInput += delegate(object sender, TextCompositionEventArgs args)
-            {
-                this.image.ReleaseMouseCapture();
-            };
+				return this.zoomOutCommand;
+			}
+		}
 
-            this.canvas.MouseWheel += delegate(object sender, MouseWheelEventArgs args) {
-                if (this.IsMouseOverMap)
-                {
-                    if (args.Delta > 0) this.ZoomIn();
-                    else this.ZoomOut();
-                }
-            };
+		public View2D()
+		{
+			this.ZoomFactor = 1;
 
-            this.image.MouseMove += delegate(object sender, MouseEventArgs args)
-            {
-                if (this.image.IsMouseCaptured)
-                {
-                    //this.image.SetValue(Canvas.LeftProperty, Mouse.GetPosition(this.image).X - this.dragStartX);
+			InitializeComponent();
+			MainConfig.Register(this);
 
-                    this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (this.lastDragX - Mouse.GetPosition(this.canvas).X));
-                    this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (this.lastDragY - Mouse.GetPosition(this.canvas).Y));
+			this.adorner = new GeoGen.Studio.UI.BusyAdorner(this.panel2D);
+			var adornerLayer = AdornerLayer.GetAdornerLayer(this.panel2D);
+			adornerLayer.Add(this.adorner);			
 
-                    this.lastDragX = (double)this.image.GetValue(Canvas.LeftProperty) + dragPointX;  //Mouse.GetPosition(this.canvas).X;
-                    this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + dragPointY;
+			var items = toolbar.Items;
 
-                    this.ClampImagePosition();
-                }
-                else
-                {
-                    this.MouseX = Mouse.GetPosition(this.image).X;
-                    this.MouseY = Mouse.GetPosition(this.image).Y;
+			this.image.MouseDown += delegate(object sender, MouseButtonEventArgs args)
+			{
+				if (args.ChangedButton != MouseButton.Left)
+				{
+					return;
+				}
 
-                    this.SelectedValueX = (int)Math.Round(this.MouseX / this.ZoomFactor);
-                    this.SelectedValueY = (int)Math.Round(this.MouseY / this.ZoomFactor);
-                    this.SelectedValue = this.SelectedMap[(int)this.SelectedValueX, (int)this.SelectedValueY];
+				this.dragPointX = Mouse.GetPosition(this.image).X;
+				this.dragPointY = Mouse.GetPosition(this.image).Y;
+				this.lastDragX = (double) this.image.GetValue(Canvas.LeftProperty) + dragPointX;  //Mouse.GetPosition(this.canvas).X;
+				this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + dragPointY;
 
-                    this.IsMouseOverMap = true;
-                }
-            };
+				this.image.CaptureMouse();
+			};
 
-            this.canvas.SizeChanged += delegate
-            {
-                this.ReleaseMouseCapture();
-                this.ClampImagePosition();
-            };
+			this.image.LostMouseCapture += delegate(object sender, MouseEventArgs args){
+				this.image.ReleaseMouseCapture();
+			};
 
-            this.image.MouseLeave += delegate
-            {
-                this.SelectedValueX = null;
-                this.SelectedValueY = null;
-                this.SelectedValue = null;
-                this.IsMouseOverMap = false;
-            };
-        }
+			this.image.MouseUp += delegate(object sender, MouseButtonEventArgs args)
+			{
+				this.image.ReleaseMouseCapture();
+			};
 
-        public void Register(IGenerator generator)
-        {
-            this.Generator = generator;
+			this.image.TextInput += delegate(object sender, TextCompositionEventArgs args)
+			{
+				this.image.ReleaseMouseCapture();
+			};
 
-            generator.Finished += delegate
-            {
-                this.SelectedMap = generator.Maps[0];
-            };
-        }
+			this.canvas.MouseWheel += delegate(object sender, MouseWheelEventArgs args) {
+				if (this.IsMouseOverMap)
+				{
+					if (args.Delta > 0) this.ZoomInCommand.Execute(null);
+					else this.ZoomOutCommand.Execute(null);
+				}
+			};
 
-        public void Register(IDockManager dockManager)
-        {
-            dockManager.AddAsDockableContent(this, "2D View", true);            
-        }
+			this.image.MouseMove += delegate(object sender, MouseEventArgs args)
+			{
+				if (this.image.IsMouseCaptured)
+				{
+					//this.image.SetValue(Canvas.LeftProperty, Mouse.GetPosition(this.image).X - this.dragStartX);
 
-        public void ZoomIn()
-        {
-            if (this.ZoomFactor > 10) return;
-            
-            this.ZoomFactor *= 1.25;
+					this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (this.lastDragX - Mouse.GetPosition(this.canvas).X));
+					this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (this.lastDragY - Mouse.GetPosition(this.canvas).Y));
 
-            this.image.Width = image.ActualWidth * 1.25;
-            this.image.Height = image.ActualHeight * 1.25;
+					this.lastDragX = (double)this.image.GetValue(Canvas.LeftProperty) + dragPointX;  //Mouse.GetPosition(this.canvas).X;
+					this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + dragPointY;
 
-            // make sure the zooming is centered on mouse
-            this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
-            this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (image.Height - image.ActualHeight) / (image.ActualHeight / Mouse.GetPosition(image).Y));
+					this.ClampImagePosition();
+				}
+				else
+				{
+					this.MouseX = Mouse.GetPosition(this.image).X;
+					this.MouseY = Mouse.GetPosition(this.image).Y;
 
-            this.ClampImagePosition();
-        }
+					this.SelectedValueX = (int)Math.Round(this.MouseX / this.ZoomFactor);
+					this.SelectedValueY = (int)Math.Round(this.MouseY / this.ZoomFactor);
+					this.SelectedValue = this.SelectedMap[(int)this.SelectedValueX, (int)this.SelectedValueY];
 
-        public void ZoomOut()
-        {            
-            if (this.ZoomFactor < 0.1) return;
+					this.IsMouseOverMap = true;
+				}
+			};
 
-            this.ZoomFactor *= 0.8;
+			this.canvas.SizeChanged += delegate
+			{
+				this.ReleaseMouseCapture();
+				this.ClampImagePosition();
+			};
 
-            this.image.Width = image.ActualWidth * 0.80;
-            this.image.Height = image.ActualHeight * 0.80;
+			this.image.MouseLeave += delegate
+			{
+				this.SelectedValueX = null;
+				this.SelectedValueY = null;
+				this.SelectedValue = null;
+				this.IsMouseOverMap = false;
+			};			
+		}
 
-            // make sure the zooming is centered on mouse
-            this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
-            this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (image.Height - image.ActualHeight) / (image.ActualHeight / Mouse.GetPosition(image).Y));
+		public void Register(IGenerator generator)
+		{
+			this.Generator = generator;
 
-            this.ClampImagePosition();
-        }
+			generator.Finished += delegate
+			{
+				this.SelectedMap = generator.Maps[0];
 
-        public void SaveImage()
-        {
-            GeoGen.Studio.UI.MessageBox.Show("Saved");
-        }
+				var adornerLayer = AdornerLayer.GetAdornerLayer(this.panel2D);
+				adornerLayer.Remove(this.adorner);
+			};
 
-        private void ClampImagePosition(){
-            if ((double) this.image.GetValue(Canvas.LeftProperty) + this.image.ActualWidth < View2D.MinimumVisibleTip)
-            {
-                this.image.SetValue(Canvas.LeftProperty, View2D.MinimumVisibleTip - this.image.ActualWidth);
-            }
+			// Gray out the 2D view while the generator is running
+			generator.Started += delegate(object o, GenerationStartedEventArgs args)
+			{
+				if(args.HeaderOnly) {
+					return;
+				}
 
-            if (this.canvas.ActualWidth - (double)this.image.GetValue(Canvas.LeftProperty) < View2D.MinimumVisibleTip)
-            {
-                this.image.SetValue(Canvas.LeftProperty, this.canvas.ActualWidth - View2D.MinimumVisibleTip);
-            }
+				var adornerLayer = AdornerLayer.GetAdornerLayer(this.panel2D);
 
-            if ((double)this.image.GetValue(Canvas.TopProperty) + this.image.ActualHeight < View2D.MinimumVisibleTip)
-            {
-                this.image.SetValue(Canvas.TopProperty, View2D.MinimumVisibleTip - this.image.ActualHeight);
-            }
+				// The adorner may have been already added when the component was initialized
+				if(adornerLayer.GetAdorners(this.panel2D) == null || !adornerLayer.GetAdorners(this.panel2D).Contains(this.adorner)){
+					adornerLayer.Add(this.adorner);
+				}
+			};
+		}
 
-            if (this.canvas.ActualHeight - (double)this.image.GetValue(Canvas.TopProperty) < View2D.MinimumVisibleTip)
-            {
-                this.image.SetValue(Canvas.TopProperty, this.canvas.ActualHeight - View2D.MinimumVisibleTip);
-            }
-        }
-    }
+		public void Register(IDockManager dockManager)
+		{
+			this.DockManager = dockManager;
+
+			dockManager.AddAsDockableContent(this, "2D View", DockingLocation.Document);            
+		}
+
+		public void Register(IMainWindow mainWindow)
+		{
+			mainWindow.RegisterInputGesture(
+				new KeyGesture(Key.Add, ModifierKeys.None),
+				this.ZoomInCommand				
+			);
+
+			mainWindow.RegisterInputGesture(
+				new KeyGesture(Key.OemPlus, ModifierKeys.None),
+				this.ZoomInCommand
+			);
+			
+			mainWindow.RegisterInputGesture(
+				new KeyGesture(Key.Subtract, ModifierKeys.None),
+				this.ZoomOutCommand
+			);
+
+			mainWindow.RegisterInputGesture(
+				new KeyGesture(Key.OemMinus, ModifierKeys.None),
+				this.ZoomOutCommand
+			);
+		}
+
+		public void ZoomIn()
+		{
+			if (this.ZoomFactor > 10) return;
+			
+			this.ZoomFactor *= 1.25;
+
+			this.image.Width = image.ActualWidth * 1.25;
+			this.image.Height = image.ActualHeight * 1.25;
+
+			// make sure the zooming is centered on mouse
+			this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
+			this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (image.Height - image.ActualHeight) / (image.ActualHeight / Mouse.GetPosition(image).Y));
+
+			this.ClampImagePosition();
+		}
+
+		public void ZoomOut()
+		{            
+			if (this.ZoomFactor < 0.1) return;
+
+			this.ZoomFactor *= 0.8;
+
+			this.image.Width = image.ActualWidth * 0.80;
+			this.image.Height = image.ActualHeight * 0.80;
+
+			// make sure the zooming is centered on mouse
+			this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
+			this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (image.Height - image.ActualHeight) / (image.ActualHeight / Mouse.GetPosition(image).Y));
+
+			this.ClampImagePosition();
+		}
+
+		public void SaveImage()
+		{
+			GeoGen.Studio.UI.MessageBox.Show("Saved");
+		}
+
+		private void ClampImagePosition(){
+			if ((double) this.image.GetValue(Canvas.LeftProperty) + this.image.ActualWidth < View2D.MinimumVisibleTip)
+			{
+				this.image.SetValue(Canvas.LeftProperty, View2D.MinimumVisibleTip - this.image.ActualWidth);
+			}
+
+			if (this.canvas.ActualWidth - (double)this.image.GetValue(Canvas.LeftProperty) < View2D.MinimumVisibleTip)
+			{
+				this.image.SetValue(Canvas.LeftProperty, this.canvas.ActualWidth - View2D.MinimumVisibleTip);
+			}
+
+			if ((double)this.image.GetValue(Canvas.TopProperty) + this.image.ActualHeight < View2D.MinimumVisibleTip)
+			{
+				this.image.SetValue(Canvas.TopProperty, View2D.MinimumVisibleTip - this.image.ActualHeight);
+			}
+
+			if (this.canvas.ActualHeight - (double)this.image.GetValue(Canvas.TopProperty) < View2D.MinimumVisibleTip)
+			{
+				this.image.SetValue(Canvas.TopProperty, this.canvas.ActualHeight - View2D.MinimumVisibleTip);
+			}
+		}
+	}
 }

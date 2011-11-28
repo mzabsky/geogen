@@ -1,67 +1,220 @@
-﻿<pb:Control x:Class="GeoGen.Studio.PlugIns.View2D"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
-    xmlns:tb="clr-namespace:GeoGen.Studio.PlugIns;assembly=GGenStudio.PlugIn.ToolBar" 
-    xmlns:hd="clr-namespace:GeoGen.Studio;assembly=GGenStudio.HeightData" xmlns:PlugIns="clr-namespace:GeoGen.Studio.PlugIns" mc:Ignorable="d" 
-    d:DesignHeight="300" d:DesignWidth="600"
-    Name="view2D"
-    DataContext="{Binding ElementName=view2D}"
+﻿<pb:ControlBase x:Class="GeoGen.Studio.PlugIns.View2D"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
+	xmlns:tb="clr-namespace:GeoGen.Studio.PlugIns.ToolBars;assembly=GGenStudio.PlugIn.ToolBar" 
+	xmlns:hd="clr-namespace:GeoGen.Studio;assembly=GGenStudio.HeightData" 
+	xmlns:PlugIns="clr-namespace:GeoGen.Studio.PlugIns" 
+	xmlns:converters="clr-namespace:GeoGen.Studio.Utilities.Converters;assembly=GeoGenStudio"
+	xmlns:hdConverters="clr-namespace:GeoGen.Studio.Utilities.Converters;assembly=GGenStudio.HeightData"
+	mc:Ignorable="d" 
+	d:DesignHeight="300" d:DesignWidth="600"
+	Name="view2D"
+	DataContext="{Binding ElementName=view2D}"
 >
-    <!--Items="{Binding ToolBarItems, ElementName=view2D}"-->
-    <DockPanel>
-        <tb:ToolBar DockPanel.Dock="Top" Name="toolbar" DataContext="{Binding ElementName=view2D}">
-            <tb:ToolBar.Items>
-                <tb:ToolBarButton ToolTip="Save Current Image" Priority="0">
-                    <tb:ToolBarButton.Icon>
-                        <Image Source="Images/Icons/save.png"/>
-                    </tb:ToolBarButton.Icon>
-                </tb:ToolBarButton>
-                <tb:ToolBarSeparator Priority="-2"/>
-                <tb:ToolBarControl Priority="-3">
-                    <tb:ToolBarControl.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock> Available maps: </TextBlock>
-                            <ComboBox ItemsSource="{Binding DataContext}">
-                            
-                            </ComboBox>
-                        </StackPanel>
-                    </tb:ToolBarControl.Content>
-                </tb:ToolBarControl>
-                <tb:ToolBarControl Priority="-4">
-                    <tb:ToolBarControl.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>Overlays:</TextBlock>
-                            <ComboBox ItemsSource="{x:Static hd:Overlay.All}">
-
-                            </ComboBox>
-                        </StackPanel>
-                    </tb:ToolBarControl.Content>
-                </tb:ToolBarControl>
-                <tb:ToolBarControl Priority="1">
-                    <tb:ToolBarControl.Content>
-                        Oh Hi
-                    </tb:ToolBarControl.Content>
-                </tb:ToolBarControl>
-            </tb:ToolBar.Items>
-        </tb:ToolBar>
-        <Canvas DockPanel.Dock="Top" Name="canvas" ClipToBounds="True">
-            <Canvas.Background>
-                <ImageBrush ImageSource="Images/Backgrounds/checkers.png" Stretch="None" TileMode="Tile" Viewport="0,0,100,100" ViewportUnits="Absolute" />
-            </Canvas.Background>
-            <Canvas.Resources>
-                <Style TargetType="Image">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsOverlayEnabled}" Value="False">
-                            <Setter Property="Image.Source" Value="{Binding SelectedMap.Image}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Canvas.Resources>
-            <Image Name="image"  Source="{Binding SelectedMap.Image}" Canvas.Left="0" Canvas.Top="0">
-            </Image>
-        </Canvas>
-    </DockPanel>
-</pb:Control>
+	<pb:ControlBase.InputBindings>
+		<KeyBinding Command="{Binding ZoomInCommand}" Gesture="OemPlus"/>
+		<KeyBinding Command="{Binding ZoomOutCommand}" Gesture="OemMinus"/>
+	</pb:ControlBase.InputBindings>
+	<!--Items="{Binding ToolBarItems, ElementName=view2D}"-->
+	<AdornerDecorator> <!-- For the gray-out screen -->
+		<DockPanel Name="panel2D">
+			<tb:ToolBar DockPanel.Dock="Top" Name="toolbar" DataContext="{Binding ElementName=view2D}">
+				<tb:ToolBar.Items>
+					<tb:ToolBarButton ToolTip="Save Current Image" Priority="0">
+						<tb:ToolBarButton.Icon>
+							<Image Source="Images/Icons/save.png"/>
+						</tb:ToolBarButton.Icon>
+					</tb:ToolBarButton>
+					<tb:ToolBarSeparator Priority="-2"/>
+					<tb:ToolBarControl Priority="-3">
+						<tb:ToolBarControl.Content>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock> Available maps: </TextBlock>
+								<ComboBox ItemsSource="{Binding Generator.Maps}" SelectedValue="{Binding SelectedMap}" MaxDropDownHeight="1000">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<ContentControl Content="{Binding}">
+												<ContentControl.Style>
+													<Style TargetType="ContentControl">
+														<Setter Property="ContentTemplate">
+															<Setter.Value>
+																<DataTemplate>
+																	<Border Padding="3">
+																		<Grid Height="70">
+																			<Grid.ColumnDefinitions>
+																				<ColumnDefinition Width="70"/>
+																				<ColumnDefinition Width="70"/>
+																				<ColumnDefinition Width="30"/>
+																				<ColumnDefinition Width="200"/>
+																			</Grid.ColumnDefinitions>
+																			<Grid.RowDefinitions>
+																				<RowDefinition/>
+																				<RowDefinition/>
+																				<RowDefinition />
+																				<RowDefinition />
+																			</Grid.RowDefinitions>
+																			<StackPanel Margin="3" Grid.RowSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+																				<Border BorderThickness="1" BorderBrush="Black" >
+																					<Image  Stretch="Uniform">
+																						<!--Source="{Binding Image, Mode=OneWay, IsAsync=True}"-->
+																						<Image.Source>
+																							<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}">
+																								<Binding Path="."/>
+																								<Binding Path="DataContext.SelectedOverlay" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}" />
+																							</MultiBinding>
+																						</Image.Source>
+																					</Image>
+																				</Border>
+																			</StackPanel>
+																			<StackPanel Margin="3" Grid.Column="1" Grid.RowSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+																				<Border BorderThickness="1" BorderBrush="Black">
+																					<Image  Stretch="Uniform">
+																						<Image.Source>
+																							<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}">
+																								<Binding Path="."/>
+																							</MultiBinding>
+																						</Image.Source>
+																					</Image>
+																				</Border>
+																			</StackPanel>
+																			<TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" Grid.Column="2" Grid.ColumnSpan="2"/>
+																			<TextBlock Grid.Column="2" Grid.Row="1">Size:</TextBlock>
+																			<TextBlock Grid.Column="3" Grid.Row="1">
+																				<Run Text="{Binding Size.Width, Mode=OneWay}"/>
+																				<Run>x</Run>
+																				<Run Text="{Binding Size.Height, Mode=OneWay}"/>
+																			</TextBlock>
+																			<TextBlock Grid.Column="2" Grid.Row="2">Min:</TextBlock>
+																			<TextBlock Text="{Binding Min, Mode=OneWay}" Grid.Column="3" Grid.Row="2"/>
+																			<TextBlock Grid.Column="2" Grid.Row="3">Max:</TextBlock>
+																			<TextBlock Text="{Binding Max, Mode=OneWay}" Grid.Column="3" Grid.Row="3"/>
+																		</Grid>
+																	</Border>
+																</DataTemplate>
+															</Setter.Value>
+														</Setter>
+														<Style.Triggers>
+															<!-- Template used when the item is displayed inside the ComboBox -->
+															<DataTrigger
+																Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}"
+																Value="{x:Null}">
+																<Setter Property="ContentTemplate">
+																	<Setter.Value>
+																		<DataTemplate>
+																			<TextBlock Text="{Binding .}" />
+																		</DataTemplate>
+																	</Setter.Value>
+																</Setter>
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</ContentControl.Style>
+											</ContentControl>										
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									<ComboBox.Style>
+										<Style TargetType="ComboBox">
+											<Style.Triggers>
+												<Trigger Property="IsDropDownOpen" Value="False">
+													<Setter Property="ItemTemplate" Value="{x:Null}"/>
+												</Trigger>
+											</Style.Triggers>
+										</Style>
+									</ComboBox.Style>
+									<!--<ComboBox.ItemContainerStyle>
+										<Style>
+											<Style.
+										</Style>
+									</ComboBox.ItemContainerStyle>-->
+								</ComboBox>
+							</StackPanel>
+						</tb:ToolBarControl.Content>
+					</tb:ToolBarControl>
+					<tb:ToolBarControl Priority="-4">
+						<tb:ToolBarControl.Content>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock>Overlays:</TextBlock>
+								<ComboBox ItemsSource="{x:Static hd:Overlay.All}" SelectedValue="{Binding SelectedOverlay}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<ContentControl Content="{Binding}">
+												<ContentControl.Style>
+													<Style TargetType="ContentControl">
+														<Setter Property="ContentTemplate">
+															<Setter.Value>
+																<DataTemplate>
+																	<Border Padding="3">
+																		<DockPanel>
+																			<Border BorderThickness="1" BorderBrush="Black" Margin="2" DockPanel.Dock="Bottom">
+																				<Image Source="{Binding Bitmap}" Stretch="Fill" Height="10" Width="300"/>
+																			</Border>
+																			<TextBlock Text="{Binding Name}" DockPanel.Dock="Left" />
+																			<TextBlock Text="Extended" TextAlignment="Right" DockPanel.Dock="Right">
+																				<TextBlock.Style>
+																					<Style TargetType="TextBlock">
+																						<Style.Triggers>
+																							<DataTrigger Binding="{Binding IsExtended}" Value="False">
+																								<Setter Property="Visibility" Value="Hidden"/>
+																							</DataTrigger>
+																						</Style.Triggers>
+																					</Style>
+																				</TextBlock.Style>
+																			</TextBlock>
+																		</DockPanel>
+																	</Border>
+																</DataTemplate>
+															</Setter.Value>
+														</Setter>
+														<Style.Triggers>
+															<!-- Template used when the item is displayed inside the ComboBox -->
+															<DataTrigger
+																Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}"
+																Value="{x:Null}">
+																<Setter Property="ContentTemplate">
+																	<Setter.Value>
+																		<DataTemplate>
+																			<TextBlock Text="{Binding .}" />
+																		</DataTemplate>
+																	</Setter.Value>
+																</Setter>
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</ContentControl.Style>
+											</ContentControl>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+							</StackPanel>
+						</tb:ToolBarControl.Content>
+					</tb:ToolBarControl>					
+				</tb:ToolBar.Items>
+			</tb:ToolBar>
+			<Canvas DockPanel.Dock="Top" Name="canvas" ClipToBounds="True">
+				<Canvas.Background>
+					<ImageBrush ImageSource="Images/Backgrounds/checkers.png" Stretch="None" TileMode="Tile" Viewport="0,0,100,100" ViewportUnits="Absolute" />
+				</Canvas.Background>
+				<!--<Canvas.Resources>
+					<Style TargetType="Image">
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding IsOverlayEnabled}" Value="False">
+								<Setter Property="Image.Source" Value="{Binding SelectedMap.Image}" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Canvas.Resources>-->
+				<Image Name="image" Canvas.Left="0" Canvas.Top="0">
+					<Image.Source>
+						<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}">
+							<Binding Path="SelectedMap"/>
+							<Binding Path="SelectedOverlay"/>
+						</MultiBinding>
+					</Image.Source>
+				</Image>
+			</Canvas>
+		</DockPanel>
+	</AdornerDecorator>
+</pb:ControlBase>
