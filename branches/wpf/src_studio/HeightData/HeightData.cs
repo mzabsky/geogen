@@ -18,7 +18,11 @@
 		public const int PREVIEW_SIZE = 50;
 
 		private GeoGen.Net.HeightData heightData;
+
+		// Cached data
 		private HeightData preview;
+		private int? min;
+		private int? max;
 
 		#region Properties
 		/// <summary>
@@ -99,12 +103,15 @@
 		{
 			get
 			{
-				int min = Int16.MaxValue;
-				for (int i = 0; i < heightData.Length; i++)
-				{
-					if (heightData[i] < min) min = heightData[i];
+				if (this.min == null) {
+					this.min = Int16.MaxValue;
+					for (int i = 0; i < heightData.Length; i++)
+					{
+						if (heightData[i] < this.min) this.min = heightData[i];
+					}
 				}
-				return min;
+
+				return this.min.Value;
 			}
 		}
 
@@ -116,12 +123,15 @@
 		{
 			get
 			{
-				int max = Int16.MinValue;
-				for (int i = 0; i < heightData.Length; i++)
-				{
-					if (heightData[i] > max) max = heightData[i];
+				if (this.max == null) {
+					this.max = Int16.MinValue;
+					for (int i = 0; i < heightData.Length; i++)
+					{
+						if (heightData[i] > this.max) this.max = heightData[i];
+					}
 				}
-				return max;
+
+				return this.max.Value;
 			}
 		}
 
