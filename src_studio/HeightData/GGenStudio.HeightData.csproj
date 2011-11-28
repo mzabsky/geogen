@@ -49,6 +49,7 @@
     <Compile Include="Overlay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptArg.cs" />
+    <Compile Include="Utilities\Converters\HeightDataAndOverlayToBitmapConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\project files\GeoGen NET.vcxproj">
@@ -60,6 +61,7 @@
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

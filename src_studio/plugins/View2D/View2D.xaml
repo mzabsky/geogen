@@ -61,9 +61,9 @@
 																					<Image  Stretch="Uniform">
 																						<!--Source="{Binding Image, Mode=OneWay, IsAsync=True}"-->
 																						<Image.Source>
-																							<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}">
-																								<Binding Path="."/>
-																								<Binding Path="DataContext.SelectedOverlay" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}" />
+																							<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}" Mode="OneWay">
+																								<Binding Path="Preview" Mode="OneWay"/>
+																								<Binding Path="DataContext.SelectedOverlay" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}" Mode="OneWay" />
 																							</MultiBinding>
 																						</Image.Source>
 																					</Image>
@@ -73,8 +73,8 @@
 																				<Border BorderThickness="1" BorderBrush="Black">
 																					<Image  Stretch="Uniform">
 																						<Image.Source>
-																							<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}">
-																								<Binding Path="."/>
+																							<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}" Mode="OneWay">
+																								<Binding Path="Preview" Mode="OneWay"/>
 																							</MultiBinding>
 																						</Image.Source>
 																					</Image>
@@ -208,9 +208,9 @@
 				</Canvas.Resources>-->
 				<Image Name="image" Canvas.Left="0" Canvas.Top="0">
 					<Image.Source>
-						<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}">
-							<Binding Path="SelectedMap"/>
-							<Binding Path="SelectedOverlay"/>
+						<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}" Mode="OneWay">
+							<Binding Path="SelectedMap" Mode="OneWay"/>
+							<Binding Path="SelectedOverlay"  Mode="OneWay"/>
 						</MultiBinding>
 					</Image.Source>
 				</Image>
