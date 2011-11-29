@@ -112,7 +112,6 @@
       <DependentUpon>NumericBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Collections\DelegateEqualityComparer.cs" />
-    <Compile Include="Utilities\Collections\SortedFreezableCollection.cs" />
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
     <Compile Include="Utilities\Collections\PriorityComparer.cs" />
