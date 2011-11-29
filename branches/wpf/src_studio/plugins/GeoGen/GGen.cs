@@ -67,11 +67,6 @@
 
 			this.generator.MessageThrown += delegate(object o, GeoGen.Net.MessageEventArgs args)
 			{
-				if (this.CurrentTaskType == TaskType.HeaderOnly)
-				{
-					return;
-				}
-
 				// GGenNet message must be converted into the Studio format
 				string text = args.Message;
 
@@ -89,7 +84,7 @@
 				}
 
 				
-				Messenger.ThrowMessage(new Message(text, type));				
+				this.ThrowMessage(new Message(text, type));				
 			};
 
 			this.generator.ProgressChanged += delegate(object o, GeoGen.Net.ProgressEventArgs args)
@@ -152,7 +147,7 @@
 				this.CurrentTaskType = TaskType.Full;
 				this.Maps.Clear();
 
-				Messenger.ThrowMessage(new Message("Generation started.", MessageType.Message));
+				this.ThrowMessage(new Message("Generation started.", MessageType.Message));
 			}
 
 			this.OnStarted(script, headerOnly);
@@ -399,12 +394,12 @@
 
 			Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
 			{
-				// Terminate the generator thread and put the generator back into ready state.
-				this.Reset();
-
-				Messenger.ThrowMessage(
+				this.ThrowMessage(
 					new Message("Generation aborted!", MessageType.Message)
 				);
+
+				// Terminate the generator thread and put the generator back into ready state.
+				this.Reset();
 
 				if (this.Aborted != null)
 				{
@@ -416,12 +411,12 @@
 		protected void OnFailed(string message, bool isHeaderLoaded){
 			Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
 			{
-				// Terminate the generator thread and put the generator back into ready state.
-				this.Reset();
-
-				Messenger.ThrowMessage(
+				this.ThrowMessage(
 					new Message(message, MessageType.Error)
 				);
+
+				// Terminate the generator thread and put the generator back into ready state.
+				this.Reset();
 
 				if (this.Failed != null)
 				{
@@ -445,12 +440,12 @@
 				
 				this.temporaryMapList.Clear();
 
-				// Terminate the generator thread and put the generator back into ready state.
-				this.Reset();
-
-				Messenger.ThrowMessage(
+				this.ThrowMessage(
 					new Message("Map generated after " + timeSpan.ToString() + ".", MessageType.Message)
 				);
+
+				// Terminate the generator thread and put the generator back into ready state.
+				this.Reset();
 
 				if (this.Finished != null)
 				{
@@ -478,6 +473,16 @@
 				(this.CurrentTaskType == TaskType.None && this.thread == null) ||
 				(this.CurrentTaskType != TaskType.None && this.thread != null)
 			);
+		}
+
+		private void ThrowMessage(Message message)
+		{
+			if (this.CurrentTaskType == TaskType.HeaderOnly)
+			{
+				return;
+			}
+
+			Messenger.ThrowMessage(message);
 		}
 	}
 }
