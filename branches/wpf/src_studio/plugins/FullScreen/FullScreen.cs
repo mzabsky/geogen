@@ -19,7 +19,7 @@
 	public sealed class FullScreen: ObjectBase, IPlugIn, INotifyPropertyChanged
 	{
 		private Window mainWindow;
-		private List<Control> bars = new List<Control>();
+		private List<Control> hideableBars = new List<Control>();
 
 		private ICommand toggleFullScreenCommand;
 
@@ -67,7 +67,7 @@
 				)
 			);
 
-			bars.Add(toolBar.Control);
+			hideableBars.Add(toolBar.Control);
 		}
 
 		public void Register(IMenuBar menuBar){
@@ -90,12 +90,12 @@
 				)
 			);
 
-			bars.Add(menuBar.Control);
+			hideableBars.Add(menuBar.Control);
 		}
 
 		public void Register(IStatusBar statusBar)
 		{
-			bars.Add(statusBar.Control);
+			hideableBars.Add(statusBar.Control);
 		}
 
 		private void ToggleFullScreen()
@@ -138,7 +138,7 @@
 				return;
 			}
 
-			foreach (Control bar in this.bars)
+			foreach (Control bar in this.hideableBars)
 			{
 				bar.Visibility = Visibility.Visible;
 			}
@@ -157,7 +157,7 @@
 				return;
 			}
 
-			foreach (Control bar in this.bars)
+			foreach (Control bar in this.hideableBars)
 			{				
 				bar.Visibility = Visibility.Collapsed;				
 			}
@@ -180,7 +180,7 @@
 		{
 			// Check if the mouse is still above one of the bars
 			bool barWasHit = false;
-			foreach (Control bar in this.bars)
+			foreach (Control bar in this.hideableBars)
 			{
 				// The bars are supposed to be rectangular, don't perform full hit test
 				Point mousePoint = args.GetPosition(this.mainWindow);
