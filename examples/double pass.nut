@@ -105,5 +105,9 @@ function Generate(){
 
 	if(flipped) base.Rotate(270, false);
 	
+	base.SetValueInRect(0,0,200,200,0);
+	base.SetValueInRect(200,200,400,400,1);
+	base.SetValueInRect(400,400,600,600,-1);
+	
 	return base;
 }
