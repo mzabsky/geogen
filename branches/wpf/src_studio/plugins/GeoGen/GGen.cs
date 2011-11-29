@@ -67,6 +67,11 @@
 
 			this.generator.MessageThrown += delegate(object o, GeoGen.Net.MessageEventArgs args)
 			{
+				if (this.CurrentTaskType == TaskType.HeaderOnly)
+				{
+					return;
+				}
+
 				// GGenNet message must be converted into the Studio format
 				string text = args.Message;
 
@@ -83,7 +88,8 @@
 					case GeoGen.Net.MessageLevel.Message: type = MessageType.Message; break;
 				}
 
-				Messenger.ThrowMessage(new Message(text, type));
+				
+				Messenger.ThrowMessage(new Message(text, type));				
 			};
 
 			this.generator.ProgressChanged += delegate(object o, GeoGen.Net.ProgressEventArgs args)
