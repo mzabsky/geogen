@@ -858,6 +858,8 @@
 			this.Text = this.editor.Text;
 
 			this.enablePropertyCallbacks = true;
+
+			this.OnPropertyChanged("Text");
 			//this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
 			//this.ScheduleSyntaxCheck;
 		}
