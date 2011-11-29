@@ -89,7 +89,7 @@ namespace GeoGen.Studio.PlugIns
 		private void DisplayError()
 		{
 			this.editor.Control.BorderBrush = new SolidColorBrush(Colors.Red);
-			this.editor.Control.BorderThickness = new System.Windows.Thickness(1);
+			this.editor.Control.BorderThickness = new System.Windows.Thickness(0, 0, 0, 5);
 		}
 
 		private void HideError()
