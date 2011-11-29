@@ -1,10 +1,11 @@
-﻿using GeoGen.Studio.PlugInLoader;
-using System.ComponentModel;
-
-namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns
 {
-    public interface IEditor: IPlugInInterface, INotifyPropertyChanged
-    {
-        string Text {get; set;}
-    }
+	using System.ComponentModel;
+	using GeoGen.Studio.PlugInLoader;
+	using GeoGen.Studio.PlugIns.Interfaces;
+
+	public interface IEditor: IPlugInInterface, INotifyPropertyChanged, IControl
+	{
+		string Text {get; set;}
+	}
 }
