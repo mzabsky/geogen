@@ -131,7 +131,7 @@
 			{
 				this.Abort();
 			}
-			else if(headerOnly && this.CurrentTaskType != null)
+			else if (headerOnly && this.CurrentTaskType != TaskType.None)
 			{
 				// It is not necessary to scan headers two times at once
 				return;
