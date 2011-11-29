@@ -14,6 +14,7 @@
 	using GeoGen.Studio.PlugIns.ToolBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.PlugInBase;
+	using GeoGen.Studio.Utilities.Messaging;
 
 	public sealed class FullScreen: ObjectBase, IPlugIn, INotifyPropertyChanged
 	{
@@ -34,9 +35,12 @@
 			}
 		}
 
+		public bool AreBarsShown {get; set;}
+
 		public FullScreen()
 		{
 			this.toggleFullScreenCommand = new RelayCommand(p => this.ToggleFullScreen());			
+			this.AreBarsShown = true;
 		}
 
 		public void Register(IMainWindow mainWindow){
@@ -109,7 +113,7 @@
 
 				this.HideBars();
 
-				this.mainWindow.MouseMove += this.HandleMouseMove;
+				this.mainWindow.MouseMove += this.HandleMouseMoveWithBarsClosed;
 			}
 			else
 			{
@@ -120,72 +124,81 @@
 
 				this.ShowBars();
 
-				this.mainWindow.MouseMove -= this.HandleMouseMove;
+				this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsOpen;
+				this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsClosed;
 			}
 
 			GeoGen.Studio.App.Current.Dispatcher.BeginInvoke((Action)delegate{this.OnPropertyChanged("IsFullScreen");});
 		}
 
 		private void ShowBars(){
+			if (this.AreBarsShown)
+			{
+				// Prevent the events from being hooked more than once
+				return;
+			}
+
 			foreach (Control bar in this.bars)
 			{
 				bar.Visibility = Visibility.Visible;
 			}
+
+			this.AreBarsShown = true;
+
+			this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsClosed;
+			this.mainWindow.MouseMove += this.HandleMouseMoveWithBarsOpen;
 		}
 
 		private void HideBars()
 		{
-			foreach (Control bar in this.bars)
+			if (!this.AreBarsShown)
 			{
-				bar.Visibility = Visibility.Collapsed;
+				// Prevent the events from being hooked more than once
+				return;
 			}
+
+			foreach (Control bar in this.bars)
+			{				
+				bar.Visibility = Visibility.Collapsed;				
+			}
+
+			this.AreBarsShown = false;
+
+			this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsOpen;
+			this.mainWindow.MouseMove += this.HandleMouseMoveWithBarsClosed;
 		}
 
-		private void HandleMouseMove(object sender, MouseEventArgs args){
+		private void HandleMouseMoveWithBarsClosed(object sender, MouseEventArgs args){
 			// Display the bars if the mouse is on top border of the screen
 			if (args.MouseDevice.GetPosition(this.mainWindow).Y <= 1)
 			{
 				this.ShowBars();
-				this.mainWindow.MouseMove -= this.HandleMouseMove;
-				
-				foreach (Control bar in this.bars){
-					bar.MouseLeave += this.HandleMouseLeave;
-					bar.IsHitTestVisible = true;
-				}
 			}
 		}
 
-		private void HandleMouseLeave(object sender, MouseEventArgs args)
+		private void HandleMouseMoveWithBarsOpen(object sender, MouseEventArgs args)
 		{
-			// Check if the mouse is still above some of the bars
+			// Check if the mouse is still above one of the bars
 			bool barWasHit = false;
-			VisualTreeHelper.HitTest(
-				reference: this.mainWindow,
-				filterCallback: null,
-				resultCallback: (HitTestResultCallback) delegate(HitTestResult p){
-					barWasHit |= this.bars.Contains(p.VisualHit as Control);
-					return HitTestResultBehavior.Continue;//barWasHit ? HitTestResultBehavior.Stop : HitTestResultBehavior.Continue;
-				},
-				hitTestParameters: new PointHitTestParameters(args.MouseDevice.GetPosition(this.mainWindow))
-			);
+			foreach (Control bar in this.bars)
+			{
+				// The bars are supposed to be rectangular, don't perform full hit test
+				Point mousePoint = args.GetPosition(this.mainWindow);
 
-			//VisualTreeHelper.
+				Point controlPoint = bar.TransformToAncestor(mainWindow).Transform(new Point(0, 0));
+
+				barWasHit |= 
+					mousePoint.X >= controlPoint.X &&
+					mousePoint.Y >= controlPoint.Y &&
+					mousePoint.X <= controlPoint.X + bar.ActualWidth &&
+					mousePoint.Y <= controlPoint.Y + bar.ActualHeight;
+			}
 
 			// If the mouse is away from any bar, hide the bars
 			if (!barWasHit)
 			{
-				foreach (Control bar in this.bars)
-				{
-					bar.MouseLeave -= this.HandleMouseLeave;
-				}
-
-				this.HideBars();
-				this.mainWindow.MouseMove += this.HandleMouseMove;
-			}
-			else
-			{
-				Console.Write("sad");
-			}			
+				this.HideBars();				
+			}		
 		}
 	}
 }
