@@ -62,6 +62,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.Core.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.FullScreen", "src_studio\plugins\FullScreen\GeoGen.Studio.PlugIns.FullScreen.csproj", "{76CF5FCF-1080-4274-941D-B9D60146354E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.ScriptValidator", "src_studio\ScriptValidator\GeoGen.Studio.PlugIns.ScriptValidator.csproj", "{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -465,6 +467,21 @@ Global
 		{76CF5FCF-1080-4274-941D-B9D60146354E}.Release|Win32.ActiveCfg = Release|Any CPU
 		{76CF5FCF-1080-4274-941D-B9D60146354E}.Release|x64.ActiveCfg = Release|Any CPU
 		{76CF5FCF-1080-4274-941D-B9D60146354E}.Release|x86.ActiveCfg = Release|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Debug|x86.Build.0 = Debug|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|x64.ActiveCfg = Release|Any CPU
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -490,6 +507,7 @@ Global
 		{EEC27604-CE76-40B3-ADC8-105CB0731A58} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{37F2772C-D346-4272-8DE1-F1457EC01EB3} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{76CF5FCF-1080-4274-941D-B9D60146354E} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 	EndGlobalSection
 	GlobalSection(NDepend) = preSolution
 		Project = ".\GeoGen.ndproj"
