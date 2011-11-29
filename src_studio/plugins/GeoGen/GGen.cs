@@ -193,6 +193,7 @@
 				this.OnHeaderLoaded();
 
 				if(headerOnly){
+					this.Reset();
 					return;
 				}                              
 
@@ -388,8 +389,13 @@
 
 		protected void OnAborted()
 		{
+			
+
 			Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
 			{
+				// Terminate the generator thread and put the generator back into ready state.
+				this.Reset();
+
 				Messenger.ThrowMessage(
 					new Message("Generation aborted!", MessageType.Message)
 				);
