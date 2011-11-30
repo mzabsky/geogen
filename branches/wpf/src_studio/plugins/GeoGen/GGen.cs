@@ -23,8 +23,10 @@
 	public delegate void GenerationFailedEventHandler(object sender, GenerationFailedEventArgs args);
 	public delegate void GenerationFinishedEventHandler(object sender, GenerationFinishedEventArgs args);
 
-	public class GGen : GeoGen.Studio.Utilities.PlugInBase.ObjectBase, IGenerator
+	public class GGen : GeoGen.Studio.Utilities.PlugInBase.ObjectBase, IGenerator, IDisposable
 	{
+		protected bool disposed = false;
+
 		// The GeoGen instance.
 		protected GeoGen.Net.Generator generator = new GeoGen.Net.Generator();
 
@@ -483,6 +485,28 @@
 			}
 
 			Messenger.ThrowMessage(message);
+		}
+
+		void IDisposable.Dispose()
+		{			
+			this.Dispose(true);
+
+			GC.SuppressFinalize(this);
+		}
+
+		~GGen()
+		{
+			this.Dispose(false);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (this.disposed)
+			{
+				return;
+			}
+
+			this.generator.Dispose();
 		}
 	}
 }
