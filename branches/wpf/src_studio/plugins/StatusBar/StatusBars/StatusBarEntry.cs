@@ -57,18 +57,18 @@
 			}
 			set
 			{
-				SetValue(VisibilityProperty, Visibility);
+				SetValue(VisibilityProperty, value);
 			}
 		}
 
 
-			public StatusBarEntry() {}
+		public StatusBarEntry() {}
 
-			public StatusBarEntry(double priority, string value = "", BindingBase valueBinding = null)
-			{
-				this.Priority = priority;
-				this.Value = value;
-				this.ValueBinding = valueBinding;
-			}
+		public StatusBarEntry(double priority, string value = "", BindingBase valueBinding = null)
+		{
+			this.Priority = priority;
+			this.Value = value;
+			this.ValueBinding = valueBinding;
 		}
+	}
 }

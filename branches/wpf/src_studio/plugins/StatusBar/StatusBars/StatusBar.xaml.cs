@@ -15,7 +15,6 @@
 	public partial class StatusBar : GeoGen.Studio.Utilities.PlugInBase.ControlBase, IApplicationStatusDisplay, IStatusBar, IPriority
 	{
 		protected List<Context> applicationStatusContexts = new List<Context>();
-		protected List<Context> itemContexts = new List<Context>();
 
 		public double Priority
 		{
@@ -24,8 +23,6 @@
 				return 0;
 			}
 		}
-		
-		//public ObservableCollection<Visibility> ItemVisibilities {get; set;}
 
 		private static readonly DependencyProperty CurrentApplicationStatusProperty = DependencyProperty.Register(
 			"CurrentApplicationStatus", typeof(string), typeof(StatusBar), new PropertyMetadata("Ready"));
@@ -57,24 +54,8 @@
 			}
 		}
 
-		private static readonly DependencyProperty ItemVisibilitiesProperty = DependencyProperty.Register(
-			"ItemVisibilities", typeof(ObservableCollection<Visibility>), typeof(StatusBar), new PropertyMetadata(new ObservableCollection<Visibility>()));
-
-		public ObservableCollection<Visibility> ItemVisibilities
-		{
-			get
-			{
-				return (ObservableCollection<Visibility>)GetValue(ItemVisibilitiesProperty);
-			}
-			set
-			{
-				SetValue(ItemVisibilitiesProperty, value);
-			}
-		}
-
 		public StatusBar()
 		{
-			//this.ItemVisibilities = new ObservableCollection<Visibility>();
 
 			InitializeComponent();
 
@@ -92,32 +73,19 @@
 					this.CurrentApplicationStatus = applicationStatusContext.Label;
 				}
 
-				// Update item visibilities
-				this.ItemVisibilities.Clear();
-
-				foreach (Context context in this.itemContexts)
+				// Refresh items in the main area of the status bar
+				foreach (var item in this.Items)
 				{
-					if(ContextManager.IsContextActive(context))
+					bool isContextActive = ContextManager.IsContextActive(item.Context);
+					if (isContextActive && item.Visibility != Visibility.Visible)
 					{
-						this.ItemVisibilities.Add(Visibility.Visible);
+						item.Visibility = Visibility.Visible;
 					}
-					else
-					{
-						this.ItemVisibilities.Add(Visibility.Collapsed);
+					else if(!isContextActive && item.Visibility != Visibility.Collapsed){
+						item.Visibility = Visibility.Collapsed;
 					}
 				}
 			};
-
-			/*this.Items.Add(
-				new StatusBarEntry
-				{
-					ValueBinding = new Binding
-					{
-						Path = new PropertyPath("CurrentApplicationStatus"),
-						Source = this,
-					}
-				}
-			);*/
 		}
 
 		public void Register(IMainWindow mainWindow)
@@ -135,19 +103,11 @@
 
 		public void AddItem(StatusBarEntry item)
 		{
-			this.itemContexts.Add(item.Context);
+			if (!ContextManager.IsContextActive(item.Context))
+			{
+				item.Visibility = Visibility.Hidden;
+			}
 			
-			this.ItemVisibilities.Add(ContextManager.IsContextActive(item.Context) ? Visibility.Visible : Visibility.Collapsed);
-
-			BindingOperations.SetBinding(
-				item,
-				StatusBarEntry.VisibilityProperty,
-				new Binding{
-					Path = new PropertyPath("ItemVisibilities[" + (this.ItemVisibilities.Count - 1) + "]"),					
-					RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(IStatusBar), 1)
-				}
-			);
-
 			this.Items.Add(item);
 		}
 	}
