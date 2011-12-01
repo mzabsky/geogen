@@ -43,13 +43,6 @@
 			}
 			set
 			{
-				/*
-
-				foreach (var map in this.Generator.Maps)
-				{
-					map.Overlay = value;
-				}*/
-
 				this.selectedOverlay = value;
 			}
 		}
@@ -162,10 +155,19 @@
 				{
 					this.MouseX = Mouse.GetPosition(this.image).X;
 					this.MouseY = Mouse.GetPosition(this.image).Y;
-
+					
+					// Update the status bar values
 					this.SelectedValueX = (int)Math.Round(this.MouseX / this.ZoomFactor);
 					this.SelectedValueY = (int)Math.Round(this.MouseY / this.ZoomFactor);
-					this.SelectedValue = this.SelectedMap[(int)this.SelectedValueX, (int)this.SelectedValueY];
+
+					if(
+						this.SelectedValueX > 0 && 
+						this.SelectedValueY > 0 && 
+						this.SelectedValueX < this.SelectedMap.Size.Width && 
+						this.SelectedValueY < this.SelectedMap.Size.Height
+					){
+						this.SelectedValue = this.SelectedMap[(int)this.SelectedValueX, (int)this.SelectedValueY];
+					}					
 
 					this.IsMouseOverMap = true;
 				}
