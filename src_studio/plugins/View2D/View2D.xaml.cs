@@ -3,13 +3,16 @@
 	using System;
 	using System.ComponentModel;
 	using System.Linq;
+	using System.Windows;
 	using System.Windows.Controls;
+	using System.Windows.Data;
 	using System.Windows.Documents;
 	using System.Windows.Input;
-	using System.Windows.Media;
 	using GeoGen.Studio.PlugIns.Interfaces;
+	using GeoGen.Studio.PlugIns.StatusBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.Configurability;
+	using GeoGen.Studio.Utilities.Context;	
 
 	public partial class View2D : INotifyPropertyChanged
 	{
@@ -28,6 +31,8 @@
 		private ICommand resetZoomCommand;
 
 		private Overlay selectedOverlay;
+
+		private Context mouseOverContext = new Context("View 2D");
 
 		public IDockManager DockManager { get; private set; }
 		
@@ -179,12 +184,19 @@
 				this.ClampImagePosition();
 			};
 
+			this.image.MouseEnter += delegate 
+			{
+				ContextManager.EnterContext(this.mouseOverContext);				
+			};
+
 			this.image.MouseLeave += delegate
 			{
 				this.SelectedValueX = null;
 				this.SelectedValueY = null;
 				this.SelectedValue = null;
 				this.IsMouseOverMap = false;
+
+				ContextManager.LeaveContext(this.mouseOverContext);
 			};			
 		}
 
@@ -243,6 +255,41 @@
 			mainWindow.RegisterInputGesture(
 				new KeyGesture(Key.OemMinus, ModifierKeys.None),
 				this.ZoomOutCommand
+			);
+		}
+
+		public void Register(IStatusBar statusBar)
+		{
+			MultiBinding valueBinding = new MultiBinding();
+			valueBinding.StringFormat = "{0} x {1} [{2}]";
+			valueBinding.Bindings.Add(
+				new Binding
+				{
+					Path = new PropertyPath("SelectedValueX"),
+					Source = this
+				}
+			);
+			valueBinding.Bindings.Add(
+				new Binding
+				{
+					Path = new PropertyPath("SelectedValueY"),
+					Source = this
+				}
+			);
+			valueBinding.Bindings.Add(
+				new Binding
+				{
+					Path = new PropertyPath("SelectedValue"),
+					Source = this
+				}
+			);
+
+			statusBar.AddItem(
+				new StatusBarEntry
+				{
+					Context = this.mouseOverContext,
+					ValueBinding = valueBinding
+				}
 			);
 		}
 
