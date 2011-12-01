@@ -9,7 +9,7 @@
              Name="statusBarControl"
              DataContext="{Binding ElementName=statusBarControl}">
     <StatusBar Height="24" Name="statusBar">
-        <StatusBarItem Content="{Binding CurrentApplicationStatus}" />
+        <StatusBarItem Content="{Binding CurrentApplicationStatus}" MinWidth="150" />
         <StatusBarItem>
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
