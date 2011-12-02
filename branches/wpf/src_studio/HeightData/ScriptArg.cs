@@ -32,7 +32,7 @@
             }
             set {
                 // Clamp the incoming value into supported range.
-                 this.value = Math.Min(this.Maximum, Math.Max(this.Minimum, value));
+                 this.value = Math.Min(this.Maximum, Math.Max(1, value));
             }
         }
 
