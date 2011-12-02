@@ -1,23 +1,33 @@
 ﻿<pb:ControlBase x:Class="GeoGen.Studio.PlugIns.StatusBars.StatusBar"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"             
-             mc:Ignorable="d" 
-             d:DesignHeight="24" d:DesignWidth="600"
-             Name="statusBarControl"
-             DataContext="{Binding ElementName=statusBarControl}">
-    <StatusBar Height="24" Name="statusBar">
-        <StatusBarItem Content="{Binding CurrentApplicationStatus}" MinWidth="150" />
-        <StatusBarItem>
-            <ItemsControl ItemsSource="{Binding Items}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Value}" Visibility="{Binding Visibility}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StatusBarItem>
-    </StatusBar>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
+			 xmlns:conv="clr-namespace:GeoGen.Studio.Utilities.Converters;assembly=GeoGenStudio"             
+			 mc:Ignorable="d" 
+			 d:DesignHeight="24" d:DesignWidth="600"
+			 Name="statusBarControl"
+			 DataContext="{Binding ElementName=statusBarControl}">
+	<StatusBar Height="24" Name="statusBar">
+		<StatusBarItem Content="{Binding CurrentApplicationStatus}" MinWidth="150" />
+		<StatusBarItem>
+			<ItemsControl ItemsSource="{Binding Items}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Value}" Visibility="{Binding Visibility}" />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StatusBarItem>
+		<StatusBarItem HorizontalAlignment="Right">
+			<ProgressBar 
+				Width="120" 
+				Height="20" 
+				VerticalAlignment="Center" 
+				Visibility="{Binding IsProgressEnabled, Converter={x:Static conv:BoolToVisibilityConverter.Instance}}"
+				Value="{Binding CurrentProgress}"
+				Maximum="1" />
+		</StatusBarItem>
+	</StatusBar>
 </pb:ControlBase>

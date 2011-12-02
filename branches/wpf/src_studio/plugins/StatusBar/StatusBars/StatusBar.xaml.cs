@@ -3,16 +3,18 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
+	using System.ComponentModel;
 	using System.Windows;
 	using System.Windows.Data;
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.Utilities.Collections;
 	using GeoGen.Studio.Utilities.Context;
+	using GeoGen.Studio.Utilities.PlugInBase;	
 
 	/// <summary>
 	/// Interaction logic for UserControl1.xaml
 	/// </summary>
-	public partial class StatusBar : GeoGen.Studio.Utilities.PlugInBase.ControlBase, IApplicationStatusDisplay, IStatusBar, IPriority
+	public partial class StatusBar : ControlBase, IApplicationStatusDisplay, IStatusBar, IProgressDisplay, IPriority, INotifyPropertyChanged
 	{
 		protected List<Context> applicationStatusContexts = new List<Context>();
 
@@ -53,6 +55,10 @@
 				SetValue(ItemsProperty, value);
 			}
 		}
+
+		public double CurrentProgress {get; set;}
+
+		public bool IsProgressEnabled {get; set;}
 
 		public StatusBar()
 		{
@@ -109,6 +115,15 @@
 			}
 			
 			this.Items.Add(item);
+		}
+
+		public void SetProgress(object key, double? progress)
+		{
+			this.IsProgressEnabled = progress.HasValue;
+
+			if (progress.HasValue) {
+				this.CurrentProgress = progress.Value;
+			}
 		}
 	}
 }
