@@ -71,6 +71,10 @@
       <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
       <Name>GGenStudio.PlugIns.MenuBar</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StatusBar\GGenStudio.PlugIns.StatusBar.csproj">
+      <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
+      <Name>GGenStudio.PlugIns.StatusBar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
       <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
       <Name>GGenStudio.PlugIns.ToolBar</Name>

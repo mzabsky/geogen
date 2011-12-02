@@ -11,6 +11,8 @@
 	using GeoGen.Studio;
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.Utilities.Messaging;
+	using GeoGen.Studio.PlugInLoader;
+	using System.ComponentModel;
 
 	internal enum TaskType{
 		None,
@@ -101,7 +103,7 @@
 
 		public void Register() {}
 
-		public void Register(IQuickActionDisplay quickActionDisplay)
+		/*public void Register(IQuickActionDisplay quickActionDisplay)
 		{
 			
 		}
@@ -114,6 +116,25 @@
 		public void Register(IMainWindowToolBar toolBar)
 		{
 			
+		}*/
+
+		[OptionalRegistrator]
+		public void Register(IProgressDisplay progressBar)
+		{
+			// Register window menu entries
+			//generator.
+
+			//menuBar.AddMenu(generatorMenu);
+
+			this.PropertyChanged += delegate(object o, PropertyChangedEventArgs args)
+			{
+				if (args.PropertyName != "Progress")
+				{
+					return;
+				}
+
+				progressBar.SetProgress("Map generation", this.Progress);
+			};
 		}
 
 		public void Start(string script, bool headerOnly = false, IEnumerable<uint> parametersOverride = null)
