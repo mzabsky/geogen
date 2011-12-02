@@ -58,37 +58,13 @@ namespace GeoGen.Studio.PlugIns
 		}
 
 		public void Register(IGenerator generator){
-			//BindingManager.BindOneWay(generator, "Args", this, "Items");
-
 			this.Items = generator.Args;
 			this.Items.CollectionChanged += this.CollectionChanged;
 		}
 
-		/*E
-		{
-			
-
-			xtendedScriptArg arg = new ExtendedScriptArg(ScriptArgType.Bool, "Test 1", "Label 1", "asdsad asdasd asda s", 1, 0, 1, null);
-
-			this.Items.Add(arg);
-
-			arg = new ExtendedScriptArg(ScriptArgType.Int, "Test 2", "Label 2", "asdsad asdasd asda s", 512, 10, 1024, null);
-
-			this.Items.Add(arg);
-
-			arg = new ExtendedScriptArg(ScriptArgType.Enum, "Test 3", "Label 3", "asdsad asdasd asda s", 2, 0, 2, new string[] { "Option A", "Option B", "Option D" });
-
-			this.Items.Add(arg);
-
-			this.InitializeComponent();
-		}*/
-
 		private void CollectionChanged(object sender, EventArgs args)
 		{
-			//Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
-			//{
-				this.IsEmpty = (this.Items.Count == 0);
-			//});
+			this.IsEmpty = (this.Items.Count == 0);
 		}
 
 		private void SetToDefault(object sender, RoutedEventArgs e)
