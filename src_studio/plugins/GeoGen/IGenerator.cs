@@ -26,7 +26,7 @@ namespace GeoGen.Studio.PlugIns
         /// A value indicating the progress within current map script in percents. The value is 0 if no full script is running. 
         /// </summary>
         /// <value>The progress.</value>
-        double Progress { get; }
+        double? Progress { get; }
         ObservableCollection<HeightData> Maps { get; }
         ObservableCollection<ScriptArg> Args { get; }
 
