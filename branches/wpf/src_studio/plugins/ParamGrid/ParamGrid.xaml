@@ -1,102 +1,125 @@
 ﻿<pb:ControlBase x:Class="GeoGen.Studio.PlugIns.ParamGrid"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
-             xmlns:local="clr-namespace:GeoGen.Studio.PlugIns"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300"
-             Name="paramGridControl"
-             DataContext="{Binding ElementName=paramGridControl}"
-            >
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-    </UserControl.Resources>
-    <Grid Background="White">
-        <DockPanel>
-            <ScrollViewer Name="scroller" HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl Name="itemsControl"  ItemsSource="{Binding Items}">
-                    <ItemsControl.Resources>
-                        <ContextMenu x:Key="contextMenu">
-                            <MenuItem Header="Set to default" Click="SetToDefault">
-                                <MenuItem.Icon>
-                                    <Image Source="Images/Icons/defaultValue.png" Width="16" Height="16" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Set to maximum" Click="SetToMaximum">
-                                <MenuItem.Icon>
-                                    <Image Source="Images/Icons/maximumValue.png" Width="16" Height="16" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Set to minimum" Click="SetToMinimum">
-                                <MenuItem.Icon>
-                                    <Image Source="Images/Icons/minimumValue.png" Width="16" Height="16" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Randomize" Click="Randomize">
-                                <MenuItem.Icon>
-                                    <Image Source="Images/Icons/randomizeValue.png" Width="16" Height="16" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Set all to default" Click="SetAllToDefault">
-                                <MenuItem.Icon>
-                                    <Image Source="Images/Icons/defaultValue.png" Width="16" Height="16" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Randomize all" Click="RandomizeAll">
-                                <MenuItem.Icon>
-                                    <Image Source="Images/Icons/randomizeValue.png" Width="16" Height="16" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </ContextMenu>
-                    </ItemsControl.Resources>
-                    <ItemsControl.ItemTemplateSelector>
-                        <local:ParamGridTemplateSelector>
-                            <local:ParamGridTemplateSelector.BoolTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}"  Background="White">
-                                        <WrapPanel>
-                                            <TextBlock Width="100">
-                                                <Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
-                                            </TextBlock>
-                                            <CheckBox Content="Enabled" IsChecked="{Binding Value}" Margin="15, 0, 0, 0" Width="150" />
-                                        </WrapPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </local:ParamGridTemplateSelector.BoolTemplate>
-                            <local:ParamGridTemplateSelector.IntTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}" Background="White">
-                                        <WrapPanel>
-                                            <TextBlock Width="100">
-                                                <Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
-                                            </TextBlock>
-                                            <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"  Margin="15, 0, 0, 0" Width="150" ContextMenu="{StaticResource contextMenu}"  />
-                                        </WrapPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </local:ParamGridTemplateSelector.IntTemplate>
-                            <local:ParamGridTemplateSelector.EnumTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}" Background="White">
-                                        <WrapPanel>
-                                            <TextBlock Width="100">
-                                                <Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
-                                            </TextBlock>
-                                            <ComboBox ItemsSource="{Binding Options, Mode=OneWay}" SelectedIndex="{Binding Value}"  IsReadOnly="True"  Margin="15, 0, 0, 0" Width="150" />
-                                        </WrapPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </local:ParamGridTemplateSelector.EnumTemplate>
-                        </local:ParamGridTemplateSelector>
-                    </ItemsControl.ItemTemplateSelector>
-                </ItemsControl>
-            </ScrollViewer>
-        </DockPanel>
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,16,0"  Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisConverter}, Mode=OneWay }">
-            No parameters...
-        </TextBlock>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
+			 xmlns:local="clr-namespace:GeoGen.Studio.PlugIns"
+			 mc:Ignorable="d" 
+			 d:DesignHeight="400" d:DesignWidth="300"
+			 Name="paramGridControl"
+			 DataContext="{Binding ElementName=paramGridControl}"
+			>
+	<UserControl.Resources>
+		<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+	</UserControl.Resources>
+	<Grid Background="White">
+		<DockPanel>			
+			<ScrollViewer Name="scroller" HorizontalScrollBarVisibility="Disabled">				
+				<ScrollViewer.ContextMenu>
+					<ContextMenu>
+						<ContextMenu.Style>
+							<Style TargetType="ContextMenu">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsEmpty}" Value="True">
+										<Setter Property="Visibility" Value="Collapsed"/>
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</ContextMenu.Style>
+						<MenuItem Header="Set all to default" Click="SetAllToDefault">
+							<MenuItem.Icon>
+								<Image Source="Images/Icons/defaultValue.png" Width="16" Height="16" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="Randomize all" Click="RandomizeAll">
+							<MenuItem.Icon>
+								<Image Source="Images/Icons/randomizeValue.png" Width="16" Height="16" />
+							</MenuItem.Icon>
+						</MenuItem>
+					</ContextMenu>
+				</ScrollViewer.ContextMenu>
+				<ItemsControl Name="itemsControl"  ItemsSource="{Binding Items}">
+					<ItemsControl.Resources>
+						<ContextMenu x:Key="contextMenu">
+							<MenuItem Header="Set to default" Click="SetToDefault">
+								<MenuItem.Icon>
+									<Image Source="Images/Icons/defaultValue.png" Width="16" Height="16" />
+								</MenuItem.Icon>
+							</MenuItem>
+							<MenuItem Header="Set to maximum" Click="SetToMaximum">
+								<MenuItem.Icon>
+									<Image Source="Images/Icons/maximumValue.png" Width="16" Height="16" />
+								</MenuItem.Icon>
+							</MenuItem>
+							<MenuItem Header="Set to minimum" Click="SetToMinimum">
+								<MenuItem.Icon>
+									<Image Source="Images/Icons/minimumValue.png" Width="16" Height="16" />
+								</MenuItem.Icon>
+							</MenuItem>
+							<MenuItem Header="Randomize" Click="Randomize">
+								<MenuItem.Icon>
+									<Image Source="Images/Icons/randomizeValue.png" Width="16" Height="16" />
+								</MenuItem.Icon>
+							</MenuItem>
+							<Separator />
+							<MenuItem Header="Set all to default" Click="SetAllToDefault">
+								<MenuItem.Icon>
+									<Image Source="Images/Icons/defaultValue.png" Width="16" Height="16" />
+								</MenuItem.Icon>
+							</MenuItem>
+							<MenuItem Header="Randomize all" Click="RandomizeAll">
+								<MenuItem.Icon>
+									<Image Source="Images/Icons/randomizeValue.png" Width="16" Height="16" />
+								</MenuItem.Icon>
+							</MenuItem>
+						</ContextMenu>
+					</ItemsControl.Resources>
+					<ItemsControl.ItemTemplateSelector>
+						<local:ParamGridTemplateSelector>
+							<local:ParamGridTemplateSelector.BoolTemplate>
+								<DataTemplate>
+									<Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}"  Background="White">
+										<WrapPanel>
+											<TextBlock Width="100">
+												<Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
+											</TextBlock>
+											<CheckBox Content="Enabled" IsChecked="{Binding Value}" Margin="15, 0, 0, 0" Width="150" />
+										</WrapPanel>
+									</Border>
+								</DataTemplate>
+							</local:ParamGridTemplateSelector.BoolTemplate>
+							<local:ParamGridTemplateSelector.IntTemplate>
+								<DataTemplate>
+									<Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}" Background="White">
+										<WrapPanel>
+											<TextBlock Width="100">
+												<Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
+											</TextBlock>
+											<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"  Margin="15, 0, 0, 0" Width="150" ContextMenu="{StaticResource contextMenu}"  />
+										</WrapPanel>
+									</Border>
+								</DataTemplate>
+							</local:ParamGridTemplateSelector.IntTemplate>
+							<local:ParamGridTemplateSelector.EnumTemplate>
+								<DataTemplate>
+									<Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}" Background="White">
+										<WrapPanel>
+											<TextBlock Width="100">
+												<Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
+											</TextBlock>
+											<ComboBox ItemsSource="{Binding Options, Mode=OneWay}" SelectedIndex="{Binding Value}"  IsReadOnly="True"  Margin="15, 0, 0, 0" Width="150" />
+										</WrapPanel>
+									</Border>
+								</DataTemplate>
+							</local:ParamGridTemplateSelector.EnumTemplate>
+						</local:ParamGridTemplateSelector>
+					</ItemsControl.ItemTemplateSelector>
+				</ItemsControl>
+			</ScrollViewer>
+		</DockPanel>
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,16,0"  Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisConverter}, Mode=OneWay }">
+			No parameters...
+		</TextBlock>
+	</Grid>
 </pb:ControlBase>
