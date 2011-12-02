@@ -73,7 +73,7 @@
                                             <TextBlock Width="100">
                                                 <Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
                                             </TextBlock>
-                                            <TextBox Text="{Binding Value}"  Margin="15, 0, 0, 0" Width="150" ContextMenu="{StaticResource contextMenu}"  />
+                                            <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"  Margin="15, 0, 0, 0" Width="150" ContextMenu="{StaticResource contextMenu}"  />
                                         </WrapPanel>
                                     </Border>
                                 </DataTemplate>
