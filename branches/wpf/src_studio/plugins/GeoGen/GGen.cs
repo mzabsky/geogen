@@ -55,14 +55,13 @@
 			}
 		}
 
-		public double Progress{get; protected set;}
+		public double? Progress {get; protected set;}
 
 		public ObservableCollection<HeightData> Maps {get; protected set;}
 
 		public ObservableCollection<ScriptArg> Args { get; protected set; }
 
 		public GGen(){
-			this.Progress = 0;
 			this.CurrentTaskType = TaskType.None;
 			this.Maps = new ObservableCollection<HeightData>();
 			this.Args = new ObservableCollection<ScriptArg>();
@@ -290,7 +289,7 @@
 				foreach (GeoGen.Net.ScriptArg geoGenArg in this.generator.Args)
 				{
 					ScriptArg extendedArg = new ScriptArg(geoGenArg);
-					if (oldValues.Length > i)
+					if (i < oldValues.Length)
 					{
 						extendedArg.Value = oldValues[i];
 					}
@@ -320,15 +319,18 @@
 				i++;
 			}*/
 
-			var zipped = this.Args.Zip(this.generator.Args, (LocalArg, GeneratorArg) => new { LocalArg, GeneratorArg});
-
-			foreach (var item in zipped)
+			Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
 			{
-				if (item.LocalArg.Type == item.GeneratorArg.Type)
+				var zipped = this.Args.Zip(this.generator.Args, (LocalArg, GeneratorArg) => new { LocalArg, GeneratorArg});
+
+				foreach (var item in zipped)
 				{
-					item.LocalArg.Value = item.GeneratorArg.Value;
+					if (item.LocalArg.Type == item.GeneratorArg.Type)
+					{
+						item.GeneratorArg.Value = item.LocalArg.Value;
+					}
 				}
-			}
+			});
 		}
 
 		protected void ImportArgsIntoGeneratorFromValues(IEnumerable<uint> values)
@@ -431,7 +433,7 @@
 		{
 			Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
 			{
-				this.Progress = 0;
+				this.Progress = null;
 				this.Maps.Clear();                
 				//this.temporaryMapList.CopyTo(this.Maps, 0);
 				
@@ -464,17 +466,6 @@
 					new HeightData(name, heightData)
 				);
 			});
-		}
-
-		[ContractInvariantMethod]   
-		private void ObjectInvariant()
-		{
-			// Progress percentage must be in range [0, 100].
-			Contract.Assert(this.Progress >= 0 && this.Progress <= 100);
-			Contract.Assert(
-				(this.CurrentTaskType == TaskType.None && this.thread == null) ||
-				(this.CurrentTaskType != TaskType.None && this.thread != null)
-			);
 		}
 
 		private void ThrowMessage(Message message)
