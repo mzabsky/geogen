@@ -107,6 +107,13 @@
       <Name>GGenStudio.PlugIns.GGen</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\defaultValue.png" />
+    <Resource Include="Images\Icons\maximumValue.png" />
+    <Resource Include="Images\Icons\minimumValue.png" />
+    <Resource Include="Images\Icons\paramGrid.png" />
+    <Resource Include="Images\Icons\randomizeValue.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
