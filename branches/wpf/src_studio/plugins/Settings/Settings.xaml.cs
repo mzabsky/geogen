@@ -8,7 +8,7 @@
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.MenuBars;
 	using GeoGen.Studio.Utilities;    
-	using GeoGen.Studio.Utilities.Configurability;
+	using GeoGen.Studio.Utilities.Persistence;
 
 	public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.WindowBase, INotifyPropertyChanged
 	{
@@ -57,7 +57,7 @@
 
 		public IEnumerable<PlugInInfo> PlugIns {get; private set;}
 
-		[Configurable(DefaultValue = false, EnableVisualConfiguration = false)]
+		[Persistent(DefaultValue = false, EnableVisualConfiguration = false)]
 		public bool ShowHiddenPlugIns { get; set; }
 
 		/// <summary>

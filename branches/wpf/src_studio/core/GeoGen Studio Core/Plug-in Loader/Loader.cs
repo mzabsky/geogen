@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using GeoGen.Studio.Utilities.Configurability;
+using GeoGen.Studio.Utilities.Persistence;
 using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio.PlugInLoader

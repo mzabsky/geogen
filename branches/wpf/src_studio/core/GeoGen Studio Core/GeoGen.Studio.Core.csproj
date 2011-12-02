@@ -121,9 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities\Collections\UniqueObservableCollection.cs" />
-    <Compile Include="Utilities\Configurability\ConfigurableAttribute.cs" />
-    <Compile Include="Utilities\Configurability\MainConfig.cs" />
-    <Compile Include="Utilities\Configurability\PropertyStore.cs" />
+    <Compile Include="Utilities\Persistence\ConfigurableAttribute.cs" />
+    <Compile Include="Utilities\Persistence\MainConfig.cs" />
+    <Compile Include="Utilities\Persistence\PropertyStore.cs" />
     <Compile Include="Utilities\Context\Context.cs" />
     <Compile Include="Utilities\Context\ContextManager.cs" />
     <Compile Include="Utilities\Converters\BoolToVisibilityConverter.cs" />

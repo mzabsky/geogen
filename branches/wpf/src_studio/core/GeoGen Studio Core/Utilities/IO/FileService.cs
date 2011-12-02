@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using GeoGen.Studio.Utilities.Collections;
-using GeoGen.Studio.Utilities.Configurability;
+using GeoGen.Studio.Utilities.Persistence;
 
 namespace GeoGen.Studio.Utilities.IO
 {    
@@ -13,7 +13,7 @@ namespace GeoGen.Studio.Utilities.IO
         /// <summary>
         /// List of recently used files.
         /// </summary>
-        [Configurable(UseEmptyInstanceAsDefault = true)]
+        [Persistent(UseEmptyInstanceAsDefault = true)]
         public static FileInfoObservableQueue RecentFiles { get; internal set; }
 
         /// <summary>

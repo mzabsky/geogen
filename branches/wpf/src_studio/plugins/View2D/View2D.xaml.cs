@@ -11,7 +11,7 @@
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.StatusBars;
 	using GeoGen.Studio.Utilities;
-	using GeoGen.Studio.Utilities.Configurability;
+	using GeoGen.Studio.Utilities.Persistence;
 	using GeoGen.Studio.Utilities.Context;	
 
 	public partial class View2D : INotifyPropertyChanged
@@ -40,7 +40,7 @@
 
 		public HeightData SelectedMap { get; set; }
 
-		[Configurable(UseEmptyInstanceAsDefault = true)]
+		[Persistent(UseEmptyInstanceAsDefault = true)]
 		public Overlay SelectedOverlay {
 			get
 			{

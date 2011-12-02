@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.ComponentModel;
 
-namespace GeoGen.Studio.Utilities.Configurability
+namespace GeoGen.Studio.Utilities.Persistence
 {
 	/* Exclude this class from both IntelliSense and documentation, it is of no purpose for anyone but MainConfig class.
 	 * It is public only because XML serializer needs it to be. */

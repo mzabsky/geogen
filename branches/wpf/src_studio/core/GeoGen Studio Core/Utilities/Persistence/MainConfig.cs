@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Windows;
 using GeoGen.Studio.Utilities.IO;
 
-namespace GeoGen.Studio.Utilities.Configurability
+namespace GeoGen.Studio.Utilities.Persistence
 {
     /// <summary>
     /// Offers a simple way to persistently store properties of objects on a per-type basis.
@@ -94,7 +94,7 @@ namespace GeoGen.Studio.Utilities.Configurability
         {
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
-                ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+                PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
                 /* Skip non-writable non-configurable properties. */
                 if(property.CanWrite && configurableAttribute != null)
@@ -111,7 +111,7 @@ namespace GeoGen.Studio.Utilities.Configurability
 
             foreach (PropertyInfo property in type.GetProperties())
             {
-                ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+                PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
                 /* Skip non-writable non-configurable properties. */
                 if (property.CanWrite && configurableAttribute != null)
@@ -130,7 +130,7 @@ namespace GeoGen.Studio.Utilities.Configurability
         {
             foreach(PropertyInfo property in configurable.GetType().GetProperties())
             {
-                ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+                PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
                 /* Skip non-readable non-configurable properties. */
                 if (property.CanWrite && configurableAttribute != null)
@@ -147,7 +147,7 @@ namespace GeoGen.Studio.Utilities.Configurability
 
             foreach (PropertyInfo property in type.GetProperties())
             {
-                ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+                PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
                 /* Skip non-readable non-configurable properties. */
                 if (property.CanWrite && configurableAttribute != null)
@@ -178,7 +178,7 @@ namespace GeoGen.Studio.Utilities.Configurability
         {
             Dictionary<string, object> currentStore = MainConfig.GetPropertyStoreForType(property.ReflectedType);
 
-            ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute ?? new ConfigurableAttribute();
+            PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute ?? new PersistentAttribute();
 
             // Does the property store contain this property?
             if(currentStore.ContainsKey(property.Name))
