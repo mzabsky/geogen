@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace GeoGen.Studio.Utilities.Configurability
+namespace GeoGen.Studio.Utilities.Persistence
 {
     /// <summary>
     /// Makes a property persistent (if the object instance is registered with <see cref="MainConfig"/>).
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-    public sealed class ConfigurableAttribute : Attribute
+    public sealed class PersistentAttribute : Attribute
     {
         /// <summary>
         /// The value used if the entry in config doesn't exist.
@@ -31,15 +31,15 @@ namespace GeoGen.Studio.Utilities.Configurability
         public bool EnableVisualConfiguration { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigurableAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PersistentAttribute"/> class.
         /// </summary>
-        public ConfigurableAttribute(){}
+        public PersistentAttribute(){}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigurableAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PersistentAttribute"/> class.
         /// </summary>
         /// <param name="defaultValue">The default value.</param>
-        public ConfigurableAttribute(object defaultValue = null)
+        public PersistentAttribute(object defaultValue = null)
         {
             this.DefaultValue = defaultValue;
             this.EnableVisualConfiguration = true;

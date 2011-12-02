@@ -14,7 +14,7 @@
 	using GeoGen.Studio.Utilities.Extensions;
 	using GeoGen.Studio.Utilities.IO;
 	using GeoGen.Studio.Utilities.Messaging;
-	using GeoGen.Studio.Utilities.Configurability;
+	using GeoGen.Studio.Utilities.Persistence;
 	using GeoGen.Studio.Utilities.Context;
 
 	public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.ControlBase, ITextProvider, IEditor, INotifyPropertyChanged
@@ -68,7 +68,7 @@
 
 		public static readonly DependencyProperty LastFileNameProperty = LastFileNamePropertyKey.DependencyProperty;
 
-		[Configurable("")]
+		[Persistent("")]
 		public string LastFileName
 		{
 			get
@@ -85,7 +85,7 @@
 			"TemplateFile", typeof(string), typeof(AvalonEditor), new FrameworkPropertyMetadata("template.nut")
 		);
 
-		[Configurable("../examples/template.nut")]
+		[Persistent("../examples/template.nut")]
 		public string TemplateFile
 		{
 			get
@@ -250,7 +250,7 @@
 			"DefaultFontSize", typeof(int), typeof(AvalonEditor), new FrameworkPropertyMetadata(13)
 		);
 
-		[Configurable(13)]
+		[Persistent(13)]
 		public int DefaultFontSize
 		{
 			get
@@ -268,7 +268,7 @@
 			"WordWrap", typeof(bool), typeof(AvalonEditor), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnWordWrapChanged))
 		);
 
-		[Configurable(false)]
+		[Persistent(false)]
 		public bool WordWrap
 		{
 			get

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using GeoGen.Studio.PlugInLoader;
-using GeoGen.Studio.Utilities.Configurability;
+using GeoGen.Studio.Utilities.Persistence;
 using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio.PlugIns
@@ -15,7 +15,7 @@ namespace GeoGen.Studio.PlugIns
 	{
 		public ObservableCollection<Message> Items { get; private set; }
 
-		[Configurable(DefaultValue = DockingLocation.RightTop)]
+		[Persistent(DefaultValue = DockingLocation.RightTop)]
 		public object DockingState {get; set;}
 
 		private static readonly DependencyPropertyKey IsEmptyPropertyKey = DependencyProperty.RegisterReadOnly(

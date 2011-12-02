@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using GeoGen.Studio.PlugInLoader;
 using GeoGen.Studio.Utilities;
-using GeoGen.Studio.Utilities.Configurability;
+using GeoGen.Studio.Utilities.Persistence;
 
 namespace GeoGen.Studio.PlugIns
 {
@@ -33,7 +33,7 @@ namespace GeoGen.Studio.PlugIns
             // Build the list of configurable properties
             foreach (PropertyInfo property in plugIn.Type.GetProperties())
             {              
-                ConfigurableAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(ConfigurableAttribute)) as ConfigurableAttribute;
+                PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
                 /* Skip non-readable non-readable non-configurable properties. */
                 if (

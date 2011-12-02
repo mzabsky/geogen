@@ -2,7 +2,7 @@
 {
 	using System.ComponentModel;
 	using System.Windows;
-	using GeoGen.Studio.Utilities.Configurability;
+	using GeoGen.Studio.Utilities.Persistence;
 	using SlimDX.Wpf;
 
 	/// <summary>
@@ -19,7 +19,7 @@
 
 		public HeightData SelectedMap { get; set; }
 
-		[Configurable(UseEmptyInstanceAsDefault = true)]
+		[Persistent(UseEmptyInstanceAsDefault = true)]
 		public Overlay SelectedOverlay { get; set; }        
 
 		public View3D()
