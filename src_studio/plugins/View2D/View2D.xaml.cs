@@ -197,7 +197,11 @@
 				this.IsMouseOverMap = false;
 
 				ContextManager.LeaveContext(this.mouseOverContext);
-			};			
+			};
+
+			this.image.SizeChanged += delegate {
+				this.ClampImagePosition();
+			};
 		}
 
 		public void Register(IGenerator generator)
