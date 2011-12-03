@@ -18,15 +18,6 @@
 			<ScrollViewer Name="scroller" HorizontalScrollBarVisibility="Disabled">				
 				<ScrollViewer.ContextMenu>
 					<ContextMenu>
-						<ContextMenu.Style>
-							<Style TargetType="ContextMenu">
-								<Style.Triggers>
-									<DataTrigger Binding="{Binding IsEmpty}" Value="True">
-										<Setter Property="Visibility" Value="Collapsed"/>
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</ContextMenu.Style>
 						<MenuItem Header="Set all to default" Click="SetAllToDefault">
 							<MenuItem.Icon>
 								<Image Source="Images/Icons/defaultValue.png" Width="16" Height="16" />

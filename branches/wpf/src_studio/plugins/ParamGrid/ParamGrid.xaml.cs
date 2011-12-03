@@ -50,6 +50,11 @@ namespace GeoGen.Studio.PlugIns
 			this.Items.CollectionChanged += this.CollectionChanged;
 
 			InitializeComponent();
+
+			this.scroller.ContextMenuOpening += delegate(object o, ContextMenuEventArgs args)
+			{
+				args.Handled = this.IsEmpty;
+			};
 		}
 
 		public void Register(IDockManager dockManager)
