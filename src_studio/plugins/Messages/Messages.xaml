@@ -14,6 +14,15 @@
 	</UserControl.Resources>
 	<Grid Background="White">
 		<ScrollViewer Name="scroller" HorizontalScrollBarVisibility="Disabled">
+			<ScrollViewer.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Delete all" Click="Clear">
+						<MenuItem.Icon>
+							<Image Source="Images/Icons/clear.png" Width="16" Height="16" />
+						</MenuItem.Icon>
+					</MenuItem>
+				</ContextMenu>
+			</ScrollViewer.ContextMenu>
 			<ItemsControl Name="itemsControl"  ItemsSource="{Binding Items}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
