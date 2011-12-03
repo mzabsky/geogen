@@ -54,6 +54,7 @@
 			};			
 		}
 
+		[OptionalRegistrator]
 		public void Register(IMainWindowToolBar toolBar)
 		{
 			toolBar.AddItem(
@@ -70,7 +71,9 @@
 			hideableBars.Add(toolBar.Control);
 		}
 
-		public void Register(IMenuBar menuBar){
+		[OptionalRegistrator]
+		public void Register(IMenuBar menuBar)
+		{
 			menuBar.AddMenu(
 				new MenuEntry(
 					header: "View",
@@ -93,6 +96,7 @@
 			hideableBars.Add(menuBar.Control);
 		}
 
+		[OptionalRegistrator]
 		public void Register(IStatusBar statusBar)
 		{
 			hideableBars.Add(statusBar.Control);
