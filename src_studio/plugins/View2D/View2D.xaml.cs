@@ -335,6 +335,13 @@
 		}
 
 		private void ClampImagePosition(){
+			if (this.image.ActualWidth == 0 || this.image.ActualHeight == 0)
+			{
+				// The image is being erased (so a new image can be loaded), don't modify the position just yet.
+				// This will be called a moment later once more.
+				return;
+			}
+
 			if ((double) this.image.GetValue(Canvas.LeftProperty) + this.image.ActualWidth < View2D.MinimumVisibleTip)
 			{
 				this.image.SetValue(Canvas.LeftProperty, View2D.MinimumVisibleTip - this.image.ActualWidth);
