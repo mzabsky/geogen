@@ -50,6 +50,10 @@ namespace GeoGen.Studio.PlugIns
 
 			InitializeComponent();
 			MainConfig.Register(this);
+
+			this.scroller.ContextMenuOpening += delegate(object o, ContextMenuEventArgs args){
+				args.Handled = this.IsEmpty;
+			};
 		}
 
 		public void Register(IDockManager dockManager)
