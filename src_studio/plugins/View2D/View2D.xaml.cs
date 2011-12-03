@@ -8,6 +8,7 @@
 	using System.Windows.Data;
 	using System.Windows.Documents;
 	using System.Windows.Input;
+	using GeoGen.Studio.PlugInLoader;	
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.StatusBars;
 	using GeoGen.Studio.Utilities;
@@ -262,6 +263,7 @@
 			);
 		}
 
+		[OptionalRegistrator]
 		public void Register(IStatusBar statusBar)
 		{
 			MultiBinding valueBinding = new MultiBinding();
