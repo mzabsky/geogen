@@ -10,5 +10,10 @@
 		{
 			this.Priority = priority;
 		}
+
+		public override string ToString()
+		{
+			return "<Separator>";
+		}
 	}
 }
