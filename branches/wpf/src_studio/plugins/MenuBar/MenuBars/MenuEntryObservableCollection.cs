@@ -2,8 +2,7 @@
 {
 	using GeoGen.Studio.Utilities.Collections;
 
-	public class MenuEntryObservableCollection : SortedObservableCollection<MenuEntry>
+	public class MenuEntryObservableCollection : PriorityObservableCollection<MenuEntry>
 	{
-		public MenuEntryObservableCollection() : base(new PriorityComparer()) { }
 	}
 }

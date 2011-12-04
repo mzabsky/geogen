@@ -2,8 +2,7 @@
 {
 	using GeoGen.Studio.Utilities.Collections;
 
-	public class StatusBarEntryObservableCollection : SortedObservableCollection<StatusBarEntry>
+	public class StatusBarEntryObservableCollection : PriorityObservableCollection<StatusBarEntry>
 	{
-		public StatusBarEntryObservableCollection() : base(new PriorityComparer()) { }
 	}
 }
