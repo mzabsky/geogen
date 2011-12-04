@@ -269,6 +269,11 @@
 
 		#region Methods
 
+		public override string ToString()
+		{
+			return this.Header + "(" + this.Priority + ")";
+		}
+
 		internal void MergeWith(MenuEntry menu)
 		{
 			foreach (MenuEntry item in menu.Items)
