@@ -1,19 +1,23 @@
 ﻿namespace GeoGen.Studio.PlugIns
 {
 	using System;
-	using System.ComponentModel;
-	using System.Linq;
-	using System.Windows;
-	using System.Windows.Controls;
-	using System.Windows.Data;
-	using System.Windows.Documents;
-	using System.Windows.Input;
-	using GeoGen.Studio.PlugInLoader;	
-	using GeoGen.Studio.PlugIns.Interfaces;
-	using GeoGen.Studio.PlugIns.StatusBars;
-	using GeoGen.Studio.Utilities;
-	using GeoGen.Studio.Utilities.Persistence;
-	using GeoGen.Studio.Utilities.Context;	
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using GeoGen.Studio.PlugInLoader;
+using GeoGen.Studio.PlugIns.Interfaces;
+using GeoGen.Studio.PlugIns.StatusBars;
+using GeoGen.Studio.Utilities;
+using GeoGen.Studio.Utilities.Context;
+using GeoGen.Studio.Utilities.IO;
+using GeoGen.Studio.Utilities.Persistence;
+	using GeoGen.Studio.Utilities.Messaging;
 
 	public partial class View2D : INotifyPropertyChanged
 	{
@@ -30,6 +34,7 @@
 		private ICommand zoomInCommand;
 		private ICommand zoomOutCommand;
 		private ICommand resetZoomCommand;
+		private ICommand saveImageCommand;
 
 		private Overlay selectedOverlay;
 
@@ -67,6 +72,9 @@
 
 		public bool IsMouseOverMap { get; private set; }
 
+		[Persistent]
+		public string LastSaveImagePath {get; set;}
+
 		public ICommand ZoomInCommand
 		{
 			get
@@ -90,6 +98,21 @@
 				}
 
 				return this.zoomOutCommand;
+			}
+		}
+
+		public ICommand SaveImageCommand
+		{
+			get
+			{
+				if (this.saveImageCommand == null)
+				{
+					this.saveImageCommand = new RelayCommand(
+						param => this.SaveImage(),
+						param => this.image.Source != null);
+				}
+
+				return this.saveImageCommand;
 			}
 		}
 
@@ -333,7 +356,30 @@
 
 		public void SaveImage()
 		{
-			GeoGen.Studio.UI.MessageBox.Show("Saved");
+			if (this.image.Source == null)
+			{
+				return;
+			}
+
+			try
+			{
+				BitmapWriter writer = new BitmapWriter();
+				writer.IsFileDialogEnabled = true;
+				this.LastSaveImagePath = writer.SaveBitmap((BitmapSource)this.image.Source, this.LastSaveImagePath);
+			}
+			catch (IOException e)
+			{
+				Message errorMessage = new Message(e.Message, MessageType.Error);
+				Messenger.ThrowMessage(errorMessage);
+				return;
+			}
+			catch (OperationCanceledException)
+			{
+				return;
+			}
+
+			Message message = new Message(@"Image """ + Path.GetFileName(this.LastSaveImagePath) + @""" saved.", MessageType.Message);
+			Messenger.ThrowMessage(message);
 		}
 
 		private void ClampImagePosition(){
