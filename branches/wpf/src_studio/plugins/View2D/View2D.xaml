@@ -23,7 +23,7 @@
 		<DockPanel Name="panel2D">
 			<tb:ToolBar DockPanel.Dock="Top" Name="toolbar" DataContext="{Binding ElementName=view2D}">
 				<tb:ToolBar.Items>
-					<tb:ToolBarButton ToolTip="Save Current Image" Priority="0">
+					<tb:ToolBarButton ToolTip="Save Current Image" Priority="0" Command="{Binding SaveImageCommand}">
 						<tb:ToolBarButton.Icon>
 							<Image Source="Images/Icons/save.png"/>
 						</tb:ToolBarButton.Icon>
