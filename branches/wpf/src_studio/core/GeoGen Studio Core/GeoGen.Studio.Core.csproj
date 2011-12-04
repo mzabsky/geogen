@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities\Collections\UniqueObservableCollection.cs" />
+    <Compile Include="Utilities\IO\BitmapWriter.cs" />
     <Compile Include="Utilities\Persistence\PersistentAttribute.cs" />
     <Compile Include="Utilities\Persistence\MainConfig.cs" />
     <Compile Include="Utilities\Persistence\PropertyStore.cs" />
