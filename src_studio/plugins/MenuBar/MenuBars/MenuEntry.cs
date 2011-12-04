@@ -282,6 +282,13 @@
 
 				foreach (MenuEntry ownItem in this.Items)
 				{
+
+					if (ownItem.Header == "[Separator]")
+					{
+						// Don't merge separators
+						continue;
+					}
+
 					if (ownItem.Header == item.Header)
 					{
 						if (item.Items.Count > 0)
