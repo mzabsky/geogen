@@ -44,13 +44,6 @@
 			}
 		}
 
-
-		public void RegisterInputGesture(InputGesture gesture, ICommand command)
-		{
-			InputBinding inputBinding = new InputBinding(command, gesture);
-			this.InputBindings.Add(inputBinding);
-		}
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
 		/// </summary>

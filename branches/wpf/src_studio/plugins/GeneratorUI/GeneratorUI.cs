@@ -1,33 +1,22 @@
 ﻿namespace GeoGen.Studio.PlugIns
 {
-	using System;
 	using System.Windows.Input;
 	using GeoGen.Studio.PlugInLoader;
+	using GeoGen.Studio.PlugIns.Extensions;
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.MenuBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.Context;
 
-	class GeneratorUI: GeoGen.Studio.Utilities.PlugInBase.ObjectBase
+	public sealed class GeneratorUI : GeoGen.Studio.Utilities.PlugInBase.ObjectBase
 	{
-		protected Context executingContext = new Context("Executing");
-		protected IEditor editor;
-		protected IGenerator generator;
+		private readonly ICommand startCommand;
+		private readonly ICommand abortCommand;
 
-		protected ICommand startCommand;
-		protected ICommand abortCommand;
+		private readonly Context executingContext = new Context("Executing");
 
-		/// <summary>
-		/// Gets a value indicating whether the generator is ready.
-		/// </summary>
-		/// <value><c>true</c> if the generator is ready; otherwise, <c>false</c>.</value>
-		protected bool IsReady
-		{
-			get
-			{
-				return generator.IsReady;
-			}
-		}
+		private IEditor editor;
+		private IGenerator generator;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneratorUI"/> class.
@@ -36,18 +25,29 @@
 		{
 			this.startCommand = new RelayCommand(
 				param => this.Start(),
-				param => this.IsReady
-			);
+				param => this.IsReady);
 
 			this.abortCommand = new RelayCommand(
 				param => this.Abort(),
-				param => !this.IsReady
-			);
+				param => !this.IsReady);
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether the generator is ready.
+		/// </summary>
+		/// <value><c>true</c> if the generator is ready; otherwise, <c>false</c>.</value>
+		public bool IsReady
+		{
+			get
+			{
+				return this.generator.IsReady;
+			}
 		}
 
 		/// <summary>
 		/// Subscribes to generator and editor events.
 		/// </summary>
+		/// <param name="editor">The editor.</param>
 		/// <param name="generator">The generator.</param>
 		[OptionalRegistrator]
 		public void Register(IEditor editor, IGenerator generator)
@@ -59,23 +59,23 @@
 			{
 				if (!args.HeaderOnly)
 				{
-					ContextManager.EnterContext(executingContext);
+					ContextManager.EnterContext(this.executingContext);
 				}
 			};
 
-			generator.Aborted += delegate(object o, EventArgs args)
+			generator.Aborted += delegate
 			{
-				ContextManager.LeaveContext(executingContext);
+				ContextManager.LeaveContext(this.executingContext);
 			};
 
-			generator.Failed += delegate(object o, GenerationFailedEventArgs args)
+			generator.Failed += delegate
 			{
-				ContextManager.LeaveContext(executingContext);
+				ContextManager.LeaveContext(this.executingContext);
 			};
 
-			generator.Finished += delegate(object o, GenerationFinishedEventArgs args)
+			generator.Finished += delegate
 			{
-				ContextManager.LeaveContext(executingContext);
+				ContextManager.LeaveContext(this.executingContext);
 			};
 		}
 
@@ -91,25 +91,22 @@
 		public void Register(IEditor editor, IGenerator generator, IMenuBar menuBar)
 		{
 			// Register window menu entries
-			MenuEntry generatorMenu = new MenuEntry(
+			var generatorMenu = new MenuEntry(
 				header: "Generator",
 				priority: -4,
-				items: new MenuEntryObservableCollection()
+				items: new MenuEntryObservableCollection
 				{
 					new MenuEntry(
 						header: "Execute",
 						priority: 10,
 						inputGestureText: "F5",
-						command: this.startCommand
-					),
+						command: this.startCommand),
 					new MenuEntry(
 						header: "Abort",
 						priority: 9,
 						inputGestureText: "F6",
-						command: this.abortCommand
-					),
-				}
-			);
+						command: this.abortCommand),
+				});
 
 			menuBar.AddMenu(generatorMenu);
 		}
@@ -117,15 +114,15 @@
 		[OptionalRegistrator]
 		public void Register(IEditor editor, IGenerator generator, IApplicationStatusDisplay applicationStatusDisplay)
 		{
-			applicationStatusDisplay.RegisterApplicationStatusContext(executingContext);
+			applicationStatusDisplay.RegisterApplicationStatusContext(this.executingContext);
 		}
 
-		protected void Start()
+		private void Start()
 		{
 			this.generator.Start(this.editor.Text);
 		}
 
-		protected void Abort()
+		private void Abort()
 		{
 			this.generator.Abort();
 		}        

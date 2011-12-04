@@ -2,20 +2,22 @@
 {
 	using System;
 	using System.ComponentModel;
+	using System.IO;
 	using System.Windows;
 	using System.Windows.Data;
 	using System.Windows.Input;
-	using System.IO;
+
+	using GeoGen.Studio.PlugIns.Extensions;
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.MenuBars;
-	using GeoGen.Studio.PlugIns.ToolBars;
 	using GeoGen.Studio.PlugIns.StatusBars;
+	using GeoGen.Studio.PlugIns.ToolBars;
 	using GeoGen.Studio.Utilities;
+	using GeoGen.Studio.Utilities.Context;
 	using GeoGen.Studio.Utilities.Extensions;
 	using GeoGen.Studio.Utilities.IO;
 	using GeoGen.Studio.Utilities.Messaging;
 	using GeoGen.Studio.Utilities.Persistence;
-	using GeoGen.Studio.Utilities.Context;
 
 	public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.ControlBase, ITextProvider, IEditor, INotifyPropertyChanged
 	{
@@ -557,7 +559,8 @@
 		/// Registers the editor into main window menu.
 		/// </summary>
 		/// <param name="menuBar">The menu bar.</param>
-		public void Register(IMenuBar menuBar){
+		public void Register(IMenuBar menuBar)
+		{
 			string iconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.AvalonEditor;component/Images/Icons/";
 
 			menuBar.AddMenu(

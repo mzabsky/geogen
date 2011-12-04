@@ -24,12 +24,5 @@
 		/// Collection of horizontal bars (<see cref="System.Windows.Controls.Control">controls</see> implementing <see cref="IPriority"/>) that will be placed on bottom side of the window. The bars will be sorted by their <see cref="IPriority">priority</see>.
 		/// </summary>
 		PriorityObservableCollection BottomBars { get; set; }
-
-		/// <summary>
-		/// Registers a window-wide <see cref="InputGesture"/>.
-		/// </summary>
-		/// <param name="gesture">The gesture.</param>
-		/// <param name="command">The command.</param>
-		void RegisterInputGesture(InputGesture gesture, ICommand command);
 	}
 }
