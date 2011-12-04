@@ -1,69 +1,81 @@
 ﻿namespace GeoGen.Studio.PlugIns.ToolBars
 {
-	using System;
-	using System.Collections.Generic;
+	using System.ComponentModel;
 	using System.Windows;
 	using System.Windows.Controls;
 	using System.Windows.Controls.Primitives;
-	using System.Windows.Data;
-	using System.Windows.Input;
-	using System.Windows.Markup;
-	using System.Windows.Media;
-	using System.Windows.Media.Imaging;
+
 	using GeoGen.Studio.Utilities.Collections;
 
-	abstract public class ToolBarEntry : UserControl, IPriority
+	public abstract class ToolBarEntry : UserControl, IPriority, INotifyPropertyChanged
 	{
-		private static readonly DependencyProperty PriorityProperty = DependencyProperty.Register(
-			"Priority", typeof(double), typeof(ToolBarEntry), new PropertyMetadata(0d));
+		#region Constants and Fields
 
-		public double Priority
-		{
-			get
-			{
-				return (double)GetValue(PriorityProperty);
-			}
-			set
-			{
-				SetValue(PriorityProperty, value);
-			}
-		}
+		private static new readonly DependencyProperty DataContextProperty = DependencyProperty.Register(
+			"DataContext", typeof(object), typeof(ToolBarEntry), new PropertyMetadata(null));
 
-		private static readonly DependencyProperty ToolTipProperty = DependencyProperty.Register(
+		private static new readonly DependencyProperty ToolTipProperty = DependencyProperty.Register(
 			"ToolTip", typeof(object), typeof(ToolBarEntry), new PropertyMetadata());
 
-		public object ToolTip
-		{
-			get
-			{
-				return (object)GetValue(ToolTipProperty);
-			}
-			set
-			{
-				SetValue(ToolTipProperty, value);
-			}
-		}
+		#endregion
 
-		private static readonly DependencyProperty DataContextProperty = DependencyProperty.Register(
-			"DataContext", typeof(object), typeof(ToolBarEntry), new PropertyMetadata(null));
+		#region Public Events
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		#endregion
+
+		#region Public Properties
 
 		public object DataContext
 		{
 			get
 			{
-				return (object)GetValue(DataContextProperty);
+				return this.GetValue(DataContextProperty);
 			}
+
 			set
 			{
-				SetValue(DataContextProperty, value);
+				this.SetValue(DataContextProperty, value);
 			}
 		}
+
+		public double Priority { get; set; }
+
+		public object ToolTip
+		{
+			get
+			{
+				return this.GetValue(ToolTipProperty);
+			}
+
+			set
+			{
+				this.SetValue(ToolTipProperty, value);
+			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		protected void OnPropertyChanged(string info)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(info));
+			}
+		}
+
+		#endregion
+
+		#region Operators
 
 		public static implicit operator ToolBarEntry(Button victim)
 		{
 			ToolBarEntry converted = new ToolBarButton(
-				icon: victim.Content,
-				toolTip: victim.ToolTip,
+				icon: victim.Content, 
+				toolTip: victim.ToolTip, 
 				command: victim.Command
 			);
 
@@ -73,11 +85,10 @@
 		public static implicit operator ToolBarEntry(ToggleButton victim)
 		{
 			ToolBarEntry converted = new ToolBarCheckableButton(
-				icon: victim.Content,
+				icon: victim.Content, 
 				toolTip: victim.ToolTip,
 				command: victim.Command,
-				isChecked: (bool) victim.IsChecked
-			);
+				isChecked: (bool)victim.IsChecked);
 
 			return converted;
 		}
@@ -87,5 +98,7 @@
 			ToolBarEntry converted = new ToolBarSeparator();
 			return converted;
 		}
+
+		#endregion
 	}
 }
