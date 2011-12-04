@@ -1,12 +1,11 @@
-﻿using System.Windows.Media;
-using System.IO;
-using System.Windows.Media.Imaging;
-using GeoGen.Studio.Utilities.Messaging;
-using System.Collections.Generic;
-using System;
-
-namespace GeoGen.Studio.Utilities.IO
+﻿namespace GeoGen.Studio.Utilities.IO
 {
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Windows.Media;
+	using System.Windows.Media.Imaging;
+
 	public class BitmapWriter
 	{
 		public bool IsFileDialogEnabled {get; set;}
@@ -57,27 +56,29 @@ namespace GeoGen.Studio.Utilities.IO
 
 		private JpegBitmapEncoder GetJpegEncoder()
 		{
-			JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-			encoder.QualityLevel = 100;
+			var encoder = new JpegBitmapEncoder
+			{
+				QualityLevel = 100
+			};
 
 			return encoder;
 		}
 
 		private PngBitmapEncoder GetPngEncoder()
 		{
-			PngBitmapEncoder encoder = new PngBitmapEncoder();
+			var encoder = new PngBitmapEncoder();
 			return encoder;
 		}
 
 		private BmpBitmapEncoder GetBmpEncoder()
 		{
-			BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+			var encoder = new BmpBitmapEncoder();
 			return encoder;
 		}
 
 		private TiffBitmapEncoder GetTiffEncoder()
 		{
-			TiffBitmapEncoder encoder = new TiffBitmapEncoder();
+			var encoder = new TiffBitmapEncoder();
 			return encoder;
 		}
 
@@ -88,13 +89,13 @@ namespace GeoGen.Studio.Utilities.IO
 				throw new IOException(@"GIF file format doesn't support 16 bits per channel.");
 			}
 
-			GifBitmapEncoder encoder = new GifBitmapEncoder();
+			var encoder = new GifBitmapEncoder();
 			return encoder;
 		}
 
 		private BitmapSource ConvertBitmap(BitmapSource bitmap)
 		{
-			FormatConvertedBitmap convertedBitmap = new FormatConvertedBitmap();
+			var convertedBitmap = new FormatConvertedBitmap();
 			convertedBitmap.BeginInit();
 			convertedBitmap.Source = bitmap;
 			convertedBitmap.DestinationFormat = this.GetPixelFormat();
@@ -109,11 +110,11 @@ namespace GeoGen.Studio.Utilities.IO
 			{
 				return PixelFormats.Gray16;
 			}
-			else if (this.Is16Bit && !this.IsGrayscale)
+			if (this.Is16Bit && !this.IsGrayscale)
 			{
 				return PixelFormats.Rgb48;
 			}
-			else if (this.IsGrayscale)
+			if (this.IsGrayscale)
 			{
 				return PixelFormats.Gray8;
 			}
@@ -124,7 +125,7 @@ namespace GeoGen.Studio.Utilities.IO
 		}
 
 		private string GetDialogFilterString(){
-			List<string> filterStrings = new List<string>();
+			var filterStrings = new List<string>();
 
 			filterStrings.Add("BMP - Windows Bitmap (*.bmp)|*.bmp");
 
