@@ -8,7 +8,7 @@
     <ProjectGuid>{76CF5FCF-1080-4274-941D-B9D60146354E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeoGen.Studio.PlugIns.FullScreen</RootNamespace>
+    <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
     <AssemblyName>GeoGen.Studio.PlugIns.FullScreen</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
