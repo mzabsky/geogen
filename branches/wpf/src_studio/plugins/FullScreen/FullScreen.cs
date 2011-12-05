@@ -7,25 +7,30 @@
 	using System.Windows.Controls;
 	using System.Windows.Data;
 	using System.Windows.Input;
-	using System.Windows.Media;	
+
 	using GeoGen.Studio.PlugInLoader;
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.MenuBars;
 	using GeoGen.Studio.PlugIns.ToolBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.PlugInBase;
-	using GeoGen.Studio.Utilities.Messaging;
 
-	public sealed class FullScreen: ObjectBase, IPlugIn, INotifyPropertyChanged
+	public sealed class FullScreen : ObjectBase, INotifyPropertyChanged
 	{
+		public const string IconPathPrefix = "pack://application:,,,/GeoGen.Studio.PlugIns.FullScreen;component/Images/Icons/";
+		
+		private readonly List<Control> hideableBars = new List<Control>();
+
+		private readonly ICommand toggleFullScreenCommand;
+
 		private Window mainWindow;
-		private List<Control> hideableBars = new List<Control>();
+		private WindowState windowStateBackup;		
 
-		private ICommand toggleFullScreenCommand;
-
-		private WindowState windowStateBackup;
-
-		public const string ICON_PATH_PREFIX = "pack://application:,,,/GeoGen.Studio.PlugIns.FullScreen;component/Images/Icons/";
+		public FullScreen()
+		{
+			this.toggleFullScreenCommand = new RelayCommand(p => this.ToggleFullScreen());			
+			this.AreBarsShown = true;
+		}
 
 		public bool IsFullScreen
 		{
@@ -35,18 +40,14 @@
 			}
 		}
 
-		public bool AreBarsShown {get; set;}
+		public bool AreBarsShown { get; set; }
 
-		public FullScreen()
+		public void Register(IMainWindow mainWindow)
 		{
-			this.toggleFullScreenCommand = new RelayCommand(p => this.ToggleFullScreen());			
-			this.AreBarsShown = true;
-		}
-
-		public void Register(IMainWindow mainWindow){
 			this.mainWindow = mainWindow.Window;
 
-			this.mainWindow.Deactivated += delegate {
+			this.mainWindow.Deactivated += delegate
+			{
 				if (this.mainWindow.WindowStyle == WindowStyle.None)
 				{
 					this.ToggleFullScreen();
@@ -59,16 +60,14 @@
 		{
 			toolBar.AddItem(
 				new ToolBarCheckableButton(
-					icon: FullScreen.ICON_PATH_PREFIX  + "fullscreen.png", 
+					icon: FullScreen.IconPathPrefix  + "fullscreen.png", 
 					priority: -10, 
 					command: this.toggleFullScreenCommand, 
 					toolTip: "Toggle full screen mode",					
 					isCheckedBinding: new Binding("IsFullScreen"),
-					dataContext: this
-				)
-			);
+					dataContext: this));
 
-			hideableBars.Add(toolBar.Control);
+			this.hideableBars.Add(toolBar.Control);
 		}
 
 		[OptionalRegistrator]
@@ -77,29 +76,26 @@
 			menuBar.AddMenu(
 				new MenuEntry(
 					header: "View",
-					items: new MenuEntryObservableCollection()
+					items: new MenuEntryObservableCollection
 					{
 						new MenuEntry(
 							header: "Full Screen",
 							priority: -10,
 							command: this.toggleFullScreenCommand,
 							inputGestureText: "F11",
-							icon: FullScreen.ICON_PATH_PREFIX  + "fullscreen.png",
+							icon: FullScreen.IconPathPrefix  + "fullscreen.png",
 							isCheckedBinding: new Binding("IsFullScreen"),
 							dataContext: this,
-							isCheckable: true
-						)
-					}
-				)
-			);
+							isCheckable: true)
+					}));
 
-			hideableBars.Add(menuBar.Control);
+			this.hideableBars.Add(menuBar.Control);
 		}
 
 		[OptionalRegistrator]
 		public void Register(IStatusBar statusBar)
 		{
-			hideableBars.Add(statusBar.Control);
+			this.hideableBars.Add(statusBar.Control);
 		}
 
 		private void ToggleFullScreen()
@@ -132,10 +128,14 @@
 				this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsClosed;
 			}
 
-			GeoGen.Studio.App.Current.Dispatcher.BeginInvoke((Action)delegate{this.OnPropertyChanged("IsFullScreen");});
+			Application.Current.Dispatcher.BeginInvoke((Action)delegate
+			{
+				this.OnPropertyChanged("IsFullScreen");
+			});
 		}
 
-		private void ShowBars(){
+		private void ShowBars()
+		{
 			if (this.AreBarsShown)
 			{
 				// Prevent the events from being hooked more than once
@@ -172,7 +172,8 @@
 			this.mainWindow.MouseMove += this.HandleMouseMoveWithBarsClosed;
 		}
 
-		private void HandleMouseMoveWithBarsClosed(object sender, MouseEventArgs args){
+		private void HandleMouseMoveWithBarsClosed(object sender, MouseEventArgs args)
+		{
 			// Display the bars if the mouse is on top border of the screen
 			if (args.MouseDevice.GetPosition(this.mainWindow).Y <= 1)
 			{
@@ -189,7 +190,7 @@
 				// The bars are supposed to be rectangular, don't perform full hit test
 				Point mousePoint = args.GetPosition(this.mainWindow);
 
-				Point controlPoint = bar.TransformToAncestor(mainWindow).Transform(new Point(0, 0));
+				Point controlPoint = bar.TransformToAncestor(this.mainWindow).Transform(new Point(0, 0));
 
 				barWasHit |= 
 					mousePoint.X >= controlPoint.X &&
