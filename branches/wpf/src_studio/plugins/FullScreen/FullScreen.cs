@@ -1,4 +1,4 @@
-﻿namespace GeoGen.Studio.PlugIns.FullScreen
+﻿namespace GeoGen.Studio.PlugIns
 {
 	using System;
 	using System.Collections.Generic;
