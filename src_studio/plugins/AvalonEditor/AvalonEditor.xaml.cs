@@ -23,8 +23,7 @@
 	{
 		#region Dependency properties
 		public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-			"Text", typeof(string), typeof(AvalonEditor), new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnTextChanged))
-		);
+			"Text", typeof(string), typeof(AvalonEditor), new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback(OnTextChanged)));
 
 		public string Text
 		{
@@ -438,6 +437,21 @@
 				return redoCommand;
 			}
 		}
+
+		private ICommand showEditorCommand;
+
+		public ICommand ShowEditorCommand
+		{
+			get
+			{
+				if (this.showEditorCommand == null)
+				{
+					this.showEditorCommand = new RelayCommand(param => this.Activate());
+				}
+
+				return showEditorCommand;
+			}
+		}
 #endregion
 
 		protected Context editorContext = new Context();
@@ -494,10 +508,7 @@
 					this.IsUnsaved = false;
 
 					// switch to this tab after creating a file
-					if (this.dockManager != null)
-					{
-						this.dockManager.Activate(this);
-					}
+					this.Activate();
 				}
 			};
 
@@ -514,10 +525,7 @@
 					this.IsUnsaved = false;
 
 					// switch to this tab after opening a file
-					if (this.dockManager != null)
-					{
-						this.dockManager.Activate(this);
-					}
+					this.Activate();
 				}
 			};
 		}
@@ -660,7 +668,7 @@
 						new MenuEntry(
 							header: "Code",
 							priority: 0,
-							command: null,
+							command: this.ShowEditorCommand,
 							icon: iconPathPrefix + "code.png"
 						),
 						new MenuSeparator(
@@ -745,6 +753,10 @@
 				priority: -6,
 				toolTip: "Paste (Ctrl+P)",
 				command: ApplicationCommands.Paste
+			));
+
+			toolBar.AddItem(new ToolBarSeparator(
+				priority: -7
 			));
 		}
 
@@ -955,6 +967,14 @@
 		
 		public void ReplaceString(int startOffset, int length, string replace){
 			this.editor.Document.Replace(startOffset, length, replace);
-		}        
+		}      
+		
+		public void Activate()
+		{
+			if (this.dockManager != null)
+			{
+				this.dockManager.Activate(this);
+			}
+		}  
 	}
 }
