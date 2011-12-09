@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GeoGen.Studio.Utilities.PlugInBase;
-using System.ComponentModel;
-using System.Windows.Media;
-
-namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns
 {
-	public sealed class ScriptValidator: ObjectBase
+	using System.ComponentModel;
+	using System.Windows.Media;
+
+	using GeoGen.Studio.Utilities.PlugInBase;
+
+	public sealed class ScriptValidator : ObjectBase
 	{
 		private IGenerator generator;
 		private IEditor editor;
@@ -20,7 +17,8 @@ namespace GeoGen.Studio.PlugIns
 			this.editor = editor;
 			this.generator = generator;
 
-			editor.PropertyChanged += delegate(object o, PropertyChangedEventArgs args){
+			editor.PropertyChanged += delegate(object o, PropertyChangedEventArgs args)
+			{
 				if (args.PropertyName != "Text")
 				{
 					return;
@@ -29,11 +27,13 @@ namespace GeoGen.Studio.PlugIns
 				this.ScheduleSyntaxCheck();
 			};
 
-			generator.Started += delegate {
+			generator.Started += delegate
+			{
 				this.isSyntaxCheckScheduled = false;
 			};
 
-			generator.HeaderLoaded += delegate {
+			generator.HeaderLoaded += delegate
+			{
 				// The header was executed successfuly - it is valid
 				this.HideError();
 
@@ -41,21 +41,24 @@ namespace GeoGen.Studio.PlugIns
 				this.StartCheckIfScheduled();
 			};
 
-			generator.Finished += delegate {
+			generator.Finished += delegate
+			{
 				// The generator might have run for considerable amount of time, the script might
 				// have to be rechecked.
 				this.StartCheckIfScheduled();
 			};
 
-			generator.Failed += delegate (object o, GenerationFailedEventArgs args){
-				if(!args.IsHeaderLoaded){
+			generator.Failed += delegate(object o, GenerationFailedEventArgs args)
+			{
+				if (!args.IsHeaderLoaded)
+				{
 					this.DisplayError();
 				}
 			};
 		}
 
 		public void StartCheck(){
-			generator.Start(this.editor.Text, true);
+			this.generator.Start(this.editor.Text, true);
 		}
 
 		public void StartCheckIfScheduled()
@@ -70,11 +73,12 @@ namespace GeoGen.Studio.PlugIns
 
 		public void ScheduleSyntaxCheck()
 		{
-			if(this.isSyntaxCheckScheduled){
+			if (this.isSyntaxCheckScheduled)
+			{
 				// A check is already waiting to be performed.
 				return;
 			}
-			else if (!generator.IsReady)
+			else if (!this.generator.IsReady)
 			{
 				// The generator is not available right now, do it later.
 				this.isSyntaxCheckScheduled = true;
