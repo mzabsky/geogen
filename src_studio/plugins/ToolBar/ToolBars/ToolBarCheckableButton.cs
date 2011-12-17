@@ -7,56 +7,37 @@
 	using System.Windows.Input;
 	using System.Windows.Media.Imaging;
 
-	public class ToolBarCheckableButton: ToolBarButton
+	public class ToolBarCheckableButton : ToolBarButton
 	{
 		private static readonly DependencyProperty IsCheckedBindingProperty = DependencyProperty.Register(
 			"IsCheckedBinding", typeof(Binding), typeof(ToolBarCheckableButton), new PropertyMetadata(null));
 
-		public Binding IsCheckedBinding
-		{
-			get
-			{
-				return (Binding)GetValue(IsCheckedBindingProperty);
-			}
-			set
-			{
-				SetValue(IsCheckedBindingProperty, value);
-			}
-		}
-
 		private static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(
 			"IsChecked", typeof(bool), typeof(ToolBarCheckableButton), new PropertyMetadata(null));
 
-		public bool IsChecked
-		{
-			get
-			{
-				return (bool)GetValue(IsCheckedProperty);
-			}
-			set
-			{
-				SetValue(IsCheckedProperty, value);
-			}
-		}
-
 		static ToolBarCheckableButton()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBarCheckableButton),
+			DefaultStyleKeyProperty.OverrideMetadata(
+				typeof(ToolBarCheckableButton),
 				new FrameworkPropertyMetadata(typeof(ToolBarCheckableButton)));            
 		}
 
-		public ToolBarCheckableButton() {}
+		public ToolBarCheckableButton()
+		{
+		}
 
 		public ToolBarCheckableButton(object icon, double priority = 0, ICommand command = null, object toolTip = null, bool isChecked = false, Binding isCheckedBinding = null, object dataContext = null)
 		{
-			//this.Icon = icon;
-			if(icon is string)
+			// Check if the "icon" is a path to an image; if it is, load te image
+			if (icon is string)
 			{
-				Image iconImage = new Image();
-				iconImage.Source = new BitmapImage(new Uri(icon as string));
-				iconImage.Width = 16;
-				iconImage.Height = 16;                    
-					
+				var iconImage = new Image
+				{
+					Source = new BitmapImage(new Uri(icon as string)), 
+					Width = 16, 
+					Height = 16
+				};
+
 				this.Icon = iconImage;
 			}
 			else 
@@ -71,14 +52,40 @@
 			this.ToolTip = toolTip;
 			this.DataContext = dataContext;
 
-			if (IsCheckedBinding != null)
+			if (this.IsCheckedBinding != null)
 			{
-				if (isCheckedBinding.Source == null)
+				if (this.IsCheckedBinding.Source == null)
 				{
-					isCheckedBinding.Source = this.DataContext;
+					this.IsCheckedBinding.Source = this.DataContext;
 				}
 
 				BindingOperations.SetBinding(this, ToolBarCheckableButton.IsCheckedProperty, this.IsCheckedBinding);
+			}
+		}
+
+		public Binding IsCheckedBinding
+		{
+			get
+			{
+				return (Binding)GetValue(IsCheckedBindingProperty);
+			}
+
+			set
+			{
+				SetValue(IsCheckedBindingProperty, value);
+			}
+		}
+
+		public bool IsChecked
+		{
+			get
+			{
+				return (bool)GetValue(IsCheckedProperty);
+			}
+
+			set
+			{
+				SetValue(IsCheckedProperty, value);
 			}
 		}
 	}
