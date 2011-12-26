@@ -8,6 +8,7 @@
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.Context;
 
+	[PlugIn(VisibleInList = false)]
 	public sealed class GeneratorUI : GeoGen.Studio.Utilities.PlugInBase.ObjectBase
 	{
 		private readonly ICommand startCommand;
