@@ -186,7 +186,7 @@
 		{
 			var result = ContextManager.GetKnownActiveContexts(Enumerable.Empty<Context>());
 
-			Assert.IsTrue(result.Any());
+			Assert.IsFalse(result.Any());
 		}
 
 		[Test]
@@ -208,7 +208,7 @@
 
 			var result = ContextManager.GetKnownActiveContexts(list);
 
-			Assert.IsTrue(result.Any());
+			Assert.IsFalse(result.Any());
 		}
 
 		[Test]
@@ -221,7 +221,7 @@
 
 			var result = ContextManager.GetKnownActiveContexts(list);
 
-			Assert.IsTrue(result.Any());
+			Assert.IsFalse(result.Any());
 		}
 
 		[Test]
