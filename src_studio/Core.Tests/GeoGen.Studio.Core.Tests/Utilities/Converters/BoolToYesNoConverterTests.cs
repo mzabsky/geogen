@@ -1,38 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using System.Windows.Data;
-using System.Globalization;
-
-namespace GeoGen.Studio.Utilities.Converters
+﻿namespace GeoGen.Studio.Utilities.Converters
 {
-    [TestFixture]
-    public class BoolToYesNoConverterTests
-    {
-        [Test]
-        public void TestInstance_ReturnsInstance()
-        {
-            Assert.IsInstanceOf<BoolToYesNoConverter>(BoolToYesNoConverter.Instance);
-        }
-        
-        [Test]
-        public void TestConvert_true_ReturnsYes()
-        {
-            IValueConverter converter = new BoolToYesNoConverter();
-            string result = (string) converter.Convert(true, typeof(string), null, CultureInfo.CurrentCulture);
+	using System.Globalization;
+	using System.Windows.Data;
+	using NUnit.Framework;
 
-            Assert.AreEqual(result, "Yes");
-        }
+	// ReSharper disable InconsistentNaming
 
-        [Test]
-        public void TestConvert_false_ReturnsNo()
-        {
-            IValueConverter converter = new BoolToYesNoConverter();
-            string result = (string)converter.Convert(false, typeof(string), null, CultureInfo.CurrentCulture);
+	/// <summary>
+	/// Tests for <see cref="BoolToYesNoConverter"/> class.
+	/// </summary>
+	[TestFixture]
+	public class BoolToYesNoConverterTests
+	{
+		/// <summary>
+		/// Tests that instance getter really returns valids instance.
+		/// </summary>
+		[Test]
+		public void TestInstance_ReturnsInstance()
+		{
+			Assert.IsInstanceOf<BoolToYesNoConverter>(BoolToYesNoConverter.Instance);
+		}
 
-            Assert.AreEqual(result, "No");
-        }
-    }
+		/// <summary>
+		/// Tests that <c>true</c> gets converted to "Yes".
+		/// </summary>
+		[Test]
+		public void TestConvert_True_ReturnsYes()
+		{
+			IValueConverter converter = new BoolToYesNoConverter();
+			string result = (string)converter.Convert(true, typeof(string), null, CultureInfo.CurrentCulture);
+
+			Assert.AreEqual(result, "Yes");
+		}
+
+		/// <summary>
+		/// Tests that <c>false</c> gets converted to "No".
+		/// </summary>
+		[Test]
+		public void TestConvert_False_ReturnsNo()
+		{
+			IValueConverter converter = new BoolToYesNoConverter();
+			string result = (string)converter.Convert(false, typeof(string), null, CultureInfo.CurrentCulture);
+
+			Assert.AreEqual(result, "No");
+		}
+
+		/// <summary>
+		/// Tests that anything else gets converted to "Unknown value".
+		/// </summary>
+		[Test]
+		public void TestConvert_Invalid_ReturnsInvalid()
+		{
+			IValueConverter converter = new BoolToYesNoConverter();
+			string result = (string)converter.Convert(new object(), typeof(string), null, CultureInfo.CurrentCulture);
+
+			Assert.AreEqual(result, "<Unknown value>");
+		}
+
+		/// <summary>
+		/// Tests that ConverBack doesn't crash.
+		/// </summary>
+		[Test]
+		public void TestConvertBack_Null_NoException()
+		{
+			IValueConverter converter = new BoolToYesNoConverter();
+			converter.ConvertBack(null, typeof(int), null, CultureInfo.CurrentCulture);
+		}
+	}
 }
