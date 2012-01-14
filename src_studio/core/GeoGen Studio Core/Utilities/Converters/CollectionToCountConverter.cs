@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Globalization;
+    using System.Linq;
     using System.Windows.Data;
 
     /// <summary>
@@ -32,13 +33,9 @@
                 return -1;
             }
 
-            int count = 0;            
-            foreach (object item in value as IEnumerable)
-            {
-                count++;
-            }
+            int count = (value as IEnumerable).Cast<object>().Count();
 
-            return 0;
+        	return count;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
