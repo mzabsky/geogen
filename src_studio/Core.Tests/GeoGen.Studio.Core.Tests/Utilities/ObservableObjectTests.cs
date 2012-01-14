@@ -22,7 +22,7 @@
 		/// Tests that <see cref="ObservableObject.PropertyChanged"/> fires (with correct property name).
 		/// </summary>
 		[Test]
-		public void TestOnPropertyChanged_SomeProperty_PropertyChangedFires()
+		public void OnPropertyChanged_SomeProperty_PropertyChangedFires()
 		{
 			var testingObject = new TestingObservableObject();
 

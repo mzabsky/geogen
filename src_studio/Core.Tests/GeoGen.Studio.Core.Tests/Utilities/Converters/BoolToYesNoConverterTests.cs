@@ -16,7 +16,7 @@
 		/// Tests that instance getter really returns valids instance.
 		/// </summary>
 		[Test]
-		public void TestInstance_ReturnsInstance()
+		public void Instance_ReturnsInstance()
 		{
 			Assert.IsInstanceOf<BoolToYesNoConverter>(BoolToYesNoConverter.Instance);
 		}
@@ -25,7 +25,7 @@
 		/// Tests that <c>true</c> gets converted to "Yes".
 		/// </summary>
 		[Test]
-		public void TestConvert_True_ReturnsYes()
+		public void Convert_True_ReturnsYes()
 		{
 			IValueConverter converter = new BoolToYesNoConverter();
 			string result = (string)converter.Convert(true, typeof(string), null, CultureInfo.CurrentCulture);
@@ -37,7 +37,7 @@
 		/// Tests that <c>false</c> gets converted to "No".
 		/// </summary>
 		[Test]
-		public void TestConvert_False_ReturnsNo()
+		public void Convert_False_ReturnsNo()
 		{
 			IValueConverter converter = new BoolToYesNoConverter();
 			string result = (string)converter.Convert(false, typeof(string), null, CultureInfo.CurrentCulture);
@@ -49,7 +49,7 @@
 		/// Tests that anything else gets converted to "Unknown value".
 		/// </summary>
 		[Test]
-		public void TestConvert_Invalid_ReturnsInvalid()
+		public void Convert_Invalid_ReturnsInvalid()
 		{
 			IValueConverter converter = new BoolToYesNoConverter();
 			string result = (string)converter.Convert(new object(), typeof(string), null, CultureInfo.CurrentCulture);
@@ -61,7 +61,7 @@
 		/// Tests that ConverBack doesn't crash.
 		/// </summary>
 		[Test]
-		public void TestConvertBack_Null_NoException()
+		public void ConvertBack_Null_NoException()
 		{
 			IValueConverter converter = new BoolToYesNoConverter();
 			converter.ConvertBack(null, typeof(int), null, CultureInfo.CurrentCulture);
