@@ -1,12 +1,12 @@
-﻿using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
-using System.Collections;
-using System.Linq;
-
-namespace GeoGen.Studio.Utilities.Converters
+﻿namespace GeoGen.Studio.Utilities.Converters
 {
+	using System;
+	using System.Collections;
+	using System.Globalization;
+	using System.Linq;
+	using System.Windows;
+	using System.Windows.Data;
+
 	/// <summary>
 	/// Converts a collection to <see cref="Visibility"/>. Empty collection (or null) will be converted to value Collapsed, any non-empty collection will be converted to Visible.
 	/// </summary>
@@ -14,6 +14,7 @@ namespace GeoGen.Studio.Utilities.Converters
 	public sealed class CollectionToVisibilityConverter : IValueConverter
 	{
 		private static readonly IValueConverter instance = new CollectionToVisibilityConverter();
+
 		/// <summary>
 		/// Gets instance of this converter.
 		/// </summary>
@@ -30,7 +31,7 @@ namespace GeoGen.Studio.Utilities.Converters
 		{
 			try
 			{
-				if (value == null || ((IEnumerable)value).GetEnumerator().Current == null) return Visibility.Collapsed;
+				if (value == null || !((IEnumerable)value).Cast<object>().Any()) return Visibility.Collapsed;
 
 				return Visibility.Visible;
 			}
@@ -44,5 +45,4 @@ namespace GeoGen.Studio.Utilities.Converters
 		}
 	}
 }
-
 
