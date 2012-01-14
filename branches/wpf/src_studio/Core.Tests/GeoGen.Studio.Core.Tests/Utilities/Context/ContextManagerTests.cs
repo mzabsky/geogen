@@ -1,237 +1,242 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Threading;
-using NUnit.Framework;
-using GeoGen.Studio.Utilities.Extensions;
-using System.Threading;
-
-namespace GeoGen.Studio.Utilities.Context
+﻿namespace GeoGen.Studio.Utilities.Context
 {
-    [TestFixture]
-    class ContextManagerTests
-    {
-        [SetUp]
-        public void SetUp(){
-            ContextManager.Dispatcher = Dispatcher.CurrentDispatcher;
-        }
+	using System;
+	using System.Collections.Generic;
+	using System.Globalization;
+	using System.Linq;
+	using System.Threading;
+	using System.Windows.Threading;
 
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnterContext_Null_ExceptionThrown()
-        {
-            ContextManager.EnterContext(null);
-        }
+	using GeoGen.Studio.Utilities.Extensions;
 
-        [Test]
-        public void EnterContext_ReturnValue_True()
-        {
-            Context context = new Context("test");
+	using NUnit.Framework;
 
-            Assert.IsTrue(ContextManager.EnterContext(context));
-        }
+	// ReSharper disable InconsistentNaming
 
-        [Test]
-        public void EnterContext_ReturnValue_False()
-        {
-            Context context = new Context("test");
+	[TestFixture]
+	class ContextManagerTests
+	{
+		[SetUp]
+		public void SetUp()
+		{
+			ContextManager.Dispatcher = Dispatcher.CurrentDispatcher;
+		}
 
-            ContextManager.EnterContext(context);
-            Assert.IsFalse(ContextManager.EnterContext(context));
-        }
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void EnterContext_Null_ExceptionThrown()
+		{
+			ContextManager.EnterContext(null);
+		}
 
-        [Test]
-        public void EnterContext_ContextChanged_Fired()
-        {
-            Context context = new Context("test");
+		[Test]
+		public void EnterContext_ReturnValue_True()
+		{
+			Context context = new Context("test");
 
-            bool fired = false;
-            ContextManager.ContextChanged += delegate { fired = true; };
+			Assert.IsTrue(ContextManager.EnterContext(context));
+		}
 
-            ContextManager.EnterContext(context);
+		[Test]
+		public void EnterContext_ReturnValue_False()
+		{
+			Context context = new Context("test");
 
-            ContextManager.Dispatcher.DoEvents();
+			ContextManager.EnterContext(context);
+			Assert.IsFalse(ContextManager.EnterContext(context));
+		}
 
-            Assert.IsTrue(fired);            
-        }
+		[Test]
+		public void EnterContext_ContextChanged_Fired()
+		{
+			Context context = new Context("test");
 
-        [Test]
-        public void EnterContext_ContextChanged_OnDispatcherThread()
-        {
-            Context context = new Context("test");
+			bool fired = false;
+			ContextManager.ContextChanged += delegate { fired = true; };
 
-            Thread thread = null;
-            ContextManager.ContextChanged += delegate { thread = Thread.CurrentThread; };
+			ContextManager.EnterContext(context);
 
-            ContextManager.EnterContext(context);
+			ContextManager.Dispatcher.DoEvents();
 
-            ContextManager.Dispatcher.DoEvents();
+			Assert.IsTrue(fired);
+		}
 
-            Assert.AreEqual(thread, Dispatcher.CurrentDispatcher.Thread);
-        }
+		[Test]
+		public void EnterContext_ContextChanged_OnDispatcherThread()
+		{
+			Context context = new Context("test");
 
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void LeaveContext_Null_ExceptionThrown()
-        {
-            ContextManager.LeaveContext(null);
-        }
+			Thread thread = null;
+			ContextManager.ContextChanged += delegate { thread = Thread.CurrentThread; };
 
-        [Test]
-        public void LeaveContext_ReturnValue_True()
-        {
-            Context context = new Context("test");
+			ContextManager.EnterContext(context);
 
-            ContextManager.EnterContext(context);
-            Assert.IsTrue(ContextManager.LeaveContext(context));
-        }
+			ContextManager.Dispatcher.DoEvents();
 
-        [Test]
-        public void LeaveContext_ReturnValue_False()
-        {
-            Context context = new Context("test");
+			Assert.AreEqual(thread, Dispatcher.CurrentDispatcher.Thread);
+		}
 
-            Assert.IsFalse(ContextManager.LeaveContext(context));
-        }
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void LeaveContext_Null_ExceptionThrown()
+		{
+			ContextManager.LeaveContext(null);
+		}
 
-        [Test]
-        public void LeaveContext_ContextChanged_Fired()
-        {
-            Context context = new Context("test");
+		[Test]
+		public void LeaveContext_ReturnValue_True()
+		{
+			Context context = new Context("test");
 
-            ContextManager.EnterContext(context);
+			ContextManager.EnterContext(context);
+			Assert.IsTrue(ContextManager.LeaveContext(context));
+		}
 
-            bool fired = false;
-            ContextManager.ContextChanged += delegate { fired = true; };            
+		[Test]
+		public void LeaveContext_ReturnValue_False()
+		{
+			Context context = new Context("test");
 
-            ContextManager.LeaveContext(context);
+			Assert.IsFalse(ContextManager.LeaveContext(context));
+		}
 
-            ContextManager.Dispatcher.DoEvents();
+		[Test]
+		public void LeaveContext_ContextChanged_Fired()
+		{
+			Context context = new Context("test");
 
-            Assert.IsTrue(fired);
-        }
+			ContextManager.EnterContext(context);
 
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void IsContextActive_Null_ExceptionThrown()
-        {
-            ContextManager.IsContextActive(null);
-        }
+			bool fired = false;
+			ContextManager.ContextChanged += delegate { fired = true; };
 
-        [Test]
-        public void IsActive_UnenteredContext_Active()
-        {
-            Context context = new Context("test");
+			ContextManager.LeaveContext(context);
 
-            Assert.IsFalse(ContextManager.IsContextActive(context));
-        }
+			ContextManager.Dispatcher.DoEvents();
 
-        [Test]
-        public void IsActive_EnteredContext_IsActive()
-        {
-            Context context = new Context("test");
+			Assert.IsTrue(fired);
+		}
 
-            ContextManager.EnterContext(context);
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void IsContextActive_Null_ExceptionThrown()
+		{
+			ContextManager.IsContextActive(null);
+		}
 
-            Assert.IsTrue(ContextManager.IsContextActive(context));
-        }
+		[Test]
+		public void IsActive_UnenteredContext_Active()
+		{
+			Context context = new Context("test");
 
-        [Test]
-        public void IsActive_LeftOnlyContext_IsNotActive()
-        {
-            Context context = new Context("test");
+			Assert.IsFalse(ContextManager.IsContextActive(context));
+		}
 
-            ContextManager.LeaveContext(context);
+		[Test]
+		public void IsActive_EnteredContext_IsActive()
+		{
+			Context context = new Context("test");
 
-            Assert.IsFalse(ContextManager.IsContextActive(context));
-        }
+			ContextManager.EnterContext(context);
 
-        [Test]
-        public void IsActive_EnteredAndLeftContext_IsNotActive()
-        {
-            Context context = new Context("test");
+			Assert.IsTrue(ContextManager.IsContextActive(context));
+		}
 
-            ContextManager.EnterContext(context);
-            ContextManager.LeaveContext(context);
+		[Test]
+		public void IsActive_LeftOnlyContext_IsNotActive()
+		{
+			Context context = new Context("test");
 
-            Assert.IsFalse(ContextManager.IsContextActive(context));
-        }
+			ContextManager.LeaveContext(context);
 
-        [Test]
-        public void IsActive_EqualLabels_NotSame()
-        {
-            Context context1 = new Context("test_same");
-            Context context2 = new Context("test_same");
+			Assert.IsFalse(ContextManager.IsContextActive(context));
+		}
 
-            ContextManager.EnterContext(context1);
+		[Test]
+		public void IsActive_EnteredAndLeftContext_IsNotActive()
+		{
+			Context context = new Context("test");
 
-            Assert.IsFalse(ContextManager.IsContextActive(context2));
-        }
+			ContextManager.EnterContext(context);
+			ContextManager.LeaveContext(context);
 
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void GetKnownActiveContexts_Null_ExceptionThrown()
-        {
-            var result = ContextManager.GetKnownActiveContexts(null);            
-        }
+			Assert.IsFalse(ContextManager.IsContextActive(context));
+		}
 
-        [Test]
-        public void GetKnownActiveContexts_NoContexts_YieldEmptyCollection()
-        {
-            var result = ContextManager.GetKnownActiveContexts(Enumerable.Empty<Context>());
+		[Test]
+		public void IsActive_EqualLabels_NotSame()
+		{
+			Context context1 = new Context("test_same");
+			Context context2 = new Context("test_same");
 
-            Assert.IsTrue(result.Count() == 0);
-        }
+			ContextManager.EnterContext(context1);
 
-        [Test]
-        public void GetKnownActiveContexts_EnteredContext_YieldsItself()
-        {
-            var list = new List<Context> { new Context("test") };
+			Assert.IsFalse(ContextManager.IsContextActive(context2));
+		}
 
-            ContextManager.EnterContext(list.First());
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void GetKnownActiveContexts_Null_ExceptionThrown()
+		{
+			ContextManager.GetKnownActiveContexts(null);
+		}
 
-            var result = ContextManager.GetKnownActiveContexts(list);
+		[Test]
+		public void GetKnownActiveContexts_NoContexts_YieldEmptyCollection()
+		{
+			var result = ContextManager.GetKnownActiveContexts(Enumerable.Empty<Context>());
 
-            Assert.IsTrue(list.SequenceEqual(result));
-        }
+			Assert.IsTrue(result.Any());
+		}
 
-        [Test]
-        public void GetKnownActiveContexts_UnenteredContext_YieldsEmptyCollection()
-        {
-            var list = new List<Context> { new Context("test") };
+		[Test]
+		public void GetKnownActiveContexts_EnteredContext_YieldsItself()
+		{
+			var list = new List<Context> { new Context("test") };
 
-            var result = ContextManager.GetKnownActiveContexts(list);
+			ContextManager.EnterContext(list.First());
 
-            Assert.IsTrue(result.Count() == 0);            
-        }
+			var result = ContextManager.GetKnownActiveContexts(list);
 
-        [Test]
-        public void GetKnownActiveContexts_EnteredAndLeftContext_YieldsEmptyCollection()
-        {
-            var list = new List<Context> { new Context("test") };
+			Assert.IsTrue(list.SequenceEqual(result));
+		}
 
-            ContextManager.EnterContext(list.First());
-            ContextManager.LeaveContext(list.First());
+		[Test]
+		public void GetKnownActiveContexts_UnenteredContext_YieldsEmptyCollection()
+		{
+			var list = new List<Context> { new Context("test") };
 
-            var result = ContextManager.GetKnownActiveContexts(list);
+			var result = ContextManager.GetKnownActiveContexts(list);
 
-            Assert.IsTrue(result.Count() == 0);
-        }
+			Assert.IsTrue(result.Any());
+		}
 
-        [Test]
-        public void GetKnownActiveContexts_ManyEnteredContexts_YieldsAllInReverse()
-        {
-            var list = (from i in Enumerable.Range(0, 100) select new Context(i.ToString())).ToList();
+		[Test]
+		public void GetKnownActiveContexts_EnteredAndLeftContext_YieldsEmptyCollection()
+		{
+			var list = new List<Context> { new Context("test") };
 
-            foreach (var c in list)
-            {
-                ContextManager.EnterContext(c);
-            }
+			ContextManager.EnterContext(list.First());
+			ContextManager.LeaveContext(list.First());
 
-            var result = ContextManager.GetKnownActiveContexts(list).Reverse();
+			var result = ContextManager.GetKnownActiveContexts(list);
 
-            Assert.That(list, Is.EquivalentTo(result));
-        }
-    }
+			Assert.IsTrue(result.Any());
+		}
+
+		[Test]
+		public void GetKnownActiveContexts_ManyEnteredContexts_YieldsAllInReverse()
+		{
+			var list = (from i in Enumerable.Range(0, 100) select new Context(i.ToString(CultureInfo.InvariantCulture))).ToList();
+
+			foreach (var c in list)
+			{
+				ContextManager.EnterContext(c);
+			}
+
+			var result = ContextManager.GetKnownActiveContexts(list).Reverse();
+
+			Assert.That(list, Is.EquivalentTo(result));
+		}
+	}
 }

@@ -21,7 +21,7 @@
 		/// </summary>
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
-		public void Construct_NullExecute_ThrowsException()
+		public void TestConstruct_NullExecute_ThrowsException()
 		{
 			new RelayCommand(null);
 		}
@@ -30,7 +30,7 @@
 		/// Tests that execute executes and the parameter gets passed.
 		/// </summary>
 		[Test]
-		public void Execute_Execute_Fires()
+		public void TestExecute_Execute_Fires()
 		{
 			bool fired = false;
 			object parameter = new object();
@@ -51,7 +51,7 @@
 		/// Tests that <see cref="RelayCommand.CanExecuteChanged"/> fires after it was added .
 		/// </summary>
 		[Test]
-		public void Constructor_CanExecuteChanged_Fires()
+		public void TestConstructor_CanExecuteChanged_Fires()
 		{
 			bool fired = false;
 			object parameter = new object();
@@ -73,7 +73,7 @@
 		/// Tests that <see cref="RelayCommand.CanExecuteChanged"/> handler gets fired by the <see cref="CommandManager"/> requery.
 		/// </summary>
 		[Test]
-		public void CanExecuteChanged_CanExecuteChanged_Fires()
+		public void TestCanExecuteChanged_CanExecuteChanged_Fires()
 		{			
 			var command = new RelayCommand(delegate { });
 

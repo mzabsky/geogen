@@ -20,7 +20,7 @@
 		/// Tests that instance getter really returns valids instance.
 		/// </summary>
 		[Test]
-		public void TestInstance_ReturnsInstance()
+		public void Instance_ReturnsInstance()
 		{
 			Assert.IsInstanceOf<StringToVisibilityConverter>(StringToVisibilityConverter.Instance);
 		}
@@ -29,7 +29,7 @@
 		/// Tests that string gets converted to <see cref="Visibility.Visible"/>.
 		/// </summary>
 		[Test]
-		public void TestConvert_String_ReturnsVisible()
+		public void Convert_String_ReturnsVisible()
 		{
 			IValueConverter converter = new StringToVisibilityConverter();
 			Visibility result = (Visibility)converter.Convert("foo", typeof(Visibility), null, CultureInfo.CurrentCulture);
@@ -41,7 +41,7 @@
 		/// Tests that empty string gets converted to <see cref="Visibility.Collapsed"/>.
 		/// </summary>
 		[Test]
-		public void TestConvert_Empty_ReturnsCollapsed()
+		public void Convert_Empty_ReturnsCollapsed()
 		{
 			IValueConverter converter = new StringToVisibilityConverter();
 			Visibility result = (Visibility)converter.Convert("", typeof(Visibility), null, CultureInfo.CurrentCulture);
@@ -53,7 +53,7 @@
 		/// Tests that null gets converted to <see cref="Visibility.Collapsed"/>.
 		/// </summary>
 		[Test]
-		public void TestConvert_Null_ReturnsCollapsed()
+		public void Convert_Null_ReturnsCollapsed()
 		{
 			IValueConverter converter = new StringToVisibilityConverter();
 			Visibility result = (Visibility)converter.Convert(null, typeof(Visibility), null, CultureInfo.CurrentCulture);
@@ -65,7 +65,7 @@
 		/// Tests that anything else gets converted to "Unknown value".
 		/// </summary>
 		[Test]
-		public void TestConvert_Invalid_ReturnsInvalid()
+		public void Convert_Invalid_ReturnsInvalid()
 		{
 			IValueConverter converter = new StringToVisibilityConverter();
 			string result = (string)converter.Convert(new object(), typeof(Visibility), null, CultureInfo.CurrentCulture);
@@ -77,7 +77,7 @@
 		/// Tests that ConverBack doesn't crash.
 		/// </summary>
 		[Test]
-		public void TestConvertBack_Null_NoException()
+		public void ConvertBack_Null_NoException()
 		{
 			IValueConverter converter = new StringToVisibilityConverter();
 			converter.ConvertBack(null, typeof(int), null, CultureInfo.CurrentCulture);

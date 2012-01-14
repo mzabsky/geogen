@@ -16,7 +16,7 @@
 		/// Tests that instance getter really returns valids instance.
 		/// </summary>
 		[Test]
-		public void TestInstance_ReturnsInstance()
+		public void Instance_ReturnsInstance()
 		{
 			Assert.IsInstanceOf<CollectionToCountConverter>(CollectionToCountConverter.Instance);
 		}
@@ -25,7 +25,7 @@
 		/// Tests that a collection gets converted to its count.
 		/// </summary>
 		[Test]
-		public void TestConvert_Collection_ReturnsCount()
+		public void Convert_Collection_ReturnsCount()
 		{
 			IValueConverter converter = new CollectionToCountConverter();
 			int result = (int)converter.Convert(new List<int> { 2, 4, 6 }, typeof(int), null, CultureInfo.CurrentCulture);
@@ -37,7 +37,7 @@
 		/// Tests that a non-collection gets converted to -1.
 		/// </summary>
 		[Test]
-		public void TestConvert_Invalid_ReturnsMinusOne()
+		public void Convert_Invalid_ReturnsMinusOne()
 		{
 			IValueConverter converter = new CollectionToCountConverter();
 			int result = (int)converter.Convert(null, typeof(int), null, CultureInfo.CurrentCulture);
@@ -49,7 +49,7 @@
 		/// Tests that ConverBack doesn't crash.
 		/// </summary>
 		[Test]
-		public void TestConvertBack_Null_NoException()
+		public void ConvertBack_Null_NoException()
 		{
 			IValueConverter converter = new CollectionToCountConverter();
 			converter.ConvertBack(null, typeof(int), null, CultureInfo.CurrentCulture);

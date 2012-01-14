@@ -20,7 +20,7 @@
 		/// Tests that instance getter really returns valids instance.
 		/// </summary>
 		[Test]
-		public void TestInstance_ReturnsInstance()
+		public void Instance_ReturnsInstance()
 		{
 			Assert.IsInstanceOf<ObjectToVisibilityConverter>(ObjectToVisibilityConverter.Instance);
 		}
@@ -29,7 +29,7 @@
 		/// Tests that object gets converted to <see cref="Visibility.Visible"/>.
 		/// </summary>
 		[Test]
-		public void TestConvert_Object_ReturnsVisible()
+		public void Convert_Object_ReturnsVisible()
 		{
 			IValueConverter converter = new ObjectToVisibilityConverter();
 			Visibility result = (Visibility)converter.Convert(new object(), typeof(Visibility), null, CultureInfo.CurrentCulture);
@@ -41,7 +41,7 @@
 		/// Tests that <c>null</c> collection gets converted to <see cref="Visibility.Collapsed"/>.
 		/// </summary>
 		[Test]
-		public void TestConvert_Null_ReturnsCollapsed()
+		public void Convert_Null_ReturnsCollapsed()
 		{
 			IValueConverter converter = new ObjectToVisibilityConverter();
 			Visibility result = (Visibility)converter.Convert(null, typeof(Visibility), null, CultureInfo.CurrentCulture);
@@ -53,7 +53,7 @@
 		/// Tests that ConverBack doesn't crash.
 		/// </summary>
 		[Test]
-		public void TestConvertBack_Null_NoException()
+		public void ConvertBack_Null_NoException()
 		{
 			IValueConverter converter = new ObjectToVisibilityConverter();
 			converter.ConvertBack(null, typeof(int), null, CultureInfo.CurrentCulture);
