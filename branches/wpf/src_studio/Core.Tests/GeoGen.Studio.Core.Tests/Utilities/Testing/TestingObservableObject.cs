@@ -1,10 +1,5 @@
 ﻿namespace GeoGen.Studio.Utilities.Testing
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-
 	/// <summary>
 	/// Helper class for <see cref="ObservableObjectTests"/>.
 	/// </summary>
