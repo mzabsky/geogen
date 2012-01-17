@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GeoGen.Studio.Utilities.Collections
+﻿namespace GeoGen.Studio.Utilities.Collections
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Compares two object using a delegate.
     /// </summary>
     /// <typeparam name="T">Type of the compared objects.</typeparam>
-    public class DelegateEqualityComparer<T>: IEqualityComparer<T>
+    public class DelegateEqualityComparer<T> : IEqualityComparer<T>
     {
         private readonly Func<T, T, bool> comparison;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelegateEqualityComparer&lt;T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="DelegateEqualityComparer{T}"/> class.
         /// </summary>
         /// <param name="comparison">The comparison.</param>
         public DelegateEqualityComparer(Func<T, T, bool> comparison)
