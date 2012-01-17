@@ -3,7 +3,7 @@
 namespace GeoGen.Studio.Utilities.Messaging
 {
     /// <summary>
-    /// Provides data for <see cref="Messenger.MessageThrown"/> event.
+    /// Provides data for <see cref="Messenger.MessageSent"/> event.
     /// </summary>
     public class MessageThrownEventArgs : EventArgs
     {
