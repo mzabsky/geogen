@@ -9,11 +9,6 @@
 		
 		public int SomeProperty
 		{
-			get
-			{
-				return someProperty;
-			}
-
 			set
 			{
 				this.someProperty = value;
