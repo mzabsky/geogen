@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-
-namespace GeoGen.Studio.Utilities.Collections
+﻿namespace GeoGen.Studio.Utilities.Collections
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Compares two objects by their <see cref="IPriority">priority</see>.
+    /// Compares two objects by their <see cref="IPriority">priority</see> in descending order.
     /// </summary>
     public class PriorityComparer : IComparer<IPriority>
     {
-        int IComparer<IPriority>.Compare(IPriority a, IPriority b)
+        public int Compare(IPriority a, IPriority b)
         {
             if (a.Priority > b.Priority)
                 return -1;
