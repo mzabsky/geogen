@@ -2,10 +2,17 @@
 {
     using System.Windows.Threading;
 
+    /// <summary>
+    /// Contains extension methods for <see cref="Dispatcher"/>.
+    /// </summary>
     static class DispatcherExtensions
     {
+        /// <summary>
+        /// Forces the <see cref="Dispatcher"/> to immediately handle all scheduled requests.
+        /// </summary>
+        /// <param name="dispatcher">The dispatcher.</param>
         public static void DoEvents(this Dispatcher dispatcher){
-            DispatcherFrame frame = new DispatcherFrame();
+            var frame = new DispatcherFrame();
 
             dispatcher.BeginInvoke(
                 DispatcherPriority.Background,
