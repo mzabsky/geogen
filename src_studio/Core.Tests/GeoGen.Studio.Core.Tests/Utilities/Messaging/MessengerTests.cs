@@ -1,88 +1,124 @@
 ﻿namespace GeoGen.Studio.Utilities.Messaging
 {
-	using System.Linq;
-	using System.Windows.Threading;
+    using System.Linq;
+    using System.Windows.Threading;
 
-	using GeoGen.Studio.Utilities.Extensions;
+    using GeoGen.Studio.Utilities.Extensions;
 
-	using NUnit.Framework;
+    using NUnit.Framework;
 
-	// ReSharper disable InconsistentNaming
+    // ReSharper disable InconsistentNaming
 
-	[TestFixture]
-	class MessengerTests
-	{
-		[SetUp]
-		public void SetUp()
-		{
-			Messenger.Dispatcher = Dispatcher.CurrentDispatcher;
-			Messenger.ClearHistory();
-		}
+    /// <summary>
+    /// Tests for the <see cref="Messenger"/> class.
+    /// </summary>
+    [TestFixture]
+    class MessengerTests
+    {
+        /// <summary>
+        /// Creates the messenger for this testing suite.
+        /// </summary>
+        /// <returns>Messenger instance with correctly initialized <see cref="Messenger.Dispatcher"/></returns>
+        public Messenger createMessenger()
+        {
+            return new Messenger
+            {
+                Dispatcher = Dispatcher.CurrentDispatcher
+            };
+        }
 
-		[Test]
-		public void ThrowMessage_MessageThrown_Throws()
-		{
-			bool thrown = true;
+        /// <summary>
+        /// Tests that instance getter really returns valids instance.
+        /// </summary>
+        [Test]
+        public void Instance_ReturnsInstance()
+        {
+            Assert.IsInstanceOf<Messenger>(Messenger.Instance);
+        }
 
-			var message = new Message("text");
+        /// <summary>
+        /// Tests that <see cref="Messenger.SendMessage"/> delivers the message.
+        /// </summary>
+        [Test]
+        public void SendMessage_MessageSent_Sends()
+        {
+            var messenger = this.createMessenger();
+            var message = new Message("text");
 
-			Messenger.MessageThrown += delegate { thrown = true; };
+            bool thrown = true;
+            messenger.MessageSent += delegate { thrown = true; };
+            messenger.SendMessage(message);
 
-			Messenger.ThrowMessage(message);
+            messenger.Dispatcher.DoEvents();
 
-			Messenger.Dispatcher.DoEvents();
+            Assert.IsTrue(thrown);
+        }
 
-			Assert.IsTrue(thrown);
-		}
+        /// <summary>
+        /// Tests that <see cref="Messenger.SendMessage"/> delivers the message correctly (that it delivers the same message instance).
+        /// </summary>
+        [Test]
+        public void SendMessage_MessageSent_SameMessage()
+        {
+            var messenger = this.createMessenger();
+            var message = new Message("text2");
+            Message thrownMessage = null;
 
-		[Test]
-		public void ThrowMessage_MessageThrown_SameMessage()
-		{
-			var message = new Message("text2");
-			Message thrownMessage = null;
+            messenger.MessageSent += delegate(object o, MessageThrownEventArgs args)
+            {
+                thrownMessage = args.Message;
+            };
 
-			Messenger.MessageThrown += delegate(object o, MessageThrownEventArgs args)
-			{
-				thrownMessage = args.Message;
-			};
+            messenger.SendMessage(message);
 
-			Messenger.ThrowMessage(message);
+            messenger.Dispatcher.DoEvents();
 
-			Messenger.Dispatcher.DoEvents();
+            Assert.AreSame(message, thrownMessage);
+        }
 
-			Assert.AreSame(message, thrownMessage);
-		}
+        /// <summary>
+        /// Tests that <see cref="Messenger.SendMessage"/> adds the message to <see cref="Messenger.MessageHistory"/>.
+        /// </summary>
+        [Test]
+        public void SendMessage_MessageSent_AppearsInHistory()
+        {
+            var messenger = this.createMessenger();
+            var message = new Message("testThrowMessage");
 
-		[Test]
-		public void ThrowMessage_MessageThrown_AppearsInHistory()
-		{
-			var message = new Message("testThrowMessage");
+            messenger.SendMessage(message);
 
-			Messenger.ThrowMessage(message);
+            Assert.IsTrue(messenger.MessageHistory.Contains(message));
+        }
 
-			Assert.IsTrue(Messenger.MessageHistory.Contains(message));
-		}
+        /// <summary>
+        /// Tests that sent messages appear in history in orer in which they were sent.
+        /// </summary>
+        [Test]
+        public void SendMessage_TwoMessages_InOrderInHistory()
+        {
+            var messenger = this.createMessenger();
+            var message1 = new Message("testThrowMessage1");
+            var message2 = new Message("testThrowMessage2");
 
-		[Test]
-		public void ThrowMessage_TwoMessages_InOrderInHistory()
-		{
-			var message1 = new Message("testThrowMessage1");
-			var message2 = new Message("testThrowMessage2");
+            messenger.SendMessage(message1);
+            messenger.SendMessage(message2);
 
-			Messenger.ThrowMessage(message1);
-			Messenger.ThrowMessage(message2);
+            int index1 = messenger.MessageHistory.ToList().IndexOf(message1);
+            int index2 = messenger.MessageHistory.ToList().IndexOf(message2);
 
-			int index1 = Messenger.MessageHistory.ToList().IndexOf(message1);
-			int index2 = Messenger.MessageHistory.ToList().IndexOf(message2);
+            Assert.Less(index1, index2);
+        }
 
-			Assert.Less(index1, index2);
-		}
-
-		[Test]
-		public void MessageHistory_NoMessageThrown_Empty()
-		{
-			// This relies on the history being cleared in set-up.
-			Assert.That(Messenger.MessageHistory, Is.EquivalentTo(Enumerable.Empty<Message>()));
-		}
-	}
+        /// <summary>
+        /// Tests that message history is empty when no messages were sent.
+        /// </summary>
+        [Test]
+        public void MessageHistory_NoMessageSent_Empty()
+        {
+            var messenger = this.createMessenger();
+            
+            // This relies on the history being cleared in set-up.
+            Assert.That(messenger.MessageHistory, Is.EquivalentTo(Enumerable.Empty<Message>()));
+        }
+    }
 }
