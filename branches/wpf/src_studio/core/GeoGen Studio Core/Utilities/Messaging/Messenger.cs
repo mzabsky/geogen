@@ -1,75 +1,100 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Threading;
-
-namespace GeoGen.Studio.Utilities.Messaging
+﻿namespace GeoGen.Studio.Utilities.Messaging
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Threading;
+
     /// <summary>
     /// Provides service for broadcasting <see cref="Message">messages</see> to potentially unknown recipients.
     /// </summary>
-    public static class Messenger
+    public class Messenger
     {
-        private static Dispatcher dispatcher;
+        /// <summary>
+        /// List of all messages delivered with this instance.
+        /// </summary>
+        private readonly List<Message> messageHistory = new List<Message>();
 
-        public static Dispatcher Dispatcher
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
+        private static Messenger instance;
+
+        /// <summary>
+        /// <see cref="Dispatcher"/> to which the messages are delivered.
+        /// </summary>
+        private Dispatcher dispatcher;
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="Messenger"/> class from being created.
+        /// </summary>
+        internal Messenger()
+        {
+        }
+
+        /// <summary>
+        /// Occurs when a <see cref="Message"/> is broadcasted.
+        /// </summary>
+        public event MessageThrownEventHandler MessageSent;
+
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        public static Messenger Instance
         {
             get
             {
-                if (Messenger.dispatcher != null)
-                {
-                    return Messenger.dispatcher;
-                }
-                else
-                {
-                    return Application.Current.Dispatcher;
-                }
+                return Messenger.instance ?? new Messenger();
+            }
+            internal set
+            {
+                Messenger.instance = value;
+            }
+        }
+
+        /// <summary>
+        /// <see cref="Dispatcher"/> to whose thread the message is delivered.
+        /// </summary>
+        public Dispatcher Dispatcher
+        {
+            get
+            {
+                return this.dispatcher ?? Application.Current.Dispatcher;
             }
 
             internal set
             {
-                Messenger.dispatcher = value;
+                this.dispatcher = value;
             }
         }
-        
-        /// <summary>
-        /// Occurs when a <see cref="Message"/> is broadcasted.
-        /// </summary>
-        public static event MessageThrownEventHandler MessageThrown;
 
-        private static readonly List<Message> messageHistory = new List<Message>();
         /// <summary>
         /// History of all <see cref="Message">messages</see> broadcatested in order from the oldest.
         /// </summary>
         /// <value>The message history.</value>
-        public static IEnumerable<Message> MessageHistory
+        public IEnumerable<Message> MessageHistory
         {
             get
             {
-                return Messenger.messageHistory.AsReadOnly();
+                return this.messageHistory.AsReadOnly();
             }
         }
 
         /// <summary>
-        /// Broadcasts a <see cref="Message"/> to all listening.
+        /// Broadcasts a <see cref="Message"/> to all listening receivers.
         /// </summary>
         /// <param name="message">The message.</param>
-        public static void ThrowMessage(Message message)
+        public void SendMessage(Message message)
         {
-            Messenger.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate()
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
             {
-                Messenger.messageHistory.Add(message);
+                this.messageHistory.Add(message);
 
-                if (Messenger.MessageThrown != null)
+                if (this.MessageSent != null)
                 {
-                    Messenger.MessageThrown(null, new MessageThrownEventArgs(message));
+                    this.MessageSent(null, new MessageThrownEventArgs(message));
                 }
             });
-        }
-
-        internal static void ClearHistory()
-        {
-            Messenger.messageHistory.Clear();
         }
     }
 }
