@@ -1,10 +1,5 @@
 ﻿namespace GeoGen.Studio.Utilities.Collections
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     using NUnit.Framework;
 
     // ReSharper disable InconsistentNaming
