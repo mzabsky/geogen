@@ -1,171 +1,172 @@
 ﻿// http://softcollections.codeplex.com/
-
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-
 namespace GeoGen.Studio.Utilities.Collections
 {
-	/// <summary>
-	/// Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed. The items are sorted by a given comparer.
-	/// </summary>
-	/// <typeparam name="TValue">The type of the value.</typeparam>
-	public abstract class SortedObservableCollection<TValue> : 
-		SortedCollection<TValue>, 
-		INotifyPropertyChanged, 
-		INotifyCollectionChanged
-	{
-		#region Constructors and Destructors
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
 
-		/// <summary>
-		/// Initializes a new empty instance of the <see cref="SortedObservableCollection&lt;TValue&gt;"/> class.
-		/// </summary>
-		public SortedObservableCollection() {}
+    /// <summary>
+    /// Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed. The items are sorted by a given comparer.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
+    public abstract class SortedObservableCollection<TValue> :
+        SortedCollection<TValue>,
+        INotifyPropertyChanged,
+        INotifyCollectionChanged
+    {
+        #region Constructors and Destructors
 
-		/// <summary>
-		/// Initializes a new empty instance of the <see cref="SortedObservableCollection&lt;TValue&gt;"/> class.
-		/// </summary>
-		/// <param name="comparer">
-		/// The comparer.
-		/// </param>
-		public SortedObservableCollection(IComparer<TValue> comparer)
-			: base(comparer) {}
+        /// <summary>
+        /// Initializes a new empty instance of the <see cref="SortedObservableCollection&lt;TValue&gt;"/> class.
+        /// </summary>
+        public SortedObservableCollection() {
+        }
 
-		#endregion
+        /// <summary>
+        /// Initializes a new empty instance of the <see cref="SortedObservableCollection&lt;TValue&gt;"/> class.
+        /// </summary>
+        /// <param name="comparer">
+        /// The comparer.
+        /// </param>
+        public SortedObservableCollection(IComparer<TValue> comparer)
+            : base(comparer) {
+            }
 
-		// Events
-		#region Public Events
+        #endregion
 
-		/// <summary>
-		/// Occurs when the collection changes.
-		/// </summary>
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
+        // Events
+        #region Public Events
 
-		/// <summary>
-		/// Occurs when a property value changes.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Occurs when the collection changes.
+        /// </summary>
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-		#endregion
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		#region Public Indexers
+        #endregion
 
-		public override TValue this[int index]
-		{
-			get
-			{
-				return base[index];
-			}
+        #region Public Indexers
 
-			set
-			{
-				var oldItem = base[index];
-				this.UnsubscribeItem(oldItem);
-				this.SubscribeItem(value);
-				base[index] = value;
-				this.OnPropertyChanged("Item[]");
-				this.OnCollectionChanged(NotifyCollectionChangedAction.Replace, oldItem, value, index);
-			}
-		}
+        public override TValue this[int index]
+        {
+            get
+            {
+                return base[index];
+            }
 
-		#endregion
+            set
+            {
+                var oldItem = base[index];
+                this.UnsubscribeItem(oldItem);
+                this.SubscribeItem(value);
+                base[index] = value;
+                this.OnPropertyChanged("Item[]");
+                this.OnCollectionChanged(NotifyCollectionChangedAction.Replace, oldItem, value, index);
+            }
+        }
 
-		#region Public Methods
+        #endregion
 
-		public override void Clear()
-		{
-			foreach (var value in this)
-			{
-				this.UnsubscribeItem(value);
-			}
+        #region Public Methods
 
-			base.Clear();
-			this.OnCollectionReset();
-		}
+        public override void Clear()
+        {
+            foreach (var value in this)
+            {
+                this.UnsubscribeItem(value);
+            }
 
-		public override void Insert(int index, TValue value)
-		{
-			this.UnsubscribeItem(value);
-			base.Insert(index, value);
-			this.OnPropertyChanged("Count");
-			this.OnPropertyChanged("Item[]");
-			this.OnCollectionChanged(NotifyCollectionChangedAction.Add, value, index);
-		}
+            base.Clear();
+            this.OnCollectionReset();
+        }
 
-		public override void RemoveAt(int index)
-		{
-			var item = this[index];
-			this.UnsubscribeItem(item);
-			base.RemoveAt(index);
-			this.OnPropertyChanged("Item[]");
-			this.OnPropertyChanged("Count");
-			this.OnCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
-		}
+        public override void Insert(int index, TValue value)
+        {
+            this.SubscribeItem(value);
+            base.Insert(index, value);
+            this.OnPropertyChanged("Count");
+            this.OnPropertyChanged("Item[]");
+            this.OnCollectionChanged(NotifyCollectionChangedAction.Add, value, index);
+        }
 
-		#endregion
+        public override void RemoveAt(int index)
+        {
+            var item = this[index];
+            this.UnsubscribeItem(item);
+            base.RemoveAt(index);
+            this.OnPropertyChanged("Item[]");
+            this.OnPropertyChanged("Count");
+            this.OnCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
+        }
 
-		#region Methods
+        #endregion
 
-		protected abstract void ItemPropertyChanged(object o, PropertyChangedEventArgs args);
+        #region Methods
 
-		protected override void SubscribeItem(TValue item)
-		{
-			if (item is INotifyPropertyChanged)
-			{
-				(item as INotifyPropertyChanged).PropertyChanged += this.ItemPropertyChanged;
-			}
-		}
+        protected abstract void ItemPropertyChanged(object o, PropertyChangedEventArgs args);
 
-		protected override void UnsubscribeItem(TValue item)
-		{
-			if (item is INotifyPropertyChanged)
-			{
-				(item as INotifyPropertyChanged).PropertyChanged -= this.ItemPropertyChanged;
-			}
-		}
+        protected override void SubscribeItem(TValue item)
+        {
+            if (item is INotifyPropertyChanged)
+            {
+                (item as INotifyPropertyChanged).PropertyChanged += this.ItemPropertyChanged;
+            }
+        }
 
-		protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-		{
-			if (this.CollectionChanged != null)
-			{
-				this.CollectionChanged(this, e);
-			}
-		}
+        protected override void UnsubscribeItem(TValue item)
+        {
+            if (item is INotifyPropertyChanged)
+            {
+                (item as INotifyPropertyChanged).PropertyChanged -= this.ItemPropertyChanged;
+            }
+        }
 
-		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-		{
-			if (this.PropertyChanged != null)
-			{
-				this.PropertyChanged(this, e);
-			}
-		}
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (this.CollectionChanged != null)
+            {
+                this.CollectionChanged(this, e);
+            }
+        }
 
-		private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
-		{
-			this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
-		}
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, e);
+            }
+        }
 
-		private void OnCollectionChanged(NotifyCollectionChangedAction action, object oldItem, object newItem, int index)
-		{
-			this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
-		}
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
+        {
+            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
+        }
 
-		/*
-		private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
-		{
-			this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
-		}
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, object oldItem, object newItem, int index)
+        {
+            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
+        }
+
+        /*
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
+        {
+            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
+        }
 */
-		private void OnCollectionReset()
-		{
-			this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-		}
+        private void OnCollectionReset()
+        {
+            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
 
-		private void OnPropertyChanged(string propertyName)
-		{
-			this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-		}
+        private void OnPropertyChanged(string propertyName)
+        {
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
