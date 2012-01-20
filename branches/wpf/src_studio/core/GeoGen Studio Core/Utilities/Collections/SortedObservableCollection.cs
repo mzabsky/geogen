@@ -65,7 +65,7 @@ namespace GeoGen.Studio.Utilities.Collections
                 this.SubscribeItem(value);
                 base[index] = value;
                 this.OnPropertyChanged("Item[]");
-                this.OnCollectionChanged(NotifyCollectionChangedAction.Replace, oldItem, value, index);
+                this.OnCollectionChanged(NotifyCollectionChangedAction.Replace, value, oldItem, index);
             }
         }
 
@@ -138,7 +138,7 @@ namespace GeoGen.Studio.Utilities.Collections
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
         }
 
-        private void OnCollectionChanged(NotifyCollectionChangedAction action, object oldItem, object newItem, int index)
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, object newItem, object oldItem, int index)
         {
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
         }
