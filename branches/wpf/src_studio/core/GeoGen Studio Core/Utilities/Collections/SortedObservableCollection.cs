@@ -133,14 +133,6 @@ namespace GeoGen.Studio.Utilities.Collections
             }
         }
 
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, e);
-            }
-        }
-
         private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
         {
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
@@ -151,12 +143,6 @@ namespace GeoGen.Studio.Utilities.Collections
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
         }
 
-        /*
-        private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index, int oldIndex)
-        {
-            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
-        }
-*/
         private void OnCollectionReset()
         {
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -164,7 +150,10 @@ namespace GeoGen.Studio.Utilities.Collections
 
         private void OnPropertyChanged(string propertyName)
         {
-            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }            
         }
 
         #endregion
