@@ -9,6 +9,15 @@
     {
         private double priority;
 
+        public TestingPriorityObservable()
+        {            
+        }
+
+        public TestingPriorityObservable(double priority)
+        {
+            this.priority = priority;
+        }
+
         /// <summary>
         /// Property used to test <see cref="INotifyPropertyChanged"/>.
         /// </summary>
