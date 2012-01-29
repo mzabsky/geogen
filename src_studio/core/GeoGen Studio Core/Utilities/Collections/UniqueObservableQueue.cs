@@ -20,11 +20,6 @@ namespace GeoGen.Studio.Utilities.Collections
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
-        /// Capacity of the collection.
-        /// </summary>
-        public int Capacity { get; private set; }
-
-        /// <summary>
         /// Comparer used to detect duplicates in the collection.
         /// </summary>
         public IEqualityComparer<TValue> Comparer { get; private set; }
@@ -73,18 +68,15 @@ namespace GeoGen.Studio.Utilities.Collections
         /// </summary>
         public UniqueObservableQueue()
         {
-            this.Capacity = UniqueObservableQueue<TValue>.DefaultCapacity;
+            this.Comparer = EqualityComparer<TValue>.Default;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObservableQueue&lt;TValue&gt;"/> class.
         /// </summary>
-        /// <param name="capacity">The capacity.</param>
         /// <param name="comparer">The comparer.</param>
-        public UniqueObservableQueue(int capacity = 20, IEqualityComparer<TValue> comparer = null)
+        public UniqueObservableQueue(IEqualityComparer<TValue> comparer = null)
         {
-            this.values.Capacity = capacity;
-            this.Capacity = capacity;
             this.Comparer = comparer;
         }
 
@@ -123,18 +115,6 @@ namespace GeoGen.Studio.Utilities.Collections
                     );
 
                 return;
-            }
-
-            // Crop the collection if it would be too long after the addition.
-            if(this.values.Count > this.Capacity - 1)
-            {
-                TValue oldItem = this.values[this.Capacity - 1];
-
-                this.values.RemoveAt(this.Capacity - 1);
-
-                this.OnCollectionChanged(
-                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem)
-                    );
             }
 
             // Finally add the item.
