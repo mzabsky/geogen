@@ -13,7 +13,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="FileInfoObservableQueue"/> class.
         /// </summary>
-        public FileInfoObservableQueue(): base(UniqueObservableQueue<FileInfo>.DefaultCapacity, new DelegateEqualityComparer<FileInfo>((a, b) => a.FullName == b.FullName))
+        public FileInfoObservableQueue(): base(new DelegateEqualityComparer<FileInfo>((a, b) => a.FullName == b.FullName))
         {         
         }
 
