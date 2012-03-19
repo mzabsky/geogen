@@ -74,7 +74,7 @@
         void Start(string script, bool headerOnly = false, IEnumerable<uint> parametersOverride = null);
 
         /// <summary>
-        /// Aborts the script being eecuted.
+        /// Aborts the script being executed.
         /// </summary>
         void Abort();
     }
