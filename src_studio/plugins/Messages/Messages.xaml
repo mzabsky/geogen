@@ -53,13 +53,13 @@
 										<Image.Style>
 											<Style TargetType="Image">
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding Type}" Value="Message">
+													<DataTrigger Binding="{Binding Type, Mode=OneWay}" Value="Message">
 														<Setter Property="Source" Value="Images/Icons/message.png" />
 													</DataTrigger>
-													<DataTrigger Binding="{Binding Type}" Value="Warning">
+                                                    <DataTrigger Binding="{Binding Type, Mode=OneWay}" Value="Warning">
 														<Setter Property="Source" Value="Images/Icons/warning.png" />
 													</DataTrigger>
-													<DataTrigger Binding="{Binding Type}" Value="Error">
+                                                    <DataTrigger Binding="{Binding Type, Mode=OneWay}" Value="Error">
 														<Setter Property="Source" Value="Images/Icons/error.png" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -68,7 +68,7 @@
 									</Image>
 								</Border>
 								<TextBlock VerticalAlignment="Center" TextWrapping="Wrap" DockPanel.Dock="Left">
-									<Run Text="{Binding Text}" />
+									<Run Text="{Binding Text, Mode=OneWay}" />
 									<TextBlock Foreground="Gray" FontSize="9">
 										<Run Text=" (" /><Run Text="{Binding DateTimeString, Mode=OneWay}" /><Run Text=") " />
 									</TextBlock>
