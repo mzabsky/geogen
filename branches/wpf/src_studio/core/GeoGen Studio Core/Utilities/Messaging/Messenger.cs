@@ -26,7 +26,8 @@
         private Dispatcher dispatcher;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="Messenger"/> class from being created.
+        /// Initializes a new instance of the Messenger class.
+        /// Prevents a default instance of the<see cref="Messenger"/>class from being created.
         /// </summary>
         internal Messenger()
         {
@@ -44,8 +45,14 @@
         {
             get
             {
-                return Messenger.instance ?? new Messenger();
+                if (Messenger.instance == null)
+                {
+                    Messenger.instance = new Messenger();
+                }
+                
+                return Messenger.instance;
             }
+
             internal set
             {
                 Messenger.instance = value;
@@ -53,7 +60,7 @@
         }
 
         /// <summary>
-        /// <see cref="Dispatcher"/> to whose thread the message is delivered.
+        /// Gets <see cref="Dispatcher"/> to whose thread the message is delivered.
         /// </summary>
         public Dispatcher Dispatcher
         {
@@ -69,7 +76,7 @@
         }
 
         /// <summary>
-        /// History of all <see cref="Message">messages</see> broadcatested in order from the oldest.
+        /// Gets history of all <see cref="Message">messages</see> broadcatested in order from the oldest.
         /// </summary>
         /// <value>The message history.</value>
         public IEnumerable<Message> MessageHistory
