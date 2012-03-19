@@ -1,15 +1,20 @@
 ﻿namespace GeoGen.Studio.PlugIns
 {
     using System;
-    using GeoGen.Studio.PlugInLoader;
-    using GeoGen.Studio.Utilities.Messaging;
     using System.IO;
 
-    [PlugIn(VisibleInList = false)]
-    public class Logger: IPlugIn
-    {
-        protected TextWriter Writer { get; set; }
+    using GeoGen.Studio.PlugInLoader;
+    using GeoGen.Studio.Utilities.Messaging;
 
+    /// <summary>
+    /// Writes messages thrown by other components into a log file.
+    /// </summary>
+    [PlugIn(VisibleInList = false)]
+    public class Logger : IPlugIn
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Logger"/> class.
+        /// </summary>
         public Logger()
         {
             try
@@ -25,23 +30,41 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the write stream.
+        /// </summary>
+        /// <value>
+        /// The writer.
+        /// </value>
+        protected TextWriter Writer { get; set; }
+
+        /// <summary>
+        /// Registers this instance as a plug-in.
+        /// </summary>
         public void Register()
         {
             foreach (var message in Messenger.Instance.MessageHistory)
             {
-                this.MessageHandler(null, new MessageThrownEventArgs(message));
+                this.HandleMessage(null, new MessageThrownEventArgs(message));
             }
 
-            Messenger.Instance.MessageSent += this.MessageHandler;            
+            Messenger.Instance.MessageSent += this.HandleMessage;            
         }
 
-        public void MessageHandler(object sender, MessageThrownEventArgs args)
+        /// <summary>
+        /// Handles the message.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GeoGen.Studio.Utilities.Messaging.MessageThrownEventArgs"/> instance containing the event data.</param>
+        protected void HandleMessage(object sender, MessageThrownEventArgs args)
         {
-            if (this.Writer != null)
+            if (this.Writer == null)
             {
-                this.Writer.WriteLine("[" + args.Message.DateTime + "] " + args.Message.Type + ": " + args.Message.Text);
-                this.Writer.Flush();
+                return;
             }
+
+            this.Writer.WriteLine("[" + args.Message.DateTime + "] " + args.Message.Type + ": " + args.Message.Text);
+            this.Writer.Flush();
         }
     }
 }
