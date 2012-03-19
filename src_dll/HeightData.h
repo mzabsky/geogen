@@ -99,10 +99,10 @@ namespace GeoGen{
 
             HeightData(int width, int height){
                 if(width < 3 || height < 3) {
-                    throw gcnew ArgumentException("Both height and with must be >= 2.");
+                    throw gcnew ArgumentException("Both height and width must be >= 2.");
                 }
                 if(width < GGen::GetInstance()->GetMaxWidth() || height < GGen::GetInstance()->GetMaxHeight()) {
-                    throw gcnew ArgumentException("Both height and with must be >= 2.");
+                    throw gcnew ArgumentException("Both height and width must be < configured maximum dimensions.");
                 }
 
                 this->width = width;
