@@ -10,6 +10,8 @@ using GeoGen.Studio.Utilities.Messaging;
 
 namespace GeoGen.Studio
 {
+    using System.Linq;
+
     sealed public class Overlay: IXmlSerializable
     {
         public static string OverlayDirectory
@@ -58,7 +60,7 @@ namespace GeoGen.Studio
                     catch(Exception e)
                     {
                         // The overlay might have been invalid
-                        Messenger.ThrowMessage(new Message("Could not open overlay \"" + overlayFile.Name + "\".", MessageType.Error));
+                        new Message("Could not open overlay \"" + overlayFile.Name + "\".", MessageType.Error).Send();
                         continue;
                     }
                 }
