@@ -100,10 +100,19 @@
       <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
       <Name>GGenStudio.PlugIns.StatusBar</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
+      <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
+      <Name>GGenStudio.PlugIns.ToolBar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
       <Name>GGenStudio.PlugIns.MainWindow</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Icons\abort.png" />
+    <Resource Include="Images\Icons\execute.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

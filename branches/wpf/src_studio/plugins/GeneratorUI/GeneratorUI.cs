@@ -5,12 +5,15 @@
 	using GeoGen.Studio.PlugIns.Extensions;
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.PlugIns.MenuBars;
+	using GeoGen.Studio.PlugIns.ToolBars;
 	using GeoGen.Studio.Utilities;
 	using GeoGen.Studio.Utilities.Context;
 
 	[PlugIn(VisibleInList = false)]
 	public sealed class GeneratorUI : GeoGen.Studio.Utilities.PlugInBase.ObjectBase
 	{
+		private const string IconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.GeneratorUI;component/Images/Icons/";
+
 		private readonly ICommand startCommand;
 		private readonly ICommand abortCommand;
 
@@ -90,7 +93,7 @@
 
 		[OptionalRegistrator]
 		public void Register(IEditor editor, IGenerator generator, IMenuBar menuBar)
-		{
+		{	
 			// Register window menu entries
 			var generatorMenu = new MenuEntry(
 				header: "Generator",
@@ -101,15 +104,34 @@
 						header: "Execute",
 						priority: 10,
 						inputGestureText: "F5",
-						command: this.startCommand),
+						command: this.startCommand,
+						icon: GeneratorUI.IconPathPrefix + "execute.png"),
 					new MenuEntry(
 						header: "Abort",
 						priority: 9,
 						inputGestureText: "F6",
-						command: this.abortCommand),
+						command: this.abortCommand,
+						icon: GeneratorUI.IconPathPrefix + "abort.png"),
 				});
 
 			menuBar.AddMenu(generatorMenu);
+		}
+
+		public void Register(IEditor editor, IGenerator generator, IToolBar toolBar)
+		{
+			toolBar.AddItem(
+				new ToolBarButton(
+					command: this.startCommand,
+					priority: -7,
+					toolTip: "Execute (F5)",
+					icon: GeneratorUI.IconPathPrefix + "execute.png"));
+
+			toolBar.AddItem(
+				new ToolBarButton(
+					command: this.abortCommand,
+					priority: -8,
+					toolTip: "Abort (F6)",
+					icon: GeneratorUI.IconPathPrefix + "abort.png"));
 		}
 
 		[OptionalRegistrator]
