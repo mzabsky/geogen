@@ -35,7 +35,7 @@
         }
 
         /// <summary>
-        /// Time of occurence.
+        /// Gets time of occurence.
         /// </summary>
         /// <value>The time of occurence.</value>
         public DateTime DateTime
@@ -47,7 +47,7 @@
         }
 
         /// <summary>
-        /// Short string representation of time of occurence.
+        /// Gets short string representation of time of occurence.
         /// </summary>
         /// <value>The time string.</value>
         public string DateTimeString
@@ -59,7 +59,7 @@
         }
 
         /// <summary>
-        /// Text of the message.
+        /// Gets text of the message.
         /// </summary>
         /// <value>The text.</value>
         public string Text
@@ -71,7 +71,7 @@
         }
 
         /// <summary>
-        /// Type of the message.
+        /// Gets type of the message.
         /// </summary>
         /// <value>The type.</value>
         public MessageType Type 
@@ -88,6 +88,17 @@
         public void Send()
         {
             Messenger.Instance.SendMessage(this);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.Type.ToString() + ": " + this.Text;
         }
     }
 }
