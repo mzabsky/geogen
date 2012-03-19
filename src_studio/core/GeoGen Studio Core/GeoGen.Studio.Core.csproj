@@ -111,6 +111,7 @@
     <Compile Include="UI\NumericBox.xaml.cs">
       <DependentUpon>NumericBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Collections\DelegateComparer.cs" />
     <Compile Include="Utilities\Collections\DelegateEqualityComparer.cs" />
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="Utilities\Collections\SortedObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utilities\Collections\UniqueObservableCollection.cs" />
+    <Compile Include="Utilities\Collections\UniqueObservableQueue.cs" />
     <Compile Include="Utilities\IO\BitmapWriter.cs" />
     <Compile Include="Utilities\Persistence\PersistentAttribute.cs" />
     <Compile Include="Utilities\Persistence\MainConfig.cs" />
