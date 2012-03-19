@@ -1,39 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using GeoGen.Studio.PlugInLoader;
-using GeoGen.Studio.Utilities;
-using GeoGen.Studio.Utilities.Persistence;
-
-namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns
 {
-    public class PlugInInfo: ObservableObject, INotifyPropertyChanged
-    {
-        public PlugIn PlugIn { get; set; }
-        public List<ConfigurablePropertyInfo> Properties {get; set;}
-        public bool IsEnabled { get; set; }
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
 
+    using GeoGen.Studio.PlugInLoader;
+    using GeoGen.Studio.Utilities;
+    using GeoGen.Studio.Utilities.Persistence;
+
+    internal class PlugInInfo : ObservableObject, INotifyPropertyChanged
+    {
         public PlugInInfo(PlugInLoader.PlugIn plugIn)
         {
             this.IsEnabled = Loader.IsPlugInEnabled(plugIn);
             this.PlugIn = plugIn;
             this.Properties = new List<ConfigurablePropertyInfo>();
-
-            this.PropertyChanged += delegate(object a, PropertyChangedEventArgs args)
-            {
-                int i = 0;
-                i++;
-            };
-
+            
             this.IsEnabled = false;
             this.IsEnabled = true;
 
             // Build the list of configurable properties
-            foreach (PropertyInfo property in plugIn.Type.GetProperties())
+            foreach (var property in plugIn.Type.GetProperties())
             {              
-                PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
+                var configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
                 /* Skip non-readable non-readable non-configurable properties. */
                 if (
@@ -42,16 +32,18 @@ namespace GeoGen.Studio.PlugIns
                     configurableAttribute != null && 
                     configurableAttribute.EnableVisualConfiguration)
                 {
-                    ConfigurablePropertyInfo configurablePropertyInfo = new ConfigurablePropertyInfo();
-                    configurablePropertyInfo.Name = property.Name;
-                    configurablePropertyInfo.Property = property;
-                    configurablePropertyInfo.Type = property.PropertyType;
-                    configurablePropertyInfo.Description = "";
+                    var configurablePropertyInfo = new ConfigurablePropertyInfo
+                    {
+                        Name = property.Name, 
+                        Property = property, 
+                        Type = property.PropertyType, 
+                        Description = string.Empty
+                    };
 
-                    if(this.PlugIn.IsRunning)
+                    if (this.PlugIn.IsRunning)
                     {
                         // The plug-in is running - get the value from its first instance
-                        configurablePropertyInfo.OriginalValue = property.GetValue(Enumerable.First(this.PlugIn.Instances), null);
+                        configurablePropertyInfo.OriginalValue = property.GetValue(this.PlugIn.Instances.First(), null);
                     }
                     else
                     {
@@ -64,6 +56,12 @@ namespace GeoGen.Studio.PlugIns
                 }
             }
         }
+
+        public PlugIn PlugIn { get; set; }
+
+        public List<ConfigurablePropertyInfo> Properties { get; set; }
+
+        public bool IsEnabled { get; set; }
 
         public override string ToString()
         {

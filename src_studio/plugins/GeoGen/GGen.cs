@@ -3,16 +3,17 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
+	using System.ComponentModel;
 	using System.Diagnostics.Contracts;
 	using System.Linq;
 	using System.Threading;
 	using System.Windows;
-	using System.Windows.Threading;	
+	using System.Windows.Threading;
+
 	using GeoGen.Studio;
+	using GeoGen.Studio.PlugInLoader;
 	using GeoGen.Studio.PlugIns.Interfaces;
 	using GeoGen.Studio.Utilities.Messaging;
-	using GeoGen.Studio.PlugInLoader;
-	using System.ComponentModel;
 
 	internal enum TaskType{
 		None,
