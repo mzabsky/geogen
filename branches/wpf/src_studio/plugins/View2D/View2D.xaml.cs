@@ -26,105 +26,64 @@
     /// </summary>
     public partial class View2D : INotifyPropertyChanged
     {
-        private Adorner adorner;
+        /// <summary>
+        /// Minimum portion of image in display units which has to be on screen.
+        /// </summary>
+        private const double MinimumVisibleTip = 20;
 
-        private bool scrolling;
+        /// <summary>
+        /// By how much is the image zoom factor multiplied when zooming in.
+        /// </summary>
+        private const double ZoomInStep = 1.25;
+
+        /// <summary>
+        /// By how much is the image zoom factor multiplied when zooming out.
+        /// </summary>
+        private const double ZoomOutStep = 0.8;
+
+        /// <summary>
+        /// Maxiumum zoom factor.
+        /// </summary>
+        private const double MaximumZoomFactor = 10;
+
+        /// <summary>
+        /// Minimum zoom factor.
+        /// </summary>
+        private const double MinimumZoomFactor = 0.1;
+
+        /// <summary>
+        /// Adorner layer used to gray out the control when there are no maps.
+        /// </summary>
+        private readonly Adorner adorner;
+
+        /// <summary>
+        /// <see cref="Context"/> used to display coordinates on the status bar.
+        /// </summary>
+        private readonly Context mouseOverContext = new Context("View 2D");
+
         private double lastDragX;
         private double lastDragY;
         private double dragPointX;
         private double dragPointY;
 
-        private const double MinimumVisibleTip = 20;
-
+        /// <summary>
+        /// Backing field for <see cref="ZoomInCommand"/>.
+        /// </summary>
         private ICommand zoomInCommand;
+
+        /// <summary>
+        /// Backing field for <see cref="ZoomOutCommand"/>.
+        /// </summary>
         private ICommand zoomOutCommand;
-        private ICommand resetZoomCommand;
+
+        /// <summary>
+        /// Backing field for <see cref="SaveImageCommand"/>.
+        /// </summary>
         private ICommand saveImageCommand;
 
-        private Overlay selectedOverlay;
-
-        private Context mouseOverContext = new Context("View 2D");
-
-        public IDockManager DockManager { get; private set; }
-        
-        public IGenerator Generator { get; private set; }
-
-        public HeightData SelectedMap { get; set; }
-
-        [Persistent(UseEmptyInstanceAsDefault = true)]
-        public Overlay SelectedOverlay
-        {
-            get
-            {
-                return selectedOverlay;
-            }
-            set
-            {
-                this.selectedOverlay = value;
-            }
-        }
-
-        public double ZoomFactor { get; set; }
-
-        public double MouseX { get; private set; }
-
-        public double MouseY { get; private set; }
-
-        public int? SelectedValueX { get; private set; }
-
-        public int? SelectedValueY { get; private set; }
-
-        public int? SelectedValue { get; private set; }
-
-        public bool IsMouseOverMap { get; private set; }
-
-        [Persistent]
-        public bool IsOverlayEnabled { get; set; }
-
-        [Persistent]
-        public string LastSaveImagePath { get; set; }
-
-        public ICommand ZoomInCommand
-        {
-            get
-            {
-                if (this.zoomInCommand == null)
-                {
-                    this.zoomInCommand = new RelayCommand(param => this.ZoomIn(), p => this.DockManager.IsContentActive(this));
-                }
-
-                return this.zoomInCommand;
-            }
-        }
-
-        public ICommand ZoomOutCommand
-        {
-            get
-            {
-                if (this.zoomOutCommand == null)
-                {
-                    this.zoomOutCommand = new RelayCommand(param => this.ZoomOut());
-                }
-
-                return this.zoomOutCommand;
-            }
-        }
-
-        public ICommand SaveImageCommand
-        {
-            get
-            {
-                if (this.saveImageCommand == null)
-                {
-                    this.saveImageCommand = new RelayCommand(
-                        param => this.SaveImage(),
-                        param => this.image.Source != null);
-                }
-
-                return this.saveImageCommand;
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="View2D"/> class.
+        /// </summary>
         public View2D()
         {
             this.ZoomFactor = 1;
@@ -184,7 +143,6 @@
                             (double)image.GetValue(Canvas.TopProperty) - (this.lastDragY - Mouse.GetPosition(this.canvas).Y));
 
                         this.lastDragX = (double)this.image.GetValue(Canvas.LeftProperty) + this.dragPointX;
-                            // Mouse.GetPosition(this.canvas).X;
                         this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + this.dragPointY;
 
                         this.ClampImagePosition();
@@ -237,6 +195,146 @@
             };
         }
 
+        /// <summary>
+        /// Gets the dock manager.
+        /// </summary>
+        public IDockManager DockManager { get; private set; }
+
+        /// <summary>
+        /// Gets the map generator.
+        /// </summary>
+        public IGenerator Generator { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the selected map.
+        /// </summary>
+        /// <value>
+        /// The selected map.
+        /// </value>
+        public HeightData SelectedMap { get; set; }
+
+        /// <summary>
+        /// Gets or sets the selected overlay.
+        /// </summary>
+        /// <value>
+        /// The selected overlay.
+        /// </value>
+        [Persistent(UseEmptyInstanceAsDefault = true)]
+        public Overlay SelectedOverlay { get; set; }
+
+        /// <summary>
+        /// Gets or sets the zoom factor (number expressing percentage of display size of the image).
+        /// </summary>
+        /// <value>
+        /// The zoom factor.
+        /// </value>
+        public double ZoomFactor { get; set; }
+
+        /// <summary>
+        /// Gets last known X coordinate of mouse relative to upper left corner of the map.
+        /// </summary>
+        public double MouseX { get; private set; }
+
+        /// <summary>
+        /// Gets last known Y coordinate of mouse relative to upper left corner of the map.
+        /// </summary>
+        public double MouseY { get; private set; }
+
+        /// <summary>
+        /// Gets the map X of selected value (map pixel over which is the mouse).
+        /// </summary>
+        public int? SelectedValueX { get; private set; }
+
+        /// <summary>
+        /// Gets the map Y of selected value (map pixel over which is the mouse).
+        /// </summary>
+        public int? SelectedValueY { get; private set; }
+
+        /// <summary>
+        /// Gets the selected value (map pixel over which is the mouse).
+        /// </summary>
+        public int? SelectedValue { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the mouse is over the map.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the mouse is over the map; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsMouseOverMap { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether overlay is enabled.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance is overlay enabled; otherwise, <c>false</c>.
+        /// </value>
+        [Persistent]
+        public bool IsOverlayEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last saved image path.
+        /// </summary>
+        /// <value>
+        /// The last save image path.
+        /// </value>
+        [Persistent]
+        public string LastSaveImagePath { get; set; }
+
+        /// <summary>
+        /// Gets the zoom-in command.
+        /// </summary>
+        public ICommand ZoomInCommand
+        {
+            get
+            {
+                if (this.zoomInCommand == null)
+                {
+                    this.zoomInCommand = new RelayCommand(param => this.ZoomIn(), p => this.DockManager.IsContentActive(this));
+                }
+
+                return this.zoomInCommand;
+            }
+        }
+
+        /// <summary>
+        /// Gets the zoom-out command.
+        /// </summary>
+        public ICommand ZoomOutCommand
+        {
+            get
+            {
+                if (this.zoomOutCommand == null)
+                {
+                    this.zoomOutCommand = new RelayCommand(param => this.ZoomOut());
+                }
+
+                return this.zoomOutCommand;
+            }
+        }
+
+        /// <summary>
+        /// Gets the save image command.
+        /// </summary>
+        public ICommand SaveImageCommand
+        {
+            get
+            {
+                if (this.saveImageCommand == null)
+                {
+                    this.saveImageCommand = new RelayCommand(
+                        param => this.SaveImage(),
+                        param => this.image.Source != null);
+                }
+
+                return this.saveImageCommand;
+            }
+        }
+
+        /// <summary>
+        /// Registers to the generator events.
+        /// </summary>
+        /// <param name="generator">The generator.</param>
         public void Register(IGenerator generator)
         {
             this.Generator = generator;
@@ -273,6 +371,10 @@
             };
         }
 
+        /// <summary>
+        /// Registers this sub-window to the docking manager.
+        /// </summary>
+        /// <param name="dockManager">The dock manager.</param>
         public void Register(IDockManager dockManager)
         {
             this.DockManager = dockManager;
@@ -280,6 +382,10 @@
             dockManager.AddAsDockableContent(this, "2D View", DockingLocation.Document);            
         }
 
+        /// <summary>
+        /// Registers global hotkeys.
+        /// </summary>
+        /// <param name="mainWindow">The main window.</param>
         public void Register(IMainWindow mainWindow)
         {
             mainWindow.RegisterInputGesture(
@@ -299,6 +405,10 @@
                 this.ZoomOutCommand);
         }
 
+        /// <summary>
+        /// Registers cell in the status bar.
+        /// </summary>
+        /// <param name="statusBar">The status bar.</param>
         [OptionalRegistrator]
         public void Register(IStatusBar statusBar)
         {
@@ -329,17 +439,20 @@
             statusBar.AddItem(statusBarEntry);
         }
 
+        /// <summary>
+        /// Zooms the map in by one step.
+        /// </summary>
         public void ZoomIn()
         {
-            if (this.ZoomFactor > 10)
+            if (this.ZoomFactor > View2D.MaximumZoomFactor)
             {
                 return;
             }
 
-            this.ZoomFactor *= 1.25;
+            this.ZoomFactor *= View2D.ZoomInStep;
 
-            this.image.Width = image.ActualWidth * 1.25;
-            this.image.Height = image.ActualHeight * 1.25;
+            this.image.Width = image.ActualWidth * View2D.ZoomInStep;
+            this.image.Height = image.ActualHeight * View2D.ZoomInStep;
 
             // make sure the zooming is centered on mouse
             this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
@@ -348,14 +461,20 @@
             this.ClampImagePosition();
         }
 
+        /// <summary>
+        /// Zooms the map out by one step.
+        /// </summary>
         public void ZoomOut()
-        {            
-            if (this.ZoomFactor < 0.1) return;
+        {
+            if (this.ZoomFactor < View2D.MinimumZoomFactor)
+            {
+                return;
+            }
 
-            this.ZoomFactor *= 0.8;
+            this.ZoomFactor *= View2D.ZoomOutStep;
 
-            this.image.Width = image.ActualWidth * 0.80;
-            this.image.Height = image.ActualHeight * 0.80;
+            this.image.Width = image.ActualWidth * View2D.ZoomOutStep;
+            this.image.Height = image.ActualHeight * View2D.ZoomOutStep;
 
             // make sure the zooming is centered on mouse
             this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
@@ -364,6 +483,9 @@
             this.ClampImagePosition();
         }
 
+        /// <summary>
+        /// Saves the image to hard drive.
+        /// </summary>
         public void SaveImage()
         {
             if (this.image.Source == null)
@@ -388,10 +510,13 @@
                 return;
             }
 
-            var message = new Message(@"Image """ + Path.GetFileName(this.LastSaveImagePath) + @""" saved.", MessageType.Message);
+            var message = new Message(@"Image """ + Path.GetFileName(this.LastSaveImagePath) + @""" saved.");
             message.Send();
         }
 
+        /// <summary>
+        /// Makes sure that at least <see cref="MinimumVisibleTip"/> is visible of the map on both axes.
+        /// </summary>
         private void ClampImagePosition()
         {
             if (this.image.ActualWidth == 0 || this.image.ActualHeight == 0)
@@ -401,7 +526,7 @@
                 return;
             }
 
-            if ((double) this.image.GetValue(Canvas.LeftProperty) + this.image.ActualWidth < View2D.MinimumVisibleTip)
+            if ((double)this.image.GetValue(Canvas.LeftProperty) + this.image.ActualWidth < View2D.MinimumVisibleTip)
             {
                 this.image.SetValue(Canvas.LeftProperty, View2D.MinimumVisibleTip - this.image.ActualWidth);
             }
