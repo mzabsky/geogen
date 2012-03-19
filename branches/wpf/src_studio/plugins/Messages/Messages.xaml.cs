@@ -1,93 +1,152 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
-using GeoGen.Studio.PlugInLoader;
-using GeoGen.Studio.Utilities.Persistence;
-using GeoGen.Studio.Utilities.Messaging;
-
-namespace GeoGen.Studio.PlugIns
+﻿namespace GeoGen.Studio.PlugIns
 {
-	/// <summary>
-	/// Interaction logic for UserControl1.xaml
-	/// </summary>
-	public partial class Messages : UserControl, IPlugIn
-	{
-		public ObservableCollection<Message> Items { get; private set; }
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Windows;
+    using System.Windows.Controls;
 
-		[Persistent(DefaultValue = DockingLocation.RightTop)]
-		public object DockingState {get; set;}
+    using GeoGen.Studio.PlugInLoader;
+    using GeoGen.Studio.Utilities.Messaging;
+    using GeoGen.Studio.Utilities.Persistence;
 
-		private static readonly DependencyPropertyKey IsEmptyPropertyKey = DependencyProperty.RegisterReadOnly(
-			"IsEmpty", typeof(bool), typeof(Messages), new PropertyMetadata(true));
+    /// <summary>
+    /// Sub-window which displays list of messages sent by other components.
+    /// </summary>
+    public partial class Messages : UserControl, IPlugIn
+    {
+        /// <summary>
+        /// <see cref="IsEmpty"/> dependency property.
+        /// </summary>
+        private static readonly DependencyPropertyKey IsEmptyPropertyKey = DependencyProperty.RegisterReadOnly(
+            "IsEmpty", typeof(bool), typeof(Messages), new PropertyMetadata(true));
 
-		public static readonly DependencyProperty IsEmptyProperty = IsEmptyPropertyKey.DependencyProperty;
+        /// <summary>
+        /// <see cref="IsEmpty"/> dependency property key.
+        /// </summary>
+        private static readonly DependencyProperty IsEmptyProperty = IsEmptyPropertyKey.DependencyProperty;        
 
-		public bool IsEmpty
-		{
-			get {
-				return (bool) GetValue(IsEmptyProperty); 
-			}
-			private set {
-				SetValue(IsEmptyPropertyKey, value); 
-			}
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Messages"/> class.
+        /// </summary>
+        public Messages()
+        {
+            this.Items = new ObservableCollection<Message>();
+            this.Items.CollectionChanged += this.CollectionChanged;
 
-		public Messages()
-		{
-			this.Items = new ObservableCollection<Message>();
-			this.Items.CollectionChanged += this.CollectionChanged;
+            foreach (var message in Messenger.Instance.MessageHistory)
+            {
+                this.Items.Add(message);
+            }
 
-			foreach(Message message in Messenger.MessageHistory)
-			{
-				this.Items.Add(message);
-			}
+            Messenger.Instance.MessageSent +=
+                delegate(object o, MessageThrownEventArgs args) { this.Items.Add(args.Message); };
 
-			Messenger.MessageThrown += delegate(object o, MessageThrownEventArgs args)
-			{
-				this.Items.Add(args.Message);
-			};     
+            InitializeComponent();
+            MainConfig.Register(this);
 
-			InitializeComponent();
-			MainConfig.Register(this);
+            this.scroller.ContextMenuOpening +=
+                delegate(object o, ContextMenuEventArgs args) { args.Handled = this.IsEmpty; };
+        }
 
-			this.scroller.ContextMenuOpening += delegate(object o, ContextMenuEventArgs args){
-				args.Handled = this.IsEmpty;
-			};
-		}
+        /// <summary>
+        /// Gets the collection of items currently displayed in the control.
+        /// </summary>
+        public ObservableCollection<Message> Items { get; private set; }
 
-		public void Register(IDockManager dockManager)
-		{
-			dockManager.AddAsDockableContent(this, "Messages", DockingLocation.RightBottom);
-		}
+        /// <summary>
+        /// Gets or sets the state of the docking.
+        /// </summary>
+        /// <value>
+        /// The state of the docking.
+        /// </value>
+        [Persistent(DefaultValue = DockingLocation.RightTop)]
+        public object DockingState { get; set; }
 
-		private void CollectionChanged(object sender, EventArgs args)
-		{
-			this.IsEmpty = (this.Items.Count == 0);
+        /// <summary>
+        /// Gets a value indicating whether there are no messages to be displayed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if there are no messages; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsEmpty
+        {
+            get
+            {
+                return (bool)GetValue(IsEmptyProperty);
+            }
 
-			if (this.scroller != null)
-			{
-				if (this.scroller.ScrollableHeight == this.scroller.VerticalOffset) this.scroller.ScrollToBottom();
-			}
-		}
-		
-		private void CopyToClipboard(object sender, RoutedEventArgs e){
-			Clipboard.SetText(((Message)((MenuItem)sender).DataContext).Text);
-		}
+            private set
+            {
+                SetValue(IsEmptyPropertyKey, value);
+            }
+        }
 
-		private void Delete(object sender, RoutedEventArgs e)
-		{
-			this.Items.Remove((Message)((MenuItem)sender).DataContext);
-		}
+        /// <summary>
+        /// Registers this plug-in with the docking manager.
+        /// </summary>
+        /// <param name="dockManager">The dock manager.</param>
+        public void Register(IDockManager dockManager)
+        {
+            dockManager.AddAsDockableContent(this, "Messages", DockingLocation.RightBottom);
+        }
 
-		private void Clear(object sender, RoutedEventArgs e)
-		{
-			this.Items.Clear();
-		}
+        /// <summary>
+        /// Adds a message to the displayed list. However primary mean to display messages is <see cref="Message.Send"/>.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="type">The type.</param>
+        public void AddMessage(string message, MessageType type = MessageType.Message)
+        {
+            this.Items.Add(new Message(message, type));
+        }
 
-		public void AddMessage(string message, MessageType type = MessageType.Message)
-		{
-			this.Items.Add(new Message(message, type));
-		}
-	}
+        /// <summary>
+        /// Handles the <see cref="CollectionChanged"/> event of the <see cref="Items"/> collection.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void CollectionChanged(object sender, EventArgs args)
+        {
+            this.IsEmpty = this.Items.Count == 0;
+
+            if (this.scroller != null)
+            {
+                // TODO: This could be cause of the broken scrolling.
+                if (this.scroller.ScrollableHeight == this.scroller.VerticalOffset)
+                {
+                    this.scroller.ScrollToBottom();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copies an item to clipboard.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void CopyToClipboard(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(((Message)((MenuItem)sender).DataContext).Text);
+        }
+
+        /// <summary>
+        /// Deletes an item from the list.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+            this.Items.Remove((Message)((MenuItem)sender).DataContext);
+        }
+
+        /// <summary>
+        /// Removes all items from the list.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void Clear(object sender, RoutedEventArgs e)
+        {
+            this.Items.Clear();
+        }
+    }
 }
