@@ -49,7 +49,8 @@
 		public HeightData SelectedMap { get; set; }
 
 		[Persistent(UseEmptyInstanceAsDefault = true)]
-		public Overlay SelectedOverlay {
+		public Overlay SelectedOverlay
+		{
 			get
 			{
 				return selectedOverlay;
@@ -75,7 +76,10 @@
 		public bool IsMouseOverMap { get; private set; }
 
 		[Persistent]
-		public string LastSaveImagePath {get; set;}
+		public bool IsOverlayEnabled { get; set; }
+
+		[Persistent]
+		public string LastSaveImagePath { get; set; }
 
 		public ICommand ZoomInCommand
 		{
@@ -129,8 +133,6 @@
 			var adornerLayer = AdornerLayer.GetAdornerLayer(this.panel2D);
 			adornerLayer.Add(this.adorner);
 
-			var items = toolbar.Items;
-
 			this.image.MouseDown += delegate(object sender, MouseButtonEventArgs args)
 				{
 					if (args.ChangedButton != MouseButton.Left)
@@ -167,7 +169,7 @@
 					}
 				};
 
-			this.image.MouseMove += delegate(object sender, MouseEventArgs args)
+			this.image.MouseMove += delegate
 				{
 					if (this.image.IsMouseCaptured)
 					{
@@ -222,6 +224,14 @@
 				};
 
 			this.image.SizeChanged += delegate { this.ClampImagePosition(); };
+
+			this.PropertyChanged += delegate(object o, PropertyChangedEventArgs args)
+			{
+				if (args.PropertyName == "IsOverlayEnabled")
+				{
+					Console.Write("a");
+				}
+			};
 		}
 
 		public void Register(IGenerator generator)
@@ -239,14 +249,16 @@
 			// Gray out the 2D view while the generator is running
 			generator.Started += delegate(object o, GenerationStartedEventArgs args)
 			{
-				if(args.HeaderOnly) {
+				if (args.HeaderOnly)
+				{
 					return;
 				}
 
 				var adornerLayer = AdornerLayer.GetAdornerLayer(this.panel2D);
 
 				// The adorner may have been already added when the component was initialized
-				if(adornerLayer.GetAdorners(this.panel2D) == null || !adornerLayer.GetAdorners(this.panel2D).Contains(this.adorner)){
+				if (adornerLayer.GetAdorners(this.panel2D) == null || !adornerLayer.GetAdorners(this.panel2D).Contains(this.adorner))
+				{
 					adornerLayer.Add(this.adorner);
 				}
 			};

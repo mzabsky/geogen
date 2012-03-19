@@ -5,7 +5,7 @@ namespace GeoGen.Studio.PlugInLoader
     /// <summary>
     /// Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.
     /// </summary>
-    public enum InstanceCount{
+    public enum InstanceCountMode{
         /// <summary>
         /// Create one plug-in instance only and call the <see cref="Registrator"/>s on it.
         /// </summary>
@@ -17,7 +17,7 @@ namespace GeoGen.Studio.PlugInLoader
     };
 
     /// <summary>
-    /// Attribute specifying how <see cref="Loader"/> handles the plug-in.
+    /// Attribute specifying how <see cref="OldLoader"/> handles the plug-in.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class PlugInAttribute : Attribute
@@ -37,7 +37,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// <summary>
         /// Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.
         /// </summary>
-        public InstanceCount InstanceCount { get; set; }
+        public InstanceCountMode InstanceCountMode { get; set; }
 
         /// <summary>
         /// True if this plug-in is showing in plug-in lists.
@@ -49,12 +49,12 @@ namespace GeoGen.Studio.PlugInLoader
         /// </summary>        
         /// <param name="name">User-friendly name of the plug-in</param>
         /// <param name="description">Short user-friendly description of the plug-in</param>        
-        /// <param name="instanceCount">Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.</param>
-        public PlugInAttribute(string name = "", string description = "", InstanceCount instanceCount = InstanceCount.One, bool visibleInList = true)
+        /// <param name="instanceCountMode">Specifies whether creation of multiple plug-in instances is allowed in case plug-in's <see cref="Registrator"/>s is called with multiple parameter combinations.</param>
+        public PlugInAttribute(string name = "", string description = "", InstanceCountMode instanceCountMode = InstanceCountMode.One, bool visibleInList = true)
         {
             this.Name = name;
             this.Description = description;
-            this.InstanceCount = instanceCount;
+            this.InstanceCountMode = instanceCountMode;
             this.VisibleInList = visibleInList;
         }
     }

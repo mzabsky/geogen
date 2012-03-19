@@ -44,12 +44,11 @@ namespace GeoGen.Studio.Utilities.Extensions
 
             catch (Exception ex)
             {
-                Messenger.ThrowMessage(
-                    new Message(
-                        string.Format("Could not identify file \"{0}\".", fileInfo.Name), 
-                        MessageType.Error
-                        )
-                    );
+               
+                new Message(
+                    string.Format("Could not identify file \"{0}\".", fileInfo.Name), 
+                    MessageType.Error
+                    ).Send();
                 return "";
             }
         }

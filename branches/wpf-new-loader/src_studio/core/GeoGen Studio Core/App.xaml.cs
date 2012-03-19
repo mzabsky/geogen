@@ -34,27 +34,27 @@ namespace GeoGen.Studio
             try
             {
                 // Load "plug-ins" from this executable.
-                Loader.ParseAssembly(Assembly.GetExecutingAssembly());
+                //OldLoader.ParseAssembly(Assembly.GetExecutingAssembly());
 
                 // Load plug-ins from the plug-in directory.
-                Loader.ParseDirectory("./plugins");
+                //OldLoader.ParseDirectory("./plugins");
 
                 // Create plug-in instances and register their relationships.
-                Loader.ExecuteAllRegistrators();
+                //OldLoader.ExecuteAllRegistrators();
 
                 // Check if all plug-ins successfully loaded.
                 List<string> messages = new List<string>();
-                foreach (Registrator registrator in Loader.Registrators)
+                /*foreach (Registrator registrator in OldLoader.Registrators)
                 {
                     if(!registrator.Failed) continue;
 
                     // don't show missing dependency errors for optional registrators
-                    if(registrator.FailureType == RegistratorFailureType.UnimplementedInterface && !registrator.IsEnabled)
+                    if(registrator.State == RegistratorState.UnimplementedInterface && !registrator.IsEnabled)
                     {
                         continue;
                     }
 
-                    string message = registrator + ": " + registrator.FailureType;
+                    string message = registrator + ": " + registrator.State;
 
                     if(registrator.Exception != null){
                         message += " (" + registrator.Exception + ")";
@@ -65,7 +65,7 @@ namespace GeoGen.Studio
 
                 if(messages.Count > 0){
                     UI.MessageBox.Show("One or more plug-ins completely or partially failed to load" + Environment.NewLine + Environment.NewLine + "Details:" + Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine + Environment.NewLine, messages));
-                }
+                }*/
             }
             // Any unhandled exception in this phase means the application cannot continue.
             catch(Exception e){

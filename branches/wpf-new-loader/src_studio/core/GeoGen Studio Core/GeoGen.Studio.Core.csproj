@@ -19,7 +19,7 @@
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -74,6 +74,9 @@
     <Reference Include="GrayscaleEffect">
       <HintPath>..\..\..\bin\plugins\GrayscaleEffect.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.6.1\lib\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -98,9 +101,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plug-in Loader\IPlugInLocator.cs" />
+    <Compile Include="Plug-in Loader\IRegistrator.cs" />
+    <Compile Include="Plug-in Loader\IRegistratorLocator.cs" />
     <Compile Include="Plug-in Loader\LoaderConfig.cs" />
+    <None Include="packages.config" />
+    <None Include="Plug-in Loader\OldLoader.cz" />
+    <Compile Include="Plug-in Loader\LoaderException.cs" />
     <Compile Include="Plug-in Loader\OptionalRegistratorAttribute.cs" />
     <Compile Include="Plug-in Loader\PlugIn.cs" />
+    <Compile Include="Plug-in Loader\ReflectionPlugInLocator.cs" />
+    <Compile Include="Plug-in Loader\ReflectionRegistratorLocator.cs" />
+    <Compile Include="Plug-in Loader\RegistratorComparer.cs" />
+    <Compile Include="Plug-in Loader\RegistratorSorter.cs" />
     <Compile Include="PlugIns\Interfaces\IControl.cs" />
     <Compile Include="PlugIns\Interfaces\IWindow.cs" />
     <Compile Include="UI\BusyAdorner.cs" />
@@ -111,6 +124,7 @@
     <Compile Include="UI\NumericBox.xaml.cs">
       <DependentUpon>NumericBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Collections\DelegateComparer.cs" />
     <Compile Include="Utilities\Collections\DelegateEqualityComparer.cs" />
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
@@ -120,7 +134,7 @@
     <Compile Include="Utilities\Collections\SortedObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utilities\Collections\UniqueObservableCollection.cs" />
+    <Compile Include="Utilities\Collections\UniqueObservableQueue.cs" />
     <Compile Include="Utilities\IO\BitmapWriter.cs" />
     <Compile Include="Utilities\Persistence\PersistentAttribute.cs" />
     <Compile Include="Utilities\Persistence\MainConfig.cs" />
