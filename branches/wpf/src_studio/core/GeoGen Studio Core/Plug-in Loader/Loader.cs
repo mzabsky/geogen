@@ -270,7 +270,7 @@ namespace GeoGen.Studio.PlugInLoader
                 catch
                 {
                     // For some reason, the assembly failed to load.
-                    Messenger.ThrowMessage(new Message(assemblyName + " failed to load.", MessageType.Warning));                    
+                    new Message(assemblyName + " failed to load.", MessageType.Warning).Send();
                 }
             }            
         }
