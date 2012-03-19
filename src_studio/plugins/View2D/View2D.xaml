@@ -190,22 +190,18 @@
 								</ComboBox>
 							</StackPanel>
 						</tb:ToolBarControl.Content>
-					</tb:ToolBarControl>					
+					</tb:ToolBarControl>
+					<tb:ToolBarCheckableButton IsChecked="{Binding IsOverlayEnabled}" DataContext="{Binding .}" ToolTip="Toogle overlay on/off">
+						<tb:ToolBarCheckableButton.Icon>
+							<Image Source="Images/Icons/toggleOverlay.png"/>
+						</tb:ToolBarCheckableButton.Icon>
+					</tb:ToolBarCheckableButton>
 				</tb:ToolBar.Items>
 			</tb:ToolBar>
 			<Canvas DockPanel.Dock="Top" Name="canvas" ClipToBounds="True">
 				<Canvas.Background>
 					<ImageBrush ImageSource="Images/Backgrounds/checkers.png" Stretch="None" TileMode="Tile" Viewport="0,0,100,100" ViewportUnits="Absolute" />
 				</Canvas.Background>
-				<!--<Canvas.Resources>
-					<Style TargetType="Image">
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding IsOverlayEnabled}" Value="False">
-								<Setter Property="Image.Source" Value="{Binding SelectedMap.Image}" />
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</Canvas.Resources>-->
 				<Image Name="image" Canvas.Left="0" Canvas.Top="0">
 					<Image.Source>
 						<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}" Mode="OneWay">
@@ -213,6 +209,21 @@
 							<Binding Path="SelectedOverlay"  Mode="OneWay"/>
 						</MultiBinding>
 					</Image.Source>
+					<Image.Style>
+						<Style>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding IsOverlayEnabled}" Value="False">
+									<Setter Property="Image.Source">
+										<Setter.Value>
+											<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}" Mode="OneWay">
+												<Binding Path="SelectedMap" Mode="OneWay"/>
+											</MultiBinding>
+										</Setter.Value>
+									</Setter>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Image.Style>
 				</Image>
 			</Canvas>
 		</DockPanel>
