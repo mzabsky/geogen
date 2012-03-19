@@ -13,6 +13,12 @@ namespace GeoGen.Studio.PlugIns
 		private static readonly DependencyPropertyKey ItemsPropertyKey = DependencyProperty.RegisterReadOnly(
 			"Items", typeof(ObservableCollection<ScriptArg>), typeof(ParamGrid), new PropertyMetadata(new ObservableCollection<ScriptArg>()));
 
+
+		private static readonly DependencyPropertyKey IsEmptyPropertyKey = DependencyProperty.RegisterReadOnly(
+			"IsEmpty", typeof(bool), typeof(ParamGrid), new PropertyMetadata(true));
+
+		public static readonly DependencyProperty IsEmptyProperty = IsEmptyPropertyKey.DependencyProperty;
+
 		public static readonly DependencyProperty ItemsProperty = ItemsPropertyKey.DependencyProperty;
 
 		public ObservableCollection<ScriptArg> Items
@@ -26,11 +32,6 @@ namespace GeoGen.Studio.PlugIns
 				SetValue(ItemsPropertyKey, value);
 			}
 		}
-
-		private static readonly DependencyPropertyKey IsEmptyPropertyKey = DependencyProperty.RegisterReadOnly(
-			"IsEmpty", typeof(bool), typeof(ParamGrid), new PropertyMetadata(true));
-
-		public static readonly DependencyProperty IsEmptyProperty = IsEmptyPropertyKey.DependencyProperty;
 
 		public bool IsEmpty
 		{
@@ -62,14 +63,15 @@ namespace GeoGen.Studio.PlugIns
 			dockManager.AddAsDockableContent(this, "Script Parameters", DockingLocation.RightTop);
 		}
 
-		public void Register(IGenerator generator){
+		public void Register(IGenerator generator)
+		{
 			this.Items = generator.Args;
 			this.Items.CollectionChanged += this.CollectionChanged;
 		}
 
 		private void CollectionChanged(object sender, EventArgs args)
 		{
-			this.IsEmpty = (this.Items.Count == 0);
+			this.IsEmpty = this.Items.Count == 0;
 		}
 
 		private void SetToDefault(object sender, RoutedEventArgs e)
