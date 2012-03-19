@@ -5,8 +5,8 @@ function GetInfo(info_type){
 		case "description":
 			return "Your map description.";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
 			
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("archipelago_size","Archipelago Size","Size of clumps of islands.", 1, "Very Small;Small;Medium;Large;Very Large");

@@ -87,7 +87,8 @@ GGen_Squirrel::GGen_Squirrel(){
 	RegisterGlobal(&GGen_IncreaseProgress, _SC("GGen_IncreaseProgress"));
 
 	/* Constraint getters */
-	RegisterGlobal(&GGen::GetMaxMapSize, _SC("GGen_GetMaxMapSize"));	
+	RegisterGlobal(&GGen::GetMaxHeight, _SC("GGen_GetMaxHeight"));
+	RegisterGlobal(&GGen::GetMaxWidth, _SC("GGen_GetMaxWidth"));
 	RegisterGlobal(&GGen::GetMaxMapCount, _SC("GGen_GetMaxMapCount"));
 
 	/* Enum: GGen_Normalization_Mode */
@@ -242,13 +243,7 @@ GGen_Squirrel::GGen_Squirrel(){
 		func(&GGen_Data_2D::ShrinkDirection,_T("ShrinkDirection")).
 		func(&GGen_Data_2D::Outline,_T("Outline")).
 		func(&GGen_Data_2D::ConvexityMap,_T("ConvexityMap")).
-		func(&GGen_Data_2D::Distort,_T("Distort")).
-		func(&GGen_Data_2D::NormalMap,_T("NormalMap")).
-		func(&GGen_Data_2D::NormalDifferenceMap,_T("NormalDifferenceMap")).
-		func(&GGen_Data_2D::GetNormal,_T("GetNormal")).
-		func(&GGen_Data_2D::FlowMap,_T("FlowMap")).
-        func(&GGen_Data_2D::ThermalWeathering,_T("ThermalWeathering")).
-        func(&GGen_Data_2D::Erosion,_T("Erosion"));
+		func(&GGen_Data_2D::Distort,_T("Distort"));
 
 	/* Class: GGen_Amplitudes */
 	SQClassDefNoConstructor<GGen_Amplitudes>(_SC("GGen_Amplitudes")).
@@ -292,7 +287,6 @@ GGen_Squirrel::GGen_Squirrel(){
 	BindConstant(GGEN_MIN_HEIGHT, _SC("GGEN_MIN_HEIGHT"));
 	BindConstant(GGEN_MAX_HEIGHT, _SC("GGEN_MAX_HEIGHT"));
 	BindConstant(GGEN_INVALID_HEIGHT, _SC("GGEN_INVALID_HEIGHT"));
-	BindConstant(GGEN_MAX_PATH_LENGTH, _SC("GGEN_MAX_PATH_LENGTH"));
 
 	#include "ggen_presets.h"
 }

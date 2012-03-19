@@ -26,14 +26,10 @@ GGen_Path::GGen_Path() {
 }
 
 void GGen_Path::AddPoint(GGen_Point& point){
-	GGen_Script_Assert(this->points.size() + 1 < GGEN_MAX_PATH_LENGTH);
-
 	this->points.push_back(point);
 }
 
 void GGen_Path::AddPointByCoords(GGen_CoordOffset x, GGen_CoordOffset y){
-	GGen_Script_Assert(this->points.size() + 1 < GGEN_MAX_PATH_LENGTH);
-	
 	this->points.push_back(GGen_Point(x, y));
 }
 
@@ -49,7 +45,6 @@ void GGen_Path::RemovePoint(uint32 index){
 }
 
 void GGen_Path::InsertPoint(uint32 index, GGen_Point& point){
-	GGen_Script_Assert(this->points.size() + 1 < GGEN_MAX_PATH_LENGTH);
 	GGen_Script_Assert(index < this->points.size());
 	
 	Iterator it = points.begin();
@@ -61,7 +56,6 @@ void GGen_Path::InsertPoint(uint32 index, GGen_Point& point){
 }
 
 void GGen_Path::InsertPointByCoords(uint32 index, GGen_CoordOffset x, GGen_CoordOffset y){
-	GGen_Script_Assert(this->points.size() + 1 < GGEN_MAX_PATH_LENGTH);
 	GGen_Script_Assert(index < this->points.size());
 	
 	GGen_Point temp(x, y);

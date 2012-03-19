@@ -36,8 +36,9 @@ GGen::GGen(){
 
 	this->status = GGEN_NO_SCRIPT;
 
-	/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */	
-	this->max_map_size = -1;
+	/* Default map constraints to max values (given int is unsigned, -1 overflows to its max value) */
+	this->max_height = -1;
+	this->max_width = -1;
 	this->max_map_count = -1;
 
 	this->message_callback = NULL;
@@ -55,11 +56,11 @@ GGen* GGen::GetInstance(){
 	return GGen::instance;
 }
 
-const GGen_Status GGen::GetStatus(){
+GGen_Status GGen::GetStatus(){
 	return this->status;
 }
 
-const void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
+void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
 	
 	if(message_callback != NULL){
 		this->message_callback(message, level, line, column);
@@ -111,16 +112,24 @@ vector<GGen_ScriptArg>* GGen::LoadArgs(){
 	return &this->args;
 }
 
-void GGen::SetMaxMapSize(GGen_Size size){
-	this->max_map_size = size;
+void GGen::SetMaxWidth(GGen_Size width){
+	this->max_width = width;
+}
+
+void GGen::SetMaxHeight(GGen_Size height){
+	this->max_height = height;
 }
 
 void GGen::SetMaxMapCount(uint16 count){
 	this->max_map_count = count;
 }
 
-GGen_Size GGen::GetMaxMapSize(){
-	return GGen::GetInstance()->max_map_size;
+GGen_Size GGen::GetMaxWidth(){
+	return GGen::GetInstance()->max_width;
+}
+
+GGen_Size GGen::GetMaxHeight(){
+	return GGen::GetInstance()->max_height;
 }
 
 uint16 GGen::GetMaxMapCount(){
@@ -132,8 +141,4 @@ void GGen::SetSeed(unsigned seed){
 	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
 	srand(seed);
-}
-
-void GGen::Reset(){
-    this->status = GGEN_NO_SCRIPT;
 }

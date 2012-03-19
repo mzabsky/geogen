@@ -87,9 +87,9 @@ namespace GeoGen{
 				}
 			}
 
-			property int MaximumMapSize{
+			property int MaximumMapWidth{
 				int get(){
-					return ggen->GetMaxMapSize();
+					return ggen->GetMaxWidth();
 				}
 
 				void set(int value){
@@ -97,7 +97,21 @@ namespace GeoGen{
 						throw gcnew InvalidStatusException();
 					}
 			
-					ggen->SetMaxMapSize(value);
+					ggen->SetMaxWidth(value);
+				}
+			}
+
+			property int MaximumMapHeight{
+				int get(){
+					return ggen->GetMaxHeight();
+				}
+
+				void set(int value){
+					if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+						throw gcnew InvalidStatusException();
+					}
+			
+					ggen->SetMaxHeight(value);
 				}
 			}
 
@@ -251,7 +265,7 @@ namespace GeoGen{
 				this->args = gcnew array<ScriptArg^>(unmanagedArgs->size());
 
 				for(unsigned i = 0; i < unmanagedArgs->size(); i++){
-					this->args[i] = ScriptArg::CreateFromNative(&(*unmanagedArgs)[i]);
+					this->args[i] = gcnew ScriptArg(&(*unmanagedArgs)[i]);
 				}
 
 				return this->args;
@@ -300,16 +314,12 @@ namespace GeoGen{
 					return nullptr;
 				}
 
-				HeightData^ heightData = HeightData::CreateFromNative(ggen->output_width, ggen->output_height, pureData);
+				HeightData^ heightData = gcnew HeightData(ggen->output_width, ggen->output_height, pureData);
 
 				GGen_DeleteNativeArrayPtr(pureData);
 
 				return heightData;
 			}
-
-            void Reset(){
-                this->ggen->Reset();
-            }
 
 		internal:
 			void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column){
@@ -332,7 +342,7 @@ namespace GeoGen{
 
 			void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
 				try{
-					this->MapReturned(this, %MapReturnedEventArgs(StringUtil::UnmanagedToManagedString(name), HeightData::CreateFromNative(width, height, map)));
+					this->MapReturned(this, %MapReturnedEventArgs(StringUtil::UnmanagedToManagedString(name), gcnew HeightData(width, height, map)));
 				}
 				catch(System::Exception^ e){
 					throw gcnew ExceptionInCallbackException(e);

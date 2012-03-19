@@ -111,7 +111,7 @@ public:
 
 	static GGen* GetInstance();
 
-	const GGen_Status GetStatus();
+	GGen_Status GetStatus();
 
 	void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
 	
@@ -124,13 +124,14 @@ public:
 	virtual int GetInfoInt(const GGen_String& label) = 0;
 	virtual vector<GGen_ScriptArg>* LoadArgs();
 	virtual short* Generate() = 0;
-    virtual void Reset();
 	
-	void SetMaxMapSize(unsigned short size);
+	void SetMaxWidth(unsigned short width);
+	void SetMaxHeight(unsigned short height);
 	void SetMaxMapCount(unsigned short count);
 
 	/* Constraint getters and progress methods must be static to be exported as globals to Squirrel */
-	static unsigned short GetMaxMapSize();
+	static unsigned short GetMaxWidth();
+	static unsigned short GetMaxHeight();
 	static unsigned short GetMaxMapCount();
 
 	void SetSeed(unsigned seed);

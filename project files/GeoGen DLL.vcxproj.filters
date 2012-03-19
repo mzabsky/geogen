@@ -49,9 +49,6 @@
     <ClCompile Include="..\src\ggen_progress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ggen_erosionsimulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ggen.h">
@@ -88,9 +85,6 @@
       <Filter>GGen Squirrel API</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ggen_progress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ggen_erosionsimulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

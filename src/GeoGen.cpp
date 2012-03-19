@@ -29,8 +29,6 @@
 #include <assert.h>
 #include <time.h>
 
-///#include <vld.h>
-
 using namespace std;
 
 // hide "use our better secured function" warning
@@ -180,8 +178,8 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 	long long int format_min = format->min;
 	
 	if(_params.split_range && format->min == 0){
-		format_max = (format->max + 1) / 2 - 1;
-		format_min = - (format->max + 1) / 2 + 1;
+		format_max = (format->max + 1) / 2;
+		format_min = - (format->max + 1) / 2 - 1;
 	}
 
 	GGen_String path_out;
@@ -198,7 +196,7 @@ bool Save(const short* data, unsigned int width, unsigned int height, const GGen
 		GGen_String compatible_directory_name(_params.output_directory.length(), GGen_Const_String(' '));
 		copy(_params.output_directory.begin(), _params.output_directory.end(), compatible_directory_name.begin());
 
-		path_out += compatible_directory_name + GGen_Const_String("/") + *name + GGen_Const_String(".") + format->suffix;
+		path_out += compatible_directory_name + *name + GGen_Const_String(".") + format->suffix;
 		GGen_Cout << GGen_Const_String("Saving map \"") << *name << GGen_Const_String("\" as \"") << path_out << GGen_Const_String("\"...\n") << flush;
 	}
 	
@@ -594,7 +592,7 @@ int main(int argc,char * argv[]){
 			
 			cin >> buf;
 
-			// use default (or random if in allrandom mode) value if first char of the input is not a  number
+			// use default (or random if in allrandom mode) value if fist char of the input is not number
 			if(buf[0] >= '0' && buf[0] <= '9') {
 				if(_params.all_random) current_arg->SetValue(random(current_arg->min_value, current_arg->max_value));
 				else current_arg->SetValue(atoi(buf));

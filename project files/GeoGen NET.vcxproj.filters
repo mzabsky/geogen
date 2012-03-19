@@ -6,7 +6,7 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{068ea440-3778-4c02-9ed4-a071879908ea}</UniqueIdentifier>
+      <UniqueIdentifier>{3f2fae83-4723-42c7-8745-cb443dd63b3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -18,19 +18,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src_dll\EventArgs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src_dll\Exception.h">
+    <ClInclude Include="..\src_dll\ScriptArg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src_dll\HeightData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_dll\ScriptArg.h">
+    <ClInclude Include="..\src_dll\StringUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_dll\StringUtil.h">
+    <ClInclude Include="..\src_dll\Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src_dll\EventArgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,7 +23,6 @@
 #include <bitset>
 #include <cstring>
 #include <cmath>
-#include <stack>
 
 #include "ggen.h"
 #include "ggen_support.h"
@@ -31,7 +30,6 @@
 #include "ggen_data_1d.h"
 #include "ggen_data_2d.h"
 #include "ggen_path.h"
-#include "ggen_erosionsimulator.h"
 #include <assert.h>
 
 uint16 GGen_Data_2D::num_instances = 0;
@@ -42,8 +40,7 @@ GGen_Data_2D::GGen_Data_2D(GGen_Size width, GGen_Size height, GGen_Height value)
 	GGen_Script_Assert(GGen::GetInstance()->GetStatus() != GGEN_LOADING_MAP_INFO);
 
 	GGen_Script_Assert(width > 1 && height > 1);
-	GGen_Script_Assert(width < GGen::GetMaxMapSize());
-	GGen_Script_Assert(height < GGen::GetMaxMapSize());
+	GGen_Script_Assert(width < GGen::GetMaxWidth() && height < GGen::GetMaxHeight());
 
 	GGen_Script_Assert(GGen_Data_2D::num_instances < GGen::GetMaxMapCount());
 	GGen_Data_2D::num_instances++;
@@ -96,10 +93,6 @@ GGen_Index GGen_Data_2D::GetLength()
 	return this->length;
 }
 
-GGen_Distance GGen_Data_2D::GetMaxDistance(){
-	return (GGen_Distance) sqrt((double) this->width * (double) this->height);
-}
-
 GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
 {
 	GGen_Script_Assert(x < this->width && y < this->height);
@@ -109,12 +102,7 @@ GGen_Height GGen_Data_2D::GetValue(GGen_Coord x, GGen_Coord y)
 
 GGen_Height GGen_Data_2D::GetValueInterpolated(GGen_Coord x, GGen_Coord y, GGen_Size scale_to_width, GGen_Size scale_to_height)
 {
-	GGen_Script_Assert(y < scale_to_height)
-	GGen_Script_Assert(x < scale_to_width);
-	GGen_Script_Assert(scale_to_width >= GGEN_MIN_MAP_SIZE);
-	GGen_Script_Assert(scale_to_width <= GGen::GetMaxMapSize());
-	GGen_Script_Assert(scale_to_height >= GGEN_MIN_MAP_SIZE);
-	GGen_Script_Assert(scale_to_height <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(y < scale_to_height && x < scale_to_width);
 
 	/* No interpolation needed if the sizes are equal */
 	if (scale_to_width == width && scale_to_height == height) {
@@ -179,10 +167,7 @@ void GGen_Data_2D::SetValueInRect(GGen_Coord x1, GGen_Coord y1, GGen_Coord x2, G
 
 void GGen_Data_2D::ScaleTo(GGen_Size new_width, GGen_Size new_height, bool scale_values)
 {
-	GGen_Script_Assert(new_width >= GGEN_MIN_MAP_SIZE);
-	GGen_Script_Assert(new_width <= GGen::GetMaxMapSize());
-	GGen_Script_Assert(new_height >= GGEN_MIN_MAP_SIZE);
-	GGen_Script_Assert(new_height <= GGen::GetMaxMapSize());
+	GGen_Script_Assert(new_width > 1 && new_height > 1);
 
 	/* Pick the ratio for values as arithmetic average of horizontal and vertical ratios */
 	double ratio = ((double) new_width / (double) this->width + (double) new_height / (double) this->height) / 2.0;
@@ -231,15 +216,6 @@ void GGen_Data_2D::Scale(double ratio, bool scale_values)
 
 void GGen_Data_2D::ResizeCanvas(GGen_Size new_width, GGen_Size new_height, GGen_CoordOffset new_zero_x, GGen_CoordOffset new_zero_y)
 {
-	GGen_Script_Assert(new_width >= GGEN_MIN_MAP_SIZE);
-	GGen_Script_Assert(new_width <= GGen::GetMaxMapSize());
-	GGen_Script_Assert(new_height >= GGEN_MIN_MAP_SIZE);
-	GGen_Script_Assert(new_height <= GGen::GetMaxMapSize());
-	GGen_Script_Assert(new_zero_x <= GGen::GetMaxMapSize());
-	GGen_Script_Assert(new_zero_x >= -GGen::GetMaxMapSize());
-	GGen_Script_Assert(new_zero_y <= GGen::GetMaxMapSize());
-	GGen_Script_Assert(new_zero_y >= -GGen::GetMaxMapSize());
-	
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[new_width * new_height];
 
@@ -272,8 +248,6 @@ void GGen_Data_2D::Fill(GGen_Height value)
 
 void GGen_Data_2D::FillMasked(GGen_Height value, GGen_Data_2D* mask, bool relative)
 {
-	GGen_Script_Assert(mask != NULL);
-
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
@@ -300,8 +274,6 @@ void GGen_Data_2D::Add(GGen_Height value)
 
 void GGen_Data_2D::AddMap(GGen_Data_2D* addend)
 {
-	GGen_Script_Assert(addend != NULL);
-
 	/* Scale the addend as necessary */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++)	{
@@ -323,12 +295,6 @@ void GGen_Data_2D::ReplaceValue(GGen_Height needle, GGen_Height replace)
 
 void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
 {
-	GGen_Script_Assert(addend != NULL);
-	GGen_Script_Assert(offset_x > -this->width);
-	GGen_Script_Assert(offset_x < this->width);
-	GGen_Script_Assert(offset_y > -this->height);
-	GGen_Script_Assert(offset_y < this->height);
-
 	/* Walk through the items where the array and the addend with offset intersect */
 	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + addend->height); y++) {
 		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + addend->width); x++) {
@@ -339,9 +305,6 @@ void GGen_Data_2D::AddTo(GGen_Data_2D* addend, GGen_CoordOffset offset_x, GGen_C
 
 void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool relative)
 {
-	GGen_Script_Assert(addend != NULL);
-	GGen_Script_Assert(mask != NULL);
-	
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if (relative){
@@ -359,8 +322,6 @@ void GGen_Data_2D::AddMapMasked(GGen_Data_2D* addend, GGen_Data_2D* mask, bool r
 
 void GGen_Data_2D::AddMasked(GGen_Height value, GGen_Data_2D* mask, bool relative)
 {
-	GGen_Script_Assert(mask != NULL);
-
 	GGen_ExtHeight max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
@@ -386,8 +347,6 @@ void GGen_Data_2D::Multiply(double factor)
 
 void GGen_Data_2D::MultiplyMap(GGen_Data_2D* factor)
 {
-	GGen_Script_Assert(factor != NULL);
-
 	/* Scale the factor as necessary */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++)	{
@@ -454,8 +413,6 @@ void GGen_Data_2D::CropValues(GGen_Height min, GGen_Height max)
 
 void GGen_Data_2D::Union(GGen_Data_2D* victim)
 {
-	GGen_Script_Assert(victim != NULL);
-
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
 			this->data[x + y * width] = MAX(this->data[x + y * this->width], victim->GetValueInterpolated(x, y, this->width, this->height));
@@ -465,12 +422,6 @@ void GGen_Data_2D::Union(GGen_Data_2D* victim)
 
 void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
 {
-	GGen_Script_Assert(victim != NULL);
-	GGen_Script_Assert(offset_x > -this->width);
-	GGen_Script_Assert(offset_x < this->width);
-	GGen_Script_Assert(offset_y > -this->height);
-	GGen_Script_Assert(offset_y < this->height);
-
 	/* Walk through the items where the array and the victim with offset intersect */
 	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + victim->height); y++) {
 		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + victim->width); x++) {
@@ -481,8 +432,6 @@ void GGen_Data_2D::UnionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen
 
 void GGen_Data_2D::Intersection(GGen_Data_2D* victim)
 {
-	GGen_Script_Assert(victim != NULL);
-
 	for(GGen_Coord y = 0; y < this->height; y++) {
 		for(GGen_Coord x = 0; x < this->width; x++) {	
 			this->data[x + y * this->width] = MIN(this->data[x + y * this->width], victim->GetValueInterpolated(x, y, this->width, this->height));
@@ -492,12 +441,6 @@ void GGen_Data_2D::Intersection(GGen_Data_2D* victim)
 
 void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_x, GGen_CoordOffset offset_y)
 {
-	GGen_Script_Assert(victim != NULL);
-	GGen_Script_Assert(offset_x > -this->width);
-	GGen_Script_Assert(offset_x < this->width);
-	GGen_Script_Assert(offset_y > -this->height);
-	GGen_Script_Assert(offset_y < this->height);
-
 	/* Walk through the items where the array and the addend with offset intersect */
 	for (GGen_Coord y = MAX(0, offset_y); y < MIN(this->height, offset_y + victim->height); y++) {
 		for (GGen_Coord x = MAX(0, offset_x); x < MIN(this->width, offset_x + victim->width); x++) {
@@ -508,9 +451,6 @@ void GGen_Data_2D::IntersectionTo(GGen_Data_2D* victim, GGen_CoordOffset offset_
 
 void GGen_Data_2D::Combine(GGen_Data_2D* victim, GGen_Data_2D* mask, bool relative)
 {
-	GGen_Script_Assert(victim != NULL);
-	GGen_Script_Assert(mask != NULL);
-
 	GGen_Height max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
@@ -539,8 +479,6 @@ void GGen_Data_2D::Abs()
 
 void GGen_Data_2D::Project(GGen_Data_1D* profile, GGen_Direction direction)
 {
-	GGen_Script_Assert(profile != NULL);
-
 	if (direction == GGEN_HORIZONTAL) {
 		for(GGen_Coord y = 0; y < this->height; y++) {
 			for(GGen_Coord x = 0; x < this->width; x++) {		
@@ -582,8 +520,6 @@ GGen_Data_1D* GGen_Data_2D::GetProfile(GGen_Direction direction, GGen_Coord coor
 
 void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_Overflow_Mode mode)
 {
-	GGen_Script_Assert(profile != NULL);
-
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[this->length];
 
@@ -644,12 +580,6 @@ void GGen_Data_2D::Shift(GGen_Data_1D* profile, GGen_Direction direction, GGen_O
 
 void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Data_1D* pattern, bool fill_outside)
 {
-	GGen_Script_Assert(pattern != NULL);
-	GGen_Script_Assert(from_x < this->width);
-	GGen_Script_Assert(from_y < this->height);
-	GGen_Script_Assert(to_x < this->width);
-	GGen_Script_Assert(to_y < this->height);
-
 	GGen_ExtExtHeight target_x = to_x - from_x;
 	GGen_ExtExtHeight target_y = to_y - from_y;
 	
@@ -661,7 +591,7 @@ void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGe
 			GGen_ExtExtHeight point_x = x - from_x;
 			GGen_ExtExtHeight point_y = y - from_y;
 
-			/* Get the point on the gradient vector (vector going through both starting and target point) to which is the current point closest */
+			/* Get the point on the gradient vector (vector goint through both starting and target point) to which is the current point closest */
 			GGen_ExtExtHeight cross_x = (target_x * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);
 			GGen_ExtExtHeight cross_y = (target_y * (target_x * point_x + target_y * point_y)) / (target_x * target_x + target_y * target_y);		
 		
@@ -685,11 +615,6 @@ void GGen_Data_2D::GradientFromProfile(GGen_Coord from_x, GGen_Coord from_y, GGe
 
 void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_x, GGen_Coord to_y, GGen_Height from_value, GGen_Height to_value, bool fill_outside)
 {
-	GGen_Script_Assert(from_x < this->width);
-	GGen_Script_Assert(from_y < this->height);
-	GGen_Script_Assert(to_x < this->width);
-	GGen_Script_Assert(to_y < this->height);
-
 	/* Call the profile gradient with linear profile */
 	
 	GGen_Data_1D temp(2, 0);
@@ -701,12 +626,7 @@ void GGen_Data_2D::Gradient(GGen_Coord from_x, GGen_Coord from_y, GGen_Coord to_
 
 void GGen_Data_2D::RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* pattern, bool fill_outside)
 {
-	GGen_Script_Assert(pattern != NULL);
-	GGen_Script_Assert(center_x < this->width);
-	GGen_Script_Assert(center_y < this->height);
-
-	GGen_Script_Assert(radius > 0);
-	GGen_Script_Assert(pattern != NULL);
+	GGen_Script_Assert(radius > 0 && pattern != NULL);
 
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {
@@ -723,10 +643,7 @@ void GGen_Data_2D::RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord cen
 
 void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen_Coord radius, GGen_Height min, GGen_Height max, bool fill_outside)
 {
-	GGen_Script_Assert(center_x < this->width);
-	GGen_Script_Assert(center_y < this->height);
-
-	GGen_Script_Assert(radius > 0);	
+	GGen_Script_Assert(radius > 0);
 	
 	GGen_ExtExtHeight rel_max = max - min;
 
@@ -743,267 +660,128 @@ void GGen_Data_2D::RadialGradient(GGen_Coord center_x, GGen_Coord center_y, GGen
 	}
 }
 
-// Returns value usable for interpolation from give coordinate. The coordinate might be outside the map.
-double Noise_GetGridPoint(GGen_Data_2D* map, GGen_CoordOffset x, GGen_CoordOffset y, GGen_Height* verticalOverflowBuffer, GGen_Height* horizontalOverflowBuffer){
-	// The value is outside the right border of the map - mirror the coordinate, so a realistically behaving value is used.
-	if(x < 0){
-		x = -x;
-	}
-
-	// The value is outside the right border - use value from the overflow buffer.
-	else if(x >= map->width){
-		return verticalOverflowBuffer[MAX(MIN(y, map->height), 0)];
-	}
-
-	// The value is outside the top border of the map - mirror the coordinate, so a realistically behaving value is used.
-	if(y < 0){
-		y = -y;
-	}
-	
-	// The value is outside the bottom border - use value from the overflow buffer.
-	else if(y >= map->height){
-		return horizontalOverflowBuffer[x];
-	}
-
-	// The point is within the map.
-	return map->data[x + map->width * y];
-}
-
-GGen_Height Noise_BicubicInterpolation(double p[4][4]){
-	// Prepare coefficients for the bicubic polynomial.
-	double a00 = p[1][1];
-	double a01 = -.5*p[1][0] + .5*p[1][2];
-	double a02 = p[1][0] - 2.5*p[1][1] + 2*p[1][2] - .5*p[1][3];
-	double a03 = -.5*p[1][0] + 1.5*p[1][1] - 1.5*p[1][2] + .5*p[1][3];
-	double a10 = -.5*p[0][1] + .5*p[2][1];
-	double a11 = .25*p[0][0] - .25*p[0][2] - .25*p[2][0] + .25*p[2][2];
-	double a12 = -.5*p[0][0] + 1.25*p[0][1] - p[0][2] + .25*p[0][3] + .5*p[2][0] - 1.25*p[2][1] + p[2][2] - .25*p[2][3];
-	double a13 = .25*p[0][0] - .75*p[0][1] + .75*p[0][2] - .25*p[0][3] - .25*p[2][0] + .75*p[2][1] - .75*p[2][2] + .25*p[2][3];
-	double a20 = p[0][1] - 2.5*p[1][1] + 2*p[2][1] - .5*p[3][1];
-	double a21 = -.5*p[0][0] + .5*p[0][2] + 1.25*p[1][0] - 1.25*p[1][2] - p[2][0] + p[2][2] + .25*p[3][0] - .25*p[3][2];
-	double a22 = p[0][0] - 2.5*p[0][1] + 2*p[0][2] - .5*p[0][3] - 2.5*p[1][0] + 6.25*p[1][1] - 5*p[1][2] + 1.25*p[1][3] + 2*p[2][0] - 5*p[2][1] + 4*p[2][2] - p[2][3] - .5*p[3][0] + 1.25*p[3][1] - p[3][2] + .25*p[3][3];
-	double a23 = -.5*p[0][0] + 1.5*p[0][1] - 1.5*p[0][2] + .5*p[0][3] + 1.25*p[1][0] - 3.75*p[1][1] + 3.75*p[1][2] - 1.25*p[1][3] - p[2][0] + 3*p[2][1] - 3*p[2][2] + p[2][3] + .25*p[3][0] - .75*p[3][1] + .75*p[3][2] - .25*p[3][3];
-	double a30 = -.5*p[0][1] + 1.5*p[1][1] - 1.5*p[2][1] + .5*p[3][1];
-	double a31 = .25*p[0][0] - .25*p[0][2] - .75*p[1][0] + .75*p[1][2] + .75*p[2][0] - .75*p[2][2] - .25*p[3][0] + .25*p[3][2];
-	double a32 = -.5*p[0][0] + 1.25*p[0][1] - p[0][2] + .25*p[0][3] + 1.5*p[1][0] - 3.75*p[1][1] + 3*p[1][2] - .75*p[1][3] - 1.5*p[2][0] + 3.75*p[2][1] - 3*p[2][2] + .75*p[2][3] + .5*p[3][0] - 1.25*p[3][1] + p[3][2] - .25*p[3][3];
-	double a33 = .25*p[0][0] - .75*p[0][1] + .75*p[0][2] - .25*p[0][3] - .75*p[1][0] + 2.25*p[1][1] - 2.25*p[1][2] + .75*p[1][3] + .75*p[2][0] - 2.25*p[2][1] + 2.25*p[2][2] - .75*p[2][3] - .25*p[3][0] + .75*p[3][1] - .75*p[3][2] + .25*p[3][3];
-
-	// Calculate value of the bicubic polynomial.
-	double value = (a00 + a01 * 0.5 + a02 * 0.5 * 0.5 + a03 * 0.5 * 0.5 * 0.5) +
-		(a10 + a11 * 0.5 + a12 * 0.5 * 0.5 + a13 * 0.5 * 0.5 * 0.5) * 0.5 +
-		(a20 + a21 * 0.5 + a22 * 0.5 * 0.5 + a23 * 0.5 * 0.5 * 0.5) * 0.5 * 0.5 +
-		(a30 + a31 * 0.5 + a32 * 0.5 * 0.5 + a33 * 0.5 * 0.5 * 0.5) * 0.5 * 0.5 * 0.5;
-
-	// Check for overflows.
-	GGen_Script_Assert(value >= GGEN_MIN_HEIGHT && value <= GGEN_MAX_HEIGHT);
-
-	return (GGen_Height) value;
-}
-
-void GGen_Data_2D::Noise(GGen_Size minFeatureSize, GGen_Size maxFeatureSize, GGen_Amplitudes* amplitudes)
+void GGen_Data_2D::Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes)
 {
-	GGen_Script_Assert(amplitudes != NULL);	
-	GGen_Script_Assert(minFeatureSize > 0);
-	GGen_Script_Assert(minFeatureSize < this->width);
-    GGen_Script_Assert(minFeatureSize < this->height);
-	GGen_Script_Assert(maxFeatureSize > 0);
-	GGen_Script_Assert(maxFeatureSize < this->width);
-    GGen_Script_Assert(maxFeatureSize < this->height);
+	GGen_Script_Assert(amplitudes != NULL);
 
-	/* This function uses the diamond-square mid-point displacement algorithm with bicubic interpolation. */
+	/* Prepare empty space for the work data */ 
+	GGen_Height* new_data = new GGen_Height[this->length];
 
-	// Reset the map array, it will be filled with completely new values.
-	this->Fill(0);	
+	GGen_Script_Assert(new_data != NULL);
 
-	/* The diamond-square algorithm by definition works on square maps only with side length equal to power  
-	 * of two plus one. But only two rows/columns of points are enough to interpolate the points near the right 
-	 * and bottom borders (top and bottom borders are aligned with the grid, so they can be interpolated in much
-	 * simpler fashion) - thanks to the fact that this is mid-point displacement algorithm. The vertical buffer
-	 * stands for any points to outside the right border, the horizontal buffer then analogously serves as all 
-	 * points below the bottom border. The points outside both right and bottom border are represented by last
-	 * point in the vertical buffer. */	
-	GGen_Height* verticalOverflowBuffer = new GGen_Height[this->height + 1];
-	GGen_Height* horizontalOverflowBuffer = new GGen_Height[this->width];
+	this->Fill(0);
 
-	// The supplied wave length is likely not a power of two. Convert the number to the nearest lesser power of two.
-	unsigned waveLengthLog2 = (unsigned) GGen_log2(maxFeatureSize);
-	GGen_Size waveLength = 1 << waveLengthLog2;
-	GGen_Height amplitude = amplitudes->data[waveLengthLog2];
+	/* For each octave (goind from the higher wave lengths to the shorter)... */
+	for (GGen_Size wave_length = max_feature_size; wave_length >= 1; wave_length /= 2) {
+		GGen_Size frequency = GGen_log2(wave_length);
+		GGen_Height amplitude = amplitudes->data[frequency];
 
-	// Generate the initial seed values (square corners).
-	for(GGen_Coord y = 0; ; y += waveLength){
-		if(y < this->height){
-			for(GGen_Coord x = 0; ; x += waveLength){
-				if(x < this->width){
-					this->data[x + this->width * y] = GGen_Random<GGen_Height>(-amplitude, amplitude);
-				}
-				else{
-					verticalOverflowBuffer[y] = GGen_Random<GGen_Height>(-amplitude, amplitude);
-					break;
-				}
+		double pi_by_wave_length = 3.1415927 / wave_length;
+		
+		/* The wave length is shorter than the minimum desired wave length => done */
+		if (wave_length < min_feature_size) break;
+
+		/* Set up base noise grid values for  this round */
+		for (GGen_Coord y = 0; y < this->height; y += wave_length) {
+			for (GGen_Coord x = 0; x < this->width; x += wave_length) {
+				new_data[x + y * this->width] = GGen_Random<GGen_Height>(-amplitude, amplitude);
 			}
+		}		
+
+		if (wave_length > 1) {
+			for (GGen_Coord y = 0; y < this->height; y++) {
+				/* Precalculate some interpolation related values that are the same for whole */
+				GGen_Coord vertical_remainder = y % wave_length;
+				GGen_Coord nearest_vertical = y - vertical_remainder;
+				double vertical_fraction = (1 - cos(vertical_remainder * pi_by_wave_length)) * .5;
+			
+				GGen_Index vertical_offset = nearest_vertical * this->width;
+				GGen_Index vertical_offset_next = (nearest_vertical + wave_length) * this->width;
+			
+				for (GGen_Coord x = 0; x < this->width; x++) {
+					/* We are on the grid ==> no need for the interpolation */
+					if (vertical_remainder == 0 && x % wave_length == 0) continue;
+	 
+					/* Nearest horizontal noise grid coordinates */
+					GGen_Coord nearest_horizontal = x - x % wave_length;
+
+					/* Fetch values of four corners so we can interpolate the correct value. If such points don't 
+					exist, wrap to the opposite border and pick a point from the opposite part of the array. This is
+					not an attempt to create seamlessly repeatable noise (which has no point while creating terrains).
+					The source points are picked just to have some data to interpolate with (to prevent creation of
+					unpretty unnatural artifacts) */
+					
+					/* Upper left corner */
+					GGen_Height upper_left = new_data[
+						nearest_horizontal +
+						vertical_offset
+					];
+
+					/* Upper right corner */
+					GGen_Height upper_right;
+					if (nearest_horizontal + wave_length > this->width - 1) {
+						upper_right = new_data[vertical_offset];
+					} else { 
+						/* The X coord of the point overflows the right border of the map */
+						upper_right = new_data[
+							nearest_horizontal + wave_length +
+							vertical_offset
+						];	
+					}
+					
+					/* Bottom left corner */
+					GGen_Height bottom_left;
+					if (nearest_vertical + wave_length > this->height - 1) {
+						bottom_left = new_data[nearest_horizontal];
+					} else {
+						/* The Y coord of the point overflows the bottom border of the map */
+						bottom_left = new_data[
+							nearest_horizontal +
+							vertical_offset_next
+						];	
+					}
+
+					/* Bottom right corner */
+					GGen_Height bottom_right;
+					/* Both coords of the point overflow the borders of the map */
+					if ((nearest_horizontal + wave_length > this->width - 1 && nearest_vertical + wave_length > this->height - 1) ) {
+						bottom_right = new_data[0];
+					} else if(nearest_horizontal + wave_length > this->width - 1) {
+						/* The X coord of the point overflows the right border of the map */
+						bottom_right = new_data[vertical_offset_next];
+					} else if (nearest_vertical + wave_length > this->height - 1) {
+						/* The Y coord of the point overflows the bottom border of the map */
+						bottom_right = new_data[nearest_horizontal + wave_length];
+					} else if( nearest_horizontal + wave_length + vertical_offset_next > (signed) (this->length - 1)) {
+						/* Product of the coords overflows the length of the array */
+						bottom_right = new_data[0];
+					} else {
+						bottom_right = new_data[
+							nearest_horizontal + wave_length +
+							vertical_offset_next
+						];	
+					}
+
+					/* Interpolate the value for the current tile from values of the four corners (using cosine interpolation) */
+					double horizontal_fraction = (1 - cos( (x % wave_length) * pi_by_wave_length)) * .5;
+					
+					double interpolated_top = upper_left * (1 - horizontal_fraction) +  upper_right * horizontal_fraction;
+					double interpolated_bottom = bottom_left * (1 - horizontal_fraction) + bottom_right * horizontal_fraction;
+
+					data[x + y * this->width] +=(GGen_Height) (interpolated_top * ( 1 - vertical_fraction) + interpolated_bottom * vertical_fraction);
+				}
+			} 
 		}
-		else {
-			for(GGen_Coord x = 0; ; x += waveLength){
-				if(x < this->width){
-					horizontalOverflowBuffer[x] = GGen_Random<GGen_Height>(-amplitude, amplitude);
-				}
-				else{
-					verticalOverflowBuffer[this->height] = GGen_Random<GGen_Height>(-amplitude, amplitude);
-					break;
-				}
+
+		/* Add the current octave to previous octaves */
+		for(GGen_Coord y = 0; y < this->height; y += wave_length){
+			for(GGen_Coord x = 0; x < this->width; x += wave_length){
+				this->data[x + y * this->width] += new_data[x + y * this->width];
 			}
-			break;
 		}
 	}
 
-	amplitude = amplitudes->data[waveLengthLog2 - 1];
-
-	// Keep interpolating until there are uninterpolated tiles..
-	while(waveLength > 1){
-		GGen_Size halfWaveLength = waveLength / 2;
-
-		// The square step - put a randomly generated point into center of each square.
-		bool breakY = false;
-		for(GGen_Coord y = halfWaveLength; breakY == false; y += waveLength){			
-			for(GGen_Coord x = halfWaveLength; ; x += waveLength){
-				// Prepare the 4x4 value matrix for bicubic interpolation.
-				GGen_CoordOffset x0 = (int) x - (int) halfWaveLength - (int) waveLength;
-				GGen_CoordOffset x1 = (int) x - (int) halfWaveLength;
-				GGen_CoordOffset x2 = (int) x + (int) halfWaveLength;
-				GGen_CoordOffset x3 = (int) x + (int) halfWaveLength + (int) waveLength;
-
-				GGen_CoordOffset y0 = (int) y - (int) halfWaveLength - (int) waveLength;
-				GGen_CoordOffset y1 = (int) y - (int) halfWaveLength;
-				GGen_CoordOffset y2 = (int) y + (int) halfWaveLength;
-				GGen_CoordOffset y3 = (int) y + (int) halfWaveLength + (int) waveLength;
-
-				double data[4][4] = {
-					{
-						Noise_GetGridPoint(this, x0, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x1, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x2, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x3, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-					{
-						Noise_GetGridPoint(this, x0, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x1, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x2, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x3, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-					{
-						Noise_GetGridPoint(this,x0, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x1, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x2, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x3, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-					{
-						Noise_GetGridPoint(this, x0, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x1, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x2, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x3, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-				};
-
-				// Interpolate!
-				GGen_Height interpolatedHeight = Noise_BicubicInterpolation(data) + (waveLength < minFeatureSize ? 0 : GGen_Random<GGen_ExtHeight>(-amplitude, amplitude));
-
-				// Place the value into one of the overflow buffers, if it is outside the map.
-				if(x >= this->width){
-					verticalOverflowBuffer[MIN(y, this->height)] = interpolatedHeight;
-					break;
-				}
-				else if(y >= this->height) {
-					horizontalOverflowBuffer[x] = interpolatedHeight;
-					breakY = true;
-				}
-				else{
-					this->data[x + this->width * y] = interpolatedHeight;
-				}
-			}
-		}
-
-		// The diamond step - add point into middle of each diamond so each square from the square step is composed of 4 smaller squares.
-		breakY = false;
-		bool evenRow = true;
-		for(GGen_Coord y = 0; breakY == false; y += halfWaveLength){			
-			for(GGen_Coord x = evenRow ? halfWaveLength : 0; ; x += waveLength){							
-				// Prepare the 4x4 value matrix for bicubic interpolation (this time rotated by 45 degrees).
-				GGen_CoordOffset x0 = (int) x - (int) halfWaveLength - (int) waveLength;
-				GGen_CoordOffset x1 = (int) x - (int) waveLength;
-				GGen_CoordOffset x2 = (int) x - (int) halfWaveLength;
-				GGen_CoordOffset x3 = (int) x;
-				GGen_CoordOffset x4 = (int) x + (int) halfWaveLength;
-				GGen_CoordOffset x5 = (int) x + (int) waveLength;
-				GGen_CoordOffset x6 = (int) x + (int) halfWaveLength + (int) waveLength;
-
-				GGen_CoordOffset y0 = (int) y - (int) halfWaveLength - (int) waveLength;
-				GGen_CoordOffset y1 = (int) y - (int) waveLength;
-				GGen_CoordOffset y2 = (int) y - (int) halfWaveLength;
-				GGen_CoordOffset y3 = (int) y;
-				GGen_CoordOffset y4 = (int) y + (int) halfWaveLength;
-				GGen_CoordOffset y5 = (int) y + (int) waveLength;
-				GGen_CoordOffset y6 = (int) y + (int) halfWaveLength + (int) waveLength;
-
-				double data[4][4] = {
-					{
-						Noise_GetGridPoint(this, x0, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this,x1, y4, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x2, y5, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x3, y6, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-					{
-						Noise_GetGridPoint(this, x1, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x2, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x3, y4, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x4, y5, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-					{
-						Noise_GetGridPoint(this, x2, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x3, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x4, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x5, y4, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-					{
-						Noise_GetGridPoint(this, x3, y0, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x4, y1, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x5, y2, verticalOverflowBuffer, horizontalOverflowBuffer),
-						Noise_GetGridPoint(this, x6, y3, verticalOverflowBuffer, horizontalOverflowBuffer),
-					},
-				};
-
-				// Interpolate!
-				GGen_Height interpolatedHeight = Noise_BicubicInterpolation(data) + (waveLength < minFeatureSize ? 0 : GGen_Random<GGen_ExtHeight>(-amplitude, amplitude));
-
-				// Place the value into one of the overflow buffers, if it is outside the map.
-				if(x >= this->width){
-					verticalOverflowBuffer[MIN(y, this->height)] = interpolatedHeight;
-					break;
-				}
-				else if(y >= this->height) {
-					horizontalOverflowBuffer[x] = interpolatedHeight;
-					breakY = true;
-				}
-				else{
-					this->data[x + this->width * y] = interpolatedHeight;
-				}
-			}
-
-			// The X coordinates are shifted by waveLength/2 in even rows.
-			evenRow = !evenRow;
-		}
-
-		// Decrease the wave length and amplitude.
-		waveLength /= 2;
-		if(waveLength > 1){						
-			amplitude = amplitudes->data[GGen_log2(waveLength / 2)];
-		}
-	}
-
-	delete [] verticalOverflowBuffer;
-	delete [] horizontalOverflowBuffer;
-
-	return;
+	delete [] new_data;
 } 
 
 // NOT REALLY FINISHED!! NEEDS A LOT OF POLISH!!!
@@ -1111,7 +889,7 @@ void GGen_Data_2D::VoronoiNoise(GGen_Size cell_size, uint8 points_per_cell, GGen
 			/* The current cell */
 			points_waiting[0] = &VORONOINOISE_GET_POINT(cell_x, cell_y, 0);
 		
-			/* Collect points from the surrounding cells */
+			/* Collect points from the sorrounding cells */
 			if(cell_y > 0 && cell_x > 0)							{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x - 1, cell_y - 1, 0); ++num_points_waiting;}
 			if(cell_y > 0)											{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x,	 cell_y - 1, 0); ++num_points_waiting;}
 			if(cell_y > 0 && cell_x < num_cells_x - 1)				{points_waiting[num_points_waiting] = &VORONOINOISE_GET_POINT(cell_x + 1, cell_y - 1, 0); ++num_points_waiting;}
@@ -1188,15 +966,13 @@ void GGen_Data_2D::Flood(double water_amount)
 
 void GGen_Data_2D::Smooth(GGen_Distance radius)
 {
-	GGen_Script_Assert(radius > 0);
-	
 	this->SmoothDirection(radius, GGEN_HORIZONTAL);
 	this->SmoothDirection(radius, GGEN_VERTICAL);
 }
 
 void GGen_Data_2D::SmoothDirection(GGen_Distance radius, GGen_Direction direction)
 {
-	GGen_Script_Assert(radius > 0);
+	GGen_Script_Assert(radius > 0 && radius < this->width && radius < this->height);
 	
 	/* Allocate the new array */
 	GGen_Height* new_data = new GGen_Height[this->length];
@@ -1213,7 +989,7 @@ void GGen_Data_2D::SmoothDirection(GGen_Distance radius, GGen_Direction directio
 				window_value += this->data[x + this->width * y];
 			}
 
-			/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
+			/* In every step shift the window one tile to the right  (= substract its leftmost cell and add
 			value of rightmost + 1). i represents position of the central cell of the window. */
 			for (GGen_Coord x = 0; x < this->width; x++) {
 				/* If the window is approaching right border, use the rightmost value as fill. */
@@ -1239,7 +1015,7 @@ void GGen_Data_2D::SmoothDirection(GGen_Distance radius, GGen_Direction directio
 				window_value += this->data[x + y * this->width];
 			}
 
-			/* In every step shift the window one tile to the bottom  (= subtract its topmost cell and add
+			/* In every step shift the window one tile to the bottom  (= substract its topmost cell and add
 			value of bottommost + 1). i represents position of the central cell of the window. */
 			for (GGen_Coord y = 0; y < this->height; y++) {
 				/* If the window is approaching right border, use the rightmost value as fill. */
@@ -1318,7 +1094,7 @@ void GGen_Data_2D::SlopeMap()
 		}
 	}
 
-	/* Fix the corners */
+	/* Fixt the corners */
 	new_data[0] =  new_data[this->width + 1];
 	new_data[this->width - 1] = new_data[2 * this->width - 2];
 	new_data[this->length - this->width] = new_data[this->length - 2 * this->width + 1];
@@ -1366,21 +1142,26 @@ void GGen_Data_2D::Scatter(bool relative)
 
 void GGen_Data_2D::TransformValues(GGen_Data_1D* profile, bool relative)
 {
-	GGen_Script_Assert(profile != NULL);
-
 	GGen_Height min = 0;
 	GGen_Height max = GGEN_UNRELATIVE_CAP;
 
 	if(relative){
 		max = this->Max();
 	}
-
+	
+	/* Smoothen the profile to prevent visible color jumps in the result */
+	GGen_Data_1D profile_copy = *profile->Clone();
+	profile_copy.ScaleTo(max + 1, false);
+	if(profile_copy.length > 80) profile_copy.Smooth(max / 40);
+	
+	/* Make sure the smoothing didn't change the extremes */
+	profile_copy.ScaleValuesTo(profile->Min(), profile->Max());
+	
 	/* Transform the values */
 	for (GGen_Coord y = 0; y < this->height; y++) {
 		for (GGen_Coord x = 0; x < this->width; x++) {	
 			if (this->data[x + y * this->width] > 0) {
-				GGen_Height height = this->data[x + this->width * y];
-				this->data[x + y * this->width] = profile->GetValueInterpolated(height, max + 1);
+				this->data[x + y * this->width] = profile_copy.GetValue(this->data[x + y * this->width]);
 			}
 		}
 	}
@@ -1468,7 +1249,7 @@ void GGen_Data_2D::Transform(double a11, double a12, double a21, double a22, boo
 	double new_bottom_right_x = (this->width - 1) * a11 + (this->height - 1) * a12;
 	double new_bottom_right_y = (this->width - 1) * a21 + (this->height - 1) * a22;
 	
-	/* Find which bounding point is which (the rotations and such might change this). The zeros
+	/* Find which bounding point is which (the rotations and such might change this). The zeroes
 	represent the origin (upper left corner), which always stays the same. */
 	GGen_CoordOffset new_left_x = (int32) floor(MIN(MIN(0, new_top_right_x), MIN(new_bottom_left_x, new_bottom_right_x)));
 	GGen_CoordOffset new_right_x = (int32) ceil(MAX(MAX(0, new_top_right_x), MAX(new_bottom_left_x, new_bottom_right_x)));
@@ -1575,7 +1356,7 @@ void GGen_Data_2D::Rotate(int32 angle, bool preserve_size)
 }
 
 void GGen_Data_2D::Shear(int32 horizontal_shear, int32 vertical_shear, bool preserve_size){
-	/* Vertical and horizontal shear == 1 ==> the transformation matrix would be non-invertible */
+	/* Verical and horizontal shear == 1 ==> the transformation matrix would be uninvertible */
 	GGen_Script_Assert(horizontal_shear != 1 || vertical_shear != 1);
 	
 	this->Transform(
@@ -1644,7 +1425,7 @@ public:
 };
 
 void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
-	GGen_Script_Assert(path != NULL);
+
 
 	/* Create a full list of all non-horizontal edges (this is line algorithm, we can skip horizontal edges) */
 	list<GGen_FillPolygon_DownwardsEdge*> edges;
@@ -1694,9 +1475,8 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	list<GGen_FillPolygon_DownwardsEdge*> currentLineEdges;
 	bool needsSorting = true;
 
-	/* For each line from the top-most point to the bottom edge of the map */
-	for (GGen_CoordOffset y = (*edges.begin())->y; y < this->height; y++) {
-
+	/* For each line ... */
+	for (GGen_Coord y = 0; y < this->height; y++) {
 		/* Add edges starting on this line to the currently worked list */
 		list<GGen_FillPolygon_DownwardsEdge*>::iterator i = edges.begin();
 		while (i != edges.end() && (*i)->y == y) {
@@ -1721,27 +1501,24 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 			needsSorting = false;
 		}
 
-		/* If we are in the map area, try to draw the pixels. */
-		if(y >= 0){
-			/* Fill every segment between even and odd edge intersection with the current line */
-			bool odd = false;
-			i = currentLineEdges.begin(); /* Reuse the iterator variable from above - it won't be needed anymore */
-			for (GGen_Coord x = 0; x < this->width; x++) {
-				/* There could be multiple intersections on the same pixel */
-				while (i != currentLineEdges.end()) {
-					if ((double) x > (*i)->x) {
-						odd = !odd;
-						i++;
-					}
-					else break;
+		/* Fill every segment between even and odd egde intersection with the current line */
+		bool odd = false;
+		i = currentLineEdges.begin(); /* Reuse the iterator variable from above - it won't be needed anymore */
+		for (GGen_Coord x = 0; x < this->width; x++) {
+			/* There could be multiple intersections on the same pixel */
+			while (i != currentLineEdges.end()) {
+				if ((double) x > (*i)->x) {
+					odd = !odd;
+					i++;
 				}
-
-				/* If we are in the "odd section" (between even and odd intersection) */
-				if (odd) {
-					this->data[x + this->width * y] = value;
-				}
+				else break;
 			}
-		}
+
+			/* If we are in the "odd setion" (between even and odd intersection) */
+			if (odd) {
+				this->data[x + this->width * y] = value;
+			}
+		}	
 
 		/* Update the current working line list for next line */
 		double lastX = INT_MIN;
@@ -1754,7 +1531,7 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 			/* Move X in direction of the edge */
 			edge->x += edge->dxy;
 
-			/* Detect disruptions in edge order. If there are any, request sort */
+			/* Detect distruptions in edge order. If there are any, request sort */
 			if(lastX > edge->x){
 				needsSorting= true;
 			}
@@ -1767,251 +1544,16 @@ void GGen_Data_2D::FillPolygon(GGen_Path* path, GGen_Height value){
 	}	
 }
 
-/* Helper data structure for the following algorithm. */
-struct GGen_StrokePath_Quad{
-	GGen_Coord x, y;
-	GGen_Size width, height;
-
-	GGen_StrokePath_Quad(GGen_Coord x, GGen_Coord y, GGen_Size width, GGen_Size height):x(x), y(y), width(width), height(height){
-	}
-};
-
-
-/* Helper function used to calculated distance from one map point to one path segment defined by two points. */
-GGen_Height GGen_StrokePath_GetDistanceToSegment(GGen_Point segmentPoint1, GGen_Point segmentPoint2, GGen_Point mapPoint){
-	GGen_Height currentDistance;
-	
-	double vx = segmentPoint1.x - mapPoint.x;
-	double vy = segmentPoint1.y - mapPoint.y;
-	double ux = segmentPoint2.x - segmentPoint1.x;
-	double uy = segmentPoint2.y - segmentPoint1.y;
-
-	double length = ux * ux + uy * uy;
-
-	double det = (-vx * ux) + (-vy * uy);
-
-	if(det < 0 || det > length)
-	{
-		ux = segmentPoint2.x - mapPoint.x;
-		uy = segmentPoint2.y - mapPoint.y;
-		currentDistance = (GGen_Distance) (sqrt(MIN(vx * vx + vy * vy, ux * ux + uy * uy)) + 0.5);						
-	}
-	else {
-		det = ux * vy - uy * vx;
-		currentDistance = (GGen_Distance) (sqrt((det * det) / length) + 0.5);
-	}
-
-	return currentDistance;
-}
-
-void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, bool fill_outside) {
-	GGen_Script_Assert(path != NULL);
-	GGen_Script_Assert(brush != NULL);
-	GGen_Script_Assert(radius > 0);	
-
-	/* This is quite typical divide-and-conquer algorithm. The map will be divided into four quads. The most adjacent
-	 * path segment will be calculated for each of it corners. If the quad has all four corners adjacent to the same
-	 * segment, no further subdivision will be needed and whole area will be painted with values depending on distances
-	 * to the segment. If at least one corner of the quad is adjacent to a different segment, the quad will be divided
-	 * into four more segments and the whole process will be repeated (not stopping until all the corners are adjacent
-	 * to the same segment or quad size of 1x1 is reached). */
-
-	/* Fast random access to path segments will be needed with this algorithm (the original std::list structure
-	 * of course provides random access with linear complexity only = unacceptable). */
-	vector<GGen_Point> segmentArray = vector<GGen_Point>(path->points.begin(), path->points.end());
-
-	/* Distance from each tile to the nearest path segment. Tiles, that were not calculated yet hold GGEN_INVALID_HEIGHT. */
-	GGen_Height* segmentDistances = new GGen_Height[this->length];
-
-	/* Index of the nearest path segment (indexed from 0 from the beginning of the path). */
-	uint32* segmentIndices = new uint32[this->length];
-
-	/* Prefill working arrays with default data. */
-	for(GGen_Index i = 0; i < this->length; i++){
-		segmentDistances[i] = GGEN_INVALID_HEIGHT;
-		segmentIndices[i] = 0;
-	}
-	
-	/* This stack will be used to simulate recursion. True recursion is not advisable in this case,
-	 * since recursion on huge maps (10000+) would lead to huge call stack depths, possibly triggering
-	 * stack overflows. */
-	stack<GGen_StrokePath_Quad> quadStack;
-
-	/* First step will be on whole map. */
-	quadStack.push(GGen_StrokePath_Quad(0, 0, this->width, this->height));
-
-	/* Initiate the "recursion". */
-	while(!quadStack.empty()){
-		GGen_StrokePath_Quad currentQuad = quadStack.top();
-		quadStack.pop();		
-
-		/* Corner points in order: top-left, top-right, bottom-left, bottom-right. The points are arranged in
-		 * an array, so and FOR cycle can work them easily. */
-		GGen_Point cornerPoints[4] = 
-			{
-				GGen_Point(currentQuad.x, currentQuad.y), // top-left
-				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y), // top-right
-				GGen_Point(currentQuad.x, currentQuad.y + currentQuad.height - 1), // bottom-left
-				GGen_Point(currentQuad.x + currentQuad.width - 1, currentQuad.y + currentQuad.height - 1), // bottom-right
-			};
-		
-		/* Segment index to which is the top-left corner the closest (this will be needed to tell if all the corners
-		 * of the current quad are influenced by the same path segment). */
-		uint32 topLeftCornerSegmentIndex = 0;
-		
-		bool isSubdivisionNeeded = false;
-
-		/* For every corner of the current quad... */
-		for(int cornerNumber = 0; cornerNumber < 4; cornerNumber++){
-			GGen_Point currentPoint = cornerPoints[cornerNumber];
-			GGen_Index currentIndex = currentPoint.x + this->width * currentPoint.y;
+void GGen_Data_2D::StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value) {
+	for (GGen_Coord y = 0; y < this->height; y++) {
+		for (GGen_Coord x = 0; x < this->width; x++) {
 			
-			if(segmentDistances[currentIndex] == GGEN_INVALID_HEIGHT){				
-				/* Calculate distance to the closest path segment */
-				GGen_Distance distance = this->GetMaxDistance();
-				uint32 activeSegmentIndex = 0;
-				uint32 currentSegmentIndex = 0;
-				for(GGen_Path::Iterator i = path->points.begin(); i != path->points.end(); ){
-					GGen_Point point1 = *i; 
-
-					i++;
-
-					if(i == path->points.end()) break;
-
-					GGen_Point point2 = *i;
-
-					GGen_Distance currentDistance = GGen_StrokePath_GetDistanceToSegment(point1, point2, currentPoint);
-
-					if(currentDistance < distance){
-						/* The segment is closer to the current tile than any segment tested yet. */
-						distance = currentDistance;
-						activeSegmentIndex = currentSegmentIndex;
-					}
-					else if(currentDistance == distance){
-						/* The segment is tied with another segment, because at path segment joints there are TWO path
-						 * segments at one coordinate. The tie will be resolved by comparing angles to the current point. 
-						 * This will result in the area being split between the two segments "naturally", as if the two
-						 * segments didn't meet at exactly the same spot, but were spaced from each other a little bit. */
-
-						/* Calculate angles from the current path point to three different points. */
-
-						/* Angle to the "previous" path segment (the segment defined by the previous point in the path). */
-						double angleBackward = atan2((double) (point1.x - segmentArray[activeSegmentIndex].x), (double) (point1.y - segmentArray[activeSegmentIndex].y));
-						
-						/* Angle to the "next" path segment (the segment defined by the next point in the path). */
-						double angleForward = atan2((double) (point1.x - point2.x), (double) (point1.y - point2.y));
-
-						/* Angle to the current tile in the map. */
-						double angleCurrent = atan2((double) (point1.x - currentPoint.x), (double) (point1.y - currentPoint.y));
-
-						/* Calculate the angle defined by following points: previous path point, current path point, current map tile. */
-						double angleDiffBackward = ABS(angleBackward - angleCurrent);
-						
-						/* Calculate the angle defined by following points: next path point, current path point, current map tile. */
-						double angleDiffForward = ABS(angleForward - angleCurrent);
-
-						/* We are calculating angle differences, it will aways be in range <0°, 180°> (angles greater than 
-						 * 180° will be subtracted from 360°). */
-						if(angleDiffBackward > 3.14){
-							angleDiffBackward = 2 * 3.14 - angleDiffBackward;
-						}
-
-						if(angleDiffForward > 3.14){
-							angleDiffForward = 2 * 3.14 - angleDiffForward;
-						}
-
-						/* The current path segment is by angle closer to the current map point than the other path segment. */
-						if(angleDiffBackward > angleDiffForward){
-							distance = currentDistance;
-							activeSegmentIndex = currentSegmentIndex;						
-						}
-					}
-					currentSegmentIndex++;
-				}
-
-				/* Write the calculated results into the arrays. */
-				segmentDistances[currentIndex] = distance;
-				segmentIndices[currentIndex] = activeSegmentIndex;
-			}
-			else{
-				/* The distance has been already calculated */
-			}
-			
-			if(cornerNumber == 0){
-				/* This is the top-left corner - other corners will be compared with this one. */
-				topLeftCornerSegmentIndex = segmentIndices[currentIndex];
-			}
-			else if(topLeftCornerSegmentIndex != segmentIndices[currentIndex]){
-				/* Current corner's closest segment differs from the top-left corners' => further subdivision
-				 * will be needed. */
-				isSubdivisionNeeded = true;
-			}
-		}
-				
-		if(!isSubdivisionNeeded){
-			/* Further subdivision is not needed, we know which segment to use to fill whole quad. */
-			uint32 currentSegmentIndex = segmentIndices[currentQuad.x + this->width * currentQuad.y];
-			GGen_Point point1 = segmentArray[currentSegmentIndex];
-			GGen_Point point2 = segmentArray[currentSegmentIndex + 1];
-
-			for(GGen_CoordOffset offsetY = 0; offsetY < currentQuad.height; offsetY++){
-				for(GGen_CoordOffset offsetX = 0; offsetX < currentQuad.width; offsetX++){
-					GGen_Coord x = currentQuad.x + offsetX;
-					GGen_Coord y = currentQuad.y + offsetY;
-					
-					GGen_Distance currentDistance = GGen_StrokePath_GetDistanceToSegment(point1, point2, GGen_Point(x, y));
-
-					segmentDistances[currentQuad.x + offsetX + this->width * (currentQuad.y + offsetY)] = currentDistance;
-					segmentIndices[currentQuad.x + offsetX + this->width * (currentQuad.y + offsetY)] = currentSegmentIndex;
-				}
-			}
-		}
-		if(currentQuad.width > 1 || currentQuad.height > 1){
-			/* Don't subdivide 1x1 quads. */
-
-			/* Break the quad into four equal (almost equal - the dimensions might be even numbers) parts. */
-			GGen_Size subdidedQuadWidth = currentQuad.width > 1 ? currentQuad.width / 2 : 1;
-			GGen_Size subdidedQuadHeight = currentQuad.height > 1 ? currentQuad.height / 2 : 1;
-
-			/* Subdivide horizontally and/or vertically (don't subdivide if only one tile in that direction is remaining). */
-			quadStack.push(GGen_StrokePath_Quad(currentQuad.x, currentQuad.y, subdidedQuadWidth, subdidedQuadHeight));
-			
-			if(currentQuad.width > 1){
-				quadStack.push(GGen_StrokePath_Quad(currentQuad.x + subdidedQuadWidth, currentQuad.y, currentQuad.width - subdidedQuadWidth, subdidedQuadHeight));
-			}
-			
-			if(currentQuad.height > 1){
-				quadStack.push(GGen_StrokePath_Quad(currentQuad.x, currentQuad.y + subdidedQuadHeight, subdidedQuadWidth, currentQuad.height - subdidedQuadHeight));
-				if(currentQuad.width > 1){
-					quadStack.push(GGen_StrokePath_Quad(currentQuad.x + subdidedQuadWidth, currentQuad.y + subdidedQuadHeight, currentQuad.width - subdidedQuadWidth, currentQuad.height - subdidedQuadHeight));
-				}
-			}
-		}
+		}	
 	}
-
-	/* Distance to all tiles have been calculated, map values into the main data array according to the brush. */ 
-	for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; x++){
-			GGen_Distance currentDistance = segmentDistances[x + this->width * y];
-			
-			if(currentDistance < radius){
-				/* The distance is smaller than brush radius - get value form brush. */
-				this->data[x + this->width * y] = brush->GetValueInterpolated(currentDistance, radius);
-			}
-			else if(fill_outside){
-				/* The distance is larger than brush radius - use the outermost values from the brush (if asked to). */
-				this->data[x + this->width * y] = brush->data[brush->length - 1];
-			}
-		}
-	}
-
-	delete [] segmentDistances;
-	delete [] segmentIndices;
 }
 
 void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only){
-	GGen_Script_Assert(start_x < this->width);
-	GGen_Script_Assert(start_y < this->height);		
+	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
 	/* Bordering (potential spread) points will be stored in queue */
 	queue<GGen_Point> queue;
@@ -2030,7 +1572,7 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 
 		GGen_Height currentValue = this->data[current.x + current.y * this->width];
 
-		/* Do not process one tile more than once */
+		/* Do not proces one tile more than once */
 		if(mask[current.x + current.y * this->width]) continue;
 
 		/* Mark the current tile as processed */
@@ -2058,7 +1600,7 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 		/* The condition is valid -> fill the current tile */
 		this->data[current.x + current.y * this->width] = fill_value;
 
-		/* Add surrounding tiles to the fill queue (as long as they are within mao borders and are yet unworked) */
+		/* Add sorrounding tiles to the fill queue (as long as they are within mao borders and are yet unworked) */
 		if (current.x > 0 && !mask[current.x - 1 + current.y * this->width]) {
 			queue.push(GGen_Point(current.x - 1, current.y));
 		}
@@ -2089,15 +1631,13 @@ void GGen_Data_2D::FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_He
 }
 
 void GGen_Data_2D::FloodFill(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold){
-	GGen_Script_Assert(start_x < this->width);
-	GGen_Script_Assert(start_y < this->height);		
+	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
 	this->FloodFillBase(start_x, start_y, fill_value, mode, threshold, false);
 }
 
 void GGen_Data_2D::FloodSelect(GGen_Coord start_x, GGen_Coord start_y, GGen_Comparison_Mode mode, GGen_Height threshold){
-	GGen_Script_Assert(start_x < this->width);
-	GGen_Script_Assert(start_y < this->height);		
+	GGen_Script_Assert(start_x < this->width && start_y < this->height);
 
 	this->FloodFillBase(start_x, start_y, 1, mode, threshold, true);
 }
@@ -2210,22 +1750,18 @@ GGen_Height GGen_Data_2D::GetValueOnPathBase(GGen_Path* path, bool max){
 
 GGen_Height GGen_Data_2D::GetMaxValueOnPath(GGen_Path* path){
 	GGen_Script_Assert(path != NULL);
-	GGen_Script_Assert(path->points.size() > 1);
 
 	return this->GetValueOnPathBase(path, true);
 }
 
 GGen_Height GGen_Data_2D::GetMinValueOnPath(GGen_Path* path){
 	GGen_Script_Assert(path != NULL);
-	GGen_Script_Assert(path->points.size() > 1);
 
 	return this->GetValueOnPathBase(path, false);
 }
 
 void GGen_Data_2D::ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direction direction, bool shrink){
-	GGen_Script_Assert(distance > 0);
-	GGen_Script_Assert(direction == GGEN_VERTICAL || distance < this->width);
-	GGen_Script_Assert(direction == GGEN_HORIZONTAL || distance < this->height);
+	GGen_Script_Assert(distance > 0 && distance < this->width && distance < this->height);
 	
 	/* shrinking = inverse expanding */
 	if(shrink){
@@ -2305,35 +1841,19 @@ void GGen_Data_2D::ExpandShrinkDirectionBase(GGen_Distance distance, GGen_Direct
 }
 
 void GGen_Data_2D::ExpandDirection(GGen_Distance distance, GGen_Direction direction){
-	GGen_Script_Assert(distance > 0);
-	GGen_Script_Assert(direction == GGEN_VERTICAL || distance < this->width);
-	GGen_Script_Assert(direction == GGEN_HORIZONTAL || distance < this->height);
-
 	this->ExpandShrinkDirectionBase(distance, direction, false);
 }
 
 void GGen_Data_2D::ShrinkDirection(GGen_Distance distance, GGen_Direction direction){
-	GGen_Script_Assert(distance > 0);
-	GGen_Script_Assert(direction == GGEN_VERTICAL || distance < this->width);
-	GGen_Script_Assert(direction == GGEN_HORIZONTAL || distance < this->height);
-
 	this->ExpandShrinkDirectionBase(distance, direction, true);
 }
 
 void GGen_Data_2D::Expand(GGen_Distance distance){
-	GGen_Script_Assert(distance > 0);
-	GGen_Script_Assert(distance < this->width);
-	GGen_Script_Assert(distance < this->height);
-
 	this->ExpandDirection(distance, GGEN_HORIZONTAL);
 	this->ExpandDirection(distance, GGEN_VERTICAL);
 }
 
 void GGen_Data_2D::Shrink(GGen_Distance distance){
-	GGen_Script_Assert(distance > 0);
-	GGen_Script_Assert(distance < this->width);
-	GGen_Script_Assert(distance < this->height);
-	
 	this->ShrinkDirection(distance, GGEN_HORIZONTAL);
 	this->ShrinkDirection(distance, GGEN_VERTICAL);
 }
@@ -2415,8 +1935,6 @@ void GGen_Data_2D::Outline(GGen_Comparison_Mode mode, GGen_Height threshold, GGe
 
 void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
 {
-	GGen_Script_Assert(radius > 0);
-
 	/* Convexity map is a difference between the current map and its smoothed variant. Smoothing erases any terrain features
 	   that peak upwards (are convex) or bulge downwards (are concave). */ 
 	GGen_Data_2D* unsmoothed = this->Clone();
@@ -2431,13 +1949,6 @@ void GGen_Data_2D::ConvexityMap(GGen_Distance radius)
 
 void GGen_Data_2D::Distort(GGen_Size waveLength, GGen_Distance amplitude)
 {
-	GGen_Script_Assert(waveLength > 0);
-	GGen_Script_Assert(waveLength < this->width);
-	GGen_Script_Assert(waveLength < this->height);
-	GGen_Script_Assert(amplitude > 0);
-	GGen_Script_Assert(amplitude < this->width);
-	GGen_Script_Assert(amplitude < this->height);
-
 	/* Set up an Amplitude object with one wave length only. */
 	GGen_Amplitudes* amplitudeObject = new GGen_Amplitudes(waveLength);
 	amplitudeObject->AddAmplitude(waveLength, amplitude);
@@ -2471,323 +1982,4 @@ void GGen_Data_2D::Distort(GGen_Size waveLength, GGen_Distance amplitude)
 	delete amplitudeObject;
 	delete turbulenceXMap;
 	delete turbulenceYMap;
-}
-
-void GGen_Data_2D::NormalMap(){
-	/* Allocate the new array */
-	GGen_Height* new_data = new GGen_Height[this->length];
-
-	GGen_Script_Assert(new_data != NULL);
-
-	/* Calculate facing direction information for individual cells */
-	for (GGen_Coord y = 0; y < this->height; y++) {
-		for (GGen_Coord x = 0; x < this->width; x++) {
-			new_data[x + y * this->width] = this->GetNormal(x, y);
-		}	
-	}
-
-	/* Relink and delete the original array data */
-	delete [] this->data;
-	this->data = new_data;
-}
-
-void GGen_Data_2D::NormalDifferenceMap(int32 angle){
-	/* Clamp the angle to the 0-360 range */
-	angle = angle % 360;
-
-	int32 oangle = angle;
-
-	/* Rescale the angle to the <GGEN_MIN_HEIGHT, GGEN_MAX_HEIGHT> interval */
-	angle = (int64) GGEN_MIN_HEIGHT + ((int64) angle * (int64) (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT)) / (int64) 360;
-
-	/* Allocate the new array */
-	GGen_Height* new_data = new GGen_Height[this->length];
-
-	GGen_Script_Assert(new_data != NULL);
-
-	/* Calculate facing direction information for individual cells */
-	for (GGen_Coord y = 0; y < this->height; y++) {
-		for (GGen_Coord x = 0; x < this->width; x++) {
-
-			GGen_Height normal = this->GetNormal(x, y);
-
-			/* Flat tiles aways return invalid angle */ 
-			if(normal == GGEN_INVALID_HEIGHT) {
-				new_data[x + y * this->width] = GGEN_INVALID_HEIGHT;
-				continue;
-			}
-
-			/* Difference of the two angles */
-			GGen_ExtHeight normalDifference = ABS(((GGen_ExtHeight) normal - (GGen_ExtHeight) angle));
-
-			/* The push angles (180°, 360°) into the (0°, 180°) range (we want angle difference, not absolute angle) */
-			if(normalDifference > (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT) / 2){
-				normalDifference = (GGEN_MAX_HEIGHT - GGEN_MIN_HEIGHT) - normalDifference;
-			}
-
-			new_data[x + y * this->width] = normalDifference;
-		}	
-	}
-
-	/* Relink and delete the original array data */
-	delete [] this->data;
-	this->data = new_data;
-}
-
-GGen_Height GGen_Data_2D::GetNormal( GGen_Coord x, GGen_Coord y )
-{
-	GGen_Script_Assert(x < this->width);
-	GGen_Script_Assert(y < this->height);
-
-	GGen_Index indexLeft = x > 0 ? (x - 1) + y * this->width : x + y * this->width;
-	GGen_Index indexRight = x < this->width ? (x + 1) + y * this->width : x + y * this->width;
-	GGen_Index indexTop = y > 0 ? x + (y - 1) * this->width : x + y * this->width;
-	GGen_Index indexBottom = y < this->height ? x + (y + 1) * this->width : x + y * this->width;
-
-	GGen_Height heightLeft = this->data[indexLeft];
-	GGen_Height heightRight = this->data[indexRight];
-	GGen_Height heightTop = this->data[indexTop];
-	GGen_Height heightBottom = this->data[indexBottom];
-
-	double vectorAX = 2;
-	double vectorAY = 0;
-	double vectorAZ = (double) this->data[indexLeft] - (double) this->data[indexRight];
-
-	double vectorBX = 0;
-	double vectorBY = -2;
-	double vectorBZ = (double) this->data[indexTop] - (double) this->data[indexBottom];
-
-	/* The tile has upwards normal (all the surrounding tiles have the same height) */
-	if(vectorAZ == 0 && vectorBZ == 0){
-		return GGEN_INVALID_HEIGHT;
-	}
-
-	double productX = vectorAY * vectorBZ - vectorAZ * vectorBY;
-	double productY = vectorAZ * vectorBX - vectorAX * vectorBZ;
-	double productZ = vectorAX * vectorBY - vectorAY * vectorBX;
-
-	double angle = atan2(productY, productX);
-
-	return (GGen_Height) (angle / 3.14159 * GGEN_MAX_HEIGHT);
-}
-
-void GGen_Data_2D::SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation)
-{
-	//GGen_Script_Assert(this->width == flowMap->width && this->height == flowMap->height);
-	//GGen_Script_Assert(this->width == sedimentMap->width && this->height == sedimentMap->height);
-
-	// Each round is completely separate.
-	for(uint32 round = 0; round < numRounds * this->length; round++){
-		// Choose a random tile on the map.
-		GGen_Coord x = GGen_Random<GGen_Coord>(0, this->width - 1);
-		GGen_Coord y = GGen_Random<GGen_Coord>(0, this->height - 1);
-		
-		GGen_Height currentCarriedSediment = 0;
-
-		// Don't bother with water tiles.
-		if(this->data[x + this->width * y] <= 0) continue;
-
-		// Keep advancing from the initial tile until the water level is reached.
-		while(this->data[x + this->width * y] > 0){
-			// Find the lowest neighboring tile
-			GGen_Coord lowestNeighborX = x;
-			GGen_Coord lowestNeighborY = y;
-			GGen_Height lowestNeighborHeight = this->data[x + this->width * y];
-
-			// Try to look at 5 random points in the neighborhood (to add a little randomness into the flow).
-			for(uint8 i = 0; i < 5; i++){		
-				GGen_CoordOffset currentNeighborX = (GGen_CoordOffset) x + GGen_Random<int8>(-1, 1);
-				GGen_CoordOffset currentNeighborY = (GGen_CoordOffset) y + GGen_Random<int8>(-1, 1);
-
-				// Ignore the neighbor if it is outside the map
-				if(currentNeighborX < 0 || currentNeighborX == this->width || currentNeighborY < 0 || currentNeighborY == this->height){
-					continue;
-				}
-
-				if(this->data[currentNeighborX + this->width * currentNeighborY] < lowestNeighborHeight){
-					lowestNeighborX = currentNeighborX;
-					lowestNeighborY = currentNeighborY;
-					lowestNeighborHeight = this->data[currentNeighborX + this->width * currentNeighborY];
-				}
-			}
-
-			// If no lower neighbor was found, try to lift the tile with the suspended sediment.
-			if(lowestNeighborX == x && lowestNeighborY == y){
-				// If we are out of sediment, terminate the flow.
-				if(currentCarriedSediment <= 0) break;
-
-				this->data[x + this->width * y] += erosionFactor;
-
-				/*if(sedimentMap != null){
-					sedimentMap->data[x + this->width * y]++;
-				}*/
-
-				// Consume the suspended sediment at twice the erosion rate (to prevent infinite cycles of erosion and sedimentation).
-				currentCarriedSediment -= 2;
-			}
-			// A lower neighbor was found, lower the current tile and move the cursor to that neighbor.
-			else {
-				this->data[x + this->width * y] -= erosionFactor;
-				
-				/*if(sedimentMap != null){
-					flowMap->data[x + this->width * y]++;
-				}*/
-				
-				if(enableSedimentation){
-					currentCarriedSediment += 1;
-				}
-
-				x = lowestNeighborX;
-				y = lowestNeighborY;
-			}
-		}
-	}
-}
-
-double GGen_Data_2D::FlowMap(double duration, double waterRate){
-    GGen_Script_Assert(duration > 0);
-    GGen_Script_Assert(waterRate > 0);
-    GGen_Script_Assert(waterRate < 10);
-
-    GGen_ErosionSimulator simulator(this->width, this->height);
-    double* heightMap = simulator.ImportHeightMap(*this);
-
-    double* waterMap = new double[this->length];
-
-    memset(waterMap, 0, this->length * sizeof(double));
-
-    GGen_OutflowValues* outflowFluxMap = new GGen_OutflowValues[this->length];
-
-    memset(outflowFluxMap, 0, this->length * sizeof(GGen_OutflowValues));
-
-    for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
-        simulator.ApplyWaterSources(waterMap, waterRate);
-        simulator.ApplyFlowSimulation(heightMap, waterMap, outflowFluxMap, NULL);
-        simulator.ApplyEvaporation(waterMap);
-    }
-
-    for(GGen_Index i = 0; i < this->length; i++){
-        if(this->data[i] <= 0){
-            waterMap[i] = 0;
-        }
-    }
-
-    double scale = simulator.ExportHeightMap(waterMap, *this);
-
-    delete [] waterMap;
-    delete [] heightMap;
-    delete [] outflowFluxMap;
-
-    return scale;
-}
-
-void GGen_Data_2D::ThermalWeathering(double duration, double talusAngle){
-    GGen_Script_Assert(duration > 0);
-    GGen_Script_Assert(talusAngle > 0 && talusAngle < 1);
-
-    GGen_ErosionSimulator simulator(this->width, this->height);
-    double* heightMap = simulator.ImportHeightMap(*this);
-    simulator.talusAngle = talusAngle;
-
-    simulator.deltaT = 0.1;
-
-    for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
-        simulator.ApplyThermalWeathering(heightMap, 4);
-    }
-
-    simulator.ExportHeightMap(heightMap, *this);
-
-    delete [] heightMap;    
-}
-
-void GGen_Data_2D::Erosion(double duration, double thermalWeatheringAmount, double waterAmount){
-	GGen_Script_Assert(duration > 0);
-    GGen_Script_Assert(waterAmount > 0);
-    GGen_Script_Assert(waterAmount < 10);
-    
-    //GGen_Data_2D exportMap(this->width, this->height, 0);
-    
-    GGen_ErosionSimulator simulator(this->width, this->height);
-    double* heightMap = simulator.ImportHeightMap(*this);    
-
-	double* waterMap = new double[this->length];
-	double* sedimentMap = new double[this->length];
-	GGen_OutflowValues* outflowFluxMap = new GGen_OutflowValues[this->length];			
-    GGen_VelocityVector* velocityVectorMap = new GGen_VelocityVector[this->length];
-
-	// Initialize values in maps to zero where necessary
-	for(GGen_Coord y = 0; y < this->height; y++){
-		for(GGen_Coord x = 0; x < this->width; x++){
-			GGen_Index currentIndex = x + y * this->width;
-			
-			waterMap[currentIndex] = heightMap > 0 ? 0 : -heightMap[currentIndex];
-			outflowFluxMap[currentIndex].left = 0;
-			outflowFluxMap[currentIndex].right = 0;
-			outflowFluxMap[currentIndex].top = 0;
-			outflowFluxMap[currentIndex].bottom = 0;
-			sedimentMap[currentIndex] = 0;
-		}
-	}
-	
-    GGen::GetInstance()->ThrowMessage(GGen_Const_String("Starting erosion..."), GGEN_MESSAGE);
-
-	for(double tRemaining = duration; tRemaining > 0; tRemaining -= simulator.deltaT){
-		if(tRemaining >= simulator.deltaT){
-            GGen_StringStream ss;
-            ss << GGen_Const_String("Erosion time remaining: ");
-            ss << tRemaining;
-            GGen::GetInstance()->ThrowMessage(ss.str(), GGEN_MESSAGE);
-        }        
-
-		simulator.ApplyWaterSources(waterMap, 0.05 * waterAmount);
-
-		simulator.ApplyFlowSimulation(heightMap, waterMap, outflowFluxMap, velocityVectorMap);
-		
-        /*this->ExportHeightMap(waterMap, exportMap);
-        wstringstream ss;
-        ss << GGen_Const_String("waterMapProgress");
-        ss << round;
-
-	    exportMap.ReturnAs(ss.str());*/
-
-        simulator.ApplyErosion(heightMap, waterMap, velocityVectorMap, sedimentMap);		
-
-        simulator.ApplyThermalWeathering(heightMap, thermalWeatheringAmount);
-
-		simulator.ApplyEvaporation(waterMap);	
-
-        double maxLength = 0;
-        for(GGen_Index i = 0; i < this->length; i++){
-            double length = sqrt(velocityVectorMap[i].x * velocityVectorMap[i].x + velocityVectorMap[i].y * velocityVectorMap[i].y);
-            if(length > maxLength){
-                maxLength = length;
-            }
-        }
-
-        simulator.deltaT = 1 / (1.5 * maxLength);
-        simulator.deltaT = MIN(simulator.deltaT, 0.05);
-
-        /*this->ExportHeightMap(heightMap, exportMap);
-        wstringstream ss2;
-        ss2 << GGen_Const_String("heightMapProgress");
-        ss2 << round;
-
-        exportMap.ReturnAs(ss2.str());*/		
-	}
-
-    GGen::GetInstance()->ThrowMessage(GGen_Const_String("Finished erosion..."), GGEN_MESSAGE);
-
-	/*simulator.ExportHeightMap(sedimentMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("sedimentMap"));
-
-	simulator.ExportHeightMap(waterMap, exportMap);
-	exportMap.ReturnAs(GGen_Const_String("waterMap"));*/
-
-    simulator.ExportHeightMap(heightMap, *this);
-
-	delete [] heightMap;
-	delete [] waterMap;
-	delete [] sedimentMap;
-	delete [] outflowFluxMap;
-    delete [] velocityVectorMap;	
 }

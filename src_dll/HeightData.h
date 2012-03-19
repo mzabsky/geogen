@@ -101,7 +101,7 @@ namespace GeoGen{
                 if(width < 3 || height < 3) {
                     throw gcnew ArgumentException("Both height and with must be >= 2.");
                 }
-                if(width > GGen::GetInstance()->GetMaxMapSize() || height >= GGen::GetInstance()->GetMaxMapSize()) {
+                if(width < GGen::GetInstance()->GetMaxWidth() || height < GGen::GetInstance()->GetMaxHeight()) {
                     throw gcnew ArgumentException("Both height and with must be >= 2.");
                 }
 
@@ -131,21 +131,19 @@ namespace GeoGen{
             }
 
         internal:
-            static HeightData^ CreateFromNative(unsigned short width, unsigned short height, const short* data){
-                HeightData^ newObject = gcnew HeightData(width, height);
+            HeightData(unsigned short width, unsigned short height, const short* data){
+                this->width = width;
+                this->height = height;
+                this->length = width * height;
 
-                newObject->width = width;
-                newObject->height = height;
-                newObject->length = width * height;
+                this->data = new short[(unsigned int) this->length];
 
                 try{
-                    memcpy(newObject->data, data, (unsigned int) newObject->length * sizeof(short));
+                    memcpy(this->data, data, (unsigned int) this->length * sizeof(short));
                 }
                 catch(System::Exception^){
                     throw gcnew OutOfMemoryException;
                 }
-
-                return newObject;
             }
         };
     }

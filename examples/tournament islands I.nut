@@ -3,10 +3,10 @@ function GetInfo(info_type){
 		case "name":
 			return "Tournament Islands I";
 		case "description":
-			return "Tournament style map emphasizing fair starting locations, for 4 players.";
+			return "Tournament style map emhasizing fair starting locations, for 4 players.";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 2, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			

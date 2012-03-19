@@ -1,7 +1,9 @@
 TODO:
 	Core:
 		- GCC Unicode support
-		- get rid of SqPlus (or at least replace it with better binder)	
+		- finish the 2D::CreateRiver function (underway in a separate branch)
+		- get rid of SqPlus (or at least replace it with better binder)
+		- add 2D::StrokePath	
 	STUDIO:
 		- add overlay and map previews to overlay and map selection boxes
 		- printing in Studio
@@ -10,8 +12,14 @@ TOFIX:
 		- TEMPORARILY FIXED: objects that are not manually relased in the script won't be deleted at all (bug most likely caused by SqPlus,
 		  getting rid of it should fix it, the only other solution might be manual instance tracking)
 		- optimize 2D::VoronoiNoise (point sets can be reused for consecutive cells)
+		- 2D::FillPolygon fails if the Y coordinate of topmost point is < 0
+		- only 32bpp RGBA color depth is supported for overlays
 		- add presets documentation	
 	STUDIO: 
+		- heightmap/texture import silently fails for overly big images (=> warning box should be shown)
+		- only 32bpp RGBA color depth is supported for overlays and imported heightmaps
 		- surface normals are not scaled propertly when height scale changes (resulting in unstable light strength)
 		- studio asks for external texture each time map is regenerated
+		- seed 0 show as non-default in settings dialog
+		- exceptions thrown in non-main thread are not atched by the universal exceptionc catcher
 		- squirrel std functions are missing from the code completion list

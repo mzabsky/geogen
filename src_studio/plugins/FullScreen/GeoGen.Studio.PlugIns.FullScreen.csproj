@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{76CF5FCF-1080-4274-941D-B9D60146354E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
+    <AssemblyName>GeoGen.Studio.PlugIns.FullScreen</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FullScreen.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj">
+      <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
+      <Name>GeoGen.Studio.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+      <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
+      <Name>GGenStudio.PlugIns.MenuBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusBar\GGenStudio.PlugIns.StatusBar.csproj">
+      <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
+      <Name>GGenStudio.PlugIns.StatusBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
+      <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
+      <Name>GGenStudio.PlugIns.ToolBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
+      <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
+      <Name>GGenStudio.PlugIns.MainWindow</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Icons\fullscreen.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

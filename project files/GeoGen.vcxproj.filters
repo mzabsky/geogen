@@ -56,9 +56,6 @@
     <ClCompile Include="..\src\ggen_squirrel.cpp">
       <Filter>GGen Squirrel API</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ggen_erosionsimulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ggen.h">
@@ -92,9 +89,6 @@
       <Filter>GGen Squirrel API</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ggen_progress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ggen_erosionsimulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,10 +134,5 @@
     </None>
     <None Include="..\documentation.html" />
     <None Include="..\TODO.TXT" />
-    <None Include="..\Makefile" />
-    <None Include="..\test.bat" />
-    <None Include="..\examples\erosion.nut">
-      <Filter>Examples</Filter>
-    </None>
   </ItemGroup>
 </Project>

@@ -5,8 +5,8 @@ function GetInfo(info_type){
 		case "description":
 			return "Two valley areas separated by a massive mountain range.";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 10, GGen_GetMaxMapSize(), 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 10, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 10, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 10, 20000, 1);
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			return 0;
 	}
@@ -38,7 +38,7 @@ function Generate(){
 	
 	pass.RadialGradient(1, height / 2, width > height ? height / 3 : width / 3, 1200, 0, true);
 
-	pass.Gradient(1, 0, 1, height / 6, 800, 0, false);
+	pass.Gradient(500, 0, 500, height / 6, 800, 0, false);
 	pass.Gradient(0, 5 * height / 6, 0, height - 1, 0, 800, false);
 
 	GGen_IncreaseProgress();
@@ -104,6 +104,10 @@ function Generate(){
 	GGen_IncreaseProgress();
 
 	if(flipped) base.Rotate(270, false);
+	
+	base.SetValueInRect(0,0,200,200,0);
+	base.SetValueInRect(200,200,400,400,1);
+	base.SetValueInRect(400,400,600,600,-1);
 	
 	return base;
 }

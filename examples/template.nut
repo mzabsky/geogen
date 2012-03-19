@@ -5,8 +5,8 @@ function GetInfo(info_type){
 		case "description":
 			return "Your map description.";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
-			GGen_AddIntArg("height","Height","Height of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Height of the map.", 1024, 128, 20000, 1);
 			
 			return 0;
 	}

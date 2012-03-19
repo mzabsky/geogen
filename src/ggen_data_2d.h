@@ -20,7 +20,6 @@
 
 #include "ggen_support.h"
 #include "ggen_path.h"
-#include "ggen_data_1d.h"
 #include <iostream>
 #include <set>
 
@@ -71,15 +70,9 @@ class GGen_Data_2D{
 		/**
 		 * Returns length of the map.
 		 * @return Length of the map.
-		 * @note Length is total number of tiles in the map (= width * height)
+		 * @return Length is total number of tiles in the map (= width * height)
 		 **/
 		GGen_Index GetLength();
-
-		/**
-		 * Returns maximum possible distance between two cells within the map.
-		 * @return Maximum distance within the map.
-		 **/
-		GGen_Distance GetMaxDistance();
 
 		/**
 		 * Sets value in one tile.
@@ -230,7 +223,7 @@ class GGen_Data_2D{
 		void Clamp(GGen_Height min, GGen_Height max);
 
 		/**
-		 * Clamps all values to range. All values outside the given range will be set to 0.
+		 * Clamps all values to range. All values outside the given range will be set either to 0.
 		 * @param min New minimum value.
 		 * @param max New maximum value.
 		 **/
@@ -369,10 +362,11 @@ class GGen_Data_2D{
 		void RadialGradientFromProfile(GGen_Coord center_x, GGen_Coord center_y, GGen_Distance radius, GGen_Data_1D* profile, bool fill_outside);
 		
 		/**
-		 * Fills the array with random fractal noise.
+		 * Fills the array with random perlin noise (http://freespace.virgin.net/hugo.elias/models/m_perlin.htm).
 		 * @param min_feature_size Minimum wave length for amplitude to be used.
 		 * @param max_feature_size Maximum wave length for amplitude to be used.
 		 * @param amplitudes GGen_Amplitudes object.
+		 * @note Resulting computational complexity increases with number of amplitudes used.
 		 **/
 		void Noise(GGen_Size min_feature_size, GGen_Size max_feature_size, GGen_Amplitudes* amplitudes);
 
@@ -506,15 +500,7 @@ class GGen_Data_2D{
 		 **/
 		void FillPolygon(GGen_Path* path, GGen_Height value);
 
-		/**
-		 * Paints a path with one-dimensional brush onto the map.
-		 * @param path The path to be stroked.
-		 * @param brush Brush used. Value with index 0 will be the closest to the path itself.
-		 * @param radius Resulting size of the stroke.
-		 * @param fill_outside Fill the area outside the brush stroke?
-		 * @note Computational complexity of this function directly depends on number of segments in the path.
-		 **/
-		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, bool fill_outside);
+		void StrokePath(GGen_Path* path, GGen_Data_1D* brush, GGen_Distance radius, GGen_Height value);
 
 		void FloodFillBase(GGen_Coord start_x, GGen_Coord start_y, GGen_Height fill_value, GGen_Comparison_Mode mode, GGen_Height threshold, bool select_only);	
 
@@ -562,14 +548,12 @@ class GGen_Data_2D{
 		/**
 		 * Fills all areas within a distance in one direction from any value greater than 0 with 1. The rest of the map will be filled with 0.
 		 * @param distance The distance in maximum metric.
-		 * @param direction Direction of expansion.
 		 **/
 		void ExpandDirection(GGen_Distance distance, GGen_Direction direction);
 
 		/**
 		 * Fills all areas within a distance (in maximum metric) from any negative value with 0. The rest of the map will be filled with 1.
 		 * @param distance The distance in maximum metric.
-		 * @param direction Direction of shrinking.
 		 **/
 		void ShrinkDirection(GGen_Distance distance, GGen_Direction direction);
 
@@ -605,51 +589,6 @@ class GGen_Data_2D{
 		 * @param amplitude Strength of the distortion effect.
 		 **/
 		void Distort(GGen_Size waveLength, GGen_Distance amplitude);
-
-		/**
-		 * Replaces all values with values representing horizontal angle of surface normal in the tile. Angle 0° (eastern slope) is represented by value 0, angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are represented by positive values in range (0, GGEN_MAX_HEIGHT).
-		 * @note Flat areas (with normal pointing directly upward) are replaced with value GGEN_INVALID_HEIGHT. 
-		 **/
-		void NormalMap();
-
-		/** 
-		 * Replaces all values with values representing angle difference between surface normal in the tile and given angle. Angle difference of 0° is represented by value 0, angle difference of 180° is represented by GGEN_MAX_HEIGHT.
-		 * @param angle The angle in degrees.
-		 * @note Flat areas (with normal pointing directly upward) are replaced with value GGEN_INVALID_HEIGHT. 
-		 **/
-		void NormalDifferenceMap(int32 angle);
-
-		/**
-		 * Returns surface normal angle in a tile. Angle 0° (eastern slope) is represented by value 0, angles in range (0°, 180°) are represented by negative values in range (GGEN_MIN_HEIGHT, 0) and angles in range (180°, 360°) are represented by positive values in range (0, GGEN_MAX_HEIGHT).
-		 * @param x X coordinate of the tile.
-		 * @param y Y coordinate of the tile.
-		 * @return Surface normal angle. 
-		 **/
-		GGen_Height GetNormal(GGen_Coord x, GGen_Coord y);
-
-		void SimpleErosion(uint8 numRounds, uint8 erosionFactor, bool enableSedimentation);
-
-		/**
-		 * Generates a map representing flow of water of over the current height map.
-		 * @param duration Duration of the simulation, dramatically increases time complexity.
-		 * @param waterAmount Water amount multiplier in (0, 10) range. 
-		 **/
-		double FlowMap(double duration, double waterAmount);
-
-		/**
-		 * Applies thermal erosion onto the height map.
-		 * @param duration Duration of the simulation, dramatically increases time complexity.
-		 * @param talusAngle Angle towards which will all slopes be eroded.
-		 **/
-		void ThermalWeathering(double duration, double talusAngle);
-
-		/**
-		 * Applies hydraulic and thermal erosion onto the height map.
-		 * @param duration Duration of the simulation, dramatically increases time complexity.
-		 * @param thermalWeatheringAmount Thermal weathering effect multiplier.
-		 * @param waterAmount Water amount multiplier in (0, 10) range. 
-		 **/
-		void Erosion(double duration, double thermalWeatheringAmount, double waterAmount);
 
 		static void FreeAllInstances(){
 			while(GGen_Data_2D::instances.begin() != GGen_Data_2D::instances.end()){

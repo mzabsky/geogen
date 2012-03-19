@@ -5,7 +5,7 @@ function GetInfo(info_type){
 		case "description":
 			return "Two mountainous regions are connected only by a narrow land bridge.";
 		case "args":
-			GGen_AddIntArg("size","Size","Width and height of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("size","Size","Width and height of the map.", 1024, 128, 20000, 1);
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 2, "Tiny;Medium;Large;Huge");
 			return 0;
@@ -50,8 +50,6 @@ function Generate(){
 	base.SetValueInRect(0, 0, size / 4, size / 4, -12000);
 	base.SetValueInRect(3 * size / 4, 3 * size / 4, size - 1, size - 1, -12000);	
 	
-	base.ScaleValuesTo(2 * GGEN_MIN_HEIGHT / 8, GGEN_MIN_HEIGHT / 10);
-	
 	GGen_IncreaseProgress();
 	
 	base.Smooth(100);
@@ -62,9 +60,9 @@ function Generate(){
 	mask.Clamp(-8000, GGEN_MAX_HEIGHT);
 	
 	mask.ScaleValuesTo(0,GGEN_MAX_HEIGHT / 2);
-	mask.Add(GGEN_MAX_HEIGHT / 10);
+	mask.Add(GGEN_MAX_HEIGHT / 5);
 	mask.Clamp(0, GGEN_MAX_HEIGHT / 2);
-	mask.ScaleValuesTo(GGEN_MAX_HEIGHT / 30, GGEN_MAX_HEIGHT);
+	mask.ScaleValuesTo(0, GGEN_MAX_HEIGHT);
 
 	GGen_IncreaseProgress();
 
@@ -73,8 +71,8 @@ function Generate(){
 	
 	GGen_IncreaseProgress();
 	
-	noise.ScaleValuesTo(0, 12000);
-
+	noise.ScaleValuesTo(-2000, 12000);
+	
 	base.AddMapMasked(noise, mask, false);
 
 	GGen_IncreaseProgress();

@@ -7,8 +7,8 @@ function GetInfo(info_type){
 		case "description":
 			return "Elementary script generating just a random noise with given parameters.";
 		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, GGen_GetMaxMapSize(), 1);
+			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
 			GGen_AddEnumArg("water_distribution", "Water distribution", "Detrmines overall shape of terrain and water areas.", 0, "Uniform;Canals");
 			GGen_AddEnumArg("smoothness","Smoothness","Affects amount of detail on the map.", 1, "Very Rough;Rough;Smooth;Very Smooth");
 			GGen_AddEnumArg("feature_size","Feature Size","Affects size of individual hills/mountains.", 1, "Tiny;Medium;Large;Huge");

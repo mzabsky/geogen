@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="GeoGen.Studio.PlugIns.DockManager"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+			 mc:Ignorable="d" 
+			 d:DesignHeight="450" d:DesignWidth="900">
+	<ad:DockingManager x:Name="dockManager">
+		<ad:ResizingPanel Orientation="Horizontal">
+			<ad:ResizingPanel Orientation="Vertical" ad:ResizingPanel.ResizeWidth="300">
+				<ad:DockablePane Name="leftTopPane"/>
+				<ad:DockablePane Name="leftBottomPane"/>
+			</ad:ResizingPanel>
+			<ad:ResizingPanel Orientation="Vertical">
+				<ad:DockablePane Name="topPane" ad:ResizingPanel.ResizeHeight="200"/>
+				<ad:DocumentPane Name="documentPane" />
+				<ad:DockablePane Name="bottomPane" ad:ResizingPanel.ResizeHeight="200"/>
+			</ad:ResizingPanel>
+			<ad:ResizingPanel Orientation="Vertical" ad:ResizingPanel.ResizeWidth="300">
+				<ad:DockablePane Name="rightTopPane"/>
+				<ad:DockablePane Name="rightBottomPane"/>
+			</ad:ResizingPanel>            
+		</ad:ResizingPanel>
+	</ad:DockingManager>
+</UserControl>
