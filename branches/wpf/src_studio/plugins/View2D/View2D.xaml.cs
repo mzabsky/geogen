@@ -138,6 +138,7 @@
                         this.image.SetValue(
                             Canvas.LeftProperty,
                             (double)image.GetValue(Canvas.LeftProperty) - (this.lastDragX - Mouse.GetPosition(this.canvas).X));
+
                         this.image.SetValue(
                             Canvas.TopProperty,
                             (double)image.GetValue(Canvas.TopProperty) - (this.lastDragY - Mouse.GetPosition(this.canvas).Y));
@@ -169,7 +170,7 @@
             this.canvas.SizeChanged += delegate
                 {
                     this.ReleaseMouseCapture();
-                    this.ClampImagePosition();
+                    this.ClampImagePosition();                    
                 };
 
             this.image.MouseEnter += delegate { ContextManager.EnterContext(this.mouseOverContext); };
@@ -184,7 +185,10 @@
                     ContextManager.LeaveContext(this.mouseOverContext);
                 };
 
-            this.image.SizeChanged += delegate { this.ClampImagePosition(); };
+            this.image.SizeChanged += delegate
+                {
+                    this.ClampImagePosition();
+                };
 
             this.PropertyChanged += delegate(object o, PropertyChangedEventArgs args)
             {
@@ -455,8 +459,7 @@
             this.image.Height = image.ActualHeight * View2D.ZoomInStep;
 
             // make sure the zooming is centered on mouse
-            this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
-            this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (image.Height - image.ActualHeight) / (image.ActualHeight / Mouse.GetPosition(image).Y));
+            this.CenterOnMouse();
 
             this.ClampImagePosition();
         }
@@ -476,9 +479,7 @@
             this.image.Width = image.ActualWidth * View2D.ZoomOutStep;
             this.image.Height = image.ActualHeight * View2D.ZoomOutStep;
 
-            // make sure the zooming is centered on mouse
-            this.image.SetValue(Canvas.LeftProperty, (double)image.GetValue(Canvas.LeftProperty) - (image.Width - image.ActualWidth) / (image.ActualWidth / Mouse.GetPosition(image).X));
-            this.image.SetValue(Canvas.TopProperty, (double)image.GetValue(Canvas.TopProperty) - (image.Height - image.ActualHeight) / (image.ActualHeight / Mouse.GetPosition(image).Y));
+            this.CenterOnMouse();
 
             this.ClampImagePosition();
         }
@@ -512,6 +513,21 @@
 
             var message = new Message(@"Image """ + Path.GetFileName(this.LastSaveImagePath) + @""" saved.");
             message.Send();
+        }
+
+        /// <summary>
+        /// Centers the image, so the image in in the middle of it. Zoom factor won't change.
+        /// </summary>
+        public void CenterOnMouse()
+        {
+            double mouseRatioX = this.image.ActualWidth / Mouse.GetPosition(this.image).X;
+            double mouseRatioY = this.image.ActualHeight / Mouse.GetPosition(this.image).Y;
+
+            double calculatedX = (double)this.image.GetValue(Canvas.LeftProperty) - ((this.image.Width - this.image.ActualWidth) / mouseRatioX);
+            double calculatedY = (double)this.image.GetValue(Canvas.TopProperty) - ((this.image.Height - this.image.ActualHeight) / mouseRatioY);
+
+            this.image.SetValue(Canvas.LeftProperty, calculatedX);            
+            this.image.SetValue(Canvas.TopProperty, calculatedY);
         }
 
         /// <summary>
