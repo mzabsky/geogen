@@ -113,6 +113,8 @@ public:
 
 	GGen_Status GetStatus();
 
+	virtual void Reset();
+
 	void ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line = -1, int column = -1);
 	
 	void SetMessageCallback( void (*message_callback) (const GGen_String& message, GGen_Message_Level, int line, int column));
