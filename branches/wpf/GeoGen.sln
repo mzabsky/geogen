@@ -20,7 +20,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen DLL Test", "project 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen NET", "project files\GeoGen NET.vcxproj", "{7B76756E-BC8F-4D6C-82EF-98F26FAD855F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.Core", "src_studio\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj", "{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.Core", "src_studio\Core\GeoGen.Studio.Core.csproj", "{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Studio", "Studio", "{B295DF00-0BF1-4C53-BD85-D6974B098681}"
 EndProject

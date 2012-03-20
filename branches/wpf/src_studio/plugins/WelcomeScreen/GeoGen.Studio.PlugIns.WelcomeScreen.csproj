@@ -89,19 +89,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj">
+    <ProjectReference Include="..\..\Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DockManager\GGenStudio.PlugIns.DockManager.csproj">
+    <ProjectReference Include="..\DockManager\GeoGen.Studio.PlugIns.DockManager.csproj">
       <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
       <Name>GGenStudio.PlugIns.DockManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
+    <ProjectReference Include="..\Window\GeoGen.Studio.PlugIns.MainWindow.csproj">
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
       <Name>GGenStudio.PlugIns.MainWindow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
+    <ProjectReference Include="..\ToolBar\GeoGen.Studio.PlugIns.ToolBar.csproj">
       <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
       <Name>GGenStudio.PlugIns.ToolBar</Name>
     </ProjectReference>

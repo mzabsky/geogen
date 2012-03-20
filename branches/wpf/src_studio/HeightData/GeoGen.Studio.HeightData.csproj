@@ -57,7 +57,7 @@
       <Project>{7B76756E-BC8F-4D6C-82EF-98F26FAD855F}</Project>
       <Name>GeoGen NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj">
+    <ProjectReference Include="..\Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
