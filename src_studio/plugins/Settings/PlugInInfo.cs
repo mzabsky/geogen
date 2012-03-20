@@ -9,7 +9,7 @@
     using GeoGen.Studio.Utilities;
     using GeoGen.Studio.Utilities.Persistence;
 
-    internal class PlugInInfo : ObservableObject, INotifyPropertyChanged
+    public class PlugInInfo : ObservableObject, INotifyPropertyChanged
     {
         public PlugInInfo(PlugInLoader.PlugIn plugIn)
         {
@@ -25,7 +25,7 @@
             {              
                 var configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
-                /* Skip non-readable non-readable non-configurable properties. */
+                // Skip non-readable non-readable non-configurable properties.
                 if (
                     property.CanWrite && 
                     property.CanRead && 
