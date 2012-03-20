@@ -12,7 +12,7 @@
 	[PlugIn(VisibleInList = false)]
 	public sealed class GeneratorUI : GeoGen.Studio.Utilities.PlugInBase.ObjectBase
 	{
-		private const string IconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.GeneratorUI;component/Images/Icons/";
+		private const string IconPathPrefix = "pack://application:,,,/GeoGen.Studio.PlugIns.GeneratorUI;component/Images/Icons/";
 
 		private readonly ICommand startCommand;
 		private readonly ICommand abortCommand;

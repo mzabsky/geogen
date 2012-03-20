@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGenStudio"
+			 xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGen.Studio.Core"
 			 xmlns:plugin="clr-namespace:GeoGen.Studio.PlugIns"
 			 xmlns:mb="clr-namespace:GeoGen.Studio.PlugIns.MenuBars"
 			 mc:Ignorable="d" 
