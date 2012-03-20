@@ -111,6 +111,9 @@
             {
                 this.AddHeightDataToTemporaryMapList(args.Label, args.HeightMap);
             };
+
+            // Don't crash when the application terminates while executing
+            Application.Current.Exit += delegate { this.Abort(); };
         }
 
         /// <summary>
