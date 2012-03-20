@@ -61,10 +61,25 @@
         /// </summary>
         private readonly Context mouseOverContext = new Context("View 2D");
 
+        /// <summary>
+        /// Last known dragging X of the image relative to the upper-left corner of the canvas.
+        /// </summary>
         private double lastDragX;
+
+        /// <summary>
+        /// Last known dragging y of the image relative to the upper-left corner of the canvas.
+        /// </summary>
         private double lastDragY;
-        private double dragPointX;
-        private double dragPointY;
+
+        /// <summary>
+        /// X coordinate which is the user holding with his mouse while dragging the image.
+        /// </summary>
+        private double dragClickX;
+
+        /// <summary>
+        /// Y coordinate which is the user holding with his mouse while dragging the image.
+        /// </summary>
+        private double dragClickY;
 
         /// <summary>
         /// Backing field for <see cref="ZoomInCommand"/>.
@@ -102,10 +117,10 @@
                         return;
                     }
 
-                    this.dragPointX = Mouse.GetPosition(this.image).X;
-                    this.dragPointY = Mouse.GetPosition(this.image).Y;
-                    this.lastDragX = (double)this.image.GetValue(Canvas.LeftProperty) + this.dragPointX;
-                    this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + this.dragPointY;
+                    this.dragClickX = Mouse.GetPosition(this.image).X;
+                    this.dragClickY = Mouse.GetPosition(this.image).Y;
+                    this.lastDragX = (double)this.image.GetValue(Canvas.LeftProperty) + this.dragClickX;
+                    this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + this.dragClickY;
 
                     this.image.CaptureMouse();
                 };
@@ -143,8 +158,8 @@
                             Canvas.TopProperty,
                             (double)image.GetValue(Canvas.TopProperty) - (this.lastDragY - Mouse.GetPosition(this.canvas).Y));
 
-                        this.lastDragX = (double)this.image.GetValue(Canvas.LeftProperty) + this.dragPointX;
-                        this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + this.dragPointY;
+                        this.lastDragX = (double)this.image.GetValue(Canvas.LeftProperty) + this.dragClickX;
+                        this.lastDragY = (double)this.image.GetValue(Canvas.TopProperty) + this.dragClickY;
 
                         this.ClampImagePosition();
                     }
@@ -542,21 +557,25 @@
                 return;
             }
 
+            // Left border
             if ((double)this.image.GetValue(Canvas.LeftProperty) + this.image.ActualWidth < View2D.MinimumVisibleTip)
             {
                 this.image.SetValue(Canvas.LeftProperty, View2D.MinimumVisibleTip - this.image.ActualWidth);
             }
 
+            // Right border
             if (this.canvas.ActualWidth - (double)this.image.GetValue(Canvas.LeftProperty) < View2D.MinimumVisibleTip)
             {
                 this.image.SetValue(Canvas.LeftProperty, this.canvas.ActualWidth - View2D.MinimumVisibleTip);
             }
 
+            // Top border
             if ((double)this.image.GetValue(Canvas.TopProperty) + this.image.ActualHeight < View2D.MinimumVisibleTip)
             {
                 this.image.SetValue(Canvas.TopProperty, View2D.MinimumVisibleTip - this.image.ActualHeight);
             }
-
+            
+            // Bottom border
             if (this.canvas.ActualHeight - (double)this.image.GetValue(Canvas.TopProperty) < View2D.MinimumVisibleTip)
             {
                 this.image.SetValue(Canvas.TopProperty, this.canvas.ActualHeight - View2D.MinimumVisibleTip);

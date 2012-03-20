@@ -202,7 +202,7 @@
 				<Canvas.Background>
 					<ImageBrush ImageSource="Images/Backgrounds/checkers.png" Stretch="None" TileMode="Tile" Viewport="0,0,100,100" ViewportUnits="Absolute" />
 				</Canvas.Background>
-				<Image Name="image" Canvas.Left="0" Canvas.Top="0">
+                <Image Name="image" Canvas.Left="0" Canvas.Top="0">
 					<Image.Source>
 						<MultiBinding Converter="{x:Static hdConverters:HeightDataAndOverlayToBitmapConverter.Instance}" Mode="OneWay">
 							<Binding Path="SelectedMap" Mode="OneWay"/>
