@@ -60,6 +60,11 @@ GGen_Status GGen::GetStatus(){
 	return this->status;
 }
 
+void GGen::Reset(){
+	this->args.clear();
+	this->status = GGEN_NO_SCRIPT;	
+}
+
 void GGen::ThrowMessage(const GGen_String& message, GGen_Message_Level level, int line, int column){
 	
 	if(message_callback != NULL){
