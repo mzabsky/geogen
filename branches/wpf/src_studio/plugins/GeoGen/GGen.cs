@@ -371,8 +371,13 @@
         /// Aborts the script being executed.
         /// </summary>
         public void Abort()
-        {            
-            this.generatorThread.Abort();
+        {   
+            // The thread might not have been created yet
+            if(this.generatorThread != null)
+            {
+                this.generatorThread.Abort();    
+            }
+            
             this.generator.Reset();
             this.Reset();            
             this.OnAborted();
