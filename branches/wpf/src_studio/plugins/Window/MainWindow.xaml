@@ -10,7 +10,7 @@
 	Name="mainWindow"
 	DataContext="{Binding ElementName=mainWindow}"
 	WindowState="Maximized"
-	
+	Title="GeoGen Studio"
 >
 	<pb:WindowBase.Style>
 		<Style TargetType="{x:Type Window}">
