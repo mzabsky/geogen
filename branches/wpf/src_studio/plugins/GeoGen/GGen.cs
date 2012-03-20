@@ -109,7 +109,7 @@
 
             this.generator.ProgressChanged += delegate(object o, GeoGen.Net.ProgressEventArgs args)
             {                
-                this.Progress = args.CurrentProgress / args.MaximumProgress;
+                this.Progress = (double)args.CurrentProgress / args.MaximumProgress;
             };
 
             this.generator.MapReturned += delegate(object o, GeoGen.Net.MapReturnedEventArgs args)
