@@ -22,17 +22,17 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\bin\GeoGenStudio.XML</DocumentationFile>
+    <DocumentationFile>$(SolutionDir)\bin\GeoGenStudio.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,10 +43,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonDock.Themes">
-      <HintPath>..\..\..\bin\plugins\AvalonDock.Themes.dll</HintPath>
+      <HintPath>$(SolutionDir)\bin\plugins\AvalonDock.Themes.dll</HintPath>
     </Reference>
     <Reference Include="GrayscaleEffect">
-      <HintPath>..\..\..\bin\plugins\GrayscaleEffect.dll</HintPath>
+      <HintPath>$(SolutionDir)\bin\plugins\GrayscaleEffect.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />

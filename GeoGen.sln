@@ -58,7 +58,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.Welco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.View3D", "src_studio\plugins\View3D\GGenStudio.PlugIns.View3D.csproj", "{37F2772C-D346-4272-8DE1-F1457EC01EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.Core.Tests", "src_studio\Core.Tests\GeoGen.Studio.Core.Tests\GeoGen.Studio.Core.Tests.csproj", "{C37B7C68-BB23-422B-AFE0-73D3847F7927}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.Core.Tests", "src_studio\Core.Tests\GeoGen.Studio.Core.Tests.csproj", "{C37B7C68-BB23-422B-AFE0-73D3847F7927}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.FullScreen", "src_studio\plugins\FullScreen\GeoGen.Studio.PlugIns.FullScreen.csproj", "{76CF5FCF-1080-4274-941D-B9D60146354E}"
 EndProject
