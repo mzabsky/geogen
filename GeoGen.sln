@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.DockM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.AvalonEditor", "src_studio\plugins\AvalonEditor\GeoGen.Studio.PlugIns.AvalonEditor.csproj", "{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.Logger", "src_studio\plugins\Logger\GGenStudio.PlugIns.Logger\GeoGen.Studio.PlugIns.Logger.csproj", "{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.Logger", "src_studio\plugins\Logger\GeoGen.Studio.PlugIns.Logger.csproj", "{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.MenuBar", "src_studio\plugins\MenuBar\GeoGen.Studio.PlugIns.MenuBar.csproj", "{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}"
 EndProject
