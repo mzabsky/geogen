@@ -36,7 +36,7 @@ namespace GeoGen.Studio.Utilities.Collections
                 {
                     type = Type.GetType(typeName);
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     continue;
                 }
