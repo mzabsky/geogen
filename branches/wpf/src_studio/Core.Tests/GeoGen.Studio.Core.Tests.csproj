@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\tests\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\tests\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonDock.Themes">
-      <HintPath>..\..\..\bin\AvalonDock.Themes.dll</HintPath>
+      <HintPath>$(SolutionDir)\bin\AvalonDock.Themes.dll</HintPath>
     </Reference>
     <Reference Include="GrayscaleEffect">
-      <HintPath>..\..\..\bin\GrayscaleEffect.dll</HintPath>
+      <HintPath>$(SolutionDir)\bin\GrayscaleEffect.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
@@ -58,7 +58,7 @@
     <Compile Include="Utilities\Messaging\MessengerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\GeoGen.Studio.Core.csproj">
+    <ProjectReference Include="$(SolutionDir)\src_studio\Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
