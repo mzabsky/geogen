@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\plugins\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,15 +50,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\GeoGen.Studio.Core.csproj">
+    <ProjectReference Include="$(SolutionDir)\src_studio\Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\plugins\AvalonEditor\GeoGen.Studio.PlugIns.AvalonEditor.csproj">
+    <ProjectReference Include="$(SolutionDir)\src_studio\plugins\AvalonEditor\GeoGen.Studio.PlugIns.AvalonEditor.csproj">
       <Project>{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}</Project>
       <Name>GeoGen.Studio.PlugIns.AvalonEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\plugins\GeoGen\GeoGen.Studio.PlugIns.Generator.csproj">
+    <ProjectReference Include="$(SolutionDir)\src_studio\plugins\GeoGen\GeoGen.Studio.PlugIns.Generator.csproj">
       <Project>{5D0FF14C-459D-4801-A825-C406D5FD6051}</Project>
       <Name>GeoGen.Studio.PlugIns.Generator</Name>
     </ProjectReference>

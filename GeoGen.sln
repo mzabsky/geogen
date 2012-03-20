@@ -62,7 +62,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.Core.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.FullScreen", "src_studio\plugins\FullScreen\GeoGen.Studio.PlugIns.FullScreen.csproj", "{76CF5FCF-1080-4274-941D-B9D60146354E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.ScriptValidator", "src_studio\ScriptValidator\GeoGen.Studio.PlugIns.ScriptValidator.csproj", "{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.ScriptValidator", "src_studio\plugins\ScriptValidator\GeoGen.Studio.PlugIns.ScriptValidator.csproj", "{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
