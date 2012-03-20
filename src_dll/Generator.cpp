@@ -165,6 +165,9 @@ namespace GeoGen{
 					this->ggen->SetProgressCallback(&GeoGen::Net::ProgressHandler);
 					this->ggen->SetReturnCallback(&GeoGen::Net::ReturnHandler);
 				}
+				catch(Threading::ThreadAbortException^){
+					throw;
+				}
 				catch(System::Exception^ e){
 					throw gcnew InternalErrorException(e);
 				}
@@ -186,6 +189,10 @@ namespace GeoGen{
 				}
 			}
 
+			void Reset(){
+				this->ggen->Reset();
+			}
+
 			void SetScript(System::String^ script){
 				if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
 					throw gcnew InvalidStatusException();
@@ -199,6 +206,9 @@ namespace GeoGen{
 					);
 				}
 				catch(ExceptionInCallbackException^){
+					throw;
+				}
+				catch(Threading::ThreadAbortException^){
 					throw;
 				}
 				catch(System::Exception^ e){
@@ -221,6 +231,9 @@ namespace GeoGen{
 		
 				try{
 					unmanagedInfo = ggen->GetInfo(StringUtil::ManagedToUnmanagedString(label));
+				}
+				catch(Threading::ThreadAbortException^){
+					throw;
 				}
 				catch(ExceptionInCallbackException^){
 					throw;
@@ -251,6 +264,9 @@ namespace GeoGen{
 					unmanagedArgs = ggen->LoadArgs();
 				}
 				catch(ExceptionInCallbackException^){
+					throw;
+				}
+				catch(Threading::ThreadAbortException^){
 					throw;
 				}
 				catch(System::Exception^ e){
@@ -303,6 +319,9 @@ namespace GeoGen{
 					pureData = ggen->Generate();
 				}
 				catch(ExceptionInCallbackException^){
+					throw;
+				}
+				catch(Threading::ThreadAbortException^){
 					throw;
 				}
 				catch(System::Exception^ e){
