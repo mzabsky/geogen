@@ -9,7 +9,7 @@
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
-    <AssemblyName>GGenStudio.PlugIn.WelcomeScreen</AssemblyName>
+    <AssemblyName>GeoGen.Studio.PlugIns.WelcomeScreen</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

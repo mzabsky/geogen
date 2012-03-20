@@ -569,7 +569,7 @@
         /// <param name="menuBar">The menu bar.</param>
         public void Register(IMenuBar menuBar)
         {
-            string iconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.AvalonEditor;component/Images/Icons/";
+            string iconPathPrefix = "pack://application:,,,/GeoGen.Studio.PlugIns.AvalonEditor;component/Images/Icons/";
 
             menuBar.AddMenu(
                 new MenuEntry(
@@ -707,7 +707,7 @@
 
         public void Register(IMainWindowToolBar toolBar)
         {
-            string iconPathPrefix = "pack://application:,,,/GGenStudio.PlugIn.AvalonEditor;component/Images/Icons/";
+            string iconPathPrefix = "pack://application:,,,/GeoGen.Studio.PlugIns.AvalonEditor;component/Images/Icons/";
 
             toolBar.AddItem(new ToolBarButton(
                 icon: iconPathPrefix + "new.png",

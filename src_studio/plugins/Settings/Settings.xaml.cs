@@ -86,7 +86,7 @@
 							header: "Settings",                            
 							priority: -32,
 							command: this.ShowCommand,
-							icon: "pack://application:,,,/GGenStudio.PlugIn.Settings;component/Images/Icons/settings.png")
+							icon: "pack://application:,,,/GeoGen.Studio.PlugIns.Settings;component/Images/Icons/settings.png")
 					}));
 		}
 

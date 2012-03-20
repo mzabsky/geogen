@@ -9,7 +9,7 @@
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
-    <AssemblyName>GGenStudio.PlugIn.ParamGrid</AssemblyName>
+    <AssemblyName>GeoGen.Studio.PlugIns.ParamGrid</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

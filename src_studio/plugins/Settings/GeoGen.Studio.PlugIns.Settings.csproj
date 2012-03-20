@@ -9,7 +9,7 @@
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
-    <AssemblyName>GGenStudio.PlugIn.Settings</AssemblyName>
+    <AssemblyName>GeoGen.Studio.PlugIns.Settings</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
