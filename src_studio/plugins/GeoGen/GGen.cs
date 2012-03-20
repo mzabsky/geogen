@@ -64,11 +64,6 @@
         private Thread generatorThread;
 
         /// <summary>
-        /// True if the generator thread was requested to stop next time it returns to managed code.
-        /// </summary>
-        private bool killWorkerThread;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GGen"/> class.
         /// </summary>
         public GGen()
@@ -281,7 +276,6 @@
 
             this.OnStarted(script, headerOnly);
 
-            this.killWorkerThread = false;
             ThreadStart starter = delegate
                 {
                     // Compile the script.
@@ -344,23 +338,22 @@
                     }*/
 
                         result = this.generator.Generate();
-
-                        if (this.killWorkerThread)
-                        {
-                            return;
-                        }
                     }
                     catch (GeoGen.Net.GenerationFailedException)
                     {
-                        if (this.killWorkerThread)
+                        this.OnFailed("Map generation failed!", true);
+
+                        return;
+                    }
+                    catch (GeoGen.Net.ExceptionInCallbackException e)
+                    {
+                        if (e.InnerException is ThreadAbortException)
                         {
                             return;
                         }
 
-                        this.OnFailed("Map generation failed!", true);
-
-                        return;
-                    }        
+                        throw;
+                    }
 
                     this.AddHeightDataToTemporaryMapList("[Main]", result);
 
@@ -375,7 +368,9 @@
         /// Aborts the script being executed.
         /// </summary>
         public void Abort()
-        {
+        {            
+            this.generatorThread.Abort();
+            this.generator.Reset();
             this.Reset();            
             this.OnAborted();
         }
@@ -395,9 +390,9 @@
         /// </summary>
         protected void Reset()
         {
-            this.killWorkerThread = true;
             this.generatorThread = null;
             this.CurrentTaskType = TaskType.None;
+            this.Progress = null;
         }
 
         /// <summary>
