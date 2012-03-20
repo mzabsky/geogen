@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}</ProjectGuid>
+    <ProjectGuid>{800BDCE0-5B63-4B1B-927B-CDD568721938}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
-    <AssemblyName>GGenStudio.PlugIn.AvalonEditor</AssemblyName>
+    <AssemblyName>GGenStudio.PlugIn.DockManager</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
@@ -36,8 +37,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.AvalonEdit">
-      <HintPath>..\..\..\bin\ICSharpCode.AvalonEdit.dll</HintPath>
+    <Reference Include="AvalonDock, Version=1.3.3548.0, Culture=neutral, PublicKeyToken=85a1e0ada7ec13e4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\plugins\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock.Themes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\plugins\AvalonDock.Themes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -54,19 +60,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AvalonEditor.xaml">
+    <Page Include="DockManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AvalonEditor.xaml.cs">
-      <DependentUpon>AvalonEditor.xaml</DependentUpon>
+    <Compile Include="DockManager.xaml.cs">
+      <DependentUpon>DockManager.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BraceFoldingStrategy.cs" />
-    <Compile Include="IEditor.cs" />
-    <Compile Include="ITextProvider.cs" />
+    <Compile Include="IDockManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -94,42 +98,12 @@
     <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\DockManager\GGenStudio.PlugIns.DockManager.csproj">
-      <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
-      <Name>GGenStudio.PlugIns.DockManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
-      <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
-      <Name>GGenStudio.PlugIns.MenuBar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StatusBar\GGenStudio.PlugIns.StatusBar.csproj">
-      <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
-      <Name>GGenStudio.PlugIns.StatusBar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
-      <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
-      <Name>GGenStudio.PlugIns.ToolBar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WelcomeScreen\GGenStudio.PlugIns.WelcomeScreen.csproj">
-      <Project>{EEC27604-CE76-40B3-ADC8-105CB0731A58}</Project>
-      <Name>GGenStudio.PlugIns.WelcomeScreen</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
+    <ProjectReference Include="..\Window\GeoGen.Studio.PlugIns.MainWindow.csproj">
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
-      <Name>GGenStudio.PlugIns.MainWindow</Name>
+      <Name>GeoGen.Studio.PlugIns.MainWindow</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icons\code.png" />
-    <Resource Include="Images\Icons\copy.png" />
-    <Resource Include="Images\Icons\cut.png" />
-    <Resource Include="Images\Icons\new.png" />
-    <Resource Include="Images\Icons\open.png" />
-    <Resource Include="Images\Icons\paste.png" />
-    <Resource Include="Images\Icons\redo.png" />
-    <Resource Include="Images\Icons\save.png" />
-    <Resource Include="Images\Icons\undo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

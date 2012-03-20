@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BDACE2EE-D55C-426B-84DA-8E1C6CB377BA}</ProjectGuid>
+    <ProjectGuid>{CD8B2300-5430-4357-BE95-0FB560B58589}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoGen.Studio.PlugIns</RootNamespace>
-    <AssemblyName>GGenStudio.PlugIn.View2D</AssemblyName>
+    <AssemblyName>GGenStudio.PlugIn.Settings</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -52,12 +52,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View2D.xaml">
+    <Compile Include="ConfigurablePropertyItemTemplateSelector.cs" />
+    <Page Include="Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="View2D.xaml.cs">
-      <DependentUpon>View2D.xaml</DependentUpon>
+    <Compile Include="ConfigurablePropertyInfo.cs" />
+    <Compile Include="PlugInInfo.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -90,55 +93,23 @@
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HeightData\GGenStudio.HeightData.csproj">
-      <Project>{EA119B85-8F12-4E84-89AB-E47D8996D016}</Project>
-      <Name>GGenStudio.HeightData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DockManager\GGenStudio.PlugIns.DockManager.csproj">
-      <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
-      <Name>GGenStudio.PlugIns.DockManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GeoGen\GGenStudio.PlugIns.GGen.csproj">
-      <Project>{5D0FF14C-459D-4801-A825-C406D5FD6051}</Project>
-      <Name>GGenStudio.PlugIns.GGen</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+    <ProjectReference Include="..\MenuBar\GeoGen.Studio.PlugIns.MenuBar.csproj">
       <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
-      <Name>GGenStudio.PlugIns.MenuBar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StatusBar\GGenStudio.PlugIns.StatusBar.csproj">
-      <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
-      <Name>GGenStudio.PlugIns.StatusBar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
-      <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
-      <Name>GGenStudio.PlugIns.ToolBar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
-      <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
-      <Name>GGenStudio.PlugIns.MainWindow</Name>
+      <Name>GeoGen.Studio.PlugIns.MenuBar</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\Icons\export.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Backgrounds\checkers.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icons\reset.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icons\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icons\toggleOverlay.png" />
+    <Resource Include="Images\Icons\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target> -->
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
   <UsingTask TaskName="NotifyPropertyWeaverMsBuildTask.WeavingTask" AssemblyFile="$(SolutionDir)\msbuild\NotifyPropertyWeaverMsBuildTask.dll" />
   <Target Name="AfterBuild">
     <WeavingTask TargetPath="$(TargetPath)" CheckForEquality="true" TryToWeaveAllTypes="True" />

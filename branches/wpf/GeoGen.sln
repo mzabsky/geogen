@@ -22,39 +22,39 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen NET", "project files
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.Core", "src_studio\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj", "{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeoGen Studio", "GeoGen Studio", "{B295DF00-0BF1-4C53-BD85-D6974B098681}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Studio", "Studio", "{B295DF00-0BF1-4C53-BD85-D6974B098681}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plug-ins", "Plug-ins", "{0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlugIns", "PlugIns", "{0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MainWindow", "src_studio\plugins\Window\GGenStudio.PlugIns.MainWindow.csproj", "{71A77DFA-C195-4882-AD94-5F73FBF0F918}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.MainWindow", "src_studio\plugins\Window\GeoGen.Studio.PlugIns.MainWindow.csproj", "{71A77DFA-C195-4882-AD94-5F73FBF0F918}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.DockManager", "src_studio\plugins\DockManager\GGenStudio.PlugIns.DockManager.csproj", "{800BDCE0-5B63-4B1B-927B-CDD568721938}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.DockManager", "src_studio\plugins\DockManager\GeoGen.Studio.PlugIns.DockManager.csproj", "{800BDCE0-5B63-4B1B-927B-CDD568721938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.AvalonEditor", "src_studio\plugins\AvalonEditor\GGenStudio.PlugIns.AvalonEditor.csproj", "{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.AvalonEditor", "src_studio\plugins\AvalonEditor\GeoGen.Studio.PlugIns.AvalonEditor.csproj", "{5EC8333E-A9EF-4D6D-8B86-90BE82D0BA52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.Logger", "src_studio\plugins\Logger\GGenStudio.PlugIns.Logger\GGenStudio.PlugIns.Logger.csproj", "{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.Logger", "src_studio\plugins\Logger\GGenStudio.PlugIns.Logger\GeoGen.Studio.PlugIns.Logger.csproj", "{C40DFBAB-9D05-40AB-B0AF-7E2EF67B65BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.MenuBar", "src_studio\plugins\MenuBar\GGenStudio.PlugIns.MenuBar.csproj", "{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.MenuBar", "src_studio\plugins\MenuBar\GeoGen.Studio.PlugIns.MenuBar.csproj", "{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.GGen", "src_studio\plugins\GeoGen\GGenStudio.PlugIns.GGen.csproj", "{5D0FF14C-459D-4801-A825-C406D5FD6051}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.Generator", "src_studio\plugins\GeoGen\GeoGen.Studio.PlugIns.Generator.csproj", "{5D0FF14C-459D-4801-A825-C406D5FD6051}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.HeightData", "src_studio\HeightData\GGenStudio.HeightData.csproj", "{EA119B85-8F12-4E84-89AB-E47D8996D016}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.HeightData", "src_studio\HeightData\GeoGen.Studio.HeightData.csproj", "{EA119B85-8F12-4E84-89AB-E47D8996D016}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.GeneratorUI", "src_studio\plugins\GeneratorUI\GGenStudio.PlugIns.GeneratorUI.csproj", "{17BE962C-BBD2-4AE7-987B-7D14971BE1A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.GeneratorUI", "src_studio\plugins\GeneratorUI\GeoGen.Studio.PlugIns.GeneratorUI.csproj", "{17BE962C-BBD2-4AE7-987B-7D14971BE1A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.ToolBar", "src_studio\plugins\ToolBar\GGenStudio.PlugIns.ToolBar.csproj", "{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.ToolBar", "src_studio\plugins\ToolBar\GeoGen.Studio.PlugIns.ToolBar.csproj", "{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.StatusBar", "src_studio\plugins\StatusBar\GGenStudio.PlugIns.StatusBar.csproj", "{54AEC1B4-F57E-4896-9B5E-09894414B95F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.StatusBar", "src_studio\plugins\StatusBar\GeoGen.Studio.PlugIns.StatusBar.csproj", "{54AEC1B4-F57E-4896-9B5E-09894414B95F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.View2D", "src_studio\plugins\View2D\GGenStudio.PlugIns.View2D.csproj", "{BDACE2EE-D55C-426B-84DA-8E1C6CB377BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.View2D", "src_studio\plugins\View2D\GeoGen.Studio.PlugIns.View2D.csproj", "{BDACE2EE-D55C-426B-84DA-8E1C6CB377BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.Messages", "src_studio\plugins\Messages\GGenStudio.PlugIns.Messages.csproj", "{AAC31ADC-39D3-4DB0-9D6E-0F725A0B4FF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.Messages", "src_studio\plugins\Messages\GeoGen.Studio.PlugIns.Messages.csproj", "{AAC31ADC-39D3-4DB0-9D6E-0F725A0B4FF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.ParamGrid", "src_studio\plugins\ParamGrid\GGenStudio.PlugIns.ParamGrid.csproj", "{CF438B60-3C0D-431F-9330-7658DC2953DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.ParamGrid", "src_studio\plugins\ParamGrid\GeoGen.Studio.PlugIns.ParamGrid.csproj", "{CF438B60-3C0D-431F-9330-7658DC2953DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "src_studio\plugins\Settings\Settings.csproj", "{CD8B2300-5430-4357-BE95-0FB560B58589}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.Settings", "src_studio\plugins\Settings\GeoGen.Studio.PlugIns.Settings.csproj", "{CD8B2300-5430-4357-BE95-0FB560B58589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.WelcomeScreen", "src_studio\plugins\WelcomeScreen\GGenStudio.PlugIns.WelcomeScreen.csproj", "{EEC27604-CE76-40B3-ADC8-105CB0731A58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.WelcomeScreen", "src_studio\plugins\WelcomeScreen\GeoGen.Studio.PlugIns.WelcomeScreen.csproj", "{EEC27604-CE76-40B3-ADC8-105CB0731A58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGenStudio.PlugIns.View3D", "src_studio\plugins\View3D\GGenStudio.PlugIns.View3D.csproj", "{37F2772C-D346-4272-8DE1-F1457EC01EB3}"
 EndProject

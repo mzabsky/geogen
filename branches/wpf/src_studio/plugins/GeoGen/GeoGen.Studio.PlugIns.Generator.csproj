@@ -64,25 +64,25 @@
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HeightData\GGenStudio.HeightData.csproj">
+    <ProjectReference Include="..\..\HeightData\GeoGen.Studio.HeightData.csproj">
       <Project>{EA119B85-8F12-4E84-89AB-E47D8996D016}</Project>
-      <Name>GGenStudio.HeightData</Name>
+      <Name>GeoGen.Studio.HeightData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MenuBar\GGenStudio.PlugIns.MenuBar.csproj">
+    <ProjectReference Include="..\MenuBar\GeoGen.Studio.PlugIns.MenuBar.csproj">
       <Project>{7C9E8C01-394C-43C7-8DC2-0E16FAED7AF2}</Project>
-      <Name>GGenStudio.PlugIns.MenuBar</Name>
+      <Name>GeoGen.Studio.PlugIns.MenuBar</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StatusBar\GGenStudio.PlugIns.StatusBar.csproj">
+    <ProjectReference Include="..\StatusBar\GeoGen.Studio.PlugIns.StatusBar.csproj">
       <Project>{54AEC1B4-F57E-4896-9B5E-09894414B95F}</Project>
-      <Name>GGenStudio.PlugIns.StatusBar</Name>
+      <Name>GeoGen.Studio.PlugIns.StatusBar</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToolBar\GGenStudio.PlugIns.ToolBar.csproj">
+    <ProjectReference Include="..\ToolBar\GeoGen.Studio.PlugIns.ToolBar.csproj">
       <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
-      <Name>GGenStudio.PlugIns.ToolBar</Name>
+      <Name>GeoGen.Studio.PlugIns.ToolBar</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WelcomeScreen\GGenStudio.PlugIns.WelcomeScreen.csproj">
+    <ProjectReference Include="..\WelcomeScreen\GeoGen.Studio.PlugIns.WelcomeScreen.csproj">
       <Project>{EEC27604-CE76-40B3-ADC8-105CB0731A58}</Project>
-      <Name>GGenStudio.PlugIns.WelcomeScreen</Name>
+      <Name>GeoGen.Studio.PlugIns.WelcomeScreen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
