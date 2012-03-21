@@ -54,7 +54,7 @@
                 this.Hide();
             };
 
-            this.plugIns = Enumerable.Empty<SettingsPlugInViewModel>();
+            this.PlugIns = Enumerable.Empty<SettingsPlugInViewModel>();
 
             InitializeComponent();
 
@@ -101,6 +101,11 @@
                 {
                     return this.plugIns.Where(p => p.PlugIn.VisibleInList);
                 }
+            }
+
+            private set
+            {
+                this.plugIns = value;
             }
         }
 
@@ -149,8 +154,7 @@
                 list.Add(new SettingsPlugInViewModel(plugIn));
             }
 
-            this.plugIns = list.OrderBy(p => p.PlugIn.Name);            
-            this.OnPropertyChanged("PlugIns");
+            this.PlugIns = list.OrderBy(p => p.PlugIn.Name);
 
             this.ShowDialog();
         }
