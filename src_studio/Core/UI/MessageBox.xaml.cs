@@ -51,13 +51,13 @@ namespace GeoGen.Studio.UI
                     case MessageBoxImage.None:
                         return null;
                     case MessageBoxImage.Hand:
-                        return new BitmapImage(new Uri("pack://application:,,,/UI/Images/error.png"));
+                        return new BitmapImage(new Uri("pack://application:,,,/GeoGen.Studio.Core;component/UI/Images/error.png"));
                     case MessageBoxImage.Question:
-                        return new BitmapImage(new Uri("pack://application:,,,/UI/Images/question.png"));
+                        return new BitmapImage(new Uri("pack://application:,,,/GeoGen.Studio.Core;component/UI/Images/question.png"));
                     case MessageBoxImage.Exclamation:
-                        return new BitmapImage(new Uri("pack://application:,,,/UI/Images/warning.png"));
+                        return new BitmapImage(new Uri("pack://application:,,,/GeoGen.Studio.Core;component/UI/Images/warning.png"));
                     case MessageBoxImage.Asterisk:
-                        return new BitmapImage(new Uri("pack://application:,,,/UI/Images/message.png"));
+                        return new BitmapImage(new Uri("pack://application:,,,/GeoGen.Studio.Core;component/UI/Images/message.png"));
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
