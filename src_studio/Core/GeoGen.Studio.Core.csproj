@@ -198,10 +198,12 @@
     <Resource Include="UI\Images\error.png" />
     <Resource Include="UI\Images\message.png" />
     <Resource Include="UI\Images\question.png" />
-    <Resource Include="UI\Images\waarning.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Images\warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
