@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SettingsPropertyItemTemplateSelector.cs" />
+    <Compile Include="SettingsViewModel.cs" />
     <Page Include="Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

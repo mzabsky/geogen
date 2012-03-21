@@ -23,14 +23,6 @@
             this.IsEnabled = Loader.IsPlugInEnabled(plugIn);
             this.PlugIn = plugIn;
             this.Properties = new List<SettingsPropertyViewModel>();
-            
-            this.IsEnabled = false;
-            this.IsEnabled = true;
-
-            this.PropertyChanged += delegate(object o, PropertyChangedEventArgs a)
-                {
-                    Console.WriteLine(a.PropertyName);
-                };
 
             // Build the list of configurable properties
             this.ParseProperties(plugIn);
