@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Input;
 
     using GeoGen.Studio.PlugInLoader;
@@ -167,10 +168,17 @@
         /// </summary>
         private void ApplyChanges()
         {
+            bool restartRequired = false;
+
             foreach (SettingsPlugInViewModel plugInInfo in this.PlugIns)
             {
                 // Update enabled status
-                plugInInfo.PlugIn.IsEnabled = plugInInfo.IsEnabled;
+                if (plugInInfo.PlugIn.IsEnabled != plugInInfo.IsEnabled)
+                {
+                    plugInInfo.PlugIn.IsEnabled = plugInInfo.IsEnabled;
+
+                    restartRequired = true;
+                }                
 
                 // Do not apply configuration changes for non-configurable plug-ins              
                 foreach (SettingsPropertyViewModel property in plugInInfo.Properties)
@@ -182,6 +190,15 @@
                         property.Property.SetValue(instance, property.Value, null);
                     }                    
                 }
+            }
+
+            if (restartRequired)
+            {
+                UI.MessageBox.Show(
+                    "Some configuration changes require the application to be restarted to take effect.",
+                    "Restart Required",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation);
             }
         }
     }
