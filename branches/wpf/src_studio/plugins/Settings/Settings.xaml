@@ -26,18 +26,7 @@
                 <DockPanel DockPanel.Dock="Top">                
                     <ListBox DockPanel.Dock="Left" Width="200" ItemsSource="{Binding PlugIns}" Name="plugInList" BorderThickness="0,0,5,0" BorderBrush="{DynamicResource DialogControlBorderBrush}">
                         <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <DataTemplate.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding PlugIn.VisibleInList}" Value="False"/>
-                                            <Condition Binding="{Binding ShowHiddenPlugIns, ElementName=settingsWindow}" Value="False"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <MultiDataTrigger.Setters>
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </MultiDataTrigger.Setters>
-                                    </MultiDataTrigger>
-                                </DataTemplate.Triggers>                                
+                            <DataTemplate>                             
                                 <TextBlock Text="{Binding PlugIn.Name}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
