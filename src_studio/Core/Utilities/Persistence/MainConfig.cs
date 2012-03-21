@@ -54,12 +54,13 @@ namespace GeoGen.Studio.Utilities.Persistence
 
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(PropertyStore));
 
-            StreamWriter writer = File.CreateText("config.xml");
+            using (StreamWriter writer = File.CreateText("config.xml"))
+            {
+                xs.Serialize(writer, MainConfig.propertyStore);
 
-            xs.Serialize(writer, MainConfig.propertyStore);
-
-            writer.Flush();
-            writer.Close();
+                writer.Flush();
+                writer.Close();
+            }
         }
 
         /// <summary>
