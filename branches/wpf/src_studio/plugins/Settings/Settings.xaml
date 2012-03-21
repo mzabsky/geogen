@@ -74,7 +74,7 @@
                                             <Style TargetType="Run">
                                                 <Setter Property="Text" Value="Disable" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                                                    <DataTrigger Binding="{Binding IsEnabled, Mode=OneWay}" Value="False">
                                                         <Setter Property="Text" Value="Enable"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -104,8 +104,8 @@
                                     </Style>
                                 </ItemsControl.Resources>
                                 <ItemsControl.ItemTemplateSelector>
-                                    <local:ConfigurablePropertyItemTemplateSelector>
-                                        <local:ConfigurablePropertyItemTemplateSelector.Int>
+                                    <local:SettingsPropertyItemTemplateSelector>
+                                        <local:SettingsPropertyItemTemplateSelector.Int>
                                             <DataTemplate>
                                                 <StackPanel>
                                                     <StackPanel Orientation="Horizontal">
@@ -122,13 +122,13 @@
                                                     </StackPanel>
                                                 </StackPanel>
                                             </DataTemplate>
-                                        </local:ConfigurablePropertyItemTemplateSelector.Int>
-                                        <local:ConfigurablePropertyItemTemplateSelector.Float>
+                                        </local:SettingsPropertyItemTemplateSelector.Int>
+                                        <local:SettingsPropertyItemTemplateSelector.Float>
                                             <DataTemplate>
                                                 <TextBlock>Float</TextBlock>
                                             </DataTemplate>
-                                        </local:ConfigurablePropertyItemTemplateSelector.Float>
-                                        <local:ConfigurablePropertyItemTemplateSelector.String>
+                                        </local:SettingsPropertyItemTemplateSelector.Float>
+                                        <local:SettingsPropertyItemTemplateSelector.String>
                                             <DataTemplate>
                                                 <StackPanel>
                                                     <StackPanel Orientation="Horizontal">
@@ -144,8 +144,8 @@
                                                     </StackPanel>
                                                 </StackPanel>
                                             </DataTemplate>
-                                        </local:ConfigurablePropertyItemTemplateSelector.String>
-                                        <local:ConfigurablePropertyItemTemplateSelector.Bool>
+                                        </local:SettingsPropertyItemTemplateSelector.String>
+                                        <local:SettingsPropertyItemTemplateSelector.Bool>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding Value}" Margin="2" Content="{Binding Name}"/>
@@ -154,16 +154,16 @@
                                                     </TextBlock>
                                                 </StackPanel>
                                             </DataTemplate>
-                                        </local:ConfigurablePropertyItemTemplateSelector.Bool>
-                                        <local:ConfigurablePropertyItemTemplateSelector.UnknownType>
+                                        </local:SettingsPropertyItemTemplateSelector.Bool>
+                                        <local:SettingsPropertyItemTemplateSelector.UnknownType>
                                             <DataTemplate>
                                                 <StackPanel>
                                                     <TextBlock Text="{Binding Name}" />
                                                     <TextBlock><![CDATA[: <UNKNOWN TYPE>]]></TextBlock>
                                                 </StackPanel>
                                             </DataTemplate>
-                                        </local:ConfigurablePropertyItemTemplateSelector.UnknownType>
-                                    </local:ConfigurablePropertyItemTemplateSelector>
+                                        </local:SettingsPropertyItemTemplateSelector.UnknownType>
+                                    </local:SettingsPropertyItemTemplateSelector>
                                 </ItemsControl.ItemTemplateSelector>
                             </ItemsControl>
                         </StackPanel>
