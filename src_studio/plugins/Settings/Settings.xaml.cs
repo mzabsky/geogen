@@ -17,6 +17,11 @@
     public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.WindowBase, INotifyPropertyChanged
     {
         /// <summary>
+        /// Backing field for <see cref="PlugIns"/> property.
+        /// </summary>
+        private IEnumerable<SettingsPlugInViewModel> plugIns;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
         /// </summary>
         public Settings()
@@ -49,7 +54,7 @@
                 this.Hide();
             };
 
-            this.PlugIns = Enumerable.Empty<SettingsPlugInViewModel>();
+            this.plugIns = Enumerable.Empty<SettingsPlugInViewModel>();
 
             InitializeComponent();
 
@@ -79,12 +84,25 @@
         /// <summary>
         /// Gets the toggle plug-in command.
         /// </summary>
-        public ICommand TogglePlugInCommand { get; private set; }
+        public ICommand TogglePlugInCommand { get; private set; }        
 
         /// <summary>
-        /// Gets collection of plug-in view models displayed within the dialog.
+        /// Gets collection of all plug-in view models displayed within the dialog.
         /// </summary>
-        public IEnumerable<SettingsPlugInViewModel> PlugIns { get; private set; }
+        public IEnumerable<SettingsPlugInViewModel> PlugIns
+        {
+            get
+            {
+                if (this.ShowHiddenPlugIns)
+                {
+                    return this.plugIns.ToList();
+                }
+                else
+                {
+                    return this.plugIns.Where(p => p.PlugIn.VisibleInList);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether hidden plug-in are shown.
@@ -131,7 +149,8 @@
                 list.Add(new SettingsPlugInViewModel(plugIn));
             }
 
-            this.PlugIns = list.OrderBy(p => p.PlugIn.Name);            
+            this.plugIns = list.OrderBy(p => p.PlugIn.Name);            
+            this.OnPropertyChanged("PlugIns");
 
             this.ShowDialog();
         }
