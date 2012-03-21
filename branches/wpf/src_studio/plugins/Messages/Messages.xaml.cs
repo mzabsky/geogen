@@ -111,7 +111,6 @@
 
             if (this.scroller != null)
             {
-                // TODO: This could be cause of the broken scrolling.
                 if (this.scroller.ScrollableHeight == this.scroller.VerticalOffset)
                 {
                     this.scroller.ScrollToBottom();
