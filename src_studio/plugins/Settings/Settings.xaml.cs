@@ -11,23 +11,11 @@
     using GeoGen.Studio.Utilities;
     using GeoGen.Studio.Utilities.Persistence;
 
+    /// <summary>
+    /// The Settings dialog.
+    /// </summary>
     public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.WindowBase, INotifyPropertyChanged
     {
-        public ICommand ShowCommand { get; private set; }
-
-        public ICommand ApplyCommand { get; private set; }
-
-        public ICommand CloseCommand { get; private set; }
-
-        public ICommand OkCommand { get; private set; }
-
-        public ICommand TogglePlugInCommand { get; private set; }
-
-        public IEnumerable<PlugInInfo> PlugIns { get; private set; }
-
-        [Persistent(DefaultValue = false, EnableVisualConfiguration = false)]
-        public bool ShowHiddenPlugIns { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
         /// </summary>
@@ -52,7 +40,7 @@
             this.TogglePlugInCommand = new RelayCommand(
                 param =>
                 {
-                    ((PlugInInfo)param).IsEnabled = !((PlugInInfo)param).IsEnabled;
+                    ((SettingsPlugInViewModel)param).IsEnabled = !((SettingsPlugInViewModel)param).IsEnabled;
                 });
 
             this.Closing += delegate(object sender, CancelEventArgs args)
@@ -61,12 +49,51 @@
                 this.Hide();
             };
 
-            this.PlugIns = Enumerable.Empty<PlugInInfo>();
+            this.PlugIns = Enumerable.Empty<SettingsPlugInViewModel>();
 
             InitializeComponent();
 
             MainConfig.Register(this);
         }
+
+        /// <summary>
+        /// Gets the show command.
+        /// </summary>
+        public ICommand ShowCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the apply command.
+        /// </summary>
+        public ICommand ApplyCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the close command.
+        /// </summary>
+        public ICommand CloseCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the ok command.
+        /// </summary>
+        public ICommand OkCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the toggle plug-in command.
+        /// </summary>
+        public ICommand TogglePlugInCommand { get; private set; }
+
+        /// <summary>
+        /// Gets collection of plug-in view models displayed within the dialog.
+        /// </summary>
+        public IEnumerable<SettingsPlugInViewModel> PlugIns { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether hidden plug-in are shown.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if hidden plug-in are displayed; otherwise, <c>false</c>.
+        /// </value>
+        [Persistent(DefaultValue = false, EnableVisualConfiguration = false)]
+        public bool ShowHiddenPlugIns { get; set; }
 
         /// <summary>
         /// Adds a button to the main menu bar.
@@ -90,15 +117,18 @@
                     }));
         }
 
-        private void ShowWindow()
+        /// <summary>
+        /// Opens the window.
+        /// </summary>
+        public void ShowWindow()
         {            
-            var list = new List<PlugInInfo>();
+            var list = new List<SettingsPlugInViewModel>();
 
             foreach (PlugIn plugIn in Loader.PlugIns)
             {               
                 MainConfig.SaveConfiguration(plugIn.Instances.Last());                
 
-                list.Add(new PlugInInfo(plugIn));
+                list.Add(new SettingsPlugInViewModel(plugIn));
             }
 
             this.PlugIns = list.OrderBy(p => p.PlugIn.Name);            
@@ -106,15 +136,18 @@
             this.ShowDialog();
         }
 
+        /// <summary>
+        /// Writes changes done to the configurations within the dialog back to the actual plug-ins.
+        /// </summary>
         private void ApplyChanges()
         {
-            foreach (PlugInInfo plugInInfo in this.PlugIns)
+            foreach (SettingsPlugInViewModel plugInInfo in this.PlugIns)
             {
                 // Update enabled status
                 plugInInfo.PlugIn.IsEnabled = plugInInfo.IsEnabled;
 
                 // Do not apply configuration changes for non-configurable plug-ins              
-                foreach (ConfigurablePropertyInfo property in plugInInfo.Properties)
+                foreach (SettingsPropertyViewModel property in plugInInfo.Properties)
                 {
                     MainConfig.SavePropertyValue(property.Property, property.Value);
 
