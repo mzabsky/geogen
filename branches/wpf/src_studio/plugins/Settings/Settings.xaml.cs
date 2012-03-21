@@ -149,7 +149,10 @@
 
             foreach (PlugIn plugIn in Loader.PlugIns)
             {               
-                MainConfig.SaveConfiguration(plugIn.Instances.Last());                
+                if (plugIn.Instances.Any())
+                {
+                    MainConfig.SaveConfiguration(plugIn.Instances.Last());
+                }                
 
                 list.Add(new SettingsPlugInViewModel(plugIn));
             }
