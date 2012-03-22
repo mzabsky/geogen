@@ -1,45 +1,67 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using GeoGen.Studio.Utilities;
-
-namespace GeoGen.Studio.UI
+﻿namespace GeoGen.Studio.UI
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+
+    using GeoGen.Studio.Utilities;
+
     /// <summary>
     /// Interaction logic for MessageBox.xaml
     /// </summary>
     public partial class MessageBox
     {
-        private readonly ICommand returnResultCommand;
-
         /// <summary>
-        /// Command used by the message box buttons.
+        /// Initializes a new instance of the <see cref="MessageBox"/> class.
         /// </summary>
-        /// <value>The return result command.</value>
-        public ICommand ReturnResultCommand 
+        /// <param name="buttons">The button mode.</param>
+        /// <param name="image">The image.</param>
+        private MessageBox(MessageBoxButton buttons, MessageBoxImage image)
         {
-            get
-            {
-                return this.returnResultCommand;
-            } 
+            this.ReturnResultCommand = new RelayCommand(
+                param =>
+                {
+                    this.DialogResult = (bool?)param;
+                    this.Close();
+                });
+
+            // CTRL+C will copy the text into system clipboard
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    ApplicationCommands.Copy,
+                    delegate
+                    {
+                        Clipboard.SetText(this.Content.ToString(), TextDataFormat.Text);
+                    }));          
+
+            this.Buttons = buttons;
+            this.Image = image;
+
+            InitializeComponent();
         }
 
         /// <summary>
-        /// Button mode.
+        /// Gets command used by the message box buttons.
+        /// </summary>
+        /// <value>The return result command.</value>
+        public ICommand ReturnResultCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the button mode.
         /// </summary>
         /// <value>The button mode.</value>
-        public MessageBoxButton Buttons { get; protected set; }
+        public MessageBoxButton Buttons { get; private set; }
 
         /// <summary>
-        /// Icon shown in the dialog.
+        /// Gets the icon shown in the dialog.
         /// </summary>
         /// <value>The image.</value>
-        public MessageBoxImage Image { get; protected set; }
+        public MessageBoxImage Image { get; private set; }
 
         /// <summary>
-        /// <see cref="ImageSource"/> of the icon.
+        /// Gets the <see cref="ImageSource"/> of the icon.
         /// </summary>
         /// <value>The image source.</value>
         public ImageSource ImageSource
@@ -65,35 +87,6 @@ namespace GeoGen.Studio.UI
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageBox"/> class.
-        /// </summary>
-        protected MessageBox(MessageBoxButton buttons, MessageBoxImage image)
-        {
-            this.returnResultCommand = new RelayCommand(
-                param =>
-                {
-                    this.DialogResult = (bool?) param;
-                    this.Close();
-                }
-            );
-
-            // CTRL+C will copy the text into system clipboard
-            this.CommandBindings.Add(
-                new CommandBinding(
-                    ApplicationCommands.Copy,
-                    delegate
-                    {
-                        Clipboard.SetText(this.Content.ToString(), TextDataFormat.Text);
-                    }));
-                    
-
-            this.Buttons = buttons;
-            this.Image = image;
-
-            InitializeComponent();
-        }
-
-        /// <summary>
         /// Displays a message box that contains the specified text, title bar caption, and response buttons.
         /// </summary>
         /// <param name="messageBoxText">The message to display.</param>
@@ -105,15 +98,16 @@ namespace GeoGen.Studio.UI
             string messageBoxText,
             string caption = null,
             MessageBoxButton button = MessageBoxButton.OK,
-            MessageBoxImage image = MessageBoxImage.Error
-        )
+            MessageBoxImage image = MessageBoxImage.Error)
         {
-            MessageBox messageBox = new MessageBox(button, image)
+            var messageBox = new MessageBox(button, image)
             {
                 Content = messageBoxText,
                 Title = caption ?? App.Name
             };
+
             bool? result = messageBox.ShowDialog();
+
             switch (button)
             {
                 case MessageBoxButton.OK:
@@ -121,8 +115,15 @@ namespace GeoGen.Studio.UI
                 case MessageBoxButton.OKCancel:
                     return result == true ? MessageBoxResult.OK : MessageBoxResult.Cancel;
                 case MessageBoxButton.YesNoCancel:
-                    if (result == true) return MessageBoxResult.Yes;
-                    if (result == false) return MessageBoxResult.No;
+                    if (result == true)
+                    {
+                        return MessageBoxResult.Yes;
+                    }
+                    else if (result == false)
+                    {
+                        return MessageBoxResult.No;
+                    }
+                    
                     return MessageBoxResult.Cancel;
                 case MessageBoxButton.YesNo:
                     return result == true ? MessageBoxResult.Yes : MessageBoxResult.No;
