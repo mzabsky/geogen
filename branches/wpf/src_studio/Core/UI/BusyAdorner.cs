@@ -29,7 +29,7 @@
             var brush = new SolidColorBrush(Colors.Black);
             brush.Opacity = 0.5;
 
-            drawingContext.DrawRectangle(brush, null, new Rect(new Point(0, 0), DesiredSize));
+            drawingContext.DrawRectangle(brush, null, new Rect(new Point(0, 0), this.RenderSize));
             base.OnRender(drawingContext);
         }
     }
