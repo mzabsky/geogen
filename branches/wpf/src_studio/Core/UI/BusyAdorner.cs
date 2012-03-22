@@ -1,26 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using System.Windows;
-using System.Windows.Documents;
-
-namespace GeoGen.Studio.UI
+﻿namespace GeoGen.Studio.UI
 {
-    public class BusyAdorner: Adorner
+    using System.Windows;
+    using System.Windows.Documents;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// <see cref="Adorner"/> indicating busy or unusable part of the UI.
+    /// </summary>
+    public class BusyAdorner : Adorner
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BusyAdorner"/> class.
+        /// </summary>
+        /// <param name="adornerElement">
+        /// The adorner element.
+        /// </param>
         public BusyAdorner(UIElement adornerElement)
                 : base(adornerElement)
-        { }
+        {           
+        }
 
+        /// <summary>
+        /// Renders semi-transparent black over the adorner area.
+        /// </summary>
+        /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
         protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
         {
-            SolidColorBrush brush = new SolidColorBrush(Colors.Black);
+            var brush = new SolidColorBrush(Colors.Black);
             brush.Opacity = 0.5;
 
-            drawingContext.DrawRectangle(brush, null,
-                        new Rect(new Point(0, 0), DesiredSize));
+            drawingContext.DrawRectangle(brush, null, new Rect(new Point(0, 0), DesiredSize));
             base.OnRender(drawingContext);
         }
     }
