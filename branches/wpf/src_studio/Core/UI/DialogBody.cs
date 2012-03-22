@@ -12,13 +12,13 @@
         /// <summary>
         /// Dependecy property for <see cref="Buttons"/>.
         /// </summary>
-        private static readonly DependencyProperty ButtonsProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty ButtonsProperty = DependencyProperty.Register(
             "Buttons", typeof(IList), typeof(DialogBody), new PropertyMetadata(null));
 
         /// <summary>
         /// Dependecy property for <see cref="BottomBarContent"/>.
         /// </summary>
-        private static readonly DependencyProperty BottomBarContentProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty BottomBarContentProperty = DependencyProperty.Register(
             "BottomBarContent", typeof(object), typeof(DialogBody), new PropertyMetadata(null));
 
         /// <summary>
