@@ -165,18 +165,18 @@
         The first function script must contain is named "GetInfo" taking one string argument and also returning a string. This function will be repeatedly called by the API requesting various information. Typical content of this function is a switch statement responding to individual request strings.
       </p>
       <pre>function GetInfo(info_type){
-	switch(info_type){
-		case "name":
-			return "Name of the map";
-		case "description":
-			return "Long and hopefully not boring description of the map";
-		case "args":
-			GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
-			GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
-			// some more arguments
-			return 0;
-	}
-	return 0;
+    switch(info_type){
+        case "name":
+            return "Name of the map";
+        case "description":
+            return "Long and hopefully not boring description of the map";
+        case "args":
+            GGen_AddIntArg("width","Width","Width of the map.", 1024, 128, 20000, 1);
+            GGen_AddIntArg("height","Height","Width of the map.", 1024, 128, 20000, 1);
+            // some more arguments
+            return 0;
+    }
+    return 0;
 }</pre>
       <p>
         The script must also contain a function named "Generate" with body of the script logic. The function must return one GGen_Data_2D object.
@@ -185,12 +185,12 @@
         A very simple function "generating" an empty heightmap (all zeroes) could look like this:
       </p>
       <pre>function Generate(){
-	// load values of the arguments
-	local width = GGen_GetArgValue("width");
-	local height = GGen_GetArgValue("height");
-	
-	// Create a new 2D data array with given width and height filled with value 0
-	return GGen_Data_2D(width, height, 0);
+    // load values of the arguments
+    local width = GGen_GetArgValue("width");
+    local height = GGen_GetArgValue("height");
+    
+    // Create a new 2D data array with given width and height filled with value 0
+    return GGen_Data_2D(width, height, 0);
 <!--   -->}</pre>
     <h3><a name="stdlib">Standard library</a></h3>
       <p>GeoGen API utilizes the Math module from the Squirrel Standard Library, you can find reference of these functions in its <a href="http://squirrel-lang.org/doc/sqstdlib2.html#d0e1527">documentation</a>.</p>

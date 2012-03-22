@@ -1,42 +1,42 @@
 ﻿<pb:ControlBase x:Class="GeoGen.Studio.PlugIns.MenuBars.MenuBar"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGen.Studio.Core"
-			 xmlns:plugin="clr-namespace:GeoGen.Studio.PlugIns"
-			 xmlns:mb="clr-namespace:GeoGen.Studio.PlugIns.MenuBars"
-			 mc:Ignorable="d" 
-			 d:DesignHeight="20" d:DesignWidth="600"
-			 Name="menuControl"
-			 DataContext="{Binding ElementName=menuControl}">    
-	<Menu ItemsSource="{Binding Menus}" Name="menu" Height="20">        
-		<Menu.ItemTemplate>
-			<HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type mb:MenuEntry}">
-				<HierarchicalDataTemplate.ItemContainerStyle>
-					<Style TargetType="MenuItem">
-						<Setter Property="Command" Value="{Binding Command}" />
-						<Setter Property="Icon" Value="{Binding Icon}" />
-						<Setter Property="InputGestureText" Value="{Binding InputGestureText}" />
-						<Setter Property="IsCheckable" Value="{Binding IsCheckable}" />
-						<Setter Property="IsChecked" Value="{Binding IsChecked}" />
-						
-						<!-- Handle separators -->
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding Header}" Value="[Separator]">
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate>
-											<Separator />
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>                    
-				</HierarchicalDataTemplate.ItemContainerStyle>
-				<ContentControl Content="{Binding Header}"/>                
-			</HierarchicalDataTemplate>
-		</Menu.ItemTemplate>
-	</Menu>
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGen.Studio.Core"
+             xmlns:plugin="clr-namespace:GeoGen.Studio.PlugIns"
+             xmlns:mb="clr-namespace:GeoGen.Studio.PlugIns.MenuBars"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="600"
+             Name="menuControl"
+             DataContext="{Binding ElementName=menuControl}">    
+    <Menu ItemsSource="{Binding Menus}" Name="menu" Height="20">        
+        <Menu.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type mb:MenuEntry}">
+                <HierarchicalDataTemplate.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Command" Value="{Binding Command}" />
+                        <Setter Property="Icon" Value="{Binding Icon}" />
+                        <Setter Property="InputGestureText" Value="{Binding InputGestureText}" />
+                        <Setter Property="IsCheckable" Value="{Binding IsCheckable}" />
+                        <Setter Property="IsChecked" Value="{Binding IsChecked}" />
+                        
+                        <!-- Handle separators -->
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Header}" Value="[Separator]">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Separator />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>                    
+                </HierarchicalDataTemplate.ItemContainerStyle>
+                <ContentControl Content="{Binding Header}"/>                
+            </HierarchicalDataTemplate>
+        </Menu.ItemTemplate>
+    </Menu>
 </pb:ControlBase>

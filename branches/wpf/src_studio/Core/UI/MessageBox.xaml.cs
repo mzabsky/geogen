@@ -102,9 +102,9 @@ namespace GeoGen.Studio.UI
         /// <param name="image">A value that specifies the icon to display.</param>
         /// <returns>A value that indicates the user's response to the message.</returns>
         public static MessageBoxResult Show(
-	        string messageBoxText,
-	        string caption = null,
-	        MessageBoxButton button = MessageBoxButton.OK,
+            string messageBoxText,
+            string caption = null,
+            MessageBoxButton button = MessageBoxButton.OK,
             MessageBoxImage image = MessageBoxImage.Error
         )
         {

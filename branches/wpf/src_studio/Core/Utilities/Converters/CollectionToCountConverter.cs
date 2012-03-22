@@ -35,7 +35,7 @@
 
             int count = (value as IEnumerable).Cast<object>().Count();
 
-        	return count;
+            return count;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

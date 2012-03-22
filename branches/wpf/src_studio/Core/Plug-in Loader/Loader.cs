@@ -40,7 +40,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// Indicates whether all registrators were already executed.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is finished; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is finished; otherwise, <c>false</c>.
         /// </value>
         public static bool IsFinished
         {
@@ -608,7 +608,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// </summary>
         /// <param name="plugInType">The plug-in type.</param>
         /// <returns>
-        /// 	<c>true</c> if the plug-in; otherwise, <c>false</c>.
+        ///     <c>true</c> if the plug-in; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsPlugInTypeEnabled(Type plugInType)
         {
@@ -645,7 +645,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// </summary>
         /// <param name="plugIn">The plug in.</param>
         /// <returns>
-        /// 	<c>true</c> if the plug-in is enabled; otherwise, <c>false</c>.
+        ///     <c>true</c> if the plug-in is enabled; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsPlugInEnabled(PlugIn plugIn)
         {

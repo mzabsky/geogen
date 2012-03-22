@@ -1,58 +1,58 @@
 ﻿namespace GeoGen.Studio.PlugIns.ToolBars
 {
-	using System.ComponentModel;
-	using System.Windows.Controls;
-	using System.Windows.Controls.Primitives;
+    using System.ComponentModel;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
 
-	using GeoGen.Studio.Utilities.Collections;
+    using GeoGen.Studio.Utilities.Collections;
 
-	public abstract class ToolBarEntry : UserControl, IPriority, INotifyPropertyChanged
-	{
-		public event PropertyChangedEventHandler PropertyChanged;
+    public abstract class ToolBarEntry : UserControl, IPriority, INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		public double Priority { get; set; }
+        public double Priority { get; set; }
 
-		#region Methods
+        #region Methods
 
-		protected void OnPropertyChanged(string info)
-		{
-			if (this.PropertyChanged != null)
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(info));
-			}
-		}
+        protected void OnPropertyChanged(string info)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Operators
+        #region Operators
 
-		public static implicit operator ToolBarEntry(Button victim)
-		{
-			ToolBarEntry converted = new ToolBarButton(
-				icon: victim.Content, 
-				toolTip: victim.ToolTip, 
-				command: victim.Command);
+        public static implicit operator ToolBarEntry(Button victim)
+        {
+            ToolBarEntry converted = new ToolBarButton(
+                icon: victim.Content, 
+                toolTip: victim.ToolTip, 
+                command: victim.Command);
 
-			return converted;
-		}
+            return converted;
+        }
 
-		public static implicit operator ToolBarEntry(ToggleButton victim)
-		{
-			ToolBarEntry converted = new ToolBarCheckableButton(
-				icon: victim.Content, 
-				toolTip: victim.ToolTip,
-				command: victim.Command,
-				isChecked: (bool)victim.IsChecked);
+        public static implicit operator ToolBarEntry(ToggleButton victim)
+        {
+            ToolBarEntry converted = new ToolBarCheckableButton(
+                icon: victim.Content, 
+                toolTip: victim.ToolTip,
+                command: victim.Command,
+                isChecked: (bool)victim.IsChecked);
 
-			return converted;
-		}
+            return converted;
+        }
 
-		public static implicit operator ToolBarEntry(Separator victim)
-		{
-			ToolBarEntry converted = new ToolBarSeparator();
-			return converted;
-		}
+        public static implicit operator ToolBarEntry(Separator victim)
+        {
+            ToolBarEntry converted = new ToolBarSeparator();
+            return converted;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

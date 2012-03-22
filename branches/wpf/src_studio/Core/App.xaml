@@ -1,162 +1,162 @@
 ﻿<Application x:Class="GeoGen.Studio.App"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:gseffect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect" 
-			 xmlns:ui="clr-namespace:GeoGen.Studio.UI" 
-			 ShutdownMode="OnExplicitShutdown"
-			 >
-	<Application.Resources>
-		<ResourceDictionary>            
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/AvalonDock.Themes;component/themes/dev2010.xaml"/>
-				<ResourceDictionary>
-				</ResourceDictionary>
-			</ResourceDictionary.MergedDictionaries>			
-			<LinearGradientBrush x:Key="HighlightBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
-				<GradientStop Offset="0" Color="White"/>
-				<GradientStop Offset="1" Color="#FFECA6"/>
-			</LinearGradientBrush>
-			<Style x:Key="HighlightBorder" TargetType="Border">
-				<Setter Property="BorderThickness" Value="1"/>
-				<Setter Property="CornerRadius" Value="2"/>
-				<Style.Triggers>
-					<Trigger Property="IsMouseOver" Value="True">
-						<Setter Property="Background" Value="{DynamicResource HighlightBackgroundBrush}"/>
-						<Setter Property="BorderBrush">
-							<Setter.Value>
-								<SolidColorBrush Color="#E5C365"/>
-							</Setter.Value>
-						</Setter>
-					</Trigger>
-				</Style.Triggers>
-			</Style>
-			<Style x:Key="HighlightButton" TargetType="Button">
-				<Setter Property="Template">
-					<Setter.Value>
-						<ControlTemplate TargetType="Button">
-							<Border Style="{DynamicResource HighlightBorder}" Padding="4" MinWidth="80">
-								<ContentPresenter/>
-							</Border>
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
-			<DrawingBrush x:Key="AppBackground" 
-				  TileMode="Tile"  
-				Viewport="0 0 5 5" 
-				ViewportUnits="Absolute" 
-				Stretch="None">
-				<DrawingBrush.Drawing>
-					<DrawingGroup>
-						<GeometryDrawing Brush="#2C3D5A">
-							<GeometryDrawing.Geometry>
-								<RectangleGeometry Rect="0,0,10,10"/>
-							</GeometryDrawing.Geometry>
-						</GeometryDrawing>
-						<GeometryDrawing>
-							<GeometryDrawing.Pen>
-								<Pen Thickness="1" Brush="#35496A" />
-							</GeometryDrawing.Pen>
-							<GeometryDrawing.Geometry>
-								<GeometryGroup>
-									<LineGeometry StartPoint="0,0" EndPoint="10,10" />
-								</GeometryGroup>
-							</GeometryDrawing.Geometry>
-						</GeometryDrawing>
-						<GeometryDrawing>
-							<GeometryDrawing.Pen>
-								<Pen Thickness="1" Brush="#293955" />
-							</GeometryDrawing.Pen>
-							<GeometryDrawing.Geometry>
-								<GeometryGroup>
-									<LineGeometry StartPoint="1,0" EndPoint="10,9" />
-								</GeometryGroup>
-							</GeometryDrawing.Geometry>
-						</GeometryDrawing>
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:gseffect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect" 
+             xmlns:ui="clr-namespace:GeoGen.Studio.UI" 
+             ShutdownMode="OnExplicitShutdown"
+             >
+    <Application.Resources>
+        <ResourceDictionary>            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AvalonDock.Themes;component/themes/dev2010.xaml"/>
+                <ResourceDictionary>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>            
+            <LinearGradientBrush x:Key="HighlightBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="White"/>
+                <GradientStop Offset="1" Color="#FFECA6"/>
+            </LinearGradientBrush>
+            <Style x:Key="HighlightBorder" TargetType="Border">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="CornerRadius" Value="2"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource HighlightBackgroundBrush}"/>
+                        <Setter Property="BorderBrush">
+                            <Setter.Value>
+                                <SolidColorBrush Color="#E5C365"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="HighlightButton" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Style="{DynamicResource HighlightBorder}" Padding="4" MinWidth="80">
+                                <ContentPresenter/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <DrawingBrush x:Key="AppBackground" 
+                  TileMode="Tile"  
+                Viewport="0 0 5 5" 
+                ViewportUnits="Absolute" 
+                Stretch="None">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="#2C3D5A">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,10,10"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Pen>
+                                <Pen Thickness="1" Brush="#35496A" />
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <LineGeometry StartPoint="0,0" EndPoint="10,10" />
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Pen>
+                                <Pen Thickness="1" Brush="#293955" />
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <LineGeometry StartPoint="1,0" EndPoint="10,9" />
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
 
-					</DrawingGroup>
-				</DrawingBrush.Drawing>
-			</DrawingBrush>
-			<gseffect:GrayscaleEffect x:Key="GrayscaleEffect" DesaturationFactor="0.0" />
-			<Style TargetType="ToolBarTray">
-				<Setter Property="Background" Value="#9caac1" />
-			</Style>
-			<Style TargetType="ToolBar">
-				<Setter Property="Background" Value="#bcc7d8" />
-			</Style>
-			
-			<Style TargetType="Menu">
-				<Setter Property="Background">
-					<Setter.Value>
-						<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-							<LinearGradientBrush.GradientStops>
-								<GradientStop Offset="0.0" Color="#cad3e2"/>
-								<GradientStop Offset="1" Color="#aeb9cd"/>
-							</LinearGradientBrush.GradientStops>
-						</LinearGradientBrush>
-					</Setter.Value>
-				</Setter>
-			</Style>
-			<Style TargetType="StatusBar">
-				<Setter Property="Background" Value="#293955" />
-				<Setter Property="Foreground" Value="White" />
-			</Style>
-			<SolidColorBrush x:Key="DialogControlBorderBrush" Color="#BCC7D8" />
-			<Style TargetType="{x:Type ui:DialogBody}">
-				<Setter Property="Background" Value="White"/>                
-				<Setter Property="Template">
-					<Setter.Value>
-						<ControlTemplate TargetType="{x:Type ui:DialogBody}">
-							<DockPanel>
-								<Border Background="{DynamicResource AppBackground}" DockPanel.Dock="Bottom">
-									<DockPanel>
-										<Rectangle DockPanel.Dock="Top" Height="7" Fill="Black">
-											<Rectangle.OpacityMask>
-												<LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.4" >
-													<GradientStop Color="White" Offset="0"/>
-													<GradientStop Color="Transparent" Offset="1.0"/>
-												</LinearGradientBrush>
-											</Rectangle.OpacityMask>
-										</Rectangle>
-										<Border>
-											<Border.Style>
-												<Style TargetType="Border">
-													<Setter Property="Padding" Value="10,3,10,10"/>
-													<Style.Resources>
-														<Style TargetType="Button">
-															<Setter Property="Margin" Value="5"/>
-															<Setter Property="Width" Value="100"/>
-														</Style>
-													</Style.Resources>
-												</Style>
-											</Border.Style>
-											<DockPanel DockPanel.Dock="Bottom">
-												<ItemsControl ItemsSource="{TemplateBinding Buttons}" DockPanel.Dock="Right">
-													<ItemsControl.ItemsPanel>
-														<ItemsPanelTemplate>
-															<StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
-														</ItemsPanelTemplate>
-													</ItemsControl.ItemsPanel>
-												</ItemsControl>
-												<ContentPresenter Content="{TemplateBinding BottomBarContent}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
-													<ContentPresenter.Style>
-														<Style>
-															<Setter Property="TextBlock.Foreground" Value="White"/>
-														</Style>
-													</ContentPresenter.Style>
-												</ContentPresenter>
-											</DockPanel>
-										</Border>
-									</DockPanel>
-								</Border>
-								<Border DockPanel.Dock="Top" Background="White">
-									<ContentPresenter/>
-								</Border>
-							</DockPanel>
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
-		</ResourceDictionary>         
-	</Application.Resources>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+            <gseffect:GrayscaleEffect x:Key="GrayscaleEffect" DesaturationFactor="0.0" />
+            <Style TargetType="ToolBarTray">
+                <Setter Property="Background" Value="#9caac1" />
+            </Style>
+            <Style TargetType="ToolBar">
+                <Setter Property="Background" Value="#bcc7d8" />
+            </Style>
+            
+            <Style TargetType="Menu">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Offset="0.0" Color="#cad3e2"/>
+                                <GradientStop Offset="1" Color="#aeb9cd"/>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="StatusBar">
+                <Setter Property="Background" Value="#293955" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+            <SolidColorBrush x:Key="DialogControlBorderBrush" Color="#BCC7D8" />
+            <Style TargetType="{x:Type ui:DialogBody}">
+                <Setter Property="Background" Value="White"/>                
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ui:DialogBody}">
+                            <DockPanel>
+                                <Border Background="{DynamicResource AppBackground}" DockPanel.Dock="Bottom">
+                                    <DockPanel>
+                                        <Rectangle DockPanel.Dock="Top" Height="7" Fill="Black">
+                                            <Rectangle.OpacityMask>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.4" >
+                                                    <GradientStop Color="White" Offset="0"/>
+                                                    <GradientStop Color="Transparent" Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Border>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Padding" Value="10,3,10,10"/>
+                                                    <Style.Resources>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Margin" Value="5"/>
+                                                            <Setter Property="Width" Value="100"/>
+                                                        </Style>
+                                                    </Style.Resources>
+                                                </Style>
+                                            </Border.Style>
+                                            <DockPanel DockPanel.Dock="Bottom">
+                                                <ItemsControl ItemsSource="{TemplateBinding Buttons}" DockPanel.Dock="Right">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                </ItemsControl>
+                                                <ContentPresenter Content="{TemplateBinding BottomBarContent}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
+                                                    <ContentPresenter.Style>
+                                                        <Style>
+                                                            <Setter Property="TextBlock.Foreground" Value="White"/>
+                                                        </Style>
+                                                    </ContentPresenter.Style>
+                                                </ContentPresenter>
+                                            </DockPanel>
+                                        </Border>
+                                    </DockPanel>
+                                </Border>
+                                <Border DockPanel.Dock="Top" Background="White">
+                                    <ContentPresenter/>
+                                </Border>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>         
+    </Application.Resources>
 </Application>

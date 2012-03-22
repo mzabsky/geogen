@@ -18,7 +18,7 @@ namespace GeoGen.Studio.Utilities.Persistence
         /// Create an instance using the type's parameter-less constructor if the entry in config doesn't exist.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if a default instance should be used as default value; otherwise, <c>false</c>.
+        ///     <c>true</c> if a default instance should be used as default value; otherwise, <c>false</c>.
         /// </value>
         public bool UseEmptyInstanceAsDefault{get; set;}
 
@@ -26,7 +26,7 @@ namespace GeoGen.Studio.Utilities.Persistence
         /// Allow visual configuration of this property.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> this property should be displayed in visual configuration tools, <c>false</c>.
+        ///     <c>true</c> this property should be displayed in visual configuration tools, <c>false</c>.
         /// </value>
         public bool EnableVisualConfiguration { get; set; }
 
