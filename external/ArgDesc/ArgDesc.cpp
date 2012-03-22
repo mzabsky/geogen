@@ -23,12 +23,12 @@
 #include <wchar.h>
 
 #ifdef GGEN_DLL
-	#include "../../include/geogen.h"
+    #include "../../include/geogen.h"
 #elif defined(GGEN_LIB)
-	#include "../../include/geogen.h"
+    #include "../../include/geogen.h"
 #else
-	#include "../../src/ggen.h"
-	#include "../../src/ggen_squirrel.h"
+    #include "../../src/ggen.h"
+    #include "../../src/ggen_squirrel.h"
 #endif
 
 
@@ -65,29 +65,29 @@ class ArgDesc{
 public:
 
     ArgDesc(int argc, char** argv){
-#ifdef GGEN_UNICODE		
-		// convert the input parameters to unicode
-		wchar_t** wargv = new wchar_t*[argc];
+#ifdef GGEN_UNICODE        
+        // convert the input parameters to unicode
+        wchar_t** wargv = new wchar_t*[argc];
 
-		for(int i = 0; i < argc; i++){
-			wargv[i] = new wchar_t[strlen(argv[i]) + 1];
+        for(int i = 0; i < argc; i++){
+            wargv[i] = new wchar_t[strlen(argv[i]) + 1];
 
-			mbstowcs(wargv[i], argv[i], strlen(argv[i]));
+            mbstowcs(wargv[i], argv[i], strlen(argv[i]));
 
-			wargv[i][strlen(argv[i])] = '\0';
-		}
+            wargv[i][strlen(argv[i])] = '\0';
+        }
 
-		// convert the unwieldy array into vector
+        // convert the unwieldy array into vector
         args_in = std::vector<GGen_String>(wargv, wargv + argc);
 
-		for(int i = 0; i < argc; i++){
-			delete [] wargv[i];
-		}
+        for(int i = 0; i < argc; i++){
+            delete [] wargv[i];
+        }
 
-		delete [] wargv;
+        delete [] wargv;
 #else
-		// convert the unwieldy array into vector
-		args_in = std::vector<GGen_String>(argv, argv + argc);
+        // convert the unwieldy array into vector
+        args_in = std::vector<GGen_String>(argv, argv + argc);
 #endif
     }
 
@@ -127,7 +127,7 @@ public:
     }
     
     void SetPosArgsVector(std::vector<GGen_String>& pos_args){
-		this->pos_args = &pos_args;
+        this->pos_args = &pos_args;
     }
 
     bool Scan(){
@@ -138,7 +138,7 @@ public:
         for(unsigned i = 1; i < args_in.size(); i++){
             //expecting integer
             if(next_action == E_INT){
-				*(int*) next_var = (int) GGen_Strtol(args_in[i].c_str(), NULL, 10);
+                *(int*) next_var = (int) GGen_Strtol(args_in[i].c_str(), NULL, 10);
 
                 next_action = UNKNOWN;
                 continue;
@@ -202,7 +202,7 @@ public:
                 }
             }
             else{
-				if(pos_args != NULL) pos_args->push_back(args_in[i]);
+                if(pos_args != NULL) pos_args->push_back(args_in[i]);
             }
         }
 
@@ -212,16 +212,16 @@ public:
     }
     
     void PrintHelpString(){
-		for(unsigned i = 0; i < args_def.size(); i++){
-			std::GGen_Cout << "       -" << args_def[i].short_name;
-			if(args_def[i].type != T_BOOL) GGen_Cout << " " << args_def[i].param_name;
-			
-			std::GGen_Cout << ", --" << args_def[i].long_name;
-			if(args_def[i].type != T_BOOL) GGen_Cout << " " << args_def[i].param_name;
-			
-			std::GGen_Cout << std::endl;
-			
-			std::GGen_Cout << "	      " << args_def[i].desc << std::endl << std::endl;
-		}
+        for(unsigned i = 0; i < args_def.size(); i++){
+            std::GGen_Cout << "       -" << args_def[i].short_name;
+            if(args_def[i].type != T_BOOL) GGen_Cout << " " << args_def[i].param_name;
+            
+            std::GGen_Cout << ", --" << args_def[i].long_name;
+            if(args_def[i].type != T_BOOL) GGen_Cout << " " << args_def[i].param_name;
+            
+            std::GGen_Cout << std::endl;
+            
+            std::GGen_Cout << "          " << args_def[i].desc << std::endl << std::endl;
+        }
     }
 };

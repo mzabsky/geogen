@@ -157,7 +157,7 @@ namespace GeoGen.Studio.Utilities.Context
         /// </summary>
         /// <param name="context">The <see cref="Context"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if the <see cref="Context"/> is active; otherwise, <c>false</c>.
+        ///     <c>true</c> if the <see cref="Context"/> is active; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsContextActive(Context context)
         {

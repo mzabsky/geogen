@@ -31,18 +31,18 @@
 
 class GGEN_EXPORT GGen_ScriptArg{
 public:
-	int value;
-	GGen_String name;
-	GGen_String label;
-	GGen_String description;
-	GGen_Arg_Type type;
-	int min_value;
-	int max_value;
-	int default_value;
-	int step_size;
-	vector<GGen_String> options;;
+    int value;
+    GGen_String name;
+    GGen_String label;
+    GGen_String description;
+    GGen_Arg_Type type;
+    int min_value;
+    int max_value;
+    int default_value;
+    int step_size;
+    vector<GGen_String> options;;
 
-	bool SetValue(int new_value);
+    bool SetValue(int new_value);
 
 };
 

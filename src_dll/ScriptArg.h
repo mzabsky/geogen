@@ -89,7 +89,7 @@ namespace GeoGen{
                 void set(unsigned value){
                     if((type == ScriptArgType::Enum && value >= (unsigned) options->Length) || value < minimum) {
                         this->value = 0; 
-                        return;	
+                        return;    
                     }
                     else if(value > maximum){
                         this->value = maximum;
@@ -113,7 +113,7 @@ namespace GeoGen{
             }
 
             ScriptArg(){}
-        internal:			
+        internal:            
             ScriptArg(GGen_ScriptArg* unmanagedArg){
                 switch(unmanagedArg->type){
                 case GGEN_BOOL: 

@@ -65,7 +65,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// Indicates whether this plug-in will be loaded next time the application is started.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this plug-in is enabled; otherwise, <c>false</c>.
+        ///     <c>true</c> if this plug-in is enabled; otherwise, <c>false</c>.
         /// </value>
         public bool IsEnabled {
             get
@@ -89,7 +89,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// Gets a value indicating whether at least one instance of this plug-in is running.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if at least one instance of this plug-in is running; otherwise, <c>false</c>.
+        ///     <c>true</c> if at least one instance of this plug-in is running; otherwise, <c>false</c>.
         /// </value>
         public bool IsRunning {
             get

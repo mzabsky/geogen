@@ -1,8 +1,8 @@
 ﻿namespace GeoGen.Studio.PlugIns.MenuBars
 {
-	using GeoGen.Studio.Utilities.Collections;
+    using GeoGen.Studio.Utilities.Collections;
 
-	public class MenuEntryObservableCollection : PriorityObservableCollection<MenuEntry>
-	{
-	}
+    public class MenuEntryObservableCollection : PriorityObservableCollection<MenuEntry>
+    {
+    }
 }

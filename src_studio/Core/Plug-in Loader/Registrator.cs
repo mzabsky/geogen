@@ -123,7 +123,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// Specifies whether not loading this <see cref="Registrator"/> because of missing dependencies has negative impact on the plug-in.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is required; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is required; otherwise, <c>false</c>.
         /// </value>
         public bool IsRequired { get; private set; }
 
@@ -131,7 +131,7 @@ namespace GeoGen.Studio.PlugInLoader
         /// Specifies whether this plugin is enabled.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this plug-in is enabled; otherwise, <c>false</c>.
+        ///     <c>true</c> if this plug-in is enabled; otherwise, <c>false</c>.
         /// </value>
         public bool IsEnabled
         { 

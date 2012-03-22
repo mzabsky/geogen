@@ -36,113 +36,113 @@ using namespace System;
 #include "../include/geogen.h"
 
 namespace GeoGen{
-	namespace Net{
-		// Native callback handlers
-		void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column);
-		void ProgressHandler(int current_progress, int max_progress);
-		void ReturnHandler(const GGen_String& name, const short* map, int width, int height);
+    namespace Net{
+        // Native callback handlers
+        void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column);
+        void ProgressHandler(int current_progress, int max_progress);
+        void ReturnHandler(const GGen_String& name, const short* map, int width, int height);
 
-		public enum class StatusMode{
-			NoScript,
-			ScriptLoaded,
-			ReadyToGenerate,
-			LoadingMapInfo,
-			Generating
-		};
+        public enum class StatusMode{
+            NoScript,
+            ScriptLoaded,
+            ReadyToGenerate,
+            LoadingMapInfo,
+            Generating
+        };
 
-		public ref class Generator sealed {
-		public:
-			event EventHandler<MessageEventArgs^>^ MessageThrown;
-			event EventHandler<ProgressEventArgs^>^ ProgressChanged;
-			event EventHandler<MapReturnedEventArgs^>^ MapReturned;
+        public ref class Generator sealed {
+        public:
+            event EventHandler<MessageEventArgs^>^ MessageThrown;
+            event EventHandler<ProgressEventArgs^>^ ProgressChanged;
+            event EventHandler<MapReturnedEventArgs^>^ MapReturned;
 
-		private:
-			static Generator^ instance = nullptr;
-			GGen* ggen;
+        private:
+            static Generator^ instance = nullptr;
+            GGen* ggen;
 
-			array<ScriptArg^>^ args;
+            array<ScriptArg^>^ args;
 
-			bool disposed;
+            bool disposed;
 
-			unsigned seed;
+            unsigned seed;
 
-		public:
-			property System::Collections::Generic::IEnumerable<ScriptArg^>^ Args{
-				System::Collections::Generic::IEnumerable<ScriptArg^>^ get(){
-					return this->args;
-				}
-			}
+        public:
+            property System::Collections::Generic::IEnumerable<ScriptArg^>^ Args{
+                System::Collections::Generic::IEnumerable<ScriptArg^>^ get(){
+                    return this->args;
+                }
+            }
 
-			property StatusMode Status{
-				StatusMode get(){
-					switch(ggen->GetStatus()){
-						case GGEN_NO_SCRIPT: return StatusMode::NoScript;
-						case GGEN_SCRIPT_LOADED: return StatusMode::ScriptLoaded;
-						case GGEN_READY_TO_GENERATE: return StatusMode::ReadyToGenerate;
-						case GGEN_LOADING_MAP_INFO: return StatusMode::LoadingMapInfo;
-						case GGEN_GENERATING: return StatusMode::Generating;
-					}
-			
-					return StatusMode::NoScript;
-				}
-			}
+            property StatusMode Status{
+                StatusMode get(){
+                    switch(ggen->GetStatus()){
+                        case GGEN_NO_SCRIPT: return StatusMode::NoScript;
+                        case GGEN_SCRIPT_LOADED: return StatusMode::ScriptLoaded;
+                        case GGEN_READY_TO_GENERATE: return StatusMode::ReadyToGenerate;
+                        case GGEN_LOADING_MAP_INFO: return StatusMode::LoadingMapInfo;
+                        case GGEN_GENERATING: return StatusMode::Generating;
+                    }
+            
+                    return StatusMode::NoScript;
+                }
+            }
 
-			property int MaximumMapWidth{
-				int get(){
-					return ggen->GetMaxWidth();
-				}
+            property int MaximumMapWidth{
+                int get(){
+                    return ggen->GetMaxWidth();
+                }
 
-				void set(int value){
-					if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
-						throw gcnew InvalidStatusException();
-					}
-			
-					ggen->SetMaxWidth(value);
-				}
-			}
+                void set(int value){
+                    if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+                        throw gcnew InvalidStatusException();
+                    }
+            
+                    ggen->SetMaxWidth(value);
+                }
+            }
 
-			property int MaximumMapHeight{
-				int get(){
-					return ggen->GetMaxHeight();
-				}
+            property int MaximumMapHeight{
+                int get(){
+                    return ggen->GetMaxHeight();
+                }
 
-				void set(int value){
-					if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
-						throw gcnew InvalidStatusException();
-					}
-			
-					ggen->SetMaxHeight(value);
-				}
-			}
+                void set(int value){
+                    if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+                        throw gcnew InvalidStatusException();
+                    }
+            
+                    ggen->SetMaxHeight(value);
+                }
+            }
 
-			property int MaximumMapCount{
-				int get(){
-					return ggen->GetMaxMapCount();
-				}
+            property int MaximumMapCount{
+                int get(){
+                    return ggen->GetMaxMapCount();
+                }
 
-				void set(int value){
-					if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
-						throw gcnew InvalidStatusException();
-					}
-			
-					ggen->SetMaxMapCount(value);
-				}
-			}
+                void set(int value){
+                    if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+                        throw gcnew InvalidStatusException();
+                    }
+            
+                    ggen->SetMaxMapCount(value);
+                }
+            }
 
-			property unsigned Seed{
-				unsigned get(){
-					return this->seed;
-				}
+            property unsigned Seed{
+                unsigned get(){
+                    return this->seed;
+                }
 
-				void set(unsigned seed){
-					if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
-						throw gcnew InvalidStatusException();
-					}
+                void set(unsigned seed){
+                    if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+                        throw gcnew InvalidStatusException();
+                    }
 
-					this->ggen->SetSeed(seed);
-					this->seed = seed;
-				}
-			}
+                    this->ggen->SetSeed(seed);
+                    this->seed = seed;
+                }
+            }
 
         internal:
             static property Generator^ Instance{
@@ -151,249 +151,249 @@ namespace GeoGen{
                 }
             }
         public:
-			Generator(){
-				if(Generator::instance != nullptr) throw gcnew OneInstanceAllowedException();
+            Generator(){
+                if(Generator::instance != nullptr) throw gcnew OneInstanceAllowedException();
 
-				this->disposed = false;
+                this->disposed = false;
 
-				Generator::instance = this;
+                Generator::instance = this;
 
-				try{
-					this->ggen = new GGen_Squirrel;
+                try{
+                    this->ggen = new GGen_Squirrel;
 
-					this->ggen->SetMessageCallback(&GeoGen::Net::MessageHandler);
-					this->ggen->SetProgressCallback(&GeoGen::Net::ProgressHandler);
-					this->ggen->SetReturnCallback(&GeoGen::Net::ReturnHandler);
-				}
-				catch(Threading::ThreadAbortException^){
-					throw;
-				}
-				catch(System::Exception^ e){
-					throw gcnew InternalErrorException(e);
-				}
+                    this->ggen->SetMessageCallback(&GeoGen::Net::MessageHandler);
+                    this->ggen->SetProgressCallback(&GeoGen::Net::ProgressHandler);
+                    this->ggen->SetReturnCallback(&GeoGen::Net::ReturnHandler);
+                }
+                catch(Threading::ThreadAbortException^){
+                    throw;
+                }
+                catch(System::Exception^ e){
+                    throw gcnew InternalErrorException(e);
+                }
 
-				this->MessageThrown += gcnew EventHandler<MessageEventArgs^>(this, &Generator::DefaultMessageHandler);
+                this->MessageThrown += gcnew EventHandler<MessageEventArgs^>(this, &Generator::DefaultMessageHandler);
 
-				this->args = nullptr;
-			}
+                this->args = nullptr;
+            }
 
-			~Generator(){
-				if(!disposed){
-					delete this->ggen;
+            ~Generator(){
+                if(!disposed){
+                    delete this->ggen;
 
-					this->ggen = NULL;
-			
-					this->instance = nullptr;
+                    this->ggen = NULL;
+            
+                    this->instance = nullptr;
 
-					disposed = true;
-				}
-			}
+                    disposed = true;
+                }
+            }
 
-			void Reset(){
-				this->ggen->Reset();
-			}
+            void Reset(){
+                this->ggen->Reset();
+            }
 
-			void SetScript(System::String^ script){
-				if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
-					throw gcnew InvalidStatusException();
-				}
+            void SetScript(System::String^ script){
+                if(this->ggen->GetStatus() == GGEN_LOADING_MAP_INFO || this->ggen->GetStatus() == GGEN_GENERATING){
+                    throw gcnew InvalidStatusException();
+                }
 
-				bool result;
-			
-				try{
-					result = ggen->SetScript(
-						StringUtil::ManagedToUnmanagedString(script)
-					);
-				}
-				catch(ExceptionInCallbackException^){
-					throw;
-				}
-				catch(Threading::ThreadAbortException^){
-					throw;
-				}
-				catch(System::Exception^ e){
-					throw gcnew InternalErrorException(e);
-				}
-		
-				if(!result){
-					throw gcnew SyntaxErrorException();
-				}
+                bool result;
+            
+                try{
+                    result = ggen->SetScript(
+                        StringUtil::ManagedToUnmanagedString(script)
+                    );
+                }
+                catch(ExceptionInCallbackException^){
+                    throw;
+                }
+                catch(Threading::ThreadAbortException^){
+                    throw;
+                }
+                catch(System::Exception^ e){
+                    throw gcnew InternalErrorException(e);
+                }
+        
+                if(!result){
+                    throw gcnew SyntaxErrorException();
+                }
 
-				this->args = nullptr;
-			}
+                this->args = nullptr;
+            }
 
-			System::String^ GetInfo(System::String^ label){
-				if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED && this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
-					throw gcnew InvalidStatusException();
-				}
+            System::String^ GetInfo(System::String^ label){
+                if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED && this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
+                    throw gcnew InvalidStatusException();
+                }
 
-				GGen_String unmanagedInfo;
-		
-				try{
-					unmanagedInfo = ggen->GetInfo(StringUtil::ManagedToUnmanagedString(label));
-				}
-				catch(Threading::ThreadAbortException^){
-					throw;
-				}
-				catch(ExceptionInCallbackException^){
-					throw;
-				}
-				catch(System::Exception^ e){
-					throw gcnew InternalErrorException(e);
-				}
+                GGen_String unmanagedInfo;
+        
+                try{
+                    unmanagedInfo = ggen->GetInfo(StringUtil::ManagedToUnmanagedString(label));
+                }
+                catch(Threading::ThreadAbortException^){
+                    throw;
+                }
+                catch(ExceptionInCallbackException^){
+                    throw;
+                }
+                catch(System::Exception^ e){
+                    throw gcnew InternalErrorException(e);
+                }
 
-				return StringUtil::UnmanagedToManagedString(unmanagedInfo);
-			}
+                return StringUtil::UnmanagedToManagedString(unmanagedInfo);
+            }
 
-			int GetInfoInt(System::String^ label){
-				if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED && this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
-					throw gcnew InvalidStatusException();
-				}
+            int GetInfoInt(System::String^ label){
+                if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED && this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
+                    throw gcnew InvalidStatusException();
+                }
 
-				return ggen->GetInfoInt(StringUtil::ManagedToUnmanagedString(label));
-			}
+                return ggen->GetInfoInt(StringUtil::ManagedToUnmanagedString(label));
+            }
 
-			array<ScriptArg^>^ LoadArgs(){
-				if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED){
-					throw gcnew InvalidStatusException();
-				}
-		
-				std::vector<GGen_ScriptArg>* unmanagedArgs;
-		
-				try{
-					unmanagedArgs = ggen->LoadArgs();
-				}
-				catch(ExceptionInCallbackException^){
-					throw;
-				}
-				catch(Threading::ThreadAbortException^){
-					throw;
-				}
-				catch(System::Exception^ e){
-					throw gcnew InternalErrorException(e);
-				};
+            array<ScriptArg^>^ LoadArgs(){
+                if(this->ggen->GetStatus() != GGEN_SCRIPT_LOADED){
+                    throw gcnew InvalidStatusException();
+                }
+        
+                std::vector<GGen_ScriptArg>* unmanagedArgs;
+        
+                try{
+                    unmanagedArgs = ggen->LoadArgs();
+                }
+                catch(ExceptionInCallbackException^){
+                    throw;
+                }
+                catch(Threading::ThreadAbortException^){
+                    throw;
+                }
+                catch(System::Exception^ e){
+                    throw gcnew InternalErrorException(e);
+                };
 
-				if(unmanagedArgs == NULL){
-					throw gcnew ArgsUnreadableException;
-					return nullptr;
-				}
+                if(unmanagedArgs == NULL){
+                    throw gcnew ArgsUnreadableException;
+                    return nullptr;
+                }
 
-				this->args = gcnew array<ScriptArg^>(unmanagedArgs->size());
+                this->args = gcnew array<ScriptArg^>(unmanagedArgs->size());
 
-				for(unsigned i = 0; i < unmanagedArgs->size(); i++){
-					this->args[i] = gcnew ScriptArg(&(*unmanagedArgs)[i]);
-				}
+                for(unsigned i = 0; i < unmanagedArgs->size(); i++){
+                    this->args[i] = gcnew ScriptArg(&(*unmanagedArgs)[i]);
+                }
 
-				return this->args;
-			}
+                return this->args;
+            }
 
-			HeightData^ Generate(){
-				if(this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
-					throw gcnew InvalidStatusException();
-				}
+            HeightData^ Generate(){
+                if(this->ggen->GetStatus() != GGEN_READY_TO_GENERATE){
+                    throw gcnew InvalidStatusException();
+                }
 
-				if(this->args == nullptr) {
-					throw gcnew ArgsNotLoadedException;
-					return nullptr;
-				}
+                if(this->args == nullptr) {
+                    throw gcnew ArgsNotLoadedException;
+                    return nullptr;
+                }
 
-				if(this->args->Length != ggen->args.size()){
-					throw gcnew ArgumentMismatchException();
-				}
+                if(this->args->Length != ggen->args.size()){
+                    throw gcnew ArgumentMismatchException();
+                }
 
-				for(int i = 0; i < this->args->Length; i++){
-					if(
-						(this->args[i]->Type == ScriptArgType::Bool && ggen->args[i].type != GGEN_BOOL) ||
-						(this->args[i]->Type == ScriptArgType::Int && ggen->args[i].type != GGEN_INT) ||
-						(this->args[i]->Type == ScriptArgType::Enum && ggen->args[i].type != GGEN_ENUM)
-					){
-						throw gcnew ArgumentMismatchException();
-					}
+                for(int i = 0; i < this->args->Length; i++){
+                    if(
+                        (this->args[i]->Type == ScriptArgType::Bool && ggen->args[i].type != GGEN_BOOL) ||
+                        (this->args[i]->Type == ScriptArgType::Int && ggen->args[i].type != GGEN_INT) ||
+                        (this->args[i]->Type == ScriptArgType::Enum && ggen->args[i].type != GGEN_ENUM)
+                    ){
+                        throw gcnew ArgumentMismatchException();
+                    }
 
-					ggen->args[i].value = this->args[i]->Value;
-				}
-		
-				short* pureData;
-		
-				try{
-					pureData = ggen->Generate();
-				}
-				catch(ExceptionInCallbackException^){
-					throw;
-				}
-				catch(Threading::ThreadAbortException^){
-					throw;
-				}
-				catch(System::Exception^ e){
-					throw gcnew InternalErrorException(e);
-				}
+                    ggen->args[i].value = this->args[i]->Value;
+                }
+        
+                short* pureData;
+        
+                try{
+                    pureData = ggen->Generate();
+                }
+                catch(ExceptionInCallbackException^){
+                    throw;
+                }
+                catch(Threading::ThreadAbortException^){
+                    throw;
+                }
+                catch(System::Exception^ e){
+                    throw gcnew InternalErrorException(e);
+                }
 
-				if(pureData == NULL) {
-					throw gcnew GenerationFailedException;
-					return nullptr;
-				}
+                if(pureData == NULL) {
+                    throw gcnew GenerationFailedException;
+                    return nullptr;
+                }
 
-				HeightData^ heightData = gcnew HeightData(ggen->output_width, ggen->output_height, pureData);
+                HeightData^ heightData = gcnew HeightData(ggen->output_width, ggen->output_height, pureData);
 
-				GGen_DeleteNativeArrayPtr(pureData);
+                GGen_DeleteNativeArrayPtr(pureData);
 
-				return heightData;
-			}
+                return heightData;
+            }
 
-		internal:
-			void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column){
-				try{
-					this->MessageThrown(this, %MessageEventArgs(StringUtil::UnmanagedToManagedString(message), (MessageLevel) level, line, column));
-				}
-				catch(System::Exception^ e){
-					throw gcnew ExceptionInCallbackException(e);
-				}
-			}
+        internal:
+            void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column){
+                try{
+                    this->MessageThrown(this, %MessageEventArgs(StringUtil::UnmanagedToManagedString(message), (MessageLevel) level, line, column));
+                }
+                catch(System::Exception^ e){
+                    throw gcnew ExceptionInCallbackException(e);
+                }
+            }
 
-			void ProgressHandler(int currentProgress, int maxProgress){
-				try{
-					this->ProgressChanged(this, %ProgressEventArgs(currentProgress, maxProgress));
-				}
-				catch(System::Exception^ e){
-					throw gcnew ExceptionInCallbackException(e);
-				}
-			}
+            void ProgressHandler(int currentProgress, int maxProgress){
+                try{
+                    this->ProgressChanged(this, %ProgressEventArgs(currentProgress, maxProgress));
+                }
+                catch(System::Exception^ e){
+                    throw gcnew ExceptionInCallbackException(e);
+                }
+            }
 
-			void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
-				try{
-					this->MapReturned(this, %MapReturnedEventArgs(StringUtil::UnmanagedToManagedString(name), gcnew HeightData(width, height, map)));
-				}
-				catch(System::Exception^ e){
-					throw gcnew ExceptionInCallbackException(e);
-				}
-			}
+            void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
+                try{
+                    this->MapReturned(this, %MapReturnedEventArgs(StringUtil::UnmanagedToManagedString(name), gcnew HeightData(width, height, map)));
+                }
+                catch(System::Exception^ e){
+                    throw gcnew ExceptionInCallbackException(e);
+                }
+            }
 
-		public:
-			void DefaultMessageHandler(System::Object^ sender, MessageEventArgs^ e){
-				System::String^ level;
+        public:
+            void DefaultMessageHandler(System::Object^ sender, MessageEventArgs^ e){
+                System::String^ level;
 
-				switch(e->Level){
-					case MessageLevel::Error: level = "Error"; break;
-					case MessageLevel::Warning: level = "Warning"; break;
-					case MessageLevel::Notice: level = "Notice"; break;
-					case MessageLevel::Message: level = "Message"; break;
-				}
+                switch(e->Level){
+                    case MessageLevel::Error: level = "Error"; break;
+                    case MessageLevel::Warning: level = "Warning"; break;
+                    case MessageLevel::Notice: level = "Notice"; break;
+                    case MessageLevel::Message: level = "Message"; break;
+                }
 
-				Console::WriteLine("GGen " + level + ": " + e->Message + (e->Line != -1 ? " on line " + e->Line : ""));
-			}
-		};
+                Console::WriteLine("GGen " + level + ": " + e->Message + (e->Line != -1 ? " on line " + e->Line : ""));
+            }
+        };
 
-		// Native callback handlers
-		void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column){
-			Generator::Instance->MessageHandler(message, level, line, column);
-		};
+        // Native callback handlers
+        void MessageHandler(const GGen_String& message, GGen_Message_Level level, int line, int column){
+            Generator::Instance->MessageHandler(message, level, line, column);
+        };
 
-		void ProgressHandler(int current_progress, int max_progress){
-			Generator::Instance->ProgressHandler(current_progress, max_progress);
-		}
+        void ProgressHandler(int current_progress, int max_progress){
+            Generator::Instance->ProgressHandler(current_progress, max_progress);
+        }
 
-		void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
-			Generator::Instance->ReturnHandler(name, map, width, height);
-		}
-	}
+        void ReturnHandler(const GGen_String& name, const short* map, int width, int height){
+            Generator::Instance->ReturnHandler(name, map, width, height);
+        }
+    }
 }
