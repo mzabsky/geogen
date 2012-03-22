@@ -128,15 +128,14 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
-                                </Button>
-                                <!--<Button>Cancel</Button>
-                                <Button Command="{Binding ReturnResultCommand}" CommandParameter="True">OK</Button>
-                                <Button>No</Button>-->                                
+                                </Button>                        
                             </local:DialogBody.Buttons>
                             <Border Padding="10">
                                 <DockPanel>
                                     <Image Margin="10,10,20,10" Width="32" Height="32" Source="{Binding ImageSource, ElementName=messageBox}"  DockPanel.Dock="Left" />
-                                    <ContentPresenter VerticalAlignment="Center" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" DockPanel.Dock="Right"/>
+                                    <Border>
+                                        <TextBlock Text="{Binding Content}" TextWrapping="Wrap" VerticalAlignment="Center" DockPanel.Dock="Right"></TextBlock>
+                                    </Border>
                                 </DockPanel>
                             </Border>
                         </local:DialogBody>
