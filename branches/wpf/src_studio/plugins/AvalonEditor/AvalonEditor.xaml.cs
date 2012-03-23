@@ -7,6 +7,7 @@
     using System.Windows.Data;
     using System.Windows.Input;
 
+    using GeoGen.Studio.PlugInLoader;
     using GeoGen.Studio.PlugIns.Extensions;
     using GeoGen.Studio.PlugIns.Interfaces;
     using GeoGen.Studio.PlugIns.MenuBars;
@@ -19,6 +20,11 @@
     using GeoGen.Studio.Utilities.Messaging;
     using GeoGen.Studio.Utilities.Persistence;
 
+    [PlugIn(
+        Name = "Code Editor",
+        Description = "Editor of map script source code. Supports syntax highlighting, word wrapping and other essential"
+                      + " features.",
+        VisibleInList = true)]
     public partial class AvalonEditor : GeoGen.Studio.Utilities.PlugInBase.ControlBase, ITextProvider, IEditor, INotifyPropertyChanged
     {
         #region Dependency properties
