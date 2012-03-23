@@ -12,30 +12,48 @@
              Title="Settings"
              Icon="Images/Icons/settings.png"
             >
+    <pb:WindowBase.Resources>
+        <Style x:Key="SectionHeader">
+            <Setter Property="TextBlock.FontSize" Value="20"/>
+            <Setter Property="TextBlock.Margin" Value="0,10,0,20"/>
+        </Style>
+    </pb:WindowBase.Resources>
     <ui:DialogBody Name="Body">
         <ui:DialogBody.Buttons>
+            <!-- Bottom bar buttons -->
             <Button Command="{Binding ApplyCommand}">Apply</Button>
             <Button Command="{Binding OkCommand}">OK</Button>
             <Button Command="{Binding CloseCommand}">Cancel</Button>            
         </ui:DialogBody.Buttons>
         <ui:DialogBody.BottomBarContent>
+            <!-- Bottom bar checkbox -->
             <CheckBox IsChecked="{Binding ShowHiddenPlugIns}">Show hidden plug-ins</CheckBox>
         </ui:DialogBody.BottomBarContent>
         <DockPanel>
             <Border BorderThickness="0,0,0,5" BorderBrush="{DynamicResource DialogControlBorderBrush}">
-                <DockPanel DockPanel.Dock="Top">                
-                    <ListBox DockPanel.Dock="Left" Width="200" ItemsSource="{Binding PlugIns}" Name="plugInList" BorderThickness="0,0,5,0" BorderBrush="{DynamicResource DialogControlBorderBrush}">
+                <DockPanel DockPanel.Dock="Top">
+                    <ListBox 
+                        DockPanel.Dock="Left" 
+                        Width="200" 
+                        ItemsSource="{Binding PlugIns}" 
+                        Name="plugInList" 
+                        BorderThickness="0,0,5,0" 
+                        BorderBrush="{DynamicResource DialogControlBorderBrush}"
+                        Padding="10">
+                        <!-- Plug-in list -->
                         <ListBox.ItemTemplate>
-                            <DataTemplate>                             
-                                <TextBlock Text="{Binding PlugIn.Name}"/>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PlugIn.Name}" Margin="3" FontSize="13" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>        
                     <DockPanel DockPanel.Dock="Right" DataContext="{Binding SelectedItem, ElementName=plugInList}">
+                        <!-- Main area -->
                         <StackPanel Margin="15">
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">
                                     <Style.Triggers>
+                                        <!-- Don't show the plug-in stuff if no plug-in is selected. -->
                                         <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                             <Setter Property="Visibility" Value="Hidden"/>
                                         </DataTrigger>
@@ -48,39 +66,46 @@
                                 </Style>
                             </StackPanel.Resources>
                             <TextBlock Text="{Binding PlugIn.Name}" FontSize="30"/>
-                            <TextBlock Text="Summary" FontSize="19" />
-                            <TextBlock Text="{Binding PlugIn.Description}" />
-                            <TextBlock>
-                                <TextBlock.ToolTip>
-                                    Disabled plug-ins won't be loaded next time the application is started.
-                                </TextBlock.ToolTip>
-                                <Run>Enabled: </Run>
-                                <Run Text="{Binding IsEnabled, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
-                                <Run>    </Run>
-                                <Hyperlink Command="{Binding TogglePlugInCommand, ElementName=settingsWindow}" CommandParameter="{Binding}">
-                                    <Run>
-                                        <Run.Style>
-                                            <Style TargetType="Run">
-                                                <Setter Property="Text" Value="Disable" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsEnabled, Mode=OneWay}" Value="False">
-                                                        <Setter Property="Text" Value="Enable"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Run.Style>
-                                    </Run>
-                                </Hyperlink>
-                            </TextBlock>
-                            <TextBlock>
-                                <TextBlock.ToolTip>
-                                    Plug-in may not be running either because it is disabled or because it failed to start.
-                                </TextBlock.ToolTip>
-                                <Run>Running: </Run>
-                                <Run Text="{Binding PlugIn.IsRunning, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
-                            </TextBlock>
-                            <TextBlock Text="Options" FontSize="19" />
-                            <ItemsControl ItemsSource="{Binding Properties}">
+                            <TextBlock Text="Summary" Style="{StaticResource SectionHeader}" />
+                            <Border Margin="10,0,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PlugIn.Description}" />
+                                    <TextBlock>
+                                        <!-- Disabled/enabled indicator-->
+                                        <TextBlock.ToolTip>
+                                            Disabled plug-ins won't be loaded next time the application is started.
+                                        </TextBlock.ToolTip>
+                                        <Run>Enabled: </Run>
+                                        <Run Text="{Binding IsEnabled, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
+                                        <Run>    </Run>
+                                        <Hyperlink Command="{Binding TogglePlugInCommand, ElementName=settingsWindow}" CommandParameter="{Binding}">
+                                            <Run>
+                                                <Run.Style>
+                                                    <Style TargetType="Run">
+                                                        <Setter Property="Text" Value="Disable" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsEnabled, Mode=OneWay}" Value="False">
+                                                                <Setter Property="Text" Value="Enable"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Run.Style>
+                                            </Run>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <!-- Running indicator-->
+                                        <TextBlock.ToolTip>
+                                            Plug-in may not be running either because it is disabled or because it failed to start.
+                                        </TextBlock.ToolTip>
+                                        <Run>Running: </Run>
+                                        <Run Text="{Binding PlugIn.IsRunning, Mode=OneWay, Converter={x:Static converters:BoolToYesNoConverter.Instance}}" FontWeight="Bold"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="Options" Style="{StaticResource SectionHeader}" />
+                            <ItemsControl ItemsSource="{Binding Properties}" Margin="10,0,0,0">
+                                <!-- Plug-in properties -->
                                 <ItemsControl.Resources>
                                     <Style TargetType="TextBlock" x:Key="PropertyLabel">
                                 
@@ -89,10 +114,12 @@
                                         <Setter Property="FontSize" Value="10"/>
                                     </Style>
                                     <Style x:Key="PropertyValue" TargetType="StackPanel">
-                                        <Setter Property="Margin" Value="50,5,0,20"/>
+                                        <Setter Property="Margin" Value="20,5,0,20"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                     </Style>
                                 </ItemsControl.Resources>
                                 <ItemsControl.ItemTemplateSelector>
+                                    <!-- Use different template for each property type -->
                                     <local:SettingsPropertyItemTemplateSelector>
                                         <local:SettingsPropertyItemTemplateSelector.Int>
                                             <DataTemplate>
