@@ -139,11 +139,14 @@
                                                     </ItemsControl.ItemsPanel>
                                                 </ItemsControl>
                                                 <ContentPresenter Content="{TemplateBinding BottomBarContent}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
-                                                    <ContentPresenter.Style>
-                                                        <Style>
-                                                            <Setter Property="TextBlock.Foreground" Value="White"/>
+                                                    <ContentPresenter.Resources>
+                                                        <Style TargetType="{x:Type CheckBox}">
+                                                            <Setter Property="Control.Foreground" Value="{DynamicResource DialogControlBorderBrush}"/>
                                                         </Style>
-                                                    </ContentPresenter.Style>
+                                                        <Style TargetType="{x:Type TextBox}">
+                                                            <Setter Property="Control.Foreground" Value="{DynamicResource DialogControlBorderBrush}"/>
+                                                        </Style>
+                                                    </ContentPresenter.Resources>
                                                 </ContentPresenter>
                                             </DockPanel>
                                         </Border>
