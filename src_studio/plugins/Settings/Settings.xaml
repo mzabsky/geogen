@@ -15,7 +15,7 @@
     <pb:WindowBase.Resources>
         <Style x:Key="SectionHeader">
             <Setter Property="TextBlock.FontSize" Value="20"/>
-            <Setter Property="TextBlock.Margin" Value="0,10,0,20"/>
+            <Setter Property="TextBlock.Margin" Value="0,10,0,10"/>
         </Style>
     </pb:WindowBase.Resources>
     <ui:DialogBody Name="Body">
@@ -69,7 +69,7 @@
                             <TextBlock Text="Summary" Style="{StaticResource SectionHeader}" />
                             <Border Margin="10,0,0,0">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding PlugIn.Description}" />
+                                    <TextBlock Text="{Binding PlugIn.Description}" Margin="3,3,3,10"/>
                                     <TextBlock>
                                         <!-- Disabled/enabled indicator-->
                                         <TextBlock.ToolTip>

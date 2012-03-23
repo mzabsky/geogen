@@ -15,6 +15,10 @@
     /// <summary>
     /// The Settings dialog.
     /// </summary>
+    [PlugIn(
+        Name = "Settings", 
+        Description = "Allows configuration of individual plug-ins through a graphical interface.", 
+        VisibleInList = false)]
     public sealed partial class Settings : GeoGen.Studio.Utilities.PlugInBase.WindowBase, INotifyPropertyChanged
     {
         /// <summary>
