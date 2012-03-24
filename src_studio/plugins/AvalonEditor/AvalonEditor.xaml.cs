@@ -359,7 +359,7 @@
             {
                 if (this.undoCommand == null)
                 {
-                    this.undoCommand = new RelayCommand(param => this.editor.Undo());
+                    this.undoCommand = new RelayCommand(param => this.editor.Undo(), param => this.editor.CanUndo);
                 }
 
                 return this.undoCommand;
@@ -375,7 +375,7 @@
             {
                 if (this.redoCommand == null)
                 {
-                    this.redoCommand = new RelayCommand(param => this.editor.Redo());
+                    this.redoCommand = new RelayCommand(param => this.editor.Redo(), param => this.editor.CanRedo);
                 }
 
                 return this.redoCommand;
