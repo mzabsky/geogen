@@ -414,7 +414,11 @@
             set
             {
                 this.text = value;
-                this.editor.Text = value;
+
+                if (this.editor.Text != value)
+                {
+                    this.editor.Text = value;   
+                }                
             }
         }
 
