@@ -139,4 +139,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <UsingTask TaskName="NotifyPropertyWeaverMsBuildTask.WeavingTask" AssemblyFile="$(SolutionDir)\msbuild\NotifyPropertyWeaverMsBuildTask.dll" />
+  <Target Name="AfterBuild">
+    <WeavingTask TargetPath="$(TargetPath)" CheckForEquality="true" TryToWeaveAllTypes="True" />
+  </Target>
 </Project>
