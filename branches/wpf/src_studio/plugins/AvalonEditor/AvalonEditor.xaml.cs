@@ -408,17 +408,12 @@
         {
             get
             {
-                return this.text;
+                return this.editor.Text;
             }
 
             set
             {
-                this.text = value;
-
-                if (this.editor.Text != value)
-                {
-                    this.editor.Text = value;   
-                }                
+                this.editor.Text = value;
             }
         }
 
@@ -1092,8 +1087,7 @@
         private void HandleTextChanged(object sender, EventArgs e)
         {
             this.IsUnsaved = true;
-
-            this.Text = this.editor.Text;
+            this.OnPropertyChanged("Text");
             ////this.foldingStrategy.UpdateFoldings(this.foldingManager, this.editor.Document);
         }
 
