@@ -41,6 +41,14 @@
         public DataTemplate String { get; set; }
 
         /// <summary>
+        /// Gets or sets data template for the enum type property.
+        /// </summary>
+        /// <value>
+        /// The template.
+        /// </value>
+        public DataTemplate Enum { get; set; }
+
+        /// <summary>
         /// Gets or sets data template used when the type cannot be decided.
         /// </summary>
         /// <value>
@@ -87,6 +95,10 @@
             else if (viewModel.Value is string)
             {
                 return this.String;
+            }
+            else if (viewModel.Property.PropertyType.IsEnum)
+            {
+                return this.Enum;
             }
             else
             {

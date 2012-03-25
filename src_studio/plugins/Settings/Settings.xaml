@@ -171,6 +171,27 @@
                                                 </StackPanel>
                                             </DataTemplate>
                                         </local:SettingsPropertyItemTemplateSelector.Bool>
+                                        <local:SettingsPropertyItemTemplateSelector.Enum>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Style="{StaticResource PropertyLabel}">
+                                                            <Run Text="{Binding Name}" />:
+                                                        </TextBlock>
+                                                        <TextBlock Style="{StaticResource PropertyDescription}" Visibility="{Binding Description, Converter={x:Static converters:StringToVisibilityConverter.Instance}}">
+                                                            (<Run Text="{Binding Description}" />)
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Style="{StaticResource PropertyValue}">
+                                                        <ComboBox 
+                                                            ItemsSource="{Binding Value, Converter={x:Static local:ObjectToEnumValuesConverter.Instance}}" 
+                                                            SelectedValue="{Binding Value}"
+                                                            Width="350">
+                                                        </ComboBox>
+                                                    </StackPanel>                                                        
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </local:SettingsPropertyItemTemplateSelector.Enum>
                                         <local:SettingsPropertyItemTemplateSelector.UnknownType>
                                             <DataTemplate>
                                                 <StackPanel>

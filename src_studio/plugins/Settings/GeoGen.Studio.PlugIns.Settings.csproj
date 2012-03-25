@@ -53,6 +53,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectToEnumValuesConverter.cs" />
     <Compile Include="SettingsPropertyItemTemplateSelector.cs" />
     <Compile Include="SettingsViewModel.cs" />
     <Page Include="Settings.xaml">
