@@ -23,7 +23,7 @@
             this.ReturnResultCommand = new RelayCommand(
                 param =>
                 {
-                    this.DialogResult = (bool?)param;
+                    this.Result = (MessageBoxResult)param;
                     this.Close();
                 });
 
@@ -47,6 +47,11 @@
         /// </summary>
         /// <value>The return result command.</value>
         public ICommand ReturnResultCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the result (instead of insufficient <see cref="Window.DialogResult"/>, which has too few possible values).
+        /// </summary>
+        public MessageBoxResult Result { get; private set; }
 
         /// <summary>
         /// Gets the button mode.
@@ -106,30 +111,9 @@
                 Title = caption ?? App.Name
             };
 
-            bool? result = messageBox.ShowDialog();
+            messageBox.ShowDialog();
 
-            switch (button)
-            {
-                case MessageBoxButton.OK:
-                    return MessageBoxResult.OK;
-                case MessageBoxButton.OKCancel:
-                    return result == true ? MessageBoxResult.OK : MessageBoxResult.Cancel;
-                case MessageBoxButton.YesNoCancel:
-                    if (result == true)
-                    {
-                        return MessageBoxResult.Yes;
-                    }
-                    else if (result == false)
-                    {
-                        return MessageBoxResult.No;
-                    }
-                    
-                    return MessageBoxResult.Cancel;
-                case MessageBoxButton.YesNo:
-                    return result == true ? MessageBoxResult.Yes : MessageBoxResult.No;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            return messageBox.Result;
         }
     }
 }
