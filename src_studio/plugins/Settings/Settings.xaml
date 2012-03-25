@@ -22,8 +22,8 @@
         <ui:DialogBody.Buttons>
             <!-- Bottom bar buttons -->
             <Button Command="{Binding ApplyCommand}">Apply</Button>
-            <Button Command="{Binding OkCommand}">OK</Button>
-            <Button Command="{Binding CloseCommand}">Cancel</Button>            
+            <Button Command="{Binding OkCommand}" IsDefault="True">OK</Button>
+            <Button Command="{Binding CloseCommand}" IsCancel="True">Cancel</Button>            
         </ui:DialogBody.Buttons>
         <ui:DialogBody.BottomBarContent>
             <!-- Bottom bar checkbox -->
