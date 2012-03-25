@@ -47,11 +47,6 @@
         /// </summary>
         private readonly Context editorContext = new Context();
 
-        /// <summary>
-        /// backing field for <see cref="Text"/>.
-        /// </summary>
-        private string text;
-        
         /*private bool enablePropertyCallbacks = true;*/
 
         /*private ICSharpCode.AvalonEdit.Folding.AbstractFoldingStrategy foldingStrategy;
