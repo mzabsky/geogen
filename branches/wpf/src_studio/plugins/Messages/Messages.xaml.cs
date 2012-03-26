@@ -1,7 +1,9 @@
 ﻿namespace GeoGen.Studio.PlugIns
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -39,7 +41,11 @@
             }
 
             Messenger.Instance.MessageSent +=
-                delegate(object o, MessageThrownEventArgs args) { this.Items.Add(args.Message); };
+                delegate(object o, MessageThrownEventArgs args)
+                    {
+                        // TODO: filtrovani
+                        this.AddMessage(args.Message);
+                    };
 
             InitializeComponent();
             MainConfig.Register(this);
@@ -49,7 +55,7 @@
         }
 
         /// <summary>
-        /// Gets the collection of items currently displayed in the control.
+        /// Gets the collection of items displayed in the control.
         /// </summary>
         public ObservableCollection<Message> Items { get; private set; }
 
@@ -61,6 +67,17 @@
         /// </value>
         [Persistent(DefaultValue = DockingLocation.RightTop)]
         public object DockingState { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum message severity.
+        /// </summary>
+        /// <value>
+        /// The minimum message severity.
+        /// </value>
+        [Persistent(
+            DefaultValue = MessageType.Message, 
+            EnableVisualConfiguration = true)]
+        public MessageType MinimumMessageSeverity { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether there are no messages to be displayed.
@@ -94,10 +111,14 @@
         /// Adds a message to the displayed list. However primary mean to display messages is <see cref="Message.Send"/>.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <param name="type">The type.</param>
-        public void AddMessage(string message, MessageType type = MessageType.Message)
+        public void AddMessage(Message message)
         {
-            this.Items.Add(new Message(message, type));
+            if (message.Type < this.MinimumMessageSeverity)
+            {
+                return;
+            }
+
+            this.Items.Add(message);
         }
 
         /// <summary>
