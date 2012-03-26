@@ -8,21 +8,21 @@
         /// <summary>
         /// Indicates a state that has negative impact.
         /// </summary>
-        Error, 
+        Error = 4, 
 
         /// <summary>
         /// Indicates a state that could potentially have a negative impact.
         /// </summary>
-        Warning,
+        Warning = 3,
 
         /// <summary>
         /// Information without any negative impact.
         /// </summary>
-        Message,
+        Message = 2,
 
         /// <summary>
         /// Information not significant enough for normal user.
         /// </summary>
-        Trace
+        Trace = 1
     }
 }
