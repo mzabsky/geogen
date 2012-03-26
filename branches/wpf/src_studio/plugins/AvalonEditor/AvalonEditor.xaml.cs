@@ -114,36 +114,6 @@
         private ICommand showEditorCommand;
 
         /// <summary>
-        /// Backing field for <see cref="CaretLine"/>.
-        /// </summary>
-        private int caretLine;
-
-        /// <summary>
-        /// Backing field for <see cref="CaretColumn"/>.
-        /// </summary>
-        private int caretColumn;
-
-        /// <summary>
-        /// Backing field for <see cref="CaretOffset"/>.
-        /// </summary>
-        private int caretOffset;
-
-        /// <summary>
-        /// Backing field for <see cref="SelectionStart"/>.
-        /// </summary>
-        private int selectionStart;
-
-        /// <summary>
-        /// Backing field for <see cref="SelectionEnd"/>.
-        /// </summary>
-        private int selectionEnd;
-
-        /// <summary>
-        /// Backing field for <see cref="SelectionLength"/>.
-        /// </summary>
-        private int selectionLength;
-
-        /// <summary>
         /// Backing field for <see cref="WordWrap"/>.
         /// </summary>
         private bool wordWrap;
@@ -467,17 +437,12 @@
         {
             get
             {
-                return this.caretLine;
+                return this.editor.TextArea.Caret.Line;
             }
 
             set
             {
-                this.caretLine = value;
-
-                if (this.editor.TextArea.Caret.Line != value)
-                {
-                    this.editor.TextArea.Caret.Line = value;
-                }
+                this.editor.TextArea.Caret.Line = value;
             }
         }
 
@@ -491,17 +456,12 @@
         {
             get
             {
-                return this.caretColumn;
+                return this.editor.TextArea.Caret.Column;
             }
 
             set
             {
-                this.caretColumn = value;
-
-                if (this.editor.TextArea.Caret.Column != value)
-                {
-                    this.editor.TextArea.Caret.Column = value;
-                }
+                this.editor.TextArea.Caret.Column = value;
             }
         }
 
@@ -515,17 +475,12 @@
         {
             get
             {
-                return this.caretOffset;
+                return this.editor.TextArea.Caret.Offset;
             }
 
             set
             {
-                this.caretOffset = value;
-
-                if (this.editor.TextArea.Caret.Offset != value)
-                {
-                    this.editor.TextArea.Caret.Offset = value;
-                }
+                this.editor.TextArea.Caret.Offset = value;
             }
         }
 
@@ -539,17 +494,12 @@
         {
             get
             {
-                return this.selectionStart;
+                return this.editor.SelectionStart;
             }
 
             set
             {
-                this.selectionStart = value;
-
-                if (this.editor.SelectionStart != value)
-                {
-                    this.editor.SelectionStart = value;    
-                }
+                this.editor.SelectionStart = value;
             }
         }
 
@@ -563,17 +513,12 @@
         {
             get
             {
-                return this.selectionEnd;
+                return this.editor.SelectionStart + this.editor.SelectionLength;
             }
 
             set
             {
-                this.selectionEnd = value;
-
-                if (this.editor.SelectionStart != value - this.editor.SelectionLength)
-                {
-                    this.editor.SelectionStart = value - this.editor.SelectionLength;
-                }                
+                this.editor.SelectionLength = value - this.editor.SelectionLength;
             }
         }
 
@@ -587,17 +532,12 @@
         {
             get
             {
-                return this.selectionLength;
+                return this.editor.SelectionLength;
             }
 
             set
             {
-                this.selectionLength = value;
-
-                if (this.editor.SelectionLength != value)
-                {
-                    this.editor.SelectionLength = value;    
-                }
+                this.editor.SelectionLength = value;
             }
         }
 
@@ -1093,11 +1033,11 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void HandleSelectionChanged(object sender, EventArgs e)
         {
-            this.SelectionStart = this.editor.SelectionStart;
-            this.SelectionEnd = this.editor.SelectionStart + this.editor.SelectionLength;
-            this.SelectionLength = this.editor.SelectionLength;
-            this.CaretColumn = this.editor.TextArea.Caret.Column;
-            this.CaretLine = this.editor.TextArea.Caret.Line;
+            this.OnPropertyChanged("SelectionStart");
+            this.OnPropertyChanged("SelectionEnd");
+            this.OnPropertyChanged("SelectionLength");
+            this.OnPropertyChanged("CaretColumn");
+            this.OnPropertyChanged("CaretLine");
         }
     }
 }
