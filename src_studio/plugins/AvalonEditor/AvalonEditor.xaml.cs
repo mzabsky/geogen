@@ -1027,7 +1027,7 @@
         }
 
         /// <summary>
-        /// Synchronizes outer text cursor to the innter AvalonEdit component.
+        /// Notifies observes about changes in the inner editor.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
