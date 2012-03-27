@@ -92,7 +92,7 @@
     </ProjectReference>
     <ProjectReference Include="..\DockManager\GeoGen.Studio.PlugIns.DockManager.csproj">
       <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
-      <Name>GGenStudio.PlugIns.DockManager</Name>
+      <Name>GeoGen.Studio.PlugIns.DockManager</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
