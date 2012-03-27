@@ -95,15 +95,15 @@
     </ProjectReference>
     <ProjectReference Include="..\DockManager\GeoGen.Studio.PlugIns.DockManager.csproj">
       <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
-      <Name>GGenStudio.PlugIns.DockManager</Name>
+      <Name>GeoGen.Studio.PlugIns.DockManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Window\GeoGen.Studio.PlugIns.MainWindow.csproj">
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
-      <Name>GGenStudio.PlugIns.MainWindow</Name>
+      <Name>GeoGen.Studio.PlugIns.MainWindow</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToolBar\GeoGen.Studio.PlugIns.ToolBar.csproj">
       <Project>{F01E1F52-EE2C-402F-ABD3-FACA897A41F6}</Project>
-      <Name>GGenStudio.PlugIns.ToolBar</Name>
+      <Name>GeoGen.Studio.PlugIns.ToolBar</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
