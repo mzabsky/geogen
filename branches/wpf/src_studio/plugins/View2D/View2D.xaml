@@ -191,7 +191,7 @@
                             </StackPanel>
                         </tb:ToolBarControl.Content>
                     </tb:ToolBarControl>
-                    <tb:ToolBarCheckableButton IsChecked="{Binding IsOverlayEnabled}" DataContext="{Binding .}" ToolTip="Toogle overlay on/off">
+                    <tb:ToolBarCheckableButton IsChecked="{Binding IsOverlayEnabled}" ToolTip="Toogle overlay on/off">
                         <tb:ToolBarCheckableButton.Icon>
                             <Image Source="Images/Icons/toggleOverlay.png"/>
                         </tb:ToolBarCheckableButton.Icon>
