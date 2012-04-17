@@ -12,13 +12,13 @@ Early preview of all new version of GeoGen Studio.
 </td><td>
 [NewStudioPreview#High_DPI_support High DPI support]
 </td></tr><tr><td>
-<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/editor.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/editor_resize.png</a>
+<a href="#Code_editor">http://geogen.googlecode.com/svn/wiki/images/screenshots/editor_resize.png</a>
 </td><td>
-<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/view2D_resize.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/view2D_resize.png</a>
+<a href="#2D_Viewer">http://geogen.googlecode.com/svn/wiki/images/screenshots/view2D_resize.png</a>
 </td><td>
-<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/fullscreen.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/fullscreen_resize.png</a>
+<a href="#Full_screen_mode">http://geogen.googlecode.com/svn/wiki/images/screenshots/fullscreen_resize.png</a>
 </td><td>
-<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/highDPI.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/highDPI_resize.png</a>
+<a href="#High_DPI_support">http://geogen.googlecode.com/svn/wiki/images/screenshots/highDPI_resize.png</a>
 </td></tr></table>
 
 - *Extended customizability* - User interface will be fully arrangable according to your wishes. Many more configuration options will be available.
@@ -27,12 +27,13 @@ Early preview of all new version of GeoGen Studio.
 
 - *Rich extensibility* - Whole application will be composed from plug-ins. and very simple plug-in API will be offered to users and programmers.
 
+= Screenshots =
+
 == Code editor ==
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+http://geogen.googlecode.com/svn/wiki/images/screenshots/editor.png
+== 2D Viewer ==
+http://geogen.googlecode.com/svn/wiki/images/screenshots/view2D.png
+== Full screen mode ==
+http://geogen.googlecode.com/svn/wiki/images/screenshots/fullscreen.png
+== High DPI support ==
+http://geogen.googlecode.com/svn/wiki/images/screenshots/highDPI.png
