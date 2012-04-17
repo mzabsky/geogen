@@ -1,0 +1,38 @@
+Early preview of all new version of GeoGen Studio.
+
+= Finished and work-in-progress features =
+
+- *Redesigned user interface* - Graphical design of the application will be much more polished. Map and overlay selection boxes will contain illustrating previews. Full screen mode will be supported. Whole application will correctly scale with the system DPI setting.
+<table border="0"><tr><td>
+[NewStudioPreview#Code_editor Code editor]
+</td><td>
+[NewStudioPreview#2D_Viewer 2D Viewer]
+</td><td>
+[NewStudioPreview#Full_screen_mode Full screen mode]
+</td><td>
+[NewStudioPreview#High_DPI_support High DPI support]
+</td></tr><tr><td>
+<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/editor.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/editor_resize.png</a>
+</td><td>
+<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/view2D_resize.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/view2D_resize.png</a>
+</td><td>
+<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/fullscreen.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/fullscreen_resize.png</a>
+</td><td>
+<a href="http://geogen.googlecode.com/svn/wiki/images/screenshots/highDPI.png">http://geogen.googlecode.com/svn/wiki/images/screenshots/highDPI_resize.png</a>
+</td></tr></table>
+
+- *Extended customizability* - User interface will be fully arrangable according to your wishes. Many more configuration options will be available.
+
+- *Improved performance and responsiveness* - Everything from the code editor to graphical viewers is being optimized for performance.
+
+- *Rich extensibility* - Whole application will be composed from plug-ins. and very simple plug-in API will be offered to users and programmers.
+
+== Code editor ==
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
