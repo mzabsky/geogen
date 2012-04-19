@@ -153,7 +153,6 @@ namespace GeoGen.Studio.Utilities.Persistence
                 /* Skip non-readable non-configurable properties. */
                 if (property.CanWrite && configurableAttribute != null)
                 {
-                    object o = property.GetValue(null, null);
                     MainConfig.SavePropertyValue(property, property.GetValue(null, null));
                 }
             }
