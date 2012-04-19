@@ -155,7 +155,6 @@ namespace GeoGen.Studio.Utilities.Persistence
                 {
                     object o = property.GetValue(null, null);
                     MainConfig.SavePropertyValue(property, property.GetValue(null, null));
-                    dynamic d = FileService.RecentFiles;
                 }
             }
         }
