@@ -93,6 +93,10 @@
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CoreServices\GeoGen.Studio.PlugIns.CoreServices.csproj">
+      <Project>{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}</Project>
+      <Name>GeoGen.Studio.PlugIns.CoreServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DockManager\GeoGen.Studio.PlugIns.DockManager.csproj">
       <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
       <Name>GeoGen.Studio.PlugIns.DockManager</Name>

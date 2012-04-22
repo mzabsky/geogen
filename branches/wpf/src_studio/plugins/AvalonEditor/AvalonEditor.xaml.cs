@@ -12,11 +12,11 @@
     using GeoGen.Studio.PlugIns.Extensions;
     using GeoGen.Studio.PlugIns.Interfaces;
     using GeoGen.Studio.PlugIns.MenuBars;
+    using GeoGen.Studio.PlugIns.Services;
     using GeoGen.Studio.PlugIns.StatusBars;
     using GeoGen.Studio.PlugIns.ToolBars;
     using GeoGen.Studio.Utilities;
     using GeoGen.Studio.Utilities.Context;
-    using GeoGen.Studio.Utilities.Extensions;
     using GeoGen.Studio.Utilities.IO;
     using GeoGen.Studio.Utilities.Messaging;
     using GeoGen.Studio.Utilities.Persistence;
@@ -155,38 +155,8 @@
             {
                 ContextManager.LeaveContext(this.editorContext);
             };
-
-            FileService.FileCreated += delegate(object o, FileEventArgs args)
-            {
-                if (args.FileSession.Extension == ".nut")
-                {
-                    this.editor.Text = File.ReadAllText(this.TemplateFile);
-                    this.CurrentFileName = this.LastFileName = args.FileSession.FileInfo.FullName;
-                    ////this.currentFileSessionGuid = args.FileSession.FileSessionGuid;
-
-                    this.IsUnsaved = false;
-
-                    // switch to this tab after creating a file
-                    this.Activate();
-                }
-            };
-
-            FileService.FileOpened += delegate(object o, FileEventArgs args)
-            {
-                if (args.FileSession.FileInfo.IsTextFile() || args.FileSession.Extension == ".nut")
-                {               
-                    this.editor.Text = File.ReadAllText(args.FileSession.FileInfo.FullName);
-                    this.CurrentFileName = this.LastFileName = args.FileSession.FileInfo.FullName;
-                    ////this.currentFileSessionGuid = args.FileSession.FileSessionGuid;
-
-                    this.IsUnsaved = false;
-
-                    // switch to this tab after opening a file
-                    this.Activate();
-                }
-            };
         }
-
+        
         /// <summary>
         /// Gets the <see cref="New"/> command.
         /// </summary>
@@ -382,16 +352,6 @@
             }
         }
 
-        /*private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var avalonEditor = d as AvalonEditor;
-
-            if (avalonEditor != null)
-            {
-                if (avalonEditor.enablePropertyCallbacks) avalonEditor.editor.Text = avalonEditor.Text;
-            }
-        }*/
-
         /// <summary>
         /// Gets the name of the currently opened file in the editor. Empty string if no file is opened in the editor (
         /// for example because it was not saved yet).
@@ -574,6 +534,12 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the file service which provides file open requests from other plug-ins and broadcasts requests from this
+        /// instance.
+        /// </summary>
+        protected IFileService FileService { get; private set; }
 
         /// <summary>
         /// Add the editor as tab to the main interface.
@@ -828,6 +794,46 @@
         }
 
         /// <summary>
+        /// Registers the file service.
+        /// </summary>
+        /// <param name="fileService">The file service.</param>
+        public void Register(IFileService fileService)
+        {
+            this.FileService = fileService;
+
+            this.FileService.Created += delegate(object o, FileSessionEventArgs args)
+            {
+                var session = (IFileSession)o;
+
+                if (session.Extension == ".nut")
+                {
+                    this.editor.Text = File.ReadAllText(this.TemplateFile);
+                    this.CurrentFileName = this.LastFileName = session.FileName;
+                    ////this.currentFileSessionGuid = args.FileSession.FileSessionGuid;
+
+                    this.IsUnsaved = false;
+
+                    // switch to this tab after creating a file
+                    this.Activate();
+                }
+            };
+
+            this.FileService.Opened += delegate(object o, FileSessionEventArgs args)
+            {
+                var session = (IFileSession)o;
+                
+                // TODO: Recognize text file by mime type
+                if (/*args.FileSession.FileInfo.IsTextFile() || */session.Extension == ".nut")
+                {
+                    this.editor.Text = File.ReadAllText(session.FileName);
+                    this.CurrentFileName = session.FileName; // TODO: Tohle se nahradi sesnou.
+
+                    this.Activate();
+                }
+            };
+        }
+
+        /// <summary>
         /// Creates a new file (without saving it). Uses a default templae
         /// </summary>
         public void New()
@@ -911,7 +917,7 @@
             {
                 string fileName = FileDialog.ShowOpen(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");                
 
-                FileService.OnFileOpened(this, new FileInfo(fileName));             
+                this.FileService.OnOpened(this, fileName);             
             }
             catch (IOException)
             {
