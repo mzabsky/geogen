@@ -64,6 +64,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.FullS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.ScriptValidator", "src_studio\plugins\ScriptValidator\GeoGen.Studio.PlugIns.ScriptValidator.csproj", "{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.CoreServices", "src_studio\plugins\CoreServices\GeoGen.Studio.PlugIns.CoreServices.csproj", "{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGen.Studio.PlugIns.CoreServices.Tests", "src_studio\plugins\CoreServices.Tests\GeoGen.Studio.PlugIns.CoreServices.Tests.csproj", "{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -482,6 +486,36 @@ Global
 		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|Win32.ActiveCfg = Release|Any CPU
 		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|x64.ActiveCfg = Release|Any CPU
 		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D}.Release|x86.ActiveCfg = Release|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Debug|x86.Build.0 = Debug|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Release|Win32.ActiveCfg = Release|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Release|x64.ActiveCfg = Release|Any CPU
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}.Release|x86.ActiveCfg = Release|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Debug|x86.Build.0 = Debug|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Release|Win32.ActiveCfg = Release|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -508,6 +542,8 @@ Global
 		{37F2772C-D346-4272-8DE1-F1457EC01EB3} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{76CF5FCF-1080-4274-941D-B9D60146354E} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 		{A5D39FB9-2482-4C58-8F3A-B52B9B7CB55D} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+		{4D34D459-BE1C-4184-AE1A-18BBE543DE9E} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
+		{210FB6DA-EDB7-4DA7-8948-B57BFD3EB7C9} = {0DC80F0B-4A3B-4D4B-B237-BC6C5105452F}
 	EndGlobalSection
 	GlobalSection(NDepend) = preSolution
 		Project = ".\GeoGen.ndproj"

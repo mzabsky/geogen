@@ -22,11 +22,11 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <TextBlock Margin="10" FontSize="30" DockPanel.Dock="Top">Recent files</TextBlock>
-            <ItemsControl DockPanel.Dock="Top" ItemsSource="{x:Static IO:FileService.RecentFiles}">
+            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding FileService.RecentFiles}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>                        
                         <Button 
-                            Content="{Binding Name}" 
+                            Content="{Binding}" 
                             Style="{DynamicResource HighlightButton}" 
                             Command="{Binding OpenFileCommand, ElementName=welcomeScreen}" 
                             CommandParameter="{Binding}"

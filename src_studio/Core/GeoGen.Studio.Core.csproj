@@ -19,7 +19,7 @@
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -112,8 +112,10 @@
     <Compile Include="UI\NumericBox.xaml.cs">
       <DependentUpon>NumericBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Collections\CollectionReadOnlyException.cs" />
     <Compile Include="Utilities\Collections\DelegateComparer.cs" />
     <Compile Include="Utilities\Collections\DelegateEqualityComparer.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyObservableCollectionView.cs" />
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
     <Compile Include="Utilities\Collections\PriorityComparer.cs" />
@@ -138,10 +140,7 @@
     <Compile Include="Utilities\Extensions\Dispatcher.cs" />
     <Compile Include="Utilities\Extensions\FileInfo.cs" />
     <Compile Include="Utilities\IO\FileDialog.cs" />
-    <Compile Include="Utilities\IO\FileEventArgs.cs" />
     <Compile Include="Utilities\IO\FileInfoObservableQueue.cs" />
-    <Compile Include="Utilities\IO\FileService.cs" />
-    <Compile Include="Utilities\IO\FileSession.cs" />
     <Compile Include="Utilities\Messaging\Message.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventArgs.cs" />
     <Compile Include="Utilities\Messaging\MessageThrownEventHandler.cs" />

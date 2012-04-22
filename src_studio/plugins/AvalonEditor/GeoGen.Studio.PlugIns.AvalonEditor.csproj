@@ -119,6 +119,10 @@
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
       <Name>GeoGen.Studio.PlugIns.MainWindow</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CoreServices\GeoGen.Studio.PlugIns.CoreServices.csproj">
+      <Project>{4D34D459-BE1C-4184-AE1A-18BBE543DE9E}</Project>
+      <Name>GeoGen.Studio.PlugIns.CoreServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\code.png" />
