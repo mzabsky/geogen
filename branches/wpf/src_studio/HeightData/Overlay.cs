@@ -57,7 +57,7 @@ namespace GeoGen.Studio
                     {
                         overlays.Add(new Overlay(overlayFile));
                     }
-                    catch(Exception e)
+                    catch(Exception)
                     {
                         // The overlay might have been invalid
                         new Message("Could not open overlay \"" + overlayFile.Name + "\".", MessageType.Error).Send();
