@@ -22,7 +22,7 @@ namespace GeoGen.Studio.Utilities.PlugInBase
             }
         }
 
-        public System.Windows.Window Window
+        public virtual  System.Windows.Window Window
         {
             get
             {
@@ -30,7 +30,7 @@ namespace GeoGen.Studio.Utilities.PlugInBase
             }
         }
 
-        protected void OnPropertyChanged(string info)
+        protected virtual void OnPropertyChanged(string info)
         {
             if (PropertyChanged != null)
             {
