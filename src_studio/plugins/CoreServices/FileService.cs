@@ -1,13 +1,17 @@
 ﻿namespace GeoGen.Studio.PlugIns.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
 
     using GeoGen.Studio.Utilities.Collections;
     using GeoGen.Studio.Utilities.Persistence;
     using GeoGen.Studio.Utilities.PlugInBase;
 
     // TODO: Persistence of RecentFiles.
+
+    // TODO: Track owner of each session (only owner is allowed to change it and invoke operations on it).
 
     /// <summary>
     /// Manages files opened by various plug-ins.
@@ -42,6 +46,9 @@
             this.activeSessionsView = new ReadOnlyObservableCollection<IFileSession>(this.activeSessions);
 
             this.recentFilesView = new ReadOnlyObservableCollectionView<string>(this.recentFiles);
+
+            // TODO: This has to consider unit testing somehow.
+            MainConfig.Register(this);
         }
 
         /// <inheritdoc/>
@@ -69,6 +76,31 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the collection of persistent file. This is fake property for the persistence framework 
+        /// (it requires property which is both readable and writable).
+        /// </summary>
+        [Persistent]
+        protected IEnumerable<string> PersistentRecentFiles
+        {
+            get
+            {
+                // Items into the collection are added in reverse, compensate for this now.
+                return this.RecentFiles.Reverse().ToList();
+            }
+
+            set
+            {
+                if (value != null)
+                {
+                    foreach (var item in value)
+                    {
+                        this.recentFiles.Add(item);
+                    }
+                }                
+            }
+        }
+        
         /// <summary>
         /// Lets the loader create an instance of this.
         /// </summary>
