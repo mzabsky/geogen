@@ -12,7 +12,9 @@ namespace GeoGen.Studio.Utilities.Persistence
     /// Offers a simple way to persistently store properties of objects on a per-type basis.
     /// </summary>
     public static class MainConfig
-    {        
+    {
+        private const BindingFlags SupportedPropertyBindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy;
+
         private static PropertyStore propertyStore;
         private static readonly List<object> registeredConfigurables = new List<object>();
         private static readonly List<Type> registeredStaticTypes = new List<Type>();
@@ -93,7 +95,7 @@ namespace GeoGen.Studio.Utilities.Persistence
 
         private static void LoadConfiguration(object configurable)
         {
-            foreach (PropertyInfo property in configurable.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy))
+            foreach (PropertyInfo property in configurable.GetType().GetProperties(MainConfig.SupportedPropertyBindingFlags))
             {
                 PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
@@ -110,7 +112,7 @@ namespace GeoGen.Studio.Utilities.Persistence
             // The type must be static.
             Contract.Assert(type.IsAbstract && type.IsSealed);
 
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (PropertyInfo property in type.GetProperties(MainConfig.SupportedPropertyBindingFlags))
             {
                 PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
@@ -129,7 +131,7 @@ namespace GeoGen.Studio.Utilities.Persistence
         /// <param name="configurable">The configurable.</param>
         public static void SaveConfiguration(object configurable)
         {
-            foreach(PropertyInfo property in configurable.GetType().GetProperties())
+            foreach (PropertyInfo property in configurable.GetType().GetProperties(MainConfig.SupportedPropertyBindingFlags))
             {
                 PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
@@ -146,7 +148,7 @@ namespace GeoGen.Studio.Utilities.Persistence
             // The type must be static.
             Contract.Assert(type.IsAbstract && type.IsSealed);
 
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (PropertyInfo property in type.GetProperties(MainConfig.SupportedPropertyBindingFlags))
             {
                 PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
