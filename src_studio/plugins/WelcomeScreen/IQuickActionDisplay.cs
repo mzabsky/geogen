@@ -1,11 +1,11 @@
-using GeoGen.Studio.PlugInLoader;
-
 namespace GeoGen.Studio.PlugIns
 {
+    using GeoGen.Studio.PlugInLoader;
+
     /// <summary>
     /// Displays a list of quick actions provided by other plug-ins.
     /// </summary>
-    public interface IQuickActionDisplay: IPlugInInterface
+    public interface IQuickActionDisplay : IPlugInInterface
     {
         /// <summary>
         /// Registers a quick action to be displayed in the component.

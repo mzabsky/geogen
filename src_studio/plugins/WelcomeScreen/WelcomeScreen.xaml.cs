@@ -1,6 +1,5 @@
 ﻿namespace GeoGen.Studio.PlugIns
 {
-    using System;
     using System.ComponentModel;
     using System.Windows.Input;
 
@@ -31,14 +30,18 @@
         /// </summary>
         public IFileService FileService { get; private set; }
 
+        /// <summary>
+        /// Gets the open file command.
+        /// </summary>
         public ICommand OpenFileCommand { get; private set; }
 
-        public string A { get; set; }
-
+        /// <summary>
+        /// Gets the collection of quick actions.
+        /// </summary>
         public PriorityObservableCollection<QuickAction> QuickActions { get; private set; }        
 
         /// <summary>
-        /// Registers tis plug-in to the dock manager.
+        /// Registers this plug-in to the dock manager.
         /// </summary>
         /// <param name="dockManager">The dock manager.</param>
         public void Register(IDockManager dockManager)
@@ -54,7 +57,8 @@
         {
             this.FileService = fileService;
         }
-
+        
+        /// <inheritdoc/>
         public void RegisterQuickAction(QuickAction quickAction)
         {
             this.QuickActions.Add(quickAction);
