@@ -4,7 +4,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:pb="clr-namespace:GeoGen.Studio.Utilities.PlugInBase;assembly=GeoGen.Studio.Core" 
-    xmlns:PlugIns="clr-namespace:GeoGen.Studio.PlugIns;assembly=GeoGen.Studio.Core" xmlns:IO="clr-namespace:GeoGen.Studio.Utilities.IO;assembly=GeoGen.Studio.Core" mc:Ignorable="d" 
+    xmlns:conv="clr-namespace:GeoGen.Studio.Utilities.Converters;assembly=GeoGen.Studio.Core" 
+    xmlns:PlugIns="clr-namespace:GeoGen.Studio.PlugIns;assembly=GeoGen.Studio.Core" 
+    xmlns:IO="clr-namespace:GeoGen.Studio.Utilities.IO;assembly=GeoGen.Studio.Core" 
+    mc:Ignorable="d" 
     d:DesignHeight="500" 
     d:DesignWidth="600"
     Name="welcomeScreen"
@@ -26,7 +29,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>                        
                         <Button 
-                            Content="{Binding}" 
+                            Content="{Binding ., Converter={x:Static conv:FullPathToFileNameConverter.Instance}}" 
                             Style="{DynamicResource HighlightButton}" 
                             Command="{Binding OpenFileCommand, ElementName=welcomeScreen}" 
                             CommandParameter="{Binding}"
