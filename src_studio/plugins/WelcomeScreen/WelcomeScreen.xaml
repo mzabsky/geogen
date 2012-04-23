@@ -30,7 +30,7 @@
                             Style="{DynamicResource HighlightButton}" 
                             Command="{Binding OpenFileCommand, ElementName=welcomeScreen}" 
                             CommandParameter="{Binding}"
-                            Margin="5,1"/>
+                            Margin="5,1" Background="Red"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
