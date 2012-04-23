@@ -9,8 +9,6 @@
 
     sealed public class ScriptArg: ObservableObject, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ScriptArgType Type { get; private set; }
 
         public string Name {get; private set;}
@@ -25,7 +23,7 @@
 
         public uint Maximum { get; set; }
 
-        protected uint value;
+        private uint value;
         public uint Value { 
             get {
                 return value;
@@ -59,14 +57,6 @@
 
             this.Options = arg.Options.ToArray(); //new string[this.Maximum + 1];
             //arg.Options.CopyTo(this.Options, 0);
-        }
-
-        protected void OnPropertyChanged(string info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
         }
     }
 }
