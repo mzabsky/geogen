@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Matěj Zábský")]
 [assembly: AssemblyProduct("GeoGen Studio")]
-[assembly: AssemblyCopyright("Copyright © Matěj Zábský 2010")]
+[assembly: AssemblyCopyright("Copyright © Matěj Zábský 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

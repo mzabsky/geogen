@@ -1,18 +1,16 @@
 ﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GeneratorUI")]
+[assembly: AssemblyTitle("GeoGen.Studio.PlugIns.GeneratorUI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("GeneratorUI")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCompany("Matěj Zábský")]
+[assembly: AssemblyProduct("GeoGen.Studio.PlugIns.GeneratorUI")]
+[assembly: AssemblyCopyright("Copyright © Matěj Zábský 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

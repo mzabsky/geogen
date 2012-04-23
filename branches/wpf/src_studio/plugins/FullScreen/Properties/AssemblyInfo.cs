@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FullScreen")]
+[assembly: AssemblyTitle("GeoGen.Studio.PlugIns.FullScreen")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FullScreen")]
-[assembly: AssemblyCopyright("Copyright ©  2011")]
+[assembly: AssemblyCompany("Matěj Zábský")]
+[assembly: AssemblyProduct("GeoGen.Studio.PlugIns.FullScreen")]
+[assembly: AssemblyCopyright("Copyright © Matěj Zábský 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
