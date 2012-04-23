@@ -93,7 +93,7 @@ namespace GeoGen.Studio.Utilities.Persistence
 
         private static void LoadConfiguration(object configurable)
         {
-            foreach(PropertyInfo property in configurable.GetType().GetProperties())
+            foreach (PropertyInfo property in configurable.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy))
             {
                 PersistentAttribute configurableAttribute = Attribute.GetCustomAttribute(property, typeof(PersistentAttribute)) as PersistentAttribute;
 
