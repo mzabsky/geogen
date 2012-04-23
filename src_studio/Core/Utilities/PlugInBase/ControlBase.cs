@@ -16,14 +16,14 @@
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public System.Windows.Controls.Control Control
+        public virtual System.Windows.Controls.Control Control
         {
             get {
                 return this;
             }
         }
 
-        protected void OnPropertyChanged(string info)
+        protected virtual void OnPropertyChanged(string info)
         {
             if (PropertyChanged != null)
             {
