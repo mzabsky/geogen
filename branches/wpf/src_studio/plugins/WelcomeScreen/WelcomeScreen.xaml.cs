@@ -1,15 +1,18 @@
 ﻿namespace GeoGen.Studio.PlugIns
 {
+    using System;
+    using System.ComponentModel;
     using System.Windows.Input;
 
     using GeoGen.Studio.PlugIns.Services;
     using GeoGen.Studio.Utilities;
     using GeoGen.Studio.Utilities.Collections;
+    using GeoGen.Studio.Utilities.PlugInBase;
 
     /// <summary>
     /// Displays a window with overview of recently opened files and quick actions.
     /// </summary>
-    public sealed partial class WelcomeScreen : IQuickActionDisplay
+    public partial class WelcomeScreen : ControlBase, IQuickActionDisplay, INotifyPropertyChanged
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WelcomeScreen"/> class.
@@ -29,6 +32,8 @@
         public IFileService FileService { get; private set; }
 
         public ICommand OpenFileCommand { get; private set; }
+
+        public string A { get; set; }
 
         public PriorityObservableCollection<QuickAction> QuickActions { get; private set; }        
 
