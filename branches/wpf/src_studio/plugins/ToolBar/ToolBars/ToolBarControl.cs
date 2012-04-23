@@ -4,8 +4,6 @@ namespace GeoGen.Studio.PlugIns.ToolBars
 
     public class ToolBarControl: ToolBarEntry
     {
-        public object Content { get; set; }
-
         static ToolBarControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBarControl),
