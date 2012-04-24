@@ -115,6 +115,8 @@
     <Compile Include="Utilities\Collections\CollectionReadOnlyException.cs" />
     <Compile Include="Utilities\Collections\DelegateComparer.cs" />
     <Compile Include="Utilities\Collections\DelegateEqualityComparer.cs" />
+    <Compile Include="Utilities\Collections\GroupedSortedObservableCollection.cs" />
+    <Compile Include="Utilities\Collections\IPriorityGroupable.cs" />
     <Compile Include="Utilities\Collections\ReadOnlyObservableCollectionView.cs" />
     <Compile Include="Utilities\Collections\TypeCollection.cs" />
     <Compile Include="Utilities\Collections\IPriority.cs" />
