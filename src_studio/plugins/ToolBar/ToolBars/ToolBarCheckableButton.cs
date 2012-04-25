@@ -26,7 +26,7 @@
         {
         }
 
-        public ToolBarCheckableButton(object icon, double priority = 0, ICommand command = null, object toolTip = null, bool isChecked = false, Binding isCheckedBinding = null, object dataContext = null)
+        public ToolBarCheckableButton(object icon, double priority = 0, string group = null, ICommand command = null, object toolTip = null, bool isChecked = false, Binding isCheckedBinding = null, object dataContext = null)
         {
             // Check if the "icon" is a path to an image; if it is, load te image
             if (icon is string)
@@ -48,6 +48,7 @@
             this.IsChecked = isChecked;
             this.IsCheckedBinding = isCheckedBinding;
             this.Priority = priority;
+            this.Group = group;
             this.Command = command;
             this.ToolTip = toolTip;
             this.DataContext = dataContext;

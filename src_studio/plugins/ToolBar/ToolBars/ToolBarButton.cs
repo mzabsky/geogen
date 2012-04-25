@@ -46,7 +46,7 @@
 
         public ToolBarButton(){}
 
-        public ToolBarButton(object icon, double priority = 0, ICommand command = null, object toolTip = null)
+        public ToolBarButton(object icon, double priority = 0, string group = null, ICommand command = null, object toolTip = null)
         {
             //this.Icon = icon;
             if(icon is string)
@@ -64,6 +64,7 @@
             }
 
             this.Priority = priority;
+            this.Group = group;
             this.Command = command;
             this.ToolTip = toolTip;
         }

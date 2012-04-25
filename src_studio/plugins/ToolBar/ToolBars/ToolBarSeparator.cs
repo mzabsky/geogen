@@ -13,9 +13,10 @@
 
         public ToolBarSeparator() {}
 
-        public ToolBarSeparator(double priority) 
+        public ToolBarSeparator(double priority, string group = null) 
         {
             this.Priority = priority;
+            this.Group = group;
         }
     }
 }
