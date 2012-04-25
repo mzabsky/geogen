@@ -122,14 +122,16 @@
             toolBar.AddItem(
                 new ToolBarButton(
                     command: this.startCommand,
-                    priority: -7,
+                    priority: -6,
+                    group: "generator",
                     toolTip: "Execute (F5)",
                     icon: GeneratorUI.IconPathPrefix + "execute.png"));
 
             toolBar.AddItem(
                 new ToolBarButton(
                     command: this.abortCommand,
-                    priority: -8,
+                    priority: -7,
+                    group: "generator",
                     toolTip: "Abort (F6)",
                     icon: GeneratorUI.IconPathPrefix + "abort.png"));
         }
