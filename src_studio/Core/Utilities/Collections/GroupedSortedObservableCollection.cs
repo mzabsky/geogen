@@ -35,7 +35,7 @@
             // Test if the item has the same group as the previous item
             if (index != 0)
             {
-                if (this[index - 1].Group != value.Group)
+                if (this[index - 1].Group != value.Group && this[index - 1].GetType() != this.groupSeparatorType)
                 {
                     this.Insert(index, this.GetGroupSeparator());
 
@@ -46,7 +46,7 @@
             // Test if the item has the same group as the next item
             if (index != this.Count - 1)
             {
-                if (this[index + 1].Group != value.Group)
+                if (this[index + 1].Group != value.Group && this[index + 1].GetType() != this.groupSeparatorType)
                 {
                     this.Insert(index + 1, this.GetGroupSeparator());
                 }
