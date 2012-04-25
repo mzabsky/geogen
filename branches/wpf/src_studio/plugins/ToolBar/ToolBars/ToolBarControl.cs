@@ -12,10 +12,11 @@ namespace GeoGen.Studio.PlugIns.ToolBars
 
         public ToolBarControl() {}
 
-        public ToolBarControl(object content, double priority = 0)
+        public ToolBarControl(object content, double priority = 0, string group = null)
         {
             this.Content = content;
             this.Priority = priority;
+            this.Group = group;
         }
     }
 }

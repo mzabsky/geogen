@@ -6,14 +6,23 @@
 
     using GeoGen.Studio.Utilities.Collections;
 
-    public abstract class ToolBarEntry : UserControl, IPriority, INotifyPropertyChanged
+    public abstract class ToolBarEntry : UserControl, IPriorityGroupable, INotifyPropertyChanged
     {
+        /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <inheritdoc />
         public double Priority { get; set; }
+
+        /// <inheritdoc />
+        public string Group { get; set; }
 
         #region Methods
 
+        /// <summary>
+        /// Called when property changed.
+        /// </summary>
+        /// <param name="info">The info.</param>
         protected void OnPropertyChanged(string info)
         {
             if (this.PropertyChanged != null)
@@ -53,6 +62,6 @@
             return converted;
         }
 
-        #endregion
+        #endregion        
     }
 }
