@@ -699,44 +699,44 @@
             toolBar.AddItem(new ToolBarButton(
                 icon: AvalonEditor.IconPathPrefix + "new.png",
                 priority: 0,
+                group: "file",
                 toolTip: "New Script (Ctrl+N)",
                 command: this.NewCommand));
 
             toolBar.AddItem(new ToolBarButton(
                 icon: AvalonEditor.IconPathPrefix + "open.png",
                 priority: -1,
+                group: "file",
                 toolTip: "Open Script (Ctrl+O)",
                 command: this.OpenCommand));
 
             toolBar.AddItem(new ToolBarButton(
                 icon: AvalonEditor.IconPathPrefix + "save.png",
                 priority: -2,
+                group: "file",
                 toolTip: "Save Script (Ctrl+S)",
                 command: this.SaveCommand));
 
-            toolBar.AddItem(new ToolBarSeparator(
-                priority: -3));
-
             toolBar.AddItem(new ToolBarButton(
                 icon: AvalonEditor.IconPathPrefix + "cut.png",
-                priority: -4,
+                priority: -3,
+                group: "clipboard",
                 toolTip: "Cut (Ctrl+X)",
                 command: ApplicationCommands.Cut));
 
             toolBar.AddItem(new ToolBarButton(
                 icon: AvalonEditor.IconPathPrefix + "copy.png",
-                priority: -5,
+                priority: -4,
+                group: "clipboard",
                 toolTip: "Copy (Ctrl+C)",
                 command: ApplicationCommands.Copy));
 
             toolBar.AddItem(new ToolBarButton(
                 icon: AvalonEditor.IconPathPrefix + "paste.png",
-                priority: -6,
+                priority: -5,
+                group: "clipboard",
                 toolTip: "Paste (Ctrl+P)",
                 command: ApplicationCommands.Paste));
-
-            toolBar.AddItem(new ToolBarSeparator(
-                priority: -7));
         }
 
         /// <summary>

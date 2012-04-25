@@ -106,7 +106,8 @@
             toolBar.AddItem(
                 new ToolBarCheckableButton(
                     icon: FullScreen.IconPathPrefix  + "fullscreen.png", 
-                    priority: -10, 
+                    priority: -8,
+                    group: "display",
                     command: this.ToggleFullScreenCommand, 
                     toolTip: "Toggle full screen mode",                    
                     isCheckedBinding: new Binding("IsFullScreen"),
