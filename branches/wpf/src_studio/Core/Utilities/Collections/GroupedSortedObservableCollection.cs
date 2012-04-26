@@ -27,14 +27,30 @@
         {
             base.Insert(index, value);
 
+            // Do not insert separator separator and another item
             if (value.GetType() == this.groupSeparatorType)
             {
                 return;
             }
-            
-            // Test if the item has the same group as the previous item
+             
+            /* Now remove adjacent separators (if there are any) and then add them again (if necessary). 
+               This solution is not exactly efficient, but is simple and this collection is not designed
+               For massive collections anyways. */
+
+            // Remove preceding separator
             if (index != 0)
-            {
+            {                
+                if (this[index - 1].GetType() == this.groupSeparatorType)
+                {
+                    this.RemoveAt(index - 1);
+
+                    index--;
+                }
+            }
+
+            // If the item has different group than the next item, insert separator
+            if (index != 0)
+            {                          
                 if (this[index - 1].Group != value.Group && this[index - 1].GetType() != this.groupSeparatorType)
                 {
                     this.Insert(index, this.GetGroupSeparator());
@@ -43,9 +59,18 @@
                 }
             }
 
+            // Remove secceceding separator
+            if (index != this.Count - 1)
+            {                
+                if (this[index + 1].GetType() == this.groupSeparatorType)
+                {
+                    this.RemoveAt(index + 1);
+                }
+            }
+
             // Test if the item has the same group as the next item
             if (index != this.Count - 1)
-            {
+            {                
                 if (this[index + 1].Group != value.Group && this[index + 1].GetType() != this.groupSeparatorType)
                 {
                     this.Insert(index + 1, this.GetGroupSeparator());
