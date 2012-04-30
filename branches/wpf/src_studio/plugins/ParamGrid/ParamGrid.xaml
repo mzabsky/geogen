@@ -72,7 +72,7 @@
                                 <DataTemplate>
                                     <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}"  Background="White">
                                         <WrapPanel>
-                                            <TextBlock Width="100">
+                                            <TextBlock Width="100" Margin="0,3,0,0">
                                                 <Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
                                             </TextBlock>
                                             <CheckBox Content="Enabled" IsChecked="{Binding Value}" Margin="15, 0, 0, 0" Width="150" />
@@ -84,7 +84,7 @@
                                 <DataTemplate>
                                     <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}" Background="White">
                                         <WrapPanel>
-                                            <TextBlock Width="100">
+                                            <TextBlock Width="100" Margin="0,3,0,0">
                                                 <Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
                                             </TextBlock>
                                             <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"  Margin="15, 0, 0, 0" Width="150" ContextMenu="{StaticResource contextMenu}"  />
@@ -96,7 +96,7 @@
                                 <DataTemplate>
                                     <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Padding="4" ContextMenu="{StaticResource contextMenu}" ToolTip="{Binding Description}" Background="White">
                                         <WrapPanel>
-                                            <TextBlock Width="100">
+                                            <TextBlock Width="100" Margin="0,3,0,0">
                                                 <Run Text="{Binding Label, Mode=OneWay}" /><Run Text=": " />
                                             </TextBlock>
                                             <ComboBox ItemsSource="{Binding Options, Mode=OneWay}" SelectedIndex="{Binding Value}"  IsReadOnly="True"  Margin="15, 0, 0, 0" Width="150" />
