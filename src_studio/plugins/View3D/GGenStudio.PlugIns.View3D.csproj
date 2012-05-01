@@ -99,27 +99,27 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\core\GeoGen Studio Core\GeoGen.Studio.Core.csproj">
+    <ProjectReference Include="..\..\Core\GeoGen.Studio.Core.csproj">
       <Project>{FCA5AA51-7D67-4B7B-A304-39FD8381B5C7}</Project>
       <Name>GeoGen.Studio.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HeightData\GGenStudio.HeightData.csproj">
+    <ProjectReference Include="..\..\HeightData\GeoGen.Studio.HeightData.csproj">
       <Project>{EA119B85-8F12-4E84-89AB-E47D8996D016}</Project>
       <Name>GGenStudio.HeightData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DockManager\GGenStudio.PlugIns.DockManager.csproj">
+    <ProjectReference Include="..\DockManager\GeoGen.Studio.PlugIns.DockManager.csproj">
       <Project>{800BDCE0-5B63-4B1B-927B-CDD568721938}</Project>
       <Name>GGenStudio.PlugIns.DockManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeneratorUI\GGenStudio.PlugIns.GeneratorUI.csproj">
+    <ProjectReference Include="..\GeneratorUI\GeoGen.Studio.PlugIns.GeneratorUI.csproj">
       <Project>{17BE962C-BBD2-4AE7-987B-7D14971BE1A6}</Project>
       <Name>GGenStudio.PlugIns.GeneratorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeoGen\GGenStudio.PlugIns.GGen.csproj">
+    <ProjectReference Include="..\GeoGen\GeoGen.Studio.PlugIns.Generator.csproj">
       <Project>{5D0FF14C-459D-4801-A825-C406D5FD6051}</Project>
       <Name>GGenStudio.PlugIns.GGen</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Window\GGenStudio.PlugIns.MainWindow.csproj">
+    <ProjectReference Include="..\Window\GeoGen.Studio.PlugIns.MainWindow.csproj">
       <Project>{71A77DFA-C195-4882-AD94-5F73FBF0F918}</Project>
       <Name>GGenStudio.PlugIns.MainWindow</Name>
     </ProjectReference>
