@@ -72,7 +72,8 @@
     <Reference Include="AvalonDock.Themes">
       <HintPath>..\..\bin\AvalonDock.Themes.dll</HintPath>
     </Reference>
-    <Reference Include="GrayscaleEffect">
+    <Reference Include="GrayscaleEffect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\GrayscaleEffect.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />

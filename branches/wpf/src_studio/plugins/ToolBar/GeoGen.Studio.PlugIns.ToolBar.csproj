@@ -37,9 +37,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GrayscaleEffect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\plugins\GrayscaleEffect.dll</HintPath>
+    <Reference Include="GrayscaleEffect">
+      <HintPath>..\..\..\bin\GrayscaleEffect.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
