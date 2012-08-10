@@ -213,26 +213,47 @@
         {
             if (this.mainWindow.WindowStyle != WindowStyle.None)
             {
-                this.windowStateBackup = this.mainWindow.WindowState;
-                this.mainWindow.WindowState = WindowState.Normal;
-                
-                this.mainWindow.WindowStyle = WindowStyle.None;
-                this.mainWindow.WindowState = WindowState.Maximized;
-                this.mainWindow.Topmost = true;
-                this.mainWindow.Top = 0;
-                this.mainWindow.Left = 0;
-
-                this.HideBars();
+                this.EnableFullScreen();
             }
             else
             {
-                this.mainWindow.ResizeMode = ResizeMode.CanResize;
-                this.mainWindow.WindowState = this.windowStateBackup;
-                this.mainWindow.WindowStyle = WindowStyle.SingleBorderWindow;
-                this.mainWindow.Topmost = false;
-
-                this.ShowBars();
+                this.DisableFullScreen();
             }
+        }
+
+        /// <summary>
+        /// Switches the window to fullscreen mode.
+        /// </summary>
+        private void EnableFullScreen()
+        {
+            this.windowStateBackup = this.mainWindow.WindowState;
+            this.mainWindow.WindowState = WindowState.Normal;
+
+            this.mainWindow.WindowStyle = WindowStyle.None;
+            this.mainWindow.WindowState = WindowState.Maximized;
+            this.mainWindow.Topmost = true;
+            this.mainWindow.Top = 0;
+            this.mainWindow.Left = 0;
+
+            this.HideBars();
+
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate
+            {
+                this.OnPropertyChanged("IsFullScreen");
+            });
+        }
+
+        /// <summary>
+        /// Switches the window from fullscreen mode.
+        /// </summary>
+        private void DisableFullScreen()
+        {
+            this.mainWindow.ResizeMode = ResizeMode.CanResize;
+            this.mainWindow.WindowState = this.windowStateBackup;
+            this.mainWindow.WindowStyle = WindowStyle.SingleBorderWindow;
+            this.mainWindow.Topmost = false;
+
+            this.ShowBars();
 
             Application.Current.Dispatcher.BeginInvoke((Action)delegate
             {
