@@ -50,8 +50,6 @@
         /// </summary>
         private WindowState windowStateBackup;
 
-        private BarsShowSources barsShowSource;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FullScreen"/> class.
         /// </summary>
@@ -104,7 +102,6 @@
                 {
                     if (this.ShouldBarsToggleByKeyboard(args))
                     {
-                        this.barsShowSource = BarsShowSources.Keyboard;
                         this.ShowBars();
 
                         args.Handled = true;
