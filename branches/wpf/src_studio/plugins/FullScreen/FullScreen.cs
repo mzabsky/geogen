@@ -28,7 +28,7 @@
     /// <summary>
     /// Adds ability to switch the <see cref="IMainWindow">main window</see> to full screen.
     /// </summary>
-    public sealed class FullScreen : ObjectBase, INotifyPropertyChanged
+    public sealed class FullScreen : ObjectBase, IFullScreen
     {
         /// <summary>
         /// Path where icons for this plug-in are located.
@@ -66,12 +66,7 @@
         /// </value>
         public ICommand ToggleFullScreenCommand { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the window is in full screen mode.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance is full screen; otherwise, <c>false</c>.
-        /// </value>
+        /// <inheritdoc/>
         public bool IsFullScreen
         {
             get
@@ -221,10 +216,8 @@
             }
         }
 
-        /// <summary>
-        /// Switches the window to fullscreen mode.
-        /// </summary>
-        private void EnableFullScreen()
+        /// <inheritdoc/>
+        public void EnableFullScreen()
         {
             this.windowStateBackup = this.mainWindow.WindowState;
             this.mainWindow.WindowState = WindowState.Normal;
@@ -243,10 +236,8 @@
             });
         }
 
-        /// <summary>
-        /// Switches the window from fullscreen mode.
-        /// </summary>
-        private void DisableFullScreen()
+        /// <inheritdoc/>
+        public void DisableFullScreen()
         {
             this.mainWindow.ResizeMode = ResizeMode.CanResize;
             this.mainWindow.WindowState = this.windowStateBackup;
