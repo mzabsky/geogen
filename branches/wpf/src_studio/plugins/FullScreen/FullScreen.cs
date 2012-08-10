@@ -15,6 +15,16 @@
     using GeoGen.Studio.Utilities;
     using GeoGen.Studio.Utilities.PlugInBase;
 
+
+    /// <summary>
+    /// Lists sources which could cause bars to be shown in full screen mode.
+    /// </summary>
+    public enum BarsShowSources
+    {
+        Keyboard,
+        Mouse
+    }
+
     /// <summary>
     /// Adds ability to switch the <see cref="IMainWindow">main window</see> to full screen.
     /// </summary>
@@ -40,13 +50,14 @@
         /// </summary>
         private WindowState windowStateBackup;
 
+        private BarsShowSources barsShowSource;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FullScreen"/> class.
         /// </summary>
         public FullScreen()
         {
-            this.ToggleFullScreenCommand = new RelayCommand(p => this.ToggleFullScreen());            
-            this.AreBarsShown = true;
+            this.ToggleFullScreenCommand = new RelayCommand(p => this.ToggleFullScreen());
         }
 
         /// <summary>
@@ -72,14 +83,6 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the main window bars are currently displayed.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [are bars shown]; otherwise, <c>false</c>.
-        /// </value>
-        public bool AreBarsShown { get; set; }
-
-        /// <summary>
         /// Enables the main window to be hidden.
         /// </summary>
         /// <param name="mainWindow">The main window.</param>
@@ -93,7 +96,38 @@
                 {
                     this.ToggleFullScreen();
                 }                
-            };            
+            };
+
+            this.mainWindow.KeyDown += delegate(object o, KeyEventArgs args)
+            {
+                if (this.IsFullScreen)
+                {
+                    if (this.ShouldBarsToggleByKeyboard(args))
+                    {
+                        this.barsShowSource = BarsShowSources.Keyboard;
+                        this.ShowBars();
+
+                        args.Handled = true;
+                    }
+                }
+            };
+
+            this.mainWindow.KeyUp += delegate(object o, KeyEventArgs args)
+            {
+                if (this.IsFullScreen)
+                {
+                    if (this.ShouldBarsToggleByKeyboard(args))
+                    {
+                        this.HideBars();
+                    }
+
+                    if (this.ShouldFullscreenExitByKeyboard(args))
+                    {
+
+                        this.ToggleFullScreen();
+                    }
+                }
+            };
         }
 
         /// <summary>
@@ -154,6 +188,28 @@
         }
 
         /// <summary>
+        /// Determines whether a key change involved the toggle bars key and whether toggling bars by keyboard is enabled.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Input.KeyEventArgs"/> instance containing the keyboard event data.</param>
+        /// <returns>
+        ///   <c>true</c> if the change invol; otherwise, <c>false</c>.
+        /// </returns>
+        private bool ShouldBarsToggleByKeyboard(KeyEventArgs args)
+        {
+            return args.SystemKey == Key.LeftAlt || args.SystemKey == Key.RightAlt;
+        }
+
+        /// <summary>
+        /// Determines whether the fullscreen should exit by keyboard.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Input.KeyEventArgs"/> instance containing the keyboard event data.</param>
+        /// <returns></returns>
+        private bool ShouldFullscreenExitByKeyboard(KeyEventArgs args)
+        {
+            return args.Key == Key.Escape;
+        }
+
+        /// <summary>
         /// Toggles the main window to/from full screen mode.
         /// </summary>
         private void ToggleFullScreen()
@@ -170,8 +226,6 @@
                 this.mainWindow.Left = 0;
 
                 this.HideBars();
-
-                this.mainWindow.MouseMove += this.HandleMouseMoveWithBarsClosed;
             }
             else
             {
@@ -181,9 +235,6 @@
                 this.mainWindow.Topmost = false;
 
                 this.ShowBars();
-
-                this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsOpen;
-                this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsClosed;
             }
 
             Application.Current.Dispatcher.BeginInvoke((Action)delegate
@@ -197,21 +248,10 @@
         /// </summary>
         private void ShowBars()
         {
-            if (this.AreBarsShown)
-            {
-                // Prevent the events from being hooked more than once
-                return;
-            }
-
             foreach (Control bar in this.hideableBars)
             {
                 bar.Visibility = Visibility.Visible;
             }
-
-            this.AreBarsShown = true;
-
-            this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsClosed;
-            this.mainWindow.MouseMove += this.HandleMouseMoveWithBarsOpen;
         }
 
         /// <summary>
@@ -219,65 +259,10 @@
         /// </summary>
         private void HideBars()
         {
-            if (!this.AreBarsShown)
-            {
-                // Prevent the events from being hooked more than once
-                return;
-            }
-
             foreach (Control bar in this.hideableBars)
             {                
                 bar.Visibility = Visibility.Collapsed;                
             }
-
-            this.AreBarsShown = false;
-
-            this.mainWindow.MouseMove -= this.HandleMouseMoveWithBarsOpen;
-            this.mainWindow.MouseMove += this.HandleMouseMoveWithBarsClosed;
-        }
-
-        /// <summary>
-        /// Shows the bars if the mouse is hovering on top of the screen.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
-        private void HandleMouseMoveWithBarsClosed(object sender, MouseEventArgs args)
-        {
-            // Display the bars if the mouse is on top border of the screen
-            if (args.MouseDevice.GetPosition(this.mainWindow).Y <= 1)
-            {
-                this.ShowBars();
-            }
-        }
-
-        /// <summary>
-        /// Hides the bars which were shown by <see cref="HandleMouseMoveWithBarsClosed"/>.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
-        private void HandleMouseMoveWithBarsOpen(object sender, MouseEventArgs args)
-        {
-            // Check if the mouse is still above one of the bars
-            bool barWasHit = false;
-            foreach (Control bar in this.hideableBars)
-            {
-                // The bars are supposed to be rectangular, don't perform full hit test
-                Point mousePoint = args.GetPosition(this.mainWindow);
-
-                Point controlPoint = bar.TransformToAncestor(this.mainWindow).Transform(new Point(0, 0));
-
-                barWasHit |= 
-                    mousePoint.X >= controlPoint.X &&
-                    mousePoint.Y >= controlPoint.Y &&
-                    mousePoint.X <= controlPoint.X + bar.ActualWidth &&
-                    mousePoint.Y <= controlPoint.Y + bar.ActualHeight;
-            }
-
-            // If the mouse is away from any bar, hide the bars
-            if (!barWasHit)
-            {
-                this.HideBars();                
-            }        
         }
     }
 }
