@@ -749,7 +749,7 @@ namespace GeoGen.Studio.PlugInLoader
 
             foreach (Registrator registrator in Loader.Registrators)
             {
-                if (registrator.FailureType <= RegistratorFailureType.UnimplementedInterface) continue;
+                if (registrator.FailureType <= RegistratorFailureType.UnimplementedInterface || !registrator.IsEnabled) continue;
 
                 foreach (Type interfaceType in registrator.Implements)
                 {
