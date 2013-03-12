@@ -105,6 +105,10 @@
     <Compile Include="Plug-in Loader\PlugIn.cs" />
     <Compile Include="PlugIns\Interfaces\IControl.cs" />
     <Compile Include="PlugIns\Interfaces\IWindow.cs" />
+    <Compile Include="UI\Balloon.xaml.cs">
+      <DependentUpon>Balloon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BalloonAdorner.cs" />
     <Compile Include="UI\BusyAdorner.cs" />
     <Compile Include="UI\DialogBody.cs" />
     <Compile Include="UI\MessageBox.xaml.cs">
@@ -128,10 +132,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities\Collections\UniqueObservableQueue.cs" />
+    <Compile Include="Utilities\ControlRenderer.cs" />
     <Compile Include="Utilities\Converters\FullPathToFileNameConverter.cs" />
     <Compile Include="Utilities\IO\BitmapWriter.cs" />
     <Compile Include="Utilities\Persistence\PersistentAttribute.cs" />
     <Compile Include="Utilities\Persistence\MainConfig.cs" />
+    <Compile Include="Utilities\Persistence\PersistentValueRangeAttribute.cs" />
     <Compile Include="Utilities\Persistence\PropertyStore.cs" />
     <Compile Include="Utilities\Context\Context.cs" />
     <Compile Include="Utilities\Context\ContextManager.cs" />
@@ -151,6 +157,7 @@
     <Compile Include="Utilities\Messaging\MessageType.cs" />
     <Compile Include="Utilities\Messaging\Messenger.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
+    <Compile Include="Utilities\Persistence\VisuallyConfigurableAttribute.cs" />
     <Compile Include="Utilities\PlugInBase\ControlBase.cs" />
     <Compile Include="Utilities\PlugInBase\ObjectBase.cs" />
     <Compile Include="Utilities\PlugInBase\WindowBase.cs" />
@@ -185,6 +192,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\Balloon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
