@@ -377,6 +377,7 @@
         /// The template file.
         /// </value>
         [Persistent("../examples/template.nut")]
+        [VisuallyConfigurable("Template file", "Contents of this file are loaded when creating a new map script.")]
         public string TemplateFile { get; set; }
 
         /// <summary>
@@ -508,6 +509,8 @@
         /// The default size of the font.
         /// </value>
         [Persistent(13)]
+        [PersistentValueRange(8, 24)]
+        [VisuallyConfigurable("Default font size", "Font size used in code editor when opening then opening the application or resetting font size.")]
         public int DefaultFontSize { get; set; }
 
         /// <summary>
@@ -917,7 +920,10 @@
             {
                 string fileName = FileDialog.ShowOpen(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");                
 
-                this.FileService.OnOpened(this, fileName);             
+                this.FileService.OnOpened(this, fileName);
+            }
+            catch (OperationCanceledException)
+            {
             }
             catch (IOException)
             {
