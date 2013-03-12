@@ -10,7 +10,8 @@
         mc:Ignorable="d" 
         DataContext="{Binding ElementName=messageBox}"
         SizeToContent="Height" 
-        Width="500"
+        Width="700"
+        MaxHeight="400"
         WindowStartupLocation="CenterScreen"
         ShowInTaskbar="False"
         Icon="{x:Null}"
@@ -128,7 +129,9 @@
                                 <DockPanel>
                                     <Image Margin="10,10,20,10" Width="32" Height="32" Source="{Binding ImageSource, ElementName=messageBox}"  DockPanel.Dock="Left" />
                                     <Border>
-                                        <TextBlock Text="{Binding Content}" TextWrapping="Wrap" VerticalAlignment="Center" DockPanel.Dock="Right"></TextBlock>
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                            <TextBlock Text="{Binding Content}" TextWrapping="Wrap" VerticalAlignment="Center" DockPanel.Dock="Right"></TextBlock>
+                                        </ScrollViewer>
                                     </Border>
                                 </DockPanel>
                             </Border>
