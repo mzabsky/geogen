@@ -1,0 +1,56 @@
+// Line comment
+
+/* Multiline comment */
+
+enum Direction {
+	Vertical,
+	Diagonal
+}
+
+// line comment
+function add(x, y){
+	return x + y; // end of line comment
+}
+
+/*
+	multiline comment
+*/
+metadata {
+	Name:  22,
+	Author: "Me",
+	Params: {
+		Windth: 100,
+		Height: 100
+	}
+};
+
+enum Smoothness {
+	Smooth = 1,
+	Moderate = 2,
+	Rough = 3
+}
+
+function shout(str){
+	ThrowMessage(Severity.Information, str);
+}
+
+var asd = dfy;
+
+var asd = 5 + 2 || 7;
+
+var a = add(5, 1);
+var base = HeightMap.Empty();
+
+yield base as "b";
+
+yield base;
+
+return a;
+
+if (a == 3){
+	var b = 3 % 2;
+}
+
+if (a == 2) if (a == 3) a = 2; else a = 3; else a = 4;
+
+
