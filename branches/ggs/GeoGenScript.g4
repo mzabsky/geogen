@@ -120,51 +120,49 @@ expression:
     prio1Expression ;
 
 
-PRIO1_OPERATOR: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '/=';
-prio1Expression: prio2Expression (PRIO1_OPERATOR prio2Expression)*;	
+prio1Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '/=';
+prio1Expression: prio2Expression (prio1Operator prio2Expression)*;	
 
-prio2Expression:
-    prio3Expression '?' prio3Expression ':' prio3Expression | 
-    prio3Expression;
+prio2Expression: prio3Expression ('?' prio3Expression ':' prio3Expression)*;
 
-PRIO3_OPERATOR: '||';
-prio3Expression: prio4Expression (PRIO3_OPERATOR prio4Expression)*;
+prio3Operator: '||';
+prio3Expression: prio4Expression (prio3Operator prio4Expression)*;
 
-PRIO4_OPERATOR: '&&';
-prio4Expression: prio5Expression (PRIO4_OPERATOR prio5Expression)*;
+prio4Operator: '&&';
+prio4Expression: prio5Expression (prio4Operator prio5Expression)*;
 
-PRIO5_OPERATOR: '|';
-prio5Expression: prio6Expression (PRIO5_OPERATOR prio6Expression)*;
+prio5Operator: '|';
+prio5Expression: prio6Expression (prio5Operator prio6Expression)*;
 
-PRIO6_OPERATOR: '^';
-prio6Expression: prio7Expression (PRIO6_OPERATOR prio7Expression)*;
+prio6Operator: '^';
+prio6Expression: prio7Expression (prio6Operator prio7Expression)*;
 
-PRIO7_OPERATOR: '&';
-prio7Expression: prio8Expression (PRIO7_OPERATOR prio8Expression)*;
+prio7Operator: '&';
+prio7Expression: prio8Expression (prio7Operator prio8Expression)*;
 
-PRIO8_OPERATOR: '==' | '!=';
-prio8Expression: prio9Expression (PRIO8_OPERATOR prio9Expression)*;
+prio8Operator: '==' | '!=';
+prio8Expression: prio9Expression (prio8Operator prio9Expression)*;
 
-PRIO9_OPERATOR: '<' | '<=' | '>' | '>=';
-prio9Expression: prio10Expression (PRIO9_OPERATOR prio10Expression)*;
+prio9Operator: '<' | '<=' | '>' | '>=';
+prio9Expression: prio10Expression (prio9Operator prio10Expression)*;
 
-PRIO10_OPERATOR: '<<' | '>>';
-prio10Expression: prio11Expression (PRIO10_OPERATOR prio11Expression)*;
+prio10Operator: '<<' | '>>';
+prio10Expression: prio11Expression (prio10Operator prio11Expression)*;
 
-PRIO11_OPERATOR: '+' | '-';
-prio11Expression: prio12Expression (PRIO11_OPERATOR prio12Expression)*;
+prio11Operator: '+' | '-';
+prio11Expression: prio12Expression (prio11Operator prio12Expression)*;
 
-PRIO12_OPERATOR: '*' | '/' | '%';
-prio12Expression: prio13Expression (PRIO12_OPERATOR prio13Expression)*;
+prio12Operator: '*' | '/' | '%';
+prio12Expression: prio13Expression (prio12Operator prio13Expression)*;
 
-PRIO13_OPERATOR: '++' | '--' | '!';
-prio13Expression: PRIO13_OPERATOR* prio14Expression PRIO13_OPERATOR* ;  
+prio13Operator: '++' | '--' | '!';
+prio13Expression: prio13Operator* prio14Expression prio13Operator* ;  
 
 prio14Expression:
     prio15Expression (
         '.' prio15Expression |
         '(' (expression (',' expression)*)? ')' |
-        '[' (expression (',' expression)*)? ']'
+        '[' expression (',' expression)* ']'
     )*;
 
 prio15Expression: 
