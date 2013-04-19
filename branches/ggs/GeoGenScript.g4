@@ -84,7 +84,7 @@ globalFunctionCall: IDENTIFIER '(' callArguments ')';
 
 memberFunctionCall: IDENTIFIER '.' IDENTIFIER '(' callArguments ')';
 
-callArguments: expression (',' expression);
+callArguments: expression (',' expression)*;
 
 /*
 assignmentStatement: IDENTIFIER ASSIGNMENT_OPERATOR expression;
