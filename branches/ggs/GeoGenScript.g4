@@ -118,55 +118,56 @@ switchStatement:
     
 
 expression:
-    prio1Expression ;
+    prio14Expression ;
 
 
-prio1Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '/=';
-prio1Expression: prio2Expression (prio1Operator prio2Expression)*;	
+prio14Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '/=';
+prio14Expression: prio13Expression (prio14Operator prio13Expression)*;	
 
-prio2Expression: prio3Expression ('?' prio3Expression ':' prio3Expression)*;
+prio13Expression: prio12Expression ('?' prio12Expression ':' prio12Expression)*;
 
-prio3Operator: '||';
-prio3Expression: prio4Expression (prio3Operator prio4Expression)*;
+prio12Operator: '||';
+prio12Expression: prio11Expression (prio12Operator prio11Expression)*;
 
-prio4Operator: '&&';
-prio4Expression: prio5Expression (prio4Operator prio5Expression)*;
+prio11Operator: '&&';
+prio11Expression: prio10Expression (prio11Operator prio10Expression)*;
 
-prio5Operator: '|';
-prio5Expression: prio6Expression (prio5Operator prio6Expression)*;
+prio10Operator: '|';
+prio10Expression: prio9Expression (prio10Operator prio9Expression)*;
 
-prio6Operator: '^';
-prio6Expression: prio7Expression (prio6Operator prio7Expression)*;
+prio9Operator: '^';
+prio9Expression: prio8Expression (prio9Operator prio8Expression)*;
 
-prio7Operator: '&';
-prio7Expression: prio8Expression (prio7Operator prio8Expression)*;
+prio8Operator: '&';
+prio8Expression: prio7Expression (prio8Operator prio7Expression)*;
 
-prio8Operator: '==' | '!=';
-prio8Expression: prio9Expression (prio8Operator prio9Expression)*;
+prio7Operator: '==' | '!=';
+prio7Expression: prio6Expression (prio7Operator prio6Expression)*;
 
-prio9Operator: '<' | '<=' | '>' | '>=';
-prio9Expression: prio10Expression (prio9Operator prio10Expression)*;
+prio6Operator: '<' | '<=' | '>' | '>=';
+prio6Expression: prio5Expression (prio6Operator prio5Expression)*;
 
-prio10Operator: '<<' | '>>';
-prio10Expression: prio11Expression (prio10Operator prio11Expression)*;
+prio5Operator: '<<' | '>>';
+prio5Expression: prio4Expression (prio5Operator prio4Expression)*;
 
-prio11Operator: '+' | '-';
-prio11Expression: prio12Expression (prio11Operator prio12Expression)*;
+prio4Operator: '+' | '-';
+prio4Expression: prio3Expression (prio4Operator prio3Expression)*;
 
-prio12Operator: '*' | '/' | '%';
-prio12Expression: prio13Expression (prio12Operator prio13Expression)*;
+prio3Operator: '*' | '/' | '%';
+prio3Expression: prio2Expression (prio3Operator prio2Expression)*;
 
-prio13Operator: '++' | '--' | '!' | '+' | '-';
-prio13Expression: prio13Operator* prio14Expression prio13Operator* ;  
+prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
+prio2PostfixOperator: '++' | '--';
+prio2Expression: prio2PrefixOperator* prio1Expression prio2PostfixOperator* ;  
 
-prio14Expression:
-    prio15Expression (
-        '.' prio15Expression |
+prio1Expression:
+    prio0Expression (
+        '.' prio0Expression |
         '(' (expression (',' expression)*)? ')' |
         '[' expression (',' expression)* ']'
     )*;
 
-prio15Expression: 
+prio0Expression: 
     IDENTIFIER |
     //collectionLiteral |
     coordinateLiteral |
