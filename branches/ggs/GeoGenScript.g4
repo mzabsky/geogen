@@ -8,7 +8,7 @@
 
 OTAZKY:
 - Case sensitivita klicovych slov?
-
+- Collection literaly
 
 Operator priority (based on http://en.cppreference.com/w/cpp/language/operator_precedence):
 
@@ -115,6 +115,7 @@ switchStatement:
         ('case' label ':' statement*)*
         ('default' ':'  statement*)? 
     '}';
+    
 
 expression:
     prio1Expression ;
@@ -155,7 +156,7 @@ prio11Expression: prio12Expression (prio11Operator prio12Expression)*;
 prio12Operator: '*' | '/' | '%';
 prio12Expression: prio13Expression (prio12Operator prio13Expression)*;
 
-prio13Operator: '++' | '--' | '!';
+prio13Operator: '++' | '--' | '!' | '+' | '-';
 prio13Expression: prio13Operator* prio14Expression prio13Operator* ;  
 
 prio14Expression:
@@ -167,14 +168,23 @@ prio14Expression:
 
 prio15Expression: 
     IDENTIFIER |
-    constant |
+    //collectionLiteral |
+    coordinateLiteral |
+    literal |
     '(' expression ')';
 
-label:
-	IDENTIFIER |
-	constant;
 
-constant:
+collectionLiteral: 
+    '{' (expression + (',' expression)?)? '}';
+
+coordinateLiteral:
+    '@'? '[' expression (',' expression)* ']';
+
+label:        
+	IDENTIFIER ('.' IDENTIFIER)* |
+	literal;
+
+literal:
         'true' |
         'false' |
 	NUMBER |
