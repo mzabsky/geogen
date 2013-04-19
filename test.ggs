@@ -51,6 +51,9 @@ if (a == 3){
 	var b = 3 % 2;
 }
 
-if (a == 2) if (a == 3) a = 2; else a = 3; else a = 4;
+var coordA = [13, 17 + 4, a[7 + 8]];
+var coordB = @[0.46, 0.34 / 2];
+
+//if (a == 2) if (a == 3) a = 2; else a = 3; else a = 4;
 
 
