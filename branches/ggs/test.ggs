@@ -54,6 +54,42 @@ if (a == 3){
 var coordA = [13, 17 + 4, a[7 + 8]];
 var coordB = @[0.46, 0.34 / 2];
 
-//if (a == 2) if (a == 3) a = 2; else a = 3; else a = 4;
+if (a == 2) if (a == 3) a = 2; else a = 3; else a = 4;
 
 
+if (a == 2){
+	ThrowMessage("Oh hi 2");
+}
+else if (a == 3){
+	ThrowMessage("Oh hi 3");
+}
+else if (a == 4){
+	ThrowMessage("Oh hi 4");
+}
+else {
+	ThrowMessage("lala");
+}
+
+switch(a){
+	case 1: 
+		ThrowMessage("lala");
+		a = 2;
+		break;
+	case 1: 
+		{
+			ThrowMessage("lala");
+			a = 3;
+			break; // Je tohle validni?
+		}
+	case 2: 
+		ThrowMessage("lala");
+		a = 2;
+		break;
+	case 3: 
+		ThrowMessage("lala");
+		a = 2;
+		break;
+	default:
+		ThrowMessage("default");
+		break;
+}
