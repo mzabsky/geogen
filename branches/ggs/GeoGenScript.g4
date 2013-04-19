@@ -56,7 +56,7 @@ enumValue:
 
 functionDeclaration: 'function' IDENTIFIER '(' formalParameters? ')' block;
 
-formalParameters: IDENTIFIER (',' IDENTIFIER);
+formalParameters: IDENTIFIER (',' IDENTIFIER)*;
 
 block: '{' statement* '}';
 
@@ -80,11 +80,11 @@ statement:
     
 variableDeclaration: 'var' IDENTIFIER ('=' expression)?;
 
-globalFunctionCall: IDENTIFIER '(' callArguments ')';
+/*globalFunctionCall: IDENTIFIER '(' callArguments? ')';
 
-memberFunctionCall: IDENTIFIER '.' IDENTIFIER '(' callArguments ')';
+memberFunctionCall: IDENTIFIER '.' IDENTIFIER '(' callArguments? ')';
 
-callArguments: expression (',' expression)*;
+callArguments: expression (',' expression)*;*/
 
 /*
 assignmentStatement: IDENTIFIER ASSIGNMENT_OPERATOR expression;
