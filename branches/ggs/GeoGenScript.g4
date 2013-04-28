@@ -2,9 +2,12 @@
 
 OTAZKY:
 - Case sensitivita klicovych slov?
-- Collection literaly
 - Jak prisna ma byt gramatika?
-- Mam spravne asociativitu?
+- Syntaxe FORu?
+- Maji byt k dispozici bitove operatory? (<<, >>, &, |, ^ a jejich varianty s =)
+
+TODO:
+- Escape sequences for string literals
 
 Operator priority (based on http://en.cppreference.com/w/cpp/language/operator_precedence):
 
