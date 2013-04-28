@@ -1,14 +1,10 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-/*
 
 OTAZKY:
 - Case sensitivita klicovych slov?
 - Collection literaly
+- Jak prisna ma byt gramatika?
+- Mam spravne asociativitu?
 
 Operator priority (based on http://en.cppreference.com/w/cpp/language/operator_precedence):
 
@@ -41,7 +37,7 @@ metadata: ('metadata' | 'Metadata') keyValueCollection;
 
 keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}';
 
-keyValuePair: IDENTIFIER ':' keyValueValue;
+keyValuePair: (IDENTIFIER | ('@'? NUMBER) ) ':' keyValueValue;
 
 keyValueValue: expression | keyValueCollection;
 
@@ -120,7 +116,6 @@ switchStatement:
 expression:
     prio14Expression ;
 
-
 prio14Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '/=';
 prio14Expression: prio13Expression (prio14Operator prio13Expression)*;	
 
@@ -169,14 +164,18 @@ prio1Expression:
 
 prio0Expression: 
     IDENTIFIER |
-    //collectionLiteral |
+    collectionLiteral |
     coordinateLiteral |
     literal |
     '(' expression ')';
 
 
 collectionLiteral: 
-    '{' (expression + (',' expression)?)? '}';
+    keyValueCollection |
+    unkeyedCollectionLiteral;
+
+unkeyedCollectionLiteral:
+    '{' (expression + (',' expression)*) '}';
 
 coordinateLiteral:
     '@'? '[' expression (',' expression)* ']';
