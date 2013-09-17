@@ -6,6 +6,7 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Windows.Media.Imaging;
     using System.Xml;
 
     using GeoGen.Studio.PlugInLoader;
@@ -783,16 +784,20 @@
         /// <param name="quickActionDisplay">The quick action display.</param>
         public void Register(IQuickActionDisplay quickActionDisplay)
         {
+            var a = new BitmapImage(new Uri(AvalonEditor.IconPathPrefix + "new.png"));
+            
             quickActionDisplay.RegisterQuickAction(new QuickAction
             {
                 Label = "Create new map script",
-                Command = new RelayCommand(p => this.New())
+                Command = new RelayCommand(p => this.New()),
+                Icon = new BitmapImage(new Uri(AvalonEditor.IconPathPrefix + "new.png")),
             });
 
             quickActionDisplay.RegisterQuickAction(new QuickAction
             {
                 Label = "Open map script",
-                Command = new RelayCommand(p => this.Open())
+                Command = new RelayCommand(p => this.Open()),
+                Icon = new BitmapImage(new Uri(AvalonEditor.IconPathPrefix + "open.png")),
             });
         }
 
