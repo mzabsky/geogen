@@ -22,7 +22,7 @@
                     <DataTemplate>
                         <Button Command="{Binding Command}" ToolTip="{Binding ToolTip}" Style="{DynamicResource HighlightButton}" Margin="5,1" >
                             <StackPanel Orientation="Horizontal" Background="Transparent">
-                                <Image Source="{Binding Icon}" Width="32" Height="32" />
+                                <Image Source="{Binding Icon}" Width="16" Height="16" />
                                 <TextBlock Text="{Binding Label}" VerticalAlignment="Center" FontSize="14" Margin="5,0,0,0" />
                             </StackPanel>
                         </Button>
