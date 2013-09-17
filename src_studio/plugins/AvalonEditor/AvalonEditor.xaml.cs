@@ -886,6 +886,9 @@
 
                 this.IsUnsaved = false;
             }
+            catch (OperationCanceledException)
+            {
+            }
             catch (IOException)
             {
                 new Message("Failed to save " + this.LastFileName + ".", MessageType.Error).Send();
@@ -896,19 +899,22 @@
         /// Saves the currently opened file, will ask the user to choose the file.
         /// </summary>
         public void SaveAs()
-        {           
+        {
             try
             {
                 this.CurrentFileName = this.LastFileName = FileDialog.ShowSave(this.LastFileName, "Squirrel Scripts (*.nut)|*.nut|All files|*.*");
-                
+
                 File.WriteAllText(this.CurrentFileName, this.editor.Text);
 
-                this.IsUnsaved = false;                
+                this.IsUnsaved = false;
+            }
+            catch (OperationCanceledException)
+            {
             }
             catch (IOException)
             {
                 new Message("Failed to save " + this.LastFileName + ".", MessageType.Error).Send();
-            }          
+            }
         }
 
         /// <summary>
