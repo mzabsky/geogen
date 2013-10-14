@@ -1,11 +1,5 @@
 /*
 
-OTAZKY:
-- Case sensitivita klicovych slov?
-- Jak prisna ma byt gramatika?
-- Syntaxe FORu?
-- Maji byt k dispozici bitove operatory? (<<, >>, &, |, ^ a jejich varianty s =)
-
 TODO:
 - Escape sequences for string literals
 
@@ -26,7 +20,7 @@ Prio. | Assoc. | Operators
 11    |        | &&
 12    |        | ||
 13    |        | ?:
-14    | RTL    | = += -= *= /= %= <<= >>= &= ^= |=
+14    | RTL    | = += -= *= /= %= <<= >>= &= ^= |= is
 15    | LTR    | ,
 
 */
@@ -36,7 +30,7 @@ grammar GeoGenScript;
 
 script: declaration* metadata? (statement | declaration)*;
         
-metadata: ('metadata' | 'Metadata') keyValueCollection;
+metadata: ('metadata') keyValueCollection;
 
 keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}';
 
@@ -63,10 +57,6 @@ statement:
     'break' ';' |
     'continue' ';' |
     variableDeclaration ';' |
-    /*globalFunctionCall ';' |
-    memberFunctionCall ';' |*/
-    //assignmentStatement ';' |
-    //incrDecrExpression |
     expression ';' |
     yieldStatement ';' |
     returnStatement ';' |
@@ -78,18 +68,6 @@ statement:
     ';';
     
 variableDeclaration: 'var' IDENTIFIER ('=' expression)?;
-
-/*globalFunctionCall: IDENTIFIER '(' callArguments? ')';
-
-memberFunctionCall: IDENTIFIER '.' IDENTIFIER '(' callArguments? ')';
-
-callArguments: expression (',' expression)*;*/
-
-/*
-assignmentStatement: IDENTIFIER ASSIGNMENT_OPERATOR expression;
-
-incrDecrExpression: IDENTIFIER INCRDECR_OPERATOR;
-*/
 
 yieldStatement: 
     'yield' expression |
@@ -109,6 +87,7 @@ ifStatement:
     'if' '(' expression ')' statement
     ('else' statement)?;
 
+
 switchStatement:
     'switch' '(' expression ')' '{'
         ('case' label ':' statement*)*
@@ -119,7 +98,7 @@ switchStatement:
 expression:
     prio14Expression ;
 
-prio14Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '/=';
+prio14Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | '/=' | 'is';
 prio14Expression: prio13Expression (prio14Operator prio13Expression)*;	
 
 prio13Expression: prio12Expression ('?' prio12Expression ':' prio12Expression)*;
@@ -192,6 +171,76 @@ literal:
         'false' |
 	NUMBER |
 	STRING;
+
+LEFT_BRACKET: '(';
+RIGHT_BRACKET: ')';
+LEFT_SQUARE_BRACKET: '[';
+RIGHT_SQUARE_BRACKET: ']';
+LEFT_CURLY_BRACKET: '{';
+RIGTH_CURLY_BRACKET: '}';
+
+TRUE: 'true';
+FALSE: 'false';
+
+COMMA: ',';
+SEMICOLON: ';';
+COLON: ':';
+AT: '@';
+
+METADATA: 'metadata';
+ENUM: 'enum';
+FUNCTION: 'function';
+VAR: 'var';
+
+RETURN: 'return';
+YIELD: 'yield';
+AS: 'as';
+
+SWITCH: 'switch';
+DEFAULT: 'default';
+CASE: 'case';
+IF: 'if';
+ELSE: 'else';
+FOR: 'for';
+WHILE: 'while';
+BREAK: 'break';
+CONTINUE: 'continue';
+
+OPERATOR_DOT: '.';
+OPERATOR_INCREMENT: '++';
+OPERATOR_DECREMENT: '--';
+OPERATOR_NOT: '!';
+OPERATOR_TIMES: '*';
+OPERATOR_DIVIDE: '/';
+OPERATOR_MODULO: '%';
+OPERATOR_PLUS: '+';
+OPERATOR_MINUS: '-';
+OPERATOR_LSHIFT: '<<';
+OPERATOR_RSHIFT: '>>';
+OPERATOR_LESS_THAN: '<';
+OPERATOR_GREATER_THAN: '>';
+OPERATOR_LESS_THAN_OR_EQUAL_TO: '<=';
+OPERATOR_GREATER_THAN_OR_EQUAL_TO: '>=';
+OPERATOR_EQUAL_TO: '==';
+OPERATOR_NOT_EQUAL_TO: '!=';
+OPERATOR_BIT_AND: '&';
+OPERATOR_BIT_XOR: '^';
+OPERATOR_BIT_OR: '|';
+OPERATOR_REL_AND: '&&';
+OPERATOR_REL_OR: '||';
+OPERATOR_EXPR_IF: '?';
+OPERATOR_ASSIGN: '=';
+OPERATOR_ASSIGN_PLUS: '+=';
+OPERATOR_ASSIGN_MINUS: '-=';
+OPERATOR_ASSIGN_TIMES: '*=';
+OPERATOR_ASSIGN_DIVIDE: '/=';
+OPERATOR_ASSIGN_MODULO: '%=';
+OPERATOR_ASSIGN_LSHIFT: '<<=';
+OPERATOR_ASSIGN_RSHIFT: '>>=';
+OPERATOR_ASSIGN_AND: '&=';
+OPERATOR_ASSIGN_XOR: '^=';
+OPERATOR_ASSIGN_OR: '|=';
+OPERATOR_IS: 'is';
 
 MULTILINE_COMMENT: '/*' .*? '*/' {skip();};
 
