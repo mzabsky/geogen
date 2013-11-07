@@ -27,7 +27,18 @@ Prio. | Assoc. | Operators
 
 
 grammar GeoGenScript;
-options { backtrack = true; }
+options { 
+	backtrack = true; 
+	language = Cpp;
+}
+
+@lexer::namespace {
+    GeoGen::Interpreter
+}
+
+@parser::namespace {
+    GeoGen::Interpreter
+}
 
 script: declaration* metadata? (statement | declaration)*;
         
