@@ -33,11 +33,34 @@ options {
 }
 
 @lexer::namespace {
-    GeoGen::Interpreter
+    geogen_generated
 }
 
 @parser::namespace {
-    GeoGen::Interpreter
+    geogen_generated
+}
+
+@lexer::traits {
+	   class GeoGenScriptLexer;
+	   class GeoGenScriptParser;
+	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
+
+	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
+	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
+}
+
+@parser::traits {
+	   class GeoGenScriptLexer;
+	   class GeoGenScriptParser;
+	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
+	   
+	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
+	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
+}
+
+@parser::includes
+{
+   #include "GeoGenScriptLexer.hpp"
 }
 
 script: declaration* metadata? (statement | declaration)*;
@@ -192,8 +215,8 @@ RIGHT_SQUARE_BRACKET: ']';
 LEFT_CURLY_BRACKET: '{';
 RIGTH_CURLY_BRACKET: '}';
 
-TRUE: 'true';
-FALSE: 'false';
+TRUE_LIT: 'true';
+FALSE_LIT: 'false';
 
 COMMA: ',';
 SEMICOLON: ';';
