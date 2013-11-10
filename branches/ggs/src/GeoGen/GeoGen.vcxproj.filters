@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Generator.hpp" />
+    <ClInclude Include="GeoGen.hpp" />
+    <ClInclude Include="Grammar\output\GeoGenScriptLexer.hpp">
+      <Filter>interpreter\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammar\output\GeoGenScriptParser.hpp">
+      <Filter>interpreter\generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Generator.cpp" />
+    <ClCompile Include="Grammar\output\GeoGenScriptLexer.cpp">
+      <Filter>interpreter\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammar\output\GeoGenScriptParser.cpp">
+      <Filter>interpreter\generated</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="interpreter">
+      <UniqueIdentifier>{786e5e2c-7578-468c-ac45-9d3558127d7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interpreter\generated">
+      <UniqueIdentifier>{d249db30-c68f-4dd3-a55e-25e880165336}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
