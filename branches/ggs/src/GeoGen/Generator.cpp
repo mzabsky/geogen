@@ -1,5 +1,4 @@
 #include "Generator.hpp"
-#include "Grammar\output\GeoGenScriptLexer.hpp"
 
 namespace geogen 
 {
@@ -7,7 +6,6 @@ namespace geogen
 	{
 		this->i = i;
 
-		geogen_generated::GeoGenScriptLexer lexer();
 		//geogen:
 	}
 }

@@ -72,12 +72,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="compiler\CompiledScript.hpp" />
+    <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="Generator.hpp" />
     <ClInclude Include="GeoGen.hpp" />
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.hpp" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Grammar\output\GeoGenScriptLexer.cpp" />
     <ClCompile Include="Grammar\output\GeoGenScriptParser.cpp" />
