@@ -3,29 +3,29 @@
   <ItemGroup>
     <ClInclude Include="Generator.hpp" />
     <ClInclude Include="GeoGen.hpp" />
-    <ClInclude Include="Grammar\output\GeoGenScriptLexer.hpp">
-      <Filter>compiler\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammar\output\GeoGenScriptParser.hpp">
-      <Filter>compiler\generated</Filter>
-    </ClInclude>
     <ClInclude Include="compiler\Compiler.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
     <ClInclude Include="compiler\CompiledScript.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
+    <ClInclude Include="Grammar\output\GeoGenScriptLexer.h">
+      <Filter>compiler\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammar\output\GeoGenScriptParser.h">
+      <Filter>compiler\generated</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
-    <ClCompile Include="Grammar\output\GeoGenScriptLexer.cpp">
-      <Filter>compiler\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="Grammar\output\GeoGenScriptParser.cpp">
-      <Filter>compiler\generated</Filter>
-    </ClCompile>
     <ClCompile Include="compiler\Compiler.cpp">
       <Filter>compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammar\output\GeoGenScriptLexer.c">
+      <Filter>compiler\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
+      <Filter>compiler\generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

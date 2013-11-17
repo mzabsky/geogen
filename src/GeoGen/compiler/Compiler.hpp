@@ -1,6 +1,6 @@
-#include <string>
+#pragma once
 
-#include "..\Grammar\output\GeoGenScriptLexer.hpp"
+#include <string>
 
 #include "CompiledScript.hpp"
 
