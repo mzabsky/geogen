@@ -14,6 +14,7 @@ namespace geogen
 				Compiler(const Compiler&); // Not copyable
 
 			public:
+				Compiler(); 
 				CompiledScript CompileScript(std::string& code);
 		};
 	}
