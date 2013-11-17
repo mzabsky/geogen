@@ -54,7 +54,7 @@
       <EntryPointSymbol>main</EntryPointSymbol>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(SolutionDir)/../bin/geogen.exe</OutputFile>
-      <AdditionalDependencies>geogend.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>geogend.lib;antlr3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

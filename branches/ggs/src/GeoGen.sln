@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console", "Console\Console.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen", "GeoGen\GeoGen.vcxproj", "{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Antlr3", "antlr3\antlr3.vcxproj", "{7CB85F8B-C519-4390-9996-F30F31CDCEED}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -26,6 +28,10 @@ Global
 		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Debug|Win32.Build.0 = Debug|Win32
 		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Release|Win32.ActiveCfg = Release|Win32
 		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Release|Win32.Build.0 = Release|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Debug|Win32.Build.0 = Debug|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Release|Win32.ActiveCfg = Release|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
