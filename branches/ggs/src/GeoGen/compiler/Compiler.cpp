@@ -9,6 +9,8 @@ using namespace std;
 using namespace geogen;
 using namespace geogen::compiler;
 
+Compiler::Compiler(){}
+
 CompiledScript Compiler::CompileScript(std::string& code)
 {
 	pANTLR3_INPUT_STREAM input;
@@ -16,7 +18,7 @@ CompiledScript Compiler::CompileScript(std::string& code)
 	pANTLR3_COMMON_TOKEN_STREAM tokens;
 	pGeoGenScriptParser parser;
 
-	input = antlr3StringStreamNew((unsigned char*)code.c_str(), ANTLR3_ENC_8BIT, code.length(), NULL);
+	input = antlr3StringStreamNew((unsigned char*)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (unsigned char*)"");
 	lex = GeoGenScriptLexerNew(input);
 	tokens = antlr3CommonTokenStreamSourceNew(ANTLR3_SIZE_HINT, TOKENSOURCE(lex));
 	parser = GeoGenScriptParserNew(tokens);
