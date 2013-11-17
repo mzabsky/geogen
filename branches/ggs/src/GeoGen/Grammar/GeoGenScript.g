@@ -28,50 +28,25 @@ Prio. | Assoc. | Operators
 
 grammar GeoGenScript;
 options { 
-	backtrack = true; 
-	language = Cpp;
+//	backtrack = true; 
+	language = C;
+	output=AST;
 }
 
-@lexer::namespace {
-    geogen_generated
-}
-
-@parser::namespace {
-    geogen_generated
-}
-
-@lexer::traits {
-	   class GeoGenScriptLexer;
-	   class GeoGenScriptParser;
-	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
-
-	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
-	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
-}
-
-@parser::traits {
-	   class GeoGenScriptLexer;
-	   class GeoGenScriptParser;
-	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
-	   
-	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
-	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
-}
-
-@parser::includes
+@header
 {
-   #include "GeoGenScriptLexer.hpp"
+   #define _empty NULL
 }
 
-script: declaration* metadata? (statement | declaration)*;
+script: declaration* (metadata (statement | declaration)* | statement (statement | declaration)*)?;
         
-metadata: ('metadata') keyValueCollection;
+metadata: 'metadata' keyValueCollection;
 
 keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}';
 
-keyValuePair: (IDENTIFIER | ('@'? NUMBER) ) ':' keyValueValue;
+keyValuePair: (IDENTIFIER | ('@'? NUMBER) ) '=' keyValueValue;
 
-keyValueValue: expression | keyValueCollection;
+keyValueValue: expression/* | keyValueCollection/*/;
 
 declaration: enumDeclaration | functionDeclaration;
 
@@ -105,8 +80,7 @@ statement:
 variableDeclaration: 'var' IDENTIFIER ('=' expression)?;
 
 yieldStatement: 
-    'yield' expression 'as' STRING |
-    'yield' expression;
+    'yield' expression ('as' STRING)?;
 
 
 returnStatement: 'return' expression;
@@ -120,8 +94,9 @@ initExpression:
     expression;
 
 ifStatement:
-    'if' '(' expression ')' statement
-    ('else' statement)?;
+    ('if' '(' expression ')' statement 'else') =>  'if' '(' expression ')' statement 'else' statement |
+    'if' '(' expression ')' statement 'else' statement
+    /*('else' statement)?*/;
 
 
 switchStatement:
@@ -134,8 +109,8 @@ switchStatement:
 expression:
     prio14Expression ;
 
-prio14Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '^=' | 'is';
-prio14Expression: prio13Expression (prio14Operator prio13Expression)*;	
+//prio14Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '|=' | '^=' | 'is';
+prio14Expression: prio13Expression (('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '|=' | '^=' | 'is') prio13Expression)*;	
 
 prio13Expression: prio12Expression ('?' prio12Expression ':' prio12Expression)*;
 
@@ -154,59 +129,68 @@ prio9Expression: prio8Expression (prio9Operator prio8Expression)*;
 prio8Operator: '&';
 prio8Expression: prio7Expression (prio8Operator prio7Expression)*;
 
-prio7Operator: '==' | '!=';
-prio7Expression: prio6Expression (prio7Operator prio6Expression)*;
+//prio7Operator: '==' | '!=';
+prio7Expression: prio6Expression (('==' | '!=') prio6Expression)*;
 
-prio6Operator: '<' | '<=' | '>' | '>=';
-prio6Expression: prio5Expression (prio6Operator prio5Expression)*;
+//prio6Operator: '<' | '<=' | '>' | '>=';
+prio6Expression: prio5Expression (('<' | '<=' | '>' | '>=') prio5Expression)*;
 
-prio5Operator: '<<' | '>>';
-prio5Expression: prio4Expression (prio5Operator prio4Expression)*;
+//prio5Operator: '<<' | '>>';
+prio5Expression: prio4Expression (('<<' | '>>') prio4Expression)*;
 
-prio4Operator: '+' | '-';
-prio4Expression: prio3Expression (prio4Operator prio3Expression)*;
+//prio4Operator: '+' | '-';
+prio4Expression: prio3Expression (('+' | '-') prio3Expression)*;
 
-prio3Operator: '*' | '/' | '%';
-prio3Expression: prio2Expression (prio3Operator prio2Expression)*;
+//prio3Operator: '*' | '/' | '%';
+prio3Expression: prio1Expression (('*' | '/' | '%') prio1Expression)*;
 
-prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
-prio2PostfixOperator: '++' | '--';
-prio2Expression: prio2PrefixOperator* prio1Expression prio2PostfixOperator* ;  
+//prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
+//prio2PostfixOperator: '++' | '--';
+//prio2Expression: ('++' | '--' | '!' | '+' | '-')* prio1Expression  ('++' | '--')*;  
+
+//prio2ExpressionPost: prio1Expression ('++' | '--')+ | prio1Expression ;  
+
 
 prio1Expression:
     prio0Expression (
         '.' prio0Expression |
-        '(' (expression (',' expression)*)? ')' |
-        '[' expression (',' expression)* ']'
-    )*;
+        '(' (prio1Expression (',' prio1Expression)*)? ')' 
+        ('[' expression (',' expression)* ']')+ 
+    )?;
 
 prio0Expression: 
+    ('(') => '(' expression ')' |
     IDENTIFIER |
-    collectionLiteral |
+    //collectionLiteral |
     coordinateLiteral |
-    literal |
-    '(' expression ')';
+            'true' |
+        'false' |
+	NUMBER |
+	STRING 
+    ; // expression!
 
-
-collectionLiteral: 
+/*collectionLiteral: 
     keyValueCollection |
-    unkeyedCollectionLiteral;
+    unkeyedCollectionLiteral;*/
 
 unkeyedCollectionLiteral:
-    '{' (expression + (',' expression)*) '}';
+    '{' (expression (',' expression)*) '}';
 
 coordinateLiteral:
     '@'? '[' expression (',' expression)* ']';
 
 label:        
 	IDENTIFIER ('.' IDENTIFIER)* |
-	literal;
+	'true' |
+        'false' |
+	NUMBER |
+	STRING |;
 
-literal:
+/*literal:
         'true' |
         'false' |
 	NUMBER |
-	STRING;
+	STRING;*/
 
 LEFT_BRACKET: '(';
 RIGHT_BRACKET: ')';
