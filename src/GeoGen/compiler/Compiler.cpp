@@ -18,9 +18,11 @@ CompiledScript Compiler::CompileScript(std::string& code)
 	pANTLR3_COMMON_TOKEN_STREAM tokens;
 	pGeoGenScriptParser parser;
 
-	input = antlr3StringStreamNew((unsigned char*)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (unsigned char*)"");
-	lex = GeoGenScriptLexerNew(input);
+	input = antlr3StringStreamNew((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
+	lex = GeoGenScriptLexerNew(input);	
 	tokens = antlr3CommonTokenStreamSourceNew(ANTLR3_SIZE_HINT, TOKENSOURCE(lex));
+	//pANTLR3_LIST list = antlr3ListNew(5);
+	//tokens->getTokensList(tokens, 0, 1, list);
 	parser = GeoGenScriptParserNew(tokens);
 
 	GeoGenScriptParser_script_return r = parser->script(parser);
