@@ -36,4 +36,11 @@
       <UniqueIdentifier>{d249db30-c68f-4dd3-a55e-25e880165336}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Grammar\GeoGenScript.g" />
+    <None Include="Grammar\test.ggs" />
+    <None Include="Grammar\output\GeoGenScript.tokens">
+      <Filter>compiler\generated</Filter>
+    </None>
+  </ItemGroup>
 </Project>

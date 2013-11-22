@@ -25,18 +25,43 @@ Prio. | Assoc. | Operators
 
 */
 
-
 grammar GeoGenScript;
 options { 
-//	backtrack = true; 
+	backtrack = true; 
 	language = C;
-	output=AST;
+	output=AST; 
+}
+/*
+@lexer::namespace {
+    geogen_generated
 }
 
-@header
-{
-   #define _empty NULL
+@parser::namespace {
+    geogen_generated
 }
+
+@lexer::traits {
+	   class GeoGenScriptLexer;
+	   class GeoGenScriptParser;
+	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
+
+	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
+	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
+}
+
+@parser::traits {
+	   class GeoGenScriptLexer;
+	   class GeoGenScriptParser;
+	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
+	   
+	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
+	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
+}
+
+@parser::includes
+{
+   #include "GeoGenScriptLexer.hpp"
+}*/
 
 script: declaration* (metadata (statement | declaration)* | statement (statement | declaration)*)?;
         
@@ -80,10 +105,10 @@ statement:
 variableDeclaration: 'var' IDENTIFIER ('=' expression)?;
 
 yieldStatement: 
-    'yield' expression ('as' STRING)?;
+    YIELD expression ('as' STRING)?;
 
 
-returnStatement: 'return' expression;
+returnStatement: 'return' expression?;
 
 whileStatement: 'while' '(' expression ')' statement; 
 
@@ -144,9 +169,11 @@ prio4Expression: prio3Expression (('+' | '-') prio3Expression)*;
 //prio3Operator: '*' | '/' | '%';
 prio3Expression: prio2Expression (('*' | '/' | '%') prio2Expression)*;
 
-/*prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
-prio2PostfixOperator: '++' | '--';*/
-prio2Expression: ('++' | '--' | '!' | '+' | '-')* prio1Expression ('++' | '--')*;  
+//prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
+//prio2PostfixOperator: '++' | '--';
+//prio2Expression: prio2PrefixOperator* prio1Expression prio2PostfixOperator*;  
+prio2Expression
+	:	 prio1Expression;
 //prio2Expression: prio1Expression (('++' | '--' | '!') prio1Expression)*;
 
 //prio2Expression:	('++' | '--' | '!' | '+' | '-')? prio1Expression ('++' | '--' | '!' | '+' | '-')?;
@@ -156,7 +183,7 @@ prio2Expression: ('++' | '--' | '!' | '+' | '-')* prio1Expression ('++' | '--')*
 
 prio1Expression:
     prio0Expression (
-        ('.' prio0Expression) |
+        ('.' IDENTIFIER) |
         ('(' (expression (',' expression)*)? ')') |
         ('[' expression (',' expression)* ']')
     )*;

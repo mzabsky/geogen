@@ -86,6 +86,11 @@
     <ClCompile Include="Grammar\output\GeoGenScriptLexer.c" />
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Grammar\GeoGenScript.g" />
+    <None Include="Grammar\output\GeoGenScript.tokens" />
+    <None Include="Grammar\test.ggs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

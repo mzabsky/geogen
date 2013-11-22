@@ -1,20 +1,13 @@
-// Line comment
-
-/* Multiline comment */
 
 enum Direction {
 	Vertical,
 	Diagonal
 }
 
-// line comment
 function add(x, y){
-	return x + y; // end of line comment
+	return x + y;
 }
 
-/*
-	multiline comment
-*/
 metadata {
 	Name:  22,
 	Author: "Me",
