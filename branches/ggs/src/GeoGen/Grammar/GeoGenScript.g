@@ -27,7 +27,7 @@ Prio. | Assoc. | Operators
 
 grammar GeoGenScript;
 options { 
-	backtrack = true; 
+	//backtrack = true; 
 	language = C;
 	output=AST; 
 }
@@ -63,111 +63,117 @@ options {
    #include "GeoGenScriptLexer.hpp"
 }*/
 
-script: declaration* (metadata (statement | declaration)* | statement (statement | declaration)*)?;
+tokens { SCRIPT; COLLECTION; DECLARATIONS; BLOCK; PARAMETERS; COORDINATE; IDENTCHAIN; OPERATOR_CALL; OPERATOR_SUBSCRIPT;}
+
+script: (decls+=declaration)* (metadata (stmts+=statement | decls+=declaration)* | stmts+=statement (stmts+=statement | decls+=declaration)*)? -> ^(SCRIPT metadata ^(DECLARATIONS $decls*) ^(BLOCK $stmts*));
         
-metadata: 'metadata' keyValueCollection;
+metadata: 'metadata' keyValueCollection -> ^('metadata' keyValueCollection);
 
-keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}';
+keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}' -> ^(COLLECTION keyValuePair*);
 
-keyValuePair: (IDENTIFIER | ('@'? NUMBER) ) ':' keyValueValue;
+keyValuePair: 
+	IDENTIFIER ':' keyValueValue -> ^(IDENTIFIER keyValueValue)
+	| '@'? NUMBER ':' keyValueValue -> ^(NUMBER keyValueValue '@'?);
 
 keyValueValue: expression | keyValueCollection;
 
 declaration: enumDeclaration | functionDeclaration;
 
-enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}';
+enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}' -> ^('enum' IDENTIFIER enumValues?);
 
-enumValues: enumValue (',' enumValue)*;
+enumValues: enumValue (',' enumValue)* -> enumValue+;
 
 enumValue: 
-    IDENTIFIER ( '=' expression)?;
+    IDENTIFIER ( '=' expression)? -> ^(IDENTIFIER expression?);
 
-functionDeclaration: 'function' IDENTIFIER '(' formalParameters? ')' block;
+functionDeclaration: 'function' IDENTIFIER '(' formalParameters? ')' block -> ^('function' IDENTIFIER formalParameters block);
 
-formalParameters: IDENTIFIER (',' IDENTIFIER)*;
+formalParameters: IDENTIFIER (',' IDENTIFIER)* -> ^(PARAMETERS IDENTIFIER+);
 
-block: '{' statement* '}';
+block: '{' statement* '}' -> ^(BLOCK statement*);
 
 statement:     
-    'break' ';' |
-    'continue' ';' |
-    variableDeclaration ';' |
-    expression ';' |
-    yieldStatement ';' |
-    returnStatement ';' |
-    whileStatement |
-    forStatement |
-    ifStatement |
-    switchStatement |    
-    block |
-    ';';
+    'break' ';' -> BREAK
+    | 'continue' ';' -> CONTINUE
+    | variableDeclaration ';' -> variableDeclaration
+    | expression ';' -> expression
+    | yieldStatement ';' -> yieldStatement
+    | returnStatement ';' -> returnStatement
+    | whileStatement -> whileStatement
+    | forStatement -> forStatement
+    | ifStatement -> ifStatement
+    | switchStatement -> switchStatement
+    | block -> block
+    | ';' -> ;
     
-variableDeclaration: 'var' IDENTIFIER ('=' expression)?;
+variableDeclaration: 'var' IDENTIFIER ('=' expression)? -> ^('var' IDENTIFIER expression?);
 
 yieldStatement: 
-    YIELD expression ('as' STRING)?;
+    YIELD expression ('as' STRING)? -> ^(YIELD expression STRING?);
 
 
-returnStatement: 'return' expression?;
+returnStatement: 'return' expression? -> ^(RETURN expression?);
 
-whileStatement: 'while' '(' expression ')' statement; 
+whileStatement: 'while' '(' expression ')' statement -> ^(WHILE expression statement); 
 
-forStatement: 'for' '(' initExpression? ';' expression? ';' expression? ')' statement;
+forStatement: 'for' '(' initExpression? ';' condExpression=expression? ';' updateExpression=expression? ')' statement -> ^(FOR initExpression? $condExpression? $updateExpression? statement);
 
 initExpression: 
-    'var' IDENTIFIER '=' expression |
-    expression;
+    'var' IDENTIFIER '=' expression -> ^('var' IDENTIFIER expression)
+    | expression -> expression;
 
 ifStatement:
-    ('if' '(' expression ')' statement 'else') =>  'if' '(' expression ')' statement 'else' statement |
-    'if' '(' expression ')' statement 'else' statement
+    ('if' '(' expression ')' statement 'else') =>  'if' '(' expression ')' ifStmt=statement 'else' elseStmt=statement -> ^(IF expression $ifStmt $elseStmt)
+    | 'if' '(' expression ')' statement  -> ^(IF expression statement)
     /*('else' statement)?*/;
 
 
 switchStatement:
     'switch' '(' expression ')' '{'
-        ('case' label ':' statement*)*
-        ('default' ':'  statement*)? 
-    '}';
-    
+	normalCase*
+        defaultCase?
+    '}' -> ^(SWITCH expression normalCase* defaultCase?);
+
+normalCase: 'case' label ':' statement* -> ^(CASE label ^(BLOCK statement*));
+defaultCase: 'default' ':' statement* -> ^(DEFAULT ^(BLOCK statement*));
 
 expression:
     prio14Expression ;
 
-//prio14Operator: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '|=' | '^=' | 'is';
-prio14Expression: prio13Expression (('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '|=' | '^=' | 'is') prio13Expression)*;	
+//prio14Operator: ;
+prio14Expression: prio13Expression (('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '|=' | '^=' | 'is')^ prio13Expression)*;	
 
-prio13Expression: prio12Expression ('?' prio12Expression ':' prio12Expression)*;
+prio13Expression: prio12Expression ('?'^ prio13Expression ':' prio12Expression)*;
 
 prio12Operator: '||';
-prio12Expression: prio11Expression (prio12Operator prio11Expression)*;
+prio12Expression: prio11Expression (prio12Operator^ prio11Expression)*;
 
 prio11Operator: '&&';
-prio11Expression: prio10Expression (prio11Operator prio10Expression)*;
+prio11Expression: prio10Expression (prio11Operator^ prio10Expression)*;
 
 prio10Operator: '|';
-prio10Expression: prio9Expression (prio10Operator prio9Expression)*;
+prio10Expression: prio9Expression (prio10Operator^ prio9Expression)*;
 
 prio9Operator: '^';
-prio9Expression: prio8Expression (prio9Operator prio8Expression)*;
+prio9Expression: prio8Expression (prio9Operator^ prio8Expression)*;
 
 prio8Operator: '&';
-prio8Expression: prio7Expression (prio8Operator prio7Expression)*;
+prio8Expression: prio7Expression (prio8Operator^ prio7Expression)*;
 
 //prio7Operator: '==' | '!=';
-prio7Expression: prio6Expression (('==' | '!=') prio6Expression)*;
+prio7Expression: prio6Expression (('==' | '!=')^ prio6Expression)*;
 
 //prio6Operator: '<' | '<=' | '>' | '>=';
-prio6Expression: prio5Expression (('<' | '<=' | '>' | '>=') prio5Expression)*;
+prio6Expression: prio5Expression (('<' | '<=' | '>' | '>=')^ prio5Expression)*;
 
 //prio5Operator: '<<' | '>>';
-prio5Expression: prio4Expression (('<<' | '>>') prio4Expression)*;
+prio5Expression: prio4Expression (('<<' | '>>')^ prio4Expression)*;
 
 //prio4Operator: '+' | '-';
-prio4Expression: prio3Expression (('+' | '-') prio3Expression)*;
+prio4Expression: prio3Expression (('+' | '-')^ prio3Expression)*;
 
 //prio3Operator: '*' | '/' | '%';
-prio3Expression: prio2Expression (('*' | '/' | '%') prio2Expression)*;
+prio3Expression: prio2Expression (('*' | '/' | '%')^ prio2Expression)*;
 
 //prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
 //prio2PostfixOperator: '++' | '--';
@@ -183,20 +189,20 @@ prio2Expression
 
 prio1Expression:
     prio0Expression (
-        ('.' IDENTIFIER) |
-        ('(' (expression (',' expression)*)? ')') |
-        ('[' expression (',' expression)* ']')
+        '.'^ IDENTIFIER
+        | '('^ (expression (','! expression)*)? ')'!
+        | '['^ expression (','! expression)* ']'!
     )*;
 
 prio0Expression: 
-    /*('(') => */('(' expression ')') |
-    IDENTIFIER |
+     /*('(') => */('(' expression ')') -> expression
+    | IDENTIFIER
     //collectionLiteral |
-    coordinateLiteral |
-            'true' |
-        'false' |
-	NUMBER |
-	STRING 
+    | coordinateLiteral
+    | 'true'
+    | 'false'
+    | NUMBER
+    | STRING 
     ; // expression!
 
 /*collectionLiteral: 
@@ -207,14 +213,14 @@ unkeyedCollectionLiteral:
     '{' (expression (',' expression)*) '}';
 
 coordinateLiteral:
-    '@'? '[' expression (',' expression)* ']';
+    '@'? '[' expression (',' expression)* ']' -> ^(COORDINATE expression+);
 
 label:        
-	IDENTIFIER ('.' IDENTIFIER)* |
-	'true' |
-        'false' |
-	NUMBER |
-	STRING |;
+	IDENTIFIER ('.' IDENTIFIER)* ->  ^(IDENTCHAIN IDENTIFIER+)
+	| 'true'
+        | 'false'
+	| NUMBER
+	| STRING;
 
 /*literal:
         'true' |
