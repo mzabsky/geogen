@@ -27,9 +27,10 @@ Prio. | Assoc. | Operators
 
 grammar GeoGenScript;
 options { 
-	//backtrack = true; 
+	backtrack = true; 
 	language = C;
 	output=AST; 
+//	ASTLabelType	= pANTLR3_BASE_TREE;
 }
 /*
 @lexer::namespace {
