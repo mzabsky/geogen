@@ -15,6 +15,9 @@
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h">
       <Filter>compiler\generated</Filter>
     </ClInclude>
+    <ClInclude Include="Grammar\output\GeoGenScriptDecls.h">
+      <Filter>compiler\generated</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -25,6 +28,9 @@
       <Filter>compiler\generated</Filter>
     </ClCompile>
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
+      <Filter>compiler\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
       <Filter>compiler\generated</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,5 +48,6 @@
     <None Include="Grammar\output\GeoGenScript.tokens">
       <Filter>compiler\generated</Filter>
     </None>
+    <None Include="Grammar\GeoGenScriptDecls.g" />
   </ItemGroup>
 </Project>
