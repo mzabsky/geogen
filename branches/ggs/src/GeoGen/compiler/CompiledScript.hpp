@@ -18,19 +18,19 @@ namespace geogen
 			private:	
 				SymbolNameTable symbolNameTable;
 
-				SymbolDefinitionTable<VariableDefinition> variableDefinitions;
-				SymbolDefinitionTable<FunctionDefinition> functionDefinitions;
+				SymbolDefinitionTable<VariableDefinition> globalVariableDefinitions;
+				SymbolDefinitionTable<FunctionDefinition> globalFunctionDefinitions;
 				SymbolDefinitionTable<TypeDefinition> typeDefinitions;
 
 			public:
 				inline SymbolNameTable const* GetSymbolNameTable() const { return &this->symbolNameTable; }
 				inline SymbolNameTable* GetSymbolNameTable() { return &this->symbolNameTable; }
 
-				inline SymbolDefinitionTable<VariableDefinition> const* GetVariableDefinitions() const { return &this->variableDefinitions; }
-				inline SymbolDefinitionTable<VariableDefinition>* GetVariableDefinitions() { return &this->variableDefinitions; }
+				inline SymbolDefinitionTable<VariableDefinition> const* GetGlobalVariableDefinitions() const { return &this->globalVariableDefinitions; }
+				inline SymbolDefinitionTable<VariableDefinition>* GetGlobalVariableDefinitions() { return &this->globalVariableDefinitions; }
 
-				inline SymbolDefinitionTable<FunctionDefinition> const* GetFunctionDefinitions() const { return &this->functionDefinitions; }
-				inline SymbolDefinitionTable<FunctionDefinition>* GetFunctionDefinitions() { return &this->functionDefinitions; }
+				inline SymbolDefinitionTable<FunctionDefinition> const* GetGlobalFunctionDefinitions() const { return &this->globalFunctionDefinitions; }
+				inline SymbolDefinitionTable<FunctionDefinition>* GetGlobalFunctionDefinitions() { return &this->globalFunctionDefinitions; }
 
 				inline SymbolDefinitionTable<TypeDefinition> const* GetTypeDefinitions() const { return &this->typeDefinitions; }
 				inline SymbolDefinitionTable<TypeDefinition>* GetTypeDefinitions() { return &this->typeDefinitions; }
