@@ -59,7 +59,7 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 
 		nodes->free(nodes);
 
-		//FunctionDefinition* def = script->GetFunctionDefinitions()->GetItem("aaa");
+		FunctionDefinition* def = script->GetFunctionDefinitions()->GetItem("aaa");
 
 		walker->free(walker);
 
