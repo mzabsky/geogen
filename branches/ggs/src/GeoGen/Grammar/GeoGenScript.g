@@ -90,9 +90,9 @@ enumValues: enumValue (',' enumValue)* -> enumValue+;
 enumValue: 
     IDENTIFIER ( '=' expression)? -> ^(IDENTIFIER expression?);
 
-functionDeclaration: 'function' IDENTIFIER '(' formalParameters? ')' block -> ^('function' IDENTIFIER formalParameters block);
+functionDeclaration: 'function' IDENTIFIER '(' formalParameters? ')' block -> ^('function' IDENTIFIER ^(PARAMETERS formalParameters) block);
 
-formalParameters: IDENTIFIER (',' IDENTIFIER)* -> ^(PARAMETERS IDENTIFIER+);
+formalParameters: IDENTIFIER (',' IDENTIFIER)* -> IDENTIFIER*;
 
 block: '{' statement* '}' -> ^(BLOCK statement*);
 

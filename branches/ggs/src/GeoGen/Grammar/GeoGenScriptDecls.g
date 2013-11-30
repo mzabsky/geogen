@@ -45,7 +45,7 @@ functionDeclaration: ^('function' IDENTIFIER formalParameters block) {
 	ctx->compiledScript->GetFunctionDefinitions()->AddItem(decl);
 };
 
-formalParameters: ^(PARAMETERS IDENTIFIER+);
+formalParameters: ^(PARAMETERS IDENTIFIER*);
 
 block: ^(BLOCK statement*);
 
