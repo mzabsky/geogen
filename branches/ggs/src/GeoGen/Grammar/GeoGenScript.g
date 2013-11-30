@@ -34,16 +34,7 @@ options {
 }
 
 
-tokens { SCRIPT; COLLECTION; DECLARATIONS; BLOCK; PARAMETERS; COORDINATE; IDENTCHAIN; OPERATOR_CALL; OPERATOR_SUBSCRIPT;}
-
-@parser::includes {
-	#include "../../compiler/CompiledScript.hpp"
-}
-
-
-@parser::context {
-	geogen::compiler::CompiledScript* compiledScript;
-}
+tokens { SCRIPT; COLLECTION; DECLARATIONS; BLOCK; PARAMETERS; COORDINATE; IDENTCHAIN; OPERATOR_CALL; OPERATOR_SUBSCRIPT; INITIALIZATION_EXPRESSION; CONDITION_EXPRESSION; INCREMENT_EXPRESSION;}
 
 /*
 @lexer::namespace {
@@ -129,7 +120,7 @@ returnStatement: 'return' expression? -> ^(RETURN expression?);
 
 whileStatement: 'while' '(' expression ')' statement -> ^(WHILE expression statement); 
 
-forStatement: 'for' '(' initExpression? ';' condExpression=expression? ';' updateExpression=expression? ')' statement -> ^(FOR initExpression? $condExpression? $updateExpression? statement);
+forStatement: 'for' '(' initExpression? ';' condExpression=expression? ';' updateExpression=expression? ')' statement -> ^(FOR ^(INITIALIZATION_EXPRESSION initExpression?) ^(CONDITION_EXPRESSION $condExpression?) ^(INCREMENT_EXPRESSION $updateExpression?) statement);
 
 initExpression: 
     'var' IDENTIFIER '=' expression -> ^('var' IDENTIFIER expression)

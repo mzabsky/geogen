@@ -1,9 +1,12 @@
+#include <iostream>
+
 #include "Compiler.hpp"
 
 #include "../antlr3/antlr3.h"
 
 #include "../Grammar/output/GeoGenScriptLexer.h"
 #include "../Grammar/output/GeoGenScriptParser.h"
+#include "../Grammar/output/GeoGenScriptDecls.h"
 
 using namespace std;
 using namespace geogen;
@@ -28,7 +31,6 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 	pGeoGenScriptLexer lex;
 	pANTLR3_COMMON_TOKEN_STREAM tokens;
 	pGeoGenScriptParser parser;
-	parser->compiledScript = script;
 
 	input = antlr3StringStreamNew((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
 	lex = GeoGenScriptLexerNew(input);	
@@ -39,17 +41,38 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 
 	GeoGenScriptParser_script_return r = parser->script(parser);
 
-	pANTLR3_BASE_TREE tree = r.tree;
+	if (parser->pParser->rec->state->errorCount > 0)
+    {
+		fprintf(stderr, "The parser returned %d errors, tree walking aborted.\n", parser->pParser->rec->state->errorCount);
+    }
+    else
+	{
+	    pANTLR3_BASE_TREE tree = r.tree;
 	
-	/*ExprTreeEvaluator eval;
-	int rr = eval.run(tree);
-	cout << "Evaluator result: " << rr << '\n';*/
+		pANTLR3_COMMON_TREE_NODE_STREAM	nodes = antlr3CommonTreeNodeStreamNewTree(tree, ANTLR3_SIZE_HINT);;
+		pGeoGenScriptDecls walker = GeoGenScriptDeclsNew(nodes);
+		walker->compiledScript = script;		
+
+		printf("Tree : %s\n", tree->toStringTree(tree)->chars);
+
+		walker->script(walker);
+
+		nodes->free(nodes);
+
+		//FunctionDefinition* def = script->GetFunctionDefinitions()->GetItem("aaa");
+
+		walker->free(walker);
+
+		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetFunctionDefinitions()->Begin(); i != script->GetFunctionDefinitions()->End(); i++){
+			FunctionDefinition const*  d = i->second;
+			std::cout << i->second->GetName() << std::endl;
+		}
+	}
 
 	parser->free(parser);
 	tokens->free(tokens);
 	lex->free(lex);
 	input->close(input);
-
 
 	return CompiledScript();
 }

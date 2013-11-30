@@ -9,6 +9,7 @@ namespace geogen
 	{
 		class CompilerException : std::runtime_error
 		{
+		public:
 			explicit CompilerException(const std::string& error_message)  :
 				std::runtime_error(error_message) {};
 		};

@@ -83,12 +83,16 @@
     <ClInclude Include="compiler\VariableDefinition.hpp" />
     <ClInclude Include="Generator.hpp" />
     <ClInclude Include="GeoGen.hpp" />
+    <ClInclude Include="Grammar\output\GeoGenScriptDecls.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="Generator.cpp" />
+    <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
     <ClCompile Include="Grammar\output\GeoGenScriptLexer.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
@@ -100,6 +104,7 @@
     <None Include="Grammar\GeoGenScript.g" />
     <None Include="Grammar\GeoGenScriptDecls.g" />
     <None Include="Grammar\output\GeoGenScript.tokens" />
+    <None Include="Grammar\output\GeoGenScriptDecls.tokens" />
     <None Include="Grammar\test.ggs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
