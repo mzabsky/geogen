@@ -9,14 +9,26 @@
     <ClInclude Include="compiler\CompiledScript.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
+    <ClInclude Include="compiler\FunctionDefinition.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h">
       <Filter>compiler\generated</Filter>
     </ClInclude>
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h">
       <Filter>compiler\generated</Filter>
     </ClInclude>
-    <ClInclude Include="Grammar\output\GeoGenScriptDecls.h">
-      <Filter>compiler\generated</Filter>
+    <ClInclude Include="compiler\TypeDefinition.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\VariableDefinition.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\SymbolDefinitionTable.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\CompilerException.hpp">
+      <Filter>compiler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -28,9 +40,6 @@
       <Filter>compiler\generated</Filter>
     </ClCompile>
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
-      <Filter>compiler\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
       <Filter>compiler\generated</Filter>
     </ClCompile>
   </ItemGroup>

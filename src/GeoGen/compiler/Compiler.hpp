@@ -1,8 +1,13 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "CompiledScript.hpp"
+#include "VariableDefinition.hpp"
+#include "FunctionDefinition.hpp"
+#include "TypeDefinition.hpp"
+#include "SymbolDefinitionTable.hpp"
 
 namespace geogen 
 {
@@ -12,10 +17,9 @@ namespace geogen
 		{
 			private:
 				Compiler(const Compiler&); // Not copyable
-
 			public:
 				Compiler(); 
-				CompiledScript CompileScript(std::string& code);
+				const CompiledScript CompileScript(std::string& code) const;
 		};
 	}
 }
