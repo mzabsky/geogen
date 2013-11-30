@@ -33,6 +33,9 @@
     <ClInclude Include="Grammar\output\GeoGenScriptDecls.h">
       <Filter>compiler\generated</Filter>
     </ClInclude>
+    <ClInclude Include="compiler\SymbolNameTable.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -47,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
       <Filter>compiler\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\SymbolNameTable.cpp">
+      <Filter>compiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
