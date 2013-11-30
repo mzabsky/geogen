@@ -7,3 +7,4 @@
 #include "compiler/FunctionDefinition.hpp"
 #include "compiler/VariableDefinition.hpp"
 #include "compiler/TypeDefinition.hpp"
+#include "compiler/SymbolNameTable.hpp"

@@ -67,6 +67,10 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 			FunctionDefinition const*  d = i->second;
 			std::cout << i->second->GetName() << std::endl;
 		}
+
+		for(SymbolNameTable::const_iterator i = script->GetSymbolNameTable()->Begin(); i != script->GetSymbolNameTable()->End(); i++){
+			std::cout << *i << std::endl;
+		}
 	}
 
 	parser->free(parser);

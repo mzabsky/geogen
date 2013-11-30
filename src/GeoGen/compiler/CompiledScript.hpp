@@ -7,6 +7,7 @@
 #include "FunctionDefinition.hpp"
 #include "TypeDefinition.hpp"
 #include "SymbolDefinitionTable.hpp"
+#include "SymbolNameTable.hpp"
 
 namespace geogen 
 {
@@ -15,13 +16,16 @@ namespace geogen
 		class CompiledScript
 		{
 			private:	
-				std::vector<std::string> methodNameTable;
+				SymbolNameTable symbolNameTable;
 
 				SymbolDefinitionTable<VariableDefinition> variableDefinitions;
 				SymbolDefinitionTable<FunctionDefinition> functionDefinitions;
 				SymbolDefinitionTable<TypeDefinition> typeDefinitions;
 
 			public:
+				inline SymbolNameTable const* GetSymbolNameTable() const { return &this->symbolNameTable; }
+				inline SymbolNameTable* GetSymbolNameTable() { return &this->symbolNameTable; }
+
 				inline SymbolDefinitionTable<VariableDefinition> const* GetVariableDefinitions() const { return &this->variableDefinitions; }
 				inline SymbolDefinitionTable<VariableDefinition>* GetVariableDefinitions() { return &this->variableDefinitions; }
 
