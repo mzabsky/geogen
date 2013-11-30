@@ -59,11 +59,11 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 
 		nodes->free(nodes);
 
-		FunctionDefinition* def = script->GetFunctionDefinitions()->GetItem("aaa");
+		FunctionDefinition* def = script->GetGlobalFunctionDefinitions()->GetItem("aaa");
 
 		walker->free(walker);
 
-		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetFunctionDefinitions()->Begin(); i != script->GetFunctionDefinitions()->End(); i++){
+		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions()->Begin(); i != script->GetGlobalFunctionDefinitions()->End(); i++){
 			FunctionDefinition const*  d = i->second;
 			std::cout << i->second->GetName() << std::endl;
 		}

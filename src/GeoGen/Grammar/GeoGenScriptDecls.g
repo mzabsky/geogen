@@ -42,7 +42,7 @@ enumValue: ^(IDENTIFIER expression?);
 functionDeclaration: ^('function' IDENTIFIER formalParameters block) {
 	FunctionDefinition* decl = new FunctionDefinition((char*)$IDENTIFIER.text->chars);
 	
-	ctx->compiledScript->GetFunctionDefinitions()->AddItem(decl);
+	ctx->compiledScript->GetGlobalFunctionDefinitions()->AddItem(decl);
 	ctx->compiledScript->GetSymbolNameTable()->AddName(decl->GetName());
 };
 
