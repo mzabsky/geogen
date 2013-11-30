@@ -27,11 +27,24 @@ Prio. | Assoc. | Operators
 
 grammar GeoGenScript;
 options { 
-	backtrack = true; 
+	//backtrack = true; 
 	language = C;
 	output=AST; 
-//	ASTLabelType	= pANTLR3_BASE_TREE;
+	ASTLabelType	= pANTLR3_BASE_TREE;
 }
+
+
+tokens { SCRIPT; COLLECTION; DECLARATIONS; BLOCK; PARAMETERS; COORDINATE; IDENTCHAIN; OPERATOR_CALL; OPERATOR_SUBSCRIPT;}
+
+@parser::includes {
+	#include "../../compiler/CompiledScript.hpp"
+}
+
+
+@parser::context {
+	geogen::compiler::CompiledScript* compiledScript;
+}
+
 /*
 @lexer::namespace {
     geogen_generated
@@ -64,7 +77,6 @@ options {
    #include "GeoGenScriptLexer.hpp"
 }*/
 
-tokens { SCRIPT; COLLECTION; DECLARATIONS; BLOCK; PARAMETERS; COORDINATE; IDENTCHAIN; OPERATOR_CALL; OPERATOR_SUBSCRIPT;}
 
 script: (decls+=declaration)* (metadata (stmts+=statement | decls+=declaration)* | stmts+=statement (stmts+=statement | decls+=declaration)*)? -> ^(SCRIPT metadata ^(DECLARATIONS $decls*) ^(BLOCK $stmts*));
         
