@@ -11,7 +11,7 @@ namespace geogen
 		private:
 			std::string name;
 		public:
-
+			FunctionDefinition(std::string name) { this->name = name; }
 			inline std::string GetName() const { return this->name; };
 			
 		};
