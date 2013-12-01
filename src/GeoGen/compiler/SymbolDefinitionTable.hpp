@@ -58,6 +58,14 @@ namespace geogen
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
+
+			~SymbolDefinitionTable()
+			{
+				for(std::map<std::string, TSymbolBase*>::iterator it = this->table.begin(); it != this->table.end(); it++)
+				{
+					delete it->second;
+				}
+			}
 		};
 	}
 }
