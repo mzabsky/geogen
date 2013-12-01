@@ -8,6 +8,7 @@
 #include "TypeDefinition.hpp"
 #include "SymbolDefinitionTable.hpp"
 #include "SymbolNameTable.hpp"
+#include "CodeBlock.hpp"
 
 namespace geogen 
 {
@@ -22,6 +23,7 @@ namespace geogen
 				SymbolDefinitionTable<FunctionDefinition> globalFunctionDefinitions;
 				SymbolDefinitionTable<TypeDefinition> typeDefinitions;
 
+				CodeBlock rootCodeBlock;
 			public:
 				inline SymbolNameTable const* GetSymbolNameTable() const { return &this->symbolNameTable; }
 				inline SymbolNameTable* GetSymbolNameTable() { return &this->symbolNameTable; }
@@ -34,6 +36,9 @@ namespace geogen
 
 				inline SymbolDefinitionTable<TypeDefinition> const* GetTypeDefinitions() const { return &this->typeDefinitions; }
 				inline SymbolDefinitionTable<TypeDefinition>* GetTypeDefinitions() { return &this->typeDefinitions; }
+
+				inline CodeBlock& GetRootCodeBlock() { return this->rootCodeBlock; }
+				inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }
 		};
 	}
 }

@@ -36,6 +36,13 @@
     <ClInclude Include="compiler\SymbolNameTable.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
+    <ClInclude Include="compiler\ScriptFunctionDefinition.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\instructions\Instruction.hpp">
+      <Filter>compiler\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\CodeBlock.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -54,6 +61,7 @@
     <ClCompile Include="compiler\SymbolNameTable.cpp">
       <Filter>compiler</Filter>
     </ClCompile>
+    <ClCompile Include="compiler\CodeBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
@@ -61,6 +69,9 @@
     </Filter>
     <Filter Include="compiler\generated">
       <UniqueIdentifier>{d249db30-c68f-4dd3-a55e-25e880165336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="compiler\instructions">
+      <UniqueIdentifier>{b5b1082c-9f1c-4370-8a83-bace52e25cc9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
