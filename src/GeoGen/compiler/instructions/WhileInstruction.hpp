@@ -14,9 +14,9 @@ namespace geogen
 			private:
 				CodeBlock codeBlock;
 			public:				
-				WhileInstruction(CodeBlock const& codeBlock) 
+				WhileInstruction(CodeBlock& codeBlock) 
 				{
-					this->codeBlock = codeBlock;
+					this->codeBlock.MoveInstructionsFrom(codeBlock);
 				}
 			};
 		}
