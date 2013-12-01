@@ -14,7 +14,7 @@ namespace geogen
 			bool isConstant;
 		public:
 
-			inline std::string GetName() const { return this->name; };
+			inline std::string const& GetName() const { return this->name; };
 			
 			inline bool IsConstant() const { return this->isConstant; };
 		};

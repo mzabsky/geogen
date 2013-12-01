@@ -25,17 +25,17 @@ namespace geogen
 
 				CodeBlock rootCodeBlock;
 			public:
-				inline SymbolNameTable const* GetSymbolNameTable() const { return &this->symbolNameTable; }
-				inline SymbolNameTable* GetSymbolNameTable() { return &this->symbolNameTable; }
+				inline SymbolNameTable const& GetSymbolNameTable() const { return this->symbolNameTable; }
+				inline SymbolNameTable& GetSymbolNameTable() { return this->symbolNameTable; }
 
-				inline SymbolDefinitionTable<VariableDefinition> const* GetGlobalVariableDefinitions() const { return &this->globalVariableDefinitions; }
-				inline SymbolDefinitionTable<VariableDefinition>* GetGlobalVariableDefinitions() { return &this->globalVariableDefinitions; }
+				inline SymbolDefinitionTable<VariableDefinition> const& GetGlobalVariableDefinitions() const { return this->globalVariableDefinitions; }
+				inline SymbolDefinitionTable<VariableDefinition>& GetGlobalVariableDefinitions() { return this->globalVariableDefinitions; }
 
-				inline SymbolDefinitionTable<FunctionDefinition> const* GetGlobalFunctionDefinitions() const { return &this->globalFunctionDefinitions; }
-				inline SymbolDefinitionTable<FunctionDefinition>* GetGlobalFunctionDefinitions() { return &this->globalFunctionDefinitions; }
+				inline SymbolDefinitionTable<FunctionDefinition> const& GetGlobalFunctionDefinitions() const { return this->globalFunctionDefinitions; }
+				inline SymbolDefinitionTable<FunctionDefinition>& GetGlobalFunctionDefinitions() { return this->globalFunctionDefinitions; }
 
-				inline SymbolDefinitionTable<TypeDefinition> const* GetTypeDefinitions() const { return &this->typeDefinitions; }
-				inline SymbolDefinitionTable<TypeDefinition>* GetTypeDefinitions() { return &this->typeDefinitions; }
+				inline SymbolDefinitionTable<TypeDefinition> const& GetTypeDefinitions() const { return this->typeDefinitions; }
+				inline SymbolDefinitionTable<TypeDefinition>& GetTypeDefinitions() { return this->typeDefinitions; }
 
 				inline CodeBlock& GetRootCodeBlock() { return this->rootCodeBlock; }
 				inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }
