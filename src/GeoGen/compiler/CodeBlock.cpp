@@ -5,7 +5,7 @@
 
 using namespace geogen::compiler;
 
-void CodeBlock::AddInstruction(const instructions::Instruction& instruction)
+void CodeBlock::AddInstruction(instructions::Instruction const* instruction)
 {
 	this->instructions.push_back(instruction);
 }
