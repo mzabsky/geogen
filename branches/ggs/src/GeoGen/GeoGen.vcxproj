@@ -74,10 +74,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="compiler\CodeBlock.hpp" />
     <ClInclude Include="compiler\CompiledScript.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
     <ClInclude Include="compiler\FunctionDefinition.hpp" />
+    <ClInclude Include="compiler\instructions\Instruction.hpp" />
+    <ClInclude Include="compiler\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="compiler\SymbolDefinitionTable.hpp" />
     <ClInclude Include="compiler\SymbolNameTable.hpp" />
     <ClInclude Include="compiler\TypeDefinition.hpp" />
@@ -89,6 +92,7 @@
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="compiler\CodeBlock.cpp" />
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="compiler\SymbolNameTable.cpp" />
     <ClCompile Include="Generator.cpp" />
