@@ -6,7 +6,7 @@ int main(){
 
 	geogen::compiler::Compiler compiler;
 	//HeightMap.Empty()        
-	geogen::compiler::CompiledScript script = compiler.CompileScript(std::string("function aaa(){}  yield HeightMap.Empty();"));
+	geogen::compiler::CompiledScript script = compiler.CompileScript(std::string("function aaa(x, y){}  yield HeightMap.Empty();"));
 
 	return 0;
 }

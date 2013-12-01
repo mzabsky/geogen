@@ -17,6 +17,9 @@ options
 
 @context {
 	geogen::compiler::CompiledScript* compiledScript;
+	
+	pANTLR3_BASE_TREE_ADAPTOR	adaptor;
+	pANTLR3_VECTOR_FACTORY		vectors;
 }
 
 script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block);
@@ -39,14 +42,12 @@ enumValues: enumValue+;
 
 enumValue: ^(IDENTIFIER expression?);
 
-functionDeclaration: ^('function' IDENTIFIER formalParameters block) {
-	FunctionDefinition* decl = new FunctionDefinition((char*)$IDENTIFIER.text->chars);
+functionDeclaration: ^('function' name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block) {
+	FunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, $formalParameters != NULL ? $formalParameters->count : 0);
 	
 	ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl);
 	ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
 };
-
-formalParameters: ^(PARAMETERS IDENTIFIER*);
 
 block: ^(BLOCK statement*);
 
