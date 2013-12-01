@@ -11,11 +11,11 @@ namespace geogen
 		class CodeBlock
 		{
 		private:
-			std::vector<instructions::Instruction> instructions;
+			std::vector<instructions::Instruction const*> instructions;
 		public:		
-			typedef std::vector<instructions::Instruction>::const_iterator const_iterator;
+			typedef std::vector<instructions::Instruction const*>::const_iterator const_iterator;
 
-			void AddInstruction(const instructions::Instruction& instruction);
+			void AddInstruction(instructions::Instruction const* instruction);
 
 			inline const_iterator Begin() const { return this->instructions.begin(); }
 			inline const_iterator End() const { return this->instructions.end(); }
