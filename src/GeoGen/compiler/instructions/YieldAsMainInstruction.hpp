@@ -1,15 +1,20 @@
 #pragma once
 
+#include "Instruction.hpp"
+
 namespace geogen 
 {
 	namespace compiler 
 	{
 		namespace instructions
 		{
-			class Instruction
+			class YieldAsMainInstruction : public Instruction
 			{
 			private:
 			public:				
+				YieldAsMainInstruction() 
+				{
+				}
 			};
 		}
 	}
