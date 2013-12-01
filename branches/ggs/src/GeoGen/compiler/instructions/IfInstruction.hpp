@@ -15,10 +15,10 @@ namespace geogen
 				CodeBlock ifBranchCodeBlock;
 				CodeBlock elseBranchCodeBlock;
 			public:				
-				IfInstruction(CodeBlock const& ifBranchCodeBlock, CodeBlock const& elseBranchCodeBlock) 
+				IfInstruction(CodeBlock& ifBranchCodeBlock, CodeBlock& elseBranchCodeBlock) 
 				{
-					this->ifBranchCodeBlock = ifBranchCodeBlock;
-					this->elseBranchCodeBlock = elseBranchCodeBlock;
+					this->ifBranchCodeBlock.MoveInstructionsFrom(ifBranchCodeBlock);
+					this->elseBranchCodeBlock.MoveInstructionsFrom(elseBranchCodeBlock);
 				}
 			};
 		}

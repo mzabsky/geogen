@@ -8,6 +8,8 @@
 #include "../Grammar/output/GeoGenScriptParser.h"
 #include "../Grammar/output/GeoGenScriptDecls.h"
 
+#include "instructions/IfInstruction.hpp"
+
 using namespace std;
 using namespace geogen;
 using namespace geogen::compiler;
@@ -61,6 +63,8 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 		nodes->free(nodes);
 
 		walker->free(walker);
+
+		instructions::IfInstruction ifInst(CodeBlock(), CodeBlock());
 
 		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions().Begin(); i != script->GetGlobalFunctionDefinitions().End(); i++){
 			FunctionDefinition const*  d = i->second;
