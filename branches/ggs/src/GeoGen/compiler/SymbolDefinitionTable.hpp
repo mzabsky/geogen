@@ -14,7 +14,13 @@ namespace geogen
 		{
 		private:
 			std::map<std::string, TSymbolBase*> table;
+
+			// Non-copyable
+			SymbolDefinitionTable(SymbolDefinitionTable const&) {}
+			SymbolDefinitionTable& operator=(SymbolDefinitionTable const&) {};
 		public:
+			SymbolDefinitionTable() {}
+
 			typedef typename std::map<std::string, TSymbolBase const*>::const_iterator const_iterator;
 			//typedef std::map<std::string, TSymbolBase*>::iterator iterator;
 
