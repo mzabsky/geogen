@@ -58,6 +58,7 @@
     <ClInclude Include="compiler\instructions\WhileInstruction.hpp" />
     <ClInclude Include="compiler\instructions\BreakInstruction.hpp" />
     <ClInclude Include="compiler\instructions\ContinueInstruction.hpp" />
+    <ClInclude Include="compiler\ScriptVariableDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

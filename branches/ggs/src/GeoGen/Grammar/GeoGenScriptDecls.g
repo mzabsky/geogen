@@ -43,10 +43,24 @@ enumValues: enumValue+;
 enumValue: ^(IDENTIFIER expression?);
 
 functionDeclaration: ^('function' name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block) {
-	FunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, $formalParameters != NULL ? $formalParameters->count : 0);
+	ScriptFunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, $formalParameters != NULL ? $formalParameters->count : 0);
 	
-	ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl);
-	ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
+	if($formalParameters != NULL)
+	{
+	        SymbolDefinitionTable<VariableDefinition>& varDecls = decl->GetLocalVariableDefinitions();
+	        CodeBlock& codeBlock = decl->GetRootCodeBlock();
+	        for(int i = 0; i < $formalParameters->count; i++)
+	        {
+			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
+			varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree))));
+		        codeBlock.AddInstruction(new instructions::StoreLocalValueInstruction(i));	
+		}
+	             	
+	        codeBlock.MoveInstructionsFrom(CodeBlock());
+	}
+
+        ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl);
+        ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
 };
 
 block: ^(BLOCK statement*);
