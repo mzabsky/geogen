@@ -12,7 +12,7 @@ namespace geogen
 {
 	namespace compiler 
 	{
-		class ScriptFunctionDefinition : FunctionDefinition
+		class ScriptFunctionDefinition : public FunctionDefinition
 		{
 		private:
 			int parameterCount;
@@ -24,7 +24,7 @@ namespace geogen
 				this->parameterCount = parameterCount;
 			}
 
-			inline int GetParameterCount() { return this->parameterCount; }
+			inline int GetParameterCount() const { return this->parameterCount; }
 
 			inline SymbolDefinitionTable<VariableDefinition> const& GetLocalVariableDefinitions() const { return this->localVariableDefinitions; }
 			inline SymbolDefinitionTable<VariableDefinition>& GetLocalVariableDefinitions() { return this->localVariableDefinitions; }			

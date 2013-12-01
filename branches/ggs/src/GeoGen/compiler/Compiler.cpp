@@ -52,6 +52,7 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 		pANTLR3_COMMON_TREE_NODE_STREAM	nodes = antlr3CommonTreeNodeStreamNewTree(tree, ANTLR3_SIZE_HINT);;
 		pGeoGenScriptDecls walker = GeoGenScriptDeclsNew(nodes);
 		walker->compiledScript = script;		
+		walker->vectors = antlr3VectorFactoryNew(0);
 
 		printf("Tree : %s\n", tree->toStringTree(tree)->chars);
 
@@ -59,13 +60,11 @@ const CompiledScript Compiler::CompileScript(std::string& code) const
 
 		nodes->free(nodes);
 
-		FunctionDefinition* def = script->GetGlobalFunctionDefinitions().GetItem("aaa");
-
 		walker->free(walker);
 
 		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions().Begin(); i != script->GetGlobalFunctionDefinitions().End(); i++){
 			FunctionDefinition const*  d = i->second;
-			std::cout << i->second->GetName() << std::endl;
+			std::cout << i->second->GetName() << " " << ((ScriptFunctionDefinition*)i->second)->GetParameterCount() << std::endl;
 		}
 
 		for(SymbolNameTable::const_iterator i = script->GetSymbolNameTable().Begin(); i != script->GetSymbolNameTable().End(); i++){
