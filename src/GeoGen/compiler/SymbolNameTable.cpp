@@ -5,7 +5,7 @@ using namespace geogen;
 using namespace geogen::compiler;
 //using namespace geogen_generated;
 
-void SymbolNameTable::AddName(std::string name) 
+void SymbolNameTable::AddName(std::string const& name) 
 { 
 	std::vector<std::string>::iterator position = std::find(this->table.begin(), this->table.end(), name);
 	if(position == this->table.end())
@@ -14,7 +14,7 @@ void SymbolNameTable::AddName(std::string name)
 	}
 };
 
-int SymbolNameTable::GetNameIndex(std::string name) 
+int SymbolNameTable::GetNameIndex(std::string const& name) 
 { 
 	std::vector<std::string>::iterator position = std::find(this->table.begin(), this->table.end(), name);
 	if(position != this->table.end())
@@ -28,7 +28,7 @@ int SymbolNameTable::GetNameIndex(std::string name)
 	}
 };
 			
-int SymbolNameTable::GetNameIndex(std::string name) const
+int SymbolNameTable::GetNameIndex(std::string const& name) const
 { 
 	std::vector<std::string>::const_iterator position = std::find(this->table.begin(), this->table.end(), name);
 	if(position != this->table.end())
@@ -41,7 +41,7 @@ int SymbolNameTable::GetNameIndex(std::string name) const
 	}
 };
 
-size_t SymbolNameTable::ContainsName(std::string name) const
+size_t SymbolNameTable::ContainsName(std::string const& name) const
 { 
 	std::vector<std::string>::const_iterator position = std::find(this->table.begin(), this->table.end(), name);
 	return position != this->table.end();

@@ -18,7 +18,7 @@ namespace geogen
 			typedef typename std::map<std::string, TSymbolBase const*>::const_iterator const_iterator;
 			//typedef std::map<std::string, TSymbolBase*>::iterator iterator;
 
-			inline TSymbolBase* GetItem(std::string name) 
+			inline TSymbolBase* GetItem(std::string const& name) 
 			{
 				std::map<std::string, TSymbolBase*>::iterator item = this->table.find(name);
 				
@@ -29,7 +29,7 @@ namespace geogen
 				return (*item).second;
 			};
 
-			inline TSymbolBase const* GetItem(std::string name) const 
+			inline TSymbolBase const* GetItem(std::string const& name) const 
 			{
 				std::map<std::string, TSymbolBase*>::const_iterator item = this->table.find(name);
 				
@@ -40,7 +40,7 @@ namespace geogen
 				return (*item).second;
 			};
 
-			inline bool ContainsItem(std::string name) const { return this->table.find(name) == this->table.end(); };
+			inline bool ContainsItem(std::string const& name) const { return this->table.find(name) == this->table.end(); };
 
 			inline void AddItem(TSymbolBase* symbol) {				
 				if(this->table.find(symbol->GetName()) != this->table.end()){

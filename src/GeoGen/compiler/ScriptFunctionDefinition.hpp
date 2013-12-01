@@ -19,15 +19,15 @@ namespace geogen
 			SymbolDefinitionTable<VariableDefinition> localVariableDefinitions;
 			CodeBlock rootCodeBlock;
 		public:
-			ScriptFunctionDefinition(std::string name, int parameterCount) : FunctionDefinition(name) 
+			ScriptFunctionDefinition(std::string const& name, int parameterCount) : FunctionDefinition(name) 
 			{
 				this->parameterCount = parameterCount;
 			}
 
 			inline int GetParameterCount() { return this->parameterCount; }
 
-			inline SymbolDefinitionTable<VariableDefinition> const* GetLocalVariableDefinitions() const { return &this->localVariableDefinitions; }
-			inline SymbolDefinitionTable<VariableDefinition>* GetLocalVariableDefinitions() { return &this->localVariableDefinitions; }			
+			inline SymbolDefinitionTable<VariableDefinition> const& GetLocalVariableDefinitions() const { return this->localVariableDefinitions; }
+			inline SymbolDefinitionTable<VariableDefinition>& GetLocalVariableDefinitions() { return this->localVariableDefinitions; }			
 
 			inline CodeBlock& GetRootCodeBlock() { return this->rootCodeBlock; }
 			inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }
