@@ -17,7 +17,7 @@ namespace geogen
 			DynamicObject(compiler::TypeDefinition const* type) { this->type = type; }
 			inline compiler::TypeDefinition const* GetType() const { return this->type; };
 
-			bool operator<(const DynamicObject* rhs) 
+			inline bool operator<(const DynamicObject* rhs) 
 			{
 				return this->LessThan(rhs);
 			}
