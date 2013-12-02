@@ -18,6 +18,7 @@ namespace geogen
 			SymbolDefinitionTable<VariableDefinition> variableDefinitions;
 			SymbolDefinitionTable<FunctionDefinition> functionDefinitions;
 		public:
+			TypeDefinition(std::string const& name) : name(name) {}
 
 			inline std::string const& GetName() const { return this->name; };
 			
