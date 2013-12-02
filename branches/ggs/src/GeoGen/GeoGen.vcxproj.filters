@@ -59,6 +59,9 @@
     <ClInclude Include="compiler\instructions\BreakInstruction.hpp" />
     <ClInclude Include="compiler\instructions\ContinueInstruction.hpp" />
     <ClInclude Include="compiler\ScriptVariableDefinition.hpp" />
+    <ClInclude Include="utils\KeyValueCollection.hpp" />
+    <ClInclude Include="runtime\DynamicObject.hpp" />
+    <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

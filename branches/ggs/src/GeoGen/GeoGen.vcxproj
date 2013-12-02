@@ -106,6 +106,9 @@
     <ClInclude Include="Grammar\output\GeoGenScriptDecls.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
+    <ClInclude Include="runtime\DynamicObject.hpp" />
+    <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
+    <ClInclude Include="utils\KeyValueCollection.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\CodeBlock.cpp" />
