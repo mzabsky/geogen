@@ -95,6 +95,8 @@
     <ClInclude Include="compiler\instructions\WhileInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsMainInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsNamedInstruction.hpp" />
+    <ClInclude Include="compiler\MetadataSimpleCollection.hpp" />
+    <ClInclude Include="compiler\MetadataValue.hpp" />
     <ClInclude Include="compiler\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="compiler\ScriptVariableDefinition.hpp" />
     <ClInclude Include="compiler\SymbolDefinitionTable.hpp" />
@@ -108,7 +110,7 @@
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
-    <ClInclude Include="utils\KeyValueCollection.hpp" />
+    <ClInclude Include="compiler\MetadataKeyValueCollection.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\CodeBlock.cpp" />
