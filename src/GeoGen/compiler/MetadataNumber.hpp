@@ -3,7 +3,6 @@
 #include <string>
 
 #include "../Number.hpp"
-#include "CompilerException.hpp"
 #include "MetadataValue.hpp"
 
 namespace geogen 
