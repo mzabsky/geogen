@@ -66,6 +66,7 @@
     <ClInclude Include="compiler\MetadataSimpleCollection.hpp" />
     <ClInclude Include="Number.hpp" />
     <ClInclude Include="compiler\MetadataNumber.hpp" />
+    <ClInclude Include="compiler\MetadataString.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

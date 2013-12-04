@@ -97,6 +97,7 @@
     <ClInclude Include="compiler\instructions\YieldAsNamedInstruction.hpp" />
     <ClInclude Include="compiler\MetadataNumber.hpp" />
     <ClInclude Include="compiler\MetadataSimpleCollection.hpp" />
+    <ClInclude Include="compiler\MetadataString.hpp" />
     <ClInclude Include="compiler\MetadataValue.hpp" />
     <ClInclude Include="compiler\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="compiler\ScriptVariableDefinition.hpp" />
