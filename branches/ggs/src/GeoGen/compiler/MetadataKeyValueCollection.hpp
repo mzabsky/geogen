@@ -15,7 +15,7 @@ namespace geogen
 		private:
 			std::map<std::string, MetadataValue*> table;
 		public:
-			typedef typename std::map<std::string, MetadataValue const*>::const_iterator const_iterator;
+			typedef std::map<std::string, MetadataValue const*>::const_iterator const_iterator;
 
 			inline void AddItem(std::string const& name, MetadataValue* value) {				
 				if(this->table.find(name) != this->table.end()){

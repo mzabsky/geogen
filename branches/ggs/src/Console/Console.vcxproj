@@ -42,6 +42,7 @@
     <OutDir>$(SolutionDir)/../bin/</OutDir>
     <TargetName>geogen</TargetName>
     <LibraryPath>$(SolutionDir)/../bin/;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)/Cpp-FixedPoint/src/include;$(SolutionDir)/libfi/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
