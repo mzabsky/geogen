@@ -85,6 +85,7 @@
     <ClInclude Include="compiler\instructions\ContinueInstruction.hpp" />
     <ClInclude Include="compiler\instructions\IfInstruction.hpp" />
     <ClInclude Include="compiler\instructions\Instruction.hpp" />
+    <ClInclude Include="compiler\instructions\LoadConstBooleanInstruction.hpp" />
     <ClInclude Include="compiler\instructions\LoadConstNumberInstruction.hpp" />
     <ClInclude Include="compiler\instructions\LoadConstStringInstruction.hpp" />
     <ClInclude Include="compiler\instructions\LoadGlobalValueInstruction.hpp" />
