@@ -15,7 +15,7 @@ namespace geogen
 		private:
 			std::vector<MetadataValue*> table;
 		public:
-			typedef typename std::vector<MetadataValue const*>::const_iterator const_iterator;
+			typedef std::vector<MetadataValue const*>::const_iterator const_iterator;
 
 			inline void AddItem(std::string const& name, MetadataValue* value) {				
 				this->table.push_back(value);
