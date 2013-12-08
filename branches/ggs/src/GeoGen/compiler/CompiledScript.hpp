@@ -29,10 +29,8 @@ namespace geogen
 
 				MetadataKeyValueCollection* metadata;
 			public:
-				CompiledScript()
-				{
-					metadata = NULL;
-				}
+				CompiledScript();
+				~CompiledScript();
 
 				inline SymbolNameTable const& GetSymbolNameTable() const { return this->symbolNameTable; }
 				inline SymbolNameTable& GetSymbolNameTable() { return this->symbolNameTable; }
