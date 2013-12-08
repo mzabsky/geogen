@@ -14,6 +14,7 @@ namespace geogen
 			{
 			private:
 			public:	
+				virtual void Serialize(std::iostream& stream) const { stream << "Return" << std::endl; }
 			};
 		}
 	}

@@ -18,6 +18,8 @@ namespace geogen
 				{
 					this->codeBlock.MoveInstructionsFrom(codeBlock);
 				}
+
+				virtual void Serialize(std::iostream& stream) const;
 			};
 		}
 	}
