@@ -79,7 +79,10 @@ functionDeclaration: ^('function' name=IDENTIFIER ^(PARAMETERS formalParameters+
         ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
 };
 
-block: ^(BLOCK statement*);
+block returns [CodeBlock* returnCodeBlock] 
+scope { CodeBlock* codeBlock; }
+@init { $block::codeBlock = new CodeBlock(); $returnCodeBlock = $block::codeBlock; }
+: ^(BLOCK statement*);
 
 statement:     
     BREAK
@@ -134,10 +137,10 @@ expression:
 	| IDENTIFIER
 	//collectionLiteral |
 	| coordinateLiteral
-	| 'true'
-	| 'false'
-	| NUMBER
-	| STRING;
+	| 'true' { $block::codeBlock->AddInstruction(new instructions::LoadConstBoolInstruction(true);}
+	| 'false' { $block::codeBlock->AddInstruction(new instructions::LoadConstBoolInstruction(false);}
+	| NUMBER { $block::codeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(0);}
+	| STRING { $block::codeBlock->AddInstruction(new instructions::LoadConstStringInstruction((char*)$STRING.text->chars));};
 
 
 //prio14Operator: ;
