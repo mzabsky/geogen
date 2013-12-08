@@ -3,12 +3,13 @@
 #include <vector>
 
 #include "instructions/Instruction.hpp"
+#include "../Serializable.hpp"
 
 namespace geogen 
 {
 	namespace compiler 
 	{
-		class CodeBlock
+		class CodeBlock : public Serializable
 		{
 		private:
 			std::vector<instructions::Instruction const*> instructions;
@@ -26,6 +27,8 @@ namespace geogen
 
 			inline const_iterator Begin() const { return this->instructions.begin(); }
 			inline const_iterator End() const { return this->instructions.end(); }
+
+			virtual void Serialize(std::iostream& stream) const;
 		};
 	}
 }

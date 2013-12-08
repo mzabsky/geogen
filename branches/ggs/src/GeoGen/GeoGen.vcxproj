@@ -117,11 +117,15 @@
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
     <ClInclude Include="compiler\MetadataKeyValueCollection.hpp" />
+    <ClInclude Include="Serializable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\CodeBlock.cpp" />
     <ClCompile Include="compiler\CompiledScript.cpp" />
     <ClCompile Include="compiler\Compiler.cpp" />
+    <ClCompile Include="compiler\instructions\IfInstruction.cpp" />
+    <ClCompile Include="compiler\instructions\WhileInstruction.cpp" />
+    <ClCompile Include="Number.cpp" />
     <ClCompile Include="compiler\SymbolNameTable.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
@@ -133,6 +137,7 @@
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
+    <ClCompile Include="Serializable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar\GeoGenScript.g" />

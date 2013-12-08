@@ -17,6 +17,8 @@ namespace geogen
 				{
 					this->constNumber = constNumber;
 				}
+
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadConstNumber " << constNumber << std::endl; }
 			};
 		}
 	}

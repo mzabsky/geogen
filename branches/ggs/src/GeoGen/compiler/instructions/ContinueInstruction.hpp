@@ -17,6 +17,8 @@ namespace geogen
 				{
 					this->codeBlockCount = codeBlockCount;
 				}
+
+				virtual void Serialize(std::iostream& stream) const { stream << "Continue " << codeBlockCount << std::endl; }
 			};
 		}
 	}

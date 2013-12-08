@@ -70,6 +70,7 @@
     <ClInclude Include="compiler\MetadataBoolean.hpp" />
     <ClInclude Include="compiler\instructions\LoadConstBooleanInstruction.hpp" />
     <ClInclude Include="compiler\MetadataIdentifier.hpp" />
+    <ClInclude Include="Serializable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -90,6 +91,10 @@
     </ClCompile>
     <ClCompile Include="compiler\CodeBlock.cpp" />
     <ClCompile Include="compiler\CompiledScript.cpp" />
+    <ClCompile Include="Number.cpp" />
+    <ClCompile Include="compiler\instructions\WhileInstruction.cpp" />
+    <ClCompile Include="Serializable.cpp" />
+    <ClCompile Include="compiler\instructions\IfInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

@@ -20,6 +20,8 @@ namespace geogen
 					this->ifBranchCodeBlock.MoveInstructionsFrom(ifBranchCodeBlock);
 					this->elseBranchCodeBlock.MoveInstructionsFrom(elseBranchCodeBlock);
 				}
+
+				virtual void Serialize(std::iostream& stream) const;
 			};
 		}
 	}

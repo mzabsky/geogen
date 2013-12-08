@@ -21,6 +21,8 @@ namespace geogen
 					this->functionName = functionName;
 					this->argumentCount = argumentCount;
 				}
+
+				virtual void Serialize(std::iostream& stream) const { stream << "CallMember " << functionName << " " << argumentCount << std::endl; }
 			};
 		}
 	}

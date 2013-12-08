@@ -22,7 +22,7 @@ options
 	pANTLR3_VECTOR_FACTORY		vectors;
 }
 
-script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block);
+script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block) { ctx->compiledScript->GetRootCodeBlock().MoveInstructionsFrom(*$block.returnCodeBlock); };
         
 metadata: ^('metadata' metadataKeyValueCollection) { ctx->compiledScript->SetMetadata(dynamic_cast<MetadataKeyValueCollection*>($metadataKeyValueCollection.value)); };
 
@@ -137,9 +137,9 @@ expression:
 	| IDENTIFIER
 	//collectionLiteral |
 	| coordinateLiteral
-	| 'true' { $block::codeBlock->AddInstruction(new instructions::LoadConstBoolInstruction(true);}
-	| 'false' { $block::codeBlock->AddInstruction(new instructions::LoadConstBoolInstruction(false);}
-	| NUMBER { $block::codeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(0);}
+	| 'true' { $block::codeBlock->AddInstruction(new instructions::LoadConstBooleanInstruction(true));}
+	| 'false' { $block::codeBlock->AddInstruction(new instructions::LoadConstBooleanInstruction(false));}
+	| NUMBER { $block::codeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(StringToNumber((char*)$NUMBER.text->chars)));}
 	| STRING { $block::codeBlock->AddInstruction(new instructions::LoadConstStringInstruction((char*)$STRING.text->chars));};
 
 

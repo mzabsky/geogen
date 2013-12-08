@@ -66,6 +66,8 @@ const CompiledScript Compiler::CompileScript(std::string const& code) const
 
 		instructions::IfInstruction ifInst(CodeBlock(), CodeBlock());
 
+		std::string code = script->GetRootCodeBlock().ToString();
+
 		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions().Begin(); i != script->GetGlobalFunctionDefinitions().End(); i++){
 			ScriptFunctionDefinition const*  d = (ScriptFunctionDefinition const*)i->second;
 			std::cout << i->second->GetName() << " " << ((ScriptFunctionDefinition*)i->second)->GetParameterCount() << std::endl;

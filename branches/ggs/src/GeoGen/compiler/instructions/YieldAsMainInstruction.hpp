@@ -15,6 +15,8 @@ namespace geogen
 				YieldAsMainInstruction() 
 				{
 				}
+
+				virtual void Serialize(std::iostream& stream) const { stream << "YieldAsMain" << std::endl; }
 			};
 		}
 	}

@@ -17,6 +17,8 @@ namespace geogen
 				{
 					this->globalValueIndex = globalValueIndex;
 				}
+
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadGlobalValue " << globalValueIndex << std::endl; }
 			};
 		}
 	}

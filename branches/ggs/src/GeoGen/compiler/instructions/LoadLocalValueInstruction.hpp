@@ -17,6 +17,8 @@ namespace geogen
 				{
 					this->localValueIndex = localValueIndex;
 				}
+
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadLocalValue " << localValueIndex << std::endl; }
 			};
 		}
 	}
