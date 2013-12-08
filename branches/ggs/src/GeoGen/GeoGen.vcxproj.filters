@@ -69,6 +69,7 @@
     <ClInclude Include="compiler\MetadataString.hpp" />
     <ClInclude Include="compiler\MetadataBoolean.hpp" />
     <ClInclude Include="compiler\instructions\LoadConstBooleanInstruction.hpp" />
+    <ClInclude Include="compiler\MetadataIdentifier.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

@@ -9,6 +9,7 @@
 #include "compiler/FunctionDefinition.hpp"
 #include "compiler/MetadataKeyValueCollection.hpp"
 #include "compiler/MetadataBoolean.hpp"
+#include "compiler/MetadataIdentifier.hpp"
 #include "compiler/MetadataNumber.hpp"
 #include "compiler/MetadataString.hpp"
 #include "compiler/MetadataSimpleCollection.hpp"
