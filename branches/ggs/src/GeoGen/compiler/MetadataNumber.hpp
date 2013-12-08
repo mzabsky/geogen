@@ -12,8 +12,10 @@ namespace geogen
 		class MetadataNumber : public MetadataValue
 		{
 		private:
-			geogen::Number value;
+			Number value;
 		public:
+			MetadataNumber(Number value) : value(value) {};
+
 			Number GetValue() const { this->value; }
 
 			virtual MetadataType GetType() const { return MetadataNumberType; };
