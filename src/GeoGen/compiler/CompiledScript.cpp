@@ -15,8 +15,6 @@ using namespace geogen;
 using namespace geogen::compiler;
 //using namespace geogen_generated;
 
-Compiler::Compiler(){}
-
 CompiledScript::CompiledScript()
 {
 	this->metadata = NULL;
