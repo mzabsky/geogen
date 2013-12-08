@@ -8,7 +8,17 @@ int main(){
 
 	geogen::compiler::Compiler compiler;
 	//HeightMap.Empty()        
-	geogen::compiler::CompiledScript script = compiler.CompileScript(std::string("function aaa(x, y){}  yield HeightMap.Empty();"));
+	geogen::compiler::CompiledScript script = compiler.CompileScript(std::string("\
+metadata {\
+StrItem: \"tralalal\",\
+StrNumber: 5,\
+StrSymbol: Symbol,\
+KeyValSymbol: \
+	{\
+		SybSymbol: \"aaaa\"\
+	}\
+}\
+function aaa(x, y){}  yield HeightMap.Empty();"));
 
 	geogen::Number n(2);
 	geogen::Number n2 = n / geogen::Number(3);
