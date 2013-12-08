@@ -10,7 +10,7 @@ namespace geogen
 {
 	namespace compiler 
 	{
-		class MetadataKeyValueCollection : MetadataValue
+		class MetadataKeyValueCollection : public MetadataValue
 		{
 		private:
 			std::map<std::string, MetadataValue*> table;

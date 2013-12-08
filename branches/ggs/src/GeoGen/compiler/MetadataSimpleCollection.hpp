@@ -10,7 +10,7 @@ namespace geogen
 {
 	namespace compiler 
 	{
-		class MetadataSimpleCollection : MetadataValue
+		class MetadataSimpleCollection : public MetadataValue
 		{
 		private:
 			std::vector<MetadataValue*> table;
