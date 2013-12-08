@@ -12,6 +12,7 @@ namespace geogen
 			MetadataNumberType,
 			MetadataStringType,
 			MetadataBooleanType,
+			MetadataIdentifierType,
 			MetadataSimpleCollectionType,
 			MetadataKeyValueCollectionType
 		};
