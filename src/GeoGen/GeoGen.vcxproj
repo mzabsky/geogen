@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\CodeBlock.cpp" />
+    <ClCompile Include="compiler\CompiledScript.cpp" />
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="compiler\SymbolNameTable.cpp" />
     <ClCompile Include="Generator.cpp" />

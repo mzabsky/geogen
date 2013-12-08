@@ -89,6 +89,7 @@
       <Filter>compiler</Filter>
     </ClCompile>
     <ClCompile Include="compiler\CodeBlock.cpp" />
+    <ClCompile Include="compiler\CompiledScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
