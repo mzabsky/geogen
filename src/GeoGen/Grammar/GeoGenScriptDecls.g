@@ -24,7 +24,23 @@ options
 
 script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block);
         
-metadata: ^('metadata' keyValueCollection);
+metadata: ^('metadata' metadataKeyValueCollection) { ctx->compiledScript->SetMetadata(dynamic_cast<MetadataKeyValueCollection*>($metadataKeyValueCollection.value)); };
+
+metadataKeyValueCollection returns [MetadataValue* value]
+@init {
+	MetadataKeyValueCollection* ret = new MetadataKeyValueCollection();
+	$value = ret;	
+} : ^(COLLECTION (metadataKeyValuePair { ret->AddItem($metadataKeyValuePair.name, $metadataKeyValuePair.value); })*);
+	
+metadataKeyValuePair returns [std::string name, MetadataValue* value] @init{ $value = NULL; }: 
+	^(IDENTIFIER metadataKeyValueValue) { $name = (char*)$IDENTIFIER.text->chars; $value = $metadataKeyValueValue.value; }
+	| ^(NUMBER metadataKeyValueValue '@'?)  { $name = (char*)$NUMBER.text->chars; $value = $metadataKeyValueValue.value; };
+
+metadataKeyValueValue returns [MetadataValue* value] @init{ $value = NULL; }: 
+	STRING  { $value = new MetadataString((char*)$STRING.text->chars); }
+	| NUMBER { $value = new MetadataNumber(0); }
+	| IDENTIFIER { $value = new MetadataIdentifier((char*)$IDENTIFIER.text->chars); }
+	| metadataKeyValueCollection { $value = $metadataKeyValueCollection.value; };
 
 keyValueCollection: ^(COLLECTION keyValuePair*);
 
@@ -52,7 +68,7 @@ functionDeclaration: ^('function' name=IDENTIFIER ^(PARAMETERS formalParameters+
 	        for(int i = 0; i < $formalParameters->count; i++)
 	        {
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
-			varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree))));
+			varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
 		        codeBlock.AddInstruction(new instructions::StoreLocalValueInstruction(i));	
 		}
 	             	
