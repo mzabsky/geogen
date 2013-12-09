@@ -71,6 +71,7 @@
     <ClInclude Include="compiler\instructions\LoadConstBooleanInstruction.hpp" />
     <ClInclude Include="compiler\MetadataIdentifier.hpp" />
     <ClInclude Include="Serializable.hpp" />
+    <ClInclude Include="compiler\instructions\PopInstruction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

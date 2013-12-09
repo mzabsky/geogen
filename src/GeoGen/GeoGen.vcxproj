@@ -90,6 +90,7 @@
     <ClInclude Include="compiler\instructions\LoadConstStringInstruction.hpp" />
     <ClInclude Include="compiler\instructions\LoadGlobalValueInstruction.hpp" />
     <ClInclude Include="compiler\instructions\LoadLocalValueInstruction.hpp" />
+    <ClInclude Include="compiler\instructions\PopInstruction.hpp" />
     <ClInclude Include="compiler\instructions\ReturnInstruction.hpp" />
     <ClInclude Include="compiler\instructions\StoreGlobalValueInstruction.hpp" />
     <ClInclude Include="compiler\instructions\StoreLocalValueInstruction.hpp" />
