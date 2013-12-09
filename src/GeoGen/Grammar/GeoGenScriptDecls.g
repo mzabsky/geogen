@@ -88,7 +88,7 @@ statement:
     BREAK
     | CONTINUE
     | variableDeclaration
-    | expression
+    | expression { $block::codeBlock->AddInstruction(new instructions::PopInstruction());}
     | yieldStatement
     | returnStatement
     | whileStatement

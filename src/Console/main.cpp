@@ -19,6 +19,7 @@ KeyValSymbol: \
 	}\
 }\
 function aaa(x, y){}  \
+1 / 5;\
 var a = 1 + 2;\
 var b = true;\
 var c = \"aaaa\";\
