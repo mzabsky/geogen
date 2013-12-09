@@ -120,17 +120,35 @@ normalCase: ^(CASE label ^(BLOCK statement*));
 defaultCase: ^(DEFAULT ^(BLOCK statement*));
 
 expression:
-	^(('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '|=' | '^=' | 'is') expression expression)
+	^('=' expression expression)
+	| ^('+=' expression expression)
+	| ^('-=' expression expression)
+	| ^('*=' expression expression)
+	| ^('/=' expression expression)
+	| ^('%=' expression expression)
+	| ^('<<=' expression expression)
+	| ^('>>=' expression expression)
+	| ^('&=' expression expression)
+	| ^('|=' expression expression)
+	| ^('is' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("is"), 2));}
 	| ^('?' expression  expression expression)
-	| ^('||' expression expression)
-	| ^('&&' expression expression)
-	| ^('^' expression expression)
-	| ^('&' expression expression)
-	| ^(('==' | '!=') expression expression)
-	| ^(('<' | '<=' | '>' | '>=') expression expression)
-	| ^(('<<' | '>>') expression expression)
-	| ^(('+' | '-') expression expression)
-	| ^(('*' | '/' | '%') expression expression) 
+	| ^('||' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("||"), 2));}
+	| ^('&&' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("&&"), 2));}
+	| ^('^' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("^"), 2));}
+	| ^('&' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("&"), 2));}
+	| ^('==' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("=="), 2));}
+	| ^('!=' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("!="), 2));}
+	| ^('<' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("<"), 2));}
+	| ^('<=' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("<="), 2));}
+	| ^('>' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex(">"), 2));}
+	| ^('>=' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex(">="), 2));}
+	| ^('<<' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("<<"), 2));}
+	| ^('>>' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex(">>"), 2));}
+	| ^('+' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("+"), 2));}
+	| ^('-' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("-"), 2));}
+	| ^('*' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("*"), 2));}
+	| ^('/' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("/"), 2));}
+	| ^('%' expression expression) { $block::codeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("\%"), 2));}
 	| ^('.' expression expression)
 	| ^('(' expression expression*)
 	| ^('[' expression expression*)
