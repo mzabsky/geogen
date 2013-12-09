@@ -24,6 +24,7 @@ var a = 1 + 2;\
 var b = true;\
 var c = \"aaaa\";\
 \
+yield HeightMap.Empty() as \"aaa\";\
 yield HeightMap.Empty();"));
 
 	geogen::Number n(2);

@@ -99,8 +99,15 @@ statement:
     
 variableDeclaration: ^('var' IDENTIFIER expression?);
 
-yieldStatement: ^(YIELD expression STRING?);
-
+yieldStatement: ^(YIELD expression STRING?) 
+{ 
+	if($STRING == NULL){
+		$block::codeBlock->AddInstruction(new instructions::YieldAsMainInstruction());
+	}
+	else {
+		$block::codeBlock->AddInstruction(new instructions::YieldAsNamedInstruction((char*)$STRING.text->chars));	
+	}
+};
 
 returnStatement: ^(RETURN expression?);
 
