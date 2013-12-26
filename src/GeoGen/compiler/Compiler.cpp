@@ -64,9 +64,12 @@ const CompiledScript Compiler::CompileScript(std::string const& code) const
 
 		walker->free(walker);
 
-		instructions::IfInstruction ifInst(CodeBlock(), CodeBlock());
+		cout << "=======================" << endl;
 
 		std::string code = script->GetRootCodeBlock().ToString();
+
+		cout << code << endl;
+		cout << "=======================" << endl;
 
 		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions().Begin(); i != script->GetGlobalFunctionDefinitions().End(); i++){
 			ScriptFunctionDefinition const*  d = (ScriptFunctionDefinition const*)i->second;
