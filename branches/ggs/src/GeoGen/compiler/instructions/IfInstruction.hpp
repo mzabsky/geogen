@@ -15,11 +15,12 @@ namespace geogen
 				CodeBlock ifBranchCodeBlock;
 				CodeBlock elseBranchCodeBlock;
 			public:				
-				IfInstruction(CodeBlock& ifBranchCodeBlock, CodeBlock& elseBranchCodeBlock) 
-				{
-					this->ifBranchCodeBlock.MoveInstructionsFrom(ifBranchCodeBlock);
-					this->elseBranchCodeBlock.MoveInstructionsFrom(elseBranchCodeBlock);
-				}
+
+				inline CodeBlock& GetIfBranchCodeBlock() { return this->ifBranchCodeBlock; };
+				inline CodeBlock const& GetIfBranchCodeBlock() const { return this->ifBranchCodeBlock; };
+				
+				inline CodeBlock& GetElseBranchCodeBlock() { return this->elseBranchCodeBlock; };
+				inline CodeBlock const& GetElseBranchCodeBlock() const { return this->elseBranchCodeBlock; };
 
 				virtual void Serialize(std::iostream& stream) const;
 			};

@@ -128,7 +128,7 @@ initExpression:
 
 ifStatement:
     ('if' '(' expression ')' statement 'else') =>  'if' '(' expression ')' ifStmt=statement 'else' elseStmt=statement -> ^(IF expression $ifStmt $elseStmt)
-    | 'if' '(' expression ')' statement  -> ^(IF expression statement)
+    | 'if' '(' expression ')' statement  -> ^(IF expression statement ^(BLOCK))
     /*('else' statement)?*/;
 
 

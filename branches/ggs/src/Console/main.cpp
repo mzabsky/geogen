@@ -25,7 +25,28 @@ var b = true;\
 var c = \"aaaa\";\
 \
 yield HeightMap.Empty() as \"aaa\";\
-yield HeightMap.Empty();"));
+yield HeightMap.Empty();\
+\
+if(2 == 3){\
+yield HeightMap.Empty();\
+}\
+\
+\
+if (2 == 3){\
+\
+yield HeightMap.Empty(); \
+} else {\
+yield HeightMap.Empty() as \"bbb\"; \
+}\
+\
+while(a == true){\
+	yield HeightMap.Empty() as \"ccc\"; \
+}\
+"));
+
+/*
+
+*/
 
 	geogen::Number n(2);
 	geogen::Number n2 = n / geogen::Number(3);

@@ -14,12 +14,10 @@ namespace geogen
 			private:
 				CodeBlock codeBlock;
 			public:				
-				WhileInstruction(CodeBlock& codeBlock) 
-				{
-					this->codeBlock.MoveInstructionsFrom(codeBlock);
-				}
-
 				virtual void Serialize(std::iostream& stream) const;
+
+				inline CodeBlock& GetCodeBlock() { return this->codeBlock; };
+				inline CodeBlock const& GetCodeBlock() const { return this->codeBlock; };
 			};
 		}
 	}
