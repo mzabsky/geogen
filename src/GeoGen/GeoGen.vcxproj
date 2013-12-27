@@ -126,6 +126,7 @@
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="compiler\instructions\IfInstruction.cpp" />
     <ClCompile Include="compiler\instructions\WhileInstruction.cpp" />
+    <ClCompile Include="compiler\SymbolDefinitionTable.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="compiler\SymbolNameTable.cpp" />
     <ClCompile Include="Generator.cpp" />
