@@ -24,6 +24,16 @@ namespace geogen
 			typedef typename std::map<std::string, TSymbolBase const*>::const_iterator const_iterator;
 			//typedef std::map<std::string, TSymbolBase*>::iterator iterator;
 
+			void MoveItemsFrom(SymbolDefinitionTable<TSymbolBase>& another)
+			{
+				for (std::map<std::string, TSymbolBase*>::iterator it = another.table.begin(); it != another.table.end(); it++)
+				{
+					this->AddItem(it->second);
+				}
+
+				another.table.clear();
+			}
+
 			inline TSymbolBase* GetItem(std::string const& name) 
 			{
 				std::map<std::string, TSymbolBase*>::iterator item = this->table.find(name);
