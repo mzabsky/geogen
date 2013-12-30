@@ -97,6 +97,9 @@ functionDeclaration
 	
 	codeBlock.MoveInstructionsFrom(*$block.codeBlock);
 	delete $block.codeBlock;
+
+	// Add null to end of each function for case it had no return. If it has, this instruction will never be reached.
+	codeBlock.AddInstruction(new instructions::LoadNullInstruction());
 	
 	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
