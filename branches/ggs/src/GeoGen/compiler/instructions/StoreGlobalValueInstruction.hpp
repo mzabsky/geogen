@@ -11,14 +11,14 @@ namespace geogen
 			class StoreGlobalValueInstruction : public Instruction
 			{
 			private:
-				int globalValueIndex;
+				int variableNameIndex;
 			public:				
-				StoreGlobalValueInstruction(int globalValueIndex) 
+				StoreGlobalValueInstruction(int variableNameIndex) 
 				{
-					this->globalValueIndex = globalValueIndex;
+					this->variableNameIndex = variableNameIndex;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "StoreGlobalValue " << globalValueIndex << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "StoreGlobalValue " << variableNameIndex << std::endl; }
 			};
 		}
 	}
