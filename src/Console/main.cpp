@@ -41,11 +41,13 @@ yield HeightMap.Empty() as \"bbb\"; \
 \
 while(a == true){\
 	yield HeightMap.Empty() as \"ccc\"; \
+	break;\
 }\
 \
 for(var i = 0;i < 5;i+=1){\
 	yield HeightMap.Empty() as \"ddd\"; \
 }\
+break;\
 "));
 
 /*
