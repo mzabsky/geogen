@@ -11,14 +11,14 @@ namespace geogen
 			class LoadLocalValueInstruction : public Instruction
 			{
 			private:
-				int localValueIndex;
+				int variableNameIndex;
 			public:				
-				LoadLocalValueInstruction(int localValueIndex) 
+				LoadLocalValueInstruction(int variableNameIndex) 
 				{
-					this->localValueIndex = localValueIndex;
+					this->variableNameIndex = variableNameIndex;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "LoadLocalValue " << localValueIndex << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadLocalValue " << variableNameIndex << std::endl; }
 			};
 		}
 	}
