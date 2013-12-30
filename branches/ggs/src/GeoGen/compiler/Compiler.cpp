@@ -71,6 +71,11 @@ const CompiledScript Compiler::CompileScript(std::string const& code) const
 		cout << code << endl;
 		cout << "=======================" << endl;
 
+		std::string code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"))->GetRootCodeBlock().ToString();
+
+		cout << code2 << endl;
+		cout << "=======================" << endl;
+
 		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions().Begin(); i != script->GetGlobalFunctionDefinitions().End(); i++){
 			ScriptFunctionDefinition const*  d = (ScriptFunctionDefinition const*)i->second;
 			std::cout << i->second->GetName() << " " << ((ScriptFunctionDefinition*)i->second)->GetParameterCount() << std::endl;

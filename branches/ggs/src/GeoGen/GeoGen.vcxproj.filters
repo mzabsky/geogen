@@ -97,6 +97,7 @@
     <ClCompile Include="Serializable.cpp" />
     <ClCompile Include="compiler\instructions\IfInstruction.cpp" />
     <ClCompile Include="compiler\SymbolDefinitionTable.cpp" />
+    <ClCompile Include="compiler\instructions\LoadNullInstruction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
