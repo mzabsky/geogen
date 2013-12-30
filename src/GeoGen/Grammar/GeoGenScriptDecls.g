@@ -80,10 +80,11 @@ functionDeclaration
 
 	//SymbolDefinitionTable<VariableDefinition>& varDecls = decl->GetLocalVariableDefinitions();	
 	
+	CodeBlock& codeBlock = decl->GetRootCodeBlock();
 	if($formalParameters != NULL)
 	{
 
-	        CodeBlock& codeBlock = decl->GetRootCodeBlock();
+	        
 	        for(unsigned i = 0; i < $formalParameters->count; i++)
 	        {
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
@@ -91,8 +92,11 @@ functionDeclaration
 		        codeBlock.AddInstruction(new instructions::StoreLocalValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)tree->getText(tree)->chars)));	
 		}
 	             	
-	        codeBlock.MoveInstructionsFrom(CodeBlock());
+	        codeBlock.MoveInstructionsFrom(CodeBlock()); // todo: WTF?
 	}
+	
+	codeBlock.MoveInstructionsFrom(*$block.codeBlock);
+	delete $block.codeBlock;
 	
 	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
@@ -131,7 +135,7 @@ statement returns [CodeBlock* codeBlock]
     | variableDeclaration { $codeBlock = $variableDeclaration.codeBlock; }
     | expression { $codeBlock = new CodeBlock(); $codeBlock->MoveInstructionsFrom(*$expression.codeBlock); delete $expression.codeBlock; $codeBlock->AddInstruction(new instructions::PopInstruction());}
     | yieldStatement{ $codeBlock = $yieldStatement.codeBlock; }
-    | returnStatement { $codeBlock = new CodeBlock(); }
+    | returnStatement { $codeBlock = $returnStatement.codeBlock; }
     | whileStatement { $codeBlock = $whileStatement.codeBlock; }
     | forStatement { $codeBlock = $forStatement.codeBlock; }
     | ifStatement { $codeBlock = $ifStatement.codeBlock;}
@@ -166,7 +170,23 @@ yieldStatement returns [CodeBlock* codeBlock]
 	}
 };
 
-returnStatement: ^(RETURN expression?);
+returnStatement returns [CodeBlock* codeBlock]
+@init { $codeBlock = NULL; } 
+: ^(RETURN (expression { $codeBlock = new CodeBlock(); $codeBlock->MoveInstructionsFrom(*$expression.codeBlock); delete $expression.codeBlock; } )?)
+{
+	if(codeBlock == NULL)
+	{
+		$codeBlock = new CodeBlock();	
+		$codeBlock->AddInstruction(new instructions::LoadNullInstruction());
+	}
+
+	if(!ctx->isInFunction)
+	{
+		throw CompilerException("Return statement can only be used within functions.");
+	}
+
+	$codeBlock->AddInstruction(new instructions::BreakInstruction(ctx->codeBlockLevel));
+};
 
 whileStatement returns [CodeBlock* codeBlock]
 scope BlockScope;

@@ -32,6 +32,7 @@
 #include "compiler/instructions/LoadConstStringInstruction.hpp"
 #include "compiler/instructions/LoadGlobalValueInstruction.hpp"
 #include "compiler/instructions/LoadLocalValueInstruction.hpp"
+#include "compiler/instructions/LoadNullInstruction.hpp"
 #include "compiler/instructions/PopInstruction.hpp"
 #include "compiler/instructions/ReturnInstruction.hpp"
 #include "compiler/instructions/StoreGlobalValueInstruction.hpp"

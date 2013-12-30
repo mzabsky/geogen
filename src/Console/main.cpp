@@ -18,7 +18,13 @@ KeyValSymbol: \
 		SybSymbol: \"aaaa\"\
 	}\
 }\
-function aaa(x, y){}  \
+function aaa(x, y){\
+	1+4;\
+	return;\
+		return 5;\
+\
+\
+}  \
 1 / 5;\
 var a = 1 + 2;\
 var b = true;\
@@ -47,7 +53,6 @@ while(a == true){\
 for(var i = 0;i < 5;i+=1){\
 	yield HeightMap.Empty() as \"ddd\"; \
 }\
-break;\
 "));
 
 /*
