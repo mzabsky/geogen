@@ -9,7 +9,8 @@ options
 
 scope BlockScope
 {
-	CodeBlock* codeBlock;
+	int breakCodeBlockLevel;
+	int continueCodeBlockLevel;
 }
 
 @includes {
@@ -24,6 +25,10 @@ scope BlockScope
 	
 	pANTLR3_BASE_TREE_ADAPTOR	adaptor;
 	pANTLR3_VECTOR_FACTORY		vectors;
+	
+	bool isInFunction = false;
+	bool isInLoop = false;
+	int codeBlockLevel = 0;
 }
 
 
@@ -64,48 +69,89 @@ enumValues: enumValue+;
 
 enumValue: ^(IDENTIFIER expression?);
 
-functionDeclaration: ^('function' name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block) {
+functionDeclaration
+//scope BlockScope;
+//scope { SymbolDefinitionTable<VariableDefinition>* localVariableDefinitions }
+@init { ctx->isInFunction = true; /*functionDeclaration::localVariableDefinitions = new SymbolDefinitionTable<VariableDefinition>();*/}
+@after { ctx->isInFunction = false; /*functionDeclaration::localVariableDefinitions = NULL;*/ }
+: ^('function' name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block)
+{
 	ScriptFunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, $formalParameters != NULL ? $formalParameters->count : 0);
+
+	//SymbolDefinitionTable<VariableDefinition>& varDecls = decl->GetLocalVariableDefinitions();	
 	
 	if($formalParameters != NULL)
 	{
-	        SymbolDefinitionTable<VariableDefinition>& varDecls = decl->GetLocalVariableDefinitions();
+
 	        CodeBlock& codeBlock = decl->GetRootCodeBlock();
-	        for(int i = 0; i < $formalParameters->count; i++)
+	        for(unsigned i = 0; i < $formalParameters->count; i++)
 	        {
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
-			varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
-		        codeBlock.AddInstruction(new instructions::StoreLocalValueInstruction(i));	
+			//varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
+		        codeBlock.AddInstruction(new instructions::StoreLocalValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)tree->getText(tree)->chars)));	
 		}
 	             	
 	        codeBlock.MoveInstructionsFrom(CodeBlock());
 	}
+	
+	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
+	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
 
         ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl);
         ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
 };
 
 block returns [CodeBlock* codeBlock] 
-scope BlockScope;
-@init { $BlockScope::codeBlock = new CodeBlock(); $codeBlock = new CodeBlock(); }
+@init { $codeBlock = new CodeBlock(); }
 : ^(BLOCK (statement { $codeBlock->MoveInstructionsFrom(*$statement.codeBlock); delete $statement.codeBlock; })*);
 
 statement returns [CodeBlock* codeBlock]
 @init { $codeBlock = NULL; }
 :     
-    BREAK { $codeBlock = new CodeBlock(); }
-    | CONTINUE { $codeBlock = new CodeBlock(); }
-    | variableDeclaration { $codeBlock = new CodeBlock(); }
-    | expression { $codeBlock = $expression.codeBlock; }
+    BREAK 
+    { 
+    	if(!ctx->isInLoop)
+    	{
+    		throw CompilerException("Break statement can only be used within for, while and switch blocks.");
+    	}
+    
+    	$codeBlock = new CodeBlock();  
+    	$codeBlock->AddInstruction(new instructions::BreakInstruction(ctx->codeBlockLevel - $BlockScope::breakCodeBlockLevel));
+    }
+    | CONTINUE 
+    { 
+    	if(!ctx->isInLoop)
+    	{
+    		throw CompilerException("Continue statement can only be used within for and while blocks.");
+    	}
+    
+    	$codeBlock = new CodeBlock();  
+    	$codeBlock->AddInstruction(new instructions::ContinueInstruction(ctx->codeBlockLevel - $BlockScope::continueCodeBlockLevel));
+    }
+    | variableDeclaration { $codeBlock = $variableDeclaration.codeBlock; }
+    | expression { $codeBlock = new CodeBlock(); $codeBlock->MoveInstructionsFrom(*$expression.codeBlock); delete $expression.codeBlock; $codeBlock->AddInstruction(new instructions::PopInstruction());}
     | yieldStatement{ $codeBlock = $yieldStatement.codeBlock; }
     | returnStatement { $codeBlock = new CodeBlock(); }
     | whileStatement { $codeBlock = $whileStatement.codeBlock; }
-    | forStatement { $codeBlock = new CodeBlock(); }
+    | forStatement { $codeBlock = $forStatement.codeBlock; }
     | ifStatement { $codeBlock = $ifStatement.codeBlock;}
     | switchStatement { $codeBlock = new CodeBlock(); }
     | block { $codeBlock = $block.codeBlock; };
     
-variableDeclaration: ^('var' IDENTIFIER expression?);
+variableDeclaration returns [CodeBlock* codeBlock]
+@init { $codeBlock = new CodeBlock(); } 
+: ^('var' IDENTIFIER expression?)
+{
+	char* name = (char*)$IDENTIFIER.text->chars;
+	/*if(ctx->isInFunction)
+	{
+		functionDeclaration::localVariableDefinitions->AddItem(new VariableDefinition(name));
+	}
+	else 
+	{*/
+	//ctx->compiledScript->GetGlobalVariableDefinitions().AddItem(new VariableDefinition(name));
+	//	}
+};
 
 yieldStatement returns [CodeBlock* codeBlock]
 @init { $codeBlock = new CodeBlock(); } 
@@ -114,7 +160,8 @@ yieldStatement returns [CodeBlock* codeBlock]
 	if($STRING == NULL){
 		$codeBlock->AddInstruction(new instructions::YieldAsMainInstruction());
 	}
-	else {
+	else 
+	{
 		$codeBlock->AddInstruction(new instructions::YieldAsNamedInstruction((char*)$STRING.text->chars));	
 	}
 };
@@ -123,7 +170,8 @@ returnStatement: ^(RETURN expression?);
 
 whileStatement returns [CodeBlock* codeBlock]
 scope BlockScope;
-@init { $codeBlock = new CodeBlock(); }
+@init { $codeBlock = new CodeBlock(); ctx->codeBlockLevel++; $BlockScope::breakCodeBlockLevel = ctx->codeBlockLevel; $BlockScope::continueCodeBlockLevel = ctx->codeBlockLevel; ctx->isInLoop = true; }
+@after { ctx->codeBlockLevel--; ctx->isInLoop = false;}
 : ^(WHILE expression statement) 
 {
 	instructions::WhileInstruction* whileInstr = new instructions::WhileInstruction();
@@ -133,7 +181,7 @@ scope BlockScope;
 	delete $expression.codeBlock;
 	
 	instructions::IfInstruction* ifInstr = new instructions::IfInstruction();
-	ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(2));
+	ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(1));
 	whileCodeBlock.AddInstruction(ifInstr);
 	
 	whileCodeBlock.MoveInstructionsFrom(*$statement.codeBlock);
@@ -142,16 +190,67 @@ scope BlockScope;
 	codeBlock->AddInstruction(whileInstr);
 };
 
-forStatement: ^(FOR ^(INITIALIZATION_EXPRESSION initExpression?) ^(CONDITION_EXPRESSION expression?) ^(INCREMENT_EXPRESSION expression?) statement);
-
-initExpression: 
-    ^('var' IDENTIFIER expression)
-    | expression;
-
-ifStatement returns [CodeBlock* codeBlock]
+forStatement returns [CodeBlock* codeBlock]
+scope BlockScope;
 @init 
 { 
-	bool hasElse = false;
+	$codeBlock = new CodeBlock(); 
+	CodeBlock* initExpressionCodeBlock = NULL; 
+	CodeBlock* conditionExpressionCodeBlock = NULL; 
+	CodeBlock* incrementExpressionCodeBlock = NULL; 
+	ctx->codeBlockLevel++; 
+	ctx->isInLoop = true;
+	$BlockScope::breakCodeBlockLevel = ctx->codeBlockLevel; 
+	$BlockScope::continueCodeBlockLevel = ctx->codeBlockLevel; 
+}
+@after { ctx->codeBlockLevel--; ctx->isInLoop = false; }
+: ^(FOR 
+	(^(INITIALIZATION_EXPRESSION initExpression { initExpressionCodeBlock = $initExpression.codeBlock; } ))? 
+	(^(CONDITION_EXPRESSION conditionExpression=expression { conditionExpressionCodeBlock = $conditionExpression.codeBlock; } ))? 
+	(^(INCREMENT_EXPRESSION incrementExpression=expression { incrementExpressionCodeBlock = $incrementExpression.codeBlock; } ))? 
+	statement)
+{
+	if(initExpressionCodeBlock != NULL)
+	{
+		$codeBlock->MoveInstructionsFrom(*initExpressionCodeBlock);
+		delete initExpressionCodeBlock;
+	}
+	
+	instructions::WhileInstruction* whileInstr = new instructions::WhileInstruction();
+	CodeBlock& whileCodeBlock = whileInstr->GetCodeBlock();
+	
+	if(conditionExpressionCodeBlock != NULL)
+	{
+		whileCodeBlock.MoveInstructionsFrom(*conditionExpressionCodeBlock);
+		delete conditionExpressionCodeBlock;
+		
+		instructions::IfInstruction* ifInstr = new instructions::IfInstruction();
+		ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(1));
+		whileCodeBlock.AddInstruction(ifInstr);
+	}
+
+	whileCodeBlock.MoveInstructionsFrom(*$statement.codeBlock);
+	delete $statement.codeBlock;
+	
+	if(incrementExpressionCodeBlock != NULL)
+	{
+		whileCodeBlock.MoveInstructionsFrom(*incrementExpressionCodeBlock);
+		delete incrementExpressionCodeBlock;
+	}
+	
+	codeBlock->AddInstruction(whileInstr);
+};
+
+initExpression returns [CodeBlock* codeBlock]
+@init { $codeBlock = NULL; } 
+:
+    variableDeclaration { $codeBlock = $variableDeclaration.codeBlock; }
+    | expression { $codeBlock = $expression.codeBlock; };
+
+ifStatement returns [CodeBlock* codeBlock]
+scope BlockScope;
+@init 
+{ 
 	$codeBlock = new CodeBlock(); 
 }: 
 ^(IF expression ifBranchStatement=statement elseBranchStatement=statement) 
@@ -207,7 +306,7 @@ expression returns [CodeBlock* codeBlock]
 	| ^('.' expression expression)
 	| ^('(' expression expression*)
 	| ^('[' expression expression*)
-	| IDENTIFIER
+	| IDENTIFIER { $codeBlock->AddInstruction(new instructions::LoadGlobalValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars))); }
 	//collectionLiteral |
 	| coordinateLiteral
 	| 'true' { $codeBlock->AddInstruction(new instructions::LoadConstBooleanInstruction(true));}
