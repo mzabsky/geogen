@@ -58,6 +58,7 @@ afield.bfield.cfield;\
 funcname(parama, paramb, paramc);\
 afield.bfield.cfield.funcname(parama, paramb, paramc);\
 afield.bfield.cfield[parama, paramb, paramc];\
+a ? b : c;\
 "));
 
 /*
