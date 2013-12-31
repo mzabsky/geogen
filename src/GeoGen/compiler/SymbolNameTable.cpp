@@ -3,7 +3,6 @@
 using namespace std;
 using namespace geogen;
 using namespace geogen::compiler;
-//using namespace geogen_generated;
 
 void SymbolNameTable::AddName(std::string const& name) 
 { 
@@ -46,3 +45,14 @@ size_t SymbolNameTable::ContainsName(std::string const& name) const
 	std::vector<std::string>::const_iterator position = std::find(this->table.begin(), this->table.end(), name);
 	return position != this->table.end();
 };
+
+void SymbolNameTable::Serialize(std::iostream& stream) const
+{
+	int i = 0;
+	for (const_iterator it = this->Begin(); it != this->End(); it++)
+	{
+		stream << "\t" << i << " " << *it << std::endl;
+		i++;
+	}
+}
+
