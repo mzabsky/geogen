@@ -76,6 +76,11 @@ const CompiledScript Compiler::CompileScript(std::string const& code) const
 		cout << code2 << endl;
 		cout << "=======================" << endl;
 
+		std::string code3 = script->GetSymbolNameTable().ToString();
+
+		cout << code3 << endl;
+		cout << "=======================" << endl;
+
 		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions().Begin(); i != script->GetGlobalFunctionDefinitions().End(); i++){
 			ScriptFunctionDefinition const*  d = (ScriptFunctionDefinition const*)i->second;
 			std::cout << i->second->GetName() << " " << ((ScriptFunctionDefinition*)i->second)->GetParameterCount() << std::endl;
