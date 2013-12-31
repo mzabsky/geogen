@@ -72,6 +72,7 @@
     <ClInclude Include="compiler\MetadataIdentifier.hpp" />
     <ClInclude Include="Serializable.hpp" />
     <ClInclude Include="compiler\instructions\PopInstruction.hpp" />
+    <ClInclude Include="compiler\instructions\StoreMemberValueInstruction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

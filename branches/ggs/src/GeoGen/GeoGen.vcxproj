@@ -94,6 +94,7 @@
     <ClInclude Include="compiler\instructions\ReturnInstruction.hpp" />
     <ClInclude Include="compiler\instructions\StoreGlobalValueInstruction.hpp" />
     <ClInclude Include="compiler\instructions\StoreLocalValueInstruction.hpp" />
+    <ClInclude Include="compiler\instructions\StoreMemberValueInstruction.hpp" />
     <ClInclude Include="compiler\instructions\WhileInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsMainInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsNamedInstruction.hpp" />

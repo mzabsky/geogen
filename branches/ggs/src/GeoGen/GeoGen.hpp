@@ -38,6 +38,7 @@
 #include "compiler/instructions/ReturnInstruction.hpp"
 #include "compiler/instructions/StoreGlobalValueInstruction.hpp"
 #include "compiler/instructions/StoreLocalValueInstruction.hpp"
+#include "compiler/instructions/StoreMemberValueInstruction.hpp"
 #include "compiler/instructions/WhileInstruction.hpp"
 #include "compiler/instructions/YieldAsMainInstruction.hpp"
 #include "compiler/instructions/YieldAsNamedInstruction.hpp"
