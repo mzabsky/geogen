@@ -53,6 +53,10 @@ while(a == true){\
 for(var i = 0;i < 5;i+=1){\
 	yield HeightMap.Empty() as \"ddd\"; \
 }\
+\
+afield.bfield.cfield;\
+\
+\
 "));
 
 /*
