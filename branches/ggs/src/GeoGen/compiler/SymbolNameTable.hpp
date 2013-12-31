@@ -4,13 +4,14 @@
 #include <vector>
 #include <algorithm>
 
+#include "../Serializable.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen 
 {
 	namespace compiler 
 	{
-		class SymbolNameTable
+		class SymbolNameTable : public Serializable
 		{
 		private:
 			std::vector<std::string> table;
@@ -25,6 +26,8 @@ namespace geogen
 
 			inline const_iterator Begin() const { return this->table.begin(); }
 			inline const_iterator End() const { return this->table.end(); }
+
+			virtual void Serialize(std::iostream& stream) const;
 		};
 	}
 }
