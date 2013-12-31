@@ -56,7 +56,8 @@ for(var i = 0;i < 5;i+=1){\
 \
 afield.bfield.cfield;\
 funcname(parama, paramb, paramc);\
-\
+afield.bfield.cfield.funcname(parama, paramb, paramc);\
+afield.bfield.cfield[parama, paramb, paramc];\
 "));
 
 /*
