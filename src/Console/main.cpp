@@ -59,6 +59,9 @@ funcname(parama, paramb, paramc);\
 afield.bfield.cfield.funcname(parama, paramb, paramc);\
 afield.bfield.cfield[parama, paramb, paramc];\
 a ? b : c;\
+lvalue1 = 1 + 2;\
+lvalue2.fielda.fieldb = 1 + 2;\
+lvalue2[parama] = 1 + 2;\
 "));
 
 /*
