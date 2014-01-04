@@ -108,11 +108,13 @@
     <ClInclude Include="compiler\ScriptVariableDefinition.hpp" />
     <ClInclude Include="compiler\SymbolDefinitionTable.hpp" />
     <ClInclude Include="compiler\SymbolNameTable.hpp" />
+    <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\TypeDefinition.hpp" />
     <ClInclude Include="compiler\VariableDefinition.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
     <ClInclude Include="Generator.hpp" />
     <ClInclude Include="GeoGen.hpp" />
+    <ClInclude Include="GeoGenException.hpp" />
     <ClInclude Include="Grammar\output\GeoGenScriptDecls.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />

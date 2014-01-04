@@ -3,15 +3,17 @@
 #include <string>
 #include <stdexcept>
 
+#include "../GeoGenException.hpp"
+
 namespace geogen 
 {
 	namespace compiler 
 	{
-		class CompilerException : std::runtime_error
+		class CompilerException : public GeoGenException
 		{
 		public:
-			explicit CompilerException(const std::string& error_message)  :
-				std::runtime_error(error_message) {};
+			explicit CompilerException(ErrorCode code) :
+				GeoGenException(code) {};
 		};
 	}
 }

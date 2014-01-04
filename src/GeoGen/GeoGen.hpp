@@ -19,6 +19,7 @@
 #include "compiler/ScriptVariableDefinition.hpp"
 #include "compiler/SymbolDefinitionTable.hpp"
 #include "compiler/SymbolNameTable.hpp"
+#include "compiler/SymbolRedefinitionException.hpp"
 #include "compiler/TypeDefinition.hpp"
 #include "compiler/VariableDefinition.hpp"
 

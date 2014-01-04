@@ -104,7 +104,10 @@ functionDeclaration
 	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
 
-        ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl);
+	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl)){
+		throw SymbolRedefinitionException(GGE1306_FunctionAlreadyDefined, decl->GetName());
+	}
+        
         ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
 };
 
@@ -119,7 +122,7 @@ statement returns [CodeBlock* codeBlock]
     { 
     	if(!ctx->isInLoop)
     	{
-    		throw CompilerException("Break statement can only be used within for, while and switch blocks.");
+    		throw CompilerException(GGE1301_InvalidBreak);
     	}
     
     	$codeBlock = new CodeBlock();  
@@ -129,7 +132,7 @@ statement returns [CodeBlock* codeBlock]
     { 
     	if(!ctx->isInLoop)
     	{
-    		throw CompilerException("Continue statement can only be used within for and while blocks.");
+    		throw CompilerException(GGE1303_InvalidContinue);
     	}
     
     	$codeBlock = new CodeBlock();  
@@ -185,7 +188,7 @@ returnStatement returns [CodeBlock* codeBlock]
 
 	if(!ctx->isInFunction)
 	{
-		throw CompilerException("Return statement can only be used within functions.");
+		throw CompilerException(GGE1304_InvalidReturn);
 	}
 
 	$codeBlock->AddInstruction(new instructions::BreakInstruction(ctx->codeBlockLevel));
