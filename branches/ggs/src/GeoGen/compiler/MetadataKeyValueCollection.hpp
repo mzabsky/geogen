@@ -19,7 +19,7 @@ namespace geogen
 
 			inline void AddItem(std::string const& name, MetadataValue* value) {				
 				if(this->table.find(name) != this->table.end()){
-					throw CompilerException("Metadata entry " + name + " already defined.");
+					throw CompilerException(GGE1401_MetadataValueAlreadyDefined);
 				}
 
 				this->table[name] = value;

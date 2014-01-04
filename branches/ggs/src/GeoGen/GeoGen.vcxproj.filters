@@ -74,6 +74,8 @@
     <ClInclude Include="compiler\instructions\PopInstruction.hpp" />
     <ClInclude Include="compiler\instructions\StoreMemberValueInstruction.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
+    <ClInclude Include="GeoGenException.hpp" />
+    <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

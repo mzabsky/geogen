@@ -8,7 +8,7 @@ int main(){
 
 	geogen::compiler::Compiler compiler;
 	//HeightMap.Empty()        
-	geogen::compiler::CompiledScript script = compiler.CompileScript(std::string("\
+	geogen::compiler::CompiledScript const* script = compiler.CompileScript(std::string("\
 metadata {\
 StrItem: \"tralalal\",\
 StrNumber: 5,\

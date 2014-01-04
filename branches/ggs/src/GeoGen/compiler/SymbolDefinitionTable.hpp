@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 
+#include "../ErrorCode.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen 
@@ -24,7 +25,7 @@ namespace geogen
 			typedef typename std::map<std::string, TSymbolBase const*>::const_iterator const_iterator;
 			//typedef std::map<std::string, TSymbolBase*>::iterator iterator;
 
-			void MoveItemsFrom(SymbolDefinitionTable<TSymbolBase>& another)
+			/*void MoveItemsFrom(SymbolDefinitionTable<TSymbolBase>& another)
 			{
 				for (std::map<std::string, TSymbolBase*>::iterator it = another.table.begin(); it != another.table.end(); it++)
 				{
@@ -32,14 +33,14 @@ namespace geogen
 				}
 
 				another.table.clear();
-			}
+			}*/
 
 			inline TSymbolBase* GetItem(std::string const& name) 
 			{
 				std::map<std::string, TSymbolBase*>::iterator item = this->table.find(name);
 				
 				if(item == this->table.end()){
-					throw CompilerException("Symbol " + name + " not defined.");
+					return NULL;
 				}
 
 				return (*item).second;
@@ -50,7 +51,7 @@ namespace geogen
 				std::map<std::string, TSymbolBase*>::const_iterator item = this->table.find(name);
 				
 				if(item == this->table.end()){
-					throw CompilerException("Symbol " + name + " not defined.");
+					return NULL;
 				}
 
 				return (*item).second;
@@ -58,12 +59,14 @@ namespace geogen
 
 			inline bool ContainsItem(std::string const& name) const { return this->table.find(name) == this->table.end(); };
 
-			inline void AddItem(TSymbolBase* symbol) {				
+			inline bool AddItem(TSymbolBase* symbol) {				
 				if(this->table.find(symbol->GetName()) != this->table.end()){
-					throw CompilerException("Symbol " + symbol->GetName() + " already defined.");
+					return false;
 				}
 
 				this->table[symbol->GetName()] = symbol;
+
+				return true;
 			};
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
