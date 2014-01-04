@@ -147,7 +147,7 @@ expression:
 //prio14Operator: ;
 prio14Expression: prio13Expression (('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '|=' | '^=' | 'is')^ prio13Expression)*;	
 
-prio13Expression: prio12Expression ('?'^ prio13Expression ':' prio12Expression)*;
+prio13Expression: prio12Expression ('?'^ prio13Expression ':'! prio12Expression)*;
 
 prio12Operator: '||';
 prio12Expression: prio11Expression (prio12Operator^ prio11Expression)*;

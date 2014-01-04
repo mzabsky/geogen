@@ -17,7 +17,7 @@ using namespace geogen::compiler;
 
 Compiler::Compiler(){}
 
-const CompiledScript Compiler::CompileScript(std::string const& code) const
+const CompiledScript const* Compiler::CompileScript(std::string const& code) const
 {
 	/*GeoGenScriptLexer::InputStreamType input((const unsigned char*)code.c_str(), ANTLR_ENC_8BIT, code.length(), NULL);
 	GeoGenScriptLexer lxr(&input);
@@ -101,5 +101,5 @@ const CompiledScript Compiler::CompileScript(std::string const& code) const
 	lex->free(lex);
 	input->close(input);
 
-	return CompiledScript();
+	return script;
 }
