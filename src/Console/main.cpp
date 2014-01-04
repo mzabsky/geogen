@@ -64,6 +64,8 @@ lvalue2.fielda.fieldb = 1 + 2;\
 lvalue2[parama] = 1 + 2;\
 "));
 
+	std::cout << script->GetRootCodeBlock().ToString();
+
 /*
 
 */
