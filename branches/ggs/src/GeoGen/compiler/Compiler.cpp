@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include "Compiler.hpp"
-
 #include "../antlr3/antlr3.h"
 
 #include "../Grammar/output/GeoGenScriptLexer.h"
@@ -9,6 +7,9 @@
 #include "../Grammar/output/GeoGenScriptDecls.h"
 
 #include "instructions/IfInstruction.hpp"
+
+#include "Compiler.hpp"
+#include "AnlrRaiiWrappers.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -19,52 +20,38 @@ Compiler::Compiler(){}
 
 const CompiledScript const* Compiler::CompileScript(std::string const& code) const
 {
-	/*GeoGenScriptLexer::InputStreamType input((const unsigned char*)code.c_str(), ANTLR_ENC_8BIT, code.length(), NULL);
-	GeoGenScriptLexer lxr(&input);
+	auto_ptr<CompiledScript> script(new CompiledScript());
 
-	GeoGenScriptParser::TokenStreamType tstream(ANTLR_SIZE_HINT, lxr.get_tokSource() );
-	GeoGenScriptParser psr(&tstream);
+	AnlrInputStreamWrapper input ((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
+	AntlrLexerWrapper lex(input);	
+	AntlrTokenStreamWrapper tokens(ANTLR3_SIZE_HINT, lex);
+	AntlrParserWrapper parser(tokens);
 
-	psr.script();*/
+	GeoGenScriptParser_script_return r = parser.GetPtr()->script(parser.GetPtr());
 
-	CompiledScript* script = new CompiledScript();
-
-	pANTLR3_INPUT_STREAM input;
-	pGeoGenScriptLexer lex;
-	pANTLR3_COMMON_TOKEN_STREAM tokens;
-	pGeoGenScriptParser parser;
-
-	input = antlr3StringStreamNew((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
-	lex = GeoGenScriptLexerNew(input);	
-	tokens = antlr3CommonTokenStreamSourceNew(ANTLR3_SIZE_HINT, TOKENSOURCE(lex));
-	//pANTLR3_LIST list = antlr3ListNew(5);
-	//tokens->getTokensList(tokens, 0, 1, list);
-	parser = GeoGenScriptParserNew(tokens);
-
-	GeoGenScriptParser_script_return r = parser->script(parser);
-
-	if (parser->pParser->rec->state->errorCount > 0)
+	if (parser.GetPtr()->pParser->rec->state->errorCount > 0)
     {
-		fprintf(stderr, "The parser returned %d errors, tree walking aborted.\n", parser->pParser->rec->state->errorCount);
+		throw CompilerException(GGE1201_UnexpectedToken);
     }
     else
 	{
-	    pANTLR3_BASE_TREE tree = r.tree;
-	
-		pANTLR3_COMMON_TREE_NODE_STREAM	nodes = antlr3CommonTreeNodeStreamNewTree(tree, ANTLR3_SIZE_HINT);;
-		pGeoGenScriptDecls walker = GeoGenScriptDeclsNew(nodes);
-		walker->compiledScript = script;		
-		walker->vectors = antlr3VectorFactoryNew(0);
+		AntlrTreeNodeStreamWrapper nodes(r.tree, ANTLR3_SIZE_HINT);
+		AntlrVectorFactoryWrapper vectorFactory;
+		AntlrTreeWalkerWrapper walker(nodes);
+		
+		walker.GetPtr()->compiledScript = script.get();		
+		walker.GetPtr()->vectors = vectorFactory.GetPtr();
 
-		printf("Tree : %s\n", tree->toStringTree(tree)->chars);
+		//printf("Tree : %s\n", tree->toStringTree(tree)->chars);
 
-		walker->script(walker);
+		walker.GetPtr()->script(walker.GetPtr());
 
-		nodes->free(nodes);
+		if (script->GetMetadata() != NULL)
+		{
+			script->SetMetadata(new MetadataKeyValueCollection());
+		}
 
-		walker->free(walker);
-
-		cout << "=======================" << endl;
+		/*cout << "=======================" << endl;
 
 		std::string code = script->GetRootCodeBlock().ToString();
 
@@ -88,18 +75,8 @@ const CompiledScript const* Compiler::CompileScript(std::string const& code) con
 
 		for(SymbolNameTable::const_iterator i = script->GetSymbolNameTable().Begin(); i != script->GetSymbolNameTable().End(); i++){
 			std::cout << *i << std::endl;
-		}
-
-		if(script->GetMetadata() != NULL)
-		{
-			script->SetMetadata(new MetadataKeyValueCollection());
-		}
+		}*/
 	}
 
-	parser->free(parser);
-	tokens->free(tokens);
-	lex->free(lex);
-	input->close(input);
-
-	return script;
+	return script.release();
 }

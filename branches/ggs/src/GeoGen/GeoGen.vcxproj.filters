@@ -103,6 +103,7 @@
     <ClCompile Include="compiler\SymbolDefinitionTable.cpp" />
     <ClCompile Include="compiler\instructions\LoadNullInstruction.hpp" />
     <ClCompile Include="compiler\instructions\LoadMemberValueInstruction.hpp" />
+    <ClCompile Include="compiler\AnlrRaiiWrappers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
