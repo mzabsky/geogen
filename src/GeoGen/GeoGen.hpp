@@ -6,6 +6,7 @@
 #include "compiler/CompiledScript.hpp"
 #include "compiler/Compiler.hpp"
 #include "compiler/CompilerException.hpp"
+#include "compiler/ErrorCode.hpp"
 #include "compiler/FunctionDefinition.hpp"
 #include "compiler/MetadataKeyValueCollection.hpp"
 #include "compiler/MetadataBoolean.hpp"
