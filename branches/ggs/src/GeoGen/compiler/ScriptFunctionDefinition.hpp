@@ -26,9 +26,6 @@ namespace geogen
 
 			inline int GetParameterCount() const { return this->parameterCount; }
 
-			inline SymbolDefinitionTable<VariableDefinition> const& GetLocalVariableDefinitions() const { return this->localVariableDefinitions; }
-			inline SymbolDefinitionTable<VariableDefinition>& GetLocalVariableDefinitions() { return this->localVariableDefinitions; }			
-
 			inline CodeBlock& GetRootCodeBlock() { return this->rootCodeBlock; }
 			inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }
 		};
