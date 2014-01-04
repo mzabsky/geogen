@@ -73,6 +73,7 @@
     <ClInclude Include="Serializable.hpp" />
     <ClInclude Include="compiler\instructions\PopInstruction.hpp" />
     <ClInclude Include="compiler\instructions\StoreMemberValueInstruction.hpp" />
+    <ClInclude Include="ErrorCode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
