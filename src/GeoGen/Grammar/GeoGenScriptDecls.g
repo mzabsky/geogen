@@ -259,6 +259,8 @@ scope BlockScope;
 	{
 		whileCodeBlock.MoveInstructionsFrom(*incrementExpressionCodeBlock);
 		delete incrementExpressionCodeBlock;
+		
+		codeBlock->AddInstruction(new instructions::PopInstruction());
 	}
 	
 	codeBlock->AddInstruction(whileInstr);
