@@ -44,9 +44,9 @@ metadataKeyValueCollection returns [MetadataValue* value]
 @init {
 	MetadataKeyValueCollection* ret = new MetadataKeyValueCollection();
 	$value = ret;	
-} : ^(COLLECTION (metadataKeyValuePair { ret->AddItem($metadataKeyValuePair.name, $metadataKeyValuePair.value); })*);
+} : ^(COLLECTION (metadataKeyValuePair { ret->AddItem($metadataKeyValuePair.name, $metadataKeyValuePair.value); delete $metadataKeyValuePair.name; })*);
 	
-metadataKeyValuePair returns [std::string name, MetadataValue* value] @init{ $value = NULL; }: 
+metadataKeyValuePair returns [char* name, MetadataValue* value] @init{ $value = NULL; }: 
 	^(IDENTIFIER metadataKeyValueValue) { $name = (char*)$IDENTIFIER.text->chars; $value = $metadataKeyValueValue.value; }
 	| ^(NUMBER metadataKeyValueValue '@'?)  { $name = (char*)$NUMBER.text->chars; $value = $metadataKeyValueValue.value; };
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Number.hpp"
 #include "Instruction.hpp"
 
 namespace geogen 
@@ -11,9 +12,9 @@ namespace geogen
 			class LoadConstNumberInstruction : public Instruction
 			{
 			private:
-				int constNumber;
+				Number constNumber;
 			public:				
-				LoadConstNumberInstruction(int constNumber) 
+				LoadConstNumberInstruction(Number constNumber) 
 				{
 					this->constNumber = constNumber;
 				}

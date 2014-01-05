@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>geogen</TargetName>
+    <TargetName>geogend</TargetName>
     <OutDir>$(SolutionDir)/../bin/</OutDir>
     <IncludePath>$(SolutionDir)/antlr3cpp;$(SolutionDir)/libfi/include;$(SolutionDir)/antlr3;$(SolutionDir)/Cpp-FixedPoint/src/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -57,6 +57,8 @@
     </Link>
     <Lib>
       <OutputFile>$(SolutionDir)/../bin/geogend.lib</OutputFile>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,11 +131,10 @@
     <ClCompile Include="compiler\CompiledScript.cpp" />
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="compiler\instructions\IfInstruction.cpp" />
-    <ClCompile Include="compiler\instructions\LoadMemberValueInstruction.hpp" />
-    <ClCompile Include="compiler\instructions\LoadNullInstruction.hpp" />
+    <ClInclude Include="compiler\instructions\LoadMemberValueInstruction.hpp" />
+    <ClInclude Include="compiler\instructions\LoadNullInstruction.hpp" />
     <ClCompile Include="compiler\instructions\WhileInstruction.cpp" />
-    <ClCompile Include="compiler\AnlrRaiiWrappers.hpp" />
-    <ClCompile Include="compiler\SymbolDefinitionTable.cpp" />
+    <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="compiler\SymbolNameTable.cpp" />
     <ClCompile Include="Generator.cpp" />
