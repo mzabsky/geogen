@@ -5,11 +5,8 @@
 
 int main(){
 	geogen::Generator g(5);
-
-	geogen::compiler::Compiler compiler;
-	//HeightMap.Empty()        
-	geogen::compiler::CompiledScript const* script = compiler.CompileScript(std::string("\
-metadata {\
+	/*
+	metadata {\
 StrItem: \"tralalal\",\
 StrNumber: 5,\
 StrSymbol: Symbol,\
@@ -18,6 +15,11 @@ KeyValSymbol: \
 		SybSymbol: \"aaaa\"\
 	}\
 }\
+	*/
+	geogen::compiler::Compiler compiler;
+	//HeightMap.Empty()        
+	geogen::compiler::CompiledScript const* script = compiler.CompileScript(std::string("\
+\
 function aaa(x, y){\
 	1+4;\
 	return;\

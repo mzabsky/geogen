@@ -34,7 +34,26 @@ options {
 }
 
 
-tokens { SCRIPT; COLLECTION; DECLARATIONS; BLOCK; PARAMETERS; COORDINATE; IDENTCHAIN; OPERATOR_CALL; OPERATOR_SUBSCRIPT; INITIALIZATION_EXPRESSION; CONDITION_EXPRESSION; INCREMENT_EXPRESSION;}
+tokens { 
+	SCRIPT; 
+	COLLECTION; 
+	DECLARATIONS; 
+	BLOCK; 
+	PARAMETERS; 
+	COORDINATE; 
+	IDENTCHAIN; 
+	OPERATOR_CALL; 
+	OPERATOR_SUBSCRIPT; 
+	INITIALIZATION_EXPRESSION; 
+	CONDITION_EXPRESSION; 
+	INCREMENT_EXPRESSION; 
+	OPERATOR_INCREMENT_POST; 
+	OPERATOR_INCREMENT_PRE; 
+	OPERATOR_DECREMENT_POST; 
+	OPERATOR_DECREMENT_PRE; 
+	OPERATOR_MINUS_UN;
+	OPERATOR_PLUS_UN;
+}
 
 /*
 @lexer::namespace {
@@ -181,9 +200,9 @@ prio3Expression: prio2Expression (('*' | '/' | '%')^ prio2Expression)*;
 
 //prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
 //prio2PostfixOperator: '++' | '--';
-//prio2Expression: prio2PrefixOperator* prio1Expression prio2PostfixOperator*;  
-prio2Expression
-	:	 prio1Expression;
+prio2Expression: prio1Expression;//(('++' -> OPERATOR_INCREMENT_PRE)/*| '--'  | '!' | '+' | '-'*/)* prio1Expression (('++' -> OPERATOR_INCREMENT_POST))*;  
+//prio2Expression
+//	:	 prio1Expression;
 //prio2Expression: prio1Expression (('++' | '--' | '!') prio1Expression)*;
 
 //prio2Expression:	('++' | '--' | '!' | '+' | '-')? prio1Expression ('++' | '--' | '!' | '+' | '-')?;
