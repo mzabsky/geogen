@@ -52,7 +52,6 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EntryPointSymbol>main</EntryPointSymbol>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(SolutionDir)/../bin/geogen.exe</OutputFile>
       <AdditionalDependencies>geogend.lib;antlr3d.lib;%(AdditionalDependencies)</AdditionalDependencies>

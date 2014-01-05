@@ -9,7 +9,7 @@
 #include "instructions/IfInstruction.hpp"
 
 #include "Compiler.hpp"
-#include "AnlrRaiiWrappers.hpp"
+#include "AntlrRaiiWrappers.hpp"
 
 using namespace std;
 using namespace geogen;
