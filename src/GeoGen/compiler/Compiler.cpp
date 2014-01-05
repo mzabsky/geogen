@@ -18,7 +18,7 @@ using namespace geogen::compiler;
 
 Compiler::Compiler(){}
 
-const CompiledScript const* Compiler::CompileScript(std::string const& code) const
+CompiledScript const* Compiler::CompileScript(std::string const& code) const
 {
 	auto_ptr<CompiledScript> script(new CompiledScript());
 
