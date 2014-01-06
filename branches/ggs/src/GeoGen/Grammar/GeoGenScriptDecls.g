@@ -20,6 +20,8 @@ scope BlockScope
 	using namespace std;
 	using namespace geogen;
 	using namespace geogen::compiler;
+	
+	void handleTreeWalkerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames);
 }
 
 
@@ -34,6 +36,38 @@ scope BlockScope
 	int codeBlockLevel = 0;
 }
 
+
+@apifuncs {
+	RECOGNIZER->displayRecognitionError = handleTreeWalkerError;
+}
+
+@members {
+    	void handleTreeWalkerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames) { 
+    	    pANTLR3_EXCEPTION ex = recognizer->state->exception;
+    	    pANTLR3_BASE_TREE currentTree = (pANTLR3_BASE_TREE)(recognizer->state->exception->token);
+    	    
+    	    // Char pos odlisna pro tree parser
+    	    CodeLocation location(recognizer->state->exception->line, currentTree->getCharPositionInLine(currentTree));
+    	    
+    	    string expectedTokenName = "";
+    	    if(ex->expecting == ANTLR3_TOKEN_EOF)
+    	    {
+    	    	expectedTokenName = "EOF";
+    	    }
+			else if (ex->expecting > 0)
+    	    {
+    	    	expectedTokenName = (char*)tokenNames[ex->expecting];
+    	    }
+    	    
+    	    throw UnexpectedTokenException(GGE1201_UnexpectedToken, location, expectedTokenName/*, currentTokenName, currentTokenText*/);
+    	    
+    	    /*switch  (ex->type)
+    	    {
+    		case:			    
+    		    throw GeoGenException(GGE1201_UnexpectedToken); 
+    	    }*/
+    	 }
+}
 
 
 script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block) { ctx->compiledScript->GetRootCodeBlock().MoveInstructionsFrom(*$block.returnCodeBlock); delete $block.returnCodeBlock; };

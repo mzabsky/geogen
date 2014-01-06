@@ -25,7 +25,7 @@ namespace geogen
 			virtual std::string GetDetailMessage()
 			{
 				std::stringstream ss;
-				ss << "Unexpected token at line " << location.GetLine() << ", column " << location.GetColumn() << ", got " << expectedTokenName << "." << std::endl;
+				ss << "Unexpected token at line " << location.GetLine() << ", column " << location.GetColumn() << ", got " << expectedTokenName << ".";
 				return ss.str();
 			}
 		};

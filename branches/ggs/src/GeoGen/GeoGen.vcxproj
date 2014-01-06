@@ -101,6 +101,7 @@
     <ClInclude Include="compiler\instructions\WhileInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsMainInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsNamedInstruction.hpp" />
+    <ClInclude Include="InternalErrorException.hpp" />
     <ClInclude Include="compiler\MetadataBoolean.hpp" />
     <ClInclude Include="compiler\MetadataIdentifier.hpp" />
     <ClInclude Include="compiler\MetadataNumber.hpp" />
