@@ -55,6 +55,90 @@ tokens {
 	OPERATOR_PLUS_UN;
 }
 
+@includes {
+	#include <memory>
+	#include <stdexcept>
+
+	#include "../../GeoGen.hpp"
+	using namespace std;
+	using namespace geogen;
+	using namespace geogen::compiler;
+	
+	void handleParserError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames);
+}
+
+
+@lexer::includes {
+	#include <memory>
+	#include <stdexcept>
+
+	#include "../../GeoGen.hpp"
+	using namespace std;
+	using namespace geogen;
+	using namespace geogen::compiler;
+	
+	void handleLexerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames);
+}
+
+@lexer::apifuncs {
+	RECOGNIZER->displayRecognitionError = handleLexerError;
+}
+
+@lexer::members {
+	void handleLexerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames) { 
+	    throw GeoGenException(GGE1101_UnexpectedCharacter); 
+	} 
+}
+
+@parser::apifuncs {
+	RECOGNIZER->displayRecognitionError = handleParserError;
+}
+
+@parser::members {
+    	void handleParserError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames) { 
+    	    pANTLR3_EXCEPTION ex = recognizer->state->exception;
+    	    pANTLR3_COMMON_TOKEN currentToken = (pANTLR3_COMMON_TOKEN)(recognizer->state->exception->token);
+    	    
+    	    // Char pos odlisna pro tree parser
+    	    CodeLocation location(recognizer->state->exception->line, recognizer->state->exception->charPositionInLine);
+
+    	    /*string currentTokenName = "";
+    	    string currentTokenText = "";
+			if (currentToken != NULL)
+			{
+				if (currentToken->type == ANTLR3_TOKEN_EOF)
+				{
+					currentTokenName = "EOF";
+					currentTokenText = "<EOF>";
+				}
+				else
+				{
+					currentTokenName = (char*)tokenNames[currentToken->type];
+					currentTokenText = (char*)currentToken->tokText.text->chars;
+
+				}
+
+			}*/
+    	    string expectedTokenName = "";
+    	    if(ex->expecting == ANTLR3_TOKEN_EOF)
+    	    {
+    	    	expectedTokenName = "EOF";
+    	    }
+			else if (ex->expecting > 0)
+    	    {
+    	    	expectedTokenName = (char*)tokenNames[ex->expecting];
+    	    }
+    	    
+    	    throw UnexpectedTokenException(GGE1201_UnexpectedToken, location, expectedTokenName/*, currentTokenName, currentTokenText*/);
+    	    
+    	    /*switch  (ex->type)
+    	    {
+    		case:			    
+    		    throw GeoGenException(GGE1201_UnexpectedToken); 
+    	    }*/
+    	 }
+}
+
 /*
 @lexer::namespace {
     geogen_generated
@@ -88,7 +172,7 @@ tokens {
 }*/
 
 
-script: (decls+=declaration)* (metadata (stmts+=statement | decls+=declaration)* | stmts+=statement (stmts+=statement | decls+=declaration)*)? -> ^(SCRIPT metadata ^(DECLARATIONS $decls*) ^(BLOCK $stmts*));
+script: (decls+=declaration)* (metadata (stmts+=statement | decls+=declaration)* | stmts+=statement (stmts+=statement | decls+=declaration)*)? EOF -> ^(SCRIPT metadata ^(DECLARATIONS $decls*) ^(BLOCK $stmts*));
         
 metadata: 'metadata' keyValueCollection -> ^('metadata' keyValueCollection);
 

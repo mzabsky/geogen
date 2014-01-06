@@ -26,10 +26,11 @@ KeyValSymbol: \
 		code << temp << std::endl;
 	}
 
+	std::string codeString = code.str();
 
 	geogen::compiler::Compiler compiler;
 	//HeightMap.Empty()        
-	geogen::compiler::CompiledScript const* script = compiler.CompileScript(code.str());
+	geogen::compiler::CompiledScript const* script = compiler.CompileScript(codeString);
 
 	std::cout << script->GetRootCodeBlock().ToString();
 
