@@ -10,33 +10,30 @@
 
 namespace geogen
 {
-	namespace compiler
+	class GeoGenException : std::exception
 	{
-		class GeoGenException : std::exception
+	private:
+		ErrorCode code;
+		std::string message;
+	public:
+		explicit GeoGenException(ErrorCode code) : code(code)
 		{
-		private:
-			ErrorCode code;
-			std::string message;
-		public:
-			explicit GeoGenException(ErrorCode code) : code(code)
-			{
-				std::stringstream ss;
-				ss << "GeoGen error GGE" << (int)code << ". See GetDetailMessage for additional information." << std::endl;
+			std::stringstream ss;
+			ss << "GeoGen error GGE" << (int)code << ". See GetDetailMessage for additional information." << std::endl;
 
-				message = ss.str();
-			}
+			message = ss.str();
+		}
 
-			virtual const char* what() const
-			{
-				return this->message.c_str();
-			}
+		virtual const char* what() const
+		{
+			return this->message.c_str();
+		}
 
-			ErrorCode GetErrorCode()
-			{
-				return this->code;
-			}
+		ErrorCode GetErrorCode()
+		{
+			return this->code;
+		}
 
-			virtual std::string GetDetailMessage() { return ""; }
-		};
-	}
+		virtual std::string GetDetailMessage() { return ""; }
+	};
 }
