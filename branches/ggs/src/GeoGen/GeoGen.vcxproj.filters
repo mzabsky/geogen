@@ -79,6 +79,8 @@
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClInclude Include="compiler\instructions\LoadNullInstruction.hpp" />
     <ClInclude Include="compiler\instructions\LoadMemberValueInstruction.hpp" />
+    <ClInclude Include="CodeLocation.hpp" />
+    <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

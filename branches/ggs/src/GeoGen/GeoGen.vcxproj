@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\CodeBlock.hpp" />
     <ClInclude Include="compiler\CompiledScript.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="compiler\SymbolNameTable.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\TypeDefinition.hpp" />
+    <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="compiler\VariableDefinition.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
     <ClInclude Include="Generator.hpp" />

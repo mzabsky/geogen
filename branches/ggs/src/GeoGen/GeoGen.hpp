@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CodeLocation.hpp"
 #include "ErrorCode.hpp"
 #include "Generator.hpp"
 #include "Number.hpp"
@@ -21,6 +22,7 @@
 #include "compiler/SymbolNameTable.hpp"
 #include "compiler/SymbolRedefinitionException.hpp"
 #include "compiler/TypeDefinition.hpp"
+#include "compiler/UnexpectedTokenException.hpp"
 #include "compiler/VariableDefinition.hpp"
 
 #include "compiler/instructions/Instruction.hpp"
