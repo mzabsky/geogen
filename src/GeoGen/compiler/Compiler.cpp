@@ -2,6 +2,8 @@
 
 #include "../antlr3/antlr3.h"
 
+#include "../InternalErrorException.hpp"
+
 #include "../Grammar/output/GeoGenScriptLexer.h"
 #include "../Grammar/output/GeoGenScriptParser.h"
 #include "../Grammar/output/GeoGenScriptDecls.h"
@@ -31,7 +33,8 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 
 	if (parser.GetPtr()->pParser->rec->state->errorCount > 0)
     {
-		throw CompilerException(GGE1201_UnexpectedToken);
+		// This error should already have caused an exception in the parser.
+		throw InternalErrorException("Unreported parser error.");
     }
     else
 	{
@@ -45,6 +48,12 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 		printf("Tree : %s\n", r.tree->toStringTree(r.tree)->chars);
 
 		walker.GetPtr()->script(walker.GetPtr());
+
+		if (walker.GetPtr()->pTreeParser->rec->state->errorCount > 0)
+		{
+			// This error should already have caused an exception in the tree walker.
+			throw InternalErrorException("Unreported tree walker error.");
+		}
 
 		if (script->GetMetadata() != NULL)
 		{

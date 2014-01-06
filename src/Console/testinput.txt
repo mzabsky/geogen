@@ -41,3 +41,5 @@ lvalue2.fielda.fieldb = 1 + 2;
 lvalue2[parama] = 1 + 2;
 
 end = 1 + 2 + 3 + 4 + 5;
+
+alala(aa) = a;

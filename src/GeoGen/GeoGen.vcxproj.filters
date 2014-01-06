@@ -81,6 +81,7 @@
     <ClInclude Include="compiler\instructions\LoadMemberValueInstruction.hpp" />
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
+    <ClInclude Include="InternalErrorException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
