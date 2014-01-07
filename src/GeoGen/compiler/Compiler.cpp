@@ -60,6 +60,8 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 			script->SetMetadata(new MetadataKeyValueCollection());
 		}
 
+		ScriptFunctionDefinition* code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"));
+
 		/*cout << "=======================" << endl;
 
 		std::string code = script->GetRootCodeBlock().ToString();
@@ -67,7 +69,7 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 		cout << code << endl;
 		cout << "=======================" << endl;
 
-		std::string code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"))->GetRootCodeBlock().ToString();
+		
 
 		cout << code2 << endl;
 		cout << "=======================" << endl;

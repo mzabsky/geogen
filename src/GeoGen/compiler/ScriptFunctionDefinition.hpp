@@ -7,6 +7,7 @@
 #include "VariableDefinition.hpp"
 #include "SymbolDefinitionTable.hpp"
 #include "CodeBlock.hpp"
+#include "../CodeLocation.hpp"
 
 namespace geogen 
 {
@@ -18,11 +19,14 @@ namespace geogen
 			int parameterCount;
 			SymbolDefinitionTable<VariableDefinition> localVariableDefinitions;
 			CodeBlock rootCodeBlock;
+			CodeLocation location;
 		public:
-			ScriptFunctionDefinition(std::string const& name, int parameterCount) : FunctionDefinition(name) 
+			ScriptFunctionDefinition(std::string const& name, CodeLocation location, int parameterCount) 
+				: FunctionDefinition(name), location(location), parameterCount(parameterCount)
 			{
-				this->parameterCount = parameterCount;
 			}
+
+			inline CodeLocation GetLocation() const { this->location; }
 
 			inline int GetParameterCount() const { return this->parameterCount; }
 

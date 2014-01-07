@@ -1,4 +1,11 @@
-function aaa(x, y){
+
+
+
+
+
+
+
+    function aaa(x, y){
 	1+4;
 	return;
 		return 5;
@@ -14,8 +21,6 @@ yield HeightMap.Empty();
 if(2 == 3){
 yield HeightMap.Empty();
 }
-
-break;
 
 if (2 == 3){
 
@@ -43,5 +48,3 @@ lvalue2.fielda.fieldb = 1 + 2;
 lvalue2[parama] = 1 + 2;
 
 end = 1 + 2 + 3 + 4 + 5;
-
-alala(aa) = a;
