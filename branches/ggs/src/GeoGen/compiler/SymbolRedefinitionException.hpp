@@ -14,8 +14,8 @@ namespace geogen
 		private:
 			std::string symbolName;
 		public:
-			explicit SymbolRedefinitionException(ErrorCode code, std::string const& symbolName) :
-				CompilerException(code), symbolName(symbolName) {};
+			explicit SymbolRedefinitionException(ErrorCode code, CodeLocation location, std::string const& symbolName) :
+				CompilerException(code, location), symbolName(symbolName) {};
 
 			inline std::string GetSymbolName() const { return this->symbolName; }
 

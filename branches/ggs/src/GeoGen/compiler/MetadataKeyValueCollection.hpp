@@ -17,12 +17,14 @@ namespace geogen
 		public:
 			typedef std::map<std::string, MetadataValue const*>::const_iterator const_iterator;
 
-			inline void AddItem(std::string const& name, MetadataValue* value) {				
+			inline bool AddItem(std::string const& name, MetadataValue* value) {				
 				if(this->table.find(name) != this->table.end()){
-					throw CompilerException(GGE1401_MetadataValueAlreadyDefined);
+					return false;
 				}
 
 				this->table[name] = value;
+
+				return true;
 			};
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }

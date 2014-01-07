@@ -78,7 +78,15 @@ metadataKeyValueCollection returns [MetadataValue* value]
 @init {
 	MetadataKeyValueCollection* ret = new MetadataKeyValueCollection();
 	$value = ret;	
-} : ^(COLLECTION (metadataKeyValuePair { ret->AddItem($metadataKeyValuePair.name, $metadataKeyValuePair.value); delete $metadataKeyValuePair.name; })*);
+} : ^(COLLECTION (metadataKeyValuePair 
+	{ 
+		if(!ret->AddItem($metadataKeyValuePair.name, $metadataKeyValuePair.value))
+		{
+			CodeLocation location($COLLECTION.line, $COLLECTION.pos);
+			throw CompilerException(GGE1401_MetadataValueAlreadyDefined, location);
+		}
+		delete $metadataKeyValuePair.name; 
+	})*);
 	
 metadataKeyValuePair returns [char* name, MetadataValue* value] @init{ $value = NULL; }: 
 	^(IDENTIFIER metadataKeyValueValue) { $name = (char*)$IDENTIFIER.text->chars; $value = $metadataKeyValueValue.value; }
@@ -111,7 +119,7 @@ functionDeclaration
 //scope { SymbolDefinitionTable<VariableDefinition>* localVariableDefinitions }
 @init { ctx->isInFunction = true; /*functionDeclaration::localVariableDefinitions = new SymbolDefinitionTable<VariableDefinition>();*/}
 @after { ctx->isInFunction = false; /*functionDeclaration::localVariableDefinitions = NULL;*/ }
-: ^('function' name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block)
+: ^(FUNCTION name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block)
 {
 	ScriptFunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, $formalParameters != NULL ? $formalParameters->count : 0);
 
@@ -142,7 +150,8 @@ functionDeclaration
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
 
 	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl)){
-		throw SymbolRedefinitionException(GGE1306_FunctionAlreadyDefined, decl->GetName());
+		CodeLocation location($FUNCTION.line, $FUNCTION.pos);
+		throw SymbolRedefinitionException(GGE1306_FunctionAlreadyDefined, location, decl->GetName());
 	}
         
         ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
@@ -160,7 +169,8 @@ statement returns [CodeBlock* returnCodeBlock]
     { 
     	if(!ctx->isInLoop)
     	{
-    		throw CompilerException(GGE1301_InvalidBreak);
+		CodeLocation location($BREAK.line, $BREAK.pos);
+    		throw CompilerException(GGE1301_InvalidBreak, location);
     	}
     
     	$returnCodeBlock = new CodeBlock();  
@@ -170,7 +180,8 @@ statement returns [CodeBlock* returnCodeBlock]
     { 
     	if(!ctx->isInLoop)
     	{
-    		throw CompilerException(GGE1303_InvalidContinue);
+		CodeLocation location($CONTINUE.line, $CONTINUE.pos);
+    		throw CompilerException(GGE1303_InvalidContinue, location);
     	}
     
     	$returnCodeBlock = new CodeBlock();  
@@ -226,7 +237,8 @@ returnStatement returns [CodeBlock* returnCodeBlock]
 
 	if(!ctx->isInFunction)
 	{
-		throw CompilerException(GGE1304_InvalidReturn);
+		CodeLocation location($RETURN.line, $RETURN.pos);
+		throw CompilerException(GGE1304_InvalidReturn, location);
 	}
 
 	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(ctx->codeBlockLevel));
