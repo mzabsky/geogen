@@ -121,7 +121,8 @@ functionDeclaration
 @after { ctx->isInFunction = false; /*functionDeclaration::localVariableDefinitions = NULL;*/ }
 : ^(FUNCTION name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block)
 {
-	ScriptFunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, $formalParameters != NULL ? $formalParameters->count : 0);
+	CodeLocation location($FUNCTION.line, $FUNCTION.pos);
+	ScriptFunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, location, $formalParameters != NULL ? $formalParameters->count : 0);
 
 	//SymbolDefinitionTable<VariableDefinition>& varDecls = decl->GetLocalVariableDefinitions();	
 	
@@ -150,7 +151,6 @@ functionDeclaration
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
 
 	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl)){
-		CodeLocation location($FUNCTION.line, $FUNCTION.pos);
 		throw SymbolRedefinitionException(GGE1306_FunctionAlreadyDefined, location, decl->GetName());
 	}
         
