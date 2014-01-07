@@ -200,8 +200,8 @@ formalParameters: IDENTIFIER (',' IDENTIFIER)* -> IDENTIFIER*;
 block: '{' statement* '}' -> ^(BLOCK statement*);
 
 statement:     
-    'break' ';' -> BREAK
-    | 'continue' ';' -> CONTINUE
+    BREAK ';'!
+    | CONTINUE ';'!
     | variableDeclaration ';' -> variableDeclaration
     | expression ';' -> expression
     | yieldStatement ';' -> yieldStatement

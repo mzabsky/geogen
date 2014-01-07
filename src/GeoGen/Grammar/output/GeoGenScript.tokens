@@ -124,9 +124,7 @@ YIELD=92
 '^'=49
 '^='=46
 'as'=4
-'break'=7
 'case'=8
-'continue'=14
 'default'=17
 'else'=18
 'enum'=19
