@@ -2,18 +2,18 @@
 
 #include <string>
 
-#include "../compiler/TypeDefinition.hpp"
+#include "TypeDefinition.hpp"
 
 namespace geogen 
 {
 	namespace runtime 
 	{
-		class DynamicObjectTypeDefinition : public compiler::TypeDefinition
+		class DynamicObjectTypeDefinition : public TypeDefinition
 		{
 		private:
-			compiler::TypeDefinition const* type;
+			TypeDefinition const* type;
 		public:
-			DynamicObjectTypeDefinition() : compiler::TypeDefinition("DynamicObject") { }
+			DynamicObjectTypeDefinition() : TypeDefinition("DynamicObject") { }
 		};
 	}
 }
