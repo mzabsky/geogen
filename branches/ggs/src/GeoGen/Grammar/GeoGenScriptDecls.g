@@ -79,7 +79,17 @@ scope BlockScope
 		delete e2;
 		
 		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)operatorToken->getText(operatorToken)->chars), 2));
-	}    	 
+	}
+	
+	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, std::string const& text, CodeBlock* e1, CodeBlock* returnCodeBlock)
+	{
+		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
+	
+		returnCodeBlock->MoveInstructionsFrom(*e1); 
+		delete e1; 		
+		
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(text), 1));
+	}    	     	 
 }
 
 
@@ -423,6 +433,13 @@ expression returns [CodeBlock* returnCodeBlock]
 	| ^(op='*' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| ^(op='/' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| ^(op='%' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_INCREMENT_PRE e1=expression) { unaryOperator(ctx, $op, "++pre", $e1.returnCodeBlock, $returnCodeBlock);}	
+	| ^(op=OPERATOR_INCREMENT_POST e1=expression) { unaryOperator(ctx, $op, "++post", $e1.returnCodeBlock, $returnCodeBlock);}		
+	| ^(op=OPERATOR_DECREMENT_PRE e1=expression) { unaryOperator(ctx, $op, "--pre", $e1.returnCodeBlock, $returnCodeBlock);}	
+	| ^(op=OPERATOR_DECREMENT_POST e1=expression) { unaryOperator(ctx, $op, "--post", $e1.returnCodeBlock, $returnCodeBlock);}				
+	| ^(op=OPERATOR_PLUS_UN e1=expression) { unaryOperator(ctx, $op, "+un", $e1.returnCodeBlock, $returnCodeBlock);}				
+	| ^(op=OPERATOR_MINUS_UN e1=expression) { unaryOperator(ctx, $op, "-un", $e1.returnCodeBlock, $returnCodeBlock);}					
+	| ^(op=OPERATOR_NOT e1=expression) { unaryOperator(ctx, $op, "!", $e1.returnCodeBlock, $returnCodeBlock);}						
 	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
 	{ 
 		CodeLocation location($OPERATOR_DOT.line, $OPERATOR_DOT.pos);
