@@ -33,7 +33,7 @@ namespace geogen
 			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const = 0;
 			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
 
-			virtual DynamicObject* Copy(DynamicObject const* a) const = 0;
+			virtual DynamicObject* Copy(DynamicObject* a) const = 0;
 		};
 	}
 }

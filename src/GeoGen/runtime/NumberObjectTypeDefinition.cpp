@@ -42,7 +42,7 @@ bool NumberObjectTypeDefinition::InstanceEqualsTo(DynamicObject const* a, Dynami
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* NumberObjectTypeDefinition::Copy(DynamicObject const* a) const
+DynamicObject* NumberObjectTypeDefinition::Copy(DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{

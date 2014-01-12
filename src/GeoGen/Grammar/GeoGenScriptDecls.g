@@ -47,7 +47,6 @@ scope BlockScope
     	    pANTLR3_EXCEPTION ex = recognizer->state->exception;
     	    pANTLR3_BASE_TREE currentTree = (pANTLR3_BASE_TREE)(recognizer->state->exception->token);
     	    
-    	    // Char pos odlisna pro tree parser
     	    CodeLocation location(recognizer->state->exception->line, currentTree->getCharPositionInLine(currentTree));
     	    
     	    string expectedTokenName = "";
