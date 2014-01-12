@@ -3,12 +3,11 @@
 #include <string>
 #include <map>
 
-#include "CompilerException.hpp"
 #include "MetadataValue.hpp"
 
 namespace geogen 
 {
-	namespace compiler 
+	namespace runtime
 	{
 		class MetadataKeyValueCollection : public MetadataValue
 		{

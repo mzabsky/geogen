@@ -6,9 +6,6 @@
     <ClInclude Include="compiler\Compiler.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
-    <ClInclude Include="compiler\CompiledScript.hpp">
-      <Filter>compiler</Filter>
-    </ClInclude>
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h">
       <Filter>compiler\generated</Filter>
     </ClInclude>
@@ -23,14 +20,7 @@
     </ClInclude>
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
-    <ClInclude Include="compiler\MetadataValue.hpp" />
-    <ClInclude Include="compiler\MetadataKeyValueCollection.hpp" />
-    <ClInclude Include="compiler\MetadataSimpleCollection.hpp" />
     <ClInclude Include="Number.hpp" />
-    <ClInclude Include="compiler\MetadataNumber.hpp" />
-    <ClInclude Include="compiler\MetadataString.hpp" />
-    <ClInclude Include="compiler\MetadataBoolean.hpp" />
-    <ClInclude Include="compiler\MetadataIdentifier.hpp" />
     <ClInclude Include="Serializable.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
     <ClInclude Include="GeoGenException.hpp" />
@@ -65,6 +55,15 @@
     <ClInclude Include="runtime\instructions\LoadNullInstruction.hpp" />
     <ClInclude Include="runtime\instructions\Instruction.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
+    <ClInclude Include="runtime\VirtualMachine.hpp" />
+    <ClInclude Include="runtime\CompiledScript.hpp" />
+    <ClInclude Include="runtime\MetadataBoolean.hpp" />
+    <ClInclude Include="runtime\MetadataIdentifier.hpp" />
+    <ClInclude Include="runtime\MetadataKeyValueCollection.hpp" />
+    <ClInclude Include="runtime\MetadataNumber.hpp" />
+    <ClInclude Include="runtime\MetadataSimpleCollection.hpp" />
+    <ClInclude Include="runtime\MetadataString.hpp" />
+    <ClInclude Include="runtime\MetadataValue.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

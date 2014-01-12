@@ -7,7 +7,7 @@
 
 namespace geogen 
 {
-	namespace compiler 
+	namespace runtime
 	{
 		class MetadataNumber : public MetadataValue
 		{
