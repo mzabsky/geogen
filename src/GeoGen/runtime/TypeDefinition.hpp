@@ -11,7 +11,6 @@ namespace geogen
 	namespace runtime
 	{
 		class DynamicObject;
-		class VirtualMachine;
 
 		class TypeDefinition
 		{
@@ -34,7 +33,7 @@ namespace geogen
 			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const = 0;
 			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
 
-			virtual bool Copy(VirtualMachine& vm, DynamicObject const* a) const = 0;
+			virtual DynamicObject* Copy(DynamicObject const* a) const = 0;
 		};
 	}
 }
