@@ -145,6 +145,7 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="runtime\CodeBlock.cpp" />
+    <ClCompile Include="runtime\DynamicObject.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />

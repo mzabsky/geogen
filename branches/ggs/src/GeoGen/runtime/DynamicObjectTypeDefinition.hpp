@@ -13,7 +13,7 @@ namespace geogen
 		private:
 			TypeDefinition const* type;
 		public:
-			DynamicObjectTypeDefinition() : TypeDefinition("DynamicObject") { }
+			DynamicObjectTypeDefinition() : TypeDefinition("Object") { }
 		};
 	}
 }
