@@ -45,13 +45,9 @@
     <ClInclude Include="compiler\CodeBlock.hpp" />
     <ClInclude Include="compiler\instructions\LoadConstNumberInstruction.hpp" />
     <ClInclude Include="compiler\instructions\LoadConstStringInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\LoadGlobalValueInstruction.hpp" />
     <ClInclude Include="compiler\instructions\StoreGlobalValueInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\LoadLocalValueInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\StoreLocalValueInstruction.hpp" />
     <ClInclude Include="compiler\instructions\CallMemberInstruction.hpp" />
     <ClInclude Include="compiler\instructions\CallGlobalInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\ReturnInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsNamedInstruction.hpp" />
     <ClInclude Include="compiler\instructions\YieldAsMainInstruction.hpp" />
     <ClInclude Include="compiler\instructions\IfInstruction.hpp" />
@@ -82,6 +78,7 @@
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
+    <ClInclude Include="compiler\instructions\LoadGlobalValueInstruction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
