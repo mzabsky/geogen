@@ -3,7 +3,8 @@
 #include <string>
 #include <functional>
 
-#include "../compiler/TypeDefinition.hpp"
+#include "TypeDefinition.hpp"
+#include "VirtualMachine.hpp"
 
 namespace geogen 
 {
@@ -12,10 +13,12 @@ namespace geogen
 		class DynamicObject
 		{
 		private:
-			compiler::TypeDefinition const* type;
+			TypeDefinition const* type;
+
+			int refCount = 0;
 		public:
-			DynamicObject(compiler::TypeDefinition const* type) { this->type = type; }
-			inline compiler::TypeDefinition const* GetType() const { return this->type; };
+			DynamicObject(TypeDefinition const* type) { this->type = type; }
+			inline TypeDefinition const* GetType() const { return this->type; };
 
 			inline bool operator<(const DynamicObject* rhs) 
 			{
@@ -32,10 +35,11 @@ namespace geogen
 				return !(this < other) && !(this > other);
 			}
 
-			virtual DynamicObject* Copy()
-			{
-				
-			}
+			void AddRef(VirtualMachine& vm);
+			void RemoveRef(VirtualMachine& vm);
+			inline void GetRefCount();
+
+			virtual DynamicObject* Copy(VirtualMachine& vm, DynamicObject* object);
 		};
 	}
 }
