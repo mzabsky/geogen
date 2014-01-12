@@ -14,7 +14,7 @@ namespace geogen
 			private:
 				Number constNumber;
 			public:				
-				LoadConstNumberInstruction(Number constNumber) 
+				LoadConstNumberInstruction(CodeLocation location, Number constNumber) : Instruction(location)
 				{
 					this->constNumber = constNumber;
 				}

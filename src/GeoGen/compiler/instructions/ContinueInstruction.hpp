@@ -13,7 +13,7 @@ namespace geogen
 			private:
 				int codeBlockCount;
 			public:				
-				ContinueInstruction(int codeBlockCount) 
+				ContinueInstruction(CodeLocation location, int codeBlockCount) : Instruction(location)
 				{
 					this->codeBlockCount = codeBlockCount;
 				}

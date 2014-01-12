@@ -13,7 +13,9 @@ namespace geogen
 			{
 			private:
 				CodeBlock codeBlock;
-			public:				
+			public:
+				WhileInstruction(CodeLocation location) : Instruction(location) {};
+
 				virtual void Serialize(std::iostream& stream) const;
 
 				inline CodeBlock& GetCodeBlock() { return this->codeBlock; };

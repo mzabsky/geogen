@@ -13,7 +13,7 @@ namespace geogen
 			private:
 				bool constBoolean;
 			public:				
-				LoadConstBooleanInstruction(bool constBoolean) 
+				LoadConstBooleanInstruction(CodeLocation location, bool constBoolean) : Instruction(location)
 				{
 					this->constBoolean = constBoolean;
 				}

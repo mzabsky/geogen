@@ -15,6 +15,7 @@ namespace geogen
 				CodeBlock ifBranchCodeBlock;
 				CodeBlock elseBranchCodeBlock;
 			public:				
+				IfInstruction(CodeLocation location) : Instruction(location) {}
 
 				inline CodeBlock& GetIfBranchCodeBlock() { return this->ifBranchCodeBlock; };
 				inline CodeBlock const& GetIfBranchCodeBlock() const { return this->ifBranchCodeBlock; };

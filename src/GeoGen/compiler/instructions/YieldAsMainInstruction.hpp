@@ -12,7 +12,7 @@ namespace geogen
 			{
 			private:
 			public:				
-				YieldAsMainInstruction() 
+				YieldAsMainInstruction(CodeLocation location) : Instruction(location)
 				{
 				}
 

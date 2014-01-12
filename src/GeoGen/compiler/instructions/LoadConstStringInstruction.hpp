@@ -15,7 +15,7 @@ namespace geogen
 			private:
 				std::string constString;
 			public:				
-				LoadConstStringInstruction(std::string const& constString) 
+				LoadConstStringInstruction(CodeLocation location, std::string const& constString) : Instruction(location)
 				{
 					this->constString = constString;
 				}

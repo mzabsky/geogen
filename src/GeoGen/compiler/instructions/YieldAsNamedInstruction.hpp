@@ -15,7 +15,7 @@ namespace geogen
 			private:
 				std::string functionName;
 			public:				
-				YieldAsNamedInstruction(std::string const& mapName) 
+				YieldAsNamedInstruction(CodeLocation location, std::string const& mapName) : Instruction(location)
 				{
 					this->functionName = mapName;
 				}

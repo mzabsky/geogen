@@ -1,6 +1,7 @@
 #include <istream>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 
 #include "CodeBlock.hpp"
 #include "instructions/Instruction.hpp"
@@ -43,7 +44,7 @@ void CodeBlock::Serialize(std::iostream& stream) const
 
 		while (getline(instructionStream, line))
 		{
-			stream << "\t" << line << std::endl;
+			stream << " [" << std::setw(3) << (*it)->GetLocation().GetLine() << ", " << std::setw(3) << (*it)->GetLocation().GetColumn() << "]\t" << line << std::endl;
 		}
 	}
 
