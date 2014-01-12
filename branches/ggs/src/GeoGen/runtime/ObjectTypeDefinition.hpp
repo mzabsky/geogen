@@ -8,12 +8,12 @@ namespace geogen
 {
 	namespace runtime 
 	{
-		class DynamicObjectTypeDefinition : public TypeDefinition
+		class ObjectTypeDefinition : public TypeDefinition
 		{
 		private:
 			TypeDefinition const* type;
 		public:
-			DynamicObjectTypeDefinition() : TypeDefinition("Object") { }
+			ObjectTypeDefinition() : TypeDefinition("Object") { }
 		};
 	}
 }

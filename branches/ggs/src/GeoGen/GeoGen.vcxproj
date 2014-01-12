@@ -93,7 +93,7 @@
     <ClInclude Include="runtime\CodeBlock.hpp" />
     <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
-    <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
+    <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
     <ClInclude Include="runtime\instructions\BreakInstruction.hpp" />
     <ClInclude Include="runtime\instructions\CallGlobalInstruction.hpp" />
@@ -150,7 +150,7 @@
     <ClCompile Include="runtime\DynamicObject.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
-    <ClCompile Include="runtime\NumberObjectTypeDefinition.cpp" />
+    <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="Serializable.cpp" />

@@ -19,7 +19,6 @@
       <Filter>compiler\generated</Filter>
     </ClInclude>
     <ClInclude Include="runtime\DynamicObject.hpp" />
-    <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
     <ClInclude Include="Number.hpp" />
     <ClInclude Include="Serializable.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
@@ -66,6 +65,7 @@
     <ClInclude Include="runtime\MetadataValue.hpp" />
     <ClInclude Include="runtime\NumberObject.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
+    <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -89,8 +89,8 @@
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
     <ClCompile Include="runtime\DynamicObject.cpp" />
-    <ClCompile Include="runtime\NumberObjectTypeDefinition.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
+    <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
