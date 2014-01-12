@@ -8,14 +8,14 @@
 #include "../Grammar/output/GeoGenScriptParser.h"
 #include "../Grammar/output/GeoGenScriptDecls.h"
 
-#include "instructions/IfInstruction.hpp"
+#include "../runtime/instructions/IfInstruction.hpp"
 
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::compiler;
+using namespace geogen::runtime;
 //using namespace geogen_generated;
 
 Compiler::Compiler(){}

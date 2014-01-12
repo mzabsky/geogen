@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "CompiledScript.hpp"
-#include "VariableDefinition.hpp"
-#include "FunctionDefinition.hpp"
-#include "TypeDefinition.hpp"
-#include "SymbolDefinitionTable.hpp"
+#include "../runtime/VariableDefinition.hpp"
+#include "../runtime/FunctionDefinition.hpp"
+#include "../runtime/TypeDefinition.hpp"
+#include "../runtime/SymbolDefinitionTable.hpp"
 
 namespace geogen 
 {

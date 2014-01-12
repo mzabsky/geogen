@@ -26,6 +26,16 @@ namespace geogen
 			{
 				return this < other;
 			}
+
+			virtual bool EqualsTo(DynamicObject const* other)
+			{
+				return !(this < other) && !(this > other);
+			}
+
+			virtual DynamicObject* Copy()
+			{
+				
+			}
 		};
 	}
 }

@@ -9,23 +9,11 @@
     <ClInclude Include="compiler\CompiledScript.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
-    <ClInclude Include="compiler\FunctionDefinition.hpp">
-      <Filter>compiler</Filter>
-    </ClInclude>
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h">
       <Filter>compiler\generated</Filter>
     </ClInclude>
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h">
       <Filter>compiler\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler\TypeDefinition.hpp">
-      <Filter>compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler\VariableDefinition.hpp">
-      <Filter>compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler\SymbolDefinitionTable.hpp">
-      <Filter>compiler</Filter>
     </ClInclude>
     <ClInclude Include="compiler\CompilerException.hpp">
       <Filter>compiler</Filter>
@@ -33,28 +21,6 @@
     <ClInclude Include="Grammar\output\GeoGenScriptDecls.h">
       <Filter>compiler\generated</Filter>
     </ClInclude>
-    <ClInclude Include="compiler\SymbolNameTable.hpp">
-      <Filter>compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler\ScriptFunctionDefinition.hpp">
-      <Filter>compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler\instructions\Instruction.hpp">
-      <Filter>compiler\instructions</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler\CodeBlock.hpp" />
-    <ClInclude Include="compiler\instructions\LoadConstNumberInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\LoadConstStringInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\StoreGlobalValueInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\CallMemberInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\CallGlobalInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\YieldAsNamedInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\YieldAsMainInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\IfInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\WhileInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\BreakInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\ContinueInstruction.hpp" />
-    <ClInclude Include="compiler\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
     <ClInclude Include="compiler\MetadataValue.hpp" />
@@ -64,21 +30,41 @@
     <ClInclude Include="compiler\MetadataNumber.hpp" />
     <ClInclude Include="compiler\MetadataString.hpp" />
     <ClInclude Include="compiler\MetadataBoolean.hpp" />
-    <ClInclude Include="compiler\instructions\LoadConstBooleanInstruction.hpp" />
     <ClInclude Include="compiler\MetadataIdentifier.hpp" />
     <ClInclude Include="Serializable.hpp" />
-    <ClInclude Include="compiler\instructions\PopInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\StoreMemberValueInstruction.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
     <ClInclude Include="GeoGenException.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
-    <ClInclude Include="compiler\instructions\LoadNullInstruction.hpp" />
-    <ClInclude Include="compiler\instructions\LoadMemberValueInstruction.hpp" />
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
-    <ClInclude Include="compiler\instructions\LoadGlobalValueInstruction.hpp" />
+    <ClInclude Include="runtime\SymbolNameTable.hpp" />
+    <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
+    <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\FunctionDefinition.hpp" />
+    <ClInclude Include="runtime\CodeBlock.hpp" />
+    <ClInclude Include="runtime\TypeDefinition.hpp" />
+    <ClInclude Include="runtime\VariableDefinition.hpp" />
+    <ClInclude Include="runtime\instructions\BreakInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\CallGlobalInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\CallMemberInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\ContinueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\IfInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\LoadConstBooleanInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\LoadConstNumberInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\LoadConstStringInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\LoadGlobalValueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\PopInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\StoreMemberValueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\WhileInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\YieldAsMainInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\YieldAsNamedInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\LoadMemberValueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\LoadNullInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\Instruction.hpp" />
+    <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -94,15 +80,13 @@
     <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
       <Filter>compiler\generated</Filter>
     </ClCompile>
-    <ClCompile Include="compiler\SymbolNameTable.cpp">
-      <Filter>compiler</Filter>
-    </ClCompile>
-    <ClCompile Include="compiler\CodeBlock.cpp" />
     <ClCompile Include="compiler\CompiledScript.cpp" />
     <ClCompile Include="Number.cpp" />
-    <ClCompile Include="compiler\instructions\WhileInstruction.cpp" />
     <ClCompile Include="Serializable.cpp" />
-    <ClCompile Include="compiler\instructions\IfInstruction.cpp" />
+    <ClCompile Include="runtime\SymbolNameTable.cpp" />
+    <ClCompile Include="runtime\CodeBlock.cpp" />
+    <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

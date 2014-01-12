@@ -6,13 +6,13 @@
 
 #include <antlr3.h>
 
-#include "FunctionDefinition.hpp"
-#include "VariableDefinition.hpp"
-#include "SymbolDefinitionTable.hpp"
-#include "CodeBlock.hpp"
-#include "..\Grammar\output\GeoGenScriptLexer.h"
-#include "..\Grammar\output\GeoGenScriptParser.h"
-#include "..\Grammar\output\GeoGenScriptDecls.h"
+#include "../runtime/FunctionDefinition.hpp"
+#include "../runtime/VariableDefinition.hpp"
+#include "../runtime/SymbolDefinitionTable.hpp"
+#include "../runtime/CodeBlock.hpp"
+#include "../Grammar/output\GeoGenScriptLexer.h"
+#include "../Grammar/output\GeoGenScriptParser.h"
+#include "../Grammar/output\GeoGenScriptDecls.h"
 
 namespace geogen
 {
