@@ -27,7 +27,7 @@ scope BlockScope
 
 
 @context {
-	geogen::compiler::CompiledScript* compiledScript;
+	geogen::runtime::CompiledScript* compiledScript;
 	
 	pANTLR3_BASE_TREE_ADAPTOR	adaptor;
 	pANTLR3_VECTOR_FACTORY		vectors;

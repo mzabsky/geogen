@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "CompiledScript.hpp"
+#include "../runtime/CompiledScript.hpp"
 #include "../runtime/VariableDefinition.hpp"
 #include "../runtime/FunctionDefinition.hpp"
 #include "../runtime/TypeDefinition.hpp"
@@ -19,7 +19,7 @@ namespace geogen
 				Compiler(const Compiler&); // Not copyable
 			public:
 				Compiler(); 
-				CompiledScript const* CompileScript(std::string const& code) const;
+				runtime::CompiledScript const* CompileScript(std::string const& code) const;
 		};
 	}
 }

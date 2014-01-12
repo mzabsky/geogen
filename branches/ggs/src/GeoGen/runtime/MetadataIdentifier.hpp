@@ -6,18 +6,18 @@
 
 namespace geogen 
 {
-	namespace compiler 
+	namespace runtime
 	{
-		class MetadataString : public MetadataValue
+		class MetadataIdentifier : public MetadataValue
 		{
 		private:
 			std::string value;
 		public:
-			MetadataString(std::string value) : value(value) {};
+			MetadataIdentifier(std::string value) : value(value) {};
 
 			std::string GetValue() const { this->value; }
 
-			virtual MetadataType GetType() const { return MetadataStringType; };
+			virtual MetadataType GetType() const { return MetadataIdentifierType; };
 		};
 	}
 }

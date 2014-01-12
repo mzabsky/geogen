@@ -77,16 +77,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
-    <ClInclude Include="compiler\CompiledScript.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
-    <ClInclude Include="compiler\MetadataBoolean.hpp" />
-    <ClInclude Include="compiler\MetadataIdentifier.hpp" />
-    <ClInclude Include="compiler\MetadataNumber.hpp" />
-    <ClInclude Include="compiler\MetadataSimpleCollection.hpp" />
-    <ClInclude Include="compiler\MetadataString.hpp" />
-    <ClInclude Include="compiler\MetadataValue.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
@@ -98,9 +91,9 @@
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="Number.hpp" />
     <ClInclude Include="runtime\CodeBlock.hpp" />
+    <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\DynamicObjectTypeDefinition.hpp" />
-    <ClInclude Include="compiler\MetadataKeyValueCollection.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
     <ClInclude Include="runtime\instructions\BreakInstruction.hpp" />
     <ClInclude Include="runtime\instructions\CallGlobalInstruction.hpp" />
@@ -120,12 +113,20 @@
     <ClInclude Include="runtime\instructions\WhileInstruction.hpp" />
     <ClInclude Include="runtime\instructions\YieldAsMainInstruction.hpp" />
     <ClInclude Include="runtime\instructions\YieldAsNamedInstruction.hpp" />
+    <ClInclude Include="runtime\MetadataBoolean.hpp" />
+    <ClInclude Include="runtime\MetadataIdentifier.hpp" />
+    <ClInclude Include="runtime\MetadataKeyValueCollection.hpp" />
+    <ClInclude Include="runtime\MetadataNumber.hpp" />
+    <ClInclude Include="runtime\MetadataSimpleCollection.hpp" />
+    <ClInclude Include="runtime\MetadataString.hpp" />
+    <ClInclude Include="runtime\MetadataValue.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
     <ClInclude Include="runtime\SymbolNameTable.hpp" />
     <ClInclude Include="runtime\TypeDefinition.hpp" />
     <ClInclude Include="runtime\VariableDefinition.hpp" />
+    <ClInclude Include="runtime\VirtualMachine.hpp" />
     <ClInclude Include="Serializable.hpp" />
   </ItemGroup>
   <ItemGroup>

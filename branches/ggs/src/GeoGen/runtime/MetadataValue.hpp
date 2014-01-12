@@ -5,7 +5,7 @@
 
 namespace geogen 
 {
-	namespace compiler 
+	namespace runtime
 	{
 		enum MetadataType
 		{
