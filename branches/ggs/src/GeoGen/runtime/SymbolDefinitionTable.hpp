@@ -4,11 +4,10 @@
 #include <map>
 
 #include "../ErrorCode.hpp"
-#include "CompilerException.hpp"
 
 namespace geogen 
 {
-	namespace compiler 
+	namespace runtime 
 	{		
 		template<class TSymbolBase>
 		class SymbolDefinitionTable

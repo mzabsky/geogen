@@ -8,12 +8,10 @@
 #include "../Grammar/output/GeoGenScriptParser.h"
 #include "../Grammar/output/GeoGenScriptDecls.h"
 
-#include "instructions/IfInstruction.hpp"
+#include "../runtime/instructions/IfInstruction.hpp"
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::compiler;
-//using namespace geogen_generated;
 
 CompiledScript::CompiledScript()
 {
