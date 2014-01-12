@@ -67,6 +67,19 @@ scope BlockScope
     		    throw GeoGenException(GGE1201_UnexpectedToken); 
     	    }*/
     	 }
+
+	void binaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, CodeBlock* e1, CodeBlock* e2, CodeBlock* returnCodeBlock)
+	{
+		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
+	
+		returnCodeBlock->MoveInstructionsFrom(*e1); 
+		delete e1; 
+		
+		returnCodeBlock->MoveInstructionsFrom(*e2); 
+		delete e2;
+		
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)operatorToken->getText(operatorToken)->chars), 2));
+	}    	 
 }
 
 
@@ -134,8 +147,9 @@ functionDeclaration
 	        for(unsigned i = 0; i < $formalParameters->count; i++)
 	        {
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
+			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
 			//varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
-		        codeBlock.AddInstruction(new instructions::StoreLocalValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)tree->getText(tree)->chars)));	
+		        codeBlock.AddInstruction(new instructions::StoreLocalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)tree->getText(tree)->chars)));	
 		}
 	             	
 	        codeBlock.MoveInstructionsFrom(CodeBlock()); // todo: WTF?
@@ -145,7 +159,7 @@ functionDeclaration
 	delete $block.returnCodeBlock;
 
 	// Add null to end of each function for case it had no return. If it has, this instruction will never be reached.
-	codeBlock.AddInstruction(new instructions::LoadNullInstruction());
+	codeBlock.AddInstruction(new instructions::LoadNullInstruction(location));
 	
 	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
@@ -167,28 +181,37 @@ statement returns [CodeBlock* returnCodeBlock]
 :     
     BREAK 
     { 
+	CodeLocation location($BREAK.line, $BREAK.pos);
+    
     	if(!ctx->isInLoop)
     	{
-		CodeLocation location($BREAK.line, $BREAK.pos);
     		throw CompilerException(GGE1301_InvalidBreak, location);
     	}
     
     	$returnCodeBlock = new CodeBlock();  
-    	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(ctx->codeBlockLevel - $BlockScope::breakCodeBlockLevel));
+    	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel - $BlockScope::breakCodeBlockLevel));
     }
     | CONTINUE 
     { 
+    	CodeLocation location($CONTINUE.line, $CONTINUE.pos);
+    	
     	if(!ctx->isInLoop)
     	{
-		CodeLocation location($CONTINUE.line, $CONTINUE.pos);
     		throw CompilerException(GGE1303_InvalidContinue, location);
     	}
     
     	$returnCodeBlock = new CodeBlock();  
-    	$returnCodeBlock->AddInstruction(new instructions::ContinueInstruction(ctx->codeBlockLevel - $BlockScope::continueCodeBlockLevel));
+    	$returnCodeBlock->AddInstruction(new instructions::ContinueInstruction(location, ctx->codeBlockLevel - $BlockScope::continueCodeBlockLevel));
     }
     | variableDeclaration { $returnCodeBlock = $variableDeclaration.returnCodeBlock; }
-    | expression { $returnCodeBlock = new CodeBlock(); $returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); delete $expression.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::PopInstruction());}
+    | expression 
+    { 
+    	CodeLocation location(0, 0);
+    
+    	$returnCodeBlock = new CodeBlock(); 
+    	$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); delete $expression.returnCodeBlock; 
+    	$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
+    }
     | yieldStatement{ $returnCodeBlock = $yieldStatement.returnCodeBlock; }
     | returnStatement { $returnCodeBlock = $returnStatement.returnCodeBlock; }
     | whileStatement { $returnCodeBlock = $whileStatement.returnCodeBlock; }
@@ -216,12 +239,14 @@ yieldStatement returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); } 
 : ^(YIELD expression STRING?) 
 { 
+	CodeLocation location($YIELD.line, $YIELD.pos);
+	
 	if($STRING == NULL){
-		$returnCodeBlock->AddInstruction(new instructions::YieldAsMainInstruction());
+		$returnCodeBlock->AddInstruction(new instructions::YieldAsMainInstruction(location));
 	}
 	else 
 	{
-		$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction((char*)$STRING.text->chars));	
+		$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction(location, (char*)$STRING.text->chars));	
 	}
 };
 
@@ -229,19 +254,20 @@ returnStatement returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = NULL; } 
 : ^(RETURN (expression { $returnCodeBlock = new CodeBlock(); $returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); delete $expression.returnCodeBlock; } )?)
 {
+	CodeLocation location($RETURN.line, $RETURN.pos);
+	
 	if($returnCodeBlock == NULL)
 	{
 		$returnCodeBlock = new CodeBlock();	
-		$returnCodeBlock->AddInstruction(new instructions::LoadNullInstruction());
+		$returnCodeBlock->AddInstruction(new instructions::LoadNullInstruction(location));
 	}
 
 	if(!ctx->isInFunction)
-	{
-		CodeLocation location($RETURN.line, $RETURN.pos);
+	{		
 		throw CompilerException(GGE1304_InvalidReturn, location);
 	}
 
-	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(ctx->codeBlockLevel));
+	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel));
 };
 
 whileStatement returns [CodeBlock* returnCodeBlock]
@@ -250,14 +276,16 @@ scope BlockScope;
 @after { ctx->codeBlockLevel--; ctx->isInLoop = false;}
 : ^(WHILE expression statement) 
 {
-	instructions::WhileInstruction* whileInstr = new instructions::WhileInstruction();
+	CodeLocation location($WHILE.line, $WHILE.pos);
+
+	instructions::WhileInstruction* whileInstr = new instructions::WhileInstruction(location);
 	CodeBlock& whileCodeBlock = whileInstr->GetCodeBlock();
 	
 	whileCodeBlock.MoveInstructionsFrom(*$expression.returnCodeBlock);
 	delete $expression.returnCodeBlock;
 	
-	instructions::IfInstruction* ifInstr = new instructions::IfInstruction();
-	ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(1));
+	instructions::IfInstruction* ifInstr = new instructions::IfInstruction(location);
+	ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 1));
 	whileCodeBlock.AddInstruction(ifInstr);
 	
 	whileCodeBlock.MoveInstructionsFrom(*$statement.returnCodeBlock);
@@ -286,13 +314,15 @@ scope BlockScope;
 	(^(INCREMENT_EXPRESSION incrementExpression=expression { incrementExpressionCodeBlock = $incrementExpression.returnCodeBlock; } ))? 
 	statement)
 {
+	CodeLocation location($FOR.line, $FOR.pos);
+
 	if(initExpressionCodeBlock != NULL)
 	{
 		$returnCodeBlock->MoveInstructionsFrom(*initExpressionCodeBlock);
 		delete initExpressionCodeBlock;
 	}
 	
-	instructions::WhileInstruction* whileInstr = new instructions::WhileInstruction();
+	instructions::WhileInstruction* whileInstr = new instructions::WhileInstruction(location);
 	CodeBlock& whileCodeBlock = whileInstr->GetCodeBlock();
 	
 	if(conditionExpressionCodeBlock != NULL)
@@ -300,8 +330,8 @@ scope BlockScope;
 		whileCodeBlock.MoveInstructionsFrom(*conditionExpressionCodeBlock);
 		delete conditionExpressionCodeBlock;
 		
-		instructions::IfInstruction* ifInstr = new instructions::IfInstruction();
-		ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(1));
+		instructions::IfInstruction* ifInstr = new instructions::IfInstruction(location);
+		ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 1));
 		whileCodeBlock.AddInstruction(ifInstr);
 	}
 
@@ -313,7 +343,7 @@ scope BlockScope;
 		whileCodeBlock.MoveInstructionsFrom(*incrementExpressionCodeBlock);
 		delete incrementExpressionCodeBlock;
 		
-		$returnCodeBlock->AddInstruction(new instructions::PopInstruction());
+		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
 	}
 	
 	$returnCodeBlock->AddInstruction(whileInstr);
@@ -333,7 +363,9 @@ scope BlockScope;
 }: 
 ^(IF expression ifBranchStatement=statement elseBranchStatement=statement) 
 {
-	instructions::IfInstruction* ifInstr = new instructions::IfInstruction();
+	CodeLocation location($IF.line, $IF.pos);
+
+	instructions::IfInstruction* ifInstr = new instructions::IfInstruction(location);
 	
 	ifInstr->GetIfBranchCodeBlock().MoveInstructionsFrom(*$ifBranchStatement.returnCodeBlock);
 	delete $ifBranchStatement.returnCodeBlock;
@@ -352,62 +384,104 @@ defaultCase: ^(DEFAULT ^(BLOCK statement*));
 expression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); } 
 :
-	^('=' lvalueExpression rvalueExpression=expression){ $returnCodeBlock->MoveInstructionsFrom(*$rvalueExpression.returnCodeBlock); delete $rvalueExpression.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));$returnCodeBlock->MoveInstructionsFrom(*$lvalueExpression.returnCodeBlock); delete $lvalueExpression.returnCodeBlock; }
-	| ^('+=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("+="), 2));}
-	| ^('-=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("-="), 2));}
-	| ^('*=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("*="), 2));}
-	| ^('/=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("/="), 2));}
-	| ^('%=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("\%="), 2));}
-	| ^('<<=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("<<="), 2));}
-	| ^('>>=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex(">>="), 2));}
-	| ^('&=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("&&="), 2));}
-	| ^('|=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("||="), 2));}
-	| ^('is' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("is"), 2));}
+	^(OPERATOR_ASSIGN lvalueExpression rvalueExpression=expression)
+	{ 
+		CodeLocation location($OPERATOR_ASSIGN.line, $OPERATOR_ASSIGN.pos);
+	
+		$returnCodeBlock->MoveInstructionsFrom(*$rvalueExpression.returnCodeBlock); 
+		delete $rvalueExpression.returnCodeBlock; 
+		
+		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));
+		$returnCodeBlock->MoveInstructionsFrom(*$lvalueExpression.returnCodeBlock); 
+		delete $lvalueExpression.returnCodeBlock; 
+	}
+	| ^(op=OPERATOR_ASSIGN_PLUS e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='-=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='*=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='/=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='%=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='<<=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='>>=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='&=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='|=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='is' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| conditionalOperatorExpression { $returnCodeBlock->MoveInstructionsFrom(*$conditionalOperatorExpression.returnCodeBlock); delete $conditionalOperatorExpression.returnCodeBlock;} 
-	| ^('||' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("||"), 2));}
-	| ^('&&' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("&&"), 2));}
-	| ^('^' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("^"), 2));}
-	| ^('&' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("&"), 2));}
-	| ^('==' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("=="), 2));}
-	| ^('!=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("!="), 2));}
-	| ^('<' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("<"), 2));}
-	| ^('<=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("<="), 2));}
-	| ^('>' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex(">"), 2));}
-	| ^('>=' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex(">="), 2));}
-	| ^('<<' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("<<"), 2));}
-	| ^('>>' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex(">>"), 2));}
-	| ^('+' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("+"), 2));}
-	| ^('-' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("-"), 2));}
-	| ^('*' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("*"), 2));}
-	| ^('/' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("/"), 2));}
-	| ^('%' e1=expression e2=expression) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("\%"), 2));}
-	| ^('.' e1=expression IDENTIFIER) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::LoadMemberValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));}
+	| ^(op='||' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='&&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='^' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='==' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='!=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='<=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='>' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='>=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='<<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='>>' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='+' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='-' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='*' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='/' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='%' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
+	{ 
+		CodeLocation location($OPERATOR_DOT.line, $OPERATOR_DOT.pos);
+	
+		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
+		delete $e1.returnCodeBlock; 
+		
+		$returnCodeBlock->AddInstruction(new instructions::LoadMemberValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+	}
 	| callExpression { $returnCodeBlock->MoveInstructionsFrom(*$callExpression.returnCodeBlock); delete $callExpression.returnCodeBlock;} 
 	| indexAccessExpression { $returnCodeBlock->MoveInstructionsFrom(*$indexAccessExpression.returnCodeBlock); delete $indexAccessExpression.returnCodeBlock;} 
-	| IDENTIFIER { $returnCodeBlock->AddInstruction(new instructions::LoadGlobalValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars))); }
+	| IDENTIFIER 
+	{ 
+		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
+		$returnCodeBlock->AddInstruction(new instructions::LoadGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars))); 
+	}
 	//collectionLiteral |
 	| coordinateLiteral
-	| 'true' { $returnCodeBlock->AddInstruction(new instructions::LoadConstBooleanInstruction(true));}
-	| 'false' { $returnCodeBlock->AddInstruction(new instructions::LoadConstBooleanInstruction(false));}
-	| NUMBER { $returnCodeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(StringToNumber((char*)$NUMBER.text->chars)));}
-	| STRING { $returnCodeBlock->AddInstruction(new instructions::LoadConstStringInstruction((char*)$STRING.text->chars));};
+	| TRUE_LIT
+	{ 
+		CodeLocation location($TRUE_LIT.line, $TRUE_LIT.pos);
+		$returnCodeBlock->AddInstruction(new instructions::LoadConstBooleanInstruction(location, true));	
+	}
+	| FALSE_LIT 
+	{ 
+		CodeLocation location($FALSE_LIT.line, $FALSE_LIT.pos);
+		$returnCodeBlock->AddInstruction(new instructions::LoadConstBooleanInstruction(location, false));
+	}
+	| NUMBER 
+	{ 
+		CodeLocation location($NUMBER.line, $NUMBER.pos);	
+		$returnCodeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(location, StringToNumber((char*)$NUMBER.text->chars)));
+	}
+	| STRING 
+	{ 
+		CodeLocation location($STRING.line, $STRING.pos);	
+		$returnCodeBlock->AddInstruction(new instructions::LoadConstStringInstruction(location, (char*)$STRING.text->chars));
+	};
 
 callExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
 :
 ^('(' IDENTIFIER (expression { argumentCodeBlocks.push_back($expression.returnCodeBlock); } )*) 
 {
+	CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
+
 	// The arguments are stored on the stack in reverse order.
 	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
 	{
 		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
 	}
 
-	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
 }
 |	
 ^('(' ^('.' e1=expression IDENTIFIER) (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
 {
+	CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
+
 	// The arguments are stored on the stack in reverse order.
 	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
 	{
@@ -416,15 +490,17 @@ callExpression returns [CodeBlock* returnCodeBlock]
 
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
 }
 ;
 
 indexAccessExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
 :
-^('['e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
+^(LEFT_SQUARE_BRACKET e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
 {
+	CodeLocation location($LEFT_SQUARE_BRACKET.line, $LEFT_SQUARE_BRACKET.pos);
+
 	// The arguments are stored on the stack in reverse order.
 	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
 	{
@@ -433,18 +509,20 @@ indexAccessExpression returns [CodeBlock* returnCodeBlock]
 
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("[]"), argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("[]"), argumentCodeBlocks.size()));
 };
 
 conditionalOperatorExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); } 
 :
-^('?' conditionExpression=expression ifExpression=expression elseExpression=expression)
+^(OPERATOR_EXPR_IF conditionExpression=expression ifExpression=expression elseExpression=expression)
 {
+	CodeLocation location($OPERATOR_EXPR_IF.line, $OPERATOR_EXPR_IF.pos);
+
 	$returnCodeBlock->MoveInstructionsFrom(*$conditionExpression.returnCodeBlock);
 	delete $conditionExpression.returnCodeBlock;
 
-	instructions::IfInstruction* ifInstruction = new instructions::IfInstruction();
+	instructions::IfInstruction* ifInstruction = new instructions::IfInstruction(location);
 	
 	ifInstruction->GetIfBranchCodeBlock().MoveInstructionsFrom(*$ifExpression.returnCodeBlock);
 	delete $ifExpression.returnCodeBlock;
@@ -455,18 +533,37 @@ conditionalOperatorExpression returns [CodeBlock* returnCodeBlock]
 	$returnCodeBlock->AddInstruction(ifInstruction);
 };
 
+
 lvalueExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); } 
 :
-	IDENTIFIER { $returnCodeBlock->AddInstruction(new instructions::StoreGlobalValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));  }
-	| ^('.' e1=expression IDENTIFIER) { $returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; $returnCodeBlock->AddInstruction(new instructions::StoreMemberValueInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));}
-	| lvalueIndexAccessExpression { $returnCodeBlock->MoveInstructionsFrom(*$lvalueIndexAccessExpression.returnCodeBlock); delete $lvalueIndexAccessExpression.returnCodeBlock;} ;
+	IDENTIFIER 
+	{ 
+		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
+		$returnCodeBlock->AddInstruction(new instructions::StoreGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));  
+	}
+	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
+	{
+		CodeLocation location($OPERATOR_DOT.line, $OPERATOR_DOT.pos);
+	
+		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
+		delete $e1.returnCodeBlock; 
+		
+		$returnCodeBlock->AddInstruction(new instructions::StoreMemberValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+	}
+	| lvalueIndexAccessExpression 
+	{ 
+		$returnCodeBlock->MoveInstructionsFrom(*$lvalueIndexAccessExpression.returnCodeBlock); 
+		delete $lvalueIndexAccessExpression.returnCodeBlock; 
+	} ; 
 
 lvalueIndexAccessExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
-:
-^('['e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
+: 
+^(LEFT_SQUARE_BRACKET e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
 {
+	CodeLocation location($LEFT_SQUARE_BRACKET.line, $LEFT_SQUARE_BRACKET.pos);
+
 	// The arguments are stored on the stack in reverse order.
 	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
 	{
@@ -476,8 +573,9 @@ lvalueIndexAccessExpression returns [CodeBlock* returnCodeBlock]
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
 	// +1 for the value being written into the array
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(ctx->compiledScript->GetSymbolNameTable().GetNameIndex("[]="), argumentCodeBlocks.size() + 1));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("[]="), argumentCodeBlocks.size() + 1));
 };
+
 
 //prio14Operator: ;
 /*prio14Expression: ;	

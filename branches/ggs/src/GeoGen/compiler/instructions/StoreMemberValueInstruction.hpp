@@ -13,7 +13,7 @@ namespace geogen
 			private:
 				int variableNameIndex;
 			public:
-				StoreMemberValueInstruction(int variableNameIndex)
+				StoreMemberValueInstruction(CodeLocation location, int variableNameIndex) : Instruction(location)
 				{
 					this->variableNameIndex = variableNameIndex;
 				}

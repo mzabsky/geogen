@@ -12,7 +12,7 @@ namespace geogen
 			{
 			private:
 			public:
-				LoadNullInstruction()
+				LoadNullInstruction(CodeLocation location) : Instruction(location)
 				{
 				}
 

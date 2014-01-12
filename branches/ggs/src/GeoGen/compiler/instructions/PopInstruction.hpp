@@ -12,7 +12,7 @@ namespace geogen
 			{
 			private:
 			public:				
-				PopInstruction() 
+				PopInstruction(CodeLocation location) : Instruction(location)
 				{
 				}
 

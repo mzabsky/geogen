@@ -16,7 +16,7 @@ namespace geogen
 				int functionNameIndex;
 				int argumentCount;
 			public:				
-				CallGlobalInstruction(int functionNameIndex, int argumentCount) 
+				CallGlobalInstruction(CodeLocation location, int functionNameIndex, int argumentCount) : Instruction(location)
 				{
 					this->functionNameIndex = functionNameIndex;
 					this->argumentCount = argumentCount;
