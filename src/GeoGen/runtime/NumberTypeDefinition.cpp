@@ -1,18 +1,18 @@
 #include "..\InternalErrorException.hpp"
 #include "..\Number.hpp"
-#include "NumberObjectTypeDefinition.hpp"
+#include "NumberTypeDefinition.hpp"
 #include "DynamicObject.hpp"
 #include "NumberObject.hpp"
 
 using namespace geogen;
 using namespace runtime;
 
-DynamicObject* NumberObjectTypeDefinition::CreateInstance(Number value) const
+DynamicObject* NumberTypeDefinition::CreateInstance(Number value) const
 {
 	return new NumberObject(this, value);
 }
 
-bool NumberObjectTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
+bool NumberTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -27,7 +27,7 @@ bool NumberObjectTypeDefinition::InstanceLessThan(DynamicObject const* a, Dynami
 	return TypeDefinition::InstanceLessThan(a, b);
 }
 
-bool NumberObjectTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
+bool NumberTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -42,7 +42,7 @@ bool NumberObjectTypeDefinition::InstanceEqualsTo(DynamicObject const* a, Dynami
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* NumberObjectTypeDefinition::Copy(DynamicObject* a) const
+DynamicObject* NumberTypeDefinition::Copy(DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{
