@@ -121,6 +121,7 @@
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
     <ClInclude Include="runtime\NumberObject.hpp" />
+    <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
     <ClCompile Include="runtime\NumberObjectTypeDefinition.cpp" />
+    <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="Serializable.cpp" />
   </ItemGroup>

@@ -64,6 +64,8 @@
     <ClInclude Include="runtime\MetadataSimpleCollection.hpp" />
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
+    <ClInclude Include="runtime\NumberObject.hpp" />
+    <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -86,6 +88,9 @@
     <ClCompile Include="runtime\CodeBlock.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
+    <ClCompile Include="runtime\DynamicObject.cpp" />
+    <ClCompile Include="runtime\NumberObjectTypeDefinition.cpp" />
+    <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

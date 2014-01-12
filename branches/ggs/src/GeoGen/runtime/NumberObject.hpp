@@ -13,7 +13,7 @@ namespace geogen
 			Number value;			
 		public:
 			NumberObject(TypeDefinition const* type, Number value) : DynamicObject(type) {};
-			inline Number GetValue() const { this->value; }
+			inline Number GetValue() const { return this->value; }
 		};
 	}
 }
