@@ -102,23 +102,6 @@ tokens {
     	    // Char pos odlisna pro tree parser
     	    CodeLocation location(recognizer->state->exception->line, recognizer->state->exception->charPositionInLine);
 
-    	    /*string currentTokenName = "";
-    	    string currentTokenText = "";
-			if (currentToken != NULL)
-			{
-				if (currentToken->type == ANTLR3_TOKEN_EOF)
-				{
-					currentTokenName = "EOF";
-					currentTokenText = "<EOF>";
-				}
-				else
-				{
-					currentTokenName = (char*)tokenNames[currentToken->type];
-					currentTokenText = (char*)currentToken->tokText.text->chars;
-
-				}
-
-			}*/
     	    string expectedTokenName = "";
     	    if(ex->expecting == ANTLR3_TOKEN_EOF)
     	    {
@@ -129,48 +112,10 @@ tokens {
     	    	expectedTokenName = (char*)tokenNames[ex->expecting];
     	    }
     	    
-    	    throw UnexpectedTokenException(GGE1201_UnexpectedToken, location, expectedTokenName/*, currentTokenName, currentTokenText*/);
-    	    
-    	    /*switch  (ex->type)
-    	    {
-    		case:			    
-    		    throw GeoGenException(GGE1201_UnexpectedToken); 
-    	    }*/
+    	    throw UnexpectedTokenException(GGE1201_UnexpectedToken, location, expectedTokenName);
+
     	 }
 }
-
-/*
-@lexer::namespace {
-    geogen_generated
-}
-
-@parser::namespace {
-    geogen_generated
-}
-
-@lexer::traits {
-	   class GeoGenScriptLexer;
-	   class GeoGenScriptParser;
-	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
-
-	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
-	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
-}
-
-@parser::traits {
-	   class GeoGenScriptLexer;
-	   class GeoGenScriptParser;
-	   typedef antlr3::Traits< GeoGenScriptLexer, GeoGenScriptParser > GeoGenScriptTraits;
-	   
-	typedef GeoGenScriptTraits GeoGenScriptLexerTraits;
-	typedef GeoGenScriptTraits GeoGenScriptParserTraits;
-}
-
-@parser::includes
-{
-   #include "GeoGenScriptLexer.hpp"
-}*/
-
 
 script: (decls+=declaration)* (metadata (stmts+=statement | decls+=declaration)* | stmts+=statement (stmts+=statement | decls+=declaration)*)? EOF -> ^(SCRIPT metadata ^(DECLARATIONS $decls*) ^(BLOCK $stmts*));
         
@@ -280,11 +225,14 @@ prio5Expression: prio4Expression (('<<' | '>>')^ prio4Expression)*;
 prio4Expression: prio3Expression (('+' | '-')^ prio3Expression)*;
 
 //prio3Operator: '*' | '/' | '%';
-prio3Expression: prio2Expression (('*' | '/' | '%')^ prio2Expression)*;
+prio3Expression: prio2ExpressionPre (('*' | '/' | '%')^ prio2ExpressionPre)*;
 
-//prio2PrefixOperator: '++' | '--' | '!' | '+' | '-';
-//prio2PostfixOperator: '++' | '--';
-prio2Expression: prio1Expression;//(('++' -> OPERATOR_INCREMENT_PRE)/*| '--'  | '!' | '+' | '-'*/)* prio1Expression (('++' -> OPERATOR_INCREMENT_POST))*;  
+prio2PrefixOperator: ('++' -> OPERATOR_INCREMENT_PRE) | ('--' -> OPERATOR_DECREMENT_PRE) | ('!' -> OPERATOR_NOT) | ('+' -> OPERATOR_PLUS_UN) | ('-' -> OPERATOR_MINUS_UN) | {false}? coordinateLiteral;
+prio2PostfixOperator: ('++' -> OPERATOR_INCREMENT_POST) | ('--' -> OPERATOR_DECREMENT_POST) | {false}? coordinateLiteral;
+prio2ExpressionPre: prio2ExpressionPost | prio2PrefixOperator^ prio2ExpressionPre; //((prio2PrefixOperator)^)* prio2ExpressionPost;//(('++' -> OPERATOR_INCREMENT_PRE)/*| '--'  | '!' | '+' | '-'*/)* prio1Expression (('++' -> OPERATOR_INCREMENT_POST))*;  
+
+prio2ExpressionPost: (prio1Expression -> prio1Expression) (prio2PostfixOperator -> ^(prio2PostfixOperator $prio2ExpressionPost))*;//(('++' -> OPERATOR_INCREMENT_PRE)/*| '--'  | '!' | '+' | '-'*/)* prio1Expression (('++' -> OPERATOR_INCREMENT_POST))*;  
+
 //prio2Expression
 //	:	 prio1Expression;
 //prio2Expression: prio1Expression (('++' | '--' | '!') prio1Expression)*;
