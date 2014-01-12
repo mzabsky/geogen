@@ -5,7 +5,6 @@
 
 #include "VariableDefinition.hpp"
 #include "FunctionDefinition.hpp"
-#include "TypeDefinition.hpp"
 #include "SymbolDefinitionTable.hpp"
 #include "SymbolNameTable.hpp"
 #include "CodeBlock.hpp"
@@ -16,6 +15,8 @@ namespace geogen
 {
 	namespace runtime
 	{
+		class TypeDefinition;
+
 		class CompiledScript
 		{
 			private:	

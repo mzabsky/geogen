@@ -38,9 +38,6 @@ KeyValSymbol: \
 
 	std::cout << script->GetRootCodeBlock().ToString();
 
-
-
-
 	geogen::Number n(2);
 	geogen::Number n2 = n / geogen::Number(3);
 	//geogen::Number n5("3.14");

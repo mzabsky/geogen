@@ -12,6 +12,8 @@
 
 #include "runtime/CodeBlock.hpp"
 #include "runtime/CompiledScript.hpp"
+#include "runtime/DynamicObject.hpp"
+#include "runtime/DynamicObjectTypeDefinition.hpp"
 #include "runtime/FunctionDefinition.hpp"
 #include "runtime/MetadataKeyValueCollection.hpp"
 #include "runtime/MetadataBoolean.hpp"
@@ -26,6 +28,7 @@
 #include "runtime/SymbolNameTable.hpp"
 #include "runtime/TypeDefinition.hpp"
 #include "runtime/VariableDefinition.hpp"
+#include "runtime/VirtualMachine.hpp"
 
 #include "runtime/instructions/Instruction.hpp"
 #include "runtime/instructions/BreakInstruction.hpp"

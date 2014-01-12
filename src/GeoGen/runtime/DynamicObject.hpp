@@ -16,30 +16,21 @@ namespace geogen
 			TypeDefinition const* type;
 
 			int refCount = 0;
-		public:
-			DynamicObject(TypeDefinition const* type) { this->type = type; }
+		protected:
+			DynamicObject(TypeDefinition const* type);			
+		public:			
+			virtual ~DynamicObject(){};
+
 			inline TypeDefinition const* GetType() const { return this->type; };
 
 			inline bool operator<(const DynamicObject* rhs) 
 			{
-				return this->LessThan(rhs);
-			}
-
-			virtual bool LessThan(DynamicObject const* other)
-			{
-				return this < other;
-			}
-
-			virtual bool EqualsTo(DynamicObject const* other)
-			{
-				return !(this < other) && !(this > other);
+				return this->GetType()->InstanceLessThan(this, rhs);
 			}
 
 			void AddRef(VirtualMachine& vm);
 			void RemoveRef(VirtualMachine& vm);
-			inline void GetRefCount();
-
-			virtual DynamicObject* Copy(VirtualMachine& vm, DynamicObject* object);
+			inline int GetRefCount() { return this->refCount; }
 		};
 	}
 }
