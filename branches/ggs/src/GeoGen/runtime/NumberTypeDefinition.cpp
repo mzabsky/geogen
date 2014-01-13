@@ -2,7 +2,6 @@
 #include "..\Number.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "DynamicObject.hpp"
-#include "NumberObject.hpp"
 
 using namespace geogen;
 using namespace runtime;

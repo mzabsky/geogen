@@ -63,9 +63,10 @@
     <ClInclude Include="runtime\MetadataSimpleCollection.hpp" />
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
-    <ClInclude Include="runtime\NumberObject.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
+    <ClInclude Include="runtime\NativeObject.hpp" />
+    <ClInclude Include="runtime\PrimitiveObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
