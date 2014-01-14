@@ -79,6 +79,7 @@
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
+    <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
