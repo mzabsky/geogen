@@ -12,7 +12,9 @@ namespace geogen
 		private:
 			T* value;
 		public:
-			NumberObject(TypeDefinition const* type, T* value) : DynamicObject(type), value(value) {};
+			NativeObject(TypeDefinition const* type, T* value) : DynamicObject(type), value(value) {};
+			virtual ~NativeObject() { delete value; };
+
 			inline T* GetValue() const { return this->value; }
 		};
 	}
