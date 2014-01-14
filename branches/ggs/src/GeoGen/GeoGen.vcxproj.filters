@@ -43,9 +43,7 @@
     <ClInclude Include="runtime\instructions\LoadConstBooleanInstruction.hpp" />
     <ClInclude Include="runtime\instructions\LoadConstNumberInstruction.hpp" />
     <ClInclude Include="runtime\instructions\LoadConstStringInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\LoadGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\PopInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\StoreMemberValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\WhileInstruction.hpp" />
     <ClInclude Include="runtime\instructions\YieldAsMainInstruction.hpp" />
@@ -68,6 +66,8 @@
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
+    <ClInclude Include="runtime\instructions\LoadScopeValueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\StoreScopeValueInstruction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
