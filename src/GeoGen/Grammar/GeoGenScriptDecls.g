@@ -159,7 +159,7 @@ functionDeclaration
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
 			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
 			//varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
-		        codeBlock.AddInstruction(new instructions::StoreGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)tree->getText(tree)->chars)));	
+		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)tree->getText(tree)->chars)));	
 		}
 	             	
 	        codeBlock.MoveInstructionsFrom(CodeBlock()); // todo: WTF?
@@ -454,7 +454,7 @@ expression returns [CodeBlock* returnCodeBlock]
 	| IDENTIFIER 
 	{ 
 		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
-		$returnCodeBlock->AddInstruction(new instructions::LoadGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars))); 
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars))); 
 	}
 	//collectionLiteral |
 	| coordinateLiteral
@@ -557,7 +557,7 @@ lvalueExpression returns [CodeBlock* returnCodeBlock]
 	IDENTIFIER 
 	{ 
 		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
-		$returnCodeBlock->AddInstruction(new instructions::StoreGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));  
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));  
 	}
 	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
 	{
