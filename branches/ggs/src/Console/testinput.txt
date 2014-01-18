@@ -51,3 +51,6 @@ end = 1 + 2 + 3 + 4 + 5;
 
 preincr = ++++1;
 postincr = 1++--;
+
+var coo = [5, 2];
+var coo1 = @[4.00];
