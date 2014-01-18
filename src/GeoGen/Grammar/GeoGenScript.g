@@ -8,7 +8,7 @@ Operator priority (based on http://en.cppreference.com/w/cpp/language/operator_p
 Prio. | Assoc. | Operators
 ------------------------------------------------------------
 1     | LTR    | . [] ()
-2     | RTL    | ++ -- !
+2     | RTL    | ++ -- ! + - @
 3     | LTR    | * / %
 4     |        | + -
 5     |        | << >> 
@@ -125,7 +125,7 @@ keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}' -> ^(COLLECTION
 
 keyValuePair: 
 	IDENTIFIER ':' keyValueValue -> ^(IDENTIFIER keyValueValue)
-	| '@'? NUMBER ':' keyValueValue -> ^(NUMBER keyValueValue '@'?);
+	| NUMBER ':' keyValueValue -> ^(NUMBER keyValueValue);
 
 keyValueValue: expression | keyValueCollection;
 
@@ -227,7 +227,7 @@ prio4Expression: prio3Expression (('+' | '-')^ prio3Expression)*;
 //prio3Operator: '*' | '/' | '%';
 prio3Expression: prio2ExpressionPre (('*' | '/' | '%')^ prio2ExpressionPre)*;
 
-prio2PrefixOperator: ('++' -> OPERATOR_INCREMENT_PRE) | ('--' -> OPERATOR_DECREMENT_PRE) | ('!' -> OPERATOR_NOT) | ('+' -> OPERATOR_PLUS_UN) | ('-' -> OPERATOR_MINUS_UN) | {false}? coordinateLiteral;
+prio2PrefixOperator: ('++' -> OPERATOR_INCREMENT_PRE) | ('--' -> OPERATOR_DECREMENT_PRE) | ('!' -> OPERATOR_NOT) | ('+' -> OPERATOR_PLUS_UN) | ('-' -> OPERATOR_MINUS_UN) | ('@' -> OPERATOR_RELATIVE) | {false}? coordinateLiteral;
 prio2PostfixOperator: ('++' -> OPERATOR_INCREMENT_POST) | ('--' -> OPERATOR_DECREMENT_POST) | {false}? coordinateLiteral;
 prio2ExpressionPre: prio2ExpressionPost | prio2PrefixOperator^ prio2ExpressionPre; //((prio2PrefixOperator)^)* prio2ExpressionPost;//(('++' -> OPERATOR_INCREMENT_PRE)/*| '--'  | '!' | '+' | '-'*/)* prio1Expression (('++' -> OPERATOR_INCREMENT_POST))*;  
 
@@ -268,7 +268,7 @@ unkeyedCollectionLiteral:
     '{' (expression (',' expression)*) '}';
 
 coordinateLiteral:
-    '@'? '[' expression (',' expression)* ']' -> ^(COORDINATE expression+);
+    '[' expression (',' expression)* ']' -> ^(COORDINATE expression+);
 
 label:        
 	IDENTIFIER ('.' IDENTIFIER)* ->  ^(IDENTCHAIN IDENTIFIER+)
@@ -296,7 +296,6 @@ FALSE_LIT: 'false';
 COMMA: ',';
 SEMICOLON: ';';
 COLON: ':';
-AT: '@';
 
 METADATA: 'metadata';
 ENUM: 'enum';
@@ -352,6 +351,7 @@ OPERATOR_ASSIGN_AND: '&=';
 OPERATOR_ASSIGN_XOR: '^=';
 OPERATOR_ASSIGN_OR: '|=';
 OPERATOR_IS: 'is';
+OPERATOR_RELATIVE: '@';
 
 COMMENT
     :   /*'//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}

@@ -440,6 +440,7 @@ expression returns [CodeBlock* returnCodeBlock]
 	| ^(op=OPERATOR_PLUS_UN e1=expression) { unaryOperator(ctx, $op, "+un", $e1.returnCodeBlock, $returnCodeBlock);}				
 	| ^(op=OPERATOR_MINUS_UN e1=expression) { unaryOperator(ctx, $op, "-un", $e1.returnCodeBlock, $returnCodeBlock);}					
 	| ^(op=OPERATOR_NOT e1=expression) { unaryOperator(ctx, $op, "!", $e1.returnCodeBlock, $returnCodeBlock);}						
+	| ^(op=OPERATOR_RELATIVE e1=expression) { unaryOperator(ctx, $op, "@", $e1.returnCodeBlock, $returnCodeBlock);}							
 	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
 	{ 
 		CodeLocation location($OPERATOR_DOT.line, $OPERATOR_DOT.pos);
