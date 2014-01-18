@@ -232,7 +232,16 @@ statement returns [CodeBlock* returnCodeBlock]
     
 variableDeclaration returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); } 
-: ^('var' IDENTIFIER expression?)
+: ^(VAR IDENTIFIER (expression 
+	{
+    		CodeLocation location($VAR.line, $VAR.pos);
+    		
+		$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
+		delete $expression.returnCodeBlock; 
+		
+		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+	})?)
 {
 	char* name = (char*)$IDENTIFIER.text->chars;
 	/*if(ctx->isInFunction)
@@ -458,7 +467,6 @@ expression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars))); 
 	}
 	//collectionLiteral |
-	| coordinateLiteral
 	| TRUE_LIT
 	{ 
 		CodeLocation location($TRUE_LIT.line, $TRUE_LIT.pos);
@@ -478,7 +486,36 @@ expression returns [CodeBlock* returnCodeBlock]
 	{ 
 		CodeLocation location($STRING.line, $STRING.pos);	
 		$returnCodeBlock->AddInstruction(new instructions::LoadConstStringInstruction(location, (char*)$STRING.text->chars));
-	};
+	}
+	| coordinateExpression { $returnCodeBlock->MoveInstructionsFrom(*$coordinateExpression.returnCodeBlock); delete $coordinateExpression.returnCodeBlock;} 
+	;
+	
+coordinateExpression returns[CodeBlock* returnCodeBlock]
+@init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
+:
+^(COORDINATE (expression { argumentCodeBlocks.push_back($expression.returnCodeBlock); } )*) 
+{
+	CodeLocation location($COORDINATE.line, $COORDINATE.pos);
+		// The arguments are stored on the stack in reverse order.
+	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
+	{
+		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
+	}
+	
+	if(argumentCodeBlocks.size() < 1 || argumentCodeBlocks.size() > 2)
+	{
+		throw new InternalErrorException("Incorrect number of arguments in coordinate literal.");
+	}
+	
+	if(argumentCodeBlocks.size() == 1){
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("Coordinate")));	
+	}
+	else if(argumentCodeBlocks.size() == 2){
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("Point")));	
+	}
+	
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("Create"), argumentCodeBlocks.size()));	
+};
 
 callExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
@@ -665,8 +702,6 @@ prio8Expression: ;*/
 
 unkeyedCollectionLiteral:
     '{' (expression (',' expression)*) '}';
-
-coordinateLiteral: ^(COORDINATE expression+);
 
 label:        
 	^(IDENTCHAIN IDENTIFIER+)
