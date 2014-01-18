@@ -3,7 +3,10 @@
 #include "CodeLocation.hpp"
 #include "ErrorCode.hpp"
 #include "Generator.hpp"
+#include "GeoGenException.hpp"
+#include "InternalErrorException.hpp"
 #include "Number.hpp"
+#include "Serializable.hpp"
 
 #include "compiler/Compiler.hpp"
 #include "compiler/CompilerException.hpp"
