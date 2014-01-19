@@ -83,7 +83,6 @@
     <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
       <Filter>compiler\generated</Filter>
     </ClCompile>
-    <ClCompile Include="compiler\CompiledScript.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Serializable.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
@@ -93,6 +92,7 @@
     <ClCompile Include="runtime\DynamicObject.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
+    <ClCompile Include="runtime\CompiledScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

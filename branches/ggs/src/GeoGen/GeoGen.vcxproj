@@ -134,7 +134,6 @@
     <ClInclude Include="Serializable.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="compiler\CompiledScript.cpp" />
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClCompile Include="Number.cpp" />
@@ -149,6 +148,7 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="runtime\CodeBlock.cpp" />
+    <ClCompile Include="runtime\CompiledScript.cpp" />
     <ClCompile Include="runtime\DynamicObject.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
