@@ -94,6 +94,8 @@
     <ClInclude Include="runtime\CodeBlock.hpp" />
     <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
+    <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
+    <ClInclude Include="runtime\EnumObject.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
@@ -123,12 +125,15 @@
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
+    <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
+    <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
     <ClInclude Include="runtime\SymbolNameTable.hpp" />
     <ClInclude Include="runtime\TypeDefinition.hpp" />
+    <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp" />
     <ClInclude Include="runtime\VariableDefinition.hpp" />
     <ClInclude Include="runtime\VirtualMachine.hpp" />
     <ClInclude Include="Serializable.hpp" />
@@ -150,6 +155,8 @@
     <ClCompile Include="runtime\CodeBlock.cpp" />
     <ClCompile Include="runtime\CompiledScript.cpp" />
     <ClCompile Include="runtime\DynamicObject.cpp" />
+    <ClCompile Include="runtime\EnumObject.cpp" />
+    <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />

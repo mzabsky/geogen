@@ -22,6 +22,8 @@ namespace geogen
 		protected:
 			TypeDefinition(std::string const& name) : name(name) {}
 		public:			
+			virtual ~TypeDefinition() {};
+			
 			inline std::string const& GetName() const { return this->name; };
 			
 			inline SymbolDefinitionTable<VariableDefinition>& GetVariableDefinitions() { return this->variableDefinitions; };

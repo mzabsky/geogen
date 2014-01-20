@@ -68,6 +68,11 @@
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="runtime\instructions\LoadScopeValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\StoreScopeValueInstruction.hpp" />
+    <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
+    <ClInclude Include="runtime\EnumObject.hpp" />
+    <ClInclude Include="runtime\RuntimeException.hpp" />
+    <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp" />
+    <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -93,6 +98,8 @@
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\CompiledScript.cpp" />
+    <ClCompile Include="runtime\EnumObject.cpp" />
+    <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

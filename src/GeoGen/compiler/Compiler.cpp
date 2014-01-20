@@ -62,7 +62,7 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 			script->SetMetadata(new MetadataKeyValueCollection());
 		}
 
-		ScriptFunctionDefinition* code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"));
+		//ScriptFunctionDefinition* code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"));
 
 		/*cout << "=======================" << endl;
 

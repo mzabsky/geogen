@@ -174,7 +174,7 @@ functionDeclaration
 	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
 
-	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl)){
+	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(decl->GetName()))){
 		throw SymbolRedefinitionException(GGE1306_FunctionAlreadyDefined, location, decl->GetName());
 	}
         

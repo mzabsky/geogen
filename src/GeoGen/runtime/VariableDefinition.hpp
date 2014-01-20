@@ -12,8 +12,11 @@ namespace geogen
 			std::string name;
 
 			bool isConstant;
-		public:
-			VariableDefinition(std::string const& name) { this->name = name; }
+		protected:
+		public:			
+			VariableDefinition(std::string const& name, bool isConstant) :
+				name(name), isConstant(isConstant)
+			{}
 
 			inline std::string const& GetName() const { return this->name; };
 			
