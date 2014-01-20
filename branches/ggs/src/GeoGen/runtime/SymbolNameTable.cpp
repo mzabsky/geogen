@@ -1,4 +1,5 @@
 #include "SymbolNameTable.hpp"
+#include "../InternalErrorException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -38,6 +39,15 @@ int SymbolNameTable::GetNameIndex(std::string const& name) const
 	{
 		return -1;
 	}
+};
+
+std::string const& SymbolNameTable::GetNameByIndex(int symbolNameIndex) const
+{
+	if (symbolNameIndex >= (int)this->table.size()){
+		throw InternalErrorException("Symbol index not present in symbol name table.");
+	}
+
+	return this->table[symbolNameIndex];
 };
 
 size_t SymbolNameTable::ContainsName(std::string const& name) const

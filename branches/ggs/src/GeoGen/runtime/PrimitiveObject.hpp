@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DynamicObject.hpp"
+#include "EnumTypeDefinition.hpp"
 
 namespace geogen
 {
@@ -12,7 +13,9 @@ namespace geogen
 		private:
 			T value;			
 		public:
-			PrimitiveObject(TypeDefinition const* type, T value) : DynamicObject(type), value(value) {};
+			PrimitiveObject(TypeDefinition const* type, T value) : DynamicObject(type), value(value)
+			{				
+			};
 			inline T GetValue() const { return this->value; }
 		};
 	}

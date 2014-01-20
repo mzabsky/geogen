@@ -22,6 +22,7 @@ namespace geogen
 			int GetNameIndex(std::string const& name);
 			int GetNameIndex(std::string const& name) const;
 			size_t ContainsName(std::string const& name) const;
+			std::string const& GetNameByIndex(int symbolNameIndex) const;
 
 			inline const_iterator Begin() const { return this->table.begin(); }
 			inline const_iterator End() const { return this->table.end(); }

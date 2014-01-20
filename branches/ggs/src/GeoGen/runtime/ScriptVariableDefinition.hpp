@@ -13,7 +13,7 @@ namespace geogen
 		{
 		private:
 		public:
-			ScriptVariableDefinition(std::string const& name) : VariableDefinition(name) 
+			ScriptVariableDefinition(std::string const& name) : VariableDefinition(name, false) 
 			{
 			}
 		};
