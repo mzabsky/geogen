@@ -136,7 +136,7 @@ enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}' -> ^('enum' IDENTIFIER en
 enumValues: enumValue (',' enumValue)* -> enumValue+;
 
 enumValue: 
-    IDENTIFIER ( '=' expression)? -> ^(IDENTIFIER expression?);
+    IDENTIFIER ( '=' NUMBER)? -> ^(IDENTIFIER NUMBER?);
 
 functionDeclaration: 'function' IDENTIFIER '(' formalParameters? ')' block -> ^('function' IDENTIFIER ^(PARAMETERS formalParameters) block);
 
