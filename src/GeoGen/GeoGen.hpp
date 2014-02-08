@@ -45,6 +45,8 @@
 #include "runtime/instructions/CallGlobalInstruction.hpp"
 #include "runtime/instructions/CallMemberInstruction.hpp"
 #include "runtime/instructions/ContinueInstruction.hpp"
+#include "runtime/instructions/DeclareGlobalValue.hpp"
+#include "runtime/instructions/DeclareLocalValue.hpp"
 #include "runtime/instructions/IfInstruction.hpp"
 #include "runtime/instructions/LoadConstBooleanInstruction.hpp"
 #include "runtime/instructions/LoadConstNumberInstruction.hpp"

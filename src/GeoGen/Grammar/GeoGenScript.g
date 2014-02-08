@@ -148,6 +148,7 @@ statement:
     BREAK ';'!
     | CONTINUE ';'!
     | variableDeclaration ';' -> variableDeclaration
+    | globalVariableDeclaration ';' -> globalVariableDeclaration
     | expression ';' -> expression
     | yieldStatement ';' -> yieldStatement
     | returnStatement ';' -> returnStatement
@@ -159,6 +160,8 @@ statement:
     | ';' -> ;
     
 variableDeclaration: 'var' IDENTIFIER ('=' expression)? -> ^('var' IDENTIFIER expression?);
+
+globalVariableDeclaration: 'global' IDENTIFIER ('=' expression)? -> ^('global' IDENTIFIER expression?);
 
 yieldStatement: 
     YIELD expression ('as' STRING)? -> ^(YIELD expression STRING?);
@@ -301,6 +304,7 @@ METADATA: 'metadata';
 ENUM: 'enum';
 FUNCTION: 'function';
 VAR: 'var';
+GLOBAL: 'global';
 
 RETURN: 'return';
 YIELD: 'yield';
