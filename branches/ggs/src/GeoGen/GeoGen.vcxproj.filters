@@ -74,6 +74,8 @@
     <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp" />
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
+    <ClInclude Include="runtime\instructions\DeclareLocalValue.hpp" />
+    <ClInclude Include="runtime\instructions\DeclareGlobalValue.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

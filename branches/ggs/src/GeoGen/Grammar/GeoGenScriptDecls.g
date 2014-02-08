@@ -138,11 +138,11 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 {
 	CodeLocation location($ENUM.line, $ENUM.pos);
 		
-	EnumTypeDefinition* decl = new EnumTypeDefinition((char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
+	/*EnumTypeDefinition* decl = new EnumTypeDefinition((char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);*/
 	
-	if (!ctx->compiledScript->GetTypeDefinitions().AddItem(decl, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(decl->GetName()))){
+	/*if (!ctx->compiledScript->GetTypeDefinitions().AddItem(decl, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(decl->GetName()))){
 		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, decl->GetName());
-	}
+	}*/
 };
 
 enumValues returns [map<int, std::string> returnEnumValues]
@@ -275,6 +275,7 @@ statement returns [CodeBlock* returnCodeBlock]
     	$returnCodeBlock->AddInstruction(new instructions::ContinueInstruction(location, ctx->codeBlockLevel - $BlockScope::continueCodeBlockLevel));
     }
     | variableDeclaration { $returnCodeBlock = $variableDeclaration.returnCodeBlock; }
+    | globalVariableDeclaration { $returnCodeBlock = $globalVariableDeclaration.returnCodeBlock; }
     | expression 
     { 
     	CodeLocation location(0, 0);
@@ -292,27 +293,47 @@ statement returns [CodeBlock* returnCodeBlock]
     | block { $returnCodeBlock = $block.returnCodeBlock; };
     
 variableDeclaration returns [CodeBlock* returnCodeBlock]
-@init { $returnCodeBlock = new CodeBlock(); } 
+@init { $returnCodeBlock = new CodeBlock(); bool hadValue = false; } 
 : ^(VAR IDENTIFIER (expression 
 	{
+		hadValue = true;
+	
     		CodeLocation location($VAR.line, $VAR.pos);
     		
 		$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
 		delete $expression.returnCodeBlock; 
 		
 		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
 		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
 	})?)
 {
-	char* name = (char*)$IDENTIFIER.text->chars;
-	/*if(ctx->isInFunction)
-	{
-		functionDeclaration::localVariableDefinitions->AddItem(new VariableDefinition(name));
+    	CodeLocation location($VAR.line, $VAR.pos);
+	if(!hadValue){
+		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
 	}
-	else 
-	{*/
-	//ctx->compiledScript->GetGlobalVariableDefinitions().AddItem(new VariableDefinition(name));
-	//	}
+};
+
+globalVariableDeclaration returns [CodeBlock* returnCodeBlock]
+@init { $returnCodeBlock = new CodeBlock(); bool hadValue = false; } 
+: ^(GLOBAL IDENTIFIER (expression 
+	{
+		hadValue = true;
+	
+    		CodeLocation location($GLOBAL.line, $GLOBAL.pos);
+    		
+		$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
+		delete $expression.returnCodeBlock; 
+		
+		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+	})?)
+{
+    	CodeLocation location($GLOBAL.line, $GLOBAL.pos);
+	if(!hadValue){
+		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+	}
 };
 
 yieldStatement returns [CodeBlock* returnCodeBlock]

@@ -97,6 +97,8 @@
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\EnumObject.hpp" />
+    <ClInclude Include="runtime\instructions\DeclareGlobalValue.hpp" />
+    <ClInclude Include="runtime\instructions\DeclareLocalValue.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
