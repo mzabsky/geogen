@@ -54,3 +54,9 @@ postincr = 1++--;
 
 var coo = [5, 2];
 var coo1 = @[4.00];
+
+enum Orientation
+{
+	Vertical,
+	Hotizontal
+}

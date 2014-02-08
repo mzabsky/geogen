@@ -15,6 +15,9 @@ scope BlockScope
 
 @includes {
 	#include <memory>
+	#include <limits>	
+
+	#undef max
 
 	#include "../../GeoGen.hpp"
 	using namespace std;
@@ -131,11 +134,69 @@ keyValueValue: expression | keyValueCollection;
 
 declaration: enumDeclaration | functionDeclaration;
 
-enumDeclaration: ^('enum' IDENTIFIER enumValues?);
+enumDeclaration: ^(ENUM IDENTIFIER enumValues)
+{
+	CodeLocation location($ENUM.line, $ENUM.pos);
+		
+	EnumTypeDefinition* decl = new EnumTypeDefinition((char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
+	
+	if (!ctx->compiledScript->GetTypeDefinitions().AddItem(decl, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(decl->GetName()))){
+		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, decl->GetName());
+	}
+};
 
-enumValues: enumValue+;
+enumValues returns [map<int, std::string> returnEnumValues]
+@init { map<std::string, int> tempEnumValues; int number = -1; }
+: ^((IDENTIFIER (NUMBER { number = StringToNumber((char*)$NUMBER.text->chars); } )?)
+	{ 
+		CodeLocation enumValueLocation($IDENTIFIER.line, $IDENTIFIER.pos);
+		
+		if(!IsNumberInt(number))
+		{
+			throw InvalidSymbolDefinitionException(GGE1310_EnumValueNotInteger, enumValueLocation, (char*)$IDENTIFIER.text->chars);
+		}
+		
+		
+		if(!tempEnumValues.insert(std::pair<std::string, int>((char*)$IDENTIFIER.text->chars, NumberToInt(number))).second)
+		{		
+			throw SymbolRedefinitionException(GGE1309_EnumValueAlreadyDefined, enumValueLocation, (char*)$IDENTIFIER.text->chars);
+		}
+		
+		number = -1;
+	})
+{
+	// Assign unused numbers to values which have int value -1
+	for(std::map<std::string, int>::iterator it = tempEnumValues.begin(); it != tempEnumValues.end(); it++)
+	{
+		if(it->second > -1)
+		{
+			continue;
+		}
+	
+		int min = std::numeric_limits<int>::max();
+		for(std::map<std::string, int>::iterator it2 = tempEnumValues.begin(); it2 != tempEnumValues.end(); it2++)
+		{
+			int current = it2->second;
+			if(current > -1 && current < min)
+			{
+				min = current;
+			}		
+		}
+		
+		if(min == std::numeric_limits<int>::max())
+		{
+			min = 0;
+		}	
+				
+		min++;
+		
+		it->second = min;
+		
+		returnEnumValues.insert(std::pair<int, std::string>(min, it->first));
+	}
+};
 
-enumValue: ^(IDENTIFIER expression?);
+//enumValue: ;
 
 functionDeclaration
 //scope BlockScope;

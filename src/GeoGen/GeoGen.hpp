@@ -10,6 +10,7 @@
 
 #include "compiler/Compiler.hpp"
 #include "compiler/CompilerException.hpp"
+#include "compiler/InvalidSymbolDefinitionException.hpp"
 #include "compiler/SymbolRedefinitionException.hpp"
 #include "compiler/UnexpectedTokenException.hpp"
 

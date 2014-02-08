@@ -13,4 +13,14 @@ namespace geogen
 			return 0;
 		return x;
 	}
+
+	bool IsNumberInt(Number n)
+	{
+		return (int)n == n;
+	}
+
+	int NumberToInt(Number n)
+	{
+		return (int)n;
+	}
 }
