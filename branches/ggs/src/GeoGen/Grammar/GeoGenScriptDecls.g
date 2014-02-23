@@ -147,7 +147,7 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 
 enumValues returns [map<int, std::string> returnEnumValues]
 @init { map<std::string, int> tempEnumValues; int number = -1; }
-: ^((IDENTIFIER (NUMBER { number = StringToNumber((char*)$NUMBER.text->chars); } )?)
+: ^((IDENTIFIER (NUMBER { number = (int)StringToNumber((char*)$NUMBER.text->chars); } )?)
 	{ 
 		CodeLocation enumValueLocation($IDENTIFIER.line, $IDENTIFIER.pos);
 		
