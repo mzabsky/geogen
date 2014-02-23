@@ -15,3 +15,23 @@ EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const&
 		}
 	}
 }
+
+DynamicObject* EnumTypeDefinition::CreateInstance(Number value) const
+{
+	return NULL;
+}
+
+bool EnumTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
+{
+	return false;
+}
+
+bool EnumTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
+{
+	return false;
+}
+
+DynamicObject* EnumTypeDefinition::Copy(DynamicObject* object) const
+{
+	return NULL;
+}
