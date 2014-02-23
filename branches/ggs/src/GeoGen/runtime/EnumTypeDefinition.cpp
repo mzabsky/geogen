@@ -1,5 +1,6 @@
 #include "EnumTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
+#include "NumberTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -18,20 +19,45 @@ EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const&
 
 DynamicObject* EnumTypeDefinition::CreateInstance(Number value) const
 {
-	return NULL;
+	return new NumberObject(this, value);
 }
 
 bool EnumTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
 {
-	return false;
+	if (a->GetType() != this)
+	{
+		throw new InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+	}
+
+	if (b->GetType() == this)
+	{
+		return ((NumberObject const*)a)->GetValue() == ((NumberObject const*)b)->GetValue();
+	}
+
+	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
 bool EnumTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
 {
-	return false;
+	if (a->GetType() != this)
+	{
+		throw new InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+	}
+
+	if (b->GetType() == this)
+	{
+		return ((NumberObject const*)a)->GetValue() == ((NumberObject const*)b)->GetValue();
+	}
+
+	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* EnumTypeDefinition::Copy(DynamicObject* object) const
+DynamicObject* EnumTypeDefinition::Copy(DynamicObject* a) const
 {
-	return NULL;
+	if (a->GetType() != this)
+	{
+		throw new InternalErrorException("Using Copy on object of incorrect type.");
+	}
+
+	return new NumberObject(this, ((NumberObject const*)a)->GetValue());
 }
