@@ -22,8 +22,8 @@ namespace geogen
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 
-			void RegisterObject(DynamicObject* object);
-			void UnregisterObject(DynamicObject* object);
+			void RegisterObject(DynamicObject* object) { /* DUMMY */ };
+			void UnregisterObject(DynamicObject* object) { /* DUMMY */ };
 		};
 	}
 }
