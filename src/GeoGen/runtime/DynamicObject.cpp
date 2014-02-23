@@ -16,24 +16,24 @@ DynamicObject::DynamicObject(TypeDefinition const* type) : type(type)
 	this->GetType()*/
 }
 
-void DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, int memberNameIndex, DynamicObject* object)
+void DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)
 {
-	std::map<int, DynamicObject*>::iterator it = this->memberValues.find(memberNameIndex);
+	map<string, DynamicObject*>::iterator it = this->memberValues.find(memberName);
 	if (it == this->memberValues.end())
 	{
-		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberNameIndex);
+		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberName);
 		if (variableDefinition == NULL)
 		{
-			throw new UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, vm.GetCompiledScript().GetSymbolNameTable().GetNameByIndex(memberNameIndex));
+			throw new UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
 		}
 
 		if (variableDefinition->IsConstant())
 		{
-			throw new ReadOnlyWriteException(location, vm.GetCompiledScript().GetSymbolNameTable().GetNameByIndex(memberNameIndex));
+			throw new ReadOnlyWriteException(location, memberName);
 		}
 
 		object->AddRef(vm);
-		this->memberValues[memberNameIndex] = object;
+		this->memberValues[memberName] = object;
 	}
 	else if (it->second != object)
 	{
@@ -44,15 +44,15 @@ void DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, in
 	}
 }
 
-DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation location, int memberNameIndex) const
+DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName) const
 {
-	std::map<int, DynamicObject*>::const_iterator it = this->memberValues.find(memberNameIndex);
+	map<string, DynamicObject*>::const_iterator it = this->memberValues.find(memberName);
 	if (it == this->memberValues.end())
 	{
-		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberNameIndex);
+		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberName);
 		if (variableDefinition == NULL)
 		{
-			throw new UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, vm.GetCompiledScript().GetSymbolNameTable().GetNameByIndex(memberNameIndex));
+			throw new UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
 		}
 
 		return NULL;

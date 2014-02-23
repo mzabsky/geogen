@@ -11,14 +11,14 @@ namespace geogen
 			class LoadMemberValueInstruction : public Instruction
 			{
 			private:
-				int variableNameIndex;
+				std::string variableName;
 			public:
-				LoadMemberValueInstruction(CodeLocation location, int variableNameIndex) : Instruction(location)
+				LoadMemberValueInstruction(CodeLocation location, std::string variableName) : Instruction(location)
 				{
-					this->variableNameIndex = variableNameIndex;
+					this->variableName = variableName;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "LoadMemberValue " << variableNameIndex << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadMemberValue " << variableName << std::endl; }
 			};
 		}
 	}

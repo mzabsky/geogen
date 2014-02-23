@@ -81,7 +81,7 @@ scope BlockScope
 		returnCodeBlock->MoveInstructionsFrom(*e2); 
 		delete e2;
 		
-		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)operatorToken->getText(operatorToken)->chars), 2));
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (char*)operatorToken->getText(operatorToken)->chars, 2));
 	}
 	
 	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, std::string const& text, CodeBlock* e1, CodeBlock* returnCodeBlock)
@@ -91,7 +91,7 @@ scope BlockScope
 		returnCodeBlock->MoveInstructionsFrom(*e1); 
 		delete e1; 		
 		
-		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(text), 1));
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, text, 1));
 	}    	     	 
 }
 
@@ -138,11 +138,11 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 {
 	CodeLocation location($ENUM.line, $ENUM.pos);
 		
-	/*EnumTypeDefinition* decl = new EnumTypeDefinition((char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);*/
+	EnumTypeDefinition* decl = new EnumTypeDefinition(location, (char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
 	
-	/*if (!ctx->compiledScript->GetTypeDefinitions().AddItem(decl, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(decl->GetName()))){
+	if (!ctx->compiledScript->GetTypeDefinitions().AddItem(decl, decl->GetName())){
 		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, decl->GetName());
-	}*/
+	}
 };
 
 enumValues returns [map<int, std::string> returnEnumValues]
@@ -220,7 +220,7 @@ functionDeclaration
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
 			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
 			//varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
-		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)tree->getText(tree)->chars)));	
+		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)tree->getText(tree)->chars));	
 		}
 	             	
 	        codeBlock.MoveInstructionsFrom(CodeBlock()); // todo: WTF?
@@ -235,11 +235,11 @@ functionDeclaration
 	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
 
-	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl, ctx->compiledScript->GetSymbolNameTable().GetNameIndex(decl->GetName()))){
+	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl, decl->GetName())){
 		throw SymbolRedefinitionException(GGE1306_FunctionAlreadyDefined, location, decl->GetName());
 	}
         
-        ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
+        //ctx->compiledScript->GetSymbolNameTable().AddName(decl->GetName());
 };
 
 block returns [CodeBlock* returnCodeBlock] 
@@ -303,14 +303,14 @@ variableDeclaration returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
 		delete $expression.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));
-		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
-		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 	})?)
 {
     	CodeLocation location($VAR.line, $VAR.pos);
 	if(!hadValue){
-		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 	}
 };
 
@@ -325,14 +325,14 @@ globalVariableDeclaration returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
 		delete $expression.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));
-		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
-		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 	})?)
 {
     	CodeLocation location($GLOBAL.line, $GLOBAL.pos);
 	if(!hadValue){
-		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 	}
 };
 
@@ -492,7 +492,7 @@ expression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$rvalueExpression.returnCodeBlock); 
 		delete $rvalueExpression.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("="), 1));
+		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
 		$returnCodeBlock->MoveInstructionsFrom(*$lvalueExpression.returnCodeBlock); 
 		delete $lvalueExpression.returnCodeBlock; 
 	}
@@ -539,14 +539,14 @@ expression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
 		delete $e1.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::LoadMemberValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::LoadMemberValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 	}
 	| callExpression { $returnCodeBlock->MoveInstructionsFrom(*$callExpression.returnCodeBlock); delete $callExpression.returnCodeBlock;} 
 	| indexAccessExpression { $returnCodeBlock->MoveInstructionsFrom(*$indexAccessExpression.returnCodeBlock); delete $indexAccessExpression.returnCodeBlock;} 
 	| IDENTIFIER 
 	{ 
 		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
-		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars))); 
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars)); 
 	}
 	//collectionLiteral |
 	| TRUE_LIT
@@ -590,13 +590,13 @@ coordinateExpression returns[CodeBlock* returnCodeBlock]
 	}
 	
 	if(argumentCodeBlocks.size() == 1){
-		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("Coordinate")));	
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, "Coordinate"));	
 	}
 	else if(argumentCodeBlocks.size() == 2){
-		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("Point")));	
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, "Point"));	
 	}
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("Create"), argumentCodeBlocks.size()));	
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, "Create", argumentCodeBlocks.size()));	
 };
 
 callExpression returns [CodeBlock* returnCodeBlock]
@@ -612,7 +612,7 @@ callExpression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
 	}
 
-	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (char*)$IDENTIFIER.text->chars, argumentCodeBlocks.size()));
 }
 |	
 ^('(' ^('.' e1=expression IDENTIFIER) (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
@@ -627,7 +627,7 @@ callExpression returns [CodeBlock* returnCodeBlock]
 
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, (char*)$IDENTIFIER.text->chars, argumentCodeBlocks.size()));
 }
 ;
 
@@ -646,7 +646,7 @@ indexAccessExpression returns [CodeBlock* returnCodeBlock]
 
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("[]"), argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, "[]", argumentCodeBlocks.size()));
 };
 
 conditionalOperatorExpression returns [CodeBlock* returnCodeBlock]
@@ -677,7 +677,7 @@ lvalueExpression returns [CodeBlock* returnCodeBlock]
 	IDENTIFIER 
 	{ 
 		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
-		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));  
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));  
 	}
 	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
 	{
@@ -686,7 +686,7 @@ lvalueExpression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
 		delete $e1.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::StoreMemberValueInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::StoreMemberValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 	}
 	| lvalueIndexAccessExpression 
 	{ 
@@ -710,7 +710,7 @@ lvalueIndexAccessExpression returns [CodeBlock* returnCodeBlock]
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
 	// +1 for the value being written into the array
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, ctx->compiledScript->GetSymbolNameTable().GetNameIndex("[]="), argumentCodeBlocks.size() + 1));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, "[]=", argumentCodeBlocks.size() + 1));
 };
 
 

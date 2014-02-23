@@ -16,7 +16,7 @@ namespace geogen
 		private:
 			ValueDefinitions valueDefinitions;
 		public:
-			EnumTypeDefinition(VirtualMachine const& vm, std::string const& name, ValueDefinitions values);
+			EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions values);
 
 			virtual DynamicObject* CreateInstance(Number value) const;
 

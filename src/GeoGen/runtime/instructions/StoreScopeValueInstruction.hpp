@@ -11,14 +11,14 @@ namespace geogen
 			class StoreScopeValueInstruction : public Instruction
 			{
 			private:
-				int variableNameIndex;
+				std::string variableName;
 			public:				
-				StoreScopeValueInstruction(CodeLocation location, int variableNameIndex) : Instruction(location)
+				StoreScopeValueInstruction(CodeLocation location, std::string variableName) : Instruction(location)
 				{
-					this->variableNameIndex = variableNameIndex;
+					this->variableName = variableName;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "StoreScopeValue " << variableNameIndex << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "StoreScopeValue " << variableName << std::endl; }
 			};
 		}
 	}

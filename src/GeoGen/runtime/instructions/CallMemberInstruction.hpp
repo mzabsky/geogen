@@ -13,16 +13,16 @@ namespace geogen
 			class CallMemberInstruction : public Instruction
 			{
 			private:
-				int functionNameIndex;
+				std::string functionName;
 				int argumentCount;
 			public:				
-				CallMemberInstruction(CodeLocation location, int functionNameIndex, int argumentCount) : Instruction(location)
+				CallMemberInstruction(CodeLocation location, std::string functionName, int argumentCount) : Instruction(location)
 				{
-					this->functionNameIndex = functionNameIndex;
+					this->functionName = functionName;
 					this->argumentCount = argumentCount;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "CallMember " << functionNameIndex << " " << argumentCount << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "CallMember " << functionName << " " << argumentCount << std::endl; }
 			};
 		}
 	}

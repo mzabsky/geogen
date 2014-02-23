@@ -103,6 +103,7 @@
     <ClCompile Include="runtime\CompiledScript.cpp" />
     <ClCompile Include="runtime\EnumObject.cpp" />
     <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
+    <ClCompile Include="runtime\TypeDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
