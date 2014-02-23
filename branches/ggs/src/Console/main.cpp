@@ -32,7 +32,7 @@ KeyValSymbol: \
 	//HeightMap.Empty()        
 	geogen::runtime::CompiledScript const* script = compiler.CompileScript(codeString);
 
-	std::cout << script->GetSymbolNameTable().ToString();
+	//std::cout << script->GetSymbolNameTable().ToString();
 
 	std::cout << "====" << std::endl;
 

@@ -165,6 +165,7 @@
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
+    <ClCompile Include="runtime\TypeDefinition.cpp" />
     <ClCompile Include="Serializable.cpp" />
   </ItemGroup>
   <ItemGroup>

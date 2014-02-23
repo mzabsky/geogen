@@ -11,14 +11,14 @@ namespace geogen
 			class DeclareLocalValueInstruction : public Instruction
 			{
 			private:
-				int variableNameIndex;
+				std::string variableName;
 			public:
-				DeclareLocalValueInstruction(CodeLocation location, int variableNameIndex) : Instruction(location)
+				DeclareLocalValueInstruction(CodeLocation location, std::string variableName) : Instruction(location)
 				{
-					this->variableNameIndex = variableNameIndex;
+					this->variableName = variableName;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "DeclareLocalValue " << variableNameIndex << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "DeclareLocalValue " << variableName << std::endl; }
 			};
 		}
 	}

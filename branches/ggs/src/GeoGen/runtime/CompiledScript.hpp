@@ -20,7 +20,7 @@ namespace geogen
 		class CompiledScript
 		{
 			private:	
-				SymbolNameTable symbolNameTable;
+				//SymbolNameTable symbolNameTable;
 
 				SymbolDefinitionTable<VariableDefinition> globalVariableDefinitions;
 				SymbolDefinitionTable<FunctionDefinition> globalFunctionDefinitions;
@@ -33,8 +33,8 @@ namespace geogen
 				CompiledScript();
 				~CompiledScript();
 
-				inline SymbolNameTable const& GetSymbolNameTable() const { return this->symbolNameTable; }
-				inline SymbolNameTable& GetSymbolNameTable() { return this->symbolNameTable; }
+				//inline SymbolNameTable const& GetSymbolNameTable() const { return this->symbolNameTable; }
+				//inline SymbolNameTable& GetSymbolNameTable() { return this->symbolNameTable; }
 
 				inline MetadataKeyValueCollection const* GetMetadata() const { return this->metadata; }
 				inline MetadataKeyValueCollection* GetMetadata() { return this->metadata; }

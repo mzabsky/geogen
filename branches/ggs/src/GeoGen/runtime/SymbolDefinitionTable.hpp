@@ -13,7 +13,7 @@ namespace geogen
 		class SymbolDefinitionTable
 		{
 		private:
-			std::map<int, TSymbolBase*> table;
+			std::map<std::string, TSymbolBase*> table;
 
 			// Non-copyable
 			SymbolDefinitionTable(SymbolDefinitionTable const&) {}
@@ -21,7 +21,7 @@ namespace geogen
 		public:
 			SymbolDefinitionTable() {}
 
-			typedef typename std::map<int, TSymbolBase const*>::const_iterator const_iterator;
+			typedef typename std::map<std::string, TSymbolBase const*>::const_iterator const_iterator;
 			//typedef std::map<std::string, TSymbolBase*>::iterator iterator;
 
 			/*void MoveItemsFrom(SymbolDefinitionTable<TSymbolBase>& another)
@@ -34,9 +34,9 @@ namespace geogen
 				another.table.clear();
 			}*/
 
-			inline TSymbolBase* GetItem(int symbolNameIndex) 
+			inline TSymbolBase* GetItem(std::string symbolName)
 			{
-				std::map<int, TSymbolBase*>::iterator item = this->table.find(symbolNameIndex);
+				std::map<std::string, TSymbolBase*>::iterator item = this->table.find(symbolName);
 				
 				if(item == this->table.end()){
 					return NULL;
@@ -45,9 +45,9 @@ namespace geogen
 				return (*item).second;
 			};
 
-			inline TSymbolBase const* GetItem(int symbolNameIndex) const
+			inline TSymbolBase const* GetItem(std::string symbolName) const
 			{
-				std::map<int, TSymbolBase*>::const_iterator item = this->table.find(symbolNameIndex);
+				std::map<std::string, TSymbolBase*>::const_iterator item = this->table.find(symbolName);
 				
 				if(item == this->table.end()){
 					return NULL;
@@ -56,14 +56,14 @@ namespace geogen
 				return (*item).second;
 			};
 
-			inline bool ContainsItem(int symbolNameIndex) const { return this->table.find(symbolNameIndex) == this->table.end(); };
+			inline bool ContainsItem(std::string symbolName) const { return this->table.find(symbolName) == this->table.end(); };
 
-			inline bool AddItem(TSymbolBase* symbol, int symbolNameIndex) {				
-				if (this->table.find(symbolNameIndex) != this->table.end()){
+			inline bool AddItem(TSymbolBase* symbol, std::string symbolName) {
+				if (this->table.find(symbolName) != this->table.end()){
 					return false;
 				}
 
-				this->table[symbolNameIndex] = symbol;
+				this->table[symbolName] = symbol;
 
 				return true;
 			};
@@ -73,7 +73,7 @@ namespace geogen
 
 			~SymbolDefinitionTable()
 			{
-				for(std::map<int, TSymbolBase*>::iterator it = this->table.begin(); it != this->table.end(); it++)
+				for (std::map<std::string, TSymbolBase*>::iterator it = this->table.begin(); it != this->table.end(); it++)
 				{
 					delete it->second;
 				}

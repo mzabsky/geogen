@@ -13,16 +13,16 @@ namespace geogen
 			class CallGlobalInstruction : public Instruction
 			{
 			private:
-				int functionNameIndex;
+				int functionName;
 				int argumentCount;
 			public:				
-				CallGlobalInstruction(CodeLocation location, int functionNameIndex, int argumentCount) : Instruction(location)
+				CallGlobalInstruction(CodeLocation location, std::string functionNameIndex, int argumentCount) : Instruction(location)
 				{
-					this->functionNameIndex = functionNameIndex;
+					this->functionName = functionName;
 					this->argumentCount = argumentCount;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "CallGlobal " << functionNameIndex << " " << argumentCount << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "CallGlobal " << functionName << " " << argumentCount << std::endl; }
 			};
 		}
 	}
