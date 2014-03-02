@@ -39,7 +39,8 @@ tokens {
 	COLLECTION; 
 	DECLARATIONS; 
 	BLOCK; 
-	PARAMETERS; 
+	PARAMETERS;
+	VALUES; 
 	COORDINATE; 
 	IDENTCHAIN; 
 	OPERATOR_CALL; 
@@ -131,9 +132,9 @@ keyValueValue: expression | keyValueCollection;
 
 declaration: enumDeclaration | functionDeclaration;
 
-enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}' -> ^('enum' IDENTIFIER enumValues?);
+enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}' -> ^('enum' IDENTIFIER ^(VALUES enumValues?));
 
-enumValues: enumValue (',' enumValue)* -> enumValue+;
+enumValues: values+=enumValue (',' values+=enumValue)* -> $values+;
 
 enumValue: 
     IDENTIFIER ( '=' NUMBER)? -> ^(IDENTIFIER NUMBER?);

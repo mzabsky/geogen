@@ -3,6 +3,12 @@
 
 
 
+enum Enum {
+	ItemA,
+	ItemB,
+	ItemC
+}
+
 
 
     function aaa(x, y){

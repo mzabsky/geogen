@@ -84,10 +84,11 @@ SEMICOLON=86
 STRING=87
 SWITCH=88
 TRUE_LIT=89
-VAR=90
-WHILE=91
-WHITESPACE=92
-YIELD=93
+VALUES=90
+VAR=91
+WHILE=92
+WHITESPACE=93
+YIELD=94
 '!'=70
 '!='=71
 '%'=69
@@ -142,8 +143,8 @@ YIELD=93
 'return'=81
 'switch'=88
 'true'=89
-'var'=90
-'while'=91
+'var'=91
+'while'=92
 '{'=32
 '|'=48
 '|='=42
