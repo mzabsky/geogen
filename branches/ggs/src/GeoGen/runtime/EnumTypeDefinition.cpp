@@ -9,8 +9,8 @@ using namespace runtime;
 EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions valueDefinitions) : TypeDefinition(name), valueDefinitions(valueDefinitions)
 {
 	for (ValueDefinitions::const_iterator it = valueDefinitions.begin(); it != valueDefinitions.end(); it++){
-		VariableDefinition* variableDefinition = new VariableDefinition(name, true);
-		if (!this->GetVariableDefinitions().AddItem(variableDefinition, name)){
+		VariableDefinition* variableDefinition = new VariableDefinition(it->second, true);
+		if (!this->GetVariableDefinitions().AddItem(variableDefinition, it->second)){
 			delete variableDefinition;
 			throw InternalErrorException("Bad list of enum values.");
 		}
@@ -19,6 +19,7 @@ EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const&
 
 DynamicObject* EnumTypeDefinition::CreateInstance(Number value) const
 {
+	// TODO: naplnit membery ZDE!
 	return new NumberObject(this, value);
 }
 

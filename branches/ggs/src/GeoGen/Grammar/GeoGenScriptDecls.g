@@ -147,23 +147,25 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 
 enumValues returns [map<int, std::string> returnEnumValues]
 @init { map<std::string, int> tempEnumValues; int number = -1; }
-: ^((IDENTIFIER (NUMBER { number = (int)StringToNumber((char*)$NUMBER.text->chars); } )?)
+: ^(VALUES (^(IDENTIFIER (NUMBER { number = (int)StringToNumber((char*)$NUMBER.text->chars); } )?)
 	{ 
+		std::string valueName = (char*)$IDENTIFIER.text->chars;
+	
 		CodeLocation enumValueLocation($IDENTIFIER.line, $IDENTIFIER.pos);
 		
 		if(!IsNumberInt(number))
 		{
-			throw InvalidSymbolDefinitionException(GGE1310_EnumValueNotInteger, enumValueLocation, (char*)$IDENTIFIER.text->chars);
+			throw InvalidSymbolDefinitionException(GGE1310_EnumValueNotInteger, enumValueLocation, valueName);
 		}
 		
 		
-		if(!tempEnumValues.insert(std::pair<std::string, int>((char*)$IDENTIFIER.text->chars, NumberToInt(number))).second)
+		if(!tempEnumValues.insert(std::pair<std::string, int>(valueName, NumberToInt(number))).second)
 		{		
-			throw SymbolRedefinitionException(GGE1309_EnumValueAlreadyDefined, enumValueLocation, (char*)$IDENTIFIER.text->chars);
+			throw SymbolRedefinitionException(GGE1309_EnumValueAlreadyDefined, enumValueLocation, valueName);
 		}
 		
 		number = -1;
-	})
+	})*)
 {
 	// Assign unused numbers to values which have int value -1
 	for(std::map<std::string, int>::iterator it = tempEnumValues.begin(); it != tempEnumValues.end(); it++)
