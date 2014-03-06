@@ -133,6 +133,7 @@
     <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
+    <ClInclude Include="runtime\StaticObject.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
     <ClInclude Include="runtime\SymbolNameTable.hpp" />
     <ClInclude Include="runtime\TypeDefinition.hpp" />

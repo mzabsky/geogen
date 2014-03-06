@@ -25,6 +25,8 @@ namespace geogen
 		public:			
 			virtual ~DynamicObject(){};
 
+			virtual bool IsStaticObject(){ return false; };
+
 			inline TypeDefinition const* GetType() const { return this->type; };
 
 			inline bool operator<(const DynamicObject* rhs) 
