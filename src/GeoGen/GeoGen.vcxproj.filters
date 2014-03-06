@@ -76,6 +76,7 @@
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
     <ClInclude Include="runtime\instructions\DeclareLocalValue.hpp" />
     <ClInclude Include="runtime\instructions\DeclareGlobalValue.hpp" />
+    <ClInclude Include="runtime\StaticObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

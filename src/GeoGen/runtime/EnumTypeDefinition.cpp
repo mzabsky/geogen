@@ -10,7 +10,7 @@ EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const&
 {
 	for (ValueDefinitions::const_iterator it = valueDefinitions.begin(); it != valueDefinitions.end(); it++){
 		VariableDefinition* variableDefinition = new VariableDefinition(it->second, true);
-		if (!this->GetVariableDefinitions().AddItem(variableDefinition, it->second)){
+		if (!this->GetStaticVariableDefinitions().AddItem(variableDefinition, it->second)){
 			delete variableDefinition;
 			throw InternalErrorException("Bad list of enum values.");
 		}
