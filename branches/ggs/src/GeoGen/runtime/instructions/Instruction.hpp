@@ -10,6 +10,19 @@ namespace geogen
 {
 	namespace runtime
 	{
+		enum InstructionStepResultType
+		{
+			INSTRUCTION_STEP_RESULT_TYPE_NORMAL,
+			INSTRUCTION_STEP_RESULT_TYPE_CONTINUE,
+			INSTRUCTION_STEP_RESULT_TYPE_BREAK
+		};
+
+		struct InstructionStepResult
+		{
+			InstructionStepResultType type;
+			int codeBlockCount;
+		};
+
 		namespace instructions
 		{
 			class Instruction : public Serializable
@@ -18,8 +31,18 @@ namespace geogen
 				CodeLocation location;
 			protected:
 				Instruction(CodeLocation location) : location(location) {}
-			public:
+			public:				
 				inline CodeLocation GetLocation() const { return this->location; }
+
+				virtual InstructionStepResult Step() const 
+				{ 
+					InstructionStepResult result;
+					result.type = INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
+					result.codeBlockCount = 0;
+					return result; 
+				};
+
+				virtual std::string GetInstructionName() const = 0;
 			};
 		}
 	}

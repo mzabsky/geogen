@@ -3,11 +3,14 @@
 #include "../Number.hpp"
 #include "TypeDefinition.hpp"
 #include "VirtualMachine.hpp"
+#include "PrimitiveObject.hpp"
 
 namespace geogen
 {
 	namespace runtime
 	{
+		typedef PrimitiveObject<Number> NumberObject;
+
 		class NumberTypeDefinition : public TypeDefinition
 		{
 		public:
