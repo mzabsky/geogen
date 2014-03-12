@@ -53,6 +53,8 @@ namespace geogen
 			inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
 
 			VirtualMachineStepResult Step();
+
+			void Run();
 		};
 	}
 }
