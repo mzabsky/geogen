@@ -47,7 +47,7 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step()
 	codeBlockStepResult.codeBlockCount = instructionStepResult.codeBlockCount;
 	switch (instructionStepResult.type)
 	{
-	INSTRUCTION_STEP_RESULT_TYPE_NORMAL:
+	case INSTRUCTION_STEP_RESULT_TYPE_NORMAL:
 		if (this->codePointer != this->codeBlock->End())
 		{
 			codeBlockStepResult.type = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_RUNNING;
@@ -58,10 +58,10 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step()
 		}
 
 		break;
-	INSTRUCTION_STEP_RESULT_TYPE_BREAK:
+	case INSTRUCTION_STEP_RESULT_TYPE_BREAK:
 		codeBlockStepResult.type = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK;
 		break;
-	INSTRUCTION_STEP_RESULT_TYPE_CONTINUE:
+	case INSTRUCTION_STEP_RESULT_TYPE_CONTINUE:
 		codeBlockStepResult.type = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE;
 		break;
 	default:
