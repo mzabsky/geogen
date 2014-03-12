@@ -38,9 +38,10 @@ namespace geogen
 			CompiledScript const& compiledScript;
 
 			MemoryManager memoryManager;
+
+			void InitializeStaticObjects();
 		public:
-			VirtualMachine(CompiledScript const& compiledScript)
-				: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY) {};
+			VirtualMachine(CompiledScript const& compiledScript);
 			~VirtualMachine() {};
 
 			VirtualMachineStatus GetStatus() const { return this->status; }

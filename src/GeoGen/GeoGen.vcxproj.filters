@@ -82,6 +82,7 @@
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
     <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
     <ClInclude Include="runtime\MemoryManager.hpp" />
+    <ClInclude Include="ApiUsageException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

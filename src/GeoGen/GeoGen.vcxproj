@@ -136,6 +136,7 @@
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="runtime\RuntimeException.hpp" />
+    <ClInclude Include="ApiUsageException.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\StaticObject.hpp" />
