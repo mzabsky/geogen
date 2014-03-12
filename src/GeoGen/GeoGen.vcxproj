@@ -49,7 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_empty=NULL;_XKEYCHECK_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_empty=NULL;_XKEYCHECK_H;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
@@ -102,6 +102,7 @@
     <ClInclude Include="runtime\instructions\DeclareGlobalValue.hpp" />
     <ClInclude Include="runtime\instructions\DeclareLocalValue.hpp" />
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
+    <ClInclude Include="runtime\MemoryManager.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
+    <ClCompile Include="runtime\MemoryManager.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
