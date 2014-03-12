@@ -20,6 +20,8 @@ namespace geogen
 
 				inline CodeBlock& GetCodeBlock() { return this->codeBlock; };
 				inline CodeBlock const& GetCodeBlock() const { return this->codeBlock; };
+
+				virtual std::string GetInstructionName() const { return "While"; };
 			};
 		}
 	}

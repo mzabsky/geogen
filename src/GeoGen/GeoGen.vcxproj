@@ -92,14 +92,18 @@
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="Number.hpp" />
+    <ClInclude Include="runtime\CallStackEntry.hpp" />
     <ClInclude Include="runtime\CodeBlock.hpp" />
+    <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
     <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\EnumObject.hpp" />
     <ClInclude Include="runtime\instructions\DeclareGlobalValue.hpp" />
     <ClInclude Include="runtime\instructions\DeclareLocalValue.hpp" />
+    <ClInclude Include="runtime\IntermediateCodeException.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
+    <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
     <ClInclude Include="runtime\instructions\BreakInstruction.hpp" />
@@ -156,7 +160,9 @@
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
+    <ClCompile Include="runtime\CallStackEntry.cpp" />
     <ClCompile Include="runtime\CodeBlock.cpp" />
+    <ClCompile Include="runtime\CodeBlockStackEntry.cpp" />
     <ClCompile Include="runtime\CompiledScript.cpp" />
     <ClCompile Include="runtime\DynamicObject.cpp" />
     <ClCompile Include="runtime\EnumObject.cpp" />
@@ -167,6 +173,7 @@
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="runtime\TypeDefinition.cpp" />
+    <ClCompile Include="runtime\VirtualMachine.cpp" />
     <ClCompile Include="Serializable.cpp" />
   </ItemGroup>
   <ItemGroup>

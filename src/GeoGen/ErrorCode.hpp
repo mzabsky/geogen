@@ -33,5 +33,6 @@ namespace geogen
 		GGE2303_HeightOverflow = 2303,
 		GGE2304_CoordinateOverflow = 2304,
 		GGE4000_InternalError = 4000,
+		GGE4001_IntermediateCodeError = 4001,
 	};
 }
