@@ -14,7 +14,7 @@ namespace geogen
 		std::string message;
 	public:
 		explicit ApiUsageException(std::string const& message) :
-			GeoGenException(GGE4000_InternalError) {};
+			GeoGenException(GGE4000_ApiUsageError) {};
 
 		virtual std::string GetDetailMessage()
 		{
