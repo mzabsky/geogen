@@ -33,7 +33,7 @@ instructions::Instruction const* CodeBlockStackEntry::GetCurrentInstruction() co
 	}	
 }
 
-CodeBlockStackEntryStepResult CodeBlockStackEntry::Step()
+CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 {
 	if (this->codePointer == this->codeBlock->End())
 	{

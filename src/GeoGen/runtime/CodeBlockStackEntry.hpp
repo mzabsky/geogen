@@ -15,6 +15,7 @@ namespace geogen
 	namespace runtime
 	{
 		class DynamicObject;
+		class VirtualMachine;
 
 		enum CodeBlockStackEntryStepResultType
 		{
@@ -49,7 +50,7 @@ namespace geogen
 
 			inline CodeBlock const& GetCodeBlock() const { return *this->codeBlock; };
 			const instructions::Instruction* GetCurrentInstruction() const;
-			CodeBlockStackEntryStepResult Step();
+			CodeBlockStackEntryStepResult Step(VirtualMachine* vm);
 
 			virtual void Serialize(std::iostream& stream) const;
 		};
