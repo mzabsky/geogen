@@ -25,10 +25,18 @@ void VirtualMachine::InitializeStaticObjects()
 
 VirtualMachineStepResult VirtualMachine::Step()
 {
-	if (this->status == VIRTUAL_MACHINE_STATUS_READY)
+	if (this->status != VIRTUAL_MACHINE_STATUS_READY)
 	{
 		throw ApiUsageException("The VM is in incorrect state.");
 	}
 
 	return VIRTUAL_MACHINE_STEP_RESULT_RUNNING;
+}
+
+void VirtualMachine::Run()
+{
+	while (this->status == VIRTUAL_MACHINE_STATUS_READY)
+	{
+		this->Step();
+	}
 }
