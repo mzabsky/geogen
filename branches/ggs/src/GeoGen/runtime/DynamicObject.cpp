@@ -4,6 +4,7 @@
 #include "DynamicObject.hpp"
 #include "ReadOnlyWriteException.hpp"
 #include "UndefinedSymbolAccessException.hpp"
+#include "MemoryManager.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -32,13 +33,13 @@ void DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, st
 			throw new ReadOnlyWriteException(location, memberName);
 		}
 
-		object->AddRef(vm);
+		object->AddRef(vm.GetMemoryManager());
 		this->memberValues[memberName] = object;
 	}
 	else if (it->second != object)
 	{
-		it->second->RemoveRef(vm);
-		object->AddRef(vm);
+		it->second->RemoveRef(vm.GetMemoryManager());
+		object->AddRef(vm.GetMemoryManager());
 
 		it->second = object;
 	}
@@ -59,23 +60,22 @@ DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation lo
 	}
 	else
 	{
-		it->second->AddRef(vm);
+		it->second->AddRef(vm.GetMemoryManager());
 		return it->second;
 	}
 }
 
-void DynamicObject::AddRef(VirtualMachine& vm)
+void DynamicObject::AddRef(MemoryManager& vm)
 {
 	this->refCount++;
 }
 
-void DynamicObject::RemoveRef(VirtualMachine& vm)
+void DynamicObject::RemoveRef(MemoryManager& vm)
 {
 	this->refCount--;
 
 	if (this->refCount <= 0)
 	{
-		vm.UnregisterObject(this);
-		delete this;
+		vm.DestroyObject(this);
 	}
 }

@@ -81,6 +81,7 @@
     <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
     <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
+    <ClInclude Include="runtime\MemoryManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="runtime\CallStackEntry.cpp" />
     <ClCompile Include="runtime\CodeBlockStackEntry.cpp" />
     <ClCompile Include="runtime\VirtualMachine.cpp" />
+    <ClCompile Include="runtime\MemoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

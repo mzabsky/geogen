@@ -6,6 +6,7 @@
 #include "../CodeLocation.hpp"
 #include "TypeDefinition.hpp"
 #include "VirtualMachine.hpp"
+#include "MemoryManager.hpp"
 
 namespace geogen 
 {
@@ -34,8 +35,8 @@ namespace geogen
 				return this->GetType()->InstanceLessThan(this, rhs);
 			}
 
-			void AddRef(VirtualMachine& vm);
-			void RemoveRef(VirtualMachine& vm);
+			void AddRef(MemoryManager& vm);
+			void RemoveRef(MemoryManager& vm);
 			inline int GetRefCount() { return this->refCount; }
 
 			//void SetMemberValue(VirtualMachine& vm, std::string const& name, DynamicObject* object);

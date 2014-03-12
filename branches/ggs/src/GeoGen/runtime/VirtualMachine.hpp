@@ -6,6 +6,7 @@
 
 #include "CompiledScript.hpp"
 #include "CallStackEntry.hpp"
+#include "MemoryManager.hpp"
 
 namespace geogen
 {
@@ -35,20 +36,20 @@ namespace geogen
 			std::stack<CallStackEntry> callStack;
 
 			CompiledScript const& compiledScript;
+
+			MemoryManager memoryManager;
 		public:
 			VirtualMachine(CompiledScript const& compiledScript)
 				: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY) {};
 			~VirtualMachine() {};
 
 			VirtualMachineStatus GetStatus() const { return this->status; }
+			MemoryManager& GetMemoryManager() { return this->memoryManager; }
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 
 			inline std::stack<DynamicObject*>& GetObjectStack() { return this->objectStack; };
 			inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
-
-			void RegisterObject(DynamicObject* object) { /* DUMMY */ };
-			void UnregisterObject(DynamicObject* object) { /* DUMMY */ };
 
 			VirtualMachineStepResult Step();
 		};
