@@ -19,7 +19,7 @@ CallStackEntry& CallStackEntry::operator=(CallStackEntry const& other)
 	return *this;
 };
 
-CallStackEntryStepResult CallStackEntry::Step()
+CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 {
 	if (this->codeBlockStack.empty())
 	{
@@ -27,7 +27,7 @@ CallStackEntryStepResult CallStackEntry::Step()
 	}
 
 	CodeBlockStackEntry top = this->codeBlockStack.top();
-	CodeBlockStackEntryStepResult codeBlockStepResult = top.Step();
+	CodeBlockStackEntryStepResult codeBlockStepResult = top.Step(vm);
 
 	if (codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
 	{

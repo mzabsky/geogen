@@ -16,6 +16,7 @@ namespace geogen
 	namespace runtime
 	{
 		class DynamicObject;
+		class VirtualMachine;
 
 		enum CallStackEntryStepResult
 		{
@@ -36,7 +37,7 @@ namespace geogen
 			CallStackEntry(FunctionDefinition const* functionDefinition) : functionDefinition(functionDefinition) {};
 			~CallStackEntry() {};
 
-			CallStackEntryStepResult Step();
+			CallStackEntryStepResult Step(VirtualMachine* vm);
 
 			//typedef std::vector<instructions::Instruction const*>::const_iterator const_iterator;
 
