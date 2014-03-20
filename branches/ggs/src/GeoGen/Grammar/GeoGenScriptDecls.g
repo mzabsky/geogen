@@ -140,7 +140,7 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 		
 	EnumTypeDefinition* decl = new EnumTypeDefinition(location, (char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
 	
-	if (!ctx->compiledScript->GetTypeDefinitions().AddItem(decl, decl->GetName())){
+	if (!ctx->compiledScript->AddTypeDefinition(decl)){
 		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, decl->GetName());
 	}
 };
@@ -237,7 +237,7 @@ functionDeclaration
 	//SymbolDefinitionTable<VariableDefinition>* d = functionDeclaration::localVariableDefinitions;
 	//varDecls.MoveItemsFrom(*functionDeclaration::localVariableDefinitions);
 
-	if (!ctx->compiledScript->GetGlobalFunctionDefinitions().AddItem(decl, decl->GetName())){
+	if (!ctx->compiledScript->AddGlobalFunctionDefinition(decl)){
 		throw SymbolRedefinitionException(GGE1306_FunctionAlreadyDefined, location, decl->GetName());
 	}
         
