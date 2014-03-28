@@ -4,6 +4,14 @@
 
 using namespace geogen::runtime;
 
+void TypeDefinition::Initialize(VirtualMachine& vm)
+{
+	DynamicObject* staticInstance = this->CreateStaticObject();
+
+	vm.GetMemoryManager().RegisterObject(staticInstance);
+	vm.GetGlobalVariableTable().DeclareVariable(this->GetName(), staticInstance, true);
+}
+
 StaticObject* TypeDefinition::CreateStaticObject() const
 {
 	return new StaticObject(this);

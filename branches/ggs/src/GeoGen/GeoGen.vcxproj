@@ -105,6 +105,7 @@
     <ClInclude Include="runtime\Library.hpp" />
     <ClInclude Include="runtime\MemoryManager.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
+    <ClInclude Include="runtime\NullTypeDefinition.hpp" />
     <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="runtime\TypeDefinition.hpp" />
     <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp" />
     <ClInclude Include="runtime\VariableDefinition.hpp" />
+    <ClInclude Include="runtime\VariableTable.hpp" />
     <ClInclude Include="runtime\VirtualMachine.hpp" />
     <ClInclude Include="Serializable.hpp" />
   </ItemGroup>
@@ -177,6 +179,7 @@
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="runtime\TypeDefinition.cpp" />
+    <ClCompile Include="runtime\VariableTable.cpp" />
     <ClCompile Include="runtime\VirtualMachine.cpp" />
     <ClCompile Include="Serializable.cpp" />
   </ItemGroup>

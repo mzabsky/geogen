@@ -7,6 +7,7 @@
 #include "CompiledScript.hpp"
 #include "CallStackEntry.hpp"
 #include "MemoryManager.hpp"
+#include "VariableTable.hpp"
 
 namespace geogen
 {
@@ -38,6 +39,7 @@ namespace geogen
 			CompiledScript const& compiledScript;
 
 			MemoryManager memoryManager;
+			VariableTable globalVariableTable;
 
 			void InitializeStaticObjects();
 		public:
@@ -46,6 +48,7 @@ namespace geogen
 
 			VirtualMachineStatus GetStatus() const { return this->status; }
 			MemoryManager& GetMemoryManager() { return this->memoryManager; }
+			VariableTable& GetGlobalVariableTable() { return this->globalVariableTable; }
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 

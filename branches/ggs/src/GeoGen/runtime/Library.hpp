@@ -4,14 +4,18 @@
 #include <stack>
 #include <map>
 
-#include "TypeDefinition.hpp"
-#include "FunctionDefinition.hpp" 
+#include "SymbolDefinitionTable.hpp"
 #include "VariableDefinition.hpp"
+#include "TypeDefinition.hpp"
 
 namespace geogen
 {
 	namespace runtime
 	{
+		class TypeDefinition;
+		class FunctionDefinition;
+		class VariableDefinition;
+
 		class Library
 		{
 		private:

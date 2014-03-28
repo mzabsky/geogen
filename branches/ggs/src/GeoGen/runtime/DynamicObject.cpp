@@ -5,6 +5,8 @@
 #include "ReadOnlyWriteException.hpp"
 #include "UndefinedSymbolAccessException.hpp"
 #include "MemoryManager.hpp"
+#include "VariableDefinition.hpp"
+#include "TypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -15,6 +17,11 @@ DynamicObject::DynamicObject(TypeDefinition const* type) : type(type)
 	/*for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = type->GetVariableDefinitions().)
 	for
 	this->GetType()*/
+}
+
+bool DynamicObject::operator<(const DynamicObject* rhs)
+{
+	return this->GetType()->InstanceLessThan(this, rhs);
 }
 
 void DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)

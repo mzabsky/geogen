@@ -21,6 +21,8 @@ namespace geogen
 			inline std::string const& GetName() const { return this->name; };
 			
 			inline bool IsConstant() const { return this->isConstant; };
+
+
 		};
 	}
 }

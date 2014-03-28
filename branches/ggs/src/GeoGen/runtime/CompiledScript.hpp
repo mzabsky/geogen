@@ -3,20 +3,20 @@
 #include <vector>
 #include <string>
 
-#include "VariableDefinition.hpp"
-#include "FunctionDefinition.hpp"
 #include "SymbolDefinitionTable.hpp"
 #include "SymbolNameTable.hpp"
 #include "CodeBlock.hpp"
 #include "MetadataValue.hpp"
 #include "MetadataKeyValueCollection.hpp"
-#include "Library.hpp"
 
 namespace geogen 
 {
 	namespace runtime
 	{
 		class TypeDefinition;
+		class VariableDefinition;
+		class FunctionDefinition;
+		class Library;
 
 		class CompiledScript
 		{
@@ -31,6 +31,7 @@ namespace geogen
 				std::vector<TypeDefinition*> ownedTypeDefinitions;
 
 				CodeBlock rootCodeBlock;
+				//CodeBlock initializationCodeBlock;
 
 				MetadataKeyValueCollection* metadata;
 			public:
@@ -56,6 +57,9 @@ namespace geogen
 
 				inline CodeBlock& GetRootCodeBlock() { return this->rootCodeBlock; }
 				inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }
+
+				/*inline CodeBlock& GetInitializationCodeBlock() { return this->initializationCodeBlock; }
+				inline CodeBlock const& GetInitializationCodeBlock() const { return this->initializationCodeBlock; }*/
 
 				bool AddGlobalFunctionDefinition(FunctionDefinition* functionDefintion);
 				bool AddTypeDefinition(TypeDefinition* typeDefinition);

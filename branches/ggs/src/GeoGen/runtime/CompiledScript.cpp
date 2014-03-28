@@ -1,6 +1,10 @@
 #include <iostream>
 
 #include "CompiledScript.hpp"
+#include "Library.hpp"
+#include "FunctionDefinition.hpp"
+#include "VariableDefinition.hpp"
+#include "TypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
