@@ -57,7 +57,7 @@ namespace geogen
 				return (*item).second;
 			};
 
-			inline bool ContainsItem(std::string const& symbolName) const { return this->table.find(symbolName) == this->table.end(); };
+			inline bool ContainsItem(std::string const& symbolName) const { return this->table.find(symbolName) != this->table.end(); };
 
 			inline bool AddItem(TSymbolBase const* symbol, std::string const& symbolName) {
 				if (TOwning)
