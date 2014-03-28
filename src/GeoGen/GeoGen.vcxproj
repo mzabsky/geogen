@@ -179,6 +179,7 @@
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="runtime\TypeDefinition.cpp" />
+    <ClCompile Include="runtime\VariableDefinition.cpp" />
     <ClCompile Include="runtime\VariableTable.cpp" />
     <ClCompile Include="runtime\VirtualMachine.cpp" />
     <ClCompile Include="Serializable.cpp" />

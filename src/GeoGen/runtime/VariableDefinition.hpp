@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "VirtualMachine.hpp"
+
 namespace geogen 
 {
 	namespace runtime
@@ -22,7 +24,9 @@ namespace geogen
 			
 			inline bool IsConstant() const { return this->isConstant; };
 
+			virtual DynamicObject* CreateDefaultValue() const { return NULL; }
 
+			virtual void Initialize(VirtualMachine& vm) const;
 		};
 	}
 }

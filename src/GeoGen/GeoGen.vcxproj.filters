@@ -119,6 +119,7 @@
     <ClCompile Include="runtime\VirtualMachine.cpp" />
     <ClCompile Include="runtime\MemoryManager.cpp" />
     <ClCompile Include="runtime\VariableTable.cpp" />
+    <ClCompile Include="runtime\VariableDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
