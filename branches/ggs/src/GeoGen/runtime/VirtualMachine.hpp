@@ -41,7 +41,7 @@ namespace geogen
 			MemoryManager memoryManager;
 			VariableTable globalVariableTable;
 
-			void InitializeStaticObjects();
+			void InitializeTypes();
 		public:
 			VirtualMachine(CompiledScript const& compiledScript);
 			~VirtualMachine() {};

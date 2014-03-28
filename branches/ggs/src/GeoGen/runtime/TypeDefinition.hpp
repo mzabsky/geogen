@@ -46,7 +46,7 @@ namespace geogen
 
 			StaticObject* CreateStaticObject() const;
 
-			virtual void Initialize(VirtualMachine& vm);
+			virtual void Initialize(VirtualMachine& vm) const;
 
 			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const = 0;
 			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
