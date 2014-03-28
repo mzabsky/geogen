@@ -1,3 +1,4 @@
+#include "../InternalErrorException.hpp"
 #include "TypeDefinition.hpp"
 #include "DynamicObject.hpp"
 #include "StaticObject.hpp"
@@ -9,7 +10,11 @@ void TypeDefinition::Initialize(VirtualMachine& vm)
 	DynamicObject* staticInstance = this->CreateStaticObject();
 
 	vm.GetMemoryManager().RegisterObject(staticInstance);
-	vm.GetGlobalVariableTable().DeclareVariable(this->GetName(), staticInstance, true);
+
+	if (!vm.GetGlobalVariableTable().DeclareVariable(this->GetName(), staticInstance, true))
+	{
+		throw InternalErrorException("Could not declare static object variable.");
+	}
 }
 
 StaticObject* TypeDefinition::CreateStaticObject() const
