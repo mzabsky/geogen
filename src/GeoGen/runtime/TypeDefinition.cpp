@@ -5,7 +5,7 @@
 
 using namespace geogen::runtime;
 
-void TypeDefinition::Initialize(VirtualMachine& vm)
+void TypeDefinition::Initialize(VirtualMachine& vm) const
 {
 	DynamicObject* staticInstance = this->CreateStaticObject();
 

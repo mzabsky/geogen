@@ -8,18 +8,17 @@ using namespace geogen::runtime;
 VirtualMachine::VirtualMachine(CompiledScript const& compiledScript)
 : compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY)
 {
-	this->InitializeStaticObjects();
+	this->InitializeTypes();
 };
 
-void VirtualMachine::InitializeStaticObjects()
+void VirtualMachine::InitializeTypes()
 {
 	for (
 		SymbolDefinitionTable<TypeDefinition>::const_iterator it = this->GetCompiledScript().GetTypeDefinitions().Begin(); 
 		it != this->GetCompiledScript().GetTypeDefinitions().End(); 
 		it++)
 	{
-		DynamicObject* staticObject = (*it).second->CreateStaticObject();
-		this->GetMemoryManager().RegisterObject(staticObject);
+		it->second->Initialize(*this);
 	}
 }
 
