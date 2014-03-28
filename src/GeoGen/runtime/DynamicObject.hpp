@@ -4,7 +4,6 @@
 #include <functional>
 
 #include "../CodeLocation.hpp"
-#include "TypeDefinition.hpp"
 #include "VirtualMachine.hpp"
 #include "MemoryManager.hpp"
 
@@ -12,6 +11,8 @@ namespace geogen
 {
 	namespace runtime 
 	{
+		class TypeDefinition;
+
 		class DynamicObject
 		{
 		private:
@@ -30,10 +31,7 @@ namespace geogen
 
 			inline TypeDefinition const* GetType() const { return this->type; };
 
-			inline bool operator<(const DynamicObject* rhs) 
-			{
-				return this->GetType()->InstanceLessThan(this, rhs);
-			}
+			bool operator<(const DynamicObject* rhs);
 
 			void AddRef(MemoryManager& vm);
 			void RemoveRef(MemoryManager& vm);

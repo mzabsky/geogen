@@ -1,21 +1,20 @@
 #pragma once
 
 #include "../Number.hpp"
-#include "VirtualMachine.hpp"
 #include "TypeDefinition.hpp"
 #include "VirtualMachine.hpp"
 #include "PrimitiveObject.hpp"
-
+/*
 namespace geogen
 {
 	namespace runtime
 	{
 		typedef PrimitiveObject<Number> NumberObject;
 
-		class NumberTypeDefinition : public TypeDefinition
+		class NullTypeDefinition : public TypeDefinition
 		{
 		public:
-			NumberTypeDefinition() : TypeDefinition("Number") {}
+			NullTypeDefinition() : TypeDefinition("Null") {}
 
 			virtual DynamicObject* CreateInstance(Number value) const;
 
@@ -25,4 +24,4 @@ namespace geogen
 			virtual DynamicObject* Copy(DynamicObject* a) const;
 		};
 	}
-}
+}*/

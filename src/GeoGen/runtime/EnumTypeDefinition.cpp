@@ -1,6 +1,7 @@
-#include "EnumTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
+#include "EnumTypeDefinition.hpp"
 #include "NumberTypeDefinition.hpp"
+#include "VariableDefinition.hpp"
 
 using namespace std;
 using namespace geogen;

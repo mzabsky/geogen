@@ -2,9 +2,11 @@
 #include "..\Number.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "DynamicObject.hpp"
+#include "StaticObject.hpp"
 
 using namespace geogen;
 using namespace runtime;
+using namespace std;
 
 DynamicObject* NumberTypeDefinition::CreateInstance(Number value) const
 {

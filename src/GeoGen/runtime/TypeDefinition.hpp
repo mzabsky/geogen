@@ -2,9 +2,10 @@
 
 #include <string>
 
+#include "SymbolDefinitionTable.hpp"
+#include "VirtualMachine.hpp"
 #include "VariableDefinition.hpp"
 #include "FunctionDefinition.hpp"
-#include "SymbolDefinitionTable.hpp"
 
 namespace geogen 
 {
@@ -12,6 +13,8 @@ namespace geogen
 	{
 		class DynamicObject;
 		class StaticObject;
+		class VariableDefinition;
+		class FunctionDefinition;
 
 		class TypeDefinition
 		{
@@ -42,6 +45,8 @@ namespace geogen
 			inline SymbolDefinitionTable<FunctionDefinition> const& GetStaticFunctionDefinitions() const { return this->functionDefinitions; };
 
 			StaticObject* CreateStaticObject() const;
+
+			virtual void Initialize(VirtualMachine& vm);
 
 			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const = 0;
 			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
