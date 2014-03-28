@@ -1,5 +1,6 @@
 #include "VirtualMachine.hpp"
 #include "TypeDefinition.hpp"
+#include "VariableDefinition.hpp"
 #include "StaticObject.hpp"
 #include "..\ApiUsageException.hpp"
 
@@ -9,6 +10,7 @@ VirtualMachine::VirtualMachine(CompiledScript const& compiledScript)
 : compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY)
 {
 	this->InitializeTypes();
+	this->InitializeGlobalVariables();
 };
 
 void VirtualMachine::InitializeTypes()
@@ -17,6 +19,17 @@ void VirtualMachine::InitializeTypes()
 		SymbolDefinitionTable<TypeDefinition>::const_iterator it = this->GetCompiledScript().GetTypeDefinitions().Begin(); 
 		it != this->GetCompiledScript().GetTypeDefinitions().End(); 
 		it++)
+	{
+		it->second->Initialize(*this);
+	}
+}
+
+void VirtualMachine::InitializeGlobalVariables()
+{
+	for (
+		SymbolDefinitionTable<VariableDefinition>::const_iterator it = this->GetCompiledScript().GetGlobalVariableDefinitions().Begin();
+		it != this->GetCompiledScript().GetGlobalVariableDefinitions().End();
+	it++)
 	{
 		it->second->Initialize(*this);
 	}

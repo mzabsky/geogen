@@ -42,6 +42,7 @@ namespace geogen
 			VariableTable globalVariableTable;
 
 			void InitializeTypes();
+			void InitializeGlobalVariables();
 		public:
 			VirtualMachine(CompiledScript const& compiledScript);
 			~VirtualMachine() {};
