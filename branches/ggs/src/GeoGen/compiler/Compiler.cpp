@@ -9,9 +9,12 @@
 #include "../Grammar/output/GeoGenScriptDecls.h"
 
 #include "../runtime/instructions/IfInstruction.hpp"
+#include "../runtime/ScriptFunctionDefinition.hpp"
 
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
+
+
 
 using namespace std;
 using namespace geogen;
@@ -60,6 +63,13 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 		if (script->GetMetadata() != NULL)
 		{
 			script->SetMetadata(new MetadataKeyValueCollection());
+		}
+
+		ScriptFunctionDefinition* mainFunctionDefinition = new ScriptFunctionDefinition(CompiledScript::MAIN_FUNCTION_NAME, CodeLocation(0, 0), 0);
+		if (!script->AddGlobalFunctionDefinition(mainFunctionDefinition))
+		{
+			delete mainFunctionDefinition;
+			throw InternalErrorException("Main function name conflict.");
 		}
 
 		//ScriptFunctionDefinition* code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"));

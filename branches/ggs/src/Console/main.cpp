@@ -36,7 +36,7 @@ KeyValSymbol: \
 
 	std::cout << "====" << std::endl;
 
-	std::cout << script->GetRootCodeBlock().ToString();
+	//std::cout << script->GetRootCodeBlock().ToString();
 
 	geogen::Number n(2);
 	geogen::Number n2 = n / geogen::Number(3);

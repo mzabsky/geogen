@@ -35,6 +35,8 @@ namespace geogen
 
 				MetadataKeyValueCollection* metadata;
 			public:
+				static const std::string MAIN_FUNCTION_NAME;
+
 				CompiledScript();
 				~CompiledScript();
 
@@ -55,8 +57,8 @@ namespace geogen
 				inline SymbolDefinitionTable<TypeDefinition> const& GetTypeDefinitions() const { return this->typeDefinitions; }
 				//inline SymbolDefinitionTable<TypeDefinition>& GetTypeDefinitions() { return this->typeDefinitions; }
 
-				inline CodeBlock& GetRootCodeBlock() { return this->rootCodeBlock; }
-				inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }
+				/*inline CodeBlock& GetRootCodeBlock() { return this->rootCodeBlock; }
+				inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }*/
 
 				/*inline CodeBlock& GetInitializationCodeBlock() { return this->initializationCodeBlock; }
 				inline CodeBlock const& GetInitializationCodeBlock() const { return this->initializationCodeBlock; }*/
