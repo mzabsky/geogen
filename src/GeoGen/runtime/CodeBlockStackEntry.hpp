@@ -28,7 +28,7 @@ namespace geogen
 		struct CodeBlockStackEntryStepResult
 		{
 			CodeBlockStackEntryStepResultType type;
-			int codeBlockCount;
+			unsigned codeBlockCount;
 			bool isLooping;
 		};
 

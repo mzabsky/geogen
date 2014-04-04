@@ -10,6 +10,8 @@ using namespace std;
 using namespace geogen;
 using namespace runtime;
 
+const string CompiledScript::MAIN_FUNCTION_NAME = "<main>";
+
 CompiledScript::CompiledScript()
 {
 	this->metadata = NULL;

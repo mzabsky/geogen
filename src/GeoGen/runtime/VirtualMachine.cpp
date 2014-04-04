@@ -3,6 +3,7 @@
 #include "VariableDefinition.hpp"
 #include "StaticObject.hpp"
 #include "..\ApiUsageException.hpp"
+#include "..\InternalErrorException.hpp"
 
 using namespace geogen::runtime;
 
@@ -11,6 +12,7 @@ VirtualMachine::VirtualMachine(CompiledScript const& compiledScript)
 {
 	this->InitializeTypes();
 	this->InitializeGlobalVariables();
+	this->InitializeMainFunction();
 };
 
 void VirtualMachine::InitializeTypes()
@@ -29,10 +31,21 @@ void VirtualMachine::InitializeGlobalVariables()
 	for (
 		SymbolDefinitionTable<VariableDefinition>::const_iterator it = this->GetCompiledScript().GetGlobalVariableDefinitions().Begin();
 		it != this->GetCompiledScript().GetGlobalVariableDefinitions().End();
-	it++)
+		it++)
 	{
 		it->second->Initialize(*this);
 	}
+}
+
+void VirtualMachine::InitializeMainFunction()
+{
+	FunctionDefinition const* mainFunctionDefinition = this->GetCompiledScript().GetGlobalFunctionDefinitions().GetItem(CompiledScript::MAIN_FUNCTION_NAME);
+	if (mainFunctionDefinition == NULL)
+	{
+		throw InternalErrorException("The script doesn't have a main function.");
+	}
+
+	this->CallFunction(mainFunctionDefinition);
 }
 
 VirtualMachineStepResult VirtualMachine::Step()
@@ -42,7 +55,18 @@ VirtualMachineStepResult VirtualMachine::Step()
 		throw ApiUsageException("The VM is in incorrect state.");
 	}
 
+	CallStackEntry callStackEntry = this->callStack.top();
+	CallStackEntryStepResult stepResult = callStackEntry.Step(this);
+
 	return VIRTUAL_MACHINE_STEP_RESULT_RUNNING;
+}
+
+void VirtualMachine::CallFunction(FunctionDefinition const* functionDefinition)
+{
+	CallStackEntry callStackEntry(functionDefinition);
+	this->callStack.push(callStackEntry);
+
+	functionDefinition->Call(this);
 }
 
 void VirtualMachine::Run()

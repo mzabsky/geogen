@@ -31,6 +31,7 @@ scope BlockScope
 
 @context {
 	geogen::runtime::CompiledScript* compiledScript;
+	geogen::runtime::CodeBlock rootCodeBlock;
 	
 	pANTLR3_BASE_TREE_ADAPTOR	adaptor;
 	pANTLR3_VECTOR_FACTORY		vectors;
@@ -96,7 +97,7 @@ scope BlockScope
 }
 
 
-script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block) { ctx->compiledScript->GetRootCodeBlock().MoveInstructionsFrom(*$block.returnCodeBlock); delete $block.returnCodeBlock; };
+script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block) { ctx->rootCodeBlock.MoveInstructionsFrom(*$block.returnCodeBlock); delete $block.returnCodeBlock; };
         
 metadata: ^('metadata' metadataKeyValueCollection) { ctx->compiledScript->SetMetadata(dynamic_cast<MetadataKeyValueCollection*>($metadataKeyValueCollection.value)); };
 

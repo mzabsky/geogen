@@ -43,6 +43,7 @@ namespace geogen
 
 			void InitializeTypes();
 			void InitializeGlobalVariables();
+			void InitializeMainFunction();
 		public:
 			VirtualMachine(CompiledScript const& compiledScript);
 			~VirtualMachine() {};
@@ -57,6 +58,8 @@ namespace geogen
 			inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
 
 			VirtualMachineStepResult Step();
+
+			void CallFunction(FunctionDefinition const* functionDefintion);
 
 			void Run();
 		};
