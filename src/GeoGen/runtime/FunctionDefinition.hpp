@@ -16,7 +16,7 @@ namespace geogen
 			FunctionDefinition(std::string const& name) { this->name = name; }
 			inline std::string const& GetName() const { return this->name; };
 
-			void Call(VirtualMachine* vm) const {};
+			virtual void Call(VirtualMachine* vm) const = 0;
 		};
 	}
 }

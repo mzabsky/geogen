@@ -19,6 +19,13 @@ CallStackEntry& CallStackEntry::operator=(CallStackEntry const& other)
 	return *this;
 };
 
+void CallStackEntry::CallCodeBlock(CodeBlock const& codeBlock, bool isLooping)
+{
+	CodeBlockStackEntry codeBlockStackEntry(codeBlock, isLooping);
+
+	this->codeBlockStack.push(codeBlockStackEntry);
+}
+
 CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 {
 	if (this->codeBlockStack.empty())

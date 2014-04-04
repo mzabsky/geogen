@@ -177,6 +177,7 @@
     <ClCompile Include="runtime\MemoryManager.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
+    <ClCompile Include="runtime\ScriptFunctionDefinition.cpp" />
     <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="runtime\TypeDefinition.cpp" />
     <ClCompile Include="runtime\VariableDefinition.cpp" />

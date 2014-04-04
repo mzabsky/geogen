@@ -37,6 +37,10 @@ namespace geogen
 			CallStackEntry(FunctionDefinition const* functionDefinition) : functionDefinition(functionDefinition) {};
 			~CallStackEntry() {};
 
+			inline std::stack<CodeBlockStackEntry>& GetCodeBlockStack() { return this->codeBlockStack; };
+
+			void CallCodeBlock(CodeBlock const& codeBlock, bool isLooping);
+
 			CallStackEntryStepResult Step(VirtualMachine* vm);
 
 			//typedef std::vector<instructions::Instruction const*>::const_iterator const_iterator;

@@ -54,8 +54,11 @@ namespace geogen
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 
-			inline std::stack<DynamicObject*>& GetObjectStack() { return this->objectStack; };
-			inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
+			inline std::stack<DynamicObject*> const& GetObjectStack() { return this->objectStack; };
+			//inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
+
+			inline std::stack<CallStackEntry>& GetCallStack() { return this->callStack; };
+			//inline std::stack<CallStackEntry const> const& GetCallStack() const { return *((std::stack<DynamicObject const*>*)&this->callStack); };
 
 			VirtualMachineStepResult Step();
 

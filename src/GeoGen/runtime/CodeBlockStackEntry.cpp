@@ -5,6 +5,7 @@ using namespace geogen::runtime;
 
 CodeBlockStackEntry::CodeBlockStackEntry(CodeBlock const& codeBlock, bool isLooping) : codeBlock(&codeBlock), isLooping(isLooping)
 {
+	this->codePointer = codeBlock.Begin();
 }
 
 CodeBlockStackEntry::CodeBlockStackEntry(CodeBlockStackEntry const& other)

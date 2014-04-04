@@ -4,6 +4,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="testinput2.txt" />
     <Text Include="testinput.txt" />
   </ItemGroup>
 </Project>
