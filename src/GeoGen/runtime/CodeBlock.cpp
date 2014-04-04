@@ -10,7 +10,7 @@ using namespace geogen::runtime;
 
 CodeBlock::~CodeBlock() 
 {
-	for(std::vector<instructions::Instruction const*>::iterator it = this->instructions.begin(); it != this->instructions.end(); it++)
+	for (std::vector<instructions::Instruction const*>::iterator it = this->instructions.begin(); it != this->instructions.end(); it++)
 	{
 		delete *it;
 	}
@@ -23,10 +23,12 @@ void CodeBlock::AddInstruction(instructions::Instruction const* instruction)
 
 void CodeBlock::MoveInstructionsFrom(CodeBlock& another)
 {
-	for(std::vector<instructions::Instruction const*>::iterator it = another.instructions.begin(); it != another.instructions.end(); it++)
+	std::move(another.instructions.begin(), another.instructions.end(), back_inserter(this->instructions));
+
+	/*for(std::vector<instructions::Instruction const*>::iterator it = another.instructions.begin(); it != another.instructions.end(); it++)
 	{
 		this->instructions.push_back(*it);
-	}
+	}*/
 
 	another.instructions.clear();
 }

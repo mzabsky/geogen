@@ -26,6 +26,7 @@ Compiler::Compiler(){}
 CompiledScript const* Compiler::CompileScript(std::string const& code) const
 {
 	auto_ptr<CompiledScript> script(new CompiledScript());
+	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());
 
 	AnlrInputStreamWrapper input ((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
 	AntlrLexerWrapper lex(input);	
@@ -47,6 +48,7 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 		
 		walker.GetPtr()->compiledScript = script.get();		
 		walker.GetPtr()->vectors = vectorFactory.GetPtr();
+		walker.GetPtr()->rootCodeBlock = rootCodeBlock.get();
 
 		printf("Tree : %s\n", r.tree->toString(r.tree)->chars);
 
@@ -66,6 +68,8 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 		}
 
 		ScriptFunctionDefinition* mainFunctionDefinition = new ScriptFunctionDefinition(CompiledScript::MAIN_FUNCTION_NAME, CodeLocation(0, 0), 0);
+		mainFunctionDefinition->GetRootCodeBlock().AddInstruction(new instructions::YieldAsMainInstruction(CodeLocation(0, 0)));
+		mainFunctionDefinition->GetRootCodeBlock().MoveInstructionsFrom(*walker.GetPtr()->rootCodeBlock);
 		if (!script->AddGlobalFunctionDefinition(mainFunctionDefinition))
 		{
 			delete mainFunctionDefinition;
