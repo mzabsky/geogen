@@ -89,6 +89,7 @@
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
     <ClInclude Include="runtime\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CoreLibrary.hpp" />
+    <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

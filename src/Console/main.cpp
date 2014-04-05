@@ -35,12 +35,17 @@ KeyValSymbol: \
 	geogen::runtime::VirtualMachine vm(*script);
 	//vm.Run();
 
-	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
-	{
-		vm.Step();
-		std::string str;
-		std::getline(std::cin, str);
-	}
+	//try{
+		while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
+		{
+			vm.Step();
+			std::string str;
+			std::getline(std::cin, str);
+		}
+	/*}
+	catch (geogen::GeoGenException e){
+		std::cout << e.GetDetailMessage();
+	}*/
 
 	//std::cout << script->GetSymbolNameTable().ToString();
 
