@@ -38,21 +38,16 @@ namespace geogen
 					throw InternalErrorException("Object stack should contain at least 1 object.");
 				}
 
-				BooleanObject* conditionObject = (BooleanObject*)vm->GetObjectStack().top();
+				DynamicObject* conditionObject = (BooleanObject*)vm->GetObjectStack().top();
 				vm->GetObjectStack().pop();
 
-				TypeDefinition const* boolTypeDefinition = vm->GetCompiledScript().GetTypeDefinitions().GetItem("Boolean");
-				if (boolTypeDefinition == NULL)
-				{
-					throw InternalErrorException("Could not find core type \"Boolean\".");
-				}
-
+				TypeDefinition const* boolTypeDefinition = vm->GetBooleanTypeDefinition();
 				if (conditionObject->GetType() != boolTypeDefinition)
 				{
 					throw IncorrectTypeException(GGE2104_IncorrectConditionResultType, this->GetLocation(), boolTypeDefinition->GetName(), conditionObject->GetType()->GetName());
 				}
 
-				if (conditionObject->GetValue())
+				if (dynamic_cast<BooleanObject*>(conditionObject)->GetValue())
 				{
 					CodeBlockStackEntry codeBlockStackEntry(this->GetIfBranchCodeBlock(), false);
 					vm->GetCallStack().top().GetCodeBlockStack().push(codeBlockStackEntry);
