@@ -22,7 +22,7 @@ void VirtualMachine::InitializeTypes()
 		it != this->GetCompiledScript().GetTypeDefinitions().End(); 
 		it++)
 	{
-		it->second->Initialize(*this);
+		it->second->Initialize(this);
 	}
 }
 
@@ -33,7 +33,7 @@ void VirtualMachine::InitializeGlobalVariables()
 		it != this->GetCompiledScript().GetGlobalVariableDefinitions().End();
 		it++)
 	{
-		it->second->Initialize(*this);
+		it->second->Initialize(this);
 	}
 }
 

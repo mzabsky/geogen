@@ -8,6 +8,7 @@
 #include "CodeBlock.hpp"
 #include "MetadataValue.hpp"
 #include "MetadataKeyValueCollection.hpp"
+#include "CoreLibrary.hpp"
 
 namespace geogen 
 {
@@ -34,6 +35,8 @@ namespace geogen
 				//CodeBlock initializationCodeBlock;
 
 				MetadataKeyValueCollection* metadata;
+
+				CoreLibrary coreLibrary;
 			public:
 				static const std::string MAIN_FUNCTION_NAME;
 

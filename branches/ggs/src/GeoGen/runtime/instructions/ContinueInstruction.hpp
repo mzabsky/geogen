@@ -11,9 +11,9 @@ namespace geogen
 			class ContinueInstruction : public Instruction
 			{
 			private:
-				int codeBlockCount;
+				unsigned codeBlockCount;
 			public:				
-				ContinueInstruction(CodeLocation location, int codeBlockCount) : Instruction(location)
+				ContinueInstruction(CodeLocation location, unsigned codeBlockCount) : Instruction(location)
 				{
 					this->codeBlockCount = codeBlockCount;
 				}
