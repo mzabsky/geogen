@@ -2,8 +2,10 @@
 #include "TypeDefinition.hpp"
 #include "VariableDefinition.hpp"
 #include "StaticObject.hpp"
+#include "BooleanTypeDefinition.hpp"
 #include "..\ApiUsageException.hpp"
 #include "..\InternalErrorException.hpp"
+#include "NumberTypeDefinition.hpp"
 
 using namespace geogen::runtime;
 
@@ -93,4 +95,38 @@ void VirtualMachine::Run()
 	{
 		this->Step();
 	}
+}
+
+DynamicObject* VirtualMachine::GetNull()
+{
+	VariableTableItem* variableTableItem = this->GetGlobalVariableTable().GetVariable("null");
+
+	if (variableTableItem == NULL)
+	{
+		throw InternalErrorException("Could not get \"null\" value.");
+	}
+
+	return variableTableItem->GetValue();
+}
+
+BooleanTypeDefinition const* VirtualMachine::GetBooleanTypeDefinition() const
+{
+	BooleanTypeDefinition const* booleanTypeDefinition = dynamic_cast<BooleanTypeDefinition const*>(this->GetCompiledScript().GetTypeDefinitions().GetItem("Boolean"));
+	if (booleanTypeDefinition == NULL)
+	{
+		throw InternalErrorException("Could not get \"Boolean\" type definition.");
+	}
+
+	return booleanTypeDefinition;
+}
+
+NumberTypeDefinition const* VirtualMachine::GetNumberTypeDefinition() const
+{
+	NumberTypeDefinition const* numberTypeDefinition = dynamic_cast<NumberTypeDefinition const*>(this->GetCompiledScript().GetTypeDefinitions().GetItem("Number"));
+	if (numberTypeDefinition == NULL)
+	{
+		throw InternalErrorException("Could not get \"Boolean\" type definition.");
+	}
+
+	return numberTypeDefinition;
 }

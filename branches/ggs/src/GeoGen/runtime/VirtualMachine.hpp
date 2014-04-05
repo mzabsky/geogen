@@ -14,6 +14,8 @@ namespace geogen
 	namespace runtime
 	{
 		class DynamicObject;
+		class BooleanTypeDefinition;
+		class NumberTypeDefinition;
 
 		enum VirtualMachineStatus
 		{
@@ -65,6 +67,10 @@ namespace geogen
 			void CallFunction(FunctionDefinition const* functionDefintion);
 
 			void Run();
+
+			DynamicObject* GetNull();
+			BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
+			NumberTypeDefinition const* GetNumberTypeDefinition() const;
 		};
 	}
 }

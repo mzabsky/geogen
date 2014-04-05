@@ -4,7 +4,8 @@
 #include "TypeDefinition.hpp"
 #include "VirtualMachine.hpp"
 #include "PrimitiveObject.hpp"
-/*
+#include "..\InternalErrorException.hpp"
+
 namespace geogen
 {
 	namespace runtime
@@ -14,14 +15,12 @@ namespace geogen
 		class NullTypeDefinition : public TypeDefinition
 		{
 		public:
-			NullTypeDefinition() : TypeDefinition("Null") {}
+			NullTypeDefinition() : TypeDefinition("null") {}
 
-			virtual DynamicObject* CreateInstance(Number value) const;
-
-			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const;
-			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
-
-			virtual DynamicObject* Copy(DynamicObject* a) const;
+			virtual DynamicObject* Copy(DynamicObject* a) const
+			{
+				throw InternalErrorException("Null can't have instances.");
+			};
 		};
 	}
-}*/
+}
