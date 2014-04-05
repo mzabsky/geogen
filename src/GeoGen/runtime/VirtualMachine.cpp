@@ -55,10 +55,28 @@ VirtualMachineStepResult VirtualMachine::Step()
 		throw ApiUsageException("The VM is in incorrect state.");
 	}
 
-	CallStackEntry callStackEntry = this->callStack.top();
-	CallStackEntryStepResult stepResult = callStackEntry.Step(this);
+	CallStackEntry& callStackEntry = this->callStack.top();
 
-	return VIRTUAL_MACHINE_STEP_RESULT_RUNNING;
+	std::cout << "VM STEP - " << callStackEntry.GetFunctionDefinition()->GetName() << " " << &callStackEntry << "" <<  std::endl;
+
+	CallStackEntryStepResult stepResult = callStackEntry.Step(this);
+	
+	std::cout << "VM STEP RESULT - " << stepResult << std::endl;
+
+	if (stepResult == CALL_STACK_ENTRY_STEP_RESULT_FINISHED)
+	{
+		callStack.pop();
+	}
+
+	if (callStack.size() > 0)
+	{
+		return VIRTUAL_MACHINE_STEP_RESULT_RUNNING;
+	}
+	else
+	{
+		this->status = VIRTUAL_MACHINE_STATUS_FINISHED;
+		return VIRTUAL_MACHINE_STEP_RESULT_FINISHED;
+	}
 }
 
 void VirtualMachine::CallFunction(FunctionDefinition const* functionDefinition)

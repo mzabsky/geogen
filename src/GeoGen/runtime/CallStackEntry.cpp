@@ -33,14 +33,24 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 		throw InternalErrorException("The code block stack was empty (this call stack entry is already finished?)");
 	}
 
-	CodeBlockStackEntry top = this->codeBlockStack.top();
+	CodeBlockStackEntry& top = this->codeBlockStack.top();
+
+	std::cout << "\tCALL STACK STEP " << &top << std::endl;
+
+	bool topIsLooping = top.IsLooping();
+	CodeBlock const& topCodeBlock = top.GetCodeBlock();
 	CodeBlockStackEntryStepResult codeBlockStepResult = top.Step(vm);
 
-	if (codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
+	if (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
 	{
 		this->codeBlockStack.pop();
 	}
-	else if (codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK)
+
+	std::cout << "\tCALL STACK STEP RESULT " << codeBlockStepResult << std::endl;
+
+	// The top reference may now be pointing to an invalid address, because the entry was removed from the stack.
+
+	/*else if (codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK)
 	{ 
 		if (codeBlockStepResult.codeBlockCount > this->codeBlockStack.size())
 		{
@@ -51,12 +61,12 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 		{
 			this->codeBlockStack.pop();
 		}
-	}
+	}*/
 
 	// TODO: Sledovat lokalni promenne
-	if (top.IsLooping() && codeBlockStepResult.type != CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK)
+	if (topIsLooping && (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED))
 	{
-		CodeBlockStackEntry newCodeBlockStackEntry(top.GetCodeBlock(), true);
+		CodeBlockStackEntry newCodeBlockStackEntry(topCodeBlock, true);
 		this->codeBlockStack.push(newCodeBlockStackEntry);
 	}	
 

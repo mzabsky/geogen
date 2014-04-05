@@ -10,18 +10,18 @@ namespace geogen
 {
 	namespace runtime
 	{
-		enum InstructionStepResultType
+		enum InstructionStepResult
 		{
 			INSTRUCTION_STEP_RESULT_TYPE_NORMAL,
 			INSTRUCTION_STEP_RESULT_TYPE_CONTINUE,
 			INSTRUCTION_STEP_RESULT_TYPE_BREAK
 		};
 
-		struct InstructionStepResult
+		/*struct InstructionStepResult
 		{
 			InstructionStepResultType type;
 			int codeBlockCount;
-		};
+		};*/
 
 		namespace instructions
 		{
@@ -37,8 +37,8 @@ namespace geogen
 				virtual InstructionStepResult Step() const 
 				{ 
 					InstructionStepResult result;
-					result.type = INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
-					result.codeBlockCount = 0;
+					result = INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
+					//result.codeBlockCount = 0;
 					return result; 
 				};
 

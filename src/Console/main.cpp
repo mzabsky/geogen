@@ -33,7 +33,14 @@ KeyValSymbol: \
 	geogen::runtime::CompiledScript const* script = compiler.CompileScript(codeString);
 
 	geogen::runtime::VirtualMachine vm(*script);
+	//vm.Run();
 
+	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
+	{
+		vm.Step();
+		std::string str;
+		std::getline(std::cin, str);
+	}
 
 	//std::cout << script->GetSymbolNameTable().ToString();
 

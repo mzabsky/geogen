@@ -39,6 +39,8 @@ namespace geogen
 
 			inline std::stack<CodeBlockStackEntry>& GetCodeBlockStack() { return this->codeBlockStack; };
 
+			inline FunctionDefinition const* GetFunctionDefinition() const { return this->functionDefinition; }
+
 			void CallCodeBlock(CodeBlock const& codeBlock, bool isLooping);
 
 			CallStackEntryStepResult Step(VirtualMachine* vm);
