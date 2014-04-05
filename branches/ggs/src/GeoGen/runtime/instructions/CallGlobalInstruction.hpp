@@ -13,10 +13,10 @@ namespace geogen
 			class CallGlobalInstruction : public Instruction
 			{
 			private:
-				int functionName;
+				std::string functionName;
 				int argumentCount;
 			public:				
-				CallGlobalInstruction(CodeLocation location, std::string functionNameIndex, int argumentCount) : Instruction(location)
+				CallGlobalInstruction(CodeLocation location, std::string functionName, int argumentCount) : Instruction(location)
 				{
 					this->functionName = functionName;
 					this->argumentCount = argumentCount;
