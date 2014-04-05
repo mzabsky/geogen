@@ -37,7 +37,7 @@ CompiledScript::~CompiledScript()
 
 bool CompiledScript::AddGlobalFunctionDefinition(FunctionDefinition* functionDefintion)
 {
-	if (!this->globalFunctionDefinitions.AddItem(functionDefintion, functionDefintion->GetName()))
+	if (!this->globalFunctionDefinitions.AddItem(functionDefintion))
 	{
 		return false;
 	}
@@ -49,7 +49,7 @@ bool CompiledScript::AddGlobalFunctionDefinition(FunctionDefinition* functionDef
 
 bool CompiledScript::AddTypeDefinition(TypeDefinition* typeDefinition)
 {
-	if (!this->typeDefinitions.AddItem(typeDefinition, typeDefinition->GetName()))
+	if (!this->typeDefinitions.AddItem(typeDefinition))
 	{
 		return false;
 	}
@@ -63,7 +63,7 @@ void CompiledScript::AddLibrary(Library const* library)
 {
 	for (SymbolDefinitionTable<TypeDefinition>::const_iterator it = library->GetTypeDefinitions().Begin(); it != library->GetTypeDefinitions().Begin(); it++)
 	{
-		if (!this->typeDefinitions.AddItem(it->second, it->first))
+		if (!this->typeDefinitions.AddItem(it->second))
 		{
 			throw ApiUsageException("Type with the same name is already registered.");
 		}
@@ -71,7 +71,7 @@ void CompiledScript::AddLibrary(Library const* library)
 
 	for (SymbolDefinitionTable<FunctionDefinition>::const_iterator it = library->GetGlobalFunctionDefinitions().Begin(); it != library->GetGlobalFunctionDefinitions().Begin(); it++)
 	{
-		if (this->globalFunctionDefinitions.AddItem(it->second, it->first))
+		if (this->globalFunctionDefinitions.AddItem(it->second))
 		{
 			throw ApiUsageException("Global function with the same name is already registered.");
 		}
@@ -79,7 +79,7 @@ void CompiledScript::AddLibrary(Library const* library)
 
 	for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = library->GetGlobalVariableDefinitions().Begin(); it != library->GetGlobalVariableDefinitions().Begin(); it++)
 	{
-		if (this->globalVariableDefinitions.AddItem(it->second, it->first))
+		if (this->globalVariableDefinitions.AddItem(it->second))
 		{
 			throw ApiUsageException("Global variable with the same name is already registered.");
 		}

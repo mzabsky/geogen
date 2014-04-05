@@ -19,12 +19,12 @@ namespace geogen
 		class Library
 		{
 		private:
+			Library(Library const& other) {};
+			Library& operator=(Library const& other) {};
+		protected:
 			SymbolDefinitionTable<VariableDefinition, true> globalVariableDefinitions;
 			SymbolDefinitionTable<FunctionDefinition, true> globalFunctionDefinitions;
 			SymbolDefinitionTable<TypeDefinition, true> typeDefinitions;
-
-			Library(Library const& other) {};
-			Library& operator=(Library const& other) {};
 		public:			
 			Library() {};
 			virtual ~Library() {};

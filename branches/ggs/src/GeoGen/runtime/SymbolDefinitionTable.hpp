@@ -59,28 +59,28 @@ namespace geogen
 
 			inline bool ContainsItem(std::string const& symbolName) const { return this->table.find(symbolName) != this->table.end(); };
 
-			inline bool AddItem(TSymbolBase const* symbol, std::string const& symbolName) {
+			inline bool AddItem(TSymbolBase const* symbol) {
 				if (TOwning)
 				{
 					throw ApiUsageException("Cannot add const object to an exclusively owning collection.");
 				}
 
-				if (this->table.find(symbolName) != this->table.end()){
+				if (this->table.find(symbol->GetName()) != this->table.end()){
 					return false;
 				}
 
 				// We know only const operations will be done with the object (if the collection is not exclusively owning).
-				this->table[symbolName] = const_cast<TSymbolBase*>(symbol);
+				this->table[symbol->GetName()] = const_cast<TSymbolBase*>(symbol);
 
 				return true;
 			};
 
-			inline bool AddItem(TSymbolBase* symbol, std::string const& symbolName) {
-				if (this->table.find(symbolName) != this->table.end()){
+			inline bool AddItem(TSymbolBase* symbol) {
+				if (this->table.find(symbol->GetName()) != this->table.end()){
 					return false;
 				}
 
-				this->table[symbolName] = symbol;
+				this->table[symbol->GetName()] = symbol;
 
 				return true;
 			};
