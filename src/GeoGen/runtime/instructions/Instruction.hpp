@@ -23,6 +23,8 @@ namespace geogen
 			int codeBlockCount;
 		};*/
 
+		class VirtualMachine;
+
 		namespace instructions
 		{
 			class Instruction : public Serializable
@@ -34,7 +36,7 @@ namespace geogen
 			public:				
 				inline CodeLocation GetLocation() const { return this->location; }
 
-				virtual InstructionStepResult Step() const 
+				virtual InstructionStepResult Step(VirtualMachine* vm) const 
 				{ 
 					InstructionStepResult result;
 					result = INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
