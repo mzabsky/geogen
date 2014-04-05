@@ -122,6 +122,7 @@
     <ClCompile Include="runtime\VariableDefinition.cpp" />
     <ClCompile Include="runtime\ScriptFunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\BreakInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\ContinueInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
