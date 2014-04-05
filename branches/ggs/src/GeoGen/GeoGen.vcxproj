@@ -173,6 +173,7 @@
     <ClCompile Include="runtime\EnumObject.cpp" />
     <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
     <ClCompile Include="runtime\instructions\BreakInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\ContinueInstruction.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
     <ClCompile Include="runtime\MemoryManager.cpp" />
