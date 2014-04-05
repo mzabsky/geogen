@@ -92,6 +92,7 @@
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="Number.hpp" />
+    <ClInclude Include="runtime\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CallStackEntry.hpp" />
     <ClInclude Include="runtime\CodeBlock.hpp" />
     <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\EnumObject.hpp" />
+    <ClInclude Include="runtime\IncorrectTypeException.hpp" />
     <ClInclude Include="runtime\instructions\DeclareGlobalValue.hpp" />
     <ClInclude Include="runtime\instructions\DeclareLocalValue.hpp" />
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
@@ -165,6 +167,7 @@
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
+    <ClCompile Include="runtime\BooleanTypeDefinition.cpp" />
     <ClCompile Include="runtime\CallStackEntry.cpp" />
     <ClCompile Include="runtime\CodeBlock.cpp" />
     <ClCompile Include="runtime\CodeBlockStackEntry.cpp" />
