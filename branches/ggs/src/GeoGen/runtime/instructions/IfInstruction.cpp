@@ -54,12 +54,12 @@ namespace geogen
 
 				if (conditionObject->GetValue())
 				{
-					CodeBlockStackEntry codeBlockStackEntry(this->GetIfBranchCodeBlock(), true);
+					CodeBlockStackEntry codeBlockStackEntry(this->GetIfBranchCodeBlock(), false);
 					vm->GetCallStack().top().GetCodeBlockStack().push(codeBlockStackEntry);
 				}
 				else
 				{
-					CodeBlockStackEntry codeBlockStackEntry(this->GetElseBranchCodeBlock(), true);
+					CodeBlockStackEntry codeBlockStackEntry(this->GetElseBranchCodeBlock(), false);
 					vm->GetCallStack().top().GetCodeBlockStack().push(codeBlockStackEntry);
 				}
 				

@@ -40,7 +40,8 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 {
 	if (this->codePointer == this->codeBlock->End())
 	{
-		throw InternalErrorException("This code block has already finished (end of instruction list reached).");
+		return CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED;
+		//throw InternalErrorException("This code block has already finished (end of instruction list reached).");
 	}
 
 	std::cout << "\t\tINSTRUCTION STEP " << (*this->codePointer)->ToString();
