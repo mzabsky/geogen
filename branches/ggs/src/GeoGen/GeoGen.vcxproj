@@ -152,6 +152,7 @@
     <ClInclude Include="runtime\VariableDefinition.hpp" />
     <ClInclude Include="runtime\VariableTable.hpp" />
     <ClInclude Include="runtime\VirtualMachine.hpp" />
+    <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
     <ClInclude Include="Serializable.hpp" />
   </ItemGroup>
   <ItemGroup>

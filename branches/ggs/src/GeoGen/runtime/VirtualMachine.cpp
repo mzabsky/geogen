@@ -6,6 +6,7 @@
 #include "..\ApiUsageException.hpp"
 #include "..\InternalErrorException.hpp"
 #include "NumberTypeDefinition.hpp"
+#include "VirtualMachineStatusGuard.hpp"
 
 using namespace geogen::runtime;
 
@@ -57,6 +58,8 @@ VirtualMachineStepResult VirtualMachine::Step()
 		throw ApiUsageException("The VM is in incorrect state.");
 	}
 
+	VirtualMachineStatusGuard statusGuard(this->status);
+
 	CallStackEntry& callStackEntry = this->callStack.top();
 
 	std::cout << "VM STEP - " << callStackEntry.GetFunctionDefinition()->GetName() << " " << &callStackEntry << "" <<  std::endl;
@@ -70,14 +73,16 @@ VirtualMachineStepResult VirtualMachine::Step()
 		callStack.pop();
 	}
 
+	VirtualMachineStepResult result;
 	if (callStack.size() > 0)
-	{
-		return VIRTUAL_MACHINE_STEP_RESULT_RUNNING;
+	{		
+		result = VIRTUAL_MACHINE_STEP_RESULT_RUNNING;
+		statusGuard.SetGuardStatus(VIRTUAL_MACHINE_STATUS_READY);
 	}
 	else
-	{
-		this->status = VIRTUAL_MACHINE_STATUS_FINISHED;
-		return VIRTUAL_MACHINE_STEP_RESULT_FINISHED;
+	{		
+		result = VIRTUAL_MACHINE_STEP_RESULT_FINISHED;
+		statusGuard.SetGuardStatus(VIRTUAL_MACHINE_STATUS_FINISHED);
 	}
 }
 
