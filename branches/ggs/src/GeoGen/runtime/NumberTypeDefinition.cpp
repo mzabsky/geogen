@@ -50,5 +50,10 @@ DynamicObject* NumberTypeDefinition::Copy(DynamicObject* a) const
 		throw new InternalErrorException("Using Copy on object of incorrect type.");
 	}
 
+	if (a->IsStaticObject())
+	{
+		return a;
+	}
+
 	return new NumberObject(this, ((NumberObject const*)a)->GetValue());
 }
