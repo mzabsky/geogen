@@ -49,5 +49,10 @@ DynamicObject* BooleanTypeDefinition::Copy(DynamicObject* a) const
 		throw new InternalErrorException("Using Copy on object of incorrect type.");
 	}
 
+	if (a->IsStaticObject())
+	{
+		return a;
+	}
+
 	return new BooleanObject(this, ((BooleanObject const*)a)->GetValue());
 }
