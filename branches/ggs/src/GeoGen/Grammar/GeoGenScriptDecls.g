@@ -267,7 +267,7 @@ statement returns [CodeBlock* returnCodeBlock]
     	}
     
     	$returnCodeBlock = new CodeBlock();  
-    	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel - $BlockScope::breakCodeBlockLevel));
+    	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel - $BlockScope::breakCodeBlockLevel + 1));
     }
     | CONTINUE 
     { 
@@ -279,7 +279,7 @@ statement returns [CodeBlock* returnCodeBlock]
     	}
     
     	$returnCodeBlock = new CodeBlock();  
-    	$returnCodeBlock->AddInstruction(new instructions::ContinueInstruction(location, ctx->codeBlockLevel - $BlockScope::continueCodeBlockLevel));
+    	$returnCodeBlock->AddInstruction(new instructions::ContinueInstruction(location, ctx->codeBlockLevel - $BlockScope::continueCodeBlockLevel + 1));
     }
     | variableDeclaration { $returnCodeBlock = $variableDeclaration.returnCodeBlock; }
     | globalVariableDeclaration { $returnCodeBlock = $globalVariableDeclaration.returnCodeBlock; }

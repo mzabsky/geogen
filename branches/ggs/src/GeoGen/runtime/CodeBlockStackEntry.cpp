@@ -45,7 +45,7 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 
 	std::cout << "\t\tINSTRUCTION STEP " << (*this->codePointer)->ToString();
 
-	InstructionStepResult instructionStepResult = (*this->codePointer)->Step();
+	InstructionStepResult instructionStepResult = (*this->codePointer)->Step(vm);
 
 	std::cout << "\t\tINSTRUCTION STEP RESULT " << instructionStepResult << std::endl;
 

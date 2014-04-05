@@ -1,3 +1,10 @@
 var a = 2 + 2;
 
+while(a < 7)
+{
+	a = a + 1;
+
+	break;
+}
+
 yield HeightMap.Empty();
