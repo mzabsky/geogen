@@ -1,4 +1,5 @@
 #include "ScriptFunctionDefinition.hpp"
+#include "VirtualMachine.hpp"
 
 using namespace geogen::runtime;
 using namespace std;

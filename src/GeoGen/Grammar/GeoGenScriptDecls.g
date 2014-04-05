@@ -393,7 +393,7 @@ scope BlockScope;
 	delete $expression.returnCodeBlock;
 	
 	instructions::IfInstruction* ifInstr = new instructions::IfInstruction(location);
-	ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 1));
+	ifInstr->GetElseBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 2));
 	whileCodeBlock.AddInstruction(ifInstr);
 	
 	whileCodeBlock.MoveInstructionsFrom(*$statement.returnCodeBlock);
@@ -439,7 +439,7 @@ scope BlockScope;
 		delete conditionExpressionCodeBlock;
 		
 		instructions::IfInstruction* ifInstr = new instructions::IfInstruction(location);
-		ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 1));
+		ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 2));
 		whileCodeBlock.AddInstruction(ifInstr);
 	}
 

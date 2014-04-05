@@ -1,6 +1,6 @@
 var a = 2 + 2;
 
-while(a < 7)
+while(false)
 {
 	a = a + 1;
 

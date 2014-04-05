@@ -3,7 +3,7 @@
 #include <string>
 
 #include "SymbolDefinitionTable.hpp"
-#include "VirtualMachine.hpp"
+
 #include "VariableDefinition.hpp"
 #include "FunctionDefinition.hpp"
 
@@ -46,9 +46,9 @@ namespace geogen
 
 			StaticObject* CreateStaticObject() const;
 
-			virtual void Initialize(VirtualMachine& vm) const;
+			virtual void Initialize(VirtualMachine* vm) const;
 
-			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const = 0;
+			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const;
 			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
 
 			virtual DynamicObject* Copy(DynamicObject* a) const = 0;

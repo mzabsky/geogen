@@ -5,13 +5,13 @@
 
 using namespace geogen::runtime;
 
-void TypeDefinition::Initialize(VirtualMachine& vm) const
+void TypeDefinition::Initialize(VirtualMachine* vm) const
 {
 	DynamicObject* staticInstance = this->CreateStaticObject();
 
-	vm.GetMemoryManager().RegisterObject(staticInstance);
+	vm->GetMemoryManager().RegisterObject(staticInstance);
 
-	if (!vm.GetGlobalVariableTable().DeclareVariable(this->GetName(), staticInstance, true))
+	if (!vm->GetGlobalVariableTable().DeclareVariable(this->GetName(), staticInstance, true))
 	{
 		throw InternalErrorException("Could not declare static object variable (already initialized or name conflict?).");
 	}
@@ -20,6 +20,11 @@ void TypeDefinition::Initialize(VirtualMachine& vm) const
 StaticObject* TypeDefinition::CreateStaticObject() const
 {
 	return new StaticObject(this);
+}
+
+bool TypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
+{
+	return a < b;
 }
 
 bool TypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const

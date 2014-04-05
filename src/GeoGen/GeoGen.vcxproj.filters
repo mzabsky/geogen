@@ -88,6 +88,7 @@
     <ClInclude Include="runtime\VariableTable.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
     <ClInclude Include="runtime\BooleanTypeDefinition.hpp" />
+    <ClInclude Include="runtime\CoreLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -126,6 +127,8 @@
     <ClCompile Include="runtime\instructions\BreakInstruction.cpp" />
     <ClCompile Include="runtime\instructions\ContinueInstruction.cpp" />
     <ClCompile Include="runtime\BooleanTypeDefinition.cpp" />
+    <ClCompile Include="runtime\CoreLibrary.cpp" />
+    <ClCompile Include="runtime\instructions\LoadConstBooleanInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

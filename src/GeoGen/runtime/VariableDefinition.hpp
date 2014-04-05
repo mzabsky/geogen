@@ -2,12 +2,13 @@
 
 #include <string>
 
-#include "VirtualMachine.hpp"
-
 namespace geogen 
 {
 	namespace runtime
 	{
+		class DynamicObject;
+		class VirtualMachine;
+
 		class VariableDefinition
 		{
 		private:
@@ -26,7 +27,7 @@ namespace geogen
 
 			virtual DynamicObject* CreateDefaultValue() const { return NULL; }
 
-			virtual void Initialize(VirtualMachine& vm) const;
+			virtual void Initialize(VirtualMachine* vm) const;
 		};
 	}
 }

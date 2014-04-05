@@ -14,6 +14,7 @@ const string CompiledScript::MAIN_FUNCTION_NAME = "<main>";
 
 CompiledScript::CompiledScript()
 {
+	this->AddLibrary(&this->coreLibrary);
 	this->metadata = NULL;
 }
 
@@ -61,7 +62,7 @@ bool CompiledScript::AddTypeDefinition(TypeDefinition* typeDefinition)
 
 void CompiledScript::AddLibrary(Library const* library)
 {
-	for (SymbolDefinitionTable<TypeDefinition>::const_iterator it = library->GetTypeDefinitions().Begin(); it != library->GetTypeDefinitions().Begin(); it++)
+	for (SymbolDefinitionTable<TypeDefinition>::const_iterator it = library->GetTypeDefinitions().Begin(); it != library->GetTypeDefinitions().End(); it++)
 	{
 		if (!this->typeDefinitions.AddItem(it->second))
 		{
@@ -69,7 +70,7 @@ void CompiledScript::AddLibrary(Library const* library)
 		}
 	}
 
-	for (SymbolDefinitionTable<FunctionDefinition>::const_iterator it = library->GetGlobalFunctionDefinitions().Begin(); it != library->GetGlobalFunctionDefinitions().Begin(); it++)
+	for (SymbolDefinitionTable<FunctionDefinition>::const_iterator it = library->GetGlobalFunctionDefinitions().Begin(); it != library->GetGlobalFunctionDefinitions().End(); it++)
 	{
 		if (this->globalFunctionDefinitions.AddItem(it->second))
 		{
@@ -77,7 +78,7 @@ void CompiledScript::AddLibrary(Library const* library)
 		}
 	}
 
-	for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = library->GetGlobalVariableDefinitions().Begin(); it != library->GetGlobalVariableDefinitions().Begin(); it++)
+	for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = library->GetGlobalVariableDefinitions().Begin(); it != library->GetGlobalVariableDefinitions().End(); it++)
 	{
 		if (this->globalVariableDefinitions.AddItem(it->second))
 		{

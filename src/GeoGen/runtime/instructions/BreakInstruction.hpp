@@ -11,9 +11,9 @@ namespace geogen
 			class BreakInstruction : public Instruction
 			{
 			private:
-				int codeBlockCount;
+				unsigned codeBlockCount;
 			public:				
-				BreakInstruction(CodeLocation location, int codeBlockCount) : Instruction(location)
+				BreakInstruction(CodeLocation location, unsigned codeBlockCount) : Instruction(location)
 				{
 					this->codeBlockCount = codeBlockCount;
 				}
