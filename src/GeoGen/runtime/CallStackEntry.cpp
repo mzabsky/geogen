@@ -66,8 +66,7 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	// TODO: Sledovat lokalni promenne
 	if (topIsLooping && (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED))
 	{
-		CodeBlockStackEntry newCodeBlockStackEntry(topCodeBlock, true);
-		this->codeBlockStack.push(newCodeBlockStackEntry);
+		this->CallCodeBlock(topCodeBlock, true);
 	}	
 
 	if (this->codeBlockStack.empty())
