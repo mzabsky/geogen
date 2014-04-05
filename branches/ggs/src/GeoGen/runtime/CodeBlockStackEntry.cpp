@@ -12,12 +12,14 @@ CodeBlockStackEntry::CodeBlockStackEntry(CodeBlockStackEntry const& other)
 {
 	this->codeBlock = other.codeBlock;
 	this->codePointer = other.codePointer;
+	this->isLooping = other.isLooping;
 };
 
 CodeBlockStackEntry& CodeBlockStackEntry::operator=(CodeBlockStackEntry const& other)
 {
 	this->codeBlock = other.codeBlock;
 	this->codePointer = other.codePointer;
+	this->isLooping = other.isLooping;
 
 	return *this;
 };
@@ -41,29 +43,36 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 		throw InternalErrorException("This code block has already finished (end of instruction list reached).");
 	}
 
+	std::cout << "\t\tINSTRUCTION STEP " << (*this->codePointer)->ToString();
+
 	InstructionStepResult instructionStepResult = (*this->codePointer)->Step();
-	this->codePointer = this->codePointer++;
+
+	std::cout << "\t\tINSTRUCTION STEP RESULT " << instructionStepResult << std::endl;
+
+	// Note that "this" pointer may now be pointing to invalid addeess, because the entry was removed from the code block stack.
+	// This should be indicated by appropriate instruction step result.
 
 	CodeBlockStackEntryStepResult codeBlockStepResult;
-	codeBlockStepResult.codeBlockCount = instructionStepResult.codeBlockCount;
-	switch (instructionStepResult.type)
+	//codeBlockStepResult.codeBlockCount = instructionStepResult.codeBlockCount;
+	switch (instructionStepResult)
 	{
 	case INSTRUCTION_STEP_RESULT_TYPE_NORMAL:
+		this->codePointer++;
 		if (this->codePointer != this->codeBlock->End())
-		{
-			codeBlockStepResult.type = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_RUNNING;
+		{			
+			codeBlockStepResult = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_RUNNING;
 		}
 		else
 		{
-			codeBlockStepResult.type = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED;
+			codeBlockStepResult = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED;
 		}
 
 		break;
 	case INSTRUCTION_STEP_RESULT_TYPE_BREAK:
-		codeBlockStepResult.type = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK;
+		codeBlockStepResult = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK;
 		break;
 	case INSTRUCTION_STEP_RESULT_TYPE_CONTINUE:
-		codeBlockStepResult.type = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE;
+		codeBlockStepResult = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE;
 		break;
 	default:
 		throw InternalErrorException("Invalid item in CodeBlockStackEntryStepResultType.");

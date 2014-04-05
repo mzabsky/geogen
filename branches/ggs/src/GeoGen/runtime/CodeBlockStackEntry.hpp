@@ -17,7 +17,7 @@ namespace geogen
 		class DynamicObject;
 		class VirtualMachine;
 
-		enum CodeBlockStackEntryStepResultType
+		enum CodeBlockStackEntryStepResult
 		{
 			CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_RUNNING,
 			CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED,
@@ -25,12 +25,12 @@ namespace geogen
 			CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE
 		};
 
-		struct CodeBlockStackEntryStepResult
+		/*struct CodeBlockStackEntryStepResult
 		{
 			CodeBlockStackEntryStepResultType type;
 			unsigned codeBlockCount;
 			bool isLooping;
-		};
+		};*/
 
 		class CodeBlockStackEntry : public Serializable
 		{
