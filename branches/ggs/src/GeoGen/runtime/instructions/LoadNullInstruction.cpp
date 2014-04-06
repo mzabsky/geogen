@@ -9,7 +9,7 @@ using namespace geogen::runtime::instructions;
 
 InstructionStepResult LoadNullInstruction::Step(VirtualMachine* vm) const
 {
-	vm->GetObjectStack().push(vm->GetNull());
+	vm->GetObjectStack().Push(vm->GetNull());
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }

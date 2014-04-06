@@ -9,6 +9,7 @@
 #include "MemoryManager.hpp"
 #include "VariableTable.hpp"
 #include "CallStack.hpp"
+#include "ObjectStack.hpp"
 
 namespace geogen
 {
@@ -37,7 +38,7 @@ namespace geogen
 		private:
 			VirtualMachineStatus status;
 			
-			std::stack<DynamicObject*> objectStack;
+			ObjectStack objectStack;
 			CallStack callStack;
 
 			CompiledScript const& compiledScript;
@@ -62,7 +63,7 @@ namespace geogen
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 
-			inline std::stack<DynamicObject*>& GetObjectStack() { return this->objectStack; };
+			inline ObjectStack& GetObjectStack() { return this->objectStack; };
 			//inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
 
 			inline CallStack& GetCallStack() { return this->callStack; };

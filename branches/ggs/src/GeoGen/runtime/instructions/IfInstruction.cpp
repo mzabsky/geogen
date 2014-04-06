@@ -33,13 +33,8 @@ namespace geogen
 
 			InstructionStepResult IfInstruction::Step(VirtualMachine* vm) const
 			{
-				if (vm->GetObjectStack().size() < 1)
-				{
-					throw InternalErrorException("Object stack should contain at least 1 object.");
-				}
-
-				DynamicObject* conditionObject = (BooleanObject*)vm->GetObjectStack().top();
-				vm->GetObjectStack().pop();
+				DynamicObject* conditionObject = (BooleanObject*)vm->GetObjectStack().Top();
+				vm->GetObjectStack().Pop();
 
 				TypeDefinition const* boolTypeDefinition = vm->GetBooleanTypeDefinition();
 				if (conditionObject->GetType() != boolTypeDefinition)

@@ -95,6 +95,7 @@
     <ClInclude Include="runtime\CodeBlockStack.hpp" />
     <ClInclude Include="runtime\CallStack.hpp" />
     <ClInclude Include="runtime\NullReferenceException.hpp" />
+    <ClInclude Include="runtime\ObjectStack.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
     <ClCompile Include="runtime\instructions\LoadScopeValueInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp" />
+    <ClCompile Include="runtime\ObjectStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
