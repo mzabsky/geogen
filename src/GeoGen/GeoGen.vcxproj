@@ -113,6 +113,7 @@
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="runtime\NullTypeDefinition.hpp" />
     <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
+    <ClInclude Include="runtime\ObjectStack.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
     <ClInclude Include="runtime\instructions\BreakInstruction.hpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
     <ClCompile Include="runtime\MemoryManager.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
+    <ClCompile Include="runtime\ObjectStack.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\ScriptFunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\StoreMemberValueInstruction.cpp" />

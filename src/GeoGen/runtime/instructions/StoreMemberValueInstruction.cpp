@@ -12,16 +12,16 @@ using namespace geogen::runtime::instructions;
 
 InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) const
 {
-	DynamicObject* instance = vm->GetObjectStack().top();
-	vm->GetObjectStack().pop();
+	DynamicObject* instance = vm->GetObjectStack().Top();
+	vm->GetObjectStack().Pop();
 
 	if (instance == vm->GetNull())
 	{
 		throw NullReferenceException(this->GetLocation());
 	}
 
-	DynamicObject* value = vm->GetObjectStack().top();
-	vm->GetObjectStack().pop();
+	DynamicObject* value = vm->GetObjectStack().Top();
+	vm->GetObjectStack().Pop();
 
 	if (instance->SetMemberValue(*vm, this->GetLocation(), this->variableName, value))
 	{
