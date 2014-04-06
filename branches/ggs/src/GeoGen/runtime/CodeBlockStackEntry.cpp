@@ -3,12 +3,14 @@
 
 using namespace geogen::runtime;
 
-CodeBlockStackEntry::CodeBlockStackEntry(CodeBlock const& codeBlock, bool isLooping) : codeBlock(&codeBlock), isLooping(isLooping)
+CodeBlockStackEntry::CodeBlockStackEntry(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping) 
+	: codeBlock(&codeBlock), isLooping(isLooping), localVariableTable(memoryManager)
 {
 	this->codePointer = codeBlock.Begin();
 }
 
-CodeBlockStackEntry::CodeBlockStackEntry(CodeBlockStackEntry const& other)
+/*CodeBlockStackEntry::CodeBlockStackEntry(CodeBlockStackEntry const& other)
+: localVariableTable(VariableTable(const_cast<MemoryManager*>(other.localVariableTable.GetMemoryManager())))
 {
 	this->codeBlock = other.codeBlock;
 	this->codePointer = other.codePointer;
@@ -21,8 +23,15 @@ CodeBlockStackEntry& CodeBlockStackEntry::operator=(CodeBlockStackEntry const& o
 	this->codePointer = other.codePointer;
 	this->isLooping = other.isLooping;
 
+	if (std::distance(other.localVariableTable.Begin(), other.localVariableTable.End()) > 0)
+	{
+		throw InternalErrorException("Can't copy code block stack entry which has items in its variable table.");
+	}
+
+	this->localVariableTable = VariableTable(other.localVariableTable.GetMemoryManager());
+
 	return *this;
-};
+};*/
 
 instructions::Instruction const* CodeBlockStackEntry::GetCurrentInstruction() const
 {

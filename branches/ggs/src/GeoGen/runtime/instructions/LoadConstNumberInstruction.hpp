@@ -22,6 +22,8 @@ namespace geogen
 				virtual void Serialize(std::iostream& stream) const { stream << "LoadConstNumber " << constNumber << std::endl; }
 
 				virtual std::string GetInstructionName() const { return "LoadConstNumber"; };
+
+				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};
 		}
 	}

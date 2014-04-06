@@ -19,6 +19,8 @@ namespace geogen
 				GeoGenException(code), location(location) {};
 
 			inline CodeLocation GetLocation(){ return this->location; }
+
+			virtual std::string GetDetailMessage() = 0;
 		};
 	}
 }

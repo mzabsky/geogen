@@ -23,8 +23,7 @@ namespace geogen
 
 			InstructionStepResult WhileInstruction::Step(VirtualMachine* vm) const
 			{
-				CodeBlockStackEntry codeBlockStackEntry(this->GetCodeBlock(), true);
-				vm->GetCallStack().top().GetCodeBlockStack().push(codeBlockStackEntry);
+				vm->GetCallStack().Top().GetCodeBlockStack().Push(&vm->GetMemoryManager(), this->GetCodeBlock(), true);
 
 				return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 			}

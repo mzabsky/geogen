@@ -1,18 +1,18 @@
-#include "LoadConstBooleanInstruction.hpp"
+#include "LoadConstNumberInstruction.hpp"
 #include "..\CodeBlockStackEntry.hpp"
 #include "..\VirtualMachine.hpp"
 #include "..\..\InternalErrorException.hpp"
-#include "..\BooleanTypeDefinition.hpp"
+#include "..\NumberTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen::runtime;
 using namespace geogen::runtime::instructions;
 
-InstructionStepResult LoadConstBooleanInstruction::Step(VirtualMachine* vm) const
+InstructionStepResult LoadConstNumberInstruction::Step(VirtualMachine* vm) const
 {
-	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
+	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
-	DynamicObject* object = booleanTypeDefinition->CreateInstance(this->constBoolean);
+	DynamicObject* object = numberTypeDefinition->CreateInstance(this->constNumber);
 	vm->GetMemoryManager().RegisterObject(object);
 	vm->GetObjectStack().push(object);
 

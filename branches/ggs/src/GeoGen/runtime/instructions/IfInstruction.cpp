@@ -52,13 +52,11 @@ namespace geogen
 
 				if (dynamic_cast<BooleanObject*>(conditionObject)->GetValue())
 				{
-					CodeBlockStackEntry codeBlockStackEntry(this->GetIfBranchCodeBlock(), false);
-					vm->GetCallStack().top().GetCodeBlockStack().push(codeBlockStackEntry);
+					vm->GetCallStack().Top().GetCodeBlockStack().Push(&vm->GetMemoryManager(), this->GetIfBranchCodeBlock(), false);
 				}
 				else
 				{
-					CodeBlockStackEntry codeBlockStackEntry(this->GetElseBranchCodeBlock(), false);
-					vm->GetCallStack().top().GetCodeBlockStack().push(codeBlockStackEntry);
+					vm->GetCallStack().Top().GetCodeBlockStack().Push(&vm->GetMemoryManager(), this->GetElseBranchCodeBlock(), false);
 				}
 				
 				return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;

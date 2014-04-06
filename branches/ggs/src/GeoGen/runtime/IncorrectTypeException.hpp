@@ -23,7 +23,9 @@ namespace geogen
 
 			virtual std::string GetDetailMessage()
 			{
-				return std::string("Object of type \"") + this->expectedTypeName + "\" expected, got \"" + this->actualTypeName + "\".";
+				std::stringstream ss;
+				ss << "Object of type \"" << this->GetExpectedTypeName() + "\" expected, got \"" << this->GetActualTypeName() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				return ss.str();
 			}
 		};
 	}

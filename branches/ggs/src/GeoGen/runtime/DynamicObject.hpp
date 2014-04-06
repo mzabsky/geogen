@@ -21,7 +21,7 @@ namespace geogen
 			std::map<std::string, DynamicObject*> memberValues;
 			int refCount = 0;
 
-			void DefineMemberValue(VirtualMachine& vm, std::string const& name);
+			bool DefineMemberValue(VirtualMachine& vm, std::string const& name);
 		protected:
 			DynamicObject(TypeDefinition const* type);			
 		public:			
@@ -38,7 +38,7 @@ namespace geogen
 			inline int GetRefCount() { return this->refCount; }
 
 			//void SetMemberValue(VirtualMachine& vm, std::string const& name, DynamicObject* object);
-			void SetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName, DynamicObject* object);
+			bool SetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName, DynamicObject* object);
 
 			//DynamicObject* GetMemberValue(VirtualMachine& vm, std::string const& name) const;
 			DynamicObject* GetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName) const;

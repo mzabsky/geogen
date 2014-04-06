@@ -10,6 +10,7 @@
 #include "FunctionDefinition.hpp"
 //#include "DynamicObject.hpp"
 #include "instructions/Instruction.hpp"
+#include "CodeBlockStack.hpp"
 
 namespace geogen
 {
@@ -28,20 +29,21 @@ namespace geogen
 		{
 		private:
 			FunctionDefinition const* functionDefinition;
-			std::stack<CodeBlockStackEntry> codeBlockStack;
+			CodeBlockStack codeBlockStack;
 			std::map<std::string, DynamicObject*> localVariableValues;
+
+			CallStackEntry(CallStackEntry const& other) {};
+			CallStackEntry& operator=(CallStackEntry const& other) {};
 		public:
-			CallStackEntry(CallStackEntry const& other);
-			CallStackEntry& operator=(CallStackEntry const& other);
 
 			CallStackEntry(FunctionDefinition const* functionDefinition) : functionDefinition(functionDefinition) {};
 			~CallStackEntry() {};
 
-			inline std::stack<CodeBlockStackEntry>& GetCodeBlockStack() { return this->codeBlockStack; };
+			inline CodeBlockStack& GetCodeBlockStack() { return this->codeBlockStack; };
 
 			inline FunctionDefinition const* GetFunctionDefinition() const { return this->functionDefinition; }
 
-			void CallCodeBlock(CodeBlock const& codeBlock, bool isLooping);
+			void CallCodeBlock(VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping);
 
 			CallStackEntryStepResult Step(VirtualMachine* vm);
 

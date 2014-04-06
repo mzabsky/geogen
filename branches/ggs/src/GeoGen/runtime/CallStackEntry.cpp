@@ -1,39 +1,23 @@
 #include "CallStackEntry.hpp"
 #include "IntermediateCodeException.hpp"
 #include "..\InternalErrorException.hpp"
+#include "VirtualMachine.hpp"
 
 using namespace geogen::runtime;
 
-CallStackEntry::CallStackEntry(CallStackEntry const& other) 
+void CallStackEntry::CallCodeBlock(VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping)
 {
-	this->codeBlockStack = other.codeBlockStack;
-	this->functionDefinition = other.functionDefinition;
-};
-
-CallStackEntry& CallStackEntry::operator=(CallStackEntry const& other) 
-{
-	
-	this->codeBlockStack = other.codeBlockStack;
-	this->functionDefinition = other.functionDefinition;
-
-	return *this;
-};
-
-void CallStackEntry::CallCodeBlock(CodeBlock const& codeBlock, bool isLooping)
-{
-	CodeBlockStackEntry codeBlockStackEntry(codeBlock, isLooping);
-
-	this->codeBlockStack.push(codeBlockStackEntry);
+	this->codeBlockStack.Push(&vm->GetMemoryManager(), codeBlock, isLooping);
 }
 
 CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 {
-	if (this->codeBlockStack.empty())
+	if (this->codeBlockStack.IsEmpty())
 	{
 		throw InternalErrorException("The code block stack was empty (this call stack entry is already finished?)");
 	}
 
-	CodeBlockStackEntry& top = this->codeBlockStack.top();
+	CodeBlockStackEntry& top = this->codeBlockStack.Top();
 
 	std::cout << "\tCALL STACK STEP " << &top << std::endl;
 
@@ -43,7 +27,7 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 
 	if (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
 	{
-		this->codeBlockStack.pop();
+		this->codeBlockStack.Pop();
 	}
 
 	std::cout << "\tCALL STACK STEP RESULT " << codeBlockStepResult << std::endl;
@@ -66,10 +50,10 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	// TODO: Sledovat lokalni promenne
 	if (topIsLooping && (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED))
 	{
-		this->CallCodeBlock(topCodeBlock, true);
+		this->CallCodeBlock(vm, topCodeBlock, true);
 	}	
 
-	if (this->codeBlockStack.empty())
+	if (this->codeBlockStack.IsEmpty())
 	{
 		return CALL_STACK_ENTRY_STEP_RESULT_FINISHED;
 	}	

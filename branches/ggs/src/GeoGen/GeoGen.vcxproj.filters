@@ -74,8 +74,6 @@
     <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp" />
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
-    <ClInclude Include="runtime\instructions\DeclareLocalValue.hpp" />
-    <ClInclude Include="runtime\instructions\DeclareGlobalValue.hpp" />
     <ClInclude Include="runtime\StaticObject.hpp" />
     <ClInclude Include="runtime\CallStackEntry.hpp" />
     <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
@@ -90,6 +88,13 @@
     <ClInclude Include="runtime\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CoreLibrary.hpp" />
     <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
+    <ClInclude Include="runtime\instructions\DeclareGlobalValueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\DeclareLocalValueInstruction.hpp" />
+    <ClInclude Include="runtime\SymbolDefinitionException.hpp" />
+    <ClInclude Include="runtime\VariableRedefinitionException.hpp" />
+    <ClInclude Include="runtime\CodeBlockStack.hpp" />
+    <ClInclude Include="runtime\CallStack.hpp" />
+    <ClInclude Include="runtime\NullReferenceException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -130,6 +135,22 @@
     <ClCompile Include="runtime\BooleanTypeDefinition.cpp" />
     <ClCompile Include="runtime\CoreLibrary.cpp" />
     <ClCompile Include="runtime\instructions\LoadConstBooleanInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\CallGlobalInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\CallMemberInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\DeclareGlobalValueInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\DeclareLocalValueInstruction.cpp" />
+    <ClCompile Include="runtime\CodeBlockStack.cpp" />
+    <ClCompile Include="runtime\CallStack.cpp" />
+    <ClCompile Include="runtime\instructions\LoadConstNumberInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\LoadConstStringInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\LoadMemberValueInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\StoreMemberValueInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\LoadNullInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\PopInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\YieldAsMainInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\LoadScopeValueInstruction.cpp" />
+    <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

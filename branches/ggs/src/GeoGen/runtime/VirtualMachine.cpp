@@ -11,7 +11,7 @@
 using namespace geogen::runtime;
 
 VirtualMachine::VirtualMachine(CompiledScript const& compiledScript)
-: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY)
+: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY), globalVariableTable(&memoryManager)
 {
 	this->InitializeTypes();
 	this->InitializeGlobalVariables();
@@ -60,7 +60,7 @@ VirtualMachineStepResult VirtualMachine::Step()
 
 	VirtualMachineStatusGuard statusGuard(this->status);
 
-	CallStackEntry& callStackEntry = this->callStack.top();
+	CallStackEntry& callStackEntry = this->callStack.Top();
 
 	std::cout << "VM STEP - " << callStackEntry.GetFunctionDefinition()->GetName() << " " << &callStackEntry << "" <<  std::endl;
 
@@ -70,11 +70,11 @@ VirtualMachineStepResult VirtualMachine::Step()
 
 	if (stepResult == CALL_STACK_ENTRY_STEP_RESULT_FINISHED)
 	{
-		callStack.pop();
+		callStack.Pop();
 	}
 
 	VirtualMachineStepResult result;
-	if (callStack.size() > 0)
+	if (!callStack.IsEmpty())
 	{		
 		result = VIRTUAL_MACHINE_STEP_RESULT_RUNNING;
 		statusGuard.SetGuardStatus(VIRTUAL_MACHINE_STATUS_READY);
@@ -84,12 +84,13 @@ VirtualMachineStepResult VirtualMachine::Step()
 		result = VIRTUAL_MACHINE_STEP_RESULT_FINISHED;
 		statusGuard.SetGuardStatus(VIRTUAL_MACHINE_STATUS_FINISHED);
 	}
+
+	return result;
 }
 
 void VirtualMachine::CallFunction(FunctionDefinition const* functionDefinition)
 {
-	CallStackEntry callStackEntry(functionDefinition);
-	this->callStack.push(callStackEntry);
+	this->callStack.Push(functionDefinition);
 
 	functionDefinition->Call(this);
 }
@@ -134,4 +135,35 @@ NumberTypeDefinition const* VirtualMachine::GetNumberTypeDefinition() const
 	}
 
 	return numberTypeDefinition;
+}
+
+VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)
+{
+	if (this->status != VIRTUAL_MACHINE_STATUS_READY)
+	{
+		throw ApiUsageException("The VM is in incorrect state.");
+	}
+
+	CodeBlockStack& codeBlockStack = this->GetCallStack().Top().GetCodeBlockStack();
+
+	VariableTableItem* foundVariable = NULL;
+	CodeBlockStack::reverse_iterator it = codeBlockStack.RBegin();
+	while (foundVariable == NULL && it != codeBlockStack.REnd())
+	{
+		if ((*it)->GetLocalVariableTable().IsVariableDeclared(variableName))
+		{
+			foundVariable = (*it)->GetLocalVariableTable().GetVariable(variableName);
+		}
+
+		it++;
+	}
+
+	// Not found among local variables, look into global variables.
+	if (foundVariable == NULL)
+	{
+		if (this->GetGlobalVariableTable().IsVariableDeclared(variableName))
+		{
+			foundVariable = this->GetGlobalVariableTable().GetVariable(variableName);
+		}
+	}
 }

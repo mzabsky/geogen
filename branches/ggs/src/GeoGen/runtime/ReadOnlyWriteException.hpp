@@ -21,7 +21,9 @@ namespace geogen
 
 			virtual std::string GetDetailMessage()
 			{
-				return "Attempted to write read only variable \"" + symbolName + "\".";
+				std::stringstream ss;
+				ss << "Attempted to write read only variable \"" << this->GetSymbolName() + "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				return ss.str();
 			}
 		};
 	}
