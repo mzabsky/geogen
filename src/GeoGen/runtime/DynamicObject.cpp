@@ -24,7 +24,7 @@ bool DynamicObject::operator<(const DynamicObject* rhs)
 	return this->GetType()->InstanceLessThan(this, rhs);
 }
 
-void DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)
+bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)
 {
 	map<string, DynamicObject*>::iterator it = this->memberValues.find(memberName);
 	if (it == this->memberValues.end())

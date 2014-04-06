@@ -1,4 +1,4 @@
-#include "LoadConstBooleanInstruction.hpp"
+#include "LoadConstStringInstruction.hpp"
 #include "..\CodeBlockStackEntry.hpp"
 #include "..\VirtualMachine.hpp"
 #include "..\..\InternalErrorException.hpp"
@@ -8,13 +8,13 @@ using namespace std;
 using namespace geogen::runtime;
 using namespace geogen::runtime::instructions;
 
-InstructionStepResult LoadConstBooleanInstruction::Step(VirtualMachine* vm) const
+InstructionStepResult LoadConstStringInstruction::Step(VirtualMachine* vm) const
 {
-	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
+	/*BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
 
 	DynamicObject* object = booleanTypeDefinition->CreateInstance(this->constBoolean);
-	vm->GetMemoryManager().RegisterObject(object);
-	vm->GetObjectStack().push(object);
+	vm->GetMemoryManager().RegisterObject(object);*/
+	vm->GetObjectStack().push(vm->GetNull());
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }

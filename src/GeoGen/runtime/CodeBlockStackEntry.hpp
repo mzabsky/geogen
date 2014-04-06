@@ -7,6 +7,7 @@
 //#include "DynamicObject.hpp"
 #include "CodeBlock.hpp"
 #include "FunctionDefinition.hpp"
+#include "VariableTable.hpp"
 #include "instructions/Instruction.hpp"
 #include "../Serializable.hpp"
 
@@ -38,17 +39,19 @@ namespace geogen
 			CodeBlock const* codeBlock;
 			CodeBlock::const_iterator codePointer;
 			bool isLooping;
-			std::map<std::string, DynamicObject*> localVariableValues;
-		public:
+			VariableTable localVariableTable;
+
 			CodeBlockStackEntry(CodeBlockStackEntry const& other);
 			CodeBlockStackEntry& operator=(CodeBlockStackEntry const& other);
-
-			CodeBlockStackEntry(CodeBlock const& codeBlock, bool isLooping);
+		public:			
+			CodeBlockStackEntry(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
 			~CodeBlockStackEntry() {};
 
 			inline bool IsLooping() const { return this->isLooping; };
 
 			inline CodeBlock const& GetCodeBlock() const { return *this->codeBlock; };
+			inline VariableTable& GetLocalVariableTable() { return this->localVariableTable; };
+
 			const instructions::Instruction* GetCurrentInstruction() const;
 			CodeBlockStackEntryStepResult Step(VirtualMachine* vm);
 

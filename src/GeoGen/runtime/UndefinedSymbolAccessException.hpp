@@ -1,27 +1,25 @@
 #pragma once
 
 #include <string>
-#include <stdexcept>
 
 #include "RuntimeException.hpp"
+#include "SymbolDefinitionException.hpp"
 
 namespace geogen
 {
 	namespace runtime
 	{
-		class UndefinedSymbolAccessException : public RuntimeException
+		class UndefinedSymbolAccessException : public SymbolDefinitionException
 		{
-		private:
-			std::string symbolName;
 		public:
-			explicit UndefinedSymbolAccessException(ErrorCode code, CodeLocation location, std::string const& symbolName) :
-				RuntimeException(code, location), symbolName(symbolName) {};
-
-			inline std::string GetSymbolName() const { return this->symbolName; }
+			UndefinedSymbolAccessException(ErrorCode code, CodeLocation location, std::string const& symbolName) :
+				SymbolDefinitionException(code, location, symbolName) {};
 
 			virtual std::string GetDetailMessage()
 			{
-				return std::string("Symbol \"") + symbolName + "\" is not defined.";
+				std::stringstream ss;
+				ss << "Undefined symbol \"" << this->GetSymbolName() + "\" accessed on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() <<  ".";
+				return ss.str();
 			}
 		};
 	}

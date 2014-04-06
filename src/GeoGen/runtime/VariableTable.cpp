@@ -1,6 +1,16 @@
 #include "VariableTable.hpp"
+#include "DynamicObject.hpp"
+#include "..\InternalErrorException.hpp"
 
 using namespace geogen::runtime;
+
+VariableTable::~VariableTable()
+{
+	for (std::map<std::string, VariableTableItem>::iterator it = this->table.begin(); it != this->table.end(); it++)
+	{
+		(*it).second.GetValue()->RemoveRef(*this->memoryManager);
+	}
+}
 
 VariableTableItem const* VariableTable::GetVariable(std::string const& variableName) const
 {
@@ -46,6 +56,11 @@ bool VariableTable::IsVariableDeclared(std::string const& symbolName) const
 };
 
 bool VariableTable::DeclareVariable(std::string const& symbolName, DynamicObject* value, bool isConst) {
+	if (value == NULL)
+	{
+		throw InternalErrorException("Can't declare variable with native NULL value (use VM null).");
+	}
+
 	if (this->table.find(symbolName) != this->table.end()){
 		return false;
 	}

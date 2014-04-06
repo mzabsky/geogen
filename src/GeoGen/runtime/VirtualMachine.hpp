@@ -8,6 +8,7 @@
 #include "CallStackEntry.hpp"
 #include "MemoryManager.hpp"
 #include "VariableTable.hpp"
+#include "CallStack.hpp"
 
 namespace geogen
 {
@@ -16,6 +17,7 @@ namespace geogen
 		class DynamicObject;
 		class BooleanTypeDefinition;
 		class NumberTypeDefinition;
+		class VariableTableItem;
 
 		enum VirtualMachineStatus
 		{
@@ -36,7 +38,7 @@ namespace geogen
 			VirtualMachineStatus status;
 			
 			std::stack<DynamicObject*> objectStack;
-			std::stack<CallStackEntry> callStack;
+			CallStack callStack;
 
 			CompiledScript const& compiledScript;
 
@@ -46,6 +48,10 @@ namespace geogen
 			void InitializeTypes();
 			void InitializeGlobalVariables();
 			void InitializeMainFunction();
+
+			// Non-copyable
+			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript) {};
+			VirtualMachine& operator=(VirtualMachine const&) {};
 		public:
 			VirtualMachine(CompiledScript const& compiledScript);
 			~VirtualMachine() {};
@@ -59,7 +65,7 @@ namespace geogen
 			inline std::stack<DynamicObject*>& GetObjectStack() { return this->objectStack; };
 			//inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
 
-			inline std::stack<CallStackEntry>& GetCallStack() { return this->callStack; };
+			inline CallStack& GetCallStack() { return this->callStack; };
 			//inline std::stack<CallStackEntry const> const& GetCallStack() const { return *((std::stack<DynamicObject const*>*)&this->callStack); };
 
 			VirtualMachineStepResult Step();
@@ -71,6 +77,7 @@ namespace geogen
 			DynamicObject* GetNull();
 			BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
 			NumberTypeDefinition const* GetNumberTypeDefinition() const;
+			VariableTableItem* FindVariable(std::string const& variableName);
 		};
 	}
 }

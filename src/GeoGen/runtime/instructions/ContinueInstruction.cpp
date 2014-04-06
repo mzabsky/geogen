@@ -9,16 +9,11 @@ using namespace geogen::runtime::instructions;
 
 InstructionStepResult ContinueInstruction::Step(VirtualMachine* vm) const
 {
-	stack<CodeBlockStackEntry>& codeBlockStack = vm->GetCallStack().top().GetCodeBlockStack();
-
-	if (this->codeBlockCount > codeBlockStack.size())
-	{
-		throw InternalErrorException("Continue was deeper than current code block stack.");
-	}
+	CodeBlockStack& codeBlockStack = vm->GetCallStack().Top().GetCodeBlockStack();
 
 	for (unsigned i = 0; i < this->codeBlockCount; i++)
 	{
-		codeBlockStack.pop();
+		codeBlockStack.Pop();
 	}
 
 	return INSTRUCTION_STEP_RESULT_TYPE_CONTINUE;
