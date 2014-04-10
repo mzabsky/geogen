@@ -1,3 +1,8 @@
+function times(sa, sb){
+	return sa * sb;
+}
+
+var b = times(2, 5);
 var a = 2 + 2;
 
 while(a < 10)
