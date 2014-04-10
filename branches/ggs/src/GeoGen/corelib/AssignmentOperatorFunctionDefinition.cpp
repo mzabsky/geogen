@@ -1,7 +1,6 @@
 #include "AssignmentOperatorFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
+#include "../runtime/DynamicObject.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "../InternalErrorException.hpp"
 
