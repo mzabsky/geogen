@@ -9,30 +9,6 @@ CodeBlockStackEntry::CodeBlockStackEntry(MemoryManager* memoryManager, CodeBlock
 	this->codePointer = codeBlock.Begin();
 }
 
-/*CodeBlockStackEntry::CodeBlockStackEntry(CodeBlockStackEntry const& other)
-: localVariableTable(VariableTable(const_cast<MemoryManager*>(other.localVariableTable.GetMemoryManager())))
-{
-	this->codeBlock = other.codeBlock;
-	this->codePointer = other.codePointer;
-	this->isLooping = other.isLooping;
-};
-
-CodeBlockStackEntry& CodeBlockStackEntry::operator=(CodeBlockStackEntry const& other)
-{
-	this->codeBlock = other.codeBlock;
-	this->codePointer = other.codePointer;
-	this->isLooping = other.isLooping;
-
-	if (std::distance(other.localVariableTable.Begin(), other.localVariableTable.End()) > 0)
-	{
-		throw InternalErrorException("Can't copy code block stack entry which has items in its variable table.");
-	}
-
-	this->localVariableTable = VariableTable(other.localVariableTable.GetMemoryManager());
-
-	return *this;
-};*/
-
 instructions::Instruction const* CodeBlockStackEntry::GetCurrentInstruction() const
 {
 	if (this->codePointer != this->codeBlock->End())
@@ -53,7 +29,7 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 		//throw InternalErrorException("This code block has already finished (end of instruction list reached).");
 	}
 
-	std::cout << "\t\tINSTRUCTION STEP " << (*this->codePointer)->ToString();
+	std::cout << "\t\tINSTRUCTION STEP " << (*this->codePointer)->ToString() << " \t\t\t\ton line " << (*this->codePointer)->GetLocation().GetLine() << ", column " << (*this->codePointer)->GetLocation().GetColumn();
 
 	InstructionStepResult instructionStepResult = (*this->codePointer)->Step(vm);
 
