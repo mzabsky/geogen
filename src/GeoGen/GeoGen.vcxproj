@@ -82,6 +82,7 @@
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\EqualityOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RelationalOperatorFunctionDefinition.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Generator.cpp" />
