@@ -103,6 +103,7 @@
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RelationalOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\EqualityOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\BitLogicOperatorFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
