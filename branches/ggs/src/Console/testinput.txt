@@ -1,5 +1,6 @@
 function times(sa, sb){
-	return sa * sb;
+	
+	sa * sb;
 }
 
 var b = times(2, 5);
