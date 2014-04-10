@@ -47,6 +47,10 @@ DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 		else if (arg->GetType() == booleanTypeDefinition){
 			values.push_back(dynamic_cast<BooleanObject*>(arg)->GetValue());
 		}
+		else
+		{
+			throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), arg->GetType()->GetName());
+		}
 	}
 
 	int result = this->function(location, values[0], values[1]);

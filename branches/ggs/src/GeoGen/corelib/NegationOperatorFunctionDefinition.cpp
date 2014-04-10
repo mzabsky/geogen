@@ -1,0 +1,44 @@
+#include "NegationOperatorFunctionDefinition.hpp"
+#include "../runtime/VirtualMachine.hpp"
+#include "../runtime/DynamicObject.hpp"
+#include "../runtime/NumberOfArgumentsException.hpp"
+#include "../InternalErrorException.hpp"
+#include "..\runtime\IncorrectTypeException.hpp"
+#include "..\runtime\NumberTypeDefinition.hpp"
+#include "..\runtime\BooleanTypeDefinition.hpp"
+
+using namespace std;
+using namespace geogen;
+using namespace geogen::corelib;
+using namespace geogen::runtime;
+
+DynamicObject* NegationOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<DynamicObject*> arguments) const
+{
+	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
+	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
+    
+    this->CheckArguments(location, 1, arguments);
+
+	if (arguments[0]->IsStaticObject())
+	{
+		throw new IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), "Static");
+	}
+
+	DynamicObject* returnObject;
+	if (arguments[0]->GetType() == numberTypeDefinition)
+	{
+		int value = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
+		returnObject = numberTypeDefinition->CreateInstance(!(int)value);
+	}
+	else if (arguments[0]->GetType() == booleanTypeDefinition){
+		bool value = dynamic_cast<BooleanObject*>(arguments[0])->GetValue();
+		returnObject = booleanTypeDefinition->CreateInstance(!value);
+	}
+	else
+	{
+		throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), arguments[0]->GetType()->GetName());
+	}
+
+	vm->GetMemoryManager().RegisterObject(returnObject);
+	return returnObject;
+}

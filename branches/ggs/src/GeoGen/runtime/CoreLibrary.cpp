@@ -8,6 +8,7 @@
 #include "..\corelib\EqualityOperatorFunctionDefinition.hpp"
 #include "..\corelib\BitLogicOperatorFunctionDefinition.hpp"
 #include "..\corelib\LogicalOperatorFunctionDefinition.hpp"
+#include "..\corelib\NegationOperatorFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -21,6 +22,7 @@ CoreLibrary::CoreLibrary()
 
     // Core operators
 	this->globalFunctionDefinitions.AddItem(new AssignmentOperatorFunctionDefinition());
+	this->globalFunctionDefinitions.AddItem(new NegationOperatorFunctionDefinition());
 	this->globalFunctionDefinitions.AddItem(BinaryArithmeticOperatorFunctionDefinition::Create(BinaryArithmeticOperatorFunctionDefinition::MULTIPLICATION));
 	this->globalFunctionDefinitions.AddItem(BinaryArithmeticOperatorFunctionDefinition::Create(BinaryArithmeticOperatorFunctionDefinition::DIVISION));
 	this->globalFunctionDefinitions.AddItem(BinaryArithmeticOperatorFunctionDefinition::Create(BinaryArithmeticOperatorFunctionDefinition::MODULO));

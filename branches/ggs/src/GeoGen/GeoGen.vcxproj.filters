@@ -105,6 +105,7 @@
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="corelib\EqualityOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\BitLogicOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\LogicalOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\NegationOperatorFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
