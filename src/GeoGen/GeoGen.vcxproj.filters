@@ -96,6 +96,10 @@
     <ClInclude Include="runtime\CallStack.hpp" />
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="runtime\ObjectStack.hpp" />
+    <ClInclude Include="runtime\NativeFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
+    <ClInclude Include="runtime\DivisionByZeroException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -153,6 +157,8 @@
     <ClCompile Include="runtime\instructions\LoadScopeValueInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp" />
     <ClCompile Include="runtime\ObjectStack.cpp" />
+    <ClCompile Include="runtime\NativeFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

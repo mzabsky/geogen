@@ -72,7 +72,7 @@ void CompiledScript::AddLibrary(Library const* library)
 
 	for (SymbolDefinitionTable<FunctionDefinition>::const_iterator it = library->GetGlobalFunctionDefinitions().Begin(); it != library->GetGlobalFunctionDefinitions().End(); it++)
 	{
-		if (this->globalFunctionDefinitions.AddItem(it->second))
+		if (!this->globalFunctionDefinitions.AddItem(it->second))
 		{
 			throw ApiUsageException("Global function with the same name is already registered.");
 		}
@@ -80,7 +80,7 @@ void CompiledScript::AddLibrary(Library const* library)
 
 	for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = library->GetGlobalVariableDefinitions().Begin(); it != library->GetGlobalVariableDefinitions().End(); it++)
 	{
-		if (this->globalVariableDefinitions.AddItem(it->second))
+		if (!this->globalVariableDefinitions.AddItem(it->second))
 		{
 			throw ApiUsageException("Global variable with the same name is already registered.");
 		}

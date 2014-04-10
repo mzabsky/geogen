@@ -71,7 +71,8 @@ namespace geogen
 
 			VirtualMachineStepResult Step();
 
-			void CallFunction(FunctionDefinition const* functionDefintion);
+			void CallFunction(CodeLocation location, FunctionDefinition const* functionDefintion, unsigned numberOfArguments);
+			CodeLocation GetCurrentCodeLocation();
 
 			void Run();
 

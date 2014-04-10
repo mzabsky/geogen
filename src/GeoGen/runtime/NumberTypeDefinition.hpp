@@ -1,15 +1,14 @@
 #pragma once
 
 #include "../Number.hpp"
-#include "VirtualMachine.hpp"
 #include "TypeDefinition.hpp"
-#include "VirtualMachine.hpp"
 #include "PrimitiveObject.hpp"
 
 namespace geogen
 {
 	namespace runtime
 	{
+		class VirtualMachine;
 		typedef PrimitiveObject<Number> NumberObject;
 
 		class NumberTypeDefinition : public TypeDefinition

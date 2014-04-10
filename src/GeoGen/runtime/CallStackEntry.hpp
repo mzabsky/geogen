@@ -28,17 +28,19 @@ namespace geogen
 		class CallStackEntry : public Serializable
 		{
 		private:
+			CodeLocation callLocation;
 			FunctionDefinition const* functionDefinition;
 			CodeBlockStack codeBlockStack;
 			std::map<std::string, DynamicObject*> localVariableValues;
 
-			CallStackEntry(CallStackEntry const& other) {};
+			CallStackEntry(CallStackEntry const& other) : callLocation(0, 0) {};
 			CallStackEntry& operator=(CallStackEntry const& other) {};
 		public:
 
-			CallStackEntry(FunctionDefinition const* functionDefinition) : functionDefinition(functionDefinition) {};
+			CallStackEntry(CodeLocation location, FunctionDefinition const* functionDefinition) : callLocation(location), functionDefinition(functionDefinition) {};
 			~CallStackEntry() {};
 
+			inline CodeLocation GetCallLocation() { return this->callLocation; };
 			inline CodeBlockStack& GetCodeBlockStack() { return this->codeBlockStack; };
 
 			inline FunctionDefinition const* GetFunctionDefinition() const { return this->functionDefinition; }
