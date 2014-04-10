@@ -50,9 +50,9 @@ CompiledScript const* Compiler::CompileScript(std::string const& code) const
 		walker.GetPtr()->vectors = vectorFactory.GetPtr();
 		walker.GetPtr()->rootCodeBlock = rootCodeBlock.get();
 
-		printf("Tree : %s\n", r.tree->toString(r.tree)->chars);
+		//printf("Tree : %s\n", r.tree->toString(r.tree)->chars);
 
-		printf("Tree : %s\n", r.tree->toStringTree(r.tree)->chars);
+		//printf("Tree : %s\n", r.tree->toStringTree(r.tree)->chars);
 
 		walker.GetPtr()->script(walker.GetPtr());
 
