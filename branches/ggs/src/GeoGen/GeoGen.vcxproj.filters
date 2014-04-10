@@ -86,7 +86,6 @@
     <ClInclude Include="runtime\VariableTable.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
     <ClInclude Include="runtime\BooleanTypeDefinition.hpp" />
-    <ClInclude Include="runtime\CoreLibrary.hpp" />
     <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
     <ClInclude Include="runtime\instructions\DeclareGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\DeclareLocalValueInstruction.hpp" />
@@ -107,6 +106,7 @@
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\CoreLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -145,7 +145,6 @@
     <ClCompile Include="runtime\instructions\BreakInstruction.cpp" />
     <ClCompile Include="runtime\instructions\ContinueInstruction.cpp" />
     <ClCompile Include="runtime\BooleanTypeDefinition.cpp" />
-    <ClCompile Include="runtime\CoreLibrary.cpp" />
     <ClCompile Include="runtime\instructions\LoadConstBooleanInstruction.cpp" />
     <ClCompile Include="runtime\instructions\CallGlobalInstruction.cpp" />
     <ClCompile Include="runtime\instructions\CallMemberInstruction.cpp" />
@@ -173,6 +172,7 @@
     <ClCompile Include="corelib\LogicalOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NegationOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\UnaryArithmeticOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\CoreLibrary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
