@@ -24,6 +24,7 @@ namespace geogen
 			virtual DynamicObject* CallNative(CodeLocation location, VirtualMachine* vm, std::vector<DynamicObject*> arguments) const = 0;
 
 			void CheckArguments(CodeLocation location, std::vector<TypeDefinition const*> expectedTypes, std::vector<DynamicObject*> actualArguments) const;
+			void CheckArguments(CodeLocation location, unsigned expectedArgumentCount, std::vector<DynamicObject*> actualArguments) const;
 		};
 	}
 }

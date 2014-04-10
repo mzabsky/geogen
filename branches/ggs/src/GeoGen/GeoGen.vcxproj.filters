@@ -100,6 +100,7 @@
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
     <ClInclude Include="runtime\DivisionByZeroException.hpp" />
+    <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="runtime\ObjectStack.cpp" />
     <ClCompile Include="runtime\NativeFunctionDefinition.cpp" />
     <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
