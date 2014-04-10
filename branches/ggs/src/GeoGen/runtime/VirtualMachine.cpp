@@ -65,12 +65,8 @@ VirtualMachineStepResult VirtualMachine::Step()
 
 	CallStackEntry& callStackEntry = this->callStack.Top();
 
-	std::cout << "VM STEP - " << callStackEntry.GetFunctionDefinition()->GetName() << " " << &callStackEntry << "" <<  std::endl;
-
 	CallStackEntryStepResult stepResult = callStackEntry.Step(this);
 	
-	std::cout << "VM STEP RESULT - " << stepResult << std::endl;
-
 	if (stepResult == CALL_STACK_ENTRY_STEP_RESULT_FINISHED)
 	{
 		callStack.Pop();

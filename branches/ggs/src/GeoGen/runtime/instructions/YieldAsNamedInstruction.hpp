@@ -20,7 +20,7 @@ namespace geogen
 					this->functionName = mapName;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "YieldAsNamed " << functionName << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "YieldAsNamed " << functionName; }
 
 				virtual std::string GetInstructionName() const { return "YieldAsNamed"; };
 

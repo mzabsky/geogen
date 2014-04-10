@@ -3,13 +3,15 @@
 #include <string>
 #include <deque>
 
+#include "../Serializable.hpp"
+
 namespace geogen
 {
 	namespace runtime
 	{
 		class DynamicObject;
 
-		class ObjectStack
+		class ObjectStack : public Serializable
 		{
 			std::deque<DynamicObject*> stack;
 
@@ -33,6 +35,8 @@ namespace geogen
 
 			inline iterator Begin() { return this->stack.begin(); }
 			inline iterator End() { return this->stack.end(); }
+
+			virtual void Serialize(std::iostream& stream) const;
 		};
 	}
 }

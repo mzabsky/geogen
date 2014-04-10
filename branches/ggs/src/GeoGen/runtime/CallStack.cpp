@@ -39,3 +39,13 @@ void CallStack::Push(CodeLocation location, FunctionDefinition const* functionDe
 
 	this->stack.push_back(entry);
 }
+
+void CallStack::Serialize(std::iostream& stream) const
+{
+	stream << ">";
+	for (const_iterator it = this->Begin(); it != this->End(); it++)
+	{
+		stream << "\t";
+		(*it)->Serialize(stream);
+	}
+}

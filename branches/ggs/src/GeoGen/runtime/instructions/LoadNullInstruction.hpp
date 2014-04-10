@@ -16,7 +16,7 @@ namespace geogen
 				{
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "LoadNull " << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadNull"; }
 
 				virtual std::string GetInstructionName() const { return "LoadNull"; };
 

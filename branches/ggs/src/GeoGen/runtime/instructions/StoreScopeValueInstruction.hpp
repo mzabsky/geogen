@@ -18,7 +18,7 @@ namespace geogen
 					this->variableName = variableName;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "StoreScopeValue " << variableName << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "StoreScopeValue " << variableName; }
 
 				virtual std::string GetInstructionName() const { return "StoreScopeValue"; };
 

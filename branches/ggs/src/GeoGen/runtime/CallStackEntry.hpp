@@ -40,7 +40,7 @@ namespace geogen
 			CallStackEntry(CodeLocation location, FunctionDefinition const* functionDefinition) : callLocation(location), functionDefinition(functionDefinition) {};
 			~CallStackEntry() {};
 
-			inline CodeLocation GetCallLocation() { return this->callLocation; };
+			inline CodeLocation GetCallLocation() const { return this->callLocation; };
 			inline CodeBlockStack& GetCodeBlockStack() { return this->codeBlockStack; };
 
 			inline FunctionDefinition const* GetFunctionDefinition() const { return this->functionDefinition; }
