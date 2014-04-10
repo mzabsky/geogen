@@ -44,3 +44,15 @@ void ObjectStack::CheckSize(unsigned requiredSize)
 		throw InternalErrorException("Object stack has fewer items than required for current operation.");
 	}
 }
+
+void ObjectStack::Serialize(std::iostream& stream) const
+{
+	for (const_iterator it = this->Begin(); it != this->End(); it++)
+	{
+		stream << "\t" << (*it)->GetType()->GetName() << "   { " ;
+
+		(*it)->Serialize(stream);
+		
+		stream << " }" << std::endl;
+	}
+}

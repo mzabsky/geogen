@@ -17,6 +17,11 @@ namespace geogen
 			{				
 			};
 			inline T GetValue() const { return this->value; }
+
+			virtual void Serialize(std::iostream& stream) const
+			{
+				stream << this->GetValue();
+			}
 		};
 	}
 }

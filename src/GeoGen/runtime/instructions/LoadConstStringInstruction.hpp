@@ -20,7 +20,7 @@ namespace geogen
 					this->constString = constString;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "LoadConstString " << constString << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadConstString " << constString; }
 
 				virtual std::string GetInstructionName() const { return "LoadConstString"; };
 

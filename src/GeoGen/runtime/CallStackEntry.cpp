@@ -19,8 +19,6 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 
 	CodeBlockStackEntry& top = this->codeBlockStack.Top();
 
-	std::cout << "\tCALL STACK STEP " << &top << std::endl;
-
 	bool topIsLooping = top.IsLooping();
 	CodeBlock const& topCodeBlock = top.GetCodeBlock();
 	CodeBlockStackEntryStepResult codeBlockStepResult = top.Step(vm);
@@ -30,24 +28,6 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 		this->codeBlockStack.Pop();
 	}
 
-	std::cout << "\tCALL STACK STEP RESULT " << codeBlockStepResult << std::endl;
-
-	// The top reference may now be pointing to an invalid address, because the entry was removed from the stack.
-
-	/*else if (codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult.type == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK)
-	{ 
-		if (codeBlockStepResult.codeBlockCount > this->codeBlockStack.size())
-		{
-			throw IntermediateCodeException("Break/continue code block count was greater than current code block nesting level.");
-		}
-
-		for (size_t i = 0; i < codeBlockStepResult.codeBlockCount; i++)
-		{
-			this->codeBlockStack.pop();
-		}
-	}*/
-
-	// TODO: Sledovat lokalni promenne
 	if (topIsLooping && (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED))
 	{
 		this->CallCodeBlock(vm, topCodeBlock, true);
@@ -65,5 +45,5 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 
 void CallStackEntry::Serialize(std::iostream& stream) const
 {
-	stream << this->functionDefinition->GetName() << std::endl;
+	stream << this->functionDefinition->GetName() << " on line " << this->GetCallLocation().GetLine() << ", column " << this->GetCallLocation().GetColumn();
 }

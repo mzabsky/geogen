@@ -13,7 +13,7 @@ namespace geogen
 	{
 		class TypeDefinition;
 
-		class DynamicObject
+		class DynamicObject : public Serializable
 		{
 		private:
 			TypeDefinition const* type;
@@ -42,6 +42,8 @@ namespace geogen
 
 			//DynamicObject* GetMemberValue(VirtualMachine& vm, std::string const& name) const;
 			DynamicObject* GetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName) const;
+
+			virtual void Serialize(std::iostream& stream) const = 0;
 		};
 	}
 }

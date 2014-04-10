@@ -18,7 +18,7 @@ namespace geogen
 					this->constBoolean = constBoolean;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "LoadConstBoolean " << constBoolean << std::endl; }
+				virtual void Serialize(std::iostream& stream) const { stream << "LoadConstBoolean " << constBoolean; }
 
 				virtual std::string GetInstructionName() const { return "LoadConstBoolean"; };
 

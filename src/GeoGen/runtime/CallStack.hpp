@@ -3,6 +3,7 @@
 #include <string>
 #include <deque>
 #include "../CodeLocation.hpp"
+#include "../Serializable.hpp"
 
 namespace geogen
 {
@@ -12,7 +13,7 @@ namespace geogen
 		class MemoryManager;
 		class FunctionDefinition;
 
-		class CallStack
+		class CallStack : public Serializable
 		{
 			std::deque<CallStackEntry*> stack;
 
@@ -44,6 +45,8 @@ namespace geogen
 
 			inline reverse_iterator RBegin() { return this->stack.rbegin(); }
 			inline reverse_iterator REnd() { return this->stack.rend(); }
+
+			virtual void Serialize(std::iostream& stream) const;
 		};
 	}
 }

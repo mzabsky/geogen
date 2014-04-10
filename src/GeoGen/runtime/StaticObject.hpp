@@ -12,6 +12,11 @@ namespace geogen
 			StaticObject(TypeDefinition const* type) : DynamicObject(type) {};
 
 			virtual bool IsStaticObject(){ return true; };
+
+			virtual void Serialize(std::iostream& stream) const
+			{
+				stream << "Static[" << this->GetType()->GetName() << "]";
+			};
 		};
 	}
 }

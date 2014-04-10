@@ -29,11 +29,7 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 		//throw InternalErrorException("This code block has already finished (end of instruction list reached).");
 	}
 
-	std::cout << "\t\tINSTRUCTION STEP " << (*this->codePointer)->ToString() << " \t\t\t\ton line " << (*this->codePointer)->GetLocation().GetLine() << ", column " << (*this->codePointer)->GetLocation().GetColumn();
-
 	InstructionStepResult instructionStepResult = (*this->codePointer)->Step(vm);
-
-	std::cout << "\t\tINSTRUCTION STEP RESULT " << instructionStepResult << std::endl;
 
 	// Note that "this" pointer may now be pointing to invalid addeess, because the entry was removed from the code block stack.
 	// This should be indicated by appropriate instruction step result.

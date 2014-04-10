@@ -228,6 +228,7 @@ functionDeclaration
 			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
 			//varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
 		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)tree->getText(tree)->chars));	
+		        codeBlock.AddInstruction(new instructions::PopInstruction(location));	
 		}
 	             	
 	        codeBlock.MoveInstructionsFrom(CodeBlock()); // todo: WTF?
@@ -313,6 +314,7 @@ variableDeclaration returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
 		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
 	})?)
 {
     	CodeLocation location($VAR.line, $VAR.pos);
@@ -335,6 +337,7 @@ globalVariableDeclaration returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
 		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
 	})?)
 {
     	CodeLocation location($GLOBAL.line, $GLOBAL.pos);
