@@ -19,7 +19,7 @@ namespace geogen
 
 			virtual DynamicObject* Copy(DynamicObject* a) const
 			{
-				throw InternalErrorException("Null can't have instances.");
+				return a;
 			};
 		};
 	}
