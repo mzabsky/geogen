@@ -92,6 +92,10 @@ KeyValSymbol: \
 			cout << "Call stack:" << std::endl;
 			cout << vm.GetCallStack().ToString() << std::endl;
 		}
+		else
+		{
+			cout << "Unknown command" << std::endl;
+		}
 
 		cout << "========================" << std::endl << std::endl;
 	}
