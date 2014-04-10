@@ -1,6 +1,6 @@
 var a = 2 + 2;
 
-while(true)
+while(a < 10)
 {
 	a = a + 1;
 

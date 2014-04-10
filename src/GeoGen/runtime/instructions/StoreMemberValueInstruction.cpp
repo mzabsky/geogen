@@ -21,7 +21,7 @@ InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) cons
 	}
 
 	DynamicObject* value = vm->GetObjectStack().Top();
-	vm->GetObjectStack().Pop();
+	//vm->GetObjectStack().Pop();
 
 	if (instance->SetMemberValue(*vm, this->GetLocation(), this->variableName, value))
 	{

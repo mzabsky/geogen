@@ -18,7 +18,7 @@ InstructionStepResult StoreScopeValueInstruction::Step(VirtualMachine* vm) const
 	}
 
 	DynamicObject* value = vm->GetObjectStack().Top();
-	vm->GetObjectStack().Pop();
+	//vm->GetObjectStack().Pop();
 	
 	if (!variable->SetValue(value))
 	{
