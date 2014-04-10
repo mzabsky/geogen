@@ -1,7 +1,6 @@
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/NumberTypeDefinition.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "../runtime/DivisionByZeroException.hpp"
 #include "../InternalErrorException.hpp"
