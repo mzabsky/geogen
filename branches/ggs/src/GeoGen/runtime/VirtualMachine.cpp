@@ -3,11 +3,14 @@
 #include "VariableDefinition.hpp"
 #include "StaticObject.hpp"
 #include "BooleanTypeDefinition.hpp"
-#include "..\ApiUsageException.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../ApiUsageException.hpp"
+#include "../InternalErrorException.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "VirtualMachineStatusGuard.hpp"
+#include "../CodeLocation.hpp"
+#include "UndefinedSymbolAccessException.hpp"
 
+using namespace geogen;
 using namespace geogen::runtime;
 
 VirtualMachine::VirtualMachine(CompiledScript const& compiledScript)
@@ -48,7 +51,7 @@ void VirtualMachine::InitializeMainFunction()
 		throw InternalErrorException("The script doesn't have a main function.");
 	}
 
-	this->CallFunction(mainFunctionDefinition);
+	this->CallFunction(CodeLocation(0, 0), mainFunctionDefinition, 0);
 }
 
 VirtualMachineStepResult VirtualMachine::Step()
@@ -88,11 +91,11 @@ VirtualMachineStepResult VirtualMachine::Step()
 	return result;
 }
 
-void VirtualMachine::CallFunction(FunctionDefinition const* functionDefinition)
+void VirtualMachine::CallFunction(CodeLocation location, FunctionDefinition const* functionDefinition, unsigned numberOfArguments)
 {
-	this->callStack.Push(functionDefinition);
+	this->callStack.Push(location, functionDefinition);
 
-	functionDefinition->Call(this);
+	functionDefinition->Call(location, this, numberOfArguments);
 }
 
 void VirtualMachine::Run()
@@ -166,4 +169,6 @@ VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)
 			foundVariable = this->GetGlobalVariableTable().GetVariable(variableName);
 		}
 	}
+
+	return foundVariable;
 }

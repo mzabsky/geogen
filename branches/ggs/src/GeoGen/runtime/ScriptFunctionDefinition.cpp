@@ -1,10 +1,13 @@
 #include "ScriptFunctionDefinition.hpp"
 #include "VirtualMachine.hpp"
 
-using namespace geogen::runtime;
 using namespace std;
+using namespace geogen;
+using namespace geogen::runtime;
 
-void ScriptFunctionDefinition::Call(VirtualMachine* vm) const
+void ScriptFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, unsigned numberOfArguments) const
 {
+	// TODO: Validace argumentu
+
 	vm->GetCallStack().Top().CallCodeBlock(vm, this->GetRootCodeBlock(), false);
 }

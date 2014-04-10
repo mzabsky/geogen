@@ -80,6 +80,7 @@
     <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
+    <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
     <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="runtime\CoreLibrary.hpp" />
+    <ClInclude Include="runtime\DivisionByZeroException.hpp" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\EnumObject.hpp" />
@@ -109,9 +111,11 @@
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
     <ClInclude Include="runtime\Library.hpp" />
     <ClInclude Include="runtime\MemoryManager.hpp" />
+    <ClInclude Include="runtime\NativeFunctionDefinition.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="runtime\NullTypeDefinition.hpp" />
+    <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
     <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectStack.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
@@ -164,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
+    <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
@@ -205,6 +210,7 @@
     <ClCompile Include="runtime\instructions\YieldAsMainInstruction.cpp" />
     <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
     <ClCompile Include="runtime\MemoryManager.cpp" />
+    <ClCompile Include="runtime\NativeFunctionDefinition.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ObjectStack.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />

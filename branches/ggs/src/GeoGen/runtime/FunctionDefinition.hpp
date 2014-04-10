@@ -1,9 +1,17 @@
 #pragma once
 
+#include "../CodeLocation.hpp"
+
 #include <string>
 
 namespace geogen 
 {
+	enum FunctionType
+	{
+		FUNCTION_TYPE_FUNCTION,
+        FUNCTION_TYPE_OPERATOR
+	};
+
 	namespace runtime
 	{
 		class VirtualMachine;
@@ -16,7 +24,9 @@ namespace geogen
 			FunctionDefinition(std::string const& name) { this->name = name; }
 			inline std::string const& GetName() const { return this->name; };
 
-			virtual void Call(VirtualMachine* vm) const = 0;
+			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_FUNCTION; }
+
+			virtual void Call(CodeLocation location, VirtualMachine* vm, unsigned numberOfArguments) const = 0;
 		};
 	}
 }

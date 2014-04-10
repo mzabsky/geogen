@@ -2,6 +2,7 @@
 #include "CallStackEntry.hpp"
 #include "..\InternalErrorException.hpp"
 
+using namespace geogen;
 using namespace geogen::runtime;
 
 CallStack::~CallStack()
@@ -32,9 +33,9 @@ void CallStack::Pop()
 	this->stack.pop_back();
 }
 
-void CallStack::Push(FunctionDefinition const* functionDefinition)
+void CallStack::Push(CodeLocation location, FunctionDefinition const* functionDefinition)
 {
-	CallStackEntry* entry = new CallStackEntry(functionDefinition);
+	CallStackEntry* entry = new CallStackEntry(location, functionDefinition);
 
 	this->stack.push_back(entry);
 }
