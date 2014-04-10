@@ -42,7 +42,7 @@ DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 		if (arg->GetType() == numberTypeDefinition)
 		{
 			returnsNumber = true;
-			values.push_back(dynamic_cast<NumberObject*>(arg)->GetValue());
+			values.push_back((int)dynamic_cast<NumberObject*>(arg)->GetValue());
 		}
 		else if (arg->GetType() == booleanTypeDefinition){
 			values.push_back(dynamic_cast<BooleanObject*>(arg)->GetValue());
