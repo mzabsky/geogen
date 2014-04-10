@@ -55,5 +55,6 @@ DynamicObject* NumberTypeDefinition::Copy(DynamicObject* a) const
 		return a;
 	}
 
+    // Value type, copies
 	return new NumberObject(this, ((NumberObject const*)a)->GetValue());
 }

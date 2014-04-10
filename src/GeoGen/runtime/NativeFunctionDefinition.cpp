@@ -32,10 +32,7 @@ void NativeFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, u
 
 void NativeFunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<DynamicObject*> actualArguments) const
 {
-	if (actualArguments.size() != expectedTypes.size())
-	{
-		throw NumberOfArgumentsException(location, expectedTypes.size(), actualArguments.size());
-	}
+	CheckArguments(location, expectedTypes.size(), actualArguments);
 
 	for (vector<DynamicObject*>::size_type i = 0; i < actualArguments.size(); i++)
 	{
@@ -52,5 +49,13 @@ void NativeFunctionDefinition::CheckArguments(CodeLocation location, vector<Type
 
 			throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), actualArguments[i]->GetType()->GetName());
 		}
+	}
+}
+
+void NativeFunctionDefinition::CheckArguments(CodeLocation location, unsigned expectedArgumentCount, vector<DynamicObject*> actualArguments) const
+{
+	if (actualArguments.size() != expectedArgumentCount)
+	{
+		throw NumberOfArgumentsException(location, expectedArgumentCount, actualArguments.size());
 	}
 }

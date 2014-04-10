@@ -3,6 +3,7 @@
 #include "BooleanTypeDefinition.hpp"
 #include "NullTypeDefinition.hpp"
 #include "..\corelib\BinaryArithmeticOperatorFunctionDefinition.hpp"
+#include "..\corelib\AssignmentOperatorFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -14,7 +15,8 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new BooleanTypeDefinition());
 	this->typeDefinitions.AddItem(new NumberTypeDefinition());
 
-    // Code operators
+    // Core operators
+	this->globalFunctionDefinitions.AddItem(new AssignmentOperatorFunctionDefinition());
 	this->globalFunctionDefinitions.AddItem(BinaryArithmeticOperatorFunctionDefinition::Create(BinaryArithmeticOperatorFunctionDefinition::MULTIPLICATION));
 	this->globalFunctionDefinitions.AddItem(BinaryArithmeticOperatorFunctionDefinition::Create(BinaryArithmeticOperatorFunctionDefinition::DIVISION));
 	this->globalFunctionDefinitions.AddItem(BinaryArithmeticOperatorFunctionDefinition::Create(BinaryArithmeticOperatorFunctionDefinition::MODULO));

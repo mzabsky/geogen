@@ -18,7 +18,5 @@ InstructionStepResult CallGlobalInstruction::Step(VirtualMachine* vm) const
 
 	vm->CallFunction(this->GetLocation(), functionDefinition, this->argumentCount);
 
-	vm->GetObjectStack().Push(vm->GetNull());
-
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }
