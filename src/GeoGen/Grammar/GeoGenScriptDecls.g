@@ -227,6 +227,7 @@ functionDeclaration
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
 			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
 			//varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
+		        codeBlock.AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)tree->getText(tree)->chars));	
 		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)tree->getText(tree)->chars));	
 		        codeBlock.AddInstruction(new instructions::PopInstruction(location));	
 		}
@@ -378,7 +379,7 @@ returnStatement returns [CodeBlock* returnCodeBlock]
 		throw CompilerException(GGE1304_InvalidReturn, location);
 	}
 
-	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel));
+	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel + 1));
 };
 
 whileStatement returns [CodeBlock* returnCodeBlock]
