@@ -27,7 +27,7 @@ DynamicObject* NegationOperatorFunctionDefinition::CallNative(CodeLocation locat
 	DynamicObject* returnObject;
 	if (arguments[0]->GetType() == numberTypeDefinition)
 	{
-		int value = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
+		int value = (int)dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 		returnObject = numberTypeDefinition->CreateInstance(!(int)value);
 	}
 	else if (arguments[0]->GetType() == booleanTypeDefinition){
