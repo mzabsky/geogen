@@ -6,6 +6,7 @@
 #include "..\corelib\AssignmentOperatorFunctionDefinition.hpp"
 #include "..\corelib\RelationalOperatorFunctionDefinition.hpp"
 #include "..\corelib\EqualityOperatorFunctionDefinition.hpp"
+#include "..\corelib\BitLogicOperatorFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -32,6 +33,9 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(RelationalOperatorFunctionDefinition::Create(RelationalOperatorFunctionDefinition::GREATER_THAN_OR_EQUAL_TO));
 	this->globalFunctionDefinitions.AddItem(EqualityOperatorFunctionDefinition::Create(EqualityOperatorFunctionDefinition::EQUAL_TO));
 	this->globalFunctionDefinitions.AddItem(EqualityOperatorFunctionDefinition::Create(EqualityOperatorFunctionDefinition::NOT_EQUAL_TO));
+	this->globalFunctionDefinitions.AddItem(BitLogicOperatorFunctionDefinition::Create(BitLogicOperatorFunctionDefinition::BIT_AND));
+	this->globalFunctionDefinitions.AddItem(BitLogicOperatorFunctionDefinition::Create(BitLogicOperatorFunctionDefinition::BIT_OR));
+	this->globalFunctionDefinitions.AddItem(BitLogicOperatorFunctionDefinition::Create(BitLogicOperatorFunctionDefinition::BIT_XOR));
 
 
 	//this->typeDefinitions.AddItem(new StringTypeDefinition());
