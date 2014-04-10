@@ -107,7 +107,7 @@
     <ClInclude Include="runtime\CodeBlockStack.hpp" />
     <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
     <ClInclude Include="runtime\CompiledScript.hpp" />
-    <ClInclude Include="runtime\CoreLibrary.hpp" />
+    <ClInclude Include="corelib\CoreLibrary.hpp" />
     <ClInclude Include="runtime\DivisionByZeroException.hpp" />
     <ClInclude Include="runtime\DynamicObject.hpp" />
     <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
@@ -201,7 +201,7 @@
     <ClCompile Include="runtime\CodeBlockStack.cpp" />
     <ClCompile Include="runtime\CodeBlockStackEntry.cpp" />
     <ClCompile Include="runtime\CompiledScript.cpp" />
-    <ClCompile Include="runtime\CoreLibrary.cpp" />
+    <ClCompile Include="corelib\CoreLibrary.cpp" />
     <ClCompile Include="runtime\DynamicObject.cpp" />
     <ClCompile Include="runtime\EnumObject.cpp" />
     <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
