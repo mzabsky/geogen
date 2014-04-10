@@ -85,6 +85,7 @@
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="corelib\BitLogicOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\EqualityOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\LogicalOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\NegationOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RelationalOperatorFunctionDefinition.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Generator.cpp" />
