@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 #include <stdexcept>
 
 #include "ErrorCode.hpp"
@@ -14,11 +15,14 @@ namespace geogen
 		std::string message;
 	public:
 		explicit InternalErrorException(std::string const& message) :
-			GeoGenException(GGE4000_InternalError) {};
+			GeoGenException(GGE4000_InternalError), message(message) {};
 
 		virtual std::string GetDetailMessage()
 		{
-			return "Internal error has occured in GeoGen (" + message + ").";
+			std::stringstream ss;
+			ss << "Internal error has occured in GeoGen (" << message << ").";
+
+			return ss.str();
 		}
 	};
 }

@@ -23,7 +23,7 @@ using namespace geogen::runtime;
 
 Compiler::Compiler(){}
 
-CompiledScript const* Compiler::CompileScript(std::string const& code) const
+CompiledScript* Compiler::CompileScript(std::string const& code) const
 {
 	auto_ptr<CompiledScript> script(new CompiledScript());
 	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());

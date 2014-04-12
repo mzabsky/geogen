@@ -45,12 +45,12 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	
 	while (!this->codeBlockStack.IsEmpty() && this->codeBlockStack.Top().GetCurrentInstruction() == NULL)
 	{
-		CodeBlockStackEntry& currentCodeBlockStackEntry = this->codeBlockStack.Top();
-		CodeBlock const& currentCodeBlock = currentCodeBlockStackEntry.GetCodeBlock();
+		bool isCurrentCodeBlockStackEntryLooping = this->codeBlockStack.Top().IsLooping();
+		CodeBlock const& currentCodeBlock = this->codeBlockStack.Top().GetCodeBlock();
 
 		this->codeBlockStack.Pop();
 
-		if (currentCodeBlockStackEntry.IsLooping())
+		if (isCurrentCodeBlockStackEntryLooping)
 		{
 			this->CallCodeBlock(vm, currentCodeBlock, true);
 		}
