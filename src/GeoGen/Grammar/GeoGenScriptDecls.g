@@ -75,12 +75,13 @@ scope BlockScope
 	void binaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, CodeBlock* e1, CodeBlock* e2, CodeBlock* returnCodeBlock)
 	{
 		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
-	
-		returnCodeBlock->MoveInstructionsFrom(*e1); 
-		delete e1; 
 		
 		returnCodeBlock->MoveInstructionsFrom(*e2); 
 		delete e2;
+		
+	
+		returnCodeBlock->MoveInstructionsFrom(*e1); 
+		delete e1; 
 		
 		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (char*)operatorToken->getText(operatorToken)->chars, 2));
 	}
@@ -476,6 +477,8 @@ scope BlockScope;
 ^(IF expression ifBranchStatement=statement elseBranchStatement=statement) 
 {
 	CodeLocation location($IF.line, $IF.pos);
+
+	$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock);
 
 	instructions::IfInstruction* ifInstr = new instructions::IfInstruction(location);
 	
