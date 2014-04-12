@@ -29,6 +29,8 @@ void CodeBlockStack::Pop()
 		throw InternalErrorException("Can't get top of empty code block stack.");
 	}
 
+	delete this->stack.back();
+
 	this->stack.pop_back();
 }
 
