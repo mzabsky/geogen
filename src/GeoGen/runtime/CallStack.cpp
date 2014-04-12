@@ -30,6 +30,8 @@ void CallStack::Pop()
 		throw InternalErrorException("Can't get top of empty call stack.");
 	}
 
+	delete this->stack.back();
+
 	this->stack.pop_back();
 }
 
