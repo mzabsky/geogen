@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicRuntimeTests.hpp" />
+    <ClInclude Include="NoExceptionException.hpp" />
     <ClInclude Include="TestFixtureBase.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

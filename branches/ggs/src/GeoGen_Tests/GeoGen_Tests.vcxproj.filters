@@ -8,6 +8,7 @@
     <ClInclude Include="BasicRuntimeTests.hpp">
       <Filter>Fixtures</Filter>
     </ClInclude>
+    <ClInclude Include="NoExceptionException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">
