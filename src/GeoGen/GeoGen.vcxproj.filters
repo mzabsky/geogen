@@ -107,6 +107,9 @@
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\CoreLibrary.hpp" />
+    <ClInclude Include="testlib\TestLibrary.hpp" />
+    <ClInclude Include="testlib\AssertEqualsFunctionDefinition.hpp" />
+    <ClInclude Include="testlib\AssertionFailedException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -173,6 +176,8 @@
     <ClCompile Include="corelib\NegationOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\UnaryArithmeticOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoreLibrary.cpp" />
+    <ClCompile Include="testlib\TestLibrary.cpp" />
+    <ClCompile Include="testlib\AssertEqualsTypeDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

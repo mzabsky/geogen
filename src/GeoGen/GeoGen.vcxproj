@@ -171,9 +171,14 @@
     <ClInclude Include="runtime\VirtualMachine.hpp" />
     <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
     <ClInclude Include="Serializable.hpp" />
+    <ClInclude Include="testlib\AssertEqualsFunctionDefinition.hpp" />
+    <ClInclude Include="testlib\AssertionFailedException.hpp" />
+    <ClInclude Include="testlib\TestLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
+    <ClCompile Include="testlib\AssertEqualsTypeDefinition.cpp" />
+    <ClCompile Include="testlib\TestLibrary.cpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />
