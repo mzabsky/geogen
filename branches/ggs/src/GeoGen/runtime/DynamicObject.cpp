@@ -85,6 +85,7 @@ void DynamicObject::RemoveRef(MemoryManager& vm)
 
 	if (this->refCount <= 0)
 	{
-		vm.DestroyObject(this);
+		// TODO: DO correct work with the references everywhere
+		//vm.DestroyObject(this);
 	}
 }
