@@ -16,7 +16,7 @@ bool BooleanTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObje
 {
 	if (a->GetType() != this)
 	{
-		throw new InternalErrorException("Using InstanceLessThan on object of incorrect type.");
+		throw InternalErrorException("Using InstanceLessThan on object of incorrect type.");
 	}
 
 	if (b->GetType() == this)
@@ -31,7 +31,7 @@ bool BooleanTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObje
 {
 	if (a->GetType() != this)
 	{
-		throw new InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+		throw InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
 	}
 
 	if (b->GetType() == this)
@@ -46,7 +46,7 @@ DynamicObject* BooleanTypeDefinition::Copy(DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{
-		throw new InternalErrorException("Using Copy on object of incorrect type.");
+		throw InternalErrorException("Using Copy on object of incorrect type.");
 	}
 
 	if (a->IsStaticObject())

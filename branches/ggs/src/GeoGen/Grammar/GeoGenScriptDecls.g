@@ -525,6 +525,7 @@ expression returns [CodeBlock* returnCodeBlock]
 	| ^(op='&&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| ^(op='^' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| ^(op='&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op='|' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| ^(op='==' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| ^(op='!=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
 	| ^(op='<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
@@ -600,7 +601,7 @@ coordinateExpression returns[CodeBlock* returnCodeBlock]
 	
 	if(argumentCodeBlocks.size() < 1 || argumentCodeBlocks.size() > 2)
 	{
-		throw new InternalErrorException("Incorrect number of arguments in coordinate literal.");
+		throw InternalErrorException("Incorrect number of arguments in coordinate literal.");
 	}
 	
 	if(argumentCodeBlocks.size() == 1){

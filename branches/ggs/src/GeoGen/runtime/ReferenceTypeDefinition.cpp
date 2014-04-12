@@ -9,7 +9,7 @@ DynamicObject* ReferenceTypeDefinition::Copy(DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{
-		throw new InternalErrorException("Using Copy on object of incorrect type.");
+		throw InternalErrorException("Using Copy on object of incorrect type.");
 	}
 
 	return a;

@@ -32,12 +32,12 @@ bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, st
 		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberName);
 		if (variableDefinition == NULL)
 		{
-			throw new UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
+			throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
 		}
 
 		if (variableDefinition->IsConstant())
 		{
-			throw new ReadOnlyWriteException(location, memberName);
+			throw ReadOnlyWriteException(location, memberName);
 		}
 
 		object->AddRef(vm.GetMemoryManager());
@@ -62,7 +62,7 @@ DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation lo
 		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberName);
 		if (variableDefinition == NULL)
 		{
-			throw new UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
+			throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
 		}
 
 		return NULL;
