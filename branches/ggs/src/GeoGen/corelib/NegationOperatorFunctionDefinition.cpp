@@ -21,22 +21,22 @@ DynamicObject* NegationOperatorFunctionDefinition::CallNative(CodeLocation locat
 
 	if (arguments[0]->IsStaticObject())
 	{
-		throw new IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), "Static");
+		throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), "Static");
 	}
 
 	DynamicObject* returnObject;
-	if (arguments[0]->GetType() == numberTypeDefinition)
+	/*if (arguments[0]->GetType() == numberTypeDefinition)
 	{
 		int value = (int)dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 		returnObject = numberTypeDefinition->CreateInstance(!(int)value);
 	}
-	else if (arguments[0]->GetType() == booleanTypeDefinition){
+	else */if (arguments[0]->GetType() == booleanTypeDefinition){
 		bool value = dynamic_cast<BooleanObject*>(arguments[0])->GetValue();
 		returnObject = booleanTypeDefinition->CreateInstance(!value);
 	}
 	else
 	{
-		throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), arguments[0]->GetType()->GetName());
+		throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, booleanTypeDefinition->GetName(), arguments[0]->GetType()->GetName());
 	}
 
 	vm->GetMemoryManager().RegisterObject(returnObject);
