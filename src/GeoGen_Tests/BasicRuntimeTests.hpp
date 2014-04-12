@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
+#include "..\GeoGen\runtime\IncorrectTypeException.hpp"
+#include "..\GeoGen\runtime\DivisionByZeroException.hpp"
 
 class BasicRuntimeTests : public TestFixtureBase
 {
@@ -140,8 +142,119 @@ public:
 		");
 	}
 
+	static void TestOperatorFailures()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "+true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "+null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "+Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "-true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "-null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "-Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "!2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "!null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "!Boolean;");
+
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 * true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true * 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 * null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null * 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 * Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean * 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 / true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true / 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 / null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null / 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 / Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean / 2;");
+		TEST_SCRIPT_FAILURE(DivisionByZeroException, "2 / 0;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 % true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true % 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 % null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null % 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 % Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean % 2;");
+		TEST_SCRIPT_FAILURE(DivisionByZeroException, "2 % 0;");
+
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 + true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true + 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 + null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null + 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 + Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean + 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 - true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true - 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 - null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null - 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 - Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean - 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 << true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true << 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 << null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null << 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 << Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean << 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 >> true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true >> 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 >> null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null >> 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 >> Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean >> 2;");
+
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 < true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true < 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 < null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null < 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 < Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean < 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 <= true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true <= 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 <= null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null <= 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 <= Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean <- 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 > true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true > 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 > null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null > 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 > Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean > 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 >= true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true >= 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 >= null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null >= 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 >= Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean >= 2;");
+
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 & null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null & 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 & Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean & 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 ^ null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null ^ 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 ^ Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean ^ 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 | null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null | 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 | Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean | 2;");
+
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 && true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true && 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true && null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null && true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true && Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean && true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "2 || true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true || 2;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true || null;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "null || true;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "true || Boolean;");
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean || true;");
+	}
+
 	BasicRuntimeTests() : TestFixtureBase("BasicRuntimeTests")
 	{
 		ADD_TESTCASE(TestOperators);
+		ADD_TESTCASE(TestOperatorFailures);
 	}
 };

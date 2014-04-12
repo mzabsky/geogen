@@ -6,6 +6,7 @@
 
 #include "../GeoGen/GeoGen.hpp"
 #include "../GeoGen/testlib/TestLibrary.hpp"
+#include "NoExceptionException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -15,6 +16,8 @@ using namespace corelib;
 using namespace testlib;
 
 #define ADD_TESTCASE(tc) this->AddTestCase(#tc, tc);
+
+#define TEST_SCRIPT_FAILURE(exception, script) TestScriptFailure<exception>(script, #exception)
 
 class TestFixtureBase
 {	
@@ -81,5 +84,18 @@ protected:
 		{
 			throw exception("VM finished in incorrect status.");
 		}
+	}
+
+	template<typename TException>
+	static void TestScriptFailure(string script, string exceptionName)
+	{
+		try{
+			TestScript(script);
+		}
+		catch (TException& e){
+			return;
+		}
+
+		throw NoExceptionException(exceptionName);
 	}
 };
