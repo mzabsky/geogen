@@ -6,7 +6,7 @@
 using namespace geogen::runtime;
 
 void CallStackEntry::CallCodeBlock(VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping)
-{
+{	
 	this->codeBlockStack.Push(&vm->GetMemoryManager(), codeBlock, isLooping);
 }
 
@@ -17,12 +17,45 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 		throw InternalErrorException("The code block stack was empty (this call stack entry is already finished?)");
 	}
 
+	int originalCodeBlockStackSize = this->codeBlockStack.Size();
 	CodeBlockStackEntry& top = this->codeBlockStack.Top();
+
 
 	bool topIsLooping = top.IsLooping();
 	CodeBlock const& topCodeBlock = top.GetCodeBlock();
 	CodeBlockStackEntryStepResult codeBlockStepResult = top.Step(vm);
 
+	/*if (topIsLooping && (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED))
+	{
+		this->CallCodeBlock(vm, topCodeBlock, true);
+	}*/
+
+	int codeBlockStackSizeDifference = this->codeBlockStack.Size() - originalCodeBlockStackSize;
+	if (topIsLooping)
+	{
+		if (codeBlockStackSizeDifference == 0 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
+		{
+			this->codeBlockStack.Pop();
+			this->CallCodeBlock(vm, topCodeBlock, true);
+		}
+		else if(codeBlockStackSizeDifference == -1 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE){
+			this->CallCodeBlock(vm, topCodeBlock, true);
+		}
+	}
+	
+	while (!this->codeBlockStack.IsEmpty() && this->codeBlockStack.Top().GetCurrentInstruction() == NULL)
+	{
+		CodeBlockStackEntry& currentCodeBlockStackEntry = this->codeBlockStack.Top();
+		CodeBlock const& currentCodeBlock = currentCodeBlockStackEntry.GetCodeBlock();
+
+		this->codeBlockStack.Pop();
+
+		if (currentCodeBlockStackEntry.IsLooping())
+		{
+			this->CallCodeBlock(vm, currentCodeBlock, true);
+		}
+	}
+	/*
 	if (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
 	{
 		this->codeBlockStack.Pop();
@@ -31,7 +64,7 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	if (topIsLooping && (codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE || codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED))
 	{
 		this->CallCodeBlock(vm, topCodeBlock, true);
-	}	
+	}*/	
 
 	if (this->codeBlockStack.IsEmpty())
 	{

@@ -1,6 +1,10 @@
 function times(sa, sb){
 	
 	sa * sb;
+
+	if(true) {}
+
+			while(false){}
 }
 
 var b = times(2, 5);
@@ -9,8 +13,6 @@ var a = 2 + 2;
 while(a < 10)
 {
 	a = a + 1;
-
-	continue;
 }
 
 yield HeightMap.Empty();

@@ -34,7 +34,22 @@ void CodeBlockStack::Pop()
 
 void CodeBlockStack::Push(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping)
 {
-	CodeBlockStackEntry* entry = new CodeBlockStackEntry(memoryManager, codeBlock, isLooping);
+	// Empty code block can be ignored
+	if (std::distance(codeBlock.Begin(), codeBlock.End()) > 0)
+	{
+		CodeBlockStackEntry* entry = new CodeBlockStackEntry(memoryManager, codeBlock, isLooping);
 
-	this->stack.push_back(entry);
+		this->stack.push_back(entry);
+	}
+}
+
+void CodeBlockStack::Serialize(std::iostream& stream) const
+{
+	stream << ">";
+	for (const_reverse_iterator it = this->RBegin(); it != this->REnd(); it++)
+	{
+		stream << "\t";
+		(*it)->Serialize(stream);
+		stream << std::endl;
+	}
 }

@@ -3,8 +3,17 @@
 
 #include "../GeoGen/GeoGen.hpp"
 #include "../GeoGen/compiler/Compiler.hpp"
+#include <iomanip>
+
+#include <windows.h>
 
 using namespace std;
+
+void SetConsoleColor(int foreground, int background)
+{
+	int finalcolor = (16 * background) + foreground;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), finalcolor);
+}
 
 int main(){
 	geogen::Generator g(5);
@@ -37,15 +46,67 @@ KeyValSymbol: \
 	geogen::runtime::VirtualMachine vm(*script);
 	//vm.Run();
 
+	vector<string> codeLines;
+	string currentLine;
+	while (std::getline(code, currentLine, '\n'))
+	{
+		codeLines.push_back(currentLine);
+	}
+
+	unsigned numShowCodeLines = 5;
 	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
 	{		
-
 		geogen::runtime::instructions::Instruction const* currentInstruction = vm.GetCallStack().Top().GetCodeBlockStack().Top().GetCurrentInstruction();
+
+		//system("cls");
+
+		if (numShowCodeLines > 0)
+		{//codeLines.at(max(currentInstruction->GetLocation().GetLine(), 0)
+			for (
+				int i = -(int)numShowCodeLines;
+				i < (int)numShowCodeLines;
+				i++)
+			{
+				int currentLineNumber = currentInstruction->GetLocation().GetLine() + i;
+				if (currentLineNumber >= 0 && currentLineNumber < (int)codeLines.size())
+				{
+					string currentLine = codeLines[currentLineNumber];
+
+					cout
+						<< std::setw(4)
+						<< currentLineNumber << " "
+						<< std::setw(4) << (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine() ? ">>>" : "") << " ";
+
+					if (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine())
+					{
+						cout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
+						SetConsoleColor(7, 1);
+						cout << currentLine[currentInstruction->GetLocation().GetColumn()];
+						SetConsoleColor(7, 0);
+						if (currentLine.length() > 0)
+						{
+							cout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
+						}
+					}
+					else
+					{
+						cout << currentLine;
+					}
+				}
+
+				cout << std::endl;
+
+				//	<< *it << std::endl;
+			}
+		}
+		
 		cout << "Next: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". Command? ";
         
         string line;
 		getline(std::cin, line);
         
+		cout << "=====================================================" << std::endl << std::endl;
+
 		size_t separatorPosition = line.find(" ");
 		string command = line.substr(0, separatorPosition);
 		string args = "";
@@ -54,13 +115,13 @@ KeyValSymbol: \
 			args = line.substr(separatorPosition + 1);
 		}        
 
-		if (command == "s" || command == "step" || command == "")
+		if (command == "step" || command == "")
 		{
 			cout << "Step" << std::endl;
 
 			vm.Step();
 		}
-		else if (command == "t" || command == "stack")
+		else if (command == "s" || command == "stack")
         {
 			cout << "Object stack:" << std::endl;
 
@@ -92,12 +153,35 @@ KeyValSymbol: \
 			cout << "Call stack:" << std::endl;
 			cout << vm.GetCallStack().ToString() << std::endl;
 		}
+		else if (command == "cbs" || command == "codeblockstack")
+		{
+			cout << "Code block stack:" << std::endl;
+			cout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
+		}
+		else if (command == "cbc" || command == "codeblockcode")
+		{
+			geogen::runtime::CodeBlockStack& codeBlockStack = vm.GetCallStack().Top().GetCodeBlockStack();
+
+			int codeBlockNumber = 0;
+			if (args != "")
+			{
+				int codeBlockNumber = atoi(args.c_str());				
+			}
+
+			if (codeBlockNumber < codeBlockStack.Size())
+			{
+				cout << "Code block stack entry " << codeBlockNumber << ":" << std::endl;
+				cout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
+			}
+			else
+			{
+				cout << "Incorrect code block stack entry number" << endl;
+			}
+		}
 		else
 		{
 			cout << "Unknown command" << std::endl;
 		}
-
-		cout << "========================" << std::endl << std::endl;
 	}
 	
 	//std::cout << script->GetSymbolNameTable().ToString();
