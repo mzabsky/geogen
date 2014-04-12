@@ -29,5 +29,5 @@ bool TypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject cons
 
 bool TypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
 {
-	return (!a->GetType());
+	return a == b;
 }
