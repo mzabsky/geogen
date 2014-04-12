@@ -12,7 +12,7 @@ namespace geogen
 		class CodeBlockStackEntry;
 		class MemoryManager;
 
-		class CodeBlockStack
+		class CodeBlockStack : public Serializable
 		{
 			std::deque<CodeBlockStackEntry*> stack;
 
@@ -32,6 +32,7 @@ namespace geogen
 			void Pop();
 			void Push(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
 			inline bool IsEmpty() { return this->stack.empty(); };
+			inline size_t Size() { return this->stack.size(); };
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->stack.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->stack.end()); }
@@ -44,6 +45,8 @@ namespace geogen
 
 			inline reverse_iterator RBegin() { return this->stack.rbegin(); }
 			inline reverse_iterator REnd() { return this->stack.rend(); }
+
+			virtual void Serialize(std::iostream& stream) const;
 		};
 	}
 }

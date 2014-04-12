@@ -50,6 +50,8 @@ bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, st
 
 		it->second = object;
 	}
+
+	return true;
 }
 
 DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName) const

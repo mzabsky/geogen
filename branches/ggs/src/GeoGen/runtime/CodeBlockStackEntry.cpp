@@ -38,7 +38,7 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 	//codeBlockStepResult.codeBlockCount = instructionStepResult.codeBlockCount;
 	switch (instructionStepResult)
 	{
-	case INSTRUCTION_STEP_RESULT_TYPE_NORMAL:
+	case INSTRUCTION_STEP_RESULT_TYPE_NORMAL:		
 		this->codePointer++;
 		if (this->codePointer != this->codeBlock->End())
 		{			
@@ -65,5 +65,15 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 
 void CodeBlockStackEntry::Serialize(std::iostream& stream) const
 {
-	stream << this->GetCurrentInstruction()->GetInstructionName() << std::endl;
+	if (this->GetCurrentInstruction() != NULL)
+	{
+		stream
+			<< this->GetCurrentInstruction()->GetInstructionName()
+			<< " on line " << this->GetCurrentInstruction()->GetLocation().GetLine()
+			<< ", column " << this->GetCurrentInstruction()->GetLocation().GetLine();
+	}
+	else
+	{
+		stream << "<END>";
+	}
 }
