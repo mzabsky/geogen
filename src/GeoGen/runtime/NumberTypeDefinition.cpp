@@ -17,7 +17,7 @@ bool NumberTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObjec
 {
 	if (a->GetType() != this)
 	{
-		throw new InternalErrorException("Using InstanceLessThan on object of incorrect type.");
+		throw InternalErrorException("Using InstanceLessThan on object of incorrect type.");
 	}
 
 	if (b->GetType() == this)
@@ -32,7 +32,7 @@ bool NumberTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObjec
 {
 	if (a->GetType() != this)
 	{
-		throw new InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+		throw InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
 	}
 
 	if (b->GetType() == this)
@@ -47,7 +47,7 @@ DynamicObject* NumberTypeDefinition::Copy(DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{
-		throw new InternalErrorException("Using Copy on object of incorrect type.");
+		throw InternalErrorException("Using Copy on object of incorrect type.");
 	}
 
 	if (a->IsStaticObject())

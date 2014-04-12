@@ -36,7 +36,7 @@ DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 
 		if (arg->IsStaticObject())
 		{
-			throw new IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), "Static");
+			throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), "Static");
 		}
 
 		if (arg->GetType() == numberTypeDefinition)
