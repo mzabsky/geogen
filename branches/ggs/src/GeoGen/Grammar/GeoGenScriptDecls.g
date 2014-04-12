@@ -456,7 +456,7 @@ scope BlockScope;
 		whileCodeBlock.MoveInstructionsFrom(*incrementExpressionCodeBlock);
 		delete incrementExpressionCodeBlock;
 		
-		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
+		whileCodeBlock.AddInstruction(new instructions::PopInstruction(location));
 	}
 	
 	$returnCodeBlock->AddInstruction(whileInstr);
