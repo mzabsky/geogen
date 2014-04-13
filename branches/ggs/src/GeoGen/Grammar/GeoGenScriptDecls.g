@@ -269,6 +269,8 @@ statement returns [CodeBlock* returnCodeBlock]
     		throw CompilerException(GGE1301_InvalidBreak, location);
     	}
     
+    	int a = $BlockScope::breakCodeBlockLevel;
+    
     	$returnCodeBlock = new CodeBlock();  
     	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel - $BlockScope::breakCodeBlockLevel + 1));
     }
@@ -385,7 +387,13 @@ returnStatement returns [CodeBlock* returnCodeBlock]
 
 whileStatement returns [CodeBlock* returnCodeBlock]
 scope BlockScope;
-@init { $returnCodeBlock = new CodeBlock(); ctx->codeBlockLevel++; $BlockScope::breakCodeBlockLevel = ctx->codeBlockLevel; $BlockScope::continueCodeBlockLevel = ctx->codeBlockLevel; ctx->isInLoop = true; }
+@init { 
+	$returnCodeBlock = new CodeBlock(); 
+	ctx->codeBlockLevel++; 
+	$BlockScope::breakCodeBlockLevel = ctx->codeBlockLevel; 
+	$BlockScope::continueCodeBlockLevel = ctx->codeBlockLevel; 
+	ctx->isInLoop = true; 
+}
 @after { ctx->codeBlockLevel--; ctx->isInLoop = false;}
 : ^(WHILE expression statement) 
 {
@@ -444,7 +452,7 @@ scope BlockScope;
 		delete conditionExpressionCodeBlock;
 		
 		instructions::IfInstruction* ifInstr = new instructions::IfInstruction(location);
-		ifInstr->GetIfBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 2));
+		ifInstr->GetElseBranchCodeBlock().AddInstruction(new instructions::BreakInstruction(location, 2));
 		whileCodeBlock.AddInstruction(ifInstr);
 	}
 
@@ -469,11 +477,12 @@ initExpression returns [CodeBlock* returnCodeBlock]
     | expression { $returnCodeBlock = $expression.returnCodeBlock; };
 
 ifStatement returns [CodeBlock* returnCodeBlock]
-scope BlockScope;
 @init 
 { 
 	$returnCodeBlock = new CodeBlock(); 
-}: 
+	ctx->codeBlockLevel++; 
+}
+@after { ctx->codeBlockLevel--; }: 
 ^(IF expression ifBranchStatement=statement elseBranchStatement=statement) 
 {
 	CodeLocation location($IF.line, $IF.pos);

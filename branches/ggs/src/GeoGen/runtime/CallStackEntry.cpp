@@ -31,17 +31,14 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	}*/
 
 	int codeBlockStackSizeDifference = this->codeBlockStack.Size() - originalCodeBlockStackSize;
-	if (topIsLooping)
+	if (topIsLooping && codeBlockStackSizeDifference == 0 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
 	{
-		if (codeBlockStackSizeDifference == 0 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
-		{
-			this->codeBlockStack.Pop();
-			this->CallCodeBlock(vm, topCodeBlock, true);
-		}
-		else if(codeBlockStackSizeDifference == -1 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE){
-			this->CallCodeBlock(vm, topCodeBlock, true);
-		}
+		this->codeBlockStack.Pop();
+		this->CallCodeBlock(vm, topCodeBlock, true);
 	}
+	/*else if(codeBlockStackSizeDifference < 0 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE){
+		this->CallCodeBlock(vm, topCodeBlock, true);
+	}*/
 	
 	while (!this->codeBlockStack.IsEmpty() && this->codeBlockStack.Top().GetCurrentInstruction() == NULL)
 	{
