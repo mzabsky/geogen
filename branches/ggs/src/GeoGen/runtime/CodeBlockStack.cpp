@@ -45,6 +45,14 @@ void CodeBlockStack::Push(MemoryManager* memoryManager, CodeBlock const& codeBlo
 	}
 }
 
+void CodeBlockStack::CheckSize(unsigned requiredSize)
+{
+	if (this->stack.size() < requiredSize)
+	{
+		throw InternalErrorException("Code block stack has fewer items than required for current operation.");
+	}
+}
+
 void CodeBlockStack::Serialize(std::iostream& stream) const
 {
 	stream << ">";
