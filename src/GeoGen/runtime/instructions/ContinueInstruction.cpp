@@ -11,6 +11,8 @@ InstructionStepResult ContinueInstruction::Step(VirtualMachine* vm) const
 {
 	CodeBlockStack& codeBlockStack = vm->GetCallStack().Top().GetCodeBlockStack();
 
+	codeBlockStack.CheckSize(this->codeBlockCount);
+
 	for (unsigned i = 0; i < this->codeBlockCount; i++)
 	{
 		codeBlockStack.Pop();

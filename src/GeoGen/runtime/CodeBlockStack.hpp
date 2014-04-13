@@ -33,6 +33,7 @@ namespace geogen
 			void Push(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
 			inline bool IsEmpty() { return this->stack.empty(); };
 			inline size_t Size() { return this->stack.size(); };
+			void CheckSize(unsigned requiredSize);
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->stack.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->stack.end()); }
