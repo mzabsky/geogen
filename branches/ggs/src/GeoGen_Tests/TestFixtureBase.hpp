@@ -19,6 +19,8 @@ using namespace testlib;
 
 #define TEST_SCRIPT_FAILURE(exception, script) TestScriptFailure<exception>(script, #exception)
 
+#define RUN_FIXTURE(fixture) fixture().Run(numberOfFailures, numberOfPassed);
+
 class TestFixtureBase
 {	
 public:
@@ -61,7 +63,7 @@ public:
 				continue;
 			}
 
-			cout << "Test case " << it->first << " passed." << endl;
+			cout << "Test case " << name << "::" << it->first << " passed." << endl;
 
 			numberOfPassed++;
 		}

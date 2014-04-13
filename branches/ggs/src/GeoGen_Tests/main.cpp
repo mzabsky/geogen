@@ -1,7 +1,9 @@
 #include <iostream>
 
 #include "../GeoGen/GeoGen.hpp"
-#include "BasicRuntimeTests.hpp"
+
+#include "BasicOperatorsTests.hpp"
+#include "FlowControlTests.hpp"
 
 using namespace std;
 
@@ -10,7 +12,8 @@ int main()
 	int numberOfFailures = 0;
 	int numberOfPassed = 0;
 
-	BasicRuntimeTests().Run(numberOfFailures, numberOfPassed);
+	RUN_FIXTURE(BasicOperatorsTests);
+	RUN_FIXTURE(FlowControlTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 
