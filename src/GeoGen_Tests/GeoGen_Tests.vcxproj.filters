@@ -5,10 +5,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestFixtureBase.hpp" />
-    <ClInclude Include="BasicRuntimeTests.hpp">
+    <ClInclude Include="NoExceptionException.hpp" />
+    <ClInclude Include="FlowControlTests.hpp">
       <Filter>Fixtures</Filter>
     </ClInclude>
-    <ClInclude Include="NoExceptionException.hpp" />
+    <ClInclude Include="BasicOperatorsTests.hpp">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
+    <ClInclude Include="VariablesTests.hpp">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">

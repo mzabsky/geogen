@@ -4,7 +4,7 @@
 #include "..\GeoGen\runtime\IncorrectTypeException.hpp"
 #include "..\GeoGen\runtime\DivisionByZeroException.hpp"
 
-class BasicRuntimeTests : public TestFixtureBase
+class BasicOperatorsTests : public TestFixtureBase
 {
 public:
 	static void TestOperators()
@@ -252,7 +252,7 @@ public:
 		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean || true;");
 	}
 
-	BasicRuntimeTests() : TestFixtureBase("BasicRuntimeTests")
+	BasicOperatorsTests() : TestFixtureBase("BasicOperatorsTests")
 	{
 		ADD_TESTCASE(TestOperators);
 		ADD_TESTCASE(TestOperatorFailures);
