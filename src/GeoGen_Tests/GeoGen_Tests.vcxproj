@@ -86,6 +86,7 @@
     <ClInclude Include="BasicOperatorsTests.hpp" />
     <ClInclude Include="CommentTests.hpp" />
     <ClInclude Include="FlowControlTests.hpp" />
+    <ClInclude Include="FunctionTests.hpp" />
     <ClInclude Include="NoExceptionException.hpp" />
     <ClInclude Include="TestFixtureBase.hpp" />
     <ClInclude Include="VariablesTests.hpp" />

@@ -20,6 +20,8 @@ namespace geogen
 			CodeBlockStack(CodeBlockStack const&) {};
 			CodeBlockStack& operator=(CodeBlockStack const&) {};
 		public:
+			static const unsigned SIZE_LIMIT;
+
 			CodeBlockStack() {};
 			~CodeBlockStack();
 
@@ -30,7 +32,7 @@ namespace geogen
 
 			CodeBlockStackEntry& Top();
 			void Pop();
-			void Push(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
+			void Push(CodeLocation location, MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
 			inline bool IsEmpty() { return this->stack.empty(); };
 			inline size_t Size() { return this->stack.size(); };
 			void CheckSize(unsigned requiredSize);

@@ -21,6 +21,8 @@ namespace geogen
 			CallStack(CallStack const&) {};
 			CallStack& operator=(CallStack const&) {};
 		public:
+			static const unsigned SIZE_LIMIT;
+
 			CallStack() {};
 			~CallStack();
 

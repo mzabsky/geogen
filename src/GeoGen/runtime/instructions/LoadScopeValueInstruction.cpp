@@ -16,7 +16,7 @@ InstructionStepResult LoadScopeValueInstruction::Step(VirtualMachine* vm) const
 		throw UndefinedSymbolAccessException(GGE2202_UndefinedVariable, this->GetLocation(), this->variableName);
 	}
 
-	vm->GetObjectStack().Push(variable->GetValue());
+	vm->GetObjectStack().Push(this->GetLocation(), variable->GetValue());
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }

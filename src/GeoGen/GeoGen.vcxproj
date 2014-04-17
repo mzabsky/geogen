@@ -161,6 +161,7 @@
     <ClInclude Include="ApiUsageException.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
+    <ClInclude Include="runtime\StackOverflowException.hpp" />
     <ClInclude Include="runtime\StaticObject.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionException.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />

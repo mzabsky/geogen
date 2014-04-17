@@ -1,8 +1,13 @@
 #include "ObjectStack.hpp"
 #include "DynamicObject.hpp"
 #include "..\InternalErrorException.hpp"
+#include "..\CodeLocation.hpp"
+#include "StackOverflowException.hpp"
 
+using namespace geogen;
 using namespace geogen::runtime;
+
+const unsigned ObjectStack::SIZE_LIMIT = 1000;
 
 /*CodeBlockStack::~CodeBlockStack()
 {
@@ -32,8 +37,13 @@ void ObjectStack::Pop()
 	this->stack.pop_back();
 }
 
-void ObjectStack::Push(DynamicObject* object)
+void ObjectStack::Push(CodeLocation location, DynamicObject* object)
 {	
+	if (SIZE_LIMIT == this->stack.size())
+	{
+		throw StackOverflowException(GGE2503_ObjectStackOverflow, location, STACK_TYPE_OBJECT);
+	}
+
 	this->stack.push_back(object);
 }
 

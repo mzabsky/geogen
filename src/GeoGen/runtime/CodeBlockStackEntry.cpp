@@ -1,10 +1,11 @@
 #include "CodeBlockStackEntry.hpp"
 #include "../InternalErrorException.hpp"
 
+using namespace geogen;
 using namespace geogen::runtime;
 
-CodeBlockStackEntry::CodeBlockStackEntry(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping) 
-	: codeBlock(&codeBlock), isLooping(isLooping), localVariableTable(memoryManager)
+CodeBlockStackEntry::CodeBlockStackEntry(CodeLocation location, MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping)
+	: location(location), codeBlock(&codeBlock), isLooping(isLooping), localVariableTable(memoryManager)
 {
 	this->codePointer = codeBlock.Begin();
 }

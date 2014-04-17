@@ -4,6 +4,7 @@
 #include <deque>
 
 #include "../Serializable.hpp"
+#include "../CodeLocation.hpp"
 
 namespace geogen
 {
@@ -19,6 +20,8 @@ namespace geogen
 			ObjectStack(ObjectStack const&) {};
 			ObjectStack& operator=(ObjectStack const&) {};
 		public:
+			static const unsigned SIZE_LIMIT;
+
 			ObjectStack() {};
 			//~ObjectStack();
 
@@ -27,7 +30,7 @@ namespace geogen
 
 			DynamicObject* Top();
 			void Pop();
-			void Push(DynamicObject* object);
+			void Push(CodeLocation location, DynamicObject* object);
 			void CheckSize(unsigned requiredSize);
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->stack.begin()); }
