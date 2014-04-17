@@ -27,7 +27,7 @@ public:
 		");
 	}
 
-		static void TestCombinedComment()
+	static void TestCombinedComment()
 	{
 		TestScript("\n\
 			var a = 1;\n\
@@ -36,7 +36,7 @@ public:
 			a = 2; \n\
 			/* */ \n\
 			\n\
-			AssertEquals(1, a);\n\
+			AssertEquals(2, a);\n\
 		");
 	}
 
@@ -44,5 +44,6 @@ public:
 	{
 		ADD_TESTCASE(TestLineComment);
 		ADD_TESTCASE(TestBlockComment);
+		ADD_TESTCASE(TestCombinedComment);
 	}
 };
