@@ -26,7 +26,7 @@ namespace geogen
 			{
 			}
 
-			inline CodeLocation GetLocation() const { this->location; }
+			inline CodeLocation GetLocation() const { return this->location; }
 
 			inline int GetParameterCount() const { return this->parameterCount; }
 

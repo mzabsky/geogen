@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <stack>
+#include <iostream>
 
 //#include "DynamicObject.hpp"
 #include "CodeBlock.hpp"
@@ -10,6 +11,8 @@
 #include "VariableTable.hpp"
 #include "instructions/Instruction.hpp"
 #include "../Serializable.hpp"
+#include "../CodeLocation.hpp"
+
 
 namespace geogen
 {
@@ -40,15 +43,17 @@ namespace geogen
 			CodeBlock::const_iterator codePointer;
 			bool isLooping;
 			VariableTable localVariableTable;
+			CodeLocation location;
 
 			CodeBlockStackEntry(CodeBlockStackEntry const& other);
 			CodeBlockStackEntry& operator=(CodeBlockStackEntry const& other);
 		public:			
-			CodeBlockStackEntry(MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
+			CodeBlockStackEntry(CodeLocation location, MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
 			~CodeBlockStackEntry() {};
 
 			inline bool IsLooping() const { return this->isLooping; };
 
+			inline CodeLocation GetLocation() const { return this->location; };
 			inline CodeBlock const& GetCodeBlock() const { return *this->codeBlock; };
 			inline VariableTable& GetLocalVariableTable() { return this->localVariableTable; };
 

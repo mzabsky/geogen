@@ -94,7 +94,7 @@ protected:
 		try{
 			TestScript(script);
 		}
-		catch (TException& e){
+		catch (TException&){
 			return;
 		}
 

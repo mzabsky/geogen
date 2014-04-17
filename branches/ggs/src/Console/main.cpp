@@ -162,7 +162,7 @@ KeyValSymbol: \
 		{
 			geogen::runtime::CodeBlockStack& codeBlockStack = vm.GetCallStack().Top().GetCodeBlockStack();
 
-			int codeBlockNumber = 0;
+			unsigned codeBlockNumber = 0;
 			if (args != "")
 			{
 				int codeBlockNumber = atoi(args.c_str());				

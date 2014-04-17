@@ -45,7 +45,7 @@ namespace geogen
 
 			inline FunctionDefinition const* GetFunctionDefinition() const { return this->functionDefinition; }
 
-			void CallCodeBlock(VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping);
+			void CallCodeBlock(CodeLocation location, VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping);
 
 			CallStackEntryStepResult Step(VirtualMachine* vm);
 

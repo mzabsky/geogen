@@ -9,5 +9,5 @@ void ScriptFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, u
 {
 	// TODO: Validace argumentu
 
-	vm->GetCallStack().Top().CallCodeBlock(vm, this->GetRootCodeBlock(), false);
+	vm->GetCallStack().Top().CallCodeBlock(location, vm, this->GetRootCodeBlock(), false);
 }

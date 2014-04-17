@@ -32,7 +32,7 @@ InstructionStepResult ContinueInstruction::Step(VirtualMachine* vm) const
 				throw IntermediateCodeException("Continue attempted to cross through the topmost looping block.");
 			}
 
-			codeBlockStack.Push(&vm->GetMemoryManager(), codeBlock, true);
+			codeBlockStack.Push(this->GetLocation(), &vm->GetMemoryManager(), codeBlock, true);
 		}		
 	}
 

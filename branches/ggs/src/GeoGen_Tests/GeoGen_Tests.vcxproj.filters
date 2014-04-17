@@ -18,6 +18,9 @@
     <ClInclude Include="CommentTests.hpp">
       <Filter>Fixtures</Filter>
     </ClInclude>
+    <ClInclude Include="FunctionTests.hpp">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">

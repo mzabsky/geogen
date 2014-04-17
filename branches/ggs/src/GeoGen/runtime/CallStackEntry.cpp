@@ -2,12 +2,14 @@
 #include "IntermediateCodeException.hpp"
 #include "..\InternalErrorException.hpp"
 #include "VirtualMachine.hpp"
+#include "ScriptFunctionDefinition.hpp"
 
+using namespace geogen;
 using namespace geogen::runtime;
 
-void CallStackEntry::CallCodeBlock(VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping)
+void CallStackEntry::CallCodeBlock(CodeLocation location, VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping)
 {	
-	this->codeBlockStack.Push(&vm->GetMemoryManager(), codeBlock, isLooping);
+	this->codeBlockStack.Push(location, &vm->GetMemoryManager(), codeBlock, isLooping);
 }
 
 CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
@@ -33,8 +35,10 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	int codeBlockStackSizeDifference = this->codeBlockStack.Size() - originalCodeBlockStackSize;
 	if (topIsLooping && codeBlockStackSizeDifference == 0 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_FINISHED)
 	{
+		ScriptFunctionDefinition const* functionDefinition = dynamic_cast<ScriptFunctionDefinition const*>(this->GetFunctionDefinition());
+
 		this->codeBlockStack.Pop();
-		this->CallCodeBlock(vm, topCodeBlock, true);
+		this->CallCodeBlock(functionDefinition->GetLocation(), vm, topCodeBlock, true);
 	}
 	/*else if(codeBlockStackSizeDifference < 0 && codeBlockStepResult == CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE){
 		this->CallCodeBlock(vm, topCodeBlock, true);
@@ -44,12 +48,13 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	{
 		bool isCurrentCodeBlockStackEntryLooping = this->codeBlockStack.Top().IsLooping();
 		CodeBlock const& currentCodeBlock = this->codeBlockStack.Top().GetCodeBlock();
+		CodeLocation location = this->codeBlockStack.Top().GetLocation();
 
 		this->codeBlockStack.Pop();
 
 		if (isCurrentCodeBlockStackEntryLooping)
 		{
-			this->CallCodeBlock(vm, currentCodeBlock, true);
+			this->CallCodeBlock(location, vm, currentCodeBlock, true);
 		}
 	}
 	/*

@@ -1,9 +1,12 @@
 #include "CallStack.hpp"
 #include "CallStackEntry.hpp"
 #include "..\InternalErrorException.hpp"
+#include "StackOverflowException.hpp"
 
 using namespace geogen;
 using namespace geogen::runtime;
+
+const unsigned CallStack::SIZE_LIMIT = 1000;
 
 CallStack::~CallStack()
 {
@@ -38,6 +41,11 @@ void CallStack::Pop()
 void CallStack::Push(CodeLocation location, FunctionDefinition const* functionDefinition)
 {
 	CallStackEntry* entry = new CallStackEntry(location, functionDefinition);
+
+	if (SIZE_LIMIT == this->stack.size())
+	{
+		throw StackOverflowException(GGE2501_CallStackOverflow, location, STACK_TYPE_CALL);
+	}
 
 	this->stack.push_back(entry);
 }

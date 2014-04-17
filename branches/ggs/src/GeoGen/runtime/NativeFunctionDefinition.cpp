@@ -27,7 +27,7 @@ void NativeFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, u
 	DynamicObject* returnValue = this->CallNative(location, vm, arguments);
 
 	callStack.Pop();
-	objectStack.Push(returnValue);
+	objectStack.Push(location, returnValue);
 }
 
 void NativeFunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<DynamicObject*> actualArguments) const

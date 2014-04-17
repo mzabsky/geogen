@@ -47,11 +47,11 @@ namespace geogen
 
 				if (dynamic_cast<BooleanObject*>(conditionObject)->GetValue())
 				{
-					vm->GetCallStack().Top().GetCodeBlockStack().Push(&vm->GetMemoryManager(), this->GetIfBranchCodeBlock(), false);
+					vm->GetCallStack().Top().GetCodeBlockStack().Push(this->GetLocation(), &vm->GetMemoryManager(), this->GetIfBranchCodeBlock(), false);
 				}
 				else
 				{
-					vm->GetCallStack().Top().GetCodeBlockStack().Push(&vm->GetMemoryManager(), this->GetElseBranchCodeBlock(), false);
+					vm->GetCallStack().Top().GetCodeBlockStack().Push(this->GetLocation(), &vm->GetMemoryManager(), this->GetElseBranchCodeBlock(), false);
 				}
 				
 				return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
