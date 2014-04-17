@@ -5,6 +5,7 @@
 #include "BasicOperatorsTests.hpp"
 #include "FlowControlTests.hpp"
 #include "VariablesTests.hpp"
+#include "CommentTests.hpp"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ int main()
 	RUN_FIXTURE(BasicOperatorsTests);
 	RUN_FIXTURE(FlowControlTests);
 	RUN_FIXTURE(VariablesTests);
+	RUN_FIXTURE(CommentTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 
