@@ -115,6 +115,7 @@
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
     <ClInclude Include="runtime\instructions\DeclareGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\DeclareLocalValueInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
     <ClInclude Include="runtime\Library.hpp" />
     <ClInclude Include="runtime\MemoryManager.hpp" />
@@ -177,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
+    <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
     <ClCompile Include="testlib\AssertEqualsTypeDefinition.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
