@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicOperatorsTests.hpp" />
+    <ClInclude Include="CommentTests.hpp" />
     <ClInclude Include="FlowControlTests.hpp" />
     <ClInclude Include="NoExceptionException.hpp" />
     <ClInclude Include="TestFixtureBase.hpp" />
