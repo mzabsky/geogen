@@ -110,6 +110,7 @@
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="testlib\AssertEqualsFunctionDefinition.hpp" />
     <ClInclude Include="testlib\AssertionFailedException.hpp" />
+    <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="corelib\CoreLibrary.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />
     <ClCompile Include="testlib\AssertEqualsTypeDefinition.cpp" />
+    <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
