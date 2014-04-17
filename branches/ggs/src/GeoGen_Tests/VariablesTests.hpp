@@ -66,7 +66,6 @@ public:
 	
 	static void TestLocalOverridesGlobal()
 	{
-		// Store value v global a = 2
 		TestScript("\n\
 			var a = 1; \n\
 			global a = 2; \n\
@@ -77,11 +76,19 @@ public:
 
 	static void TestGlobalAfterLocal()
 	{
-		// Store value v global a = 2
 		TestScript("\n\
 			global a = 2; \n\
 			var a = 1; \n\
 			function x() { AssertEquals(2, a); } \n\
+			x();\n\
+		");
+	}
+
+	static void TestLocalIsNotGlobal()
+	{
+		TEST_SCRIPT_FAILURE(UndefinedSymbolAccessException, "\n\
+			var a = 1; \n\
+			function x() { a = 2; } \n\
 			x();\n\
 		");
 	}
@@ -95,5 +102,6 @@ public:
 		ADD_TESTCASE(TestGlobalRedefinitionFails);
 		ADD_TESTCASE(TestLocalOverridesGlobal);
 		ADD_TESTCASE(TestGlobalAfterLocal);
+		ADD_TESTCASE(TestLocalIsNotGlobal);
 	}
 };

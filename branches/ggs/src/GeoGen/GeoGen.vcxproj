@@ -113,6 +113,7 @@
     <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\EnumObject.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
+    <ClInclude Include="runtime\instructions\CallBlockInstruction.hpp" />
     <ClInclude Include="runtime\instructions\DeclareGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\DeclareLocalValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
+    <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
     <ClCompile Include="testlib\AssertEqualsTypeDefinition.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />

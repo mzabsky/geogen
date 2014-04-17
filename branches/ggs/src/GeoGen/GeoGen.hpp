@@ -42,6 +42,7 @@
 
 #include "runtime/instructions/Instruction.hpp"
 #include "runtime/instructions/BreakInstruction.hpp"
+#include "runtime/instructions/CallBlockInstruction.hpp"
 #include "runtime/instructions/CallGlobalInstruction.hpp"
 #include "runtime/instructions/CallMemberInstruction.hpp"
 #include "runtime/instructions/ContinueInstruction.hpp"
