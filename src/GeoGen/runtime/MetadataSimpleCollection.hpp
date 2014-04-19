@@ -23,7 +23,7 @@ namespace geogen
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
 
-			virtual MetadataType GetType() const { return MetadataSimpleCollectionType; };
+			virtual MetadataType GetType() const { return METADATA_TYPE_SIMPLE_COLLECTION; };
 
 			virtual ~MetadataSimpleCollection()
 			{

@@ -81,12 +81,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestFixtureBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicOperatorsTests.hpp" />
     <ClInclude Include="CommentTests.hpp" />
     <ClInclude Include="FlowControlTests.hpp" />
     <ClInclude Include="FunctionTests.hpp" />
+    <ClInclude Include="MetadataTests.hpp" />
     <ClInclude Include="NoExceptionException.hpp" />
     <ClInclude Include="TestFixtureBase.hpp" />
     <ClInclude Include="VariablesTests.hpp" />

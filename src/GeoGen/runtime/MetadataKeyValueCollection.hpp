@@ -15,29 +15,26 @@ namespace geogen
 			std::map<std::string, MetadataValue*> table;
 		public:
 			typedef std::map<std::string, MetadataValue const*>::const_iterator const_iterator;
+			typedef std::map<std::string, MetadataValue*>::iterator iterator;
 
-			inline bool AddItem(std::string const& name, MetadataValue* value) {				
-				if(this->table.find(name) != this->table.end()){
-					return false;
-				}
-
-				this->table[name] = value;
-
-				return true;
-			};
+			bool AddItem(std::string const& name, MetadataValue* value);
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
+			inline iterator Begin() { return this->table.begin(); }
+			inline iterator End() { return this->table.end(); }
 
-			virtual MetadataType GetType() const { return MetadataKeyValueCollectionType; };
+			void MoveKeyValuesFrom(MetadataKeyValueCollection& another);
 
-			virtual ~MetadataKeyValueCollection()
-			{
-				for(std::map<std::string, MetadataValue*>::iterator it = this->table.begin(); it != this->table.end(); it++)
-				{
-					delete it->second;
-				}
-			}
+			inline const_iterator FindItem(std::string const& key) const { return *(const_iterator*)(&this->table.find(key)); }
+			inline iterator FindItem(std::string const& key) { return this->table.find(key); }
+			inline bool ContainsItem(std::string const& key) const { return this->FindItem(key) != this->End(); };
+			MetadataValue const* GetItem(std::string const& key) const;
+			MetadataValue* GetItem(std::string const& key);
+
+			virtual MetadataType GetType() const { return METADATA_TYPE_KEYVALUE_COLLECTION; };
+
+			virtual ~MetadataKeyValueCollection();
 		};
 	}
 }

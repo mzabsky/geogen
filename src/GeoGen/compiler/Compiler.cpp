@@ -62,13 +62,13 @@ CompiledScript* Compiler::CompileScript(std::string const& code) const
 			throw InternalErrorException("Unreported tree walker error.");
 		}
 
-		if (script->GetMetadata() != NULL)
+		/*if (script->GetMetadata() == NULL)
 		{
 			script->SetMetadata(new MetadataKeyValueCollection());
-		}
+		}*/
 
 		ScriptFunctionDefinition* mainFunctionDefinition = new ScriptFunctionDefinition(CompiledScript::MAIN_FUNCTION_NAME, CodeLocation(0, 0), 0);
-		mainFunctionDefinition->GetRootCodeBlock().AddInstruction(new instructions::YieldAsMainInstruction(CodeLocation(0, 0)));
+		mainFunctionDefinition->GetRootCodeBlock().AddInstruction(new instructions::YieldAsMainInstruction(CodeLocation(1,1)));
 		mainFunctionDefinition->GetRootCodeBlock().MoveInstructionsFrom(*walker.GetPtr()->rootCodeBlock);
 		if (!script->AddGlobalFunctionDefinition(mainFunctionDefinition))
 		{

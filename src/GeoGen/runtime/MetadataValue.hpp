@@ -9,12 +9,12 @@ namespace geogen
 	{
 		enum MetadataType
 		{
-			MetadataNumberType,
-			MetadataStringType,
-			MetadataBooleanType,
-			MetadataIdentifierType,
-			MetadataSimpleCollectionType,
-			MetadataKeyValueCollectionType
+			METADATA_TYPE_NUMBER,
+			METADATA_TYPE_STRING,
+			METADATA_TYPE_BOOL,
+			METADATA_TYPE_IDENTIFIER,
+			METADATA_TYPE_SIMPLE_COLLECTION,
+			METADATA_TYPE_KEYVALUE_COLLECTION
 		};
 
 		class MetadataValue
@@ -24,6 +24,8 @@ namespace geogen
 			MetadataValue(MetadataValue const&) {}
 			MetadataValue& operator=(MetadataValue const&) {}
 		public:
+			virtual ~MetadataValue() {};
+
 			MetadataValue() {};
 
 			virtual MetadataType GetType() const = 0;

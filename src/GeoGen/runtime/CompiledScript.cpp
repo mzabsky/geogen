@@ -15,7 +15,7 @@ const string CompiledScript::MAIN_FUNCTION_NAME = "<main>";
 CompiledScript::CompiledScript()
 {
 	this->AddLibrary(&this->coreLibrary);
-	this->metadata = NULL;
+//	this->metadata = NULL;
 }
 
 CompiledScript::~CompiledScript()
@@ -30,10 +30,10 @@ CompiledScript::~CompiledScript()
 		delete *it;
 	}
 
-	if(this->metadata != NULL)
+/*	if(this->metadata != NULL)
 	{
 		delete metadata;
-	}
+	}*?*/
 }
 
 bool CompiledScript::AddGlobalFunctionDefinition(FunctionDefinition* functionDefintion)

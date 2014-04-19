@@ -13,9 +13,11 @@ namespace geogen
 		private:
 			bool value;
 		public:
-			bool GetValue() const { this->value; }
+			MetadataBoolean(bool value) : value(value) {};
 
-			virtual MetadataType GetType() const { return MetadataBooleanType; };
+			bool GetValue() const { return this->value; }
+
+			virtual MetadataType GetType() const { return METADATA_TYPE_BOOL; };
 		};
 	}
 }
