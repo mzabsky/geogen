@@ -104,7 +104,11 @@ script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block)
 	delete $block.returnCodeBlock; 
 };
         
-metadata: ^('metadata' metadataKeyValueCollection) { ctx->compiledScript->SetMetadata(dynamic_cast<MetadataKeyValueCollection*>($metadataKeyValueCollection.value)); };
+metadata: ^('metadata' metadataKeyValueCollection) 
+{ 
+	ctx->compiledScript->GetMetadata().MoveKeyValuesFrom(*dynamic_cast<MetadataKeyValueCollection*>($metadataKeyValueCollection.value));
+	delete $metadataKeyValueCollection.value;
+};
 
 metadataKeyValueCollection returns [MetadataValue* value]
 @init {
@@ -117,7 +121,7 @@ metadataKeyValueCollection returns [MetadataValue* value]
 			CodeLocation location($COLLECTION.line, $COLLECTION.pos);
 			throw CompilerException(GGE1401_MetadataValueAlreadyDefined, location);
 		}
-		delete $metadataKeyValuePair.name; 
+		/*delete $metadataKeyValuePair.name; */
 	})*);
 	
 metadataKeyValuePair returns [char* name, MetadataValue* value] @init{ $value = NULL; }: 
@@ -126,7 +130,9 @@ metadataKeyValuePair returns [char* name, MetadataValue* value] @init{ $value = 
 
 metadataKeyValueValue returns [MetadataValue* value] @init{ $value = NULL; }: 
 	STRING  { $value = new MetadataString((char*)$STRING.text->chars); }
-	| NUMBER { $value = new MetadataNumber(0); }
+	| TRUE_LIT  { $value = new MetadataBoolean(true); }
+	| FALSE_LIT  { $value = new MetadataBoolean(false); }
+	| NUMBER { $value = new MetadataNumber(StringToNumber((char*)$NUMBER.text->chars)); }
 	| IDENTIFIER { $value = new MetadataIdentifier((char*)$IDENTIFIER.text->chars); }
 	| metadataKeyValueCollection { $value = $metadataKeyValueCollection.value; };
 
@@ -302,7 +308,26 @@ statement returns [CodeBlock* returnCodeBlock]
     | forStatement { $returnCodeBlock = $forStatement.returnCodeBlock; }
     | ifStatement { $returnCodeBlock = $ifStatement.returnCodeBlock;}
     | switchStatement { $returnCodeBlock = new CodeBlock(); }
-    | block { $returnCodeBlock = $block.returnCodeBlock; };
+    | blockStatement { $returnCodeBlock = $blockStatement.returnCodeBlock; };
+    
+blockStatement returns [CodeBlock* returnCodeBlock]
+@init 
+{ 
+	$returnCodeBlock = new CodeBlock(); 
+	ctx->codeBlockLevel++; 
+}
+@after { ctx->codeBlockLevel--; }: 
+block
+{
+	CodeLocation location(0, 0);
+
+	instructions::CallBlockInstruction* instr = new instructions::CallBlockInstruction(location);
+	
+	instr->GetCodeBlock().MoveInstructionsFrom(*$block.returnCodeBlock);
+	delete $block.returnCodeBlock;
+	
+	$returnCodeBlock->AddInstruction(instr);
+};
     
 variableDeclaration returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); bool hadValue = false; } 
@@ -340,7 +365,7 @@ globalVariableDeclaration returns [CodeBlock* returnCodeBlock]
 		
 		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
 		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
-		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::StoreGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
 	})?)
 {
