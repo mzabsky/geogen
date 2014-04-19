@@ -182,7 +182,8 @@
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
-    <ClCompile Include="testlib\AssertEqualsTypeDefinition.cpp" />
+    <ClCompile Include="runtime\MetadataKeyValueCollection.cpp" />
+    <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />

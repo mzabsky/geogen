@@ -16,9 +16,9 @@ namespace geogen
 		public:
 			MetadataNumber(Number value) : value(value) {};
 
-			Number GetValue() const { this->value; }
+			Number GetValue() const { return this->value; }
 
-			virtual MetadataType GetType() const { return MetadataNumberType; };
+			virtual MetadataType GetType() const { return METADATA_TYPE_NUMBER; };
 		};
 	}
 }

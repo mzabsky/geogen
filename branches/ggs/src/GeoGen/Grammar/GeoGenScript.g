@@ -359,8 +359,8 @@ OPERATOR_IS: 'is';
 OPERATOR_RELATIVE: '@';
 
 COMMENT
-    :   /*'//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    |  */ //'/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
+    :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
     ;
 
 IDENTIFIER: ('a'..'z' |'A'..'Z' |'_' ) ('a'..'z' |'A'..'Z' |'_' |'0'..'9' )*;

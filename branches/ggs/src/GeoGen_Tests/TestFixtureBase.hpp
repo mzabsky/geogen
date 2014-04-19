@@ -7,6 +7,7 @@
 #include "../GeoGen/GeoGen.hpp"
 #include "../GeoGen/testlib/TestLibrary.hpp"
 #include "NoExceptionException.hpp"
+#include "..\GeoGen\testlib\AssertionFailedException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -21,6 +22,8 @@ using namespace testlib;
 
 #define RUN_FIXTURE(fixture) fixture().Run(numberOfFailures, numberOfPassed);
 
+#define ASSERT_EQUALS(t, expected, actual) AssertEquals<t>(expected, actual, __LINE__)
+
 class TestFixtureBase
 {	
 public:
@@ -29,7 +32,7 @@ public:
 private:
 	string name;
 	map<string, TestCase> testCases;
-
+	static TestLibrary testLib;
 protected:
 	void AddTestCase(string name, TestCase testCase)
 	{
@@ -70,13 +73,19 @@ public:
 	}
 
 protected:
-	static void TestScript(string script)
+	static auto_ptr<CompiledScript>  TestGetCompiledScript(std::string const& script)
 	{
-		TestLibrary testLib;
-
 		Compiler compiler;
 		auto_ptr<CompiledScript> compiledScript = auto_ptr<CompiledScript>(compiler.CompileScript(script));
 		compiledScript->AddLibrary(&testLib);
+
+		return compiledScript;
+	}
+
+	static void TestScript(string script)
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(script);
+
 
 		VirtualMachine vm(*compiledScript.get());
 
@@ -99,5 +108,19 @@ protected:
 		}
 
 		throw NoExceptionException(exceptionName);
+	}
+
+	template<typename T>
+	static void AssertEquals(T a, T b, int line)
+	{
+		stringstream ssa;
+		ssa << a;
+		stringstream ssb;
+		ssb << b;
+
+		if (a != b)
+		{
+			throw AssertionFailedException(CodeLocation(line, 0), ssa.str(), ssb.str());
+		}
 	}
 };

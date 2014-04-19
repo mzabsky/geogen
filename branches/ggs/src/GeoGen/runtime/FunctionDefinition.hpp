@@ -22,6 +22,8 @@ namespace geogen
 			std::string name;
 		public:
 			FunctionDefinition(std::string const& name) { this->name = name; }
+			virtual ~FunctionDefinition() {};
+
 			inline std::string const& GetName() const { return this->name; };
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_FUNCTION; }
