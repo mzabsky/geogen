@@ -129,7 +129,7 @@ metadataKeyValuePair returns [char* name, MetadataValue* value] @init{ $value = 
 	| ^(NUMBER metadataKeyValueValue '@'?)  { $name = (char*)$NUMBER.text->chars; $value = $metadataKeyValueValue.value; };
 
 metadataKeyValueValue returns [MetadataValue* value] @init{ $value = NULL; }: 
-	STRING  { $value = new MetadataString((char*)$STRING.text->chars); }
+	stringLiteral  { $value = new MetadataString($stringLiteral.value); }
 	| TRUE_LIT  { $value = new MetadataBoolean(true); }
 	| FALSE_LIT  { $value = new MetadataBoolean(false); }
 	| NUMBER { $value = new MetadataNumber(StringToNumber((char*)$NUMBER.text->chars)); }
@@ -840,3 +840,10 @@ label:
         | 'false'
 	| NUMBER
 	| STRING;
+	
+stringLiteral returns [std::string value]:
+	STRING
+{
+	std::string str ((char*)$STRING.text->chars);
+	$value = str.substr(1, str.length() - 2);
+};
