@@ -15,7 +15,7 @@ namespace geogen
 		public:
 			MetadataIdentifier(std::string value) : value(value) {};
 
-			std::string GetValue() const { this->value; }
+			std::string GetValue() const { return this->value; }
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_IDENTIFIER; };
 		};
