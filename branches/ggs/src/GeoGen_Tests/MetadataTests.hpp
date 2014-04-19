@@ -23,6 +23,20 @@ public:
 		ASSERT_EQUALS(string, "ValueValue", dynamic_cast<MetadataString const*>(value)->GetValue());
 	}
 
+	static void TestGetIdentifierMetadataValue()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				ValueName: ValueValue \n\
+				\n\
+			}\n\
+		");
+
+		MetadataValue const* value = compiledScript->GetMetadata().GetItem("ValueName");
+		ASSERT_EQUALS(MetadataType, METADATA_TYPE_IDENTIFIER, value->GetType());
+		ASSERT_EQUALS(string, "ValueValue", dynamic_cast<MetadataIdentifier const*>(value)->GetValue());
+	}
+
 	static void TestGetNumberMetadataValue()
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
@@ -104,6 +118,7 @@ public:
 	MetadataTests() : TestFixtureBase("MetadataTests")
 	{
 		ADD_TESTCASE(TestGetStringMetadataValue);
+		ADD_TESTCASE(TestGetIdentifierMetadataValue);
 		ADD_TESTCASE(TestGetNumberMetadataValue);
 		ADD_TESTCASE(TestGetBooleanMetadataValue);
 		//ADD_TESTCASE(TestGetSimpleCollectionMetadataValue);
