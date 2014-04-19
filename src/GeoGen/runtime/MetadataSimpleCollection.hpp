@@ -20,6 +20,7 @@ namespace geogen
 				this->table.push_back(value);
 			};
 
+			inline unsigned Size() const { return this->table.size(); }
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
 
