@@ -112,9 +112,13 @@ metadata: ^('metadata' metadataKeyValueCollection)
 
 metadataKeyValueCollection returns [MetadataValue* value]
 @init {
-	MetadataKeyValueCollection* ret = new MetadataKeyValueCollection();
-	$value = ret;	
-} : ^(COLLECTION (metadataKeyValuePair 
+	MetadataKeyValueCollection* ret = NULL;
+	$value = NULL;
+} : ^(COLLECTION 
+	{
+		ret = new MetadataKeyValueCollection(CodeLocation($COLLECTION.line, $COLLECTION.pos));
+		$value = ret;	
+	} (metadataKeyValuePair 
 	{ 
 		if(!ret->AddItem($metadataKeyValuePair.name, $metadataKeyValuePair.value))
 		{
@@ -129,11 +133,11 @@ metadataKeyValuePair returns [char* name, MetadataValue* value] @init{ $value = 
 	| ^(NUMBER metadataKeyValueValue '@'?)  { $name = (char*)$NUMBER.text->chars; $value = $metadataKeyValueValue.value; };
 
 metadataKeyValueValue returns [MetadataValue* value] @init{ $value = NULL; }: 
-	stringLiteral  { $value = new MetadataString($stringLiteral.value); }
-	| TRUE_LIT  { $value = new MetadataBoolean(true); }
-	| FALSE_LIT  { $value = new MetadataBoolean(false); }
-	| NUMBER { $value = new MetadataNumber(StringToNumber((char*)$NUMBER.text->chars)); }
-	| IDENTIFIER { $value = new MetadataIdentifier((char*)$IDENTIFIER.text->chars); }
+	stringLiteral  { $value = new MetadataString(CodeLocation($stringLiteral.line, $stringLiteral.pos), $stringLiteral.value); }
+	| TRUE_LIT  { $value = new MetadataBoolean(CodeLocation($TRUE_LIT.line, $TRUE_LIT.pos), true); }
+	| FALSE_LIT  { $value = new MetadataBoolean(CodeLocation($FALSE_LIT.line, $FALSE_LIT.pos), false); }
+	| NUMBER { $value = new MetadataNumber(CodeLocation($NUMBER.line, $NUMBER.pos), StringToNumber((char*)$NUMBER.text->chars)); }
+	| IDENTIFIER { $value = new MetadataIdentifier(CodeLocation($IDENTIFIER.line, $IDENTIFIER.pos), (char*)$IDENTIFIER.text->chars); }
 	| metadataKeyValueCollection { $value = $metadataKeyValueCollection.value; };
 
 keyValueCollection: ^(COLLECTION keyValuePair*);
@@ -841,9 +845,11 @@ label:
 	| NUMBER
 	| STRING;
 	
-stringLiteral returns [std::string value]:
+stringLiteral returns [std::string value, int line, int pos]:
 	STRING
 {
 	std::string str ((char*)$STRING.text->chars);
 	$value = str.substr(1, str.length() - 2);
+	$line = $STRING.line;
+	$pos = $STRING.pos;
 };

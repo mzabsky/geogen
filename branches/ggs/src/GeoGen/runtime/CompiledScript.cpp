@@ -12,7 +12,7 @@ using namespace runtime;
 
 const string CompiledScript::MAIN_FUNCTION_NAME = "<main>";
 
-CompiledScript::CompiledScript()
+CompiledScript::CompiledScript() : metadata(CodeLocation(0, 0))
 {
 	this->AddLibrary(&this->coreLibrary);
 //	this->metadata = NULL;

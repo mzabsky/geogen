@@ -17,6 +17,8 @@ namespace geogen
 			typedef std::map<std::string, MetadataValue const*>::const_iterator const_iterator;
 			typedef std::map<std::string, MetadataValue*>::iterator iterator;
 
+			MetadataKeyValueCollection(CodeLocation location) : MetadataValue(location) {}
+
 			bool AddItem(std::string const& name, MetadataValue* value);
 
 			inline unsigned Size() const { return this->table.size(); }

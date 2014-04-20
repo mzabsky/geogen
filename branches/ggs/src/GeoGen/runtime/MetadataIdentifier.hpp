@@ -13,7 +13,7 @@ namespace geogen
 		private:
 			std::string value;
 		public:
-			MetadataIdentifier(std::string value) : value(value) {};
+			MetadataIdentifier(CodeLocation location, std::string value) : MetadataValue(location), value(value) {};
 
 			std::string GetValue() const { return this->value; }
 

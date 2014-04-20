@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+#include "../CodeLocation.hpp"
+
 namespace geogen 
 {
 	namespace runtime
@@ -20,13 +22,16 @@ namespace geogen
 		class MetadataValue
 		{
 		private:
+			CodeLocation location;
+
 			// Non-copyable
-			MetadataValue(MetadataValue const&) {}
+			MetadataValue(MetadataValue const&) : location(0, 0) {}
 			MetadataValue& operator=(MetadataValue const&) {}
 		public:
 			virtual ~MetadataValue() {};
+			MetadataValue(CodeLocation location) : location(location) {};
 
-			MetadataValue() {};
+			CodeLocation GetLocation() const { return this->location; }
 
 			virtual MetadataType GetType() const = 0;
 		};
