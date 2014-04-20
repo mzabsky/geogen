@@ -17,6 +17,7 @@ namespace geogen
 		GGE1310_EnumValueNotInteger = 1309,
 		GGE1401_MetadataValueAlreadyDefined = 1401,
 		GGE1501_ParametersNotKeyValueSection = 1501,
+		GGE1502_IncorrectParameterDefinition = 1502,
 		GGE2101_IncorrectNativeFunctionArgumentType = 2101,
 		GGE2102_IncorrectOperandType = 2102,
 		GGE2103_IncorrectNumberOfArguments = 2103,

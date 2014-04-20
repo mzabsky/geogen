@@ -9,6 +9,7 @@
 #include "MetadataValue.hpp"
 #include "MetadataKeyValueCollection.hpp"
 #include "../corelib/CoreLibrary.hpp"
+#include "ScriptParameters.hpp"
 
 namespace geogen 
 {
@@ -45,6 +46,9 @@ namespace geogen
 
 				//inline SymbolNameTable const& GetSymbolNameTable() const { return this->symbolNameTable; }
 				//inline SymbolNameTable& GetSymbolNameTable() { return this->symbolNameTable; }				
+
+				void CreateScriptParameters(ScriptParameters& table) const;
+				ScriptParameters* CreateScriptParameters() const;
 
 				inline MetadataKeyValueCollection const& GetMetadata() const { return this->metadata; }
 				inline MetadataKeyValueCollection& GetMetadata() { return this->metadata; }

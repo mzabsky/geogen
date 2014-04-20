@@ -17,17 +17,22 @@ namespace geogen
 		{
 		private:
 			std::string name;
+			std::string label;
+			std::string description;
 
 			// Non-copyable
 			ScriptParameter(ScriptParameter const&) {}
 			ScriptParameter& operator=(ScriptParameter const&) {}
 		public:
 			virtual ~ScriptParameter() {};
-			ScriptParameter(std::string const& name) : name(name) { };
+			ScriptParameter(std::string const& name, std::string const& label, std::string const& description) : name(name), label(label), description(description) { };
 
 			inline std::string GetName() const { return this->name; }
+			inline std::string GetLabel() const { return this->label; }
+			inline std::string GetDescription() const { return this->description; }
 
 			virtual ScriptParameterType GetType() const = 0;
+			virtual void ResetToDefault() = 0;
 		};
 	}
 }
