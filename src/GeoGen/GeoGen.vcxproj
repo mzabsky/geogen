@@ -100,6 +100,7 @@
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="Number.hpp" />
+    <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
     <ClInclude Include="runtime\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CallStack.hpp" />
     <ClInclude Include="runtime\CallStackEntry.hpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="runtime\NullTypeDefinition.hpp" />
     <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
+    <ClInclude Include="runtime\NumberScriptParameter.hpp" />
     <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectStack.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
@@ -160,6 +162,7 @@
     <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="ApiUsageException.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\ScriptParameter.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\StackOverflowException.hpp" />
     <ClInclude Include="runtime\StaticObject.hpp" />

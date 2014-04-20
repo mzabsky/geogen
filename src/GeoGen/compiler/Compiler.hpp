@@ -17,6 +17,7 @@ namespace geogen
 		{
 			private:
 				Compiler(const Compiler&); // Not copyable
+				void CreateScriptParameters(runtime::CompiledScript& code) const;
 			public:
 				Compiler(); 
 				runtime::CompiledScript* CompileScript(std::string const& code) const;

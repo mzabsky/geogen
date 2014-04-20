@@ -113,6 +113,9 @@
     <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\CallBlockInstruction.hpp" />
     <ClInclude Include="runtime\StackOverflowException.hpp" />
+    <ClInclude Include="runtime\ScriptParameter.hpp" />
+    <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
+    <ClInclude Include="runtime\NumberScriptParameter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
