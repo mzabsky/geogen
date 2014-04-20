@@ -13,7 +13,7 @@
 
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
-
+#include "ParametersNotKeyValueSectionException.hpp"
 
 
 using namespace std;
@@ -106,13 +106,4 @@ CompiledScript* Compiler::CompileScript(std::string const& code) const
 	}
 
 	return script.release();
-}
-
-void Compiler::CreateScriptParameters(CompiledScript& script) const
-{
-	MetadataKeyValueCollection const* parametersSection;
-	if (!script.GetMetadata().ContainsItem("Parameters"))
-	{
-		return;
-	}
 }

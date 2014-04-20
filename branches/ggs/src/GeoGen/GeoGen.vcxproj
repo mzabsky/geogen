@@ -79,7 +79,9 @@
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
+    <ClInclude Include="compiler\IncorrectParameterDefinitionException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
+    <ClInclude Include="compiler\ParametersNotKeyValueSectionException.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
@@ -163,6 +165,7 @@
     <ClInclude Include="ApiUsageException.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptParameter.hpp" />
+    <ClInclude Include="runtime\ScriptParameters.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\StackOverflowException.hpp" />
     <ClInclude Include="runtime\StaticObject.hpp" />
@@ -180,12 +183,14 @@
     <ClInclude Include="testlib\AssertEqualsFunctionDefinition.hpp" />
     <ClInclude Include="testlib\AssertionFailedException.hpp" />
     <ClInclude Include="testlib\TestLibrary.hpp" />
+    <ClInclude Include="utils\OwningMap.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
     <ClCompile Include="runtime\MetadataKeyValueCollection.cpp" />
+    <ClCompile Include="runtime\ScriptParameters.cpp" />
     <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />

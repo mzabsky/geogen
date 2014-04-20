@@ -116,6 +116,10 @@
     <ClInclude Include="runtime\ScriptParameter.hpp" />
     <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
     <ClInclude Include="runtime\NumberScriptParameter.hpp" />
+    <ClInclude Include="compiler\ParametersNotKeyValueSectionException.hpp" />
+    <ClInclude Include="runtime\ScriptParameters.hpp" />
+    <ClInclude Include="utils\OwningMap.hpp" />
+    <ClInclude Include="compiler\IncorrectParameterDefinitionException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -187,6 +191,7 @@
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
     <ClCompile Include="runtime\MetadataKeyValueCollection.cpp" />
+    <ClCompile Include="runtime\ScriptParameters.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

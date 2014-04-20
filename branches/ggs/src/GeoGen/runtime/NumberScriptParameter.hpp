@@ -26,18 +26,20 @@ namespace geogen
 			Number max;
 			ScriptParameterValueRestriction restriction;
 		public:
-			NumberScriptParameter(std::string const& name, Number defaultValue, Number min, Number max, ScriptParameterValueRestriction restriction) 
-				: ScriptParameter(name), value(defaultValue), defaultValue(defaultValue), min(min), max(max), restriction(restriction) {};
+			NumberScriptParameter(std::string const& name, std::string const& label, std::string const& description, Number defaultValue, Number min, Number max, ScriptParameterValueRestriction restriction)
+				: ScriptParameter(name, label, description), value(defaultValue), defaultValue(defaultValue), min(min), max(max), restriction(restriction) {};
 
 			virtual ScriptParameterType GetType() const { return SCRIPT_PARAMETER_TYPE_NUMBER; };
 
 			inline Number GetDefaultValue() const { return this->defaultValue; }
 			inline Number GetValue() const { return this->value; }
 			inline Number GetMin() const { return this->min; }
-			inline Number GetMax() const { return this->min; }
+			inline Number GetMax() const { return this->max; }
 			inline ScriptParameterValueRestriction GetRestriction() const { return this->restriction; }
 
 			inline void SetValue(Number value) { this->value = value; }
+
+			virtual void ResetToDefault() { this->value = this->defaultValue; };
 		};
 	}
 }

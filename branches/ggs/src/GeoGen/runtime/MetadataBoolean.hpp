@@ -17,7 +17,7 @@ namespace geogen
 
 			bool GetValue() const { return this->value; }
 
-			virtual MetadataType GetType() const { return METADATA_TYPE_BOOL; };
+			virtual MetadataType GetType() const { return METADATA_TYPE_BOOLEAN; };
 		};
 	}
 }
