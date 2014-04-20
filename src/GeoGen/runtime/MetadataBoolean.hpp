@@ -13,7 +13,7 @@ namespace geogen
 		private:
 			bool value;
 		public:
-			MetadataBoolean(bool value) : value(value) {};
+			MetadataBoolean(CodeLocation location, bool value) : MetadataValue(location), value(value) {};
 
 			bool GetValue() const { return this->value; }
 

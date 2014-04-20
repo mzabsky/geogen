@@ -16,6 +16,8 @@ namespace geogen
 		public:
 			typedef std::vector<MetadataValue const*>::const_iterator const_iterator;
 
+			MetadataSimpleCollection(CodeLocation location) : MetadataValue(location) {}
+
 			inline void AddItem(std::string const& name, MetadataValue* value) {				
 				this->table.push_back(value);
 			};

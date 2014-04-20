@@ -14,7 +14,7 @@ namespace geogen
 		private:
 			Number value;
 		public:
-			MetadataNumber(Number value) : value(value) {};
+			MetadataNumber(CodeLocation location, Number value) : MetadataValue(location), value(value) {};
 
 			Number GetValue() const { return this->value; }
 
