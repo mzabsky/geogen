@@ -5,7 +5,6 @@
 #include "FunctionDefinition.hpp"
 #include "VariableDefinition.hpp"
 #include "TypeDefinition.hpp"
-#include "..\compiler\ParametersNotKeyValueSectionException.hpp"
 #include "..\compiler\IncorrectParameterDefinitionException.hpp"
 #include "NumberScriptParameter.hpp"
 #include "MetadataString.hpp"
@@ -14,6 +13,12 @@
 #include "MetadataBoolean.hpp"
 #include "BooleanScriptParameter.hpp"
 #include "MetadataNumber.hpp"
+#include "..\compiler\ScriptParameterTypeNotSpecifiedException.hpp"
+#include "..\compiler\IncorrectScriptParameterTypeException.hpp"
+#include "..\compiler\IncorrectScriptParameterAttributeTypeException.hpp"
+#include "..\compiler\ScriptParameterNotKeyValueCollection.hpp"
+#include "..\compiler\ScriptParametersNotKeyValueCollectionException.hpp"
+#include "..\compiler\IncrorrectScriptParameterValueRestrictionException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -108,7 +113,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 
 	if (this->GetMetadata().GetItem("Parameters")->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
 	{
-		throw compiler::ParametersNotKeyValueSectionException(this->GetMetadata().GetItem("Parameters")->GetLocation());
+		throw compiler::ScriptParametersNotKeyValueCollectionException(this->GetMetadata().GetItem("Parameters")->GetLocation());
 	}
 
 	MetadataKeyValueCollection const* parametersSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem("Parameters"));
@@ -120,7 +125,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 		
 		if (it->second->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
 		{
-			throw compiler::IncorrectParameterDefinitionException(location, name);
+			throw compiler::ScriptParameterNotKeyValueCollectionException(location, name);
 		}
 
 		MetadataKeyValueCollection const* currentSection = dynamic_cast<MetadataKeyValueCollection const*>(it->second);
@@ -130,7 +135,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 		{
 			if (currentSection->GetItem("Label")->GetType() != METADATA_TYPE_STRING)
 			{
-				throw compiler::IncorrectParameterDefinitionException(location, name);
+				throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Label")->GetLocation(), name, "Label", MetadataTypeToString(currentSection->GetItem("Label")->GetType()), MetadataTypeToString(METADATA_TYPE_STRING));
 			}
 
 			label = dynamic_cast<MetadataString const*>(currentSection->GetItem("Label"))->GetValue();
@@ -145,7 +150,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 		{
 			if (currentSection->GetItem("Description")->GetType() != METADATA_TYPE_STRING)
 			{
-				throw compiler::IncorrectParameterDefinitionException(location, name);
+				throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Description")->GetLocation(), name, "Description", MetadataTypeToString(currentSection->GetItem("Description")->GetType()), MetadataTypeToString(METADATA_TYPE_STRING));
 			}
 
 			description = dynamic_cast<MetadataString const*>(currentSection->GetItem("Description"))->GetValue();
@@ -156,7 +161,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 		{
 			if (currentSection->GetItem("Type")->GetType() != METADATA_TYPE_IDENTIFIER)
 			{
-				throw compiler::IncorrectParameterDefinitionException(location, name);
+				throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Type")->GetLocation(), name, "Type", MetadataTypeToString(currentSection->GetItem("Type")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 			}
 
 			string parameterTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
@@ -170,8 +175,12 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 			}
 			else
 			{
-				throw compiler::IncorrectParameterDefinitionException(location, name);
+				throw compiler::IncorrectScriptParameterTypeException(location, name, parameterTypeName);
 			}
+		}
+		else
+		{
+			throw compiler::ScriptParameterTypeNotSpecifiedException(location, name);
 		}
 
 		ScriptParameter* parameter = NULL;
@@ -184,7 +193,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 				{
 					if (currentSection->GetItem("Default")->GetType() != METADATA_TYPE_BOOLEAN)
 					{
-						throw compiler::IncorrectParameterDefinitionException(location, name);
+						throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Default")->GetLocation(), name, "Default", MetadataTypeToString(currentSection->GetItem("Default")->GetType()), MetadataTypeToString(METADATA_TYPE_BOOLEAN));
 					}
 
 					defaultValue = dynamic_cast<MetadataBoolean const*>(currentSection->GetItem("Default"))->GetValue();			
@@ -200,7 +209,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 				{
 					if (currentSection->GetItem("Default")->GetType() != METADATA_TYPE_NUMBER)
 					{
-						throw compiler::IncorrectParameterDefinitionException(location, name);
+						throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Default")->GetLocation(), name, "Default", MetadataTypeToString(currentSection->GetItem("Default")->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
 					}
 
 					defaultValue = dynamic_cast<MetadataNumber const*>(currentSection->GetItem("Default"))->GetValue();
@@ -211,7 +220,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 				{
 					if (currentSection->GetItem("Min")->GetType() != METADATA_TYPE_NUMBER)
 					{
-						throw compiler::IncorrectParameterDefinitionException(location, name);
+						throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Min")->GetLocation(), name, "Min", MetadataTypeToString(currentSection->GetItem("Min")->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
 					}
 
 					min = dynamic_cast<MetadataNumber const*>(currentSection->GetItem("Min"))->GetValue();
@@ -222,15 +231,10 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 				{
 					if (currentSection->GetItem("Max")->GetType() != METADATA_TYPE_NUMBER)
 					{
-						throw compiler::IncorrectParameterDefinitionException(location, name);
+						throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Max")->GetLocation(), name, "Max", MetadataTypeToString(currentSection->GetItem("Max")->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
 					}
 
 					max = dynamic_cast<MetadataNumber const*>(currentSection->GetItem("Max"))->GetValue();
-				}
-
-				if (defaultValue > max || defaultValue < min)
-				{
-					throw compiler::IncorrectParameterDefinitionException(location, name);
 				}
 
 				ScriptParameterValueRestriction restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED;
@@ -238,7 +242,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 				{
 					if (currentSection->GetItem("Restriction")->GetType() != METADATA_TYPE_IDENTIFIER)
 					{
-						throw compiler::IncorrectParameterDefinitionException(location, name);
+						throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Restriction")->GetLocation(), name, "Restriction", MetadataTypeToString(currentSection->GetItem("Restriction")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 					}
 
 					string restrictionName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Restriction"))->GetValue();
@@ -260,7 +264,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 					}
 					else
 					{
-						throw compiler::IncorrectParameterDefinitionException(location, name);
+						throw compiler::IncorrectScriptParameterValueRestrictionException(location, name, restrictionName);
 					}
 				}
 

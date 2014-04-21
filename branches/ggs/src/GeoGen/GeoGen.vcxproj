@@ -79,9 +79,14 @@
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
-    <ClInclude Include="compiler\IncorrectParameterDefinitionException.hpp" />
+    <ClInclude Include="compiler\IncorrectScriptParameterAttributeTypeException.hpp" />
+    <ClInclude Include="compiler\IncorrectScriptParameterTypeException.hpp" />
+    <ClInclude Include="compiler\IncrorrectScriptParameterValueRestrictionException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
-    <ClInclude Include="compiler\ParametersNotKeyValueSectionException.hpp" />
+    <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp" />
+    <ClInclude Include="compiler\ScriptParameterNotKeyValueCollection.hpp" />
+    <ClInclude Include="compiler\ScriptParametersNotKeyValueCollectionException.hpp" />
+    <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
@@ -190,6 +195,7 @@
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
     <ClCompile Include="runtime\MetadataKeyValueCollection.cpp" />
+    <ClCompile Include="runtime\MetadataValue.cpp" />
     <ClCompile Include="runtime\ScriptParameters.cpp" />
     <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />

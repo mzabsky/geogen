@@ -35,5 +35,7 @@ namespace geogen
 
 			virtual MetadataType GetType() const = 0;
 		};
+
+		std::string MetadataTypeToString(MetadataType metadataType);
 	}
 }

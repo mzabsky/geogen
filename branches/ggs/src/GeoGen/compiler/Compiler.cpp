@@ -13,7 +13,6 @@
 
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
-#include "ParametersNotKeyValueSectionException.hpp"
 
 
 using namespace std;
