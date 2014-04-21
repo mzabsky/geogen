@@ -117,6 +117,19 @@ public:
 		ASSERT_EQUALS(bool, true, dynamic_cast<MetadataBoolean const*>(collection->GetItem("BooleanKey"))->GetValue());
 	}
 
+	static void TestMetadataKeyRedefinition()
+	{
+		TEST_SCRIPT_FAILURE(MetadataKeyRedefinitionException, "\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					BoolParam: { Type: Boolean },\n\
+					BoolParam: { Type: Boolean }\n\
+				}\n\
+			}\n\
+		");
+	}
+
 	static void TestParseBooleanScriptParameter()
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
@@ -221,6 +234,7 @@ public:
 		ADD_TESTCASE(TestGetBooleanMetadataValue);
 		//ADD_TESTCASE(TestGetSimpleCollectionMetadataValue);
 		ADD_TESTCASE(TestGetKeyValueCollectionMetadataValue);
+		ADD_TESTCASE(TestMetadataKeyRedefinition);
 		ADD_TESTCASE(TestParseBooleanScriptParameter);
 		ADD_TESTCASE(TestParseBooleanScriptParameterWithImplicitAttributes);
 		ADD_TESTCASE(TestParseNumberScriptParameter);
