@@ -33,6 +33,7 @@ namespace geogen
 
 			virtual ScriptParameterType GetType() const = 0;
 			virtual void ResetToDefault() = 0;
+			virtual bool EqualsTo(ScriptParameter const* other) const = 0;
 		};
 	}
 }

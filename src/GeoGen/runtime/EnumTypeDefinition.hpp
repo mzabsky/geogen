@@ -2,8 +2,6 @@
 
 #include "../Number.hpp"
 #include "TypeDefinition.hpp"
-#include "VirtualMachine.hpp"
-#include "PrimitiveObject.hpp"
 
 namespace geogen
 {

@@ -163,6 +163,7 @@
     <ClInclude Include="runtime\MetadataSimpleCollection.hpp" />
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
+    <ClInclude Include="runtime\ParametersTypeDefinition.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
@@ -192,10 +193,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
+    <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
     <ClCompile Include="runtime\MetadataKeyValueCollection.cpp" />
     <ClCompile Include="runtime\MetadataValue.cpp" />
+    <ClCompile Include="runtime\NumberScriptParameter.cpp" />
+    <ClCompile Include="runtime\ParametersTypeDefinition.cpp" />
     <ClCompile Include="runtime\ScriptParameters.cpp" />
     <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />

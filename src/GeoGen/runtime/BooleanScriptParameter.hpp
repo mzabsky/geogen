@@ -23,6 +23,7 @@ namespace geogen
 			inline void SetValue(bool value) { this->value = value; }
 
 			virtual void ResetToDefault() { this->value = this->defaultValue; };
+			virtual bool EqualsTo(ScriptParameter const* other) const;
 		};
 	}
 }

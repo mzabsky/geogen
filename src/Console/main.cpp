@@ -43,7 +43,7 @@ KeyValSymbol: \
 	//HeightMap.Empty()        
 	geogen::runtime::CompiledScript const* script = compiler.CompileScript(codeString);
 
-	geogen::runtime::VirtualMachine vm(*script);
+	geogen::runtime::VirtualMachine vm(*script, geogen::runtime::ScriptParameters());
 	//vm.Run();
 
 	vector<string> codeLines;
