@@ -33,6 +33,7 @@
 #include "runtime/ReferenceTypeDefinition.hpp"
 #include "runtime/RuntimeException.hpp"
 #include "runtime/ScriptFunctionDefinition.hpp"
+#include "runtime/ScriptParameters.hpp"
 #include "runtime/ScriptVariableDefinition.hpp"
 #include "runtime/SymbolDefinitionTable.hpp"
 #include "runtime/SymbolNameTable.hpp"

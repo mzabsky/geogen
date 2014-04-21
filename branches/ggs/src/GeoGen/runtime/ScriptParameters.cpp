@@ -1,3 +1,4 @@
+#include "ScriptParameter.hpp"
 #include "ScriptParameters.hpp"
 
 using namespace std;

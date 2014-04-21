@@ -2,13 +2,15 @@
 
 #include <string>
 #include <map>
-#include "ScriptParameter.hpp"
+#include "ScriptParameter.hpp" // Necessary to properly compile the owning map.
 #include "../utils/OwningMap.hpp"
 
 namespace geogen
-{
+{	
 	namespace runtime
 	{
+		class ScriptParameter;
+
 		class ScriptParameters : public utils::OwningMap<ScriptParameter>
 		{
 		private:

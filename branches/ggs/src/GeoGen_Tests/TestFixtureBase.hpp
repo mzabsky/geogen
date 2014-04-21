@@ -82,12 +82,12 @@ protected:
 		return compiledScript;
 	}
 
-	static void TestScript(string script)
+	static void TestScript(string script, ScriptParameters const& arguments = ScriptParameters())
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(script);
 
 
-		VirtualMachine vm(*compiledScript.get());
+		VirtualMachine vm(*compiledScript.get(), arguments);
 
 		vm.Run();
 

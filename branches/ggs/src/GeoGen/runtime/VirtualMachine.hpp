@@ -10,6 +10,7 @@
 #include "VariableTable.hpp"
 #include "CallStack.hpp"
 #include "ObjectStack.hpp"
+#include "ScriptParameters.hpp"
 
 namespace geogen
 {
@@ -45,21 +46,24 @@ namespace geogen
 
 			MemoryManager memoryManager;
 			VariableTable globalVariableTable;
+			const ScriptParameters arguments;
 
 			void InitializeTypes();
 			void InitializeGlobalVariables();
 			void InitializeMainFunction();
+			void ValidateArguments();
 
 			// Non-copyable
 			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript) {};
 			VirtualMachine& operator=(VirtualMachine const&) {};
 		public:
-			VirtualMachine(CompiledScript const& compiledScript);
+			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);
 			~VirtualMachine() {};
 
-			VirtualMachineStatus GetStatus() const { return this->status; }
-			MemoryManager& GetMemoryManager() { return this->memoryManager; }
-			VariableTable& GetGlobalVariableTable() { return this->globalVariableTable; }
+			inline VirtualMachineStatus GetStatus() const { return this->status; }
+			inline MemoryManager& GetMemoryManager() { return this->memoryManager; }
+			inline VariableTable& GetGlobalVariableTable() { return this->globalVariableTable; }
+			inline ScriptParameters const& GetArguments() { return this->arguments; }
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 
@@ -79,6 +83,7 @@ namespace geogen
 			BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
 			NumberTypeDefinition const* GetNumberTypeDefinition() const;
 			VariableTableItem* FindVariable(std::string const& variableName);
+			DynamicObject* GetStaticInstance(std::string const& typeName);
 		};
 	}
 }

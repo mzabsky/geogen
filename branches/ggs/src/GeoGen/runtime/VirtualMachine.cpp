@@ -10,12 +10,14 @@
 #include "../CodeLocation.hpp"
 #include "UndefinedSymbolAccessException.hpp"
 
+using namespace std;
 using namespace geogen;
 using namespace geogen::runtime;
 
-VirtualMachine::VirtualMachine(CompiledScript const& compiledScript)
-: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY), globalVariableTable(&memoryManager)
+VirtualMachine::VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments)
+: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY), globalVariableTable(&memoryManager), arguments(arguments)
 {
+	this->ValidateArguments();
 	this->InitializeTypes();
 	this->InitializeGlobalVariables();
 	this->InitializeMainFunction();
@@ -52,6 +54,30 @@ void VirtualMachine::InitializeMainFunction()
 	}
 
 	this->CallFunction(CodeLocation(0, 0), mainFunctionDefinition, 0);
+}
+
+void VirtualMachine::ValidateArguments()
+{
+	ScriptParameters originalParameters;
+	this->GetCompiledScript().CreateScriptParameters(originalParameters);
+
+	for (ScriptParameters::const_iterator it = this->arguments.Begin(); it != this->arguments.End(); it++)
+	{
+		ScriptParameter* originalParameter = originalParameters.GetItem(it->first);
+		if (originalParameter == NULL)
+		{
+			stringstream ss;
+			ss << "Argument \"" << it->first << "\" was not declared by the script.";
+			throw ApiUsageException(ss.str());
+		}
+
+		if (!it->second->EqualsTo(originalParameter))
+		{
+			stringstream ss;
+			ss << "Argument \"" << it->first << "\" does not match the corresponding formal parameter declared by the script.";
+			throw ApiUsageException(ss.str());
+		}
+	}
 }
 
 VirtualMachineStepResult VirtualMachine::Step()
@@ -167,4 +193,16 @@ VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)
 	}
 
 	return foundVariable;
+}
+
+DynamicObject* VirtualMachine::GetStaticInstance(std::string const& typeName)
+{
+	VariableTableItem* variableTableItem = this->GetGlobalVariableTable().GetVariable(typeName);
+
+	if (variableTableItem == NULL)
+	{
+		return NULL;
+	}
+
+	else return variableTableItem->GetValue();
 }

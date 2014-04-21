@@ -123,7 +123,7 @@ metadataKeyValueCollection returns [MetadataValue* value]
 		if(!ret->AddItem($metadataKeyValuePair.name, $metadataKeyValuePair.value))
 		{
 			CodeLocation location($COLLECTION.line, $COLLECTION.pos);
-			throw CompilerException(GGE1401_MetadataValueAlreadyDefined, location);
+			throw MetadataKeyRedefinitionException(location, $metadataKeyValuePair.name);
 		}
 		/*delete $metadataKeyValuePair.name; */
 	})*);
