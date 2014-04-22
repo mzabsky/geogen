@@ -32,7 +32,7 @@ DynamicObject* NegationOperatorFunctionDefinition::CallNative(CodeLocation locat
 	}
 	else */if (arguments[0]->GetType() == booleanTypeDefinition){
 		bool value = dynamic_cast<BooleanObject*>(arguments[0])->GetValue();
-		returnObject = booleanTypeDefinition->CreateInstance(!value);
+		returnObject = booleanTypeDefinition->CreateInstance(vm, !value);
 	}
 	else
 	{

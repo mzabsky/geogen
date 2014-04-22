@@ -13,5 +13,5 @@ DynamicObject* AssignmentOperatorFunctionDefinition::CallNative(CodeLocation loc
 {
 	this->CheckArguments(location, 1, arguments);
 
-	return arguments[0]->GetType()->Copy(arguments[0]);
+	return arguments[0]->GetType()->Copy(vm, arguments[0]);
 }

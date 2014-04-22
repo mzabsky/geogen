@@ -12,7 +12,7 @@ InstructionStepResult LoadConstNumberInstruction::Step(VirtualMachine* vm) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
-	DynamicObject* object = numberTypeDefinition->CreateInstance(this->constNumber);
+	DynamicObject* object = numberTypeDefinition->CreateInstance(vm, this->constNumber);
 	vm->GetMemoryManager().RegisterObject(object);
 	vm->GetObjectStack().Push(this->GetLocation(), object);
 

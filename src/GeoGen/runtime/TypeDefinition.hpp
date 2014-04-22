@@ -44,14 +44,14 @@ namespace geogen
 			inline SymbolDefinitionTable<FunctionDefinition>& GetStaticFunctionDefinitions() { return this->functionDefinitions; };
 			inline SymbolDefinitionTable<FunctionDefinition> const& GetStaticFunctionDefinitions() const { return this->functionDefinitions; };
 
-			StaticObject* CreateStaticObject() const;
+			StaticObject* CreateStaticObject(VirtualMachine* vm) const;
 
 			virtual void Initialize(VirtualMachine* vm) const;
 
 			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const;
 			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
 
-			virtual DynamicObject* Copy(DynamicObject* a) const = 0;
+			virtual DynamicObject* Copy(VirtualMachine* vm, DynamicObject* a) const = 0;
 		};
 	}
 }

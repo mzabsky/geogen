@@ -7,9 +7,9 @@ using namespace geogen;
 using namespace runtime;
 using namespace std;
 
-DynamicObject* BooleanTypeDefinition::CreateInstance(bool value) const
+DynamicObject* BooleanTypeDefinition::CreateInstance(VirtualMachine* vm, bool value) const
 {
-	return new BooleanObject(this, value);
+	return new BooleanObject(vm, this, value);
 }
 
 bool BooleanTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
@@ -21,7 +21,7 @@ bool BooleanTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObje
 
 	if (b->GetType() == this)
 	{
-		return ((BooleanObject const*)a)->GetValue() < ((BooleanObject const*)b)->GetValue();
+		return dynamic_cast<BooleanObject const*>(a)->GetValue() < dynamic_cast<BooleanObject const*>(b)->GetValue();
 	}
 
 	return TypeDefinition::InstanceLessThan(a, b);
@@ -36,13 +36,13 @@ bool BooleanTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObje
 
 	if (b->GetType() == this)
 	{
-		return ((BooleanObject const*)a)->GetValue() == ((BooleanObject const*)b)->GetValue();
+		return dynamic_cast<BooleanObject const*>(a)->GetValue() == dynamic_cast<BooleanObject const*>(b)->GetValue();
 	}
 
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* BooleanTypeDefinition::Copy(DynamicObject* a) const
+DynamicObject* BooleanTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{
@@ -54,5 +54,5 @@ DynamicObject* BooleanTypeDefinition::Copy(DynamicObject* a) const
 		return a;
 	}
 
-	return new BooleanObject(this, ((BooleanObject const*)a)->GetValue());
+	return new BooleanObject(vm, this, dynamic_cast<BooleanObject const*>(a)->GetValue());
 }

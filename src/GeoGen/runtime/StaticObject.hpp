@@ -9,7 +9,7 @@ namespace geogen
 		class StaticObject : public DynamicObject
 		{
 		public:
-			StaticObject(TypeDefinition const* type) : DynamicObject(type) {};
+			StaticObject(VirtualMachine* vm, TypeDefinition const* type) : DynamicObject(vm, type) {};
 
 			virtual bool IsStaticObject(){ return true; };
 

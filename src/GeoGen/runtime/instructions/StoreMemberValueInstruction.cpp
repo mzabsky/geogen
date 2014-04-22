@@ -5,6 +5,7 @@
 #include "..\NullReferenceException.hpp"
 #include "..\DynamicObject.hpp"
 #include "..\UndefinedSymbolAccessException.hpp"
+#include "..\ReadOnlyWriteException.hpp"
 
 using namespace std;
 using namespace geogen::runtime;
@@ -21,11 +22,16 @@ InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) cons
 	}
 
 	DynamicObject* value = vm->GetObjectStack().Top();
-	//vm->GetObjectStack().Pop();
 
-	if (instance->SetMemberValue(*vm, this->GetLocation(), this->variableName, value))
+	VariableTableItem* variableTableItem = instance->GetMemberVariableTable().GetVariable(this->variableName);
+	if (variableTableItem == NULL)
 	{
 		throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, this->GetLocation(), this->variableName);
+	}
+
+	if (!variableTableItem->SetValue(value))
+	{
+		throw ReadOnlyWriteException(this->GetLocation(), this->variableName);
 	}
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;

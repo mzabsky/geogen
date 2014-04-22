@@ -21,9 +21,10 @@ namespace geogen
 			std::map<std::string, DynamicObject*> memberValues;
 			int refCount = 0;
 
-			bool DefineMemberValue(VirtualMachine& vm, std::string const& name);
+			VariableTable memberVariableTable;
+			//bool DefineMemberValue(VirtualMachine& vm, std::string const& name);
 		protected:
-			DynamicObject(TypeDefinition const* type);			
+			DynamicObject(VirtualMachine* vm, TypeDefinition const* type);
 		public:			
 			virtual ~DynamicObject(){};
 
@@ -33,15 +34,17 @@ namespace geogen
 
 			bool operator<(const DynamicObject* rhs);
 
+			inline VariableTable& GetMemberVariableTable() { return this->memberVariableTable; }
+
 			void AddRef(MemoryManager& vm);
 			void RemoveRef(MemoryManager& vm);
-			inline int GetRefCount() { return this->refCount; }
+			inline int GetRefCount() { return this->refCount; }			
 
 			//void SetMemberValue(VirtualMachine& vm, std::string const& name, DynamicObject* object);
-			bool SetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName, DynamicObject* object);
+			//bool SetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName, DynamicObject* object);
 
 			//DynamicObject* GetMemberValue(VirtualMachine& vm, std::string const& name) const;
-			DynamicObject* GetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName) const;
+			//DynamicObject* GetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName) const;
 
 			virtual void Serialize(std::iostream& stream) const = 0;
 		};

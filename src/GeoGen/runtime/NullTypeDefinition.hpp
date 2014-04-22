@@ -17,7 +17,7 @@ namespace geogen
 		public:
 			NullTypeDefinition() : TypeDefinition("null") {}
 
-			virtual DynamicObject* Copy(DynamicObject* a) const
+			virtual DynamicObject* Copy(VirtualMachine* vm, DynamicObject* a) const
 			{
 				return a;
 			};

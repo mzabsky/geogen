@@ -12,7 +12,7 @@ using namespace std;
 using namespace geogen;
 using namespace runtime;
 
-DynamicObject::DynamicObject(TypeDefinition const* type) : type(type)
+DynamicObject::DynamicObject(VirtualMachine* vm, TypeDefinition const* type) : type(type), memberVariableTable(&vm->GetMemoryManager())
 {	
 	/*for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = type->GetVariableDefinitions().)
 	for
@@ -24,7 +24,7 @@ bool DynamicObject::operator<(const DynamicObject* rhs)
 	return this->GetType()->InstanceLessThan(this, rhs);
 }
 
-bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)
+/*bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)
 {
 	map<string, DynamicObject*>::iterator it = this->memberValues.find(memberName);
 	if (it == this->memberValues.end())
@@ -35,10 +35,10 @@ bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, st
 			throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
 		}
 
-		/*if (variableDefinition->IsConstant())
-		{
-			throw ReadOnlyWriteException(location, memberName);
-		}*/
+		//if (variableDefinition->IsConstant())
+		//{
+		//	throw ReadOnlyWriteException(location, memberName);
+		//}
 
 		object->AddRef(vm.GetMemoryManager());
 		this->memberValues[memberName] = object;
@@ -52,8 +52,8 @@ bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, st
 	}
 
 	return true;
-}
-
+}*/
+/*
 DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName) const
 {
 	map<string, DynamicObject*>::const_iterator it = this->memberValues.find(memberName);
@@ -72,7 +72,7 @@ DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation lo
 		it->second->AddRef(vm.GetMemoryManager());
 		return it->second;
 	}
-}
+}*/
 
 void DynamicObject::AddRef(MemoryManager& vm)
 {

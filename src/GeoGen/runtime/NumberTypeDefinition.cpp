@@ -8,9 +8,9 @@ using namespace geogen;
 using namespace runtime;
 using namespace std;
 
-DynamicObject* NumberTypeDefinition::CreateInstance(Number value) const
+DynamicObject* NumberTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
-	return new NumberObject(this, value);
+	return new NumberObject(vm, this, value);
 }
 
 bool NumberTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
@@ -43,7 +43,7 @@ bool NumberTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObjec
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* NumberTypeDefinition::Copy(DynamicObject* a) const
+DynamicObject* NumberTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{
@@ -56,5 +56,5 @@ DynamicObject* NumberTypeDefinition::Copy(DynamicObject* a) const
 	}
 
     // Value type, copies
-	return new NumberObject(this, ((NumberObject const*)a)->GetValue());
+	return new NumberObject(vm, this, ((NumberObject const*)a)->GetValue());
 }
