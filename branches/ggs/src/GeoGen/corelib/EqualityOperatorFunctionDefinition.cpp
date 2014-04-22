@@ -27,7 +27,7 @@ DynamicObject* EqualityOperatorFunctionDefinition::CallNative(CodeLocation locat
 
 	bool result = this->function(location, arguments[0], arguments[1]);
 
-	DynamicObject* returnObject = booleanTypeDefinition->CreateInstance(result);
+	DynamicObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
 	vm->GetMemoryManager().RegisterObject(returnObject);
 	return returnObject;
 }

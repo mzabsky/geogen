@@ -42,15 +42,21 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 		case SCRIPT_PARAMETER_TYPE_BOOLEAN:
 			{
 				BooleanScriptParameter const* typedParameter = dynamic_cast<BooleanScriptParameter const*>(actualArgument == NULL ? it->second : actualArgument);
-				DynamicObject* object = vm->GetBooleanTypeDefinition()->CreateInstance(typedParameter->GetValue());
-				staticObject->SetMemberValue(*vm, CodeLocation(0, 0), it->first, object);
+				DynamicObject* object = vm->GetBooleanTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
+				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
+				{
+					throw InternalErrorException("Parameter member name conflict.");
+				}
 				break;
 			}
 		case SCRIPT_PARAMETER_TYPE_NUMBER:
 			{
 				NumberScriptParameter const* typedParameter = dynamic_cast<NumberScriptParameter const*>(actualArgument == NULL ? it->second : actualArgument);
-				DynamicObject* object = vm->GetNumberTypeDefinition()->CreateInstance(typedParameter->GetValue());
-				staticObject->SetMemberValue(*vm, CodeLocation(0, 0), it->first, object);
+				DynamicObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
+				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
+				{
+					throw InternalErrorException("Parameter member name conflict.");
+				}
 				break;
 			}	
 		default:
@@ -59,7 +65,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 	}
 }
 
-DynamicObject* ParametersTypeDefinition::Copy(DynamicObject* a) const
+DynamicObject* ParametersTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
 {
 	return a;
 }

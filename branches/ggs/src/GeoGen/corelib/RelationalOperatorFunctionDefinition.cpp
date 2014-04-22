@@ -37,7 +37,7 @@ DynamicObject* RelationalOperatorFunctionDefinition::CallNative(CodeLocation loc
 
 	bool result = this->function(location, a->GetValue(), b->GetValue());
 
-	DynamicObject* returnObject = booleanTypeDefinition->CreateInstance(result);
+	DynamicObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
 	vm->GetMemoryManager().RegisterObject(returnObject);
 	return returnObject;
 }

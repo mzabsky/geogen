@@ -13,7 +13,7 @@ namespace geogen
 		private:
 			T value;			
 		public:
-			PrimitiveObject(TypeDefinition const* type, T value) : DynamicObject(type), value(value)
+			PrimitiveObject(VirtualMachine* vm, TypeDefinition const* type, T value) : DynamicObject(vm, type), value(value)
 			{				
 			};
 			inline T GetValue() const { return this->value; }

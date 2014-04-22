@@ -20,13 +20,13 @@ InstructionStepResult LoadMemberValueInstruction::Step(VirtualMachine* vm) const
 		throw NullReferenceException(this->GetLocation());
 	}
 
-	DynamicObject* memberValue = instance->GetMemberValue(*vm, this->GetLocation(), this->variableName); 
-	if (memberValue == NULL)
+	VariableTableItem* variableTableItem = instance->GetMemberVariableTable().GetVariable(this->variableName);
+	if (variableTableItem == NULL)
 	{
 		throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, this->GetLocation(), this->variableName);
 	}
 
-	vm->GetObjectStack().Push(this->GetLocation(), memberValue);
+	vm->GetObjectStack().Push(this->GetLocation(), variableTableItem->GetValue());
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }

@@ -21,7 +21,7 @@ namespace geogen
 
 			//virtual DynamicObject* CreateInstance(Number value) const;
 
-			virtual DynamicObject* Copy(DynamicObject* a) const;
+			virtual DynamicObject* Copy(VirtualMachine* vm, DynamicObject* a) const;
 		};
 	}
 }

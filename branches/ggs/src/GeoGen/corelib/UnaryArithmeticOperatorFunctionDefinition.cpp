@@ -33,7 +33,7 @@ DynamicObject* UnaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocatio
 
 	Number result = this->function(location, a->GetValue());
 
-	DynamicObject* returnObject = numberTypeDefinition->CreateInstance(result);
+	DynamicObject* returnObject = numberTypeDefinition->CreateInstance(vm, result);
 	vm->GetMemoryManager().RegisterObject(returnObject);
 	return returnObject;
 }

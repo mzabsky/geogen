@@ -18,10 +18,10 @@ EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const&
 	}
 }
 
-DynamicObject* EnumTypeDefinition::CreateInstance(Number value) const
+DynamicObject* EnumTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
 	// TODO: naplnit membery ZDE!
-	return new NumberObject(this, value);
+	return new NumberObject(vm, this, value);
 }
 
 bool EnumTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
@@ -33,7 +33,7 @@ bool EnumTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject 
 
 	if (b->GetType() == this)
 	{
-		return ((NumberObject const*)a)->GetValue() == ((NumberObject const*)b)->GetValue();
+		return dynamic_cast<NumberObject const*>(a)->GetValue() == dynamic_cast<NumberObject const*>(b)->GetValue();
 	}
 
 	return TypeDefinition::InstanceEqualsTo(a, b);
@@ -48,13 +48,13 @@ bool EnumTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject 
 
 	if (b->GetType() == this)
 	{
-		return ((NumberObject const*)a)->GetValue() == ((NumberObject const*)b)->GetValue();
+		return dynamic_cast<NumberObject const*>(a)->GetValue() == dynamic_cast<NumberObject const*>(b)->GetValue();
 	}
 
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* EnumTypeDefinition::Copy(DynamicObject* a) const
+DynamicObject* EnumTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
 {
 	if (a->GetType() != this)
 	{
@@ -66,5 +66,5 @@ DynamicObject* EnumTypeDefinition::Copy(DynamicObject* a) const
 		return a;
 	}
 
-	return new NumberObject(this, ((NumberObject const*)a)->GetValue());
+	return new NumberObject(vm, this, dynamic_cast<NumberObject const*>(a)->GetValue());
 }

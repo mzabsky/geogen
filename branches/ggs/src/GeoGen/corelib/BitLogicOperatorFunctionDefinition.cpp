@@ -58,11 +58,11 @@ DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 	DynamicObject* returnObject;
 	if (returnsNumber)
 	{
-		returnObject = numberTypeDefinition->CreateInstance(result);
+		returnObject = numberTypeDefinition->CreateInstance(vm, result);
 	}
 	else
 	{
-		returnObject = booleanTypeDefinition->CreateInstance(result > 0);
+		returnObject = booleanTypeDefinition->CreateInstance(vm, result > 0);
 	}
 	
 	vm->GetMemoryManager().RegisterObject(returnObject);

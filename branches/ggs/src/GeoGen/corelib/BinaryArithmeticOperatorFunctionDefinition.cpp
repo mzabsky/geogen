@@ -40,7 +40,7 @@ DynamicObject* BinaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocati
 
 	Number result = this->function(location, a->GetValue(), b->GetValue());
 	
-    DynamicObject* returnObject = numberTypeDefinition->CreateInstance(result);
+    DynamicObject* returnObject = numberTypeDefinition->CreateInstance(vm, result);
 	vm->GetMemoryManager().RegisterObject(returnObject);
 	return returnObject;
 }

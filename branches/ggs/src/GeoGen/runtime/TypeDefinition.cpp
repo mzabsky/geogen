@@ -7,7 +7,7 @@ using namespace geogen::runtime;
 
 void TypeDefinition::Initialize(VirtualMachine* vm) const
 {
-	DynamicObject* staticInstance = this->CreateStaticObject();
+	DynamicObject* staticInstance = this->CreateStaticObject(vm);
 
 	vm->GetMemoryManager().RegisterObject(staticInstance);
 
@@ -17,9 +17,9 @@ void TypeDefinition::Initialize(VirtualMachine* vm) const
 	}
 }
 
-StaticObject* TypeDefinition::CreateStaticObject() const
+StaticObject* TypeDefinition::CreateStaticObject(VirtualMachine* vm) const
 {
-	return new StaticObject(this);
+	return new StaticObject(vm, this);
 }
 
 bool TypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
