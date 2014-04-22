@@ -14,11 +14,14 @@ namespace geogen
 		std::string message;
 	public:
 		explicit ApiUsageException(std::string const& message) :
-			GeoGenException(GGE3000_ApiUsageError) {};
+			GeoGenException(GGE3000_ApiUsageError), message(message) {};
 
 		virtual std::string GetDetailMessage()
 		{
-			return "Incorrect GeoGen API usage dectected (" + message + ").";
-		}
+			std::stringstream ss;
+			ss << "Incorrect GeoGen API usage dectected (" << message << ").";
+
+			return ss.str();
+		};
 	};
 }

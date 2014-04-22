@@ -226,6 +226,68 @@ public:
 		ASSERT_EQUALS(ScriptParameterValueRestriction, SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED, param->GetRestriction());
 	}
 
+	static void TestUseBooleanScriptParameter()
+	{
+		ScriptParameters params;
+		BooleanScriptParameter* param = new BooleanScriptParameter("BoolParam", "Boolean Parameter", "Desc", false);
+		params.AddItem("BoolParam", param);
+		param->SetValue(true);
+		
+		TestScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					BoolParam: { Type: Boolean, Label: \"Boolean Parameter\", Description: \"Desc\", Default: false }\n\
+				}\n\
+			}\n\
+			AssertEquals(true, Parameters.BoolParam);\n\
+		", params);
+	}
+
+	static void TestUseBooleanScriptParameterWithDefaultValue()
+	{
+		TestScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					BoolParam: { Type: Boolean, Label: \"Boolean Parameter\", Description: \"Desc\", Default: false }\n\
+				}\n\
+			}\n\
+			AssertEquals(false, Parameters.BoolParam);\n\
+		");
+	}
+
+	static void TestUseNumberScriptParameter()
+	{
+		ScriptParameters params;
+		NumberScriptParameter* param = new NumberScriptParameter("NumberParam", "Number Parameter", "Desc", 2, 0, 10, SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED);
+		params.AddItem("NumberParam", param);
+		param->SetValue(5);
+		
+		TestScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					NumberParam: { Type: Number, Label: \"Number Parameter\", Description: \"Desc\", Default: 2, Max: 10 }\n\
+				}\n\
+			}\n\
+			AssertEquals(5, Parameters.NumberParam);\n\
+		", params);
+	}
+
+	static void TestUseNumberScriptParameterWithDefaultValue()
+	{
+		TestScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					NumberParam: { Type: Number, Label: \"Number Parameter\", Description: \"Desc\", Default: 2 }\n\
+				}\n\
+			}\n\
+			AssertEquals(2, Parameters.NumberParam);\n\
+		");
+	}
+
 	MetadataTests() : TestFixtureBase("MetadataTests")
 	{
 		ADD_TESTCASE(TestGetStringMetadataValue);
@@ -239,5 +301,9 @@ public:
 		ADD_TESTCASE(TestParseBooleanScriptParameterWithImplicitAttributes);
 		ADD_TESTCASE(TestParseNumberScriptParameter);
 		ADD_TESTCASE(TestParseNumberScriptParameterWithImplicitAttributes);
+		ADD_TESTCASE(TestUseBooleanScriptParameter);
+		ADD_TESTCASE(TestUseBooleanScriptParameterWithDefaultValue);
+		ADD_TESTCASE(TestUseNumberScriptParameter);
+		ADD_TESTCASE(TestUseNumberScriptParameterWithDefaultValue);
 	}
 };

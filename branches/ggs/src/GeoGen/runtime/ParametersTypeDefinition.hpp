@@ -15,9 +15,9 @@ namespace geogen
 		private:
 			ValueDefinitions valueDefinitions;
 		public:
-			ParametersTypeDefinition(CodeLocation location, ScriptParameters const& values);
+			ParametersTypeDefinition(ScriptParameters const& values);
 
-			void Initialize(VirtualMachine* vm) const;
+			virtual void Initialize(VirtualMachine* vm) const;
 
 			//virtual DynamicObject* CreateInstance(Number value) const;
 

@@ -1,21 +1,8 @@
-function times(sa, sb){
-	
-	sa * sb;
-
-	if(true) {}
-
-			while(false){}
+metadata {
+	Parameters:
+	{ 
+		BoolParam: { Type: Boolean, Label: "Boolean Parameter", Description: "Desc", Default: false }
+	}
 }
 
-
-var count = 0; 
-var i = 0; 
-while(i < 10){
-	if(i == 5){ 
-		continue;
-	} 
-	count = count + 1; 
-	i = i + 1;
-}
-
-yield HeightMap.Empty();
+AssertEquals(true, Parameters.BoolParam);
