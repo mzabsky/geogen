@@ -13,6 +13,7 @@
 
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
+#include "..\runtime\ParametersTypeDefinition.hpp"
 
 
 using namespace std;
@@ -75,6 +76,17 @@ CompiledScript* Compiler::CompileScript(std::string const& code) const
 			throw InternalErrorException("Main function name conflict.");
 		}
 
+		{
+			ScriptParameters scriptParameters;
+			script->CreateScriptParameters(scriptParameters);
+			
+			ParametersTypeDefinition* parametersTypeDefinition = new ParametersTypeDefinition(scriptParameters);
+			if (!script->AddTypeDefinition(parametersTypeDefinition))
+			{
+				delete parametersTypeDefinition;
+				throw InternalErrorException("Parameters object name conflict.");
+			}
+		}
 		//ScriptFunctionDefinition* code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"));
 
 		/*cout << "=======================" << endl;

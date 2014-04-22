@@ -86,7 +86,6 @@ protected:
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(script);
 
-
 		VirtualMachine vm(*compiledScript.get(), arguments);
 
 		vm.Run();

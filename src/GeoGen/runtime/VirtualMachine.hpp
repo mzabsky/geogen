@@ -46,7 +46,7 @@ namespace geogen
 
 			MemoryManager memoryManager;
 			VariableTable globalVariableTable;
-			const ScriptParameters arguments;
+			ScriptParameters const* arguments;
 
 			void InitializeTypes();
 			void InitializeGlobalVariables();
@@ -63,7 +63,7 @@ namespace geogen
 			inline VirtualMachineStatus GetStatus() const { return this->status; }
 			inline MemoryManager& GetMemoryManager() { return this->memoryManager; }
 			inline VariableTable& GetGlobalVariableTable() { return this->globalVariableTable; }
-			inline ScriptParameters const& GetArguments() { return this->arguments; }
+			inline ScriptParameters const& GetArguments() { return *this->arguments; }
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 

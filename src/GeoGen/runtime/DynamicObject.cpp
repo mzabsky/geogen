@@ -35,10 +35,10 @@ bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, st
 			throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, location, memberName);
 		}
 
-		if (variableDefinition->IsConstant())
+		/*if (variableDefinition->IsConstant())
 		{
 			throw ReadOnlyWriteException(location, memberName);
-		}
+		}*/
 
 		object->AddRef(vm.GetMemoryManager());
 		this->memberValues[memberName] = object;
