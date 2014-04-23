@@ -28,6 +28,8 @@ namespace geogen
 		public:
 			NumberScriptParameter(std::string const& name, std::string const& label, std::string const& description, Number defaultValue, Number min, Number max, ScriptParameterValueRestriction restriction)
 				: ScriptParameter(name, label, description), value(defaultValue), defaultValue(defaultValue), min(min), max(max), restriction(restriction) {};
+			NumberScriptParameter(NumberScriptParameter const&);
+			NumberScriptParameter& operator=(NumberScriptParameter const&);
 
 			virtual ScriptParameterType GetType() const { return SCRIPT_PARAMETER_TYPE_NUMBER; };
 
@@ -41,6 +43,7 @@ namespace geogen
 
 			virtual bool EqualsTo(ScriptParameter const* other) const;
 			virtual void ResetToDefault() { this->value = this->defaultValue; };
+			virtual ScriptParameter* Clone() const;
 		};
 	}
 }

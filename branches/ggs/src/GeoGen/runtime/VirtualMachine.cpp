@@ -15,7 +15,7 @@ using namespace geogen;
 using namespace geogen::runtime;
 
 VirtualMachine::VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments)
-: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY), globalVariableTable(&memoryManager), arguments(&arguments)
+: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY), globalVariableTable(&memoryManager), arguments(arguments)
 {
 	this->ValidateArguments();
 	this->InitializeTypes();
@@ -58,8 +58,7 @@ void VirtualMachine::InitializeMainFunction()
 
 void VirtualMachine::ValidateArguments()
 {
-	ScriptParameters originalParameters;
-	this->GetCompiledScript().CreateScriptParameters(originalParameters);
+	ScriptParameters originalParameters = this->GetCompiledScript().CreateScriptParameters();
 
 	for (ScriptParameters::const_iterator it = this->GetArguments().Begin(); it != this->GetArguments().End(); it++)
 	{

@@ -19,3 +19,25 @@ bool BooleanScriptParameter::EqualsTo(ScriptParameter const* other) const
 		this->GetDescription() == other->GetDescription() &&
 		this->GetDefaultValue() == typedOther->GetDefaultValue();
 }
+
+BooleanScriptParameter::BooleanScriptParameter(BooleanScriptParameter const& other)
+: BooleanScriptParameter(other.GetName(), other.GetLabel(), other.GetDescription(), other.GetDefaultValue())
+{
+	this->value = other.GetValue();
+}
+
+BooleanScriptParameter& BooleanScriptParameter::operator=(BooleanScriptParameter const& other)
+{
+	this->name = other.name;
+	this->label = other.label;
+	this->description = other.description;
+	this->defaultValue = other.defaultValue;
+	this->value = other.value;
+
+	return *this;
+}
+
+ScriptParameter* BooleanScriptParameter::Clone() const
+{
+	return new BooleanScriptParameter(*this);
+}

@@ -101,14 +101,12 @@ void CompiledScript::AddLibrary(Library const* library)
 	}
 }
 
-
-void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
+ScriptParameters CompiledScript::CreateScriptParameters() const
 {
 	// This code is first invoked by the compiler, so it throws compiler exceptions.
-
 	if (!this->GetMetadata().ContainsItem("Parameters"))
 	{
-		return;
+		return ScriptParameters();
 	}
 
 	if (this->GetMetadata().GetItem("Parameters")->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
@@ -118,6 +116,7 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 
 	MetadataKeyValueCollection const* parametersSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem("Parameters"));
 
+	ScriptParameters table;
 	for (MetadataKeyValueCollection::const_iterator it = parametersSection->Begin(); it != parametersSection->End(); it++)
 	{		
 		string name = it->first;
@@ -278,13 +277,6 @@ void CompiledScript::CreateScriptParameters(ScriptParameters& table) const
 
 		table.AddItem(name, parameter);
 	}
-}
 
-ScriptParameters* CompiledScript::CreateScriptParameters() const
-{
-	auto_ptr<ScriptParameters> table(new ScriptParameters());
-
-	this->CreateScriptParameters(*table.get());
-
-	return table.release();
+	return table;
 }

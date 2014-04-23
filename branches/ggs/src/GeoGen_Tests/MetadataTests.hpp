@@ -141,8 +141,7 @@ public:
 			}\n\
 		");
 		
-		ScriptParameters params;
-		compiledScript->CreateScriptParameters(params);
+		ScriptParameters params = compiledScript->CreateScriptParameters();
 
 		ASSERT_EQUALS(bool, true, params.ContainsItem("BoolParam"));
 		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_BOOLEAN, params.GetItem("BoolParam")->GetType());		
@@ -165,8 +164,7 @@ public:
 			}\n\
 		");
 		
-		ScriptParameters params;
-		compiledScript->CreateScriptParameters(params);
+		ScriptParameters params = compiledScript->CreateScriptParameters();
 
 		BooleanScriptParameter* param = dynamic_cast<BooleanScriptParameter*>(params.GetItem("BoolParam"));
 		ASSERT_EQUALS(string, "BoolParam", param->GetLabel());
@@ -186,8 +184,7 @@ public:
 			}\n\
 		");
 		
-		ScriptParameters params;
-		compiledScript->CreateScriptParameters(params);
+		ScriptParameters params = compiledScript->CreateScriptParameters();
 
 		ASSERT_EQUALS(bool, true, params.ContainsItem("NumberParam"));
 		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("NumberParam")->GetType());		
@@ -213,8 +210,7 @@ public:
 			}\n\
 		");
 		
-		ScriptParameters params;
-		compiledScript->CreateScriptParameters(params);
+		ScriptParameters params = compiledScript->CreateScriptParameters();
 
 		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
 		ASSERT_EQUALS(string, "NumberParam", param->GetLabel());
