@@ -15,6 +15,8 @@ namespace geogen
 			bool value;
 		public:
 			BooleanScriptParameter(std::string const& name, std::string const& label, std::string const& description, bool defaultValue) : ScriptParameter(name, label, description), value(defaultValue), defaultValue(defaultValue) {};
+			BooleanScriptParameter(BooleanScriptParameter const&);
+			BooleanScriptParameter& operator=(BooleanScriptParameter const&);
 
 			virtual ScriptParameterType GetType() const { return SCRIPT_PARAMETER_TYPE_BOOLEAN; };
 
@@ -24,6 +26,7 @@ namespace geogen
 
 			virtual void ResetToDefault() { this->value = this->defaultValue; };
 			virtual bool EqualsTo(ScriptParameter const* other) const;
+			virtual ScriptParameter* Clone() const;
 		};
 	}
 }

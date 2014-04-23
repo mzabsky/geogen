@@ -22,3 +22,28 @@ bool NumberScriptParameter::EqualsTo(ScriptParameter const* other) const
 		this->GetMax() == typedOther->GetMax() &&
 		this->GetRestriction() == typedOther->GetRestriction();
 }
+
+NumberScriptParameter::NumberScriptParameter(NumberScriptParameter const& other)
+: NumberScriptParameter(other.GetName(), other.GetLabel(), other.GetDescription(), other.GetDefaultValue(), other.GetMin(), other.GetMax(), other.GetRestriction())
+{
+	this->value = other.GetValue();
+}
+
+NumberScriptParameter& NumberScriptParameter::operator=(NumberScriptParameter const& other)
+{
+	this->name = other.name;
+	this->label = other.label;
+	this->description = other.description;
+	this->defaultValue = other.defaultValue;
+	this->value = other.value;
+	this->min = other.min;
+	this->max = other.max;
+	this->restriction = other.restriction;
+
+	return *this;
+}
+
+ScriptParameter* NumberScriptParameter::Clone() const
+{
+	return new NumberScriptParameter(*this);
+}

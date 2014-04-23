@@ -77,8 +77,7 @@ CompiledScript* Compiler::CompileScript(std::string const& code) const
 		}
 
 		{
-			ScriptParameters scriptParameters;
-			script->CreateScriptParameters(scriptParameters);
+			ScriptParameters scriptParameters = script->CreateScriptParameters();
 			
 			ParametersTypeDefinition* parametersTypeDefinition = new ParametersTypeDefinition(scriptParameters);
 			if (!script->AddTypeDefinition(parametersTypeDefinition))

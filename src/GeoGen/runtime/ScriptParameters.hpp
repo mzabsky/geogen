@@ -19,6 +19,8 @@ namespace geogen
 			typedef std::map<std::string, ScriptParameter*>::iterator iterator;
 
 			ScriptParameters() {}
+			ScriptParameters(ScriptParameters const&);
+			ScriptParameters& operator=(ScriptParameters const&);
 
 			void ResetToDefaults();
 		};

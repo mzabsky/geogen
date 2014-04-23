@@ -30,8 +30,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 		throw InternalErrorException("Paramters type not initialized properly (static instance missing).");
 	}
 
-	ScriptParameters formalParameters;
-	vm->GetCompiledScript().CreateScriptParameters(formalParameters);
+	ScriptParameters formalParameters = vm->GetCompiledScript().CreateScriptParameters();
 
 	for (ScriptParameters::iterator it = formalParameters.Begin(); it != formalParameters.End(); it++)
 	{
