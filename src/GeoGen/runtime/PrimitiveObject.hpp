@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "DynamicObject.hpp"
 #include "EnumTypeDefinition.hpp"
 
@@ -18,9 +20,12 @@ namespace geogen
 			};
 			inline T GetValue() const { return this->value; }
 
-			virtual void Serialize(std::iostream& stream) const
+			virtual std::string GetStringValue() const
 			{
-				stream << this->GetValue();
+				std::stringstream ss;
+				ss << this->GetValue();
+
+				return ss.str();
 			}
 		};
 	}

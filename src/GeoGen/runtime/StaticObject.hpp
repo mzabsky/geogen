@@ -13,9 +13,9 @@ namespace geogen
 
 			virtual bool IsStaticObject(){ return true; };
 
-			virtual void Serialize(std::iostream& stream) const
+			virtual std::string GetStringValue() const
 			{
-				stream << "Static[" << this->GetType()->GetName() << "]";
+				return "Static";
 			};
 		};
 	}

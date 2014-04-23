@@ -12,7 +12,7 @@ using namespace std;
 using namespace geogen;
 using namespace runtime;
 
-DynamicObject::DynamicObject(VirtualMachine* vm, TypeDefinition const* type) : type(type), memberVariableTable(&vm->GetMemoryManager())
+DynamicObject::DynamicObject(VirtualMachine* vm, TypeDefinition const* type) : type(type), memberVariableTable(&vm->GetMemoryManager()), objectId(UNASSIGNED_OBJECT_ID)
 {	
 	/*for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = type->GetVariableDefinitions().)
 	for
@@ -22,6 +22,11 @@ DynamicObject::DynamicObject(VirtualMachine* vm, TypeDefinition const* type) : t
 bool DynamicObject::operator<(const DynamicObject* rhs)
 {
 	return this->GetType()->InstanceLessThan(this, rhs);
+}
+
+void DynamicObject::Serialize(std::iostream& stream) const
+{
+	stream << "#" << this->objectId << " " << this->type->GetName() << " {" << this->GetStringValue() << "}";
 }
 
 /*bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)

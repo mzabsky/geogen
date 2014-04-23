@@ -3,6 +3,8 @@
 #include <string>
 #include <list>
 
+#include "ObjectId.hpp"
+
 namespace geogen
 {
 	namespace runtime
@@ -17,10 +19,12 @@ namespace geogen
 
 			std::list<DynamicObject*> objects;
 
+			ObjectId nextObjectId;
+
 			MemoryManager(MemoryManager const& other) {};
 			MemoryManager& operator=(MemoryManager const&) {};
 		public:
-			MemoryManager() {};
+			MemoryManager() : nextObjectId(MIN_OBJECT_ID) {};
 			~MemoryManager();
 
 			void RegisterObject(DynamicObject* object);

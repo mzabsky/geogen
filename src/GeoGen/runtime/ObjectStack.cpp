@@ -59,10 +59,7 @@ void ObjectStack::Serialize(std::iostream& stream) const
 {
 	for (const_iterator it = this->Begin(); it != this->End(); it++)
 	{
-		stream << "\t" << (*it)->GetType()->GetName() << "   { " ;
-
 		(*it)->Serialize(stream);
-		
-		stream << " }" << std::endl;
+		stream << std::endl;
 	}
 }
