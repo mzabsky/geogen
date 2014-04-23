@@ -126,6 +126,7 @@
     <ClInclude Include="compiler\ScriptParameterNotKeyValueCollection.hpp" />
     <ClInclude Include="compiler\IncrorrectScriptParameterValueRestrictionException.hpp" />
     <ClInclude Include="runtime\ParametersTypeDefinition.hpp" />
+    <ClInclude Include="runtime\ObjectId.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="runtime\ParametersTypeDefinition.cpp" />
     <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
     <ClCompile Include="runtime\NumberScriptParameter.cpp" />
+    <ClCompile Include="runtime\ObjectId.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

@@ -24,6 +24,14 @@ void MemoryManager::RegisterObject(DynamicObject* object)
 	}
 #endif
 
+	if (this->nextObjectId == MAX_OBJECT_ID)
+	{
+		throw InternalErrorException("Reached maximum object ID.");
+	}
+
+	object->SetObjectId(this->nextObjectId);
+	this->nextObjectId++;
+
 	this->objects.push_back(object);
 	object->AddRef(*this);
 }
