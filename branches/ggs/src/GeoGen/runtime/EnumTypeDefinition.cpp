@@ -18,13 +18,13 @@ EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const&
 	}
 }
 
-DynamicObject* EnumTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
+ManagedObject* EnumTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
 	// TODO: naplnit membery ZDE!
 	return new NumberObject(vm, this, value);
 }
 
-bool EnumTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
+bool EnumTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -39,7 +39,7 @@ bool EnumTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject 
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-bool EnumTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
+bool EnumTypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -54,7 +54,7 @@ bool EnumTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject 
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* EnumTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
+ManagedObject* EnumTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) const
 {
 	if (a->GetType() != this)
 	{

@@ -17,7 +17,7 @@
 
 #include "runtime/CodeBlock.hpp"
 #include "runtime/CompiledScript.hpp"
-#include "runtime/DynamicObject.hpp"
+#include "runtime/ManagedObject.hpp"
 #include "runtime/FunctionDefinition.hpp"
 #include "runtime/MetadataKeyValueCollection.hpp"
 #include "runtime/MetadataBoolean.hpp"

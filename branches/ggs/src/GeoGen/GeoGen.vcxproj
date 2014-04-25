@@ -117,7 +117,7 @@
     <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="corelib\CoreLibrary.hpp" />
     <ClInclude Include="runtime\DivisionByZeroException.hpp" />
-    <ClInclude Include="runtime\DynamicObject.hpp" />
+    <ClInclude Include="runtime\ManagedObject.hpp" />
     <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\EnumObject.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
@@ -233,7 +233,7 @@
     <ClCompile Include="runtime\CodeBlockStackEntry.cpp" />
     <ClCompile Include="runtime\CompiledScript.cpp" />
     <ClCompile Include="corelib\CoreLibrary.cpp" />
-    <ClCompile Include="runtime\DynamicObject.cpp" />
+    <ClCompile Include="runtime\ManagedObject.cpp" />
     <ClCompile Include="runtime\EnumObject.cpp" />
     <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
     <ClCompile Include="runtime\instructions\BreakInstruction.cpp" />

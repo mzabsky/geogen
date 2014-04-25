@@ -11,7 +11,7 @@ namespace geogen
 	namespace runtime
 	{
 		class VirtualMachine;
-		class DynamicObject;
+		class ManagedObject;
 		class TypeDefinition;
 
 		class NativeFunctionDefinition : public FunctionDefinition
@@ -21,10 +21,10 @@ namespace geogen
 
 			virtual void Call(CodeLocation location, VirtualMachine* vm, unsigned numberOfArguments) const;
 
-			virtual DynamicObject* CallNative(CodeLocation location, VirtualMachine* vm, std::vector<DynamicObject*> arguments) const = 0;
+			virtual ManagedObject* CallNative(CodeLocation location, VirtualMachine* vm, std::vector<ManagedObject*> arguments) const = 0;
 
-			void CheckArguments(CodeLocation location, std::vector<TypeDefinition const*> expectedTypes, std::vector<DynamicObject*> actualArguments) const;
-			void CheckArguments(CodeLocation location, unsigned expectedArgumentCount, std::vector<DynamicObject*> actualArguments) const;
+			void CheckArguments(CodeLocation location, std::vector<TypeDefinition const*> expectedTypes, std::vector<ManagedObject*> actualArguments) const;
+			void CheckArguments(CodeLocation location, unsigned expectedArgumentCount, std::vector<ManagedObject*> actualArguments) const;
 		};
 	}
 }

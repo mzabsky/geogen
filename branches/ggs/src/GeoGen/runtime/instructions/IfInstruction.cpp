@@ -4,7 +4,7 @@
 #include "IfInstruction.hpp"
 #include "..\CodeBlockStackEntry.hpp"
 #include "..\VirtualMachine.hpp"
-#include "..\DynamicObject.hpp"
+#include "..\ManagedObject.hpp"
 #include "..\BooleanTypeDefinition.hpp"
 #include "..\IncorrectTypeException.hpp"
 #include "..\..\InternalErrorException.hpp"
@@ -33,7 +33,7 @@ namespace geogen
 
 			InstructionStepResult IfInstruction::Step(VirtualMachine* vm) const
 			{
-				DynamicObject* conditionObject = (BooleanObject*)vm->GetObjectStack().Top();
+				ManagedObject* conditionObject = (BooleanObject*)vm->GetObjectStack().Top();
 				vm->GetObjectStack().Pop();
 
 				TypeDefinition const* boolTypeDefinition = vm->GetBooleanTypeDefinition();

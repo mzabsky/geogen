@@ -4,7 +4,7 @@
 #include "CallBlockInstruction.hpp"
 #include "..\CodeBlockStackEntry.hpp"
 #include "..\VirtualMachine.hpp"
-#include "..\DynamicObject.hpp"
+#include "..\ManagedObject.hpp"
 #include "..\BooleanTypeDefinition.hpp"
 #include "..\IncorrectTypeException.hpp"
 #include "..\..\InternalErrorException.hpp"

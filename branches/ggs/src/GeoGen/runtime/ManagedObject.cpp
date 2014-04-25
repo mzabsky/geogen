@@ -1,7 +1,7 @@
 #include <string>
 
 #include "../CodeLocation.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "ReadOnlyWriteException.hpp"
 #include "UndefinedSymbolAccessException.hpp"
 #include "MemoryManager.hpp"
@@ -12,26 +12,26 @@ using namespace std;
 using namespace geogen;
 using namespace runtime;
 
-DynamicObject::DynamicObject(VirtualMachine* vm, TypeDefinition const* type) : type(type), memberVariableTable(&vm->GetMemoryManager()), objectId(UNASSIGNED_OBJECT_ID)
+ManagedObject::ManagedObject(VirtualMachine* vm, TypeDefinition const* type) : type(type), memberVariableTable(&vm->GetMemoryManager()), objectId(UNASSIGNED_OBJECT_ID)
 {	
 	/*for (SymbolDefinitionTable<VariableDefinition>::const_iterator it = type->GetVariableDefinitions().)
 	for
 	this->GetType()*/
 }
 
-bool DynamicObject::operator<(const DynamicObject* rhs)
+bool ManagedObject::operator<(const ManagedObject* rhs)
 {
 	return this->GetType()->InstanceLessThan(this, rhs);
 }
 
-void DynamicObject::Serialize(std::iostream& stream) const
+void ManagedObject::Serialize(std::iostream& stream) const
 {
 	stream << "#" << this->objectId << " " << this->type->GetName() << " {" << this->GetStringValue() << "}";
 }
 
-/*bool DynamicObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, DynamicObject* object)
+/*bool ManagedObject::SetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName, ManagedObject* object)
 {
-	map<string, DynamicObject*>::iterator it = this->memberValues.find(memberName);
+	map<string, ManagedObject*>::iterator it = this->memberValues.find(memberName);
 	if (it == this->memberValues.end())
 	{
 		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberName);
@@ -59,9 +59,9 @@ void DynamicObject::Serialize(std::iostream& stream) const
 	return true;
 }*/
 /*
-DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName) const
+ManagedObject* ManagedObject::GetMemberValue(VirtualMachine& vm, CodeLocation location, string memberName) const
 {
-	map<string, DynamicObject*>::const_iterator it = this->memberValues.find(memberName);
+	map<string, ManagedObject*>::const_iterator it = this->memberValues.find(memberName);
 	if (it == this->memberValues.end())
 	{
 		VariableDefinition const* variableDefinition = this->GetType()->GetVariableDefinitions().GetItem(memberName);
@@ -79,12 +79,12 @@ DynamicObject* DynamicObject::GetMemberValue(VirtualMachine& vm, CodeLocation lo
 	}
 }*/
 
-void DynamicObject::AddRef(MemoryManager& vm)
+void ManagedObject::AddRef(MemoryManager& vm)
 {
 	this->refCount++;
 }
 
-void DynamicObject::RemoveRef(MemoryManager& vm)
+void ManagedObject::RemoveRef(MemoryManager& vm)
 {
 	this->refCount--;
 

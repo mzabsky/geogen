@@ -1,5 +1,5 @@
 #include "ObjectStack.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "..\InternalErrorException.hpp"
 #include "..\CodeLocation.hpp"
 #include "StackOverflowException.hpp"
@@ -17,7 +17,7 @@ const unsigned ObjectStack::SIZE_LIMIT = 1000;
 	}
 }*/
 
-DynamicObject* ObjectStack::Top()
+ManagedObject* ObjectStack::Top()
 {
 	if (this->stack.size() < 1)
 	{
@@ -37,7 +37,7 @@ void ObjectStack::Pop()
 	this->stack.pop_back();
 }
 
-void ObjectStack::Push(CodeLocation location, DynamicObject* object)
+void ObjectStack::Push(CodeLocation location, ManagedObject* object)
 {	
 	if (SIZE_LIMIT == this->stack.size())
 	{

@@ -1,18 +1,18 @@
 #include "..\InternalErrorException.hpp"
 #include "BooleanTypeDefinition.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "StaticObject.hpp"
 
 using namespace geogen;
 using namespace runtime;
 using namespace std;
 
-DynamicObject* BooleanTypeDefinition::CreateInstance(VirtualMachine* vm, bool value) const
+ManagedObject* BooleanTypeDefinition::CreateInstance(VirtualMachine* vm, bool value) const
 {
 	return new BooleanObject(vm, this, value);
 }
 
-bool BooleanTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
+bool BooleanTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -27,7 +27,7 @@ bool BooleanTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObje
 	return TypeDefinition::InstanceLessThan(a, b);
 }
 
-bool BooleanTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
+bool BooleanTypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -42,7 +42,7 @@ bool BooleanTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObje
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* BooleanTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
+ManagedObject* BooleanTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) const
 {
 	if (a->GetType() != this)
 	{

@@ -13,7 +13,7 @@ namespace geogen
 		protected:
 			ReferenceTypeDefinition(std::string const& name) : TypeDefinition(name) {}
 		public:			
-			virtual DynamicObject* Copy(DynamicObject* a) const;
+			virtual ManagedObject* Copy(ManagedObject* a) const;
 		};
 	}
 }

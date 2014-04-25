@@ -17,7 +17,7 @@ InstructionStepResult StoreScopeValueInstruction::Step(VirtualMachine* vm) const
 		throw UndefinedSymbolAccessException(GGE2202_UndefinedVariable, this->GetLocation(), this->variableName);
 	}
 
-	DynamicObject* value = vm->GetObjectStack().Top();
+	ManagedObject* value = vm->GetObjectStack().Top();
 	//vm->GetObjectStack().Pop();
 	
 	if (!variable->SetValue(value))

@@ -1,7 +1,7 @@
 #include <algorithm>
 
 #include "MemoryManager.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "../InternalErrorException.hpp"
 
 using namespace std;
@@ -15,7 +15,7 @@ MemoryManager::~MemoryManager()
 	}
 }
 
-void MemoryManager::RegisterObject(DynamicObject* object)
+void MemoryManager::RegisterObject(ManagedObject* object)
 {
 #ifdef DEBUG
 	if (find(this->objects.begin(), this->objects.end(), object) != this->objects.end())
@@ -36,7 +36,7 @@ void MemoryManager::RegisterObject(DynamicObject* object)
 	object->AddRef(*this);
 }
 
-void MemoryManager::DestroyObject(DynamicObject* object)
+void MemoryManager::DestroyObject(ManagedObject* object)
 {
 	if (object->GetRefCount() != 0)
 	{

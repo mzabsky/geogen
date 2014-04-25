@@ -19,9 +19,9 @@ namespace geogen
 
 			virtual void Initialize(VirtualMachine* vm) const;
 
-			//virtual DynamicObject* CreateInstance(Number value) const;
+			//virtual ManagedObject* CreateInstance(Number value) const;
 
-			virtual DynamicObject* Copy(VirtualMachine* vm, DynamicObject* a) const;
+			virtual ManagedObject* Copy(VirtualMachine* vm, ManagedObject* a) const;
 		};
 	}
 }

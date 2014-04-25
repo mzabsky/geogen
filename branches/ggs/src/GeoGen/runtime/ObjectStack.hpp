@@ -10,11 +10,11 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 
 		class ObjectStack : public Serializable
 		{
-			std::deque<DynamicObject*> stack;
+			std::deque<ManagedObject*> stack;
 
 			// Non-copyable
 			ObjectStack(ObjectStack const&) {};
@@ -25,12 +25,12 @@ namespace geogen
 			ObjectStack() {};
 			//~ObjectStack();
 
-			typedef std::deque<DynamicObject*>::const_iterator const_iterator;
-			typedef std::deque<DynamicObject*>::iterator iterator;
+			typedef std::deque<ManagedObject*>::const_iterator const_iterator;
+			typedef std::deque<ManagedObject*>::iterator iterator;
 
-			DynamicObject* Top();
+			ManagedObject* Top();
 			void Pop();
-			void Push(CodeLocation location, DynamicObject* object);
+			void Push(CodeLocation location, ManagedObject* object);
 			void CheckSize(unsigned requiredSize);
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->stack.begin()); }

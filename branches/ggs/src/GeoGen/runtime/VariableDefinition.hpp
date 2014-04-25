@@ -6,7 +6,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 		class VirtualMachine;
 
 		class VariableDefinition
@@ -25,7 +25,7 @@ namespace geogen
 			
 			inline bool IsConstant() const { return this->isConstant; };
 
-			virtual DynamicObject* CreateDefaultValue() const { return NULL; }
+			virtual ManagedObject* CreateDefaultValue() const { return NULL; }
 
 			virtual void Initialize(VirtualMachine* vm) const;
 		};

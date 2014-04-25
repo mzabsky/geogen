@@ -7,26 +7,26 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 		class MemoryManager;
 
 		class VariableTableItem
 		{
-			DynamicObject* value;
+			ManagedObject* value;
 			bool isConst;
 		public:
 			VariableTableItem() : value(NULL), isConst(false)
 			{
 			};
 
-			VariableTableItem(DynamicObject* value, bool isConst) : value(value), isConst(isConst)
+			VariableTableItem(ManagedObject* value, bool isConst) : value(value), isConst(isConst)
 			{				
 			}
 
 			inline bool IsConst() const { return this->isConst; }
-			inline DynamicObject* GetValue() { return this->value; }
-			inline DynamicObject const* GetValue() const { return this->value; }
-			inline bool SetValue(DynamicObject* value)
+			inline ManagedObject* GetValue() { return this->value; }
+			inline ManagedObject const* GetValue() const { return this->value; }
+			inline bool SetValue(ManagedObject* value)
 			{
 				if (this->isConst)
 				{
@@ -60,9 +60,9 @@ namespace geogen
 
 			VariableTableItem const* GetVariable(std::string const& variableName) const;
 			VariableTableItem* GetVariable(std::string const& variableName);
-			bool SetVariable(std::string const& variableName, DynamicObject* value);
+			bool SetVariable(std::string const& variableName, ManagedObject* value);
 			bool IsVariableDeclared(std::string const& symbolName) const;
-			bool DeclareVariable(std::string const& symbolName, DynamicObject* value, bool isConst);
+			bool DeclareVariable(std::string const& symbolName, ManagedObject* value, bool isConst);
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
