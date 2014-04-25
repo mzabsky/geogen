@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "EnumTypeDefinition.hpp"
 
 namespace geogen
@@ -10,12 +10,12 @@ namespace geogen
 	namespace runtime
 	{
 		template<class T>
-		class PrimitiveObject : public DynamicObject
+		class PrimitiveObject : public ManagedObject
 		{
 		private:
 			T value;			
 		public:
-			PrimitiveObject(VirtualMachine* vm, TypeDefinition const* type, T value) : DynamicObject(vm, type), value(value)
+			PrimitiveObject(VirtualMachine* vm, TypeDefinition const* type, T value) : ManagedObject(vm, type), value(value)
 			{				
 			};
 			inline T GetValue() const { return this->value; }

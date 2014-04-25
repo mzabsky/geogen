@@ -1,11 +1,11 @@
 #include "..\InternalErrorException.hpp"
 #include "ReferenceTypeDefinition.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 
 using namespace geogen;
 using namespace runtime;
 
-DynamicObject* ReferenceTypeDefinition::Copy(DynamicObject* a) const
+ManagedObject* ReferenceTypeDefinition::Copy(ManagedObject* a) const
 {
 	if (a->GetType() != this)
 	{

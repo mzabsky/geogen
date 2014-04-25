@@ -3,7 +3,7 @@
 #include "..\VirtualMachine.hpp"
 #include "..\..\InternalErrorException.hpp"
 #include "..\NullReferenceException.hpp"
-#include "..\DynamicObject.hpp"
+#include "..\ManagedObject.hpp"
 #include "..\UndefinedSymbolAccessException.hpp"
 #include "..\ReadOnlyWriteException.hpp"
 
@@ -13,7 +13,7 @@ using namespace geogen::runtime::instructions;
 
 InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) const
 {
-	DynamicObject* instance = vm->GetObjectStack().Top();
+	ManagedObject* instance = vm->GetObjectStack().Top();
 	vm->GetObjectStack().Pop();
 
 	if (instance == vm->GetNull())
@@ -21,7 +21,7 @@ InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) cons
 		throw NullReferenceException(this->GetLocation());
 	}
 
-	DynamicObject* value = vm->GetObjectStack().Top();
+	ManagedObject* value = vm->GetObjectStack().Top();
 
 	VariableTableItem* variableTableItem = instance->GetMemberVariableTable().GetVariable(this->variableName);
 	if (variableTableItem == NULL)

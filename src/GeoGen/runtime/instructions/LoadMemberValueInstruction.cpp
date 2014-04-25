@@ -3,7 +3,7 @@
 #include "..\VirtualMachine.hpp"
 #include "..\..\InternalErrorException.hpp"
 #include "..\NullReferenceException.hpp"
-#include "..\DynamicObject.hpp"
+#include "..\ManagedObject.hpp"
 #include "..\UndefinedSymbolAccessException.hpp"
 
 using namespace std;
@@ -12,7 +12,7 @@ using namespace geogen::runtime::instructions;
 
 InstructionStepResult LoadMemberValueInstruction::Step(VirtualMachine* vm) const
 {
-	DynamicObject* instance = vm->GetObjectStack().Top();
+	ManagedObject* instance = vm->GetObjectStack().Top();
 	vm->GetObjectStack().Pop();
 
 	if (instance == vm->GetNull())

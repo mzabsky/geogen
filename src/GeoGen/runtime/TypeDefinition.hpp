@@ -11,7 +11,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 		class StaticObject;
 		class VariableDefinition;
 		class FunctionDefinition;
@@ -48,10 +48,10 @@ namespace geogen
 
 			virtual void Initialize(VirtualMachine* vm) const;
 
-			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const;
-			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
+			virtual bool InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const;
+			virtual bool InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const;
 
-			virtual DynamicObject* Copy(VirtualMachine* vm, DynamicObject* a) const = 0;
+			virtual ManagedObject* Copy(VirtualMachine* vm, ManagedObject* a) const = 0;
 		};
 	}
 }

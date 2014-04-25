@@ -2,7 +2,7 @@
 #include "VirtualMachine.hpp"
 #include "NumberOfArgumentsException.hpp"
 #include "TypeDefinition.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "IncorrectTypeException.hpp"
 
 using namespace std;
@@ -17,24 +17,24 @@ void NativeFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, u
 	// Pop the arguments from the stack	
 	objectStack.CheckSize(numberOfArguments);
 
-	vector<DynamicObject*> arguments;
+	vector<ManagedObject*> arguments;
 	for (unsigned i = 0; i < numberOfArguments; i++)
 	{
 		arguments.push_back(objectStack.Top());
 		objectStack.Pop();
 	}
 
-	DynamicObject* returnValue = this->CallNative(location, vm, arguments);
+	ManagedObject* returnValue = this->CallNative(location, vm, arguments);
 
 	callStack.Pop();
 	objectStack.Push(location, returnValue);
 }
 
-void NativeFunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<DynamicObject*> actualArguments) const
+void NativeFunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<ManagedObject*> actualArguments) const
 {
 	CheckArguments(location, expectedTypes.size(), actualArguments);
 
-	for (vector<DynamicObject*>::size_type i = 0; i < actualArguments.size(); i++)
+	for (vector<ManagedObject*>::size_type i = 0; i < actualArguments.size(); i++)
 	{
 		if (actualArguments[i]->IsStaticObject())
 		{
@@ -52,7 +52,7 @@ void NativeFunctionDefinition::CheckArguments(CodeLocation location, vector<Type
 	}
 }
 
-void NativeFunctionDefinition::CheckArguments(CodeLocation location, unsigned expectedArgumentCount, vector<DynamicObject*> actualArguments) const
+void NativeFunctionDefinition::CheckArguments(CodeLocation location, unsigned expectedArgumentCount, vector<ManagedObject*> actualArguments) const
 {
 	if (actualArguments.size() != expectedArgumentCount)
 	{

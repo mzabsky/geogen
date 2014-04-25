@@ -16,12 +16,12 @@ namespace geogen
 		public:
 			EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions values);
 
-			virtual DynamicObject* CreateInstance(VirtualMachine* vm, Number value) const;
+			virtual ManagedObject* CreateInstance(VirtualMachine* vm, Number value) const;
 
-			virtual bool InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const;
-			virtual bool InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const;
+			virtual bool InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const;
+			virtual bool InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const;
 
-			virtual DynamicObject* Copy(VirtualMachine* vm, DynamicObject* a) const;
+			virtual ManagedObject* Copy(VirtualMachine* vm, ManagedObject* a) const;
 		};
 	}
 }

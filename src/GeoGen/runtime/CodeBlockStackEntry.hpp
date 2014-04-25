@@ -5,7 +5,7 @@
 #include <stack>
 #include <iostream>
 
-//#include "DynamicObject.hpp"
+//#include "ManagedObject.hpp"
 #include "CodeBlock.hpp"
 #include "FunctionDefinition.hpp"
 #include "VariableTable.hpp"
@@ -18,7 +18,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 		class VirtualMachine;
 
 		enum CodeBlockStackEntryStepResult

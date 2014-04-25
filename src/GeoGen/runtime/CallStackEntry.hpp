@@ -8,7 +8,7 @@
 #include "CodeBlock.hpp"
 #include "CodeBlockStackEntry.hpp" 
 #include "FunctionDefinition.hpp"
-//#include "DynamicObject.hpp"
+//#include "ManagedObject.hpp"
 #include "instructions/Instruction.hpp"
 #include "CodeBlockStack.hpp"
 
@@ -16,7 +16,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 		class VirtualMachine;
 
 		enum CallStackEntryStepResult
@@ -31,7 +31,7 @@ namespace geogen
 			CodeLocation callLocation;
 			FunctionDefinition const* functionDefinition;
 			CodeBlockStack codeBlockStack;
-			std::map<std::string, DynamicObject*> localVariableValues;
+			std::map<std::string, ManagedObject*> localVariableValues;
 
 			CallStackEntry(CallStackEntry const& other) : callLocation(0, 0) {};
 			CallStackEntry& operator=(CallStackEntry const& other) {};

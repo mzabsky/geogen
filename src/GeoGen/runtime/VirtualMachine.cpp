@@ -127,7 +127,7 @@ void VirtualMachine::Run()
 	}
 }
 
-DynamicObject* VirtualMachine::GetNull()
+ManagedObject* VirtualMachine::GetNull()
 {
 	VariableTableItem* variableTableItem = this->GetGlobalVariableTable().GetVariable("null");
 
@@ -194,7 +194,7 @@ VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)
 	return foundVariable;
 }
 
-DynamicObject* VirtualMachine::GetStaticInstance(std::string const& typeName)
+ManagedObject* VirtualMachine::GetStaticInstance(std::string const& typeName)
 {
 	VariableTableItem* variableTableItem = this->GetGlobalVariableTable().GetVariable(typeName);
 

@@ -1,12 +1,12 @@
 #include "..\InternalErrorException.hpp"
 #include "VariableDefinition.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 
 using namespace geogen::runtime;
 
 void VariableDefinition::Initialize(VirtualMachine* vm) const
 {
-	DynamicObject* defaultValue = this->CreateDefaultValue();
+	ManagedObject* defaultValue = this->CreateDefaultValue();
 
 	if (defaultValue != NULL)
 	{

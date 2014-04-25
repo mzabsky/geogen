@@ -1,19 +1,19 @@
 #include "..\InternalErrorException.hpp"
 #include "..\Number.hpp"
 #include "NumberTypeDefinition.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "StaticObject.hpp"
 
 using namespace geogen;
 using namespace runtime;
 using namespace std;
 
-DynamicObject* NumberTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
+ManagedObject* NumberTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
 	return new NumberObject(vm, this, value);
 }
 
-bool NumberTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObject const* b) const
+bool NumberTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -28,7 +28,7 @@ bool NumberTypeDefinition::InstanceLessThan(DynamicObject const* a, DynamicObjec
 	return TypeDefinition::InstanceLessThan(a, b);
 }
 
-bool NumberTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObject const* b) const
+bool NumberTypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -43,7 +43,7 @@ bool NumberTypeDefinition::InstanceEqualsTo(DynamicObject const* a, DynamicObjec
 	return TypeDefinition::InstanceEqualsTo(a, b);
 }
 
-DynamicObject* NumberTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
+ManagedObject* NumberTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) const
 {
 	if (a->GetType() != this)
 	{

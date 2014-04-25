@@ -1,6 +1,6 @@
 #include "ParametersTypeDefinition.hpp"
 #include "VirtualMachine.hpp"
-#include "DynamicObject.hpp"
+#include "ManagedObject.hpp"
 #include "ScriptParameter.hpp"
 #include "..\InternalErrorException.hpp"
 #include "BooleanScriptParameter.hpp"
@@ -24,7 +24,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 {
 	TypeDefinition::Initialize(vm);
 
-	DynamicObject* staticObject = vm->GetStaticInstance(this->GetName());
+	ManagedObject* staticObject = vm->GetStaticInstance(this->GetName());
 	if (staticObject == NULL)
 	{
 		throw InternalErrorException("Paramters type not initialized properly (static instance missing).");
@@ -41,7 +41,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 		case SCRIPT_PARAMETER_TYPE_BOOLEAN:
 			{
 				BooleanScriptParameter const* typedParameter = dynamic_cast<BooleanScriptParameter const*>(actualArgument == NULL ? it->second : actualArgument);
-				DynamicObject* object = vm->GetBooleanTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
+				ManagedObject* object = vm->GetBooleanTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
 				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
 				{
 					throw InternalErrorException("Parameter member name conflict.");
@@ -51,7 +51,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 		case SCRIPT_PARAMETER_TYPE_NUMBER:
 			{
 				NumberScriptParameter const* typedParameter = dynamic_cast<NumberScriptParameter const*>(actualArgument == NULL ? it->second : actualArgument);
-				DynamicObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
+				ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
 				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
 				{
 					throw InternalErrorException("Parameter member name conflict.");
@@ -64,7 +64,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 	}
 }
 
-DynamicObject* ParametersTypeDefinition::Copy(VirtualMachine* vm, DynamicObject* a) const
+ManagedObject* ParametersTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) const
 {
 	return a;
 }

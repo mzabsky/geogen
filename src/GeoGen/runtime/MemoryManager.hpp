@@ -10,15 +10,15 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 
 		class MemoryManager : public Serializable
 		{
 		private:
-			typedef std::list<DynamicObject*>::iterator iterator;
-			typedef std::list<DynamicObject*>::const_iterator const_iterator;
+			typedef std::list<ManagedObject*>::iterator iterator;
+			typedef std::list<ManagedObject*>::const_iterator const_iterator;
 
-			std::list<DynamicObject*> objects;
+			std::list<ManagedObject*> objects;
 
 			ObjectId nextObjectId;
 
@@ -28,8 +28,8 @@ namespace geogen
 			MemoryManager() : nextObjectId(MIN_OBJECT_ID) {};
 			virtual ~MemoryManager();
 
-			void RegisterObject(DynamicObject* object);
-			void DestroyObject(DynamicObject* object);
+			void RegisterObject(ManagedObject* object);
+			void DestroyObject(ManagedObject* object);
 
 			virtual void Serialize(std::iostream& stream) const;
 		};

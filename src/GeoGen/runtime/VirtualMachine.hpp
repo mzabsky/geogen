@@ -16,7 +16,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 		class BooleanTypeDefinition;
 		class NumberTypeDefinition;
 		class VariableTableItem;
@@ -68,10 +68,10 @@ namespace geogen
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
 
 			inline ObjectStack& GetObjectStack() { return this->objectStack; };
-			//inline std::stack<DynamicObject const*> const& GetObjectStack() const { return *((std::stack<DynamicObject const*>*)&this->objectStack); };
+			//inline std::stack<ManagedObject const*> const& GetObjectStack() const { return *((std::stack<ManagedObject const*>*)&this->objectStack); };
 
 			inline CallStack& GetCallStack() { return this->callStack; };
-			//inline std::stack<CallStackEntry const> const& GetCallStack() const { return *((std::stack<DynamicObject const*>*)&this->callStack); };
+			//inline std::stack<CallStackEntry const> const& GetCallStack() const { return *((std::stack<ManagedObject const*>*)&this->callStack); };
 
 			VirtualMachineStepResult Step();
 
@@ -79,11 +79,11 @@ namespace geogen
 
 			void Run();
 
-			DynamicObject* GetNull();
+			ManagedObject* GetNull();
 			BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
 			NumberTypeDefinition const* GetNumberTypeDefinition() const;
 			VariableTableItem* FindVariable(std::string const& variableName);
-			DynamicObject* GetStaticInstance(std::string const& typeName);
+			ManagedObject* GetStaticInstance(std::string const& typeName);
 		};
 	}
 }

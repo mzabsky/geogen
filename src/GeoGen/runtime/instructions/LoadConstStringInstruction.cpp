@@ -12,7 +12,7 @@ InstructionStepResult LoadConstStringInstruction::Step(VirtualMachine* vm) const
 {
 	/*BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
 
-	DynamicObject* object = booleanTypeDefinition->CreateInstance(this->constBoolean);
+	ManagedObject* object = booleanTypeDefinition->CreateInstance(this->constBoolean);
 	vm->GetMemoryManager().RegisterObject(object);*/
 	vm->GetObjectStack().Push(this->GetLocation(), vm->GetNull());
 
