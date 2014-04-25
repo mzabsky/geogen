@@ -16,19 +16,6 @@ void SetConsoleColor(int foreground, int background)
 }
 
 int main(){
-	geogen::Generator g(5);
-	/*
-	metadata {\
-StrItem: \"tralalal\",\
-StrNumber: 5,\
-StrSymbol: Symbol,\
-KeyValSymbol: \
-	{\
-		SybSymbol: \"aaaa\"\
-	}\
-}\
-	*/
-	
 	std::stringstream  code;
 	std::ifstream file("testinput.txt");
 	std::string temp;
@@ -129,7 +116,7 @@ KeyValSymbol: \
 				cout << "c - Call stack" << std::endl;
 				cout << "cbs - Code block stack" << std::endl;
 				cout << "cbc [x = 0] - Code of x-th topmost code block." << std::endl;
-				cout << "mm - Managed objects" << std::endl;
+				cout << "o - Managed objects" << std::endl;
 			}
 			else if (command == "s" || command == "stack")
 			{
@@ -187,6 +174,11 @@ KeyValSymbol: \
 				{
 					cout << "Incorrect code block stack entry number" << endl;
 				}
+			}
+			else if (command == "o" || command == "mm" || command == "managedobjects")
+			{
+				cout << "Managed objects:" << std::endl;
+				cout << vm.GetMemoryManager().ToString() << std::endl;
 			}
 			else
 			{
