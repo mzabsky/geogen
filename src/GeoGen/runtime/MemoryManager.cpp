@@ -45,3 +45,12 @@ void MemoryManager::DestroyObject(DynamicObject* object)
 
 	this->objects.remove(object);
 }
+
+void MemoryManager::Serialize(std::iostream& stream) const
+{
+	for (const_iterator it = this->objects.begin(); it != this->objects.end(); it++)
+	{
+		(*it)->Serialize(stream);
+		stream << ", " << (*it)->GetRefCount() << " refs" << std::endl;
+	}
+}
