@@ -53,12 +53,13 @@ KeyValSymbol: \
 		codeLines.push_back(currentLine);
 	}
 
+	string input = "";
 	unsigned numShowCodeLines = 5;
 	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
 	{		
 		geogen::runtime::instructions::Instruction const* currentInstruction = vm.GetCallStack().Top().GetCodeBlockStack().Top().GetCurrentInstruction();
 
-		//system("cls");
+		system("cls");
 
 		if (numShowCodeLines > 0)
 		{//codeLines.at(max(currentInstruction->GetLocation().GetLine(), 0)
@@ -99,89 +100,103 @@ KeyValSymbol: \
 				//	<< *it << std::endl;
 			}
 		}
-		
-		cout << "Next: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". Command? ";
-        
-        string line;
-		getline(std::cin, line);
-        
-		cout << "=====================================================" << std::endl << std::endl;
 
-		size_t separatorPosition = line.find(" ");
-		string command = line.substr(0, separatorPosition);
-		string args = "";
-		if (separatorPosition != string::npos)
+		cout << endl;
+
 		{
-			args = line.substr(separatorPosition + 1);
-		}        
+			cout << "Input: " << input << endl << endl;
 
-		if (command == "step" || command == "")
-		{
-			cout << "Step" << std::endl;
-
-			vm.Step();
-		}
-		else if (command == "s" || command == "stack")
-        {
-			cout << "Object stack:" << std::endl;
-
-			cout << vm.GetObjectStack().ToString();
-		}
-		else if (command == "r" || command == "read")
-		{
-			cout << "Variable \"" << args << "\":" << std::endl;
-
-			if (args == "")
+			size_t separatorPosition = input.find(" ");
+			string command = input.substr(0, separatorPosition);
+			string args = "";
+			if (separatorPosition != string::npos)
 			{
-				cout << "Variable name not specified" << std::endl;
+				args = input.substr(separatorPosition + 1);
 			}
-			else
+
+			if (command == "step" || command == "")
 			{
-				geogen::runtime::VariableTableItem* variableTableItem = vm.FindVariable(args);
-				if (variableTableItem == NULL)
+				cout << "Step" << std::endl;
+
+				vm.Step();
+			}
+			else if (command == "h" || command == "?" || command == "help")
+			{
+				cout << "h - Help" << std::endl;
+				cout << "step - Step (or use Enter)" << std::endl;
+				cout << "s - Object stack" << std::endl;
+				cout << "r - Get a value of a variable" << std::endl;
+				cout << "c - Call stack" << std::endl;
+				cout << "cbs - Code block stack" << std::endl;
+				cout << "cbc [x = 0] - Code of x-th topmost code block." << std::endl;
+				cout << "mm - Managed objects" << std::endl;
+			}
+			else if (command == "s" || command == "stack")
+			{
+				cout << "Object stack:" << std::endl;
+
+				cout << vm.GetObjectStack().ToString();
+			}
+			else if (command == "r" || command == "read")
+			{
+				cout << "Variable \"" << args << "\":" << std::endl;
+
+				if (args == "")
 				{
-					cout << "Undefined" << std::endl;
+					cout << "Variable name not specified" << std::endl;
 				}
 				else
 				{
-					cout << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
+					geogen::runtime::VariableTableItem* variableTableItem = vm.FindVariable(args);
+					if (variableTableItem == NULL)
+					{
+						cout << "Undefined" << std::endl;
+					}
+					else
+					{
+						cout << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
+					}
 				}
 			}
-		}
-		else if (command == "c" || command == "cs" || command == "callstack")
-		{
-			cout << "Call stack:" << std::endl;
-			cout << vm.GetCallStack().ToString() << std::endl;
-		}
-		else if (command == "cbs" || command == "codeblockstack")
-		{
-			cout << "Code block stack:" << std::endl;
-			cout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
-		}
-		else if (command == "cbc" || command == "codeblockcode")
-		{
-			geogen::runtime::CodeBlockStack& codeBlockStack = vm.GetCallStack().Top().GetCodeBlockStack();
-
-			unsigned codeBlockNumber = 0;
-			if (args != "")
+			else if (command == "c" || command == "cs" || command == "callstack")
 			{
-				int codeBlockNumber = atoi(args.c_str());				
+				cout << "Call stack:" << std::endl;
+				cout << vm.GetCallStack().ToString() << std::endl;
 			}
-
-			if (codeBlockNumber < codeBlockStack.Size())
+			else if (command == "cbs" || command == "codeblockstack")
 			{
-				cout << "Code block stack entry " << codeBlockNumber << ":" << std::endl;
-				cout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
+				cout << "Code block stack:" << std::endl;
+				cout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
+			}
+			else if (command == "cbc" || command == "codeblockcode")
+			{
+				geogen::runtime::CodeBlockStack& codeBlockStack = vm.GetCallStack().Top().GetCodeBlockStack();
+
+				unsigned codeBlockNumber = 0;
+				if (args != "")
+				{
+					int codeBlockNumber = atoi(args.c_str());
+				}
+
+				if (codeBlockNumber < codeBlockStack.Size())
+				{
+					cout << "Code block stack entry " << codeBlockNumber << ":" << std::endl;
+					cout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
+				}
+				else
+				{
+					cout << "Incorrect code block stack entry number" << endl;
+				}
 			}
 			else
 			{
-				cout << "Incorrect code block stack entry number" << endl;
+				cout << "Unknown command" << std::endl;
 			}
 		}
-		else
-		{
-			cout << "Unknown command" << std::endl;
-		}
+
+		cout << endl << "Next instruction: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". " << endl << endl << "Command? ";
+        
+		getline(std::cin, input);
 	}
 	
 	//std::cout << script->GetSymbolNameTable().ToString();
