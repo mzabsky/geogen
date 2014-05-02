@@ -1,4 +1,7 @@
-			var a = 1;
-			global a = 2;
-			
-			AssertEquals(1, a);
+metadata {
+Parameters:
+{
+	NumberParam: { Type: Number, Label: "Number Parameter", Description: "Desc", Default: 2, Max: 10 }
+}
+}
+AssertEquals(5, Parameters.NumberParam);
