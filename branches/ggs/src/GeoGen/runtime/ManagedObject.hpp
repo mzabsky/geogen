@@ -17,6 +17,12 @@ namespace geogen
 		class ManagedObject : public Serializable
 		{
 		private:			
+#ifdef DEBUG
+			// Protection against memory manager errors.
+			static const unsigned MANAGED_OBJECT_MAGIC = 0x66E7u;
+			unsigned magic = MANAGED_OBJECT_MAGIC;
+#endif
+
 			TypeDefinition const* type;
 			ObjectId objectId;
 			std::map<std::string, ManagedObject*> memberValues;
@@ -27,7 +33,7 @@ namespace geogen
 		protected:
 			ManagedObject(VirtualMachine* vm, TypeDefinition const* type);
 		public:			
-			virtual ~ManagedObject(){};
+			virtual ~ManagedObject();
 
 			virtual bool IsStaticObject(){ return false; };
 
