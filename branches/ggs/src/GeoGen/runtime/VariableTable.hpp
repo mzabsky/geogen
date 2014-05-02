@@ -3,41 +3,14 @@
 #include <string>
 #include <map>
 
+#include "VariableTableItem.hpp"
+
 namespace geogen
 {
 	namespace runtime
 	{
 		class ManagedObject;
 		class MemoryManager;
-
-		class VariableTableItem
-		{
-			ManagedObject* value;
-			bool isConst;
-		public:
-			VariableTableItem() : value(NULL), isConst(false)
-			{
-			};
-
-			VariableTableItem(ManagedObject* value, bool isConst) : value(value), isConst(isConst)
-			{				
-			}
-
-			inline bool IsConst() const { return this->isConst; }
-			inline ManagedObject* GetValue() { return this->value; }
-			inline ManagedObject const* GetValue() const { return this->value; }
-			inline bool SetValue(ManagedObject* value)
-			{
-				if (this->isConst)
-				{
-					return false;
-				}
-
-				this->value = value;
-
-				return true;
-			}
-		};
 
 		class VariableTable
 		{
@@ -60,7 +33,7 @@ namespace geogen
 
 			VariableTableItem const* GetVariable(std::string const& variableName) const;
 			VariableTableItem* GetVariable(std::string const& variableName);
-			bool SetVariable(std::string const& variableName, ManagedObject* value);
+			//bool SetVariable(std::string const& variableName, ManagedObject* value);
 			bool IsVariableDeclared(std::string const& symbolName) const;
 			bool DeclareVariable(std::string const& symbolName, ManagedObject* value, bool isConst);
 

@@ -33,8 +33,7 @@ namespace geogen
 
 			InstructionStepResult IfInstruction::Step(VirtualMachine* vm) const
 			{
-				ManagedObject* conditionObject = (BooleanObject*)vm->GetObjectStack().Top();
-				vm->GetObjectStack().Pop();
+				ManagedObject* conditionObject = vm->GetObjectStack().Top();				
 
 				TypeDefinition const* boolTypeDefinition = vm->GetBooleanTypeDefinition();
 				if (conditionObject->GetType() != boolTypeDefinition)
@@ -53,6 +52,8 @@ namespace geogen
 				{
 					vm->GetCallStack().Top().GetCodeBlockStack().Push(this->GetLocation(), &vm->GetMemoryManager(), this->GetElseBranchCodeBlock(), false);
 				}
+
+				vm->GetObjectStack().Pop(vm);
 				
 				return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 			}

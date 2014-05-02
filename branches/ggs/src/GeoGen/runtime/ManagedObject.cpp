@@ -7,6 +7,7 @@
 #include "MemoryManager.hpp"
 #include "VariableDefinition.hpp"
 #include "TypeDefinition.hpp"
+#include "..\InternalErrorException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -79,18 +80,24 @@ ManagedObject* ManagedObject::GetMemberValue(VirtualMachine& vm, CodeLocation lo
 	}
 }*/
 
-void ManagedObject::AddRef(MemoryManager& vm)
+void ManagedObject::AddRef(/*MemoryManager& vm*/)
 {
+	if (this->GetObjectId() == 0) throw exception();
+
 	this->refCount++;
 }
 
 void ManagedObject::RemoveRef(MemoryManager& vm)
 {
+	if (this->refCount == 0)
+	{
+		throw InternalErrorException("Can't reduce refcount of an object with no references.");
+	}
+
 	this->refCount--;
 
-	if (this->refCount <= 0)
+	if (this->refCount == 0)
 	{
-		// TODO: DO correct work with the references everywhere
-		//vm.DestroyObject(this);
+		vm.DestroyObject(this);
 	}
 }

@@ -1,6 +1,6 @@
 #include "AssertEqualsFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
-#include "../runtime/DynamicObject.hpp"
+#include "../runtime/ManagedObject.hpp"
 #include "AssertionFailedException.hpp"
 
 using namespace std;
@@ -8,7 +8,7 @@ using namespace geogen;
 using namespace geogen::testlib;
 using namespace geogen::runtime;
 
-DynamicObject* AssertEqualsFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<DynamicObject*> arguments) const
+ManagedObject* AssertEqualsFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<ManagedObject*> arguments) const
 {
 	this->CheckArguments(location, 2, arguments);
 

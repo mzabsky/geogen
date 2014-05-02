@@ -39,6 +39,7 @@ scope BlockScope
 	bool isInFunction = false;
 	bool isInLoop = false;
 	int codeBlockLevel = 0;
+	std::vector<std::string> lines;
 }
 
 
@@ -101,6 +102,7 @@ scope BlockScope
 script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block) 
 { 
 	ctx->rootCodeBlock->MoveInstructionsFrom(*$block.returnCodeBlock); 
+	ctx->rootCodeBlock->AddInstruction(new instructions::LoadNullInstruction(CodeLocation(0, 0)));
 	delete $block.returnCodeBlock; 
 };
         
@@ -344,7 +346,7 @@ variableDeclaration returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
 		delete $expression.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
+		/*$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));*/
 		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
@@ -367,7 +369,7 @@ globalVariableDeclaration returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
 		delete $expression.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
+		/*$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));*/
 		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 		$returnCodeBlock->AddInstruction(new instructions::StoreGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
 		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
@@ -544,7 +546,7 @@ expression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$rvalueExpression.returnCodeBlock); 
 		delete $rvalueExpression.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));
+/*		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));*/
 		$returnCodeBlock->MoveInstructionsFrom(*$lvalueExpression.returnCodeBlock); 
 		delete $lvalueExpression.returnCodeBlock; 
 	}

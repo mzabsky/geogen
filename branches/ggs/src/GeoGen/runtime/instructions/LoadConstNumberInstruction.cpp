@@ -13,7 +13,6 @@ InstructionStepResult LoadConstNumberInstruction::Step(VirtualMachine* vm) const
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
 	ManagedObject* object = numberTypeDefinition->CreateInstance(vm, this->constNumber);
-	vm->GetMemoryManager().RegisterObject(object);
 	vm->GetObjectStack().Push(this->GetLocation(), object);
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;

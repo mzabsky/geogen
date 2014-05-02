@@ -21,12 +21,19 @@ void NativeFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, u
 	for (unsigned i = 0; i < numberOfArguments; i++)
 	{
 		arguments.push_back(objectStack.Top());
-		objectStack.Pop();
+		objectStack.Top()->AddRef();
+		objectStack.Pop(vm);
 	}
 
 	ManagedObject* returnValue = this->CallNative(location, vm, arguments);
 
 	callStack.Pop();
+
+	for (unsigned i = 0; i < numberOfArguments; i++)
+	{
+		arguments[i]->RemoveRef(vm->GetMemoryManager());
+	}
+
 	objectStack.Push(location, returnValue);
 }
 

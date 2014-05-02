@@ -21,7 +21,7 @@ RelationalOperatorFunctionDefinition* RelationalOperatorFunctionDefinition::Crea
 	}
 }
 
-DynamicObject* RelationalOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<DynamicObject*> arguments) const
+ManagedObject* RelationalOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<ManagedObject*> arguments) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
@@ -37,8 +37,7 @@ DynamicObject* RelationalOperatorFunctionDefinition::CallNative(CodeLocation loc
 
 	bool result = this->function(location, a->GetValue(), b->GetValue());
 
-	DynamicObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
-	vm->GetMemoryManager().RegisterObject(returnObject);
+	ManagedObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
 	return returnObject;
 }
 

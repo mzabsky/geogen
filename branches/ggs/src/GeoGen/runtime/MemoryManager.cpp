@@ -20,7 +20,7 @@ void MemoryManager::RegisterObject(ManagedObject* object)
 #ifdef DEBUG
 	if (find(this->objects.begin(), this->objects.end(), object) != this->objects.end())
 	{
-		throw InternalErrorException("Attemted to register already registered object.");
+		throw InternalErrorException("Attempted to register already registered object.");
 	}
 #endif
 
@@ -33,7 +33,7 @@ void MemoryManager::RegisterObject(ManagedObject* object)
 	this->nextObjectId++;
 
 	this->objects.push_back(object);
-	object->AddRef(*this);
+	//object->AddRef(*this);
 }
 
 void MemoryManager::DestroyObject(ManagedObject* object)
@@ -43,7 +43,16 @@ void MemoryManager::DestroyObject(ManagedObject* object)
 		throw InternalErrorException("Can't release object with >0 references.");
 	}
 
+#ifdef DEBUG
+	if (find(this->objects.begin(), this->objects.end(), object) == this->objects.end())
+	{
+		throw InternalErrorException("Cannot remove unregistered object.");
+	}
+#endif
+
 	this->objects.remove(object);
+
+	delete object;
 }
 
 void MemoryManager::Serialize(std::iostream& stream) const

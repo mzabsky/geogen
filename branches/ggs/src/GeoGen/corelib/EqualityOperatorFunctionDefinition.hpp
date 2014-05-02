@@ -11,7 +11,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class DynamicObject;
+		class ManagedObject;
 	}
 
 	namespace corelib
@@ -25,10 +25,10 @@ namespace geogen
 				NOT_EQUAL_TO
 			};
 		private:
-			typedef bool(*Function)(CodeLocation location, runtime::DynamicObject*, runtime::DynamicObject*);
+			typedef bool(*Function)(CodeLocation location, runtime::ManagedObject*, runtime::ManagedObject*);
 
-			static bool CallOperatorEqualTo(CodeLocation location, runtime::DynamicObject*, runtime::DynamicObject*);
-			static bool CallOperatorNotEqualTo(CodeLocation location, runtime::DynamicObject*, runtime::DynamicObject*);
+			static bool CallOperatorEqualTo(CodeLocation location, runtime::ManagedObject*, runtime::ManagedObject*);
+			static bool CallOperatorNotEqualTo(CodeLocation location, runtime::ManagedObject*, runtime::ManagedObject*);
 
 			Function function;
 
@@ -40,7 +40,7 @@ namespace geogen
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_OPERATOR; }
 
-			virtual runtime::DynamicObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::DynamicObject*> arguments) const;
+			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::ManagedObject*> arguments) const;
 		};
 	}
 }

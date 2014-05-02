@@ -20,8 +20,11 @@ EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const&
 
 ManagedObject* EnumTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
+	auto_ptr<ManagedObject> object(new NumberObject(vm, this, value));
+	vm->GetMemoryManager().RegisterObject(object.get());
+	return object.release();
+
 	// TODO: naplnit membery ZDE!
-	return new NumberObject(vm, this, value);
 }
 
 bool EnumTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
@@ -66,5 +69,5 @@ ManagedObject* EnumTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) co
 		return a;
 	}
 
-	return new NumberObject(vm, this, dynamic_cast<NumberObject const*>(a)->GetValue());
+	return CreateInstance(vm, dynamic_cast<NumberObject const*>(a)->GetValue());
 }

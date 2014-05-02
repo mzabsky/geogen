@@ -184,6 +184,7 @@
     <ClInclude Include="runtime\VariableDefinition.hpp" />
     <ClInclude Include="runtime\VariableRedefinitionException.hpp" />
     <ClInclude Include="runtime\VariableTable.hpp" />
+    <ClInclude Include="runtime\VariableTableItem.hpp" />
     <ClInclude Include="runtime\VirtualMachine.hpp" />
     <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
     <ClInclude Include="Serializable.hpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="testlib\AssertionFailedException.hpp" />
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="utils\OwningMap.hpp" />
+    <ClInclude Include="utils\StringUtils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
@@ -203,8 +205,10 @@
     <ClCompile Include="runtime\ObjectId.cpp" />
     <ClCompile Include="runtime\ParametersTypeDefinition.cpp" />
     <ClCompile Include="runtime\ScriptParameters.cpp" />
+    <ClCompile Include="runtime\VariableTableItem.cpp" />
     <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
     <ClCompile Include="testlib\TestLibrary.cpp" />
+    <ClCompile Include="utils\StringUtils.cpp" />
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />

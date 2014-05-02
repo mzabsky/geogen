@@ -127,6 +127,8 @@
     <ClInclude Include="runtime\ParametersTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectId.hpp" />
     <ClInclude Include="runtime\ManagedObject.hpp" />
+    <ClInclude Include="utils\StringUtils.hpp" />
+    <ClInclude Include="runtime\VariableTableItem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -204,6 +206,8 @@
     <ClCompile Include="runtime\NumberScriptParameter.cpp" />
     <ClCompile Include="runtime\ObjectId.cpp" />
     <ClCompile Include="runtime\ManagedObject.cpp" />
+    <ClCompile Include="utils\StringUtils.cpp" />
+    <ClCompile Include="runtime\VariableTableItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
