@@ -20,6 +20,16 @@ ManagedObject::ManagedObject(VirtualMachine* vm, TypeDefinition const* type) : t
 	this->GetType()*/
 }
 
+ManagedObject::~ManagedObject()
+{
+#ifdef DEBUG				
+	if (this->magic != MANAGED_OBJECT_MAGIC)
+	{
+		throw InternalErrorException("Memory corruption detected when deleting managed object (object already deleted?)");
+	}
+#endif
+};
+
 bool ManagedObject::operator<(const ManagedObject* rhs)
 {
 	return this->GetType()->InstanceLessThan(this, rhs);
