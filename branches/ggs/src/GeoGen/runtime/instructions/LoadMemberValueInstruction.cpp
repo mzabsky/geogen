@@ -25,9 +25,14 @@ InstructionStepResult LoadMemberValueInstruction::Step(VirtualMachine* vm) const
 		throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, this->GetLocation(), this->variableName);
 	}	
 
-	vm->GetObjectStack().Push(this->GetLocation(), variableTableItem->GetValue());
+	ManagedObject* memberObject = variableTableItem->GetValue();
+	memberObject->AddRef();
 
 	vm->GetObjectStack().Pop(vm);
 
+	vm->GetObjectStack().Push(this->GetLocation(), memberObject);
+
+	memberObject->RemoveRef(vm->GetMemoryManager());
+	
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }
