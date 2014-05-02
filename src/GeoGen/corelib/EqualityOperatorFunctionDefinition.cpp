@@ -19,7 +19,7 @@ EqualityOperatorFunctionDefinition* EqualityOperatorFunctionDefinition::Create(O
 	}
 }
 
-DynamicObject* EqualityOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<DynamicObject*> arguments) const
+ManagedObject* EqualityOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<ManagedObject*> arguments) const
 {
 	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
 
@@ -27,17 +27,16 @@ DynamicObject* EqualityOperatorFunctionDefinition::CallNative(CodeLocation locat
 
 	bool result = this->function(location, arguments[0], arguments[1]);
 
-	DynamicObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
-	vm->GetMemoryManager().RegisterObject(returnObject);
+	ManagedObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
 	return returnObject;
 }
 
-bool EqualityOperatorFunctionDefinition::CallOperatorEqualTo(CodeLocation location, DynamicObject* a, DynamicObject* b)
+bool EqualityOperatorFunctionDefinition::CallOperatorEqualTo(CodeLocation location, ManagedObject* a, ManagedObject* b)
 {
 	return a->GetType()->InstanceEqualsTo(a, b);
 }
 
-bool EqualityOperatorFunctionDefinition::CallOperatorNotEqualTo(CodeLocation location, DynamicObject* a, DynamicObject* b)
+bool EqualityOperatorFunctionDefinition::CallOperatorNotEqualTo(CodeLocation location, ManagedObject* a, ManagedObject* b)
 {
 	return !a->GetType()->InstanceEqualsTo(a, b);
 }

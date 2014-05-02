@@ -27,12 +27,14 @@ ManagedObject* ObjectStack::Top()
 	return this->stack.back();
 }
 
-void ObjectStack::Pop()
+void ObjectStack::Pop(VirtualMachine* vm)
 {
 	if (this->stack.size() < 1)
 	{
 		throw InternalErrorException("Can't get top of empty code block stack.");
 	}
+
+	this->stack.back()->RemoveRef(vm->GetMemoryManager());
 
 	this->stack.pop_back();
 }
@@ -43,6 +45,8 @@ void ObjectStack::Push(CodeLocation location, ManagedObject* object)
 	{
 		throw StackOverflowException(GGE2503_ObjectStackOverflow, location, STACK_TYPE_OBJECT);
 	}
+
+	object->AddRef();
 
 	this->stack.push_back(object);
 }

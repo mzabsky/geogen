@@ -3,13 +3,12 @@
 #include "ManagedObject.hpp"
 #include "StaticObject.hpp"
 
+using namespace std;
 using namespace geogen::runtime;
 
 void TypeDefinition::Initialize(VirtualMachine* vm) const
 {
 	ManagedObject* staticInstance = this->CreateStaticObject(vm);
-
-	vm->GetMemoryManager().RegisterObject(staticInstance);
 
 	if (!vm->GetGlobalVariableTable().DeclareVariable(this->GetName(), staticInstance, true))
 	{
@@ -19,7 +18,9 @@ void TypeDefinition::Initialize(VirtualMachine* vm) const
 
 StaticObject* TypeDefinition::CreateStaticObject(VirtualMachine* vm) const
 {
-	return new StaticObject(vm, this);
+	auto_ptr<StaticObject> object (new StaticObject(vm, this));
+	vm->GetMemoryManager().RegisterObject(object.get());
+	return object.release();
 }
 
 bool TypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const

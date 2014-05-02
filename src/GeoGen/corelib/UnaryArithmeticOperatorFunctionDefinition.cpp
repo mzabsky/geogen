@@ -20,7 +20,7 @@ UnaryArithmeticOperatorFunctionDefinition* UnaryArithmeticOperatorFunctionDefini
 	}
 }
 
-DynamicObject* UnaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<DynamicObject*> arguments) const
+ManagedObject* UnaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<ManagedObject*> arguments) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
@@ -33,8 +33,7 @@ DynamicObject* UnaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocatio
 
 	Number result = this->function(location, a->GetValue());
 
-	DynamicObject* returnObject = numberTypeDefinition->CreateInstance(vm, result);
-	vm->GetMemoryManager().RegisterObject(returnObject);
+	ManagedObject* returnObject = numberTypeDefinition->CreateInstance(vm, result);
 	return returnObject;
 }
 

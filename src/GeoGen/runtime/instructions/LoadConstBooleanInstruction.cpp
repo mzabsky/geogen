@@ -13,7 +13,6 @@ InstructionStepResult LoadConstBooleanInstruction::Step(VirtualMachine* vm) cons
 	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
 
 	ManagedObject* object = booleanTypeDefinition->CreateInstance(vm, this->constBoolean);
-	vm->GetMemoryManager().RegisterObject(object);
 	vm->GetObjectStack().Push(this->GetLocation(), object);
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;

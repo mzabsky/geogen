@@ -10,7 +10,9 @@ using namespace std;
 
 ManagedObject* NumberTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
-	return new NumberObject(vm, this, value);
+	auto_ptr<ManagedObject> object(new NumberObject(vm, this, value));
+	vm->GetMemoryManager().RegisterObject(object.get());
+	return object.release();
 }
 
 bool NumberTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
@@ -56,5 +58,5 @@ ManagedObject* NumberTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) 
 	}
 
     // Value type, copies
-	return new NumberObject(vm, this, ((NumberObject const*)a)->GetValue());
+	return CreateInstance(vm, static_cast<NumberObject const*>(a)->GetValue());
 }

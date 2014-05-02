@@ -13,8 +13,7 @@ using namespace geogen::runtime::instructions;
 
 InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) const
 {
-	ManagedObject* instance = vm->GetObjectStack().Top();
-	vm->GetObjectStack().Pop();
+	ManagedObject* instance = vm->GetObjectStack().Top();	
 
 	if (instance == vm->GetNull())
 	{
@@ -29,10 +28,12 @@ InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) cons
 		throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, this->GetLocation(), this->variableName);
 	}
 
-	if (!variableTableItem->SetValue(value))
+	if (!variableTableItem->SetValue(vm, value))
 	{
 		throw ReadOnlyWriteException(this->GetLocation(), this->variableName);
 	}
+
+	vm->GetObjectStack().Pop(vm);
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }

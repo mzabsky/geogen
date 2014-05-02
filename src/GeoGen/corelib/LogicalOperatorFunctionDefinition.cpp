@@ -18,7 +18,7 @@ LogicalOperatorFunctionDefinition* LogicalOperatorFunctionDefinition::Create(Ope
 	}
 }
 
-DynamicObject* LogicalOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<DynamicObject*> arguments) const
+ManagedObject* LogicalOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<ManagedObject*> arguments) const
 {
 	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
 
@@ -33,8 +33,7 @@ DynamicObject* LogicalOperatorFunctionDefinition::CallNative(CodeLocation locati
 
 	bool result = this->function(location, a->GetValue(), b->GetValue());
 
-	DynamicObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
-	vm->GetMemoryManager().RegisterObject(returnObject);
+	ManagedObject* returnObject = booleanTypeDefinition->CreateInstance(vm, result);
 	return returnObject;
 }
 

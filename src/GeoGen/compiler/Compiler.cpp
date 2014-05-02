@@ -14,11 +14,13 @@
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
 #include "..\runtime\ParametersTypeDefinition.hpp"
+#include "..\utils\StringUtils.hpp"
 
 
 using namespace std;
 using namespace geogen;
 using namespace geogen::runtime;
+using namespace geogen::utils;
 //using namespace geogen_generated;
 
 Compiler::Compiler(){}
@@ -49,6 +51,7 @@ CompiledScript* Compiler::CompileScript(std::string const& code) const
 		walker.GetPtr()->compiledScript = script.get();		
 		walker.GetPtr()->vectors = vectorFactory.GetPtr();
 		walker.GetPtr()->rootCodeBlock = rootCodeBlock.get();
+		walker.GetPtr()->lines = StringToLines(code);
 
 		//printf("Tree : %s\n", r.tree->toString(r.tree)->chars);
 
@@ -68,7 +71,7 @@ CompiledScript* Compiler::CompileScript(std::string const& code) const
 		}*/
 
 		ScriptFunctionDefinition* mainFunctionDefinition = new ScriptFunctionDefinition(CompiledScript::MAIN_FUNCTION_NAME, CodeLocation(0, 0), 0);
-		mainFunctionDefinition->GetRootCodeBlock().AddInstruction(new instructions::YieldAsMainInstruction(CodeLocation(1,1)));
+		//mainFunctionDefinition->GetRootCodeBlock().AddInstruction(new instructions::YieldAsMainInstruction(CodeLocation(1,1)));
 		mainFunctionDefinition->GetRootCodeBlock().MoveInstructionsFrom(*walker.GetPtr()->rootCodeBlock);
 		if (!script->AddGlobalFunctionDefinition(mainFunctionDefinition))
 		{

@@ -39,12 +39,14 @@ namespace geogen
 		private:
 			VirtualMachineStatus status;
 			
+			// Memory manager must be created first and destroyed last.
+			MemoryManager memoryManager;
+
 			ObjectStack objectStack;
 			CallStack callStack;
 
 			CompiledScript const& compiledScript;
 
-			MemoryManager memoryManager;
 			VariableTable globalVariableTable;
 			ScriptParameters arguments;
 

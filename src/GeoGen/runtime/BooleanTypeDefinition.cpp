@@ -9,7 +9,9 @@ using namespace std;
 
 ManagedObject* BooleanTypeDefinition::CreateInstance(VirtualMachine* vm, bool value) const
 {
-	return new BooleanObject(vm, this, value);
+	auto_ptr<ManagedObject> object(new BooleanObject(vm, this, value));
+	vm->GetMemoryManager().RegisterObject(object.get());
+	return object.release();
 }
 
 bool BooleanTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
@@ -54,5 +56,5 @@ ManagedObject* BooleanTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a)
 		return a;
 	}
 
-	return new BooleanObject(vm, this, dynamic_cast<BooleanObject const*>(a)->GetValue());
+	return CreateInstance(vm, dynamic_cast<BooleanObject const*>(a)->GetValue());
 }

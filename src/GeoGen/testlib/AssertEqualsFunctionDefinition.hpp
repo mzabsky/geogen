@@ -13,7 +13,7 @@ namespace geogen
 		public:
 			AssertEqualsFunctionDefinition() : NativeFunctionDefinition("AssertEquals") {};
 
-			virtual runtime::DynamicObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::DynamicObject*> arguments) const;
+			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::ManagedObject*> arguments) const;
 		};
 	}
 }

@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace runtime
 	{
+		class VirtualMachine;
 		class ManagedObject;
 
 		class ObjectStack : public Serializable
@@ -29,7 +30,7 @@ namespace geogen
 			typedef std::deque<ManagedObject*>::iterator iterator;
 
 			ManagedObject* Top();
-			void Pop();
+			void Pop(VirtualMachine* vm);
 			void Push(CodeLocation location, ManagedObject* object);
 			void CheckSize(unsigned requiredSize);
 

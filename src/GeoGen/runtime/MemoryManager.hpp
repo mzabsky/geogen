@@ -22,7 +22,7 @@ namespace geogen
 
 			ObjectId nextObjectId;
 
-			MemoryManager(MemoryManager const& other) {};
+			MemoryManager(MemoryManager const& other) : nextObjectId(MIN_OBJECT_ID) {};
 			MemoryManager& operator=(MemoryManager const&) {};
 		public:
 			MemoryManager() : nextObjectId(MIN_OBJECT_ID) {};

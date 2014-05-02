@@ -21,7 +21,7 @@ BitLogicOperatorFunctionDefinition* BitLogicOperatorFunctionDefinition::Create(O
 	}
 }
 
-DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<DynamicObject*> arguments) const
+ManagedObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, vector<ManagedObject*> arguments) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
@@ -32,7 +32,7 @@ DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 	std::vector<int> values;
 	for (unsigned i = 0; i < arguments.size(); i++)
 	{
-		DynamicObject* arg = arguments[i];
+		ManagedObject* arg = arguments[i];
 
 		if (arg->IsStaticObject())
 		{
@@ -55,7 +55,7 @@ DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 
 	int result = this->function(location, values[0], values[1]);
 
-	DynamicObject* returnObject;
+	ManagedObject* returnObject;
 	if (returnsNumber)
 	{
 		returnObject = numberTypeDefinition->CreateInstance(vm, result);
@@ -65,7 +65,6 @@ DynamicObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 		returnObject = booleanTypeDefinition->CreateInstance(vm, result > 0);
 	}
 	
-	vm->GetMemoryManager().RegisterObject(returnObject);
 	return returnObject;
 }
 

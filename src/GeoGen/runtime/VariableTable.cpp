@@ -34,7 +34,7 @@ VariableTableItem* VariableTable::GetVariable(std::string const& variableName)
 	return &(*item).second;
 };
 
-bool VariableTable::SetVariable(std::string const& variableName, ManagedObject* value)
+/*bool VariableTable::SetVariable(std::string const& variableName, ManagedObject* value)
 {
 	std::map<std::string, VariableTableItem>::iterator item = this->table.find(variableName);
 
@@ -42,13 +42,20 @@ bool VariableTable::SetVariable(std::string const& variableName, ManagedObject* 
 		return false;
 	}
 
-	if (!(*item).second.SetValue(value))
+	ManagedObject* previousValue = item->second.GetValue();
+	if (!item->second.SetValue(value))
 	{
 		return false;
 	}
 
+	if (value != previousValue)
+	{
+		previousValue->RemoveRef(*this->memoryManager);
+		value->AddRef();
+	}
+
 	return true;
-};
+};*/
 
 bool VariableTable::IsVariableDeclared(std::string const& symbolName) const
 {
@@ -67,6 +74,8 @@ bool VariableTable::DeclareVariable(std::string const& symbolName, ManagedObject
 
 	// We know only const operations will be done with the object (if the collection is not exclusively owning).
 	this->table[symbolName] = VariableTableItem(value, isConst);
+
+	value->AddRef();
 
 	return true;
 };

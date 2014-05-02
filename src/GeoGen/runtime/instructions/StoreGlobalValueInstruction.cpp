@@ -20,7 +20,7 @@ InstructionStepResult StoreGlobalValueInstruction::Step(VirtualMachine* vm) cons
 	ManagedObject* value = vm->GetObjectStack().Top();
 	//vm->GetObjectStack().Pop();
 
-	if (!variable->SetValue(value))
+	if (!variable->SetValue(vm, value))
 	{
 		throw ReadOnlyWriteException(this->GetLocation(), this->variableName);
 	}

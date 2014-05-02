@@ -20,7 +20,7 @@ namespace geogen
 			TypeDefinition const* type;
 			ObjectId objectId;
 			std::map<std::string, ManagedObject*> memberValues;
-			int refCount = 0;
+			unsigned refCount = 0;
 
 			VariableTable memberVariableTable;
 			//bool DefineMemberValue(VirtualMachine& vm, std::string const& name);			
@@ -37,12 +37,12 @@ namespace geogen
 
 			inline VariableTable& GetMemberVariableTable() { return this->memberVariableTable; }
 
-			void AddRef(MemoryManager& vm);
+			void AddRef(/*MemoryManager& vm*/);
 			void RemoveRef(MemoryManager& vm);
 			inline int GetRefCount() { return this->refCount; }			
 
 			inline ObjectId GetObjectId() { return this->objectId; };
-			inline void SetObjectId(ObjectId objectId) { this->objectId; };
+			inline void SetObjectId(ObjectId objectId) { this->objectId = objectId; };
 
 			//void SetMemberValue(VirtualMachine& vm, std::string const& name, ManagedObject* object);
 			//bool SetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName, ManagedObject* object);

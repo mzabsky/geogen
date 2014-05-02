@@ -1,8 +1,4 @@
-metadata {
-	Parameters:
-	{ 
-		BoolParam: { Type: Boolean, Label: "Boolean Parameter", Description: "Desc", Default: false }
-	}
-}
-
-AssertEquals(true, Parameters.BoolParam);
+			var a = 1;
+			global a = 2;
+			
+			AssertEquals(1, a);

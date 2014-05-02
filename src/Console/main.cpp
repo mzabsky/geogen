@@ -6,6 +6,7 @@
 #include <iomanip>
 
 #include <windows.h>
+#include "..\GeoGen\utils\StringUtils.hpp"
 
 using namespace std;
 
@@ -33,12 +34,7 @@ int main(){
 	geogen::runtime::VirtualMachine vm(*script, geogen::runtime::ScriptParameters());
 	//vm.Run();
 
-	vector<string> codeLines;
-	string currentLine;
-	while (std::getline(code, currentLine, '\n'))
-	{
-		codeLines.push_back(currentLine);
-	}
+	vector<string> codeLines = geogen::utils::StringToLines(codeString);
 
 	string input = "";
 	unsigned numShowCodeLines = 5;
