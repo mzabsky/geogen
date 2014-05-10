@@ -77,11 +77,12 @@ namespace geogen
 
 			VirtualMachineStepResult Step();
 
-			void CallFunction(CodeLocation location, FunctionDefinition const* functionDefintion, unsigned numberOfArguments);
+			void CallFunction(CodeLocation location, FunctionDefinition const* functionDefintion, ManagedObject* instance, unsigned numberOfArguments);
 
 			void Run();
 
 			ManagedObject* GetNull();
+			TypeDefinition const* GetTypeDefinition(std::string const& typeName) const;
 			BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
 			NumberTypeDefinition const* GetNumberTypeDefinition() const;
 			VariableTableItem* FindVariable(std::string const& variableName);

@@ -41,6 +41,8 @@ namespace geogen
 		GGE2501_CallStackOverflow = 2501,
 		GGE2502_CodeBlockStackOverflow = 2502,
 		GGE2503_ObjectStackOverflow = 2503,
+		GGE2601_InvalidOperationOnEmptyArray = 2601,
+		GGE2602_ArrayKeyNotFound = 2602,
 		GGE3000_ApiUsageError = 3000,
 		GGE4000_InternalError = 4000,
 		GGE4001_IntermediateCodeError = 4001,

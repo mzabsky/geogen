@@ -4,14 +4,14 @@
 #include <vector>
 
 #include "../runtime/NumberTypeDefinition.hpp"
-#include "../runtime/NativeFunctionDefinition.hpp"
+#include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 
 namespace geogen
 {
 	namespace corelib
 	{
-		class BinaryArithmeticOperatorFunctionDefinition : public runtime::NativeFunctionDefinition
+		class BinaryArithmeticOperatorFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{			
 		public:
 			enum Operator
@@ -37,7 +37,7 @@ namespace geogen
 
 			Function function;
 
-			BinaryArithmeticOperatorFunctionDefinition(std::string const& name, Function function) : NativeFunctionDefinition(name), function(function)
+			BinaryArithmeticOperatorFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:			

@@ -3,18 +3,18 @@
 #include <string>
 #include <vector>
 
-#include "../runtime/NativeFunctionDefinition.hpp"
+#include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 
 namespace geogen
 {
 	namespace corelib
 	{
-		class AssignmentOperatorFunctionDefinition : public runtime::NativeFunctionDefinition
+		class AssignmentOperatorFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		private:
 		public:
-			AssignmentOperatorFunctionDefinition() : NativeFunctionDefinition("=") {};
+			AssignmentOperatorFunctionDefinition() : GlobalNativeFunctionDefinition("=") {};
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_OPERATOR; }
 

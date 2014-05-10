@@ -34,6 +34,7 @@ void VirtualMachine::InitializeTypes()
 	}
 }
 
+
 void VirtualMachine::InitializeGlobalVariables()
 {
 	for (
@@ -53,7 +54,7 @@ void VirtualMachine::InitializeMainFunction()
 		throw InternalErrorException("The script doesn't have a main function.");
 	}
 
-	this->CallFunction(CodeLocation(0, 0), mainFunctionDefinition, 0);
+	this->CallFunction(CodeLocation(0, 0), mainFunctionDefinition, NULL, 0);
 }
 
 void VirtualMachine::ValidateArguments()
@@ -112,11 +113,11 @@ VirtualMachineStepResult VirtualMachine::Step()
 	return result;
 }
 
-void VirtualMachine::CallFunction(CodeLocation location, FunctionDefinition const* functionDefinition, unsigned numberOfArguments)
+void VirtualMachine::CallFunction(CodeLocation location, FunctionDefinition const* functionDefinition, ManagedObject* instance, unsigned numberOfArguments)
 {
 	this->callStack.Push(location, functionDefinition);
 
-	functionDefinition->Call(location, this, numberOfArguments);
+	functionDefinition->Call(location, this, instance, numberOfArguments);
 }
 
 void VirtualMachine::Run()
@@ -139,26 +140,29 @@ ManagedObject* VirtualMachine::GetNull()
 	return variableTableItem->GetValue();
 }
 
-BooleanTypeDefinition const* VirtualMachine::GetBooleanTypeDefinition() const
+TypeDefinition const* VirtualMachine::GetTypeDefinition(std::string const& typeName) const
 {
-	BooleanTypeDefinition const* booleanTypeDefinition = dynamic_cast<BooleanTypeDefinition const*>(this->GetCompiledScript().GetTypeDefinitions().GetItem("Boolean"));
-	if (booleanTypeDefinition == NULL)
+	TypeDefinition const* typeDefinition = this->GetCompiledScript().GetTypeDefinitions().GetItem(typeName);
+	if (typeDefinition == NULL)
 	{
-		throw InternalErrorException("Could not get \"Boolean\" type definition.");
+		stringstream ss;
+		ss << "Could not get \"" << typeName << "\" type definition.";
+
+		throw InternalErrorException(ss.str());
 	}
 
-	return booleanTypeDefinition;
+	return typeDefinition;
+}
+
+
+BooleanTypeDefinition const* VirtualMachine::GetBooleanTypeDefinition() const
+{
+	return dynamic_cast<BooleanTypeDefinition const*>(this->GetTypeDefinition("Boolean"));
 }
 
 NumberTypeDefinition const* VirtualMachine::GetNumberTypeDefinition() const
 {
-	NumberTypeDefinition const* numberTypeDefinition = dynamic_cast<NumberTypeDefinition const*>(this->GetCompiledScript().GetTypeDefinitions().GetItem("Number"));
-	if (numberTypeDefinition == NULL)
-	{
-		throw InternalErrorException("Could not get \"Boolean\" type definition.");
-	}
-
-	return numberTypeDefinition;
+	return dynamic_cast<NumberTypeDefinition const*>(this->GetTypeDefinition("Number"));
 }
 
 VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)

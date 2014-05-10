@@ -2,6 +2,7 @@
 #include "../runtime/NumberTypeDefinition.hpp"
 #include "../runtime/BooleanTypeDefinition.hpp"
 #include "../runtime/NullTypeDefinition.hpp"
+#include "ArrayTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "AssignmentOperatorFunctionDefinition.hpp"
 #include "RelationalOperatorFunctionDefinition.hpp"
@@ -20,6 +21,7 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new NullTypeDefinition());
 	this->typeDefinitions.AddItem(new BooleanTypeDefinition());
 	this->typeDefinitions.AddItem(new NumberTypeDefinition());
+	this->typeDefinitions.AddItem(new ArrayTypeDefinition());
 
     // Core operators
 	this->globalFunctionDefinitions.AddItem(new AssignmentOperatorFunctionDefinition());

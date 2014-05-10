@@ -87,10 +87,16 @@
     <ClInclude Include="compiler\ScriptParameterNotKeyValueCollection.hpp" />
     <ClInclude Include="compiler\ScriptParametersNotKeyValueCollectionException.hpp" />
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
+    <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayKeyNotFoundException.hpp" />
+    <ClInclude Include="corelib\ArrayObject.hpp" />
+    <ClInclude Include="corelib\ArrayTypeDefinition.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
@@ -127,8 +133,9 @@
     <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
     <ClInclude Include="runtime\Library.hpp" />
+    <ClInclude Include="runtime\MemberNativeFunctionDefinition.hpp" />
     <ClInclude Include="runtime\MemoryManager.hpp" />
-    <ClInclude Include="runtime\NativeFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="runtime\NullTypeDefinition.hpp" />
@@ -196,11 +203,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
+    <ClCompile Include="corelib\ArrayCountFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayEmptyFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayObject.cpp" />
+    <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
     <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
+    <ClCompile Include="runtime\FunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
     <ClCompile Include="runtime\MetadataKeyValueCollection.cpp" />
     <ClCompile Include="runtime\MetadataValue.cpp" />
+    <ClCompile Include="runtime\MemberNativeFunctionDefinition.cpp" />
     <ClCompile Include="runtime\NumberScriptParameter.cpp" />
     <ClCompile Include="runtime\ObjectId.cpp" />
     <ClCompile Include="runtime\ParametersTypeDefinition.cpp" />
@@ -259,7 +272,7 @@
     <ClCompile Include="runtime\instructions\YieldAsMainInstruction.cpp" />
     <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
     <ClCompile Include="runtime\MemoryManager.cpp" />
-    <ClCompile Include="runtime\NativeFunctionDefinition.cpp" />
+    <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp" />
     <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ObjectStack.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />

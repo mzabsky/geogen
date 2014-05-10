@@ -94,7 +94,6 @@
     <ClInclude Include="runtime\CallStack.hpp" />
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="runtime\ObjectStack.hpp" />
-    <ClInclude Include="runtime\NativeFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
     <ClInclude Include="runtime\DivisionByZeroException.hpp" />
@@ -129,6 +128,14 @@
     <ClInclude Include="runtime\ManagedObject.hpp" />
     <ClInclude Include="utils\StringUtils.hpp" />
     <ClInclude Include="runtime\VariableTableItem.hpp" />
+    <ClInclude Include="corelib\ArrayTypeDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayObject.hpp" />
+    <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
+    <ClInclude Include="corelib\ArrayKeyNotFoundException.hpp" />
+    <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\MemberNativeFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -184,7 +191,6 @@
     <ClCompile Include="runtime\instructions\LoadScopeValueInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp" />
     <ClCompile Include="runtime\ObjectStack.cpp" />
-    <ClCompile Include="runtime\NativeFunctionDefinition.cpp" />
     <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RelationalOperatorFunctionDefinition.cpp" />
@@ -208,6 +214,13 @@
     <ClCompile Include="runtime\ManagedObject.cpp" />
     <ClCompile Include="utils\StringUtils.cpp" />
     <ClCompile Include="runtime\VariableTableItem.cpp" />
+    <ClCompile Include="corelib\ArrayObject.cpp" />
+    <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayCountFunctionDefinition.cpp" />
+    <ClCompile Include="runtime\FunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayEmptyFunctionDefinition.cpp" />
+    <ClCompile Include="runtime\MemberNativeFunctionDefinition.cpp" />
+    <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

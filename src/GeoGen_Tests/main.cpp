@@ -8,6 +8,7 @@
 #include "CommentTests.hpp"
 #include "FunctionTests.hpp"
 #include "MetadataTests.hpp"
+#include "ArrayTests.hpp"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ int main()
 	RUN_FIXTURE(CommentTests);
 	RUN_FIXTURE(FunctionTests);
 	RUN_FIXTURE(MetadataTests);
+	RUN_FIXTURE(ArrayTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 
