@@ -136,6 +136,11 @@
     <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />
     <ClInclude Include="runtime\MemberNativeFunctionDefinition.hpp" />
     <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayPushBackFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayFrontBackFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayGetFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArraySetFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -221,6 +226,11 @@
     <ClCompile Include="corelib\ArrayEmptyFunctionDefinition.cpp" />
     <ClCompile Include="runtime\MemberNativeFunctionDefinition.cpp" />
     <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayPushBackFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayFrontBackFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayGetFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

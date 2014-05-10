@@ -39,7 +39,7 @@ namespace geogen
 
 			inline TypeDefinition const* GetType() const { return this->type; };
 
-			bool operator<(const ManagedObject* rhs);
+			//bool operator<(const ManagedObject* rhs);
 
 			inline VariableTable& GetMemberVariableTable() { return this->memberVariableTable; }
 
@@ -57,7 +57,14 @@ namespace geogen
 			//ManagedObject* GetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName) const;
 
 			virtual std::string GetStringValue() const = 0;
-			virtual void Serialize(std::iostream& stream) const;
+			virtual void Serialize(std::iostream& stream) const;			
+		};
+
+		struct CompareObjects {
+			inline bool operator() (ManagedObject* a, ManagedObject* b) const
+			{
+				return a->GetType()->InstanceLessThan(a, b);
+			}
 		};
 	}
 }

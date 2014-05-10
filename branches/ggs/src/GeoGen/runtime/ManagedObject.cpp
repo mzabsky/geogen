@@ -30,10 +30,10 @@ ManagedObject::~ManagedObject()
 #endif
 };
 
-bool ManagedObject::operator<(const ManagedObject* rhs)
+/*bool ManagedObject::operator<(const ManagedObject* rhs)
 {
 	return this->GetType()->InstanceLessThan(this, rhs);
-}
+}*/
 
 void ManagedObject::Serialize(std::iostream& stream) const
 {

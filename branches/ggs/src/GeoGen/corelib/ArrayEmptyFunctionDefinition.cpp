@@ -12,8 +12,6 @@ using namespace geogen::runtime;
 
 ManagedObject* ArrayEmptyFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
-	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
-
 	this->CheckArguments(location, 0, arguments);
 
 	ArrayTypeDefinition const* arrayTypeDefinition = dynamic_cast<ArrayTypeDefinition const*>(instance->GetType());

@@ -3,6 +3,10 @@
 #include "..\InternalErrorException.hpp"
 #include "ArrayCountFunctionDefinition.hpp"
 #include "ArrayEmptyFunctionDefinition.hpp"
+#include "ArrayPushBackFunctionDefinition.hpp"
+#include "ArrayFrontBackFunctionDefinition.hpp"
+#include "ArrayGetFunctionDefinition.hpp"
+#include "ArraySetFunctionDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -14,6 +18,11 @@ ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition("Array")
 	this->GetFunctionDefinitions().AddItem(new ArrayEmptyFunctionDefinition(this));
 
 	this->GetFunctionDefinitions().AddItem(new ArrayCountFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new ArrayPushBackFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new ArrayGetFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new ArraySetFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(ArrayFrontBackFunctionDefinition::Create(ArrayFrontBackFunctionDefinition::FRONT, this));
+	this->GetFunctionDefinitions().AddItem(ArrayFrontBackFunctionDefinition::Create(ArrayFrontBackFunctionDefinition::BACK, this));
 		//this->GetFunctionDefinitions().AddItem()
 }
 
