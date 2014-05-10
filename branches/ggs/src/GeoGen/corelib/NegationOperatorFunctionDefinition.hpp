@@ -3,17 +3,17 @@
 #include <string>
 #include <vector>
 
-#include "../runtime/NativeFunctionDefinition.hpp"
+#include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 
 namespace geogen
 {
 	namespace corelib
 	{
-		class NegationOperatorFunctionDefinition : public runtime::NativeFunctionDefinition
+		class NegationOperatorFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:
-			NegationOperatorFunctionDefinition() : NativeFunctionDefinition("!") {};
+			NegationOperatorFunctionDefinition() : GlobalNativeFunctionDefinition("!") {};
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_OPERATOR; }
 

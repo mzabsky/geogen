@@ -16,7 +16,7 @@ InstructionStepResult CallGlobalInstruction::Step(VirtualMachine* vm) const
 		throw UndefinedSymbolAccessException(GGE2201_UndefinedFunction, this->GetLocation(), this->functionName);
 	}
 
-	vm->CallFunction(this->GetLocation(), functionDefinition, this->argumentCount);
+	vm->CallFunction(this->GetLocation(), functionDefinition, NULL, this->argumentCount);
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }

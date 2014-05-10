@@ -25,6 +25,9 @@
     <ClInclude Include="MetadataTests.hpp">
       <Filter>Fixtures</Filter>
     </ClInclude>
+    <ClInclude Include="ArrayTests.hpp">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">

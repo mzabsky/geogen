@@ -3,6 +3,7 @@
 #include "../CodeLocation.hpp"
 
 #include <string>
+#include <vector>
 
 namespace geogen 
 {
@@ -14,7 +15,9 @@ namespace geogen
 
 	namespace runtime
 	{
+		class ManagedObject;
 		class VirtualMachine;
+		class TypeDefinition;
 
 		class FunctionDefinition
 		{
@@ -28,7 +31,10 @@ namespace geogen
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_FUNCTION; }
 
-			virtual void Call(CodeLocation location, VirtualMachine* vm, unsigned numberOfArguments) const = 0;
+			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const = 0;
+
+			void CheckArguments(CodeLocation location, std::vector<TypeDefinition const*> expectedTypes, std::vector<ManagedObject*> actualArguments) const;
+			void CheckArguments(CodeLocation location, unsigned expectedArgumentCount, std::vector<ManagedObject*> actualArguments) const;
 		};
 	}
 }

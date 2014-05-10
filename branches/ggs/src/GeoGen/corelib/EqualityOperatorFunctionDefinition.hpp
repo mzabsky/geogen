@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "../runtime/NumberTypeDefinition.hpp"
-#include "../runtime/NativeFunctionDefinition.hpp"
+#include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 
 namespace geogen
@@ -16,7 +16,7 @@ namespace geogen
 
 	namespace corelib
 	{        
-		class EqualityOperatorFunctionDefinition : public runtime::NativeFunctionDefinition
+		class EqualityOperatorFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:
 			enum Operator
@@ -32,7 +32,7 @@ namespace geogen
 
 			Function function;
 
-			EqualityOperatorFunctionDefinition(std::string const& name, Function function) : NativeFunctionDefinition(name), function(function)
+			EqualityOperatorFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

@@ -84,6 +84,7 @@
     <ClCompile Include="TestFixtureBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArrayTests.hpp" />
     <ClInclude Include="BasicOperatorsTests.hpp" />
     <ClInclude Include="CommentTests.hpp" />
     <ClInclude Include="FlowControlTests.hpp" />

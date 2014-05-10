@@ -4,14 +4,14 @@
 #include <vector>
 
 #include "../runtime/NumberTypeDefinition.hpp"
-#include "../runtime/NativeFunctionDefinition.hpp"
+#include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 
 namespace geogen
 {
 	namespace corelib
 	{
-		class RelationalOperatorFunctionDefinition : public runtime::NativeFunctionDefinition
+		class RelationalOperatorFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:
 			enum Operator
@@ -31,7 +31,7 @@ namespace geogen
 
 			Function function;
 
-			RelationalOperatorFunctionDefinition(std::string const& name, Function function) : NativeFunctionDefinition(name), function(function)
+			RelationalOperatorFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:
