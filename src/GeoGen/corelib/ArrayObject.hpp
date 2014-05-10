@@ -12,7 +12,7 @@ namespace geogen
 		class ArrayObject : public runtime::ManagedObject
 		{
 		public:
-			typedef std::map<ManagedObject*, ManagedObject*> BackingCollection;
+			typedef std::map<ManagedObject*, ManagedObject*, geogen::runtime::CompareObjects> BackingCollection;
 			typedef BackingCollection::iterator iterator;
 			typedef BackingCollection::const_iterator const_iterator;
 			typedef BackingCollection::reverse_iterator reverse_iterator;
@@ -21,7 +21,7 @@ namespace geogen
 			BackingCollection array;
 			int maxIntegerKey;
 		public:
-			ArrayObject(runtime::VirtualMachine* vm, runtime::TypeDefinition const* type) : ManagedObject(vm, type)
+			ArrayObject(runtime::VirtualMachine* vm, runtime::TypeDefinition const* type) : ManagedObject(vm, type), maxIntegerKey(-1)
 			{
 			};
 

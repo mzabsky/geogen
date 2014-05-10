@@ -4,6 +4,7 @@
 #include "..\..\InternalErrorException.hpp"
 #include "..\UndefinedSymbolAccessException.hpp"
 #include "..\ManagedObject.hpp"
+#include "..\NullReferenceException.hpp"
 
 using namespace std;
 using namespace geogen::runtime;
@@ -18,6 +19,11 @@ InstructionStepResult CallMemberInstruction::Step(VirtualMachine* vm) const
 
 	FunctionDefinition const* functionDefinition;
 	
+	if (instance == vm->GetNull())
+	{
+		throw NullReferenceException(this->GetLocation());
+	}
+
 	if (instance->IsStaticObject())
 	{
 		functionDefinition = instance->GetType()->GetStaticFunctionDefinitions().GetItem(this->functionName);

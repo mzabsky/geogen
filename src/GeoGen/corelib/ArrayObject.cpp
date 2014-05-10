@@ -63,7 +63,7 @@ void ArrayObject::Set(VirtualMachine* vm, CodeLocation location, ManagedObject* 
 		key->AddRef();
 
 		// Bump the max integer key if necessary
-		if (value->GetType() == vm->GetNumberTypeDefinition())
+		if (key->GetType() == vm->GetNumberTypeDefinition())
 		{
 			NumberObject* numberKey = dynamic_cast<NumberObject*>(key);
 			if (numberKey->GetValue() > this->maxIntegerKey)
