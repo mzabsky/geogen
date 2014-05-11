@@ -303,11 +303,10 @@ statement returns [CodeBlock* returnCodeBlock]
     | globalVariableDeclaration { $returnCodeBlock = $globalVariableDeclaration.returnCodeBlock; }
     | expression 
     { 
-    	CodeLocation location(0, 0);
-    
     	$returnCodeBlock = new CodeBlock(); 
     	$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); delete $expression.returnCodeBlock; 
-    	$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
+    	
+    	$returnCodeBlock->AddInstruction(new instructions::PopInstruction((*($returnCodeBlock->End() - 1))->GetLocation()));
     }
     | yieldStatement{ $returnCodeBlock = $yieldStatement.returnCodeBlock; }
     | returnStatement { $returnCodeBlock = $returnStatement.returnCodeBlock; }
@@ -326,14 +325,19 @@ blockStatement returns [CodeBlock* returnCodeBlock]
 @after { ctx->codeBlockLevel--; }: 
 block
 {
-	CodeLocation location(0, 0);
+	if($block.returnCodeBlock->Begin() != $block.returnCodeBlock->End())
+	{	
+		instructions::CallBlockInstruction* instr = new instructions::CallBlockInstruction((*$block.returnCodeBlock->Begin())->GetLocation());
+	
+		instr->GetCodeBlock().MoveInstructionsFrom(*$block.returnCodeBlock);
+		delete $block.returnCodeBlock;
+		
+		$returnCodeBlock->AddInstruction(instr);	
+	}
+	else {
+		delete $block.returnCodeBlock;	
+	}
 
-	instructions::CallBlockInstruction* instr = new instructions::CallBlockInstruction(location);
-	
-	instr->GetCodeBlock().MoveInstructionsFrom(*$block.returnCodeBlock);
-	delete $block.returnCodeBlock;
-	
-	$returnCodeBlock->AddInstruction(instr);
 };
     
 variableDeclaration returns [CodeBlock* returnCodeBlock]
