@@ -13,7 +13,7 @@
 
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
-#include "..\runtime\ParametersTypeDefinition.hpp"
+#include "..\corelib\ParametersTypeDefinition.hpp"
 #include "..\utils\StringUtils.hpp"
 
 

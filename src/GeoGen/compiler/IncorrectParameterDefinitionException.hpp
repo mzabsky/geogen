@@ -8,7 +8,7 @@ namespace geogen
 {
 	namespace compiler
 	{
-		class IncorrectParameterDefinitionException : public CompilerException
+		/*class IncorrectParameterDefinitionException : public CompilerException
 		{
 		private:
 			std::string parameterName;
@@ -25,6 +25,6 @@ namespace geogen
 
 				return ss.str();
 			}
-		};
+		};*/
 	}
 }

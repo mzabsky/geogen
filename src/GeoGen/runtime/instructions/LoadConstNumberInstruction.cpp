@@ -1,11 +1,12 @@
 #include "LoadConstNumberInstruction.hpp"
-#include "..\CodeBlockStackEntry.hpp"
-#include "..\VirtualMachine.hpp"
-#include "..\..\InternalErrorException.hpp"
-#include "..\NumberTypeDefinition.hpp"
+#include "../CodeBlockStackEntry.hpp"
+#include "../VirtualMachine.hpp"
+#include "../..\InternalErrorException.hpp"
+#include "../../corelib/NumberTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen::runtime;
+using namespace geogen::corelib;
 using namespace geogen::runtime::instructions;
 
 InstructionStepResult LoadConstNumberInstruction::Step(VirtualMachine* vm) const

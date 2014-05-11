@@ -2,10 +2,10 @@
 #include "TypeDefinition.hpp"
 #include "VariableDefinition.hpp"
 #include "StaticObject.hpp"
-#include "BooleanTypeDefinition.hpp"
+#include "../corelib/BooleanTypeDefinition.hpp"
 #include "../ApiUsageException.hpp"
 #include "../InternalErrorException.hpp"
-#include "NumberTypeDefinition.hpp"
+#include "../corelib/NumberTypeDefinition.hpp"
 #include "VirtualMachineStatusGuard.hpp"
 #include "../CodeLocation.hpp"
 #include "UndefinedSymbolAccessException.hpp"
@@ -155,14 +155,14 @@ TypeDefinition const* VirtualMachine::GetTypeDefinition(std::string const& typeN
 }
 
 
-BooleanTypeDefinition const* VirtualMachine::GetBooleanTypeDefinition() const
+corelib::BooleanTypeDefinition const* VirtualMachine::GetBooleanTypeDefinition() const
 {
-	return dynamic_cast<BooleanTypeDefinition const*>(this->GetTypeDefinition("Boolean"));
+	return dynamic_cast<corelib::BooleanTypeDefinition const*>(this->GetTypeDefinition("Boolean"));
 }
 
-NumberTypeDefinition const* VirtualMachine::GetNumberTypeDefinition() const
+corelib::NumberTypeDefinition const* VirtualMachine::GetNumberTypeDefinition() const
 {
-	return dynamic_cast<NumberTypeDefinition const*>(this->GetTypeDefinition("Number"));
+	return dynamic_cast<corelib::NumberTypeDefinition const*>(this->GetTypeDefinition("Number"));
 }
 
 VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)

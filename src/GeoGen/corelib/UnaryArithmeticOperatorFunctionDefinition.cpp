@@ -1,6 +1,6 @@
 #include "UnaryArithmeticOperatorFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
+#include "../corelib/NumberTypeDefinition.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "../runtime/DivisionByZeroException.hpp"
 #include "../InternalErrorException.hpp"

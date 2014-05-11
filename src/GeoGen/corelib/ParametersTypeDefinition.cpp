@@ -1,16 +1,17 @@
 #include "ParametersTypeDefinition.hpp"
-#include "VirtualMachine.hpp"
-#include "ManagedObject.hpp"
-#include "ScriptParameter.hpp"
-#include "..\InternalErrorException.hpp"
-#include "BooleanScriptParameter.hpp"
+#include "../runtime/VirtualMachine.hpp"
+#include "../runtime/ManagedObject.hpp"
+#include "../runtime/ScriptParameter.hpp"
+#include "../InternalErrorException.hpp"
+#include "../runtime/BooleanScriptParameter.hpp"
 #include "BooleanTypeDefinition.hpp"
-#include "NumberScriptParameter.hpp"
+#include "../runtime/NumberScriptParameter.hpp"
 #include "NumberTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
 using namespace runtime;
+using namespace corelib;
 
 ParametersTypeDefinition::ParametersTypeDefinition(ScriptParameters const& parameters) : TypeDefinition("Parameters")
 {

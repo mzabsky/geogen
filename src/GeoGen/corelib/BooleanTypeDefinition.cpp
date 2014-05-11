@@ -1,9 +1,10 @@
-#include "..\InternalErrorException.hpp"
 #include "BooleanTypeDefinition.hpp"
-#include "ManagedObject.hpp"
-#include "StaticObject.hpp"
+#include "../InternalErrorException.hpp"
+#include "../runtime/ManagedObject.hpp"
+#include "../runtime/StaticObject.hpp"
 
 using namespace geogen;
+using namespace corelib;
 using namespace runtime;
 using namespace std;
 

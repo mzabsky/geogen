@@ -1,6 +1,6 @@
 #include "LogicalOperatorFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
-#include "../runtime/BooleanTypeDefinition.hpp"
+#include "../corelib/BooleanTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 
 using namespace std;

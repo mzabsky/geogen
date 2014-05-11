@@ -3,7 +3,6 @@
 #include <string>
 
 #include "ManagedObject.hpp"
-#include "EnumTypeDefinition.hpp"
 
 namespace geogen
 {

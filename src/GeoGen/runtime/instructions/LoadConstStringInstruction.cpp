@@ -1,8 +1,6 @@
 #include "LoadConstStringInstruction.hpp"
-#include "..\CodeBlockStackEntry.hpp"
-#include "..\VirtualMachine.hpp"
-#include "..\..\InternalErrorException.hpp"
-#include "..\BooleanTypeDefinition.hpp"
+#include "../VirtualMachine.hpp"
+#include "../../InternalErrorException.hpp"
 
 using namespace std;
 using namespace geogen::runtime;
