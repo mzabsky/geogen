@@ -3,17 +3,18 @@
 #include <string>
 #include <stdexcept>
 
-#include "RuntimeException.hpp"
+#include "../runtime/RuntimeException.hpp"
+#include "MathDefinitionRangeException.hpp"
 
 namespace geogen
 {
-	namespace runtime
+	namespace corelib
 	{
-		class DivisionByZeroException : public RuntimeException
+		class DivisionByZeroException : public MathDefinitionRangeException
 		{
 		public:
 			DivisionByZeroException(CodeLocation location) :
-				RuntimeException(GGE2301_DivisionByZero, location) {};
+				MathDefinitionRangeException(GGE2301_DivisionByZero, location, "/", 0) {};
 
 			virtual std::string GetDetailMessage()
 			{
