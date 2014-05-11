@@ -107,7 +107,9 @@
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
+    <ClInclude Include="corelib\MathLogPowFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathMinMaxFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
@@ -226,7 +228,9 @@
     <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
     <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathAtan2FunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathLogPowFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />
     <ClCompile Include="runtime\BooleanScriptParameter.cpp" />

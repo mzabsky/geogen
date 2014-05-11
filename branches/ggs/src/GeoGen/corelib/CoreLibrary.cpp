@@ -15,6 +15,8 @@
 #include "MathMinMaxFunctionDefinition.hpp"
 #include "MathTrigonometricFunctionDefinition.hpp"
 #include "MathAtan2FunctionDefinition.hpp"
+#include "MathLogPowFunctionDefinition.hpp"
+#include "MathSqrtFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -64,4 +66,7 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(MathTrigonometricFunctionDefinition::Create(MathTrigonometricFunctionDefinition::DEG_TO_RAD));
 	this->globalFunctionDefinitions.AddItem(MathTrigonometricFunctionDefinition::Create(MathTrigonometricFunctionDefinition::RAD_TO_DEG));
 	this->globalFunctionDefinitions.AddItem(new MathAtan2FunctionDefinition());
+	this->globalFunctionDefinitions.AddItem(MathLogPowFunctionDefinition::Create(MathLogPowFunctionDefinition::LOG));
+	this->globalFunctionDefinitions.AddItem(MathLogPowFunctionDefinition::Create(MathLogPowFunctionDefinition::POW));
+	this->globalFunctionDefinitions.AddItem(new MathSqrtFunctionDefinition());
 }

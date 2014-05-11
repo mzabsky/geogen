@@ -132,6 +132,57 @@ public:
 		");
 	}
 
+	static void TestLog()
+	{
+		TestScript("\n\
+			var result = Log(10, 2);\n\
+			var correct = 3.32192;\n\
+			AssertEquals(true, result > correct - 0.001);\n\
+			AssertEquals(true, result < correct + 0.001);\n\
+		");
+	}
+
+	static void TestLogFails1()
+	{
+		TEST_SCRIPT_FAILURE(MathDefinitionRangeException, "\n\
+			var result = Log(-10, 2);\n\
+		");
+	}
+
+	static void TestLogFails2()
+	{
+		TEST_SCRIPT_FAILURE(MathDefinitionRangeException, "\n\
+			var result = Log(10, -2);\n\
+		");
+	}
+
+	static void TestPow()
+	{
+		TestScript("\n\
+			var result = Pow(10, 2.5);\n\
+			var correct = 316.228;\n\
+			AssertEquals(true, result > correct - 0.001);\n\
+			AssertEquals(true, result < correct + 0.001);\n\
+		");
+	}
+
+	static void TestSqrt()
+	{
+		TestScript("\n\
+			var result = Sqrt(2);\n\
+			var correct = 1.41421;\n\
+			AssertEquals(true, result > correct - 0.001);\n\
+			AssertEquals(true, result < correct + 0.001);\n\
+		");
+	}
+
+	static void TestSqrtFails()
+	{
+		TEST_SCRIPT_FAILURE(MathDefinitionRangeException, "\n\
+			var result = Sqrt(-2);\n\
+		");
+	}
+
 	MathTests() : TestFixtureBase("MathTests")
 	{
 		ADD_TESTCASE(TestMin);
@@ -146,5 +197,12 @@ public:
 		ADD_TESTCASE(TestAtan2);
 		ADD_TESTCASE(TestDegToRad);
 		ADD_TESTCASE(TestRadToDeg);
+		ADD_TESTCASE(TestLog);
+		ADD_TESTCASE(TestLogFails1);
+		ADD_TESTCASE(TestLogFails2);
+		ADD_TESTCASE(TestPow);
+		ADD_TESTCASE(TestSqrt);
+		ADD_TESTCASE(TestSqrtFails);
 	}
 };
+
