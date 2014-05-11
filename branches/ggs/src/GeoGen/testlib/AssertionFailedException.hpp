@@ -23,7 +23,7 @@ namespace geogen
 		virtual std::string GetDetailMessage()
 		{
 			std::stringstream ss;
-			ss << "Assertion failed: epected " << expected << ", got " << actual << " on line " << location.GetLine() << ", column " << location.GetColumn() << "."; 
+			ss << "Assertion failed: expected " << expected << ", got " << actual << " on line " << location.GetLine() << ", column " << location.GetColumn() << "."; 
 
 			return ss.str();
 		}
