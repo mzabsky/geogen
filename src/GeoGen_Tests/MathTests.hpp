@@ -183,6 +183,34 @@ public:
 		");
 	}
 
+	static void TestRound()
+	{
+		TestScript("\n\
+			AssertEquals(3, Round(2.6));\n\
+		");
+	}
+
+	static void TestFloor()
+	{
+		TestScript("\n\
+			AssertEquals(2, Floor(2.6));\n\
+		");
+	}
+
+	static void TestCeil()
+	{
+		TestScript("\n\
+			AssertEquals(3, Ceil(2.6));\n\
+		");
+	}
+
+	static void TestAbs()
+	{
+		TestScript("\n\
+			AssertEquals(2.6, Abs(-2.6));\n\
+		");
+	}
+
 	MathTests() : TestFixtureBase("MathTests")
 	{
 		ADD_TESTCASE(TestMin);
@@ -203,6 +231,9 @@ public:
 		ADD_TESTCASE(TestPow);
 		ADD_TESTCASE(TestSqrt);
 		ADD_TESTCASE(TestSqrtFails);
+		ADD_TESTCASE(TestRound);
+		ADD_TESTCASE(TestCeil);
+		ADD_TESTCASE(TestFloor);
+		ADD_TESTCASE(TestAbs);
 	}
 };
-

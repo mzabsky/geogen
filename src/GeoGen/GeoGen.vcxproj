@@ -109,6 +109,7 @@
     <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
     <ClInclude Include="corelib\MathLogPowFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathMinMaxFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathRoundFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="corelib\MathAtan2FunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathLogPowFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />
