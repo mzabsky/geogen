@@ -105,6 +105,7 @@
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
     <ClInclude Include="corelib\MathMinMaxFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
     <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathAtan2FunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />

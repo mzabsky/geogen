@@ -69,10 +69,10 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 		result = atan(input);
 		break;
 	case DEG_TO_RAD:
-		result = input * 180. / NUMBER_PI;
+		result = input * NUMBER_PI / 180.;
 		break;
 	case RAD_TO_DEG:
-		result = input * NUMBER_PI / 180.;
+		result = input * 180. / NUMBER_PI;
 		break;
 	default:
 		throw InternalErrorException("Unknown method.");
