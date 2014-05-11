@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
+#include "..\GeoGen\corelib\ArrayKeyNotFoundException.hpp"
 
 class ArrayTests : public TestFixtureBase
 {
@@ -120,6 +121,64 @@ public:
 		");
 	}
 
+	static void TestRemoveKeyRemoves()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			a[\"key2\"] = 22;\n\
+			a.RemoveKey(\"key\");\n\
+			\n\
+			AssertEquals(false, a.ContainsKey(\"key\"));\n\
+		");
+	}
+
+	static void TestRemoveKeyThrowsIfNotFound()
+	{
+		TEST_SCRIPT_FAILURE(ArrayKeyNotFoundException, "\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			a[\"key2\"] = 22;\n\
+			a.RemoveKey(\"key5\");\n\
+		");
+	}
+
+	static void TestRemoveValueRemoves()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			a[\"key2\"] = 22;\n\
+			a.RemoveValue(21);\n\
+			\n\
+			AssertEquals(false, a.ContainsKey(\"key\"));\n\
+		");
+	}
+
+	static void TestRemoveValueRemovesOnlyFirst()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			a[\"key2\"] = 21;\n\
+			a.RemoveValue(21);\n\
+			\n\
+			AssertEquals(true, a.ContainsKey(\"key2\"));\n\
+		");
+	}
+
+	static void TestRemoveValueDoesNothingIfNotFound()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			a[\"key2\"] = 22;\n\
+			a.RemoveValue(25);\n\
+			\n\
+			AssertEquals(2, a.Count());\n\
+		");
+	}
+
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
@@ -133,5 +192,10 @@ public:
 		ADD_TESTCASE(TestContainsKeyReturnsFalse);
 		ADD_TESTCASE(TestContainsValueReturnsTrue);
 		ADD_TESTCASE(TestContainsValueReturnsFalse);
+		ADD_TESTCASE(TestRemoveKeyRemoves);
+		ADD_TESTCASE(TestRemoveKeyThrowsIfNotFound);
+		ADD_TESTCASE(TestRemoveValueRemoves);
+		ADD_TESTCASE(TestRemoveValueRemovesOnlyFirst);
+		ADD_TESTCASE(TestRemoveValueDoesNothingIfNotFound);
 	}
 };

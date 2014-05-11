@@ -68,7 +68,7 @@ void ArrayObject::Set(VirtualMachine* vm, CodeLocation location, ManagedObject* 
 			NumberObject* numberKey = dynamic_cast<NumberObject*>(key);
 			if (numberKey->GetValue() > this->maxIntegerKey)
 			{
-				this->maxIntegerKey = ceil(numberKey->GetValue());
+				this->maxIntegerKey = static_cast<int>(ceil(numberKey->GetValue()));
 			}
 		}
 	}
@@ -76,7 +76,7 @@ void ArrayObject::Set(VirtualMachine* vm, CodeLocation location, ManagedObject* 
 	value->AddRef();
 }
 
-void ArrayObject::PopFront(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object)
+void ArrayObject::PopFront(runtime::VirtualMachine* vm, CodeLocation location)
 {
 	if (this->Count() == 0)
 	{
@@ -89,7 +89,7 @@ void ArrayObject::PopFront(runtime::VirtualMachine* vm, CodeLocation location, M
 	this->array.erase(it);
 }
 
-void ArrayObject::PopBack(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object)
+void ArrayObject::PopBack(runtime::VirtualMachine* vm, CodeLocation location)
 {
 	if (this->Count() == 0)
 	{
@@ -102,7 +102,7 @@ void ArrayObject::PopBack(runtime::VirtualMachine* vm, CodeLocation location, Ma
 	this->array.erase(it);
 }
 
-ManagedObject* ArrayObject::PushBack(VirtualMachine* vm, CodeLocation location, ManagedObject* object)
+void ArrayObject::PushBack(VirtualMachine* vm, CodeLocation location, ManagedObject* object)
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 	ManagedObject* key = numberTypeDefinition->CreateInstance(vm, this->maxIntegerKey + 1);
@@ -115,16 +115,16 @@ ManagedObject* ArrayObject::PushBack(VirtualMachine* vm, CodeLocation location, 
 	}
 }
 
-bool ArrayObject::ContainsKey(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object)
+bool ArrayObject::ContainsKey(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key)
 {
-	return this->array.find(object) != this->End();
+	return this->array.find(key) != this->End();
 }
 
-bool ArrayObject::ContainsValue(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object)
+bool ArrayObject::ContainsValue(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* value)
 {	
 	for (const_iterator it = this->Begin(); it != this->End(); it++)
 	{
-		if (object->GetType()->InstanceEqualsTo(object, it->second))
+		if (value->GetType()->InstanceEqualsTo(value, it->second))
 		{
 			return true;
 		}
@@ -133,7 +133,7 @@ bool ArrayObject::ContainsValue(runtime::VirtualMachine* vm, CodeLocation locati
 	return false;
 }
 
-void ArrayObject::Remove(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key)
+void ArrayObject::RemoveKey(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key)
 {
 	iterator it = this->array.find(key);
 	if (it == this->End())
@@ -145,6 +145,22 @@ void ArrayObject::Remove(runtime::VirtualMachine* vm, CodeLocation location, Man
 	it->second->RemoveRef(vm->GetMemoryManager());
 	this->array.erase(it);
 }
+
+void ArrayObject::RemoveValue(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* value)
+{
+	for (const_iterator it = this->Begin(); it != this->End(); it++)
+	{
+		if (value->GetType()->InstanceEqualsTo(value, it->second))
+		{
+			it->first->RemoveRef(vm->GetMemoryManager());
+			it->second->RemoveRef(vm->GetMemoryManager());
+
+			this->array.erase(it);
+			return;
+		}
+	}
+}
+
 
 string ArrayObject::GetStringValue() const
 {

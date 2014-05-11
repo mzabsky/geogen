@@ -95,6 +95,7 @@
     <ClInclude Include="corelib\ArrayKeyNotFoundException.hpp" />
     <ClInclude Include="corelib\ArrayObject.hpp" />
     <ClInclude Include="corelib\ArrayPushBackFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayRemoveFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySetFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayTypeDefinition.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="corelib\ArrayGetFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayObject.cpp" />
     <ClCompile Include="corelib\ArrayPushBackFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayRemoveFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
     <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />

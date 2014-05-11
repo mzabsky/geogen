@@ -49,17 +49,18 @@ namespace geogen
 			ManagedObject* Back(runtime::VirtualMachine* vm, CodeLocation location);
 
 			//ManagedObject* PushFront(runtime::VirtualMachine* vm, ManagedObject* object);
-			ManagedObject* PushBack(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object);
+			void PushBack(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object);
 
-			void PopFront(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object);
-			void PopBack(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object);
+			void PopFront(runtime::VirtualMachine* vm, CodeLocation location);
+			void PopBack(runtime::VirtualMachine* vm, CodeLocation location);
 
-			bool ContainsKey(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object);
-			bool ContainsValue(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object);
+			bool ContainsKey(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key);
+			bool ContainsValue(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* value);
 
 			//void Insert(runtime::VirtualMachine* vm, unsigned index, ManagedObject* object);
 			//void RemoveAt(runtime::VirtualMachine* vm, CodeLocation location, unsigned index);
-			void Remove(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* object);
+			void RemoveKey(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key);
+			void RemoveValue(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* value);
 
 			inline unsigned Count() const { return this->array.size(); };
 
