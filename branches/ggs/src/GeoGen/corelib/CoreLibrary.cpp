@@ -17,6 +17,7 @@
 #include "MathAtan2FunctionDefinition.hpp"
 #include "MathLogPowFunctionDefinition.hpp"
 #include "MathSqrtFunctionDefinition.hpp"
+#include "MathRoundFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -69,4 +70,8 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(MathLogPowFunctionDefinition::Create(MathLogPowFunctionDefinition::LOG));
 	this->globalFunctionDefinitions.AddItem(MathLogPowFunctionDefinition::Create(MathLogPowFunctionDefinition::POW));
 	this->globalFunctionDefinitions.AddItem(new MathSqrtFunctionDefinition());
+	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::ROUND));
+	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::CEIL));
+	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::FLOOR));
+	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::ABS));
 }

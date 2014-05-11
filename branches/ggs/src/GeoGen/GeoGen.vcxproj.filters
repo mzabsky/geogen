@@ -149,6 +149,7 @@
     <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathLogPowFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathRoundFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="corelib\MathAtan2FunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathLogPowFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
