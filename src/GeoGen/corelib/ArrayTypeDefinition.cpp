@@ -8,6 +8,7 @@
 #include "ArrayGetFunctionDefinition.hpp"
 #include "ArraySetFunctionDefinition.hpp"
 #include "ArrayContainsFunctionDefinition.hpp"
+#include "ArrayRemoveFunctionDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -26,7 +27,8 @@ ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition("Array")
 	this->GetFunctionDefinitions().AddItem(ArrayFrontBackFunctionDefinition::Create(ArrayFrontBackFunctionDefinition::BACK, this));
 	this->GetFunctionDefinitions().AddItem(ArrayContainsFunctionDefinition::Create(ArrayContainsFunctionDefinition::CONTAINS_KEY, this));
 	this->GetFunctionDefinitions().AddItem(ArrayContainsFunctionDefinition::Create(ArrayContainsFunctionDefinition::CONTAINS_VALUE, this));
-		//this->GetFunctionDefinitions().AddItem()
+	this->GetFunctionDefinitions().AddItem(ArrayRemoveFunctionDefinition::Create(ArrayRemoveFunctionDefinition::REMOVE_KEY, this));
+	this->GetFunctionDefinitions().AddItem(ArrayRemoveFunctionDefinition::Create(ArrayRemoveFunctionDefinition::REMOVE_VALUE, this));
 }
 
 ManagedObject* ArrayTypeDefinition::CreateInstance(VirtualMachine* vm) const
@@ -80,13 +82,6 @@ bool ArrayTypeDefinition::InstanceLessThan(runtime::ManagedObject const* a, runt
 		throw InternalErrorException("Using InstanceLessThan on object of incorrect type.");
 	}
 
-	// TODO: Proper implementation
-
-	/*if (b->GetType() == this)
-	{
-		return ((ArrayObject const*)a)->GetValue() < ((ArrayObject const*)b)->GetValue();
-	}
-	*/
 	return TypeDefinition::InstanceLessThan(a, b);
 }
 

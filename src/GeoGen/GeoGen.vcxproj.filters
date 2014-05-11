@@ -142,6 +142,7 @@
     <ClInclude Include="corelib\NullTypeDefinition.hpp" />
     <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />
     <ClInclude Include="corelib\StringTypeDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayRemoveFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -233,6 +234,7 @@
     <ClCompile Include="corelib\NumberTypeDefinition.cpp" />
     <ClCompile Include="corelib\ParametersTypeDefinition.cpp" />
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayRemoveFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
