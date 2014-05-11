@@ -147,6 +147,8 @@
     <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
     <ClInclude Include="corelib\DivisionByZeroException.hpp" />
     <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathLogPowFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -242,6 +244,8 @@
     <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathAtan2FunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathLogPowFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

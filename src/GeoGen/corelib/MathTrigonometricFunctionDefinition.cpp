@@ -58,11 +58,11 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 		result = tan(input);
 		break;
 	case ASIN:
-		if (abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideGoniometricFunctionDefinitionRange, location, this->GetName(), input);
+		if (abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideTrigonometricFunctionDefinitionRange, location, this->GetName(), input);
 		result = asin(input);
 		break;
 	case ACOS:
-		if (abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideGoniometricFunctionDefinitionRange, location, this->GetName(), input);
+		if (abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideTrigonometricFunctionDefinitionRange, location, this->GetName(), input);
 		result = acos(input);
 		break;
 	case ATAN:
