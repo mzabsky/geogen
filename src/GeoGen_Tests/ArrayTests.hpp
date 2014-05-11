@@ -61,6 +61,15 @@ public:
 		");
 	}
 
+	static void TestIndexerPassThrough()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			\n\
+			AssertEquals(20, a[5] = 20);\n\
+		");
+	}
+
 	static void TestSetGet()
 	{
 		TestScript("\n\
@@ -186,6 +195,7 @@ public:
 		ADD_TESTCASE(TestPushBackFront);
 		ADD_TESTCASE(TestPushBackBack);
 		ADD_TESTCASE(TestGetByAutoIndex);
+		ADD_TESTCASE(TestIndexerPassThrough);
 		ADD_TESTCASE(TestSetGet);
 		ADD_TESTCASE(TestSetGetString);
 		ADD_TESTCASE(TestContainsKeyReturnsTrue);
