@@ -14,6 +14,7 @@
 #include "StringTypeDefinition.hpp"
 #include "MathMinMaxFunctionDefinition.hpp"
 #include "MathTrigonometricFunctionDefinition.hpp"
+#include "MathAtan2FunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -62,4 +63,5 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(MathTrigonometricFunctionDefinition::Create(MathTrigonometricFunctionDefinition::ATAN));
 	this->globalFunctionDefinitions.AddItem(MathTrigonometricFunctionDefinition::Create(MathTrigonometricFunctionDefinition::DEG_TO_RAD));
 	this->globalFunctionDefinitions.AddItem(MathTrigonometricFunctionDefinition::Create(MathTrigonometricFunctionDefinition::RAD_TO_DEG));
+	this->globalFunctionDefinitions.AddItem(new MathAtan2FunctionDefinition());
 }

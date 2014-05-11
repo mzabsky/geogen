@@ -102,6 +102,36 @@ public:
 		");
 	}
 
+	static void TestAtan2()
+	{
+		TestScript("\n\
+			var result = Atan2(20, 10);\n\
+			var correct = 1.10714;\n\
+			AssertEquals(true, result > correct - 0.001);\n\
+			AssertEquals(true, result < correct + 0.001);\n\
+		");
+	}
+
+	static void TestDegToRad()
+	{
+		TestScript("\n\
+			var result = DegToRad(65);\n\
+			var correct = 1.1345;\n\
+			AssertEquals(true, result > correct - 0.001);\n\
+			AssertEquals(true, result < correct + 0.001);\n\
+		");
+	}
+
+	static void TestRadToDeg()
+	{
+		TestScript("\n\
+			var result = RadToDeg(65);\n\
+			var correct = 3724.22566;\n\
+			AssertEquals(true, result > correct - 0.001);\n\
+			AssertEquals(true, result < correct + 0.001);\n\
+		");
+	}
+
 	MathTests() : TestFixtureBase("MathTests")
 	{
 		ADD_TESTCASE(TestMin);
@@ -113,5 +143,8 @@ public:
 		ADD_TESTCASE(TestAcos);
 		ADD_TESTCASE(TestAcosFailure);
 		ADD_TESTCASE(TestAtan);
+		ADD_TESTCASE(TestAtan2);
+		ADD_TESTCASE(TestDegToRad);
+		ADD_TESTCASE(TestRadToDeg);
 	}
 };
