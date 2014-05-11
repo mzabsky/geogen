@@ -11,6 +11,7 @@
 #include "LogicalOperatorFunctionDefinition.hpp"
 #include "NegationOperatorFunctionDefinition.hpp"
 #include "UnaryArithmeticOperatorFunctionDefinition.hpp"
+#include "StringTypeDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -21,6 +22,7 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new NullTypeDefinition());
 	this->typeDefinitions.AddItem(new BooleanTypeDefinition());
 	this->typeDefinitions.AddItem(new NumberTypeDefinition());
+	this->typeDefinitions.AddItem(new StringTypeDefinition());
 	this->typeDefinitions.AddItem(new ArrayTypeDefinition());
 
     // Core operators

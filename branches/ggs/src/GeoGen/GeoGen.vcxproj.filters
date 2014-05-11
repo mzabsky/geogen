@@ -141,6 +141,7 @@
     <ClInclude Include="corelib\NumberTypeDefinition.hpp" />
     <ClInclude Include="corelib\NullTypeDefinition.hpp" />
     <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />
+    <ClInclude Include="corelib\StringTypeDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -231,6 +232,7 @@
     <ClCompile Include="corelib\EnumTypeDefinition.cpp" />
     <ClCompile Include="corelib\NumberTypeDefinition.cpp" />
     <ClCompile Include="corelib\ParametersTypeDefinition.cpp" />
+    <ClCompile Include="corelib\StringTypeDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
