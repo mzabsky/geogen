@@ -35,8 +35,10 @@ ManagedObject* ArrayContainsFunctionDefinition::CallNative(CodeLocation location
 	{
 	case CONTAINS_KEY:
 		result = thisArray->ContainsKey(vm, location, arguments[0]);
+		break;
 	case CONTAINS_VALUE:
 		result = thisArray->ContainsValue(vm, location, arguments[0]);
+		break;
 	default:
 		throw InternalErrorException("Unknown method.");
 	}

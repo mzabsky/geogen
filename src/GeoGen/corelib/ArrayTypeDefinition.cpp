@@ -7,6 +7,7 @@
 #include "ArrayFrontBackFunctionDefinition.hpp"
 #include "ArrayGetFunctionDefinition.hpp"
 #include "ArraySetFunctionDefinition.hpp"
+#include "ArrayContainsFunctionDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -23,6 +24,8 @@ ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition("Array")
 	this->GetFunctionDefinitions().AddItem(new ArraySetFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(ArrayFrontBackFunctionDefinition::Create(ArrayFrontBackFunctionDefinition::FRONT, this));
 	this->GetFunctionDefinitions().AddItem(ArrayFrontBackFunctionDefinition::Create(ArrayFrontBackFunctionDefinition::BACK, this));
+	this->GetFunctionDefinitions().AddItem(ArrayContainsFunctionDefinition::Create(ArrayContainsFunctionDefinition::CONTAINS_KEY, this));
+	this->GetFunctionDefinitions().AddItem(ArrayContainsFunctionDefinition::Create(ArrayContainsFunctionDefinition::CONTAINS_VALUE, this));
 		//this->GetFunctionDefinitions().AddItem()
 }
 

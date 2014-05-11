@@ -106,7 +106,7 @@ public:
 			var a = Array.Empty();\n\
 			a[\"key\"] = 21;\n\
 			\n\
-			AssertEquals(true, a.ContainsValue(21);\n\
+			AssertEquals(true, a.ContainsValue(21));\n\
 		");
 	}
 
