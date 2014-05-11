@@ -467,10 +467,12 @@ scope BlockScope;
 	statement)
 {
 	CodeLocation location($FOR.line, $FOR.pos);
+	
+	std::auto_ptr<instructions::CallBlockInstruction> wrappingInstruction(new instructions::CallBlockInstruction(location));
 
 	if(initExpressionCodeBlock != NULL)
 	{
-		$returnCodeBlock->MoveInstructionsFrom(*initExpressionCodeBlock);
+		wrappingInstruction->GetCodeBlock().MoveInstructionsFrom(*initExpressionCodeBlock);
 		delete initExpressionCodeBlock;
 	}
 	
@@ -498,7 +500,9 @@ scope BlockScope;
 		whileCodeBlock.AddInstruction(new instructions::PopInstruction(location));
 	}
 	
-	$returnCodeBlock->AddInstruction(whileInstr);
+	wrappingInstruction->GetCodeBlock().AddInstruction(whileInstr);
+	
+	$returnCodeBlock->AddInstruction(wrappingInstruction.release());
 };
 
 initExpression returns [CodeBlock* returnCodeBlock]

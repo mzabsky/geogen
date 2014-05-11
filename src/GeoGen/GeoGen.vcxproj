@@ -87,6 +87,7 @@
     <ClInclude Include="compiler\ScriptParameterNotKeyValueCollection.hpp" />
     <ClInclude Include="compiler\ScriptParametersNotKeyValueCollectionException.hpp" />
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
+    <ClInclude Include="corelib\ArrayContainsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayFrontBackFunctionDefinition.hpp" />
@@ -208,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
+    <ClCompile Include="corelib\ArrayContainsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayCountFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayEmptyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayFrontBackFunctionDefinition.cpp" />

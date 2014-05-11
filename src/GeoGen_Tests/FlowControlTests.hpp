@@ -5,7 +5,7 @@
 class FlowControlTests : public TestFixtureBase
 {
 public:
-	static void TestIf()
+	static void TestSingleIf()
 	{
 		TestScript("\n\
 			var result = false; \n\
@@ -15,7 +15,10 @@ public:
 			\n\
 			AssertEquals(true, result);\n\
 		");
+	}
 
+	static void TestIfElse()
+	{
 		TestScript("\n\
 			var result = false; \n\
 			if(false){ \n\
@@ -26,7 +29,10 @@ public:
 			\n\
 			AssertEquals(true, result);\n\
 		");
+	}
 
+	static void TestIfElseIf()
+	{	
 		TestScript("\n\
 			var result = false; \n\
 			if(false){ \n\
@@ -37,7 +43,10 @@ public:
 			\n\
 			AssertEquals(true, result);\n\
 		");
+	}
 
+	static void TestElseIfChain()
+	{
 		TestScript("\n\
 			var result = false; \n\
 			if(false){ \n\
@@ -91,7 +100,10 @@ public:
 			;\n\
 			AssertEquals(10, count);\n\
 		");
+	}
 
+	static void TestNestedFor()
+	{
 		TestScript("\n\
 			var count = 0; \n\
 			for(var i = 0; i < 10; i = i + 1){ \n\
@@ -101,6 +113,23 @@ public:
 			};\n\
 			;\n\
 			AssertEquals(100, count);\n\
+		");
+	}
+
+	static void TestSequentialFor()
+	{
+		TestScript("\n\
+			var count = 0; \n\
+			for(var i = 0; i < 10; i = i + 1){ \n\
+				count = count + 1; \n\
+			};\n\
+			\n\
+			for (var i = 0; i < 10; i = i + 1){\n\
+				\n\
+					count = count + 1; \n\
+			}; \n\
+			;\n\
+			AssertEquals(20, count);\n\
 		");
 	}
 
@@ -152,9 +181,14 @@ public:
 
 	FlowControlTests() : TestFixtureBase("FlowControlTests")
 	{
-		ADD_TESTCASE(TestIf);
+		ADD_TESTCASE(TestSingleIf);
+		ADD_TESTCASE(TestIfElse);
+		ADD_TESTCASE(TestIfElseIf);
+		ADD_TESTCASE(TestElseIfChain);
 		ADD_TESTCASE(TestWhile);
 		ADD_TESTCASE(TestFor);
+		ADD_TESTCASE(TestNestedFor);
+		ADD_TESTCASE(TestSequentialFor);
 		ADD_TESTCASE(TestBreak);
 		ADD_TESTCASE(TestBreakFailsOutsideLoop);
 		ADD_TESTCASE(TestContinue);
