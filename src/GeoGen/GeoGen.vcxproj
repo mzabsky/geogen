@@ -106,6 +106,7 @@
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\StringTypeDefinition.hpp" />
     <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
@@ -218,6 +219,7 @@
     <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
     <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\StringTypeDefinition.cpp" />
     <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
     <ClCompile Include="runtime\FunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
