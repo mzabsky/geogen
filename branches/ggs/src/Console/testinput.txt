@@ -1,7 +1,29 @@
-metadata {
-Parameters:
-{
-	NumberParam: { Type: Number, Label: "Number Parameter", Description: "Desc", Default: 2, Max: 10 }
+function Sieve(n){
+	var values = Array.Empty();
+	for (var i = 1; i <= n; i = i + 1) {
+		values[i] = true;
+	}
+	
+	var p = 2;
+	while(p * p <= n) {
+		var j = p * p;
+		while(j <= n){
+			values[j] = false;
+			j = j + p;
+		}
+		
+		p = p + 1;
+		while(!values[p]) p = p + 1;
+	}
+	
+	var results = Array.Empty();
+	for (var i = 1; i <= n; i = i + 1) {
+		if(values[i]){
+			results.PushBack(i);
+		}
+	}
+	
+	return results;
 }
-}
-AssertEquals(5, Parameters.NumberParam);
+
+Sieve(8);

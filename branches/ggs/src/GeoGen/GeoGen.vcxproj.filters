@@ -141,6 +141,7 @@
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayGetFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySetFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayContainsFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -231,6 +232,7 @@
     <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayGetFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayContainsFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

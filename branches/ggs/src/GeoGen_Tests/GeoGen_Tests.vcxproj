@@ -87,6 +87,7 @@
     <ClInclude Include="ArrayTests.hpp" />
     <ClInclude Include="BasicOperatorsTests.hpp" />
     <ClInclude Include="CommentTests.hpp" />
+    <ClInclude Include="CompositeTests.hpp" />
     <ClInclude Include="FlowControlTests.hpp" />
     <ClInclude Include="FunctionTests.hpp" />
     <ClInclude Include="MetadataTests.hpp" />

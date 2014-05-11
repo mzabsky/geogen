@@ -80,6 +80,46 @@ public:
 		");
 	}
 
+	static void TestContainsKeyReturnsTrue()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			\n\
+			AssertEquals(true, a.ContainsKey(\"key\"));\n\
+		");
+	}
+
+	static void TestContainsKeyReturnsFalse()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			\n\
+			AssertEquals(false, a.ContainsKey(\"another\"));\n\
+		");
+	}
+
+	static void TestContainsValueReturnsTrue()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			\n\
+			AssertEquals(true, a.ContainsValue(21);\n\
+		");
+	}
+
+	static void TestContainsValueReturnsFalse()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"key\"] = 21;\n\
+			\n\
+			AssertEquals(false, a.ContainsValue(29));\n\
+		");
+	}
+
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
@@ -89,5 +129,9 @@ public:
 		ADD_TESTCASE(TestGetByAutoIndex);
 		ADD_TESTCASE(TestSetGet);
 		ADD_TESTCASE(TestSetGetString);
+		ADD_TESTCASE(TestContainsKeyReturnsTrue);
+		ADD_TESTCASE(TestContainsKeyReturnsFalse);
+		ADD_TESTCASE(TestContainsValueReturnsTrue);
+		ADD_TESTCASE(TestContainsValueReturnsFalse);
 	}
 };
