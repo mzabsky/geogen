@@ -38,6 +38,7 @@ namespace geogen
 		GGE2302_NumberOverflow = 2302,
 		GGE2303_HeightOverflow = 2303,
 		GGE2304_CoordinateOverflow = 2304,
+		GGE2305_OutsideGoniometricFunctionDefinitionRange = 2305,
 		GGE2501_CallStackOverflow = 2501,
 		GGE2502_CodeBlockStackOverflow = 2502,
 		GGE2503_ObjectStackOverflow = 2503,

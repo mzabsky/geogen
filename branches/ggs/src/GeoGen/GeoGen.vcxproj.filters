@@ -91,7 +91,6 @@
     <ClInclude Include="runtime\ObjectStack.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
-    <ClInclude Include="runtime\DivisionByZeroException.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
@@ -143,6 +142,10 @@
     <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />
     <ClInclude Include="corelib\StringTypeDefinition.hpp" />
     <ClInclude Include="corelib\ArrayRemoveFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathMinMaxFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
+    <ClInclude Include="corelib\DivisionByZeroException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -235,6 +238,8 @@
     <ClCompile Include="corelib\ParametersTypeDefinition.cpp" />
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />
     <ClCompile Include="corelib\ArrayRemoveFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

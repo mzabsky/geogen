@@ -10,6 +10,7 @@
 #include "MetadataTests.hpp"
 #include "ArrayTests.hpp"
 #include "CompositeTests.hpp"
+#include "MathTests.hpp"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ int main()
 	RUN_FIXTURE(MetadataTests);
 	RUN_FIXTURE(ArrayTests);
 	RUN_FIXTURE(CompositeTests);
+	RUN_FIXTURE(MathTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 

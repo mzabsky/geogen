@@ -2,7 +2,7 @@
 #include "../runtime/VirtualMachine.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
-#include "../runtime/DivisionByZeroException.hpp"
+#include "DivisionByZeroException.hpp"
 #include "../InternalErrorException.hpp"
 
 using namespace std;

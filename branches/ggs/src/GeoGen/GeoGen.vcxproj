@@ -105,6 +105,9 @@
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
+    <ClInclude Include="corelib\MathMinMaxFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\StringTypeDefinition.hpp" />
@@ -130,7 +133,7 @@
     <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
     <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="corelib\CoreLibrary.hpp" />
-    <ClInclude Include="runtime\DivisionByZeroException.hpp" />
+    <ClInclude Include="corelib\DivisionByZeroException.hpp" />
     <ClInclude Include="runtime\ManagedObject.hpp" />
     <ClInclude Include="corelib\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
@@ -221,6 +224,8 @@
     <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
     <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />
     <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
     <ClCompile Include="runtime\FunctionDefinition.cpp" />
