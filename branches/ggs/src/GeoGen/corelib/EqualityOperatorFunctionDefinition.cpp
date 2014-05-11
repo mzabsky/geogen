@@ -1,7 +1,7 @@
 #include "EqualityOperatorFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
-#include "../runtime/BooleanTypeDefinition.hpp"
+#include "../corelib/NumberTypeDefinition.hpp"
+#include "../corelib/BooleanTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 
 using namespace std;

@@ -3,7 +3,7 @@
 #include "ArrayTypeDefinition.hpp"
 #include "ArrayObject.hpp"
 #include "../runtime/ManagedObject.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
+#include "../corelib/NumberTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;

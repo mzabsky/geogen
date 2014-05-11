@@ -14,11 +14,15 @@
 
 namespace geogen
 {
+	namespace corelib
+	{
+		class BooleanTypeDefinition;
+		class NumberTypeDefinition;
+	}
+
 	namespace runtime
 	{
 		class ManagedObject;
-		class BooleanTypeDefinition;
-		class NumberTypeDefinition;
 		class VariableTableItem;
 
 		enum VirtualMachineStatus
@@ -83,8 +87,8 @@ namespace geogen
 
 			ManagedObject* GetNull();
 			TypeDefinition const* GetTypeDefinition(std::string const& typeName) const;
-			BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
-			NumberTypeDefinition const* GetNumberTypeDefinition() const;
+			corelib::BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
+			corelib::NumberTypeDefinition const* GetNumberTypeDefinition() const;
 			VariableTableItem* FindVariable(std::string const& variableName);
 			ManagedObject* GetStaticInstance(std::string const& typeName);
 		};

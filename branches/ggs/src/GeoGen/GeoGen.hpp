@@ -26,7 +26,6 @@
 #include "runtime/MetadataString.hpp"
 #include "runtime/MetadataSimpleCollection.hpp"
 #include "runtime/MetadataValue.hpp"
-#include "runtime/NumberTypeDefinition.hpp"
 #include "runtime/ObjectTypeDefinition.hpp"
 #include "runtime/PrimitiveObject.hpp"
 #include "runtime/ReadOnlyWriteException.hpp"
@@ -64,3 +63,6 @@
 #include "runtime/instructions/WhileInstruction.hpp"
 #include "runtime/instructions/YieldAsMainInstruction.hpp"
 #include "runtime/instructions/YieldAsNamedInstruction.hpp"
+
+#include "corelib/EnumTypeDefinition.hpp"
+#include "corelib/NumberTypeDefinition.hpp"

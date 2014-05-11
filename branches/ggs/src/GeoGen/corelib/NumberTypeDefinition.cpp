@@ -1,11 +1,12 @@
-#include "..\InternalErrorException.hpp"
-#include "..\Number.hpp"
 #include "NumberTypeDefinition.hpp"
-#include "ManagedObject.hpp"
-#include "StaticObject.hpp"
+#include "../InternalErrorException.hpp"
+#include "../Number.hpp"
+#include "../runtime/ManagedObject.hpp"
+#include "../runtime/StaticObject.hpp"
 
 using namespace geogen;
 using namespace runtime;
+using namespace corelib;
 using namespace std;
 
 ManagedObject* NumberTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
@@ -24,7 +25,7 @@ bool NumberTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObjec
 
 	if (b->GetType() == this)
 	{
-		return ((NumberObject const*)a)->GetValue() < ((NumberObject const*)b)->GetValue();
+		return dynamic_cast<NumberObject const*>(a)->GetValue() < dynamic_cast<NumberObject const*>(b)->GetValue();
 	}
 
 	return TypeDefinition::InstanceLessThan(a, b);
@@ -39,7 +40,7 @@ bool NumberTypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObjec
 
 	if (b->GetType() == this)
 	{
-		return ((NumberObject const*)a)->GetValue() == ((NumberObject const*)b)->GetValue();
+		return dynamic_cast<NumberObject const*>(a)->GetValue() == dynamic_cast<NumberObject const*>(b)->GetValue();
 	}
 
 	return TypeDefinition::InstanceEqualsTo(a, b);

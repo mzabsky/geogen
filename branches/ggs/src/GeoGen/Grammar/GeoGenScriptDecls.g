@@ -23,6 +23,7 @@ scope BlockScope
 	using namespace std;
 	using namespace geogen;
 	using namespace geogen::compiler;
+	using namespace geogen::corelib;
 	using namespace geogen::runtime;	
 		
 	void handleTreeWalkerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames);

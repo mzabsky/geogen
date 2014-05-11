@@ -120,7 +120,7 @@
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="Number.hpp" />
     <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
-    <ClInclude Include="runtime\BooleanTypeDefinition.hpp" />
+    <ClInclude Include="corelib\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CallStack.hpp" />
     <ClInclude Include="runtime\CallStackEntry.hpp" />
     <ClInclude Include="runtime\CodeBlock.hpp" />
@@ -130,8 +130,7 @@
     <ClInclude Include="corelib\CoreLibrary.hpp" />
     <ClInclude Include="runtime\DivisionByZeroException.hpp" />
     <ClInclude Include="runtime\ManagedObject.hpp" />
-    <ClInclude Include="runtime\EnumTypeDefinition.hpp" />
-    <ClInclude Include="runtime\EnumObject.hpp" />
+    <ClInclude Include="corelib\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
     <ClInclude Include="runtime\instructions\CallBlockInstruction.hpp" />
     <ClInclude Include="runtime\instructions\DeclareGlobalValueInstruction.hpp" />
@@ -144,10 +143,10 @@
     <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\NullReferenceException.hpp" />
-    <ClInclude Include="runtime\NullTypeDefinition.hpp" />
+    <ClInclude Include="corelib\NullTypeDefinition.hpp" />
     <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
     <ClInclude Include="runtime\NumberScriptParameter.hpp" />
-    <ClInclude Include="runtime\NumberTypeDefinition.hpp" />
+    <ClInclude Include="corelib\NumberTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectId.hpp" />
     <ClInclude Include="runtime\ObjectStack.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
@@ -177,7 +176,7 @@
     <ClInclude Include="runtime\MetadataSimpleCollection.hpp" />
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
-    <ClInclude Include="runtime\ParametersTypeDefinition.hpp" />
+    <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
@@ -228,7 +227,7 @@
     <ClCompile Include="runtime\MemberNativeFunctionDefinition.cpp" />
     <ClCompile Include="runtime\NumberScriptParameter.cpp" />
     <ClCompile Include="runtime\ObjectId.cpp" />
-    <ClCompile Include="runtime\ParametersTypeDefinition.cpp" />
+    <ClCompile Include="corelib\ParametersTypeDefinition.cpp" />
     <ClCompile Include="runtime\ScriptParameters.cpp" />
     <ClCompile Include="runtime\VariableTableItem.cpp" />
     <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
@@ -254,7 +253,7 @@
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
-    <ClCompile Include="runtime\BooleanTypeDefinition.cpp" />
+    <ClCompile Include="corelib\BooleanTypeDefinition.cpp" />
     <ClCompile Include="runtime\CallStack.cpp" />
     <ClCompile Include="runtime\CallStackEntry.cpp" />
     <ClCompile Include="runtime\CodeBlock.cpp" />
@@ -263,8 +262,7 @@
     <ClCompile Include="runtime\CompiledScript.cpp" />
     <ClCompile Include="corelib\CoreLibrary.cpp" />
     <ClCompile Include="runtime\ManagedObject.cpp" />
-    <ClCompile Include="runtime\EnumObject.cpp" />
-    <ClCompile Include="runtime\EnumTypeDefinition.cpp" />
+    <ClCompile Include="corelib\EnumTypeDefinition.cpp" />
     <ClCompile Include="runtime\instructions\BreakInstruction.cpp" />
     <ClCompile Include="runtime\instructions\CallGlobalInstruction.cpp" />
     <ClCompile Include="runtime\instructions\CallMemberInstruction.cpp" />
@@ -285,7 +283,7 @@
     <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
     <ClCompile Include="runtime\MemoryManager.cpp" />
     <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp" />
-    <ClCompile Include="runtime\NumberTypeDefinition.cpp" />
+    <ClCompile Include="corelib\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ObjectStack.cpp" />
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\ScriptFunctionDefinition.cpp" />

@@ -3,9 +3,9 @@
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "../InternalErrorException.hpp"
-#include "..\runtime\IncorrectTypeException.hpp"
-#include "..\runtime\NumberTypeDefinition.hpp"
-#include "..\runtime\BooleanTypeDefinition.hpp"
+#include "../runtime/IncorrectTypeException.hpp"
+#include "NumberTypeDefinition.hpp"
+#include "BooleanTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;

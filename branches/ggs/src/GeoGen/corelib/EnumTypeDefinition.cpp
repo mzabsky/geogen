@@ -1,11 +1,14 @@
-#include "../InternalErrorException.hpp"
 #include "EnumTypeDefinition.hpp"
+#include "../runtime/VirtualMachine.hpp"
+#include "../InternalErrorException.hpp"
 #include "NumberTypeDefinition.hpp"
-#include "VariableDefinition.hpp"
+#include "../runtime/VariableDefinition.hpp"
+#include "../CodeLocation.hpp"
 
 using namespace std;
 using namespace geogen;
 using namespace runtime;
+using namespace corelib;
 
 EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions valueDefinitions) : TypeDefinition(name), valueDefinitions(valueDefinitions)
 {

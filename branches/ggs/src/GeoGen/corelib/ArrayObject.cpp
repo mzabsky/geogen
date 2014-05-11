@@ -1,5 +1,5 @@
 #include "ArrayObject.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
+#include "../corelib/NumberTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "InvalidOperationOnEmptyArrayException.hpp"
 #include "ArrayKeyNotFoundException.hpp"

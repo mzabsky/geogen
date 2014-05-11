@@ -3,9 +3,9 @@
 #include "ArrayTypeDefinition.hpp"
 #include "ArrayObject.hpp"
 #include "../runtime/ManagedObject.hpp"
-#include "../runtime/NumberTypeDefinition.hpp"
+#include "../corelib/NumberTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
-#include "../runtime/BooleanTypeDefinition.hpp"
+#include "../corelib/BooleanTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;

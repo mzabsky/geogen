@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "../runtime/NumberTypeDefinition.hpp"
+#include "../corelib/NumberTypeDefinition.hpp"
 #include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 
