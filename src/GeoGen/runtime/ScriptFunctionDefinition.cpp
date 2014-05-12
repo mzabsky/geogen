@@ -1,6 +1,7 @@
 #include "ScriptFunctionDefinition.hpp"
 #include "VirtualMachine.hpp"
 #include "..\InternalErrorException.hpp"
+#include "NumberOfArgumentsException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -13,7 +14,10 @@ void ScriptFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, M
 		throw new InternalErrorException("Script functions cannot be instance methods.");
 	}
 
-	// TODO: Validace argumentu
+	if (numberOfArguments != this->GetParameterCount())
+	{
+		throw NumberOfArgumentsException(location, this->GetParameterCount(), numberOfArguments);
+	}
 
 	vm->GetCallStack().Top().CallCodeBlock(location, vm, this->GetRootCodeBlock(), false);
 }
