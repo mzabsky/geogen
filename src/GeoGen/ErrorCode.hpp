@@ -49,5 +49,6 @@ namespace geogen
 		GGE3000_ApiUsageError = 3000,
 		GGE4000_InternalError = 4000,
 		GGE4001_IntermediateCodeError = 4001,
+		GGE5000_UserError = 5000
 	};
 }

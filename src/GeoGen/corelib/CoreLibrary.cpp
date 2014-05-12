@@ -18,6 +18,7 @@
 #include "MathLogPowFunctionDefinition.hpp"
 #include "MathSqrtFunctionDefinition.hpp"
 #include "MathRoundFunctionDefinition.hpp"
+#include "MessageFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -74,4 +75,8 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::CEIL));
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::FLOOR));
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::ABS));
+
+	// Text reporting
+	this->globalFunctionDefinitions.AddItem(MessageFunctionDefinition::Create(MessageFunctionDefinition::PRINT));
+	this->globalFunctionDefinitions.AddItem(MessageFunctionDefinition::Create(MessageFunctionDefinition::TRIGGER_ERROR));
 }

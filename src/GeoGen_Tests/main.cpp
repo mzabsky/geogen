@@ -11,6 +11,7 @@
 #include "ArrayTests.hpp"
 #include "CompositeTests.hpp"
 #include "MathTests.hpp"
+#include "MessageTests.hpp"
 
 using namespace std;
 
@@ -28,6 +29,7 @@ int main()
 	RUN_FIXTURE(ArrayTests);
 	RUN_FIXTURE(CompositeTests);
 	RUN_FIXTURE(MathTests);
+	RUN_FIXTURE(MessageTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 
