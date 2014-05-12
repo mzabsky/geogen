@@ -40,6 +40,8 @@ namespace geogen
 
 		class VirtualMachine
 		{
+		public:
+			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, std::string const& message);
 		private:
 			VirtualMachineStatus status;
 			
@@ -54,13 +56,15 @@ namespace geogen
 			VariableTable globalVariableTable;
 			ScriptParameters arguments;
 
+			ScriptMessageHandler scriptMessageHandler;
+
 			void InitializeTypes();
 			void InitializeGlobalVariables();
 			void InitializeMainFunction();
 			void ValidateArguments();
 
 			// Non-copyable
-			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript) {};
+			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler) {};
 			VirtualMachine& operator=(VirtualMachine const&) {};
 		public:
 			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);
@@ -72,6 +76,10 @@ namespace geogen
 			inline ScriptParameters const& GetArguments() { return this->arguments; }
 
 			inline CompiledScript const& GetCompiledScript() const { return this->compiledScript; };
+
+			inline ScriptMessageHandler GetScriptMessageHandler() const { return this->scriptMessageHandler; };
+			inline void SetScriptMessageHandler(ScriptMessageHandler scriptMessageHandler) { this->scriptMessageHandler = scriptMessageHandler; };
+			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, std::string const& message);
 
 			inline ObjectStack& GetObjectStack() { return this->objectStack; };
 			//inline std::stack<ManagedObject const*> const& GetObjectStack() const { return *((std::stack<ManagedObject const*>*)&this->objectStack); };

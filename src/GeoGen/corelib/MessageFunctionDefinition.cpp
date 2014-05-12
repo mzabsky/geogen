@@ -36,7 +36,11 @@ ManagedObject* MessageFunctionDefinition::CallNative(CodeLocation location, runt
 	
 	switch (this->function)
 	{
-	case PRINT:		
+	case PRINT:
+		if (vm->GetScriptMessageHandler() != NULL)
+		{
+			vm->GetScriptMessageHandler()(vm, location, str);
+		}		
 		break;
 	case TRIGGER_ERROR:
 		throw UserErrorException(location, str);

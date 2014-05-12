@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MessageTests.cpp" />
     <ClCompile Include="TestFixtureBase.cpp" />
   </ItemGroup>
   <ItemGroup>

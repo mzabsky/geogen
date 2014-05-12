@@ -34,6 +34,10 @@ void VirtualMachine::InitializeTypes()
 	}
 }
 
+void VirtualMachine::DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, std::string const& message)
+{
+	cout << "Script message: " << message << endl;
+}
 
 void VirtualMachine::InitializeGlobalVariables()
 {

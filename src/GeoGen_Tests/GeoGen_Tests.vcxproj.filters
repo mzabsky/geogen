@@ -3,6 +3,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestFixtureBase.cpp" />
+    <ClCompile Include="MessageTests.cpp">
+      <Filter>Fixtures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestFixtureBase.hpp" />
