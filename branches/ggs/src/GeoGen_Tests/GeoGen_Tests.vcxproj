@@ -91,6 +91,7 @@
     <ClInclude Include="FlowControlTests.hpp" />
     <ClInclude Include="FunctionTests.hpp" />
     <ClInclude Include="MathTests.hpp" />
+    <ClInclude Include="MessageTests.hpp" />
     <ClInclude Include="MetadataTests.hpp" />
     <ClInclude Include="NoExceptionException.hpp" />
     <ClInclude Include="TestFixtureBase.hpp" />

@@ -150,6 +150,8 @@
     <ClInclude Include="corelib\MathLogPowFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathRoundFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\UserErrorException.hpp" />
+    <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -248,6 +250,7 @@
     <ClCompile Include="corelib\MathLogPowFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\MessageFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
