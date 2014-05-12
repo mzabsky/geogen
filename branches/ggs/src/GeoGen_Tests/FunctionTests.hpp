@@ -2,6 +2,7 @@
 
 #include "TestFixtureBase.hpp"
 #include "..\GeoGen\runtime\StackOverflowException.hpp"
+#include "..\GeoGen\runtime\NumberOfArgumentsException.hpp"
 
 class FunctionTests : public TestFixtureBase
 {
@@ -80,6 +81,16 @@ public:
 		");
 	}
 
+	
+	static void TestCallScriptFunctionWithIncorrectNumberOfArguments()
+	{
+		TEST_SCRIPT_FAILURE(NumberOfArgumentsException, "\n\
+			function x(a, b, c){};\n\
+			x(1,2);\n\
+		");
+	}
+
+
 	static void TestCallStackOverflow()
 	{
 		TEST_SCRIPT_FAILURE(StackOverflowException, "\n\
@@ -99,5 +110,6 @@ public:
 		// ADD_TESTCASE(TestGlobalFunctionRedefinition);
 		ADD_TESTCASE(TestFunctionRedefinition);
 		ADD_TESTCASE(TestCallStackOverflow);
+		ADD_TESTCASE(TestCallScriptFunctionWithIncorrectNumberOfArguments);
 	}
 };
