@@ -114,9 +114,6 @@
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterTypeException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterAttributeTypeException.hpp" />
-    <ClInclude Include="compiler\ScriptParametersNotKeyValueCollectionException.hpp" />
-    <ClInclude Include="compiler\ScriptParameterNotKeyValueCollection.hpp" />
-    <ClInclude Include="compiler\IncrorrectScriptParameterValueRestrictionException.hpp" />
     <ClInclude Include="runtime\ObjectId.hpp" />
     <ClInclude Include="runtime\ManagedObject.hpp" />
     <ClInclude Include="utils\StringUtils.hpp" />
@@ -152,6 +149,13 @@
     <ClInclude Include="corelib\MathRoundFunctionDefinition.hpp" />
     <ClInclude Include="runtime\UserErrorException.hpp" />
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
+    <ClInclude Include="compiler\MetadataKeyValueCollectionExpectedException.hpp" />
+    <ClInclude Include="compiler\IncorrectScriptParameterValueRestrictionException.hpp" />
+    <ClInclude Include="compiler\UndefinedMetadataIdentifierException.hpp" />
+    <ClInclude Include="compiler\IncorrectMapSizeNumericValueException.hpp" />
+    <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
+    <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp" />
+    <ClInclude Include="Dimension.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -251,6 +255,7 @@
     <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MessageFunctionDefinition.cpp" />
+    <ClCompile Include="Dimension.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

@@ -67,7 +67,7 @@ namespace geogen
 			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler) {};
 			VirtualMachine& operator=(VirtualMachine const&) {};
 		public:
-			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);
+			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);	
 			~VirtualMachine() {};
 
 			inline VirtualMachineStatus GetStatus() const { return this->status; }

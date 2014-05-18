@@ -628,10 +628,10 @@ expression returns [CodeBlock* returnCodeBlock]
 		CodeLocation location($NUMBER.line, $NUMBER.pos);	
 		$returnCodeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(location, StringToNumber((char*)$NUMBER.text->chars)));
 	}
-	| STRING 
+	| stringLiteral 
 	{ 
-		CodeLocation location($STRING.line, $STRING.pos);	
-		$returnCodeBlock->AddInstruction(new instructions::LoadConstStringInstruction(location, (char*)$STRING.text->chars));
+		CodeLocation location($stringLiteral.line, $stringLiteral.pos);	
+		$returnCodeBlock->AddInstruction(new instructions::LoadConstStringInstruction(location, $stringLiteral.value));
 	}
 	| coordinateExpression { $returnCodeBlock->MoveInstructionsFrom(*$coordinateExpression.returnCodeBlock); delete $coordinateExpression.returnCodeBlock;} 
 	;

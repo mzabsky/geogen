@@ -63,6 +63,62 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 			throw InternalErrorException("Invalid script parameter type.");
 		}
 	}
+
+	{
+		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetMapWidth());
+		if (!staticObject->GetMemberVariableTable().DeclareVariable("MapWidth", object, true))
+		{
+			throw InternalErrorException("MapWidth parameter member name conflict.");
+		}
+	}
+
+	if(){
+		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetMapHeight());
+		if (!staticObject->GetMemberVariableTable().DeclareVariable("MapHeight", object, true))
+		{
+			throw InternalErrorException("MapHeight parameter member name conflict.");
+		}
+	}
+
+	{
+		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderOriginX());
+		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderOriginX", object, true))
+		{
+			throw InternalErrorException("RenderOriginX parameter member name conflict.");
+		}
+	}
+
+	{
+		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderOriginY());
+		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderOriginY", object, true))
+		{
+			throw InternalErrorException("RenderOriginY parameter member name conflict.");
+		}
+	}
+
+	{
+		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderWidth());
+		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderWidth", object, true))
+		{
+			throw InternalErrorException("RenderWidth parameter member name conflict.");
+		}
+	}
+
+	{
+		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderHeight());
+		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderHeight", object, true))
+		{
+			throw InternalErrorException("RenderHeight parameter member name conflict.");
+		}
+	}
+
+	{
+		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderScale());
+		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderScale", object, true))
+		{
+			throw InternalErrorException("RenderScale parameter member name conflict.");
+		}
+	}
 }
 
 ManagedObject* ParametersTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) const
