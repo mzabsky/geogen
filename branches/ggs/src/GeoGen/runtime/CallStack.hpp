@@ -13,6 +13,9 @@ namespace geogen
 		class MemoryManager;
 		class FunctionDefinition;
 
+		/// <summary>
+		/// Data structure containing all required information about function call stack. Each call <see>CallStackEntry</see> then contains a code block stack.
+		/// </summary>
 		class CallStack : public Serializable
 		{
 			std::deque<CallStackEntry*> stack;
@@ -23,7 +26,14 @@ namespace geogen
 		public:
 			static const unsigned SIZE_LIMIT;
 
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CallStack"/> class.
+			/// </summary>
 			CallStack() {};
+
+			/// <summary>
+			/// Destroys all <see>CallStackEntry</see> items owned by this instance.
+			/// </summary>
 			~CallStack();
 
 			typedef std::deque<CallStackEntry*>::const_iterator const_iterator;
@@ -31,6 +41,8 @@ namespace geogen
 			typedef std::deque<CallStackEntry*>::const_reverse_iterator const_reverse_iterator;
 			typedef std::deque<CallStackEntry*>::reverse_iterator reverse_iterator;
 
+			/// <summary> Gets the topmost entry in the stack. </summary>
+			/// <returns> A reference to the topmost entry in the stack.</returns>
 			CallStackEntry& Top();
 			void Pop();
 			void Push(CodeLocation location, FunctionDefinition const* functionDefinition);

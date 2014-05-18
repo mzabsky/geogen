@@ -79,14 +79,17 @@
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
+    <ClInclude Include="compiler\IncorrectMapSizeNumericValueException.hpp" />
+    <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterAttributeTypeException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterTypeException.hpp" />
-    <ClInclude Include="compiler\IncrorrectScriptParameterValueRestrictionException.hpp" />
+    <ClInclude Include="compiler\IncorrectScriptParameterValueRestrictionException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
     <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp" />
-    <ClInclude Include="compiler\ScriptParameterNotKeyValueCollection.hpp" />
-    <ClInclude Include="compiler\ScriptParametersNotKeyValueCollectionException.hpp" />
+    <ClInclude Include="compiler\MetadataKeyValueCollectionExpectedException.hpp" />
+    <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
+    <ClInclude Include="compiler\UndefinedMetadataIdentifierException.hpp" />
     <ClInclude Include="corelib\ArrayContainsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />
@@ -117,6 +120,7 @@
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\StringTypeDefinition.hpp" />
     <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="Dimension.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
@@ -238,6 +242,7 @@
     <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MessageFunctionDefinition.cpp" />
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />
+    <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
     <ClCompile Include="runtime\FunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />

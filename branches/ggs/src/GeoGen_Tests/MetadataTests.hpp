@@ -4,6 +4,9 @@
 #include "..\GeoGen\runtime\VariableRedefinitionException.hpp"
 #include "..\GeoGen\runtime\BooleanScriptParameter.hpp"
 #include "..\GeoGen\runtime\NumberScriptParameter.hpp"
+#include "..\GeoGen\compiler\IncorrectScriptParameterAttributeTypeException.hpp"
+#include "..\GeoGen\compiler\IncorrectMapSizeNumericValueException.hpp"
+#include "..\GeoGen\compiler\MinGreaterThanMaxSizeException.hpp"
 
 class MetadataTests : public TestFixtureBase
 {
@@ -284,6 +287,376 @@ public:
 		");
 	}
 
+	static void TestDefaultInfiniteWidth()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapWidth());
+	}
+
+	static void TestExplicitInfiniteWidth()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Width: Infinite\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapWidth());
+	}
+
+	static void TestDefaultWidth()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Width: { Default: 1000 }\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, 1000, params.GetDefaultMapWidth());
+	}
+
+	static void TestDefaultWidthNonNumber()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectScriptParameterAttributeTypeException, "\n\
+			metadata {\n\
+				Width: { Default: \"aaa\" }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultWidthNonInteger()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Default: 1.5 }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultWidthTooSmall()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Default: 0 }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultWidthTooLarge()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Default: 10000000000000 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinWidth()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Width: { Min: 1000 }\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, 1000, params.GetMinMapWidth());
+	}
+
+	static void TestMinWidthNonNumber()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectScriptParameterAttributeTypeException, "\n\
+			metadata {\n\
+				Width: { Min: \"aaa\" }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinWidthNonInteger()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Min: 1.5 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinWidthTooSmall()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Min: 0 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinWidthTooLarge()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Min: 10000000000000 }\n\
+			}\n\
+		");
+	}
+	
+	static void TestMaxWidth()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Width: { Max: 1000 }\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, 1000, params.GetMaxMapWidth());
+	}
+
+	static void TestMaxWidthNonNumber()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectScriptParameterAttributeTypeException, "\n\
+			metadata {\n\
+				Width: { Max: \"aaa\" }\n\
+			}\n\
+		");
+	}
+
+	static void TestMaxWidthNonInteger()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Max: 1.5 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMaxWidthTooSmall()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Max: 0 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMaxWidthTooLarge()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Width: { Max: 10000000000000 }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultWidthMinGreaterThanMax()
+	{
+		TEST_SCRIPT_FAILURE(MinGreaterThanMaxSizeException, "\n\
+			metadata {\n\
+				Width: { Min: 2000, Max: 1000 }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultInfiniteHeight()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapHeight());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapHeight());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapHeight());
+	}
+
+	static void TestExplicitInfiniteHeight()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Height: Infinite\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapHeight());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapHeight());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapHeight());
+	}
+
+	static void TestDefaultHeight()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Height: { Default: 1000 }\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, 1000, params.GetDefaultMapHeight());
+	}
+
+	static void TestDefaultHeightNonNumber()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectScriptParameterAttributeTypeException, "\n\
+			metadata {\n\
+				Height: { Default: \"aaa\" }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultHeightNonInteger()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Default: 1.5 }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultHeightTooSmall()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Default: 0 }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultHeightTooLarge()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Default: 10000000000000 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinHeight()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Height: { Min: 1000 }\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, 1000, params.GetMinMapHeight());
+	}
+
+	static void TestMinHeightNonNumber()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectScriptParameterAttributeTypeException, "\n\
+			metadata {\n\
+				Height: { Min: \"aaa\" }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinHeightNonInteger()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Min: 1.5 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinHeightTooSmall()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Min: 0 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMinHeightTooLarge()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Min: 10000000000000 }\n\
+			}\n\
+		");
+	}
+	
+	static void TestMaxHeight()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Height: { Max: 1000 }\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, 1000, params.GetMaxMapHeight());
+	}
+
+	static void TestMaxHeightNonNumber()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectScriptParameterAttributeTypeException, "\n\
+			metadata {\n\
+				Height: { Max: \"aaa\" }\n\
+			}\n\
+		");
+	}
+
+	static void TestMaxHeightNonInteger()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Max: 1.5 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMaxHeightTooSmall()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Max: 0 }\n\
+			}\n\
+		");
+	}
+
+	static void TestMaxHeightTooLarge()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectMapSizeNumericValueException, "\n\
+			metadata {\n\
+				Height: { Max: 10000000000000 }\n\
+			}\n\
+		");
+	}
+
+	static void TestDefaultHeightMinGreaterThanMax()
+	{
+		TEST_SCRIPT_FAILURE(MinGreaterThanMaxSizeException, "\n\
+			metadata {\n\
+				Height: { Min: 2000, Max: 1000 }\n\
+			}\n\
+		");
+	}
+
 	MetadataTests() : TestFixtureBase("MetadataTests")
 	{
 		ADD_TESTCASE(TestGetStringMetadataValue);
@@ -301,5 +674,39 @@ public:
 		ADD_TESTCASE(TestUseBooleanScriptParameterWithDefaultValue);
 		ADD_TESTCASE(TestUseNumberScriptParameter);
 		ADD_TESTCASE(TestUseNumberScriptParameterWithDefaultValue);
+		ADD_TESTCASE(TestDefaultInfiniteWidth);
+		ADD_TESTCASE(TestExplicitInfiniteWidth);
+		ADD_TESTCASE(TestDefaultWidth);
+		ADD_TESTCASE(TestDefaultWidthNonNumber);
+		ADD_TESTCASE(TestDefaultWidthNonInteger);
+		ADD_TESTCASE(TestDefaultWidthTooSmall);
+		ADD_TESTCASE(TestDefaultWidthTooLarge);
+		ADD_TESTCASE(TestMinWidth);
+		ADD_TESTCASE(TestMinWidthNonNumber);
+		ADD_TESTCASE(TestMinWidthNonInteger);
+		ADD_TESTCASE(TestMinWidthTooSmall);
+		ADD_TESTCASE(TestMinWidthTooLarge);
+		ADD_TESTCASE(TestMaxWidth);
+		ADD_TESTCASE(TestMaxWidthNonNumber);
+		ADD_TESTCASE(TestMaxWidthNonInteger);
+		ADD_TESTCASE(TestMaxWidthTooSmall);
+		ADD_TESTCASE(TestMaxWidthTooLarge);
+		ADD_TESTCASE(TestDefaultInfiniteHeight);
+		ADD_TESTCASE(TestExplicitInfiniteHeight);
+		ADD_TESTCASE(TestDefaultHeight);
+		ADD_TESTCASE(TestDefaultHeightNonNumber);
+		ADD_TESTCASE(TestDefaultHeightNonInteger);
+		ADD_TESTCASE(TestDefaultHeightTooSmall);
+		ADD_TESTCASE(TestDefaultHeightTooLarge);
+		ADD_TESTCASE(TestMinHeight);
+		ADD_TESTCASE(TestMinHeightNonNumber);
+		ADD_TESTCASE(TestMinHeightNonInteger);
+		ADD_TESTCASE(TestMinHeightTooSmall);
+		ADD_TESTCASE(TestMinHeightTooLarge);
+		ADD_TESTCASE(TestMaxHeight);
+		ADD_TESTCASE(TestMaxHeightNonNumber);
+		ADD_TESTCASE(TestMaxHeightNonInteger);
+		ADD_TESTCASE(TestMaxHeightTooSmall);
+		ADD_TESTCASE(TestMaxHeightTooLarge);
 	}
 };

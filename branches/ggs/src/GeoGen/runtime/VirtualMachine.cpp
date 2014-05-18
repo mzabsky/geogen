@@ -65,6 +65,18 @@ void VirtualMachine::ValidateArguments()
 {
 	ScriptParameters originalParameters = this->GetCompiledScript().CreateScriptParameters();
 
+	if (
+		originalParameters.GetDefaultMapWidth() != originalParameters.GetDefaultMapWidth() ||
+		originalParameters.GetMinMapWidth() != originalParameters.GetMinMapWidth() ||
+		originalParameters.GetMaxMapWidth() != originalParameters.GetMaxMapWidth() ||
+		originalParameters.GetDefaultMapHeight() != originalParameters.GetDefaultMapHeight() ||
+		originalParameters.GetMinMapHeight() != originalParameters.GetMinMapHeight() ||
+		originalParameters.GetMaxMapHeight() != originalParameters.GetMaxMapHeight()
+		)
+	{
+		throw ApiUsageException("Map size defaults/min/max don't match defaults/min/max declared by the script.");
+	}
+
 	for (ScriptParameters::const_iterator it = this->GetArguments().Begin(); it != this->GetArguments().End(); it++)
 	{
 		ScriptParameter* originalParameter = originalParameters.GetItem(it->first);
