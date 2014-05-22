@@ -72,7 +72,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 		}
 	}
 
-	if(){
+	/*if()*/{
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetMapHeight());
 		if (!staticObject->GetMemberVariableTable().DeclareVariable("MapHeight", object, true))
 		{

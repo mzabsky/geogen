@@ -95,6 +95,7 @@
     <ClInclude Include="MessageTests.hpp" />
     <ClInclude Include="MetadataTests.hpp" />
     <ClInclude Include="NoExceptionException.hpp" />
+    <ClInclude Include="StringTests.hpp" />
     <ClInclude Include="TestFixtureBase.hpp" />
     <ClInclude Include="VariablesTests.hpp" />
   </ItemGroup>
