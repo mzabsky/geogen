@@ -156,6 +156,12 @@
     <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
     <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp" />
     <ClInclude Include="Dimension.hpp" />
+    <ClInclude Include="renderer\RenderingSequence.hpp" />
+    <ClInclude Include="renderer\Renderer.hpp" />
+    <ClInclude Include="Point.hpp" />
+    <ClInclude Include="renderer\RendererObject.hpp" />
+    <ClInclude Include="renderer\RenderingStep.hpp" />
+    <ClInclude Include="renderer\RendererObjectSlotTable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

@@ -133,6 +133,12 @@
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="Number.hpp" />
+    <ClInclude Include="Point.hpp" />
+    <ClInclude Include="renderer\Renderer.hpp" />
+    <ClInclude Include="renderer\RendererObject.hpp" />
+    <ClInclude Include="renderer\RenderingSequence.hpp" />
+    <ClInclude Include="renderer\RendererObjectSlotTable.hpp" />
+    <ClInclude Include="renderer\RenderingStep.hpp" />
     <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
     <ClInclude Include="corelib\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CallStack.hpp" />
