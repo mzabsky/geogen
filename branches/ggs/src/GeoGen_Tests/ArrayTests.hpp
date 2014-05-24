@@ -188,6 +188,20 @@ public:
 		");
 	}
 
+	static void TestIndexerPushBack()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[] = 11;\n\
+			a[] = 12;\n\
+			a[] = 13;\n\
+			\n\
+			AssertEquals(11, a[0]);\n\
+			AssertEquals(12, a[1]);\n\
+			AssertEquals(13, a[2]);\n\
+		");
+	}
+
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
@@ -207,5 +221,6 @@ public:
 		ADD_TESTCASE(TestRemoveValueRemoves);
 		ADD_TESTCASE(TestRemoveValueRemovesOnlyFirst);
 		ADD_TESTCASE(TestRemoveValueDoesNothingIfNotFound);
+		ADD_TESTCASE(TestIndexerPushBack);
 	}
 };

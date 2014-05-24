@@ -13,11 +13,21 @@ using namespace geogen::runtime;
 ManagedObject* ArraySetFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
+	
+	if (arguments.size() != 1){
+		// a[b] = c form
+		this->CheckArguments(location, 2, arguments);
 
-	this->CheckArguments(location, 2, arguments);
+		ArrayObject* thisArray = dynamic_cast<ArrayObject*>(instance);
 
-	ArrayObject* thisArray = dynamic_cast<ArrayObject*>(instance);
+		thisArray->Set(vm, location, arguments[0], arguments[1]);
+		return arguments[1];
+	}
+	else {
+		// a[] = b form
+		ArrayObject* thisArray = dynamic_cast<ArrayObject*>(instance);
 
-	thisArray->Set(vm, location, arguments[0], arguments[1]);
-	return arguments[1];
+		thisArray->PushBack(vm, location, arguments[0]);
+		return arguments[0];
+	}
 }
