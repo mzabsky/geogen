@@ -24,7 +24,7 @@ namespace geogen
 			virtual std::string GetDetailMessage()
 			{
 				std::stringstream ss;
-				ss << "Incorrect number of arguments to a function call, \"" << this->GetExpectedNumberOfArguments() + "\" expected, got \"" << this->GetActualNumberOfArguments() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				ss << "Incorrect number of arguments to a function call, " << this->GetExpectedNumberOfArguments() << " expected, got " << this->GetActualNumberOfArguments() << " on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}
 		};
