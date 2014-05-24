@@ -87,7 +87,9 @@ tokens {
 
 @lexer::members {
 	void handleLexerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames) { 
-	    throw GeoGenException(GGE1101_UnexpectedCharacter); 
+		pANTLR3_LEXER lexer = (pANTLR3_LEXER)(recognizer->super);
+		pANTLR3_EXCEPTION ex = lexer->rec->state->exception;
+		throw UnexpectedCharacterException(CodeLocation(recognizer->state->exception->line, ex->charPositionInLine), ex->c); 
 	} 
 }
 
@@ -369,30 +371,21 @@ fragment INTEGER: ('0'..'9')+ ;
 
 NUMBER: INTEGER ('.' INTEGER)?;
 
+QUOTE   :      '"';
 STRING
-    :  '"' ( ~'"')* '"'
-    ;
+@init{ pANTLR3_STRING unesc = GETTEXT()->factory->newRaw(GETTEXT()->factory); }
+        :       QUOTE ( reg = ~('\\' | '"') { unesc->addc(unesc, reg); }
+                        | esc = ESCAPED { unesc->appendS(unesc, GETTEXT()); } )* QUOTE { SETTEXT(unesc); };
 
 fragment
-HEX_DIGIT : ('0'..'9'|'a'..'f'|'A'..'F') ;
+ESCAPED :       '\\'
+                ( '\\' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\\")); }
+                | '"' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\"")); }
+                | 'n' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\n")); }
+                | 't' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\t")); }
+                | ~('\\' | '"' | 'n' | 't') { throw InvalidEscapeSequenceException(CodeLocation(ctx->pLexer->input->getLine(ctx->pLexer->input), ctx->pLexer->input->getCharPositionInLine(ctx->pLexer->input) - 1), string(1, (char)LA(0))); }
+                )
+        ;
 
-fragment
-ESC_SEQ
-    :   '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
-    /*|   UNICODE_ESC
-    |   OCTAL_ESC*/
-    ;
-/*
-fragment
-OCTAL_ESC
-    :   '\\' ('0'..'3') ('0'..'7') ('0'..'7')
-    |   '\\' ('0'..'7') ('0'..'7')
-    |   '\\' ('0'..'7')
-    ;
-
-fragment
-UNICODE_ESC
-    :   '\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
-    ;*/
 
 WHITESPACE: (' ' |'\t' |'\n' |'\r' )+ {$channel=HIDDEN;} ;

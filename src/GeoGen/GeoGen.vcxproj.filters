@@ -162,6 +162,8 @@
     <ClInclude Include="renderer\RendererObject.hpp" />
     <ClInclude Include="renderer\RenderingStep.hpp" />
     <ClInclude Include="renderer\RendererObjectSlotTable.hpp" />
+    <ClInclude Include="compiler\UnexpectedCharacterException.hpp" />
+    <ClInclude Include="compiler\InvalidEscapeSequenceException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

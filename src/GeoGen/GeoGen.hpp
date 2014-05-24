@@ -10,10 +10,12 @@
 
 #include "compiler/Compiler.hpp"
 #include "compiler/CompilerException.hpp"
+#include "compiler/InvalidEscapeSequenceException.hpp"
 #include "compiler/InvalidSymbolDefinitionException.hpp"
 #include "compiler/MetadataKeyRedefinitionException.hpp"
 #include "compiler/SymbolRedefinitionException.hpp"
 #include "compiler/UnexpectedTokenException.hpp"
+#include "compiler/UnexpectedCharacterException.hpp"
 
 #include "runtime/CodeBlock.hpp"
 #include "runtime/CompiledScript.hpp"
