@@ -64,7 +64,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 		}
 	}
 
-	{
+	if (vm->GetArguments().GetMapWidth() != MAP_SIZE_INFINITE){
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetMapWidth());
 		if (!staticObject->GetMemberVariableTable().DeclareVariable("MapWidth", object, true))
 		{
@@ -72,7 +72,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 		}
 	}
 
-	/*if()*/{
+	if (vm->GetArguments().GetMapHeight() != MAP_SIZE_INFINITE){
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetMapHeight());
 		if (!staticObject->GetMemberVariableTable().DeclareVariable("MapHeight", object, true))
 		{
