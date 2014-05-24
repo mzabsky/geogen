@@ -84,12 +84,14 @@
     <ClInclude Include="compiler\IncorrectScriptParameterAttributeTypeException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterTypeException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterValueRestrictionException.hpp" />
+    <ClInclude Include="compiler\InvalidEscapeSequenceException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
     <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp" />
     <ClInclude Include="compiler\MetadataKeyValueCollectionExpectedException.hpp" />
     <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
     <ClInclude Include="compiler\UndefinedMetadataIdentifierException.hpp" />
+    <ClInclude Include="compiler\UnexpectedCharacterException.hpp" />
     <ClInclude Include="corelib\ArrayContainsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />

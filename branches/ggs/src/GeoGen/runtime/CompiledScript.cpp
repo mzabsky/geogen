@@ -433,11 +433,11 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_INTEGERS;
 						}
-						else if (restrictionName == "PowersOfTwo")
+						else if (restrictionName == "PowersOf2")
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_POWERS_OF_2;
 						}
-						else if (restrictionName == "PowersOfTen")
+						else if (restrictionName == "PowersOf10")
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_POWERS_OF_10;
 						}

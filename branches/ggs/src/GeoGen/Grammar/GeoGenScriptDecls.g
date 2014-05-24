@@ -860,7 +860,7 @@ stringLiteral returns [std::string value, int line, int pos]:
 	STRING
 {
 	std::string str ((char*)$STRING.text->chars);
-	$value = str.substr(1, str.length() - 2);
+	$value = str;//str.substr(1, str.length() - 2);
 	$line = $STRING.line;
 	$pos = $STRING.pos;
 };

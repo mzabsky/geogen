@@ -5,6 +5,7 @@ namespace geogen
 	enum ErrorCode
 	{
 		GGE1101_UnexpectedCharacter = 1101,
+		GGE1101_InvalidEscapeSequence = 1102,
 		GGE1201_UnexpectedToken = 1201,
 		GGE1301_InvalidBreak = 1301,
 		GGE1302_MissingBreak = 1302,

@@ -225,6 +225,60 @@ public:
 		ASSERT_EQUALS(ScriptParameterValueRestriction, SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED, param->GetRestriction());
 	}
 
+	static void TestIntegersParameterValueRestriction()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					NumberParam: { Type: Number, Default: 5, Min: 0, Max: 100000, Restriction: Integers }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
+		param->SetValue(10.5);
+
+		ASSERT_EQUALS(Number, 10, param->GetValue());
+	}
+
+	static void TestPowersOf2ParameterValueRestriction()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					NumberParam: { Type: Number, Default: 4, Min: 1, Max: 2048, Restriction: PowersOf2 }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
+		param->SetValue(1050);
+
+		ASSERT_EQUALS(Number, 1024, param->GetValue());
+	}
+
+	static void TestPowersOf10ParameterValueRestriction()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					NumberParam: { Type: Number, Default: 10, Min: 1, Max: 1000000, Restriction: PowersOf10 }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
+		param->SetValue(1050);
+
+		ASSERT_EQUALS(Number, 1000, param->GetValue());
+	}
+
 	static void TestUseBooleanScriptParameter()
 	{
 		ScriptParameters params;
@@ -674,6 +728,9 @@ public:
 		ADD_TESTCASE(TestUseBooleanScriptParameterWithDefaultValue);
 		ADD_TESTCASE(TestUseNumberScriptParameter);
 		ADD_TESTCASE(TestUseNumberScriptParameterWithDefaultValue);
+		ADD_TESTCASE(TestIntegersParameterValueRestriction);
+		ADD_TESTCASE(TestPowersOf2ParameterValueRestriction);
+		ADD_TESTCASE(TestPowersOf10ParameterValueRestriction);
 		ADD_TESTCASE(TestDefaultInfiniteWidth);
 		ADD_TESTCASE(TestExplicitInfiniteWidth);
 		ADD_TESTCASE(TestDefaultWidth);
