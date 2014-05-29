@@ -3000,7 +3000,7 @@ enumValues(pGeoGenScriptDecls ctx)
 
 
                 	            	        {
-                	            	             number = (int)StringToNumber((char*)(NUMBER18->getText(NUMBER18))->chars); isNumberDefined = true;
+                	            	             number = StringToNumber((char*)(NUMBER18->getText(NUMBER18))->chars); isNumberDefined = true;
                 	            	        }
 
 
