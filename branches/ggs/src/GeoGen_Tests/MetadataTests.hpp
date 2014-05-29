@@ -341,6 +341,87 @@ public:
 		");
 	}
 
+	static void TestInferParameterTypeFromDefaultBool()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					TestParam: { Default: true }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_BOOLEAN, params.GetItem("TestParam")->GetType());
+	}
+
+	static void TestInferParameterTypeFromDefaultNumber()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					TestParam: { Default: 5 }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+	}
+
+	static void TestInferParameterTypeFromMin()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					TestParam: { Min: 0 }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+	}
+
+	static void TestInferParameterTypeFromMax()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					TestParam: { Max: 0 }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+	}
+
+	static void TestInferParameterTypeFromRestriction()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					TestParam: { Restriction: Integers }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+	}
+
+
 	static void TestDefaultInfiniteWidth()
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
@@ -728,6 +809,12 @@ public:
 		ADD_TESTCASE(TestUseBooleanScriptParameterWithDefaultValue);
 		ADD_TESTCASE(TestUseNumberScriptParameter);
 		ADD_TESTCASE(TestUseNumberScriptParameterWithDefaultValue);
+		ADD_TESTCASE(TestInferParameterTypeFromDefaultBool);
+		ADD_TESTCASE(TestInferParameterTypeFromDefaultNumber);
+		ADD_TESTCASE(TestInferParameterTypeFromMin);
+		ADD_TESTCASE(TestInferParameterTypeFromMax);
+		ADD_TESTCASE(TestInferParameterTypeFromRestriction);
+		//
 		ADD_TESTCASE(TestIntegersParameterValueRestriction);
 		ADD_TESTCASE(TestPowersOf2ParameterValueRestriction);
 		ADD_TESTCASE(TestPowersOf10ParameterValueRestriction);

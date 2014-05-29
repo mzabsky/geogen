@@ -359,7 +359,37 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			}
 			else
 			{
-				throw compiler::ScriptParameterTypeNotSpecifiedException(location, name);
+				bool typeDetermined = false;
+				// First type inference rule - obtain the type from the default value.
+				if (currentSection->ContainsItem("Default")){
+					MetadataType defaultType = currentSection->GetItem("Default")->GetType();
+					switch (defaultType)
+					{
+					case METADATA_TYPE_BOOLEAN:
+						parameterType = SCRIPT_PARAMETER_TYPE_BOOLEAN;
+						typeDetermined = true;
+						break;
+					case METADATA_TYPE_NUMBER:
+						parameterType = SCRIPT_PARAMETER_TYPE_NUMBER;
+						typeDetermined = true;
+						break;
+					default:
+						break;
+					}
+				}
+
+				// Second type inference rule - obtain the type from Min, Max and Restriction
+				if (!typeDetermined){
+					if (currentSection->ContainsItem("Min") || currentSection->ContainsItem("Max") || currentSection->ContainsItem("Restriction"))
+					{
+						parameterType = SCRIPT_PARAMETER_TYPE_NUMBER;
+						typeDetermined = true;
+					}
+				}
+
+				if(!typeDetermined) {
+					throw compiler::ScriptParameterTypeNotSpecifiedException(location, name);
+				}
 			}
 
 			ScriptParameter* parameter = NULL;
