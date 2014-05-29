@@ -12,11 +12,13 @@ namespace geogen
 		class EnumTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
-			typedef std::map<int, std::string> const ValueDefinitions;
+			typedef std::map<std::string, int> const ValueDefinitions;
 		private:
 			ValueDefinitions valueDefinitions;
 		public:
 			EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions values);
+
+			virtual void Initialize(runtime::VirtualMachine* vm) const;
 
 			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm, Number value) const;
 
