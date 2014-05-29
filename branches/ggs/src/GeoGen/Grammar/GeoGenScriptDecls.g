@@ -164,58 +164,36 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 	}
 };
 
-enumValues returns [map<int, std::string> returnEnumValues]
-@init { map<std::string, int> tempEnumValues; int number = -1; }
-: ^(VALUES (^(IDENTIFIER (NUMBER { number = (int)StringToNumber((char*)$NUMBER.text->chars); } )?)
+enumValues returns [map<std::string, int> returnEnumValues]
+@init { map<std::string, int> tempEnumValues; double number = 0; int nextAutoNumber = 0; bool isNumberDefined = false;}
+: ^(VALUES (^(IDENTIFIER (NUMBER { number = (int)StringToNumber((char*)$NUMBER.text->chars); isNumberDefined = true;} )?)
 	{ 
 		std::string valueName = (char*)$IDENTIFIER.text->chars;
 	
 		CodeLocation enumValueLocation($IDENTIFIER.line, $IDENTIFIER.pos);
 		
-		if(!IsNumberInt(number))
+		if(isNumberDefined && !IsNumberInt(number))
 		{
 			throw InvalidSymbolDefinitionException(GGE1310_EnumValueNotInteger, enumValueLocation, valueName);
 		}
 		
+		if(!isNumberDefined){
+			number = nextAutoNumber;
+		}
+		else {
+			number = NumberToInt(number);
+		}
 		
-		if(!tempEnumValues.insert(std::pair<std::string, int>(valueName, NumberToInt(number))).second)
+		nextAutoNumber = number + 1;
+		
+		if(!returnEnumValues.insert(std::pair<std::string, int>(valueName, number)).second)
 		{		
 			throw SymbolRedefinitionException(GGE1309_EnumValueAlreadyDefined, enumValueLocation, valueName);
 		}
 		
-		number = -1;
-	})*)
-{
-	// Assign unused numbers to values which have int value -1
-	for(std::map<std::string, int>::iterator it = tempEnumValues.begin(); it != tempEnumValues.end(); it++)
-	{
-		if(it->second > -1)
-		{
-			continue;
-		}
-	
-		int min = std::numeric_limits<int>::max();
-		for(std::map<std::string, int>::iterator it2 = tempEnumValues.begin(); it2 != tempEnumValues.end(); it2++)
-		{
-			int current = it2->second;
-			if(current > -1 && current < min)
-			{
-				min = current;
-			}		
-		}
-		
-		if(min == std::numeric_limits<int>::max())
-		{
-			min = 0;
-		}	
-				
-		min++;
-		
-		it->second = min;
-		
-		returnEnumValues.insert(std::pair<int, std::string>(min, it->first));
-	}
-};
+		isNumberDefined = false;
+		number = 0;
+	})*);
 
 //enumValue: ;
 

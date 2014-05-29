@@ -13,6 +13,7 @@
 #include "MathTests.hpp"
 #include "MessageTests.hpp"
 #include "StringTests.hpp"
+#include "EnumTests.hpp"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ int main()
 	RUN_FIXTURE(MathTests);
 	RUN_FIXTURE(MessageTests);
 	RUN_FIXTURE(StringTests);
+	RUN_FIXTURE(EnumTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 

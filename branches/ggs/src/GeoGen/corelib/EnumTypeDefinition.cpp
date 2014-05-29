@@ -12,14 +12,25 @@ using namespace corelib;
 
 EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions valueDefinitions) : TypeDefinition(name), valueDefinitions(valueDefinitions)
 {
-	for (ValueDefinitions::const_iterator it = valueDefinitions.begin(); it != valueDefinitions.end(); it++){
-		VariableDefinition* variableDefinition = new VariableDefinition(it->second, true);
-		if (!this->GetStaticVariableDefinitions().AddItem(variableDefinition)){
-			delete variableDefinition;
-			throw InternalErrorException("Bad list of enum values.");
-		}
+}
+
+void EnumTypeDefinition::Initialize(VirtualMachine* vm) const
+{
+	TypeDefinition::Initialize(vm);
+
+	ManagedObject* staticObject = vm->GetStaticInstance(this->GetName());
+	if (staticObject == NULL)
+	{
+		throw InternalErrorException("Enum type not initialized properly (static instance missing).");
+	}
+
+	for (ValueDefinitions::const_iterator it = this->valueDefinitions.begin(); it != this->valueDefinitions.end(); it++)
+	{
+		ManagedObject* instance = this->CreateInstance(vm, it->second);
+		staticObject->GetMemberVariableTable().DeclareVariable(it->first, instance, true);
 	}
 }
+
 
 ManagedObject* EnumTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
