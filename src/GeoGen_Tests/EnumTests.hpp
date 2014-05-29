@@ -76,9 +76,33 @@ public:
 		ASSERT_EQUALS(Number, 6, dynamic_cast<NumberObject*>(o3)->GetValue());
 	}
 
+	static void TestScriptEnumWithNonIntegerValue()
+	{
+			TEST_SCRIPT_FAILURE(InvalidSymbolDefinitionException, "\n\
+			enum MyEnum \n\
+			{\n\
+				Item1 = 0.3\n\
+			}\n\
+		");
+	}
+
+	static void TestScriptEnumWithValueRedefinition()
+	{
+		TEST_SCRIPT_FAILURE(SymbolRedefinitionException, "\n\
+			enum MyEnum \n\
+			{\n\
+				Item1,\n\
+				Item2,\n\
+				Item2\n\
+			}\n\
+		");
+	}
+
 	EnumTests() : TestFixtureBase("EnumTests")
 	{
 		ADD_TESTCASE(TestScriptEnum);
 		ADD_TESTCASE(TestScriptEnumWithManualValues);
+		ADD_TESTCASE(TestScriptEnumWithNonIntegerValue);
+		ADD_TESTCASE(TestScriptEnumWithValueRedefinition);
 	}
 };
