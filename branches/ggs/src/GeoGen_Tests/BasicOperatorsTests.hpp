@@ -252,9 +252,25 @@ public:
 		TEST_SCRIPT_FAILURE(IncorrectTypeException, "Boolean || true;");
 	}
 
+	static void TestConditionalOperatorTrue()
+	{
+		TestScript("\
+			AssertEquals(1, true ? 1 : 2);\n\
+		");
+	}
+
+	static void TestConditionalOperatorFalse()
+	{
+		TestScript("\
+			AssertEquals(2, false ? 1 : 2);\n\
+		");
+	}
+
 	BasicOperatorsTests() : TestFixtureBase("BasicOperatorsTests")
 	{
 		ADD_TESTCASE(TestOperators);
 		ADD_TESTCASE(TestOperatorFailures);
+		ADD_TESTCASE(TestConditionalOperatorTrue);
+		ADD_TESTCASE(TestConditionalOperatorFalse);
 	}
 };
