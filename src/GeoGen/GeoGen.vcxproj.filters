@@ -164,6 +164,8 @@
     <ClInclude Include="renderer\RendererObjectSlotTable.hpp" />
     <ClInclude Include="compiler\UnexpectedCharacterException.hpp" />
     <ClInclude Include="compiler\InvalidEscapeSequenceException.hpp" />
+    <ClInclude Include="runtime\EnumScriptParameter.hpp" />
+    <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -264,6 +266,7 @@
     <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MessageFunctionDefinition.cpp" />
     <ClCompile Include="Dimension.cpp" />
+    <ClCompile Include="runtime\EnumScriptParameter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

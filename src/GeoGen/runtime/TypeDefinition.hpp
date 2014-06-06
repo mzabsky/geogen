@@ -48,6 +48,8 @@ namespace geogen
 
 			virtual void Initialize(VirtualMachine* vm) const;
 
+			virtual bool IsEnumType() const { return false; };
+
 			virtual bool InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const;
 			virtual bool InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const;
 

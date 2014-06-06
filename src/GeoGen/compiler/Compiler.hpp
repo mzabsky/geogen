@@ -7,10 +7,13 @@
 
 namespace geogen 
 {
-	namespace compiler 
+	namespace runtime 
 	{
 		class TypeDefinition;
+	}
 
+	namespace compiler 
+	{		
 		class Compiler
 		{
 			private:

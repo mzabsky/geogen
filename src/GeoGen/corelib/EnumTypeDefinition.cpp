@@ -85,3 +85,59 @@ ManagedObject* EnumTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) co
 
 	return CreateInstance(vm, dynamic_cast<NumberObject const*>(a)->GetValue());
 }
+
+ManagedObject* EnumTypeDefinition::GetValueByInt(VirtualMachine* vm, int intValue) const
+{
+	for (ValueDefinitions::const_iterator it = this->valueDefinitions.begin(); it != this->valueDefinitions.end(); it++)
+	{
+		if (it->second == intValue){
+			if (!vm->GetGlobalVariableTable().IsVariableDeclared(this->GetName())){
+				throw InternalErrorException("Enum type missing.");
+			}
+
+			ManagedObject* staticObject = vm->GetGlobalVariableTable().GetVariable(this->GetName())->GetValue();
+
+			if (!staticObject->GetMemberVariableTable().IsVariableDeclared(it->first)){
+				throw InternalErrorException("Enum value missing.");
+			}
+
+			return staticObject->GetMemberVariableTable().GetVariable(it->first)->GetValue();
+		}
+	}
+
+	return NULL;
+}
+
+bool EnumTypeDefinition::IsValueIntDefined(int intValue) const
+{
+	for (ValueDefinitions::const_iterator it = this->valueDefinitions.begin(); it != this->valueDefinitions.end(); it++)
+	{
+		if (it->second == intValue){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+int EnumTypeDefinition::GetDefaultValueInt() const
+{
+	int leastAbsValue = std::numeric_limits<int>::max();
+	int leastAbsKey = 0;
+	for (ValueDefinitions::const_iterator it = this->valueDefinitions.begin(); it != this->valueDefinitions.end(); it++)
+	{
+		if (abs(it->second) < leastAbsValue)
+		{
+			leastAbsValue = abs(it->second);
+			leastAbsKey = it->second;
+		}
+	}
+
+	return leastAbsKey;
+}
+
+
+bool EnumTypeDefinition::IsValueStringDefined(std::string stringValue) const
+{
+	return this->valueDefinitions.find(stringValue) != this->valueDefinitions.end();
+}

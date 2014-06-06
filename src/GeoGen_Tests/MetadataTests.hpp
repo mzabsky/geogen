@@ -4,6 +4,7 @@
 #include "..\GeoGen\runtime\VariableRedefinitionException.hpp"
 #include "..\GeoGen\runtime\BooleanScriptParameter.hpp"
 #include "..\GeoGen\runtime\NumberScriptParameter.hpp"
+#include "..\GeoGen\runtime\EnumScriptParameter.hpp"
 #include "..\GeoGen\compiler\IncorrectScriptParameterAttributeTypeException.hpp"
 #include "..\GeoGen\compiler\IncorrectMapSizeNumericValueException.hpp"
 #include "..\GeoGen\compiler\MinGreaterThanMaxSizeException.hpp"
@@ -279,6 +280,58 @@ public:
 		ASSERT_EQUALS(Number, 1000, param->GetValue());
 	}
 
+	static void TestParseEnumScriptParameter()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			enum TestEnum\n\
+			{\n\
+				TestA, TestB, TestC\n\
+			}\n\
+			\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					EnumParam: { Type: TestEnum, Default: TestC }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem("EnumParam"));
+		ASSERT_EQUALS(string, "EnumParam", param->GetLabel());
+		ASSERT_EQUALS(string, "", param->GetDescription());
+		ASSERT_EQUALS(Number, 2, param->GetDefaultValue());
+		ASSERT_EQUALS(Number, 2, param->GetValue());				
+		ASSERT_EQUALS(TypeDefinition const*, compiledScript->GetTypeDefinitions().GetItem("TestEnum"), param->GetEnumType());
+	}
+
+	static void TestParseEnumScriptParameterWithImplicitAttributes()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			enum TestEnum\n\
+			{\n\
+				TestA, TestB, TestC\n\
+			}\n\
+			\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					EnumParam: { Type: TestEnum }\n\
+				}\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem("EnumParam"));
+		ASSERT_EQUALS(string, "EnumParam", param->GetLabel());
+		ASSERT_EQUALS(string, "", param->GetDescription());
+		ASSERT_EQUALS(Number, 0, param->GetDefaultValue());
+		ASSERT_EQUALS(Number, 0, param->GetValue());				
+		ASSERT_EQUALS(TypeDefinition const*, compiledScript->GetTypeDefinitions().GetItem("TestEnum"), param->GetEnumType());
+	}
+
 	static void TestUseBooleanScriptParameter()
 	{
 		ScriptParameters params;
@@ -338,6 +391,48 @@ public:
 				}\n\
 			}\n\
 			AssertEquals(2, Parameters.NumberParam);\n\
+		");
+	}
+
+	static void TestUseEnumScriptParameter()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			enum TestEnum\n\
+			{\n\
+				TestA, TestB, TestC\n\
+			}\n\
+			\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					EnumParam: { Type: TestEnum, Default: TestC }\n\
+				}\n\
+			}\n\
+			\n\
+			AssertEquals(TestEnum.TestB, Parameters.EnumParam);\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+
+		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem("EnumParam"));
+		param->SetValue(1);
+
+		VirtualMachine vm(*compiledScript, params);
+		vm.Run();
+	}
+
+	static void TestUseEnumScriptParameterWithDefaultValue()
+	{
+		TestScript("\n\
+			enum TestEnum { TestA, TestB, TestC }\n\
+			\n\
+			metadata {\n\
+				Parameters: \n\
+				{ \n\
+					EnumParam: { Type: TestEnum, Label: \"Enum Parameter\", Description: \"Desc\", Default: TestB }\n\
+				}\n\
+			}\n\
+			AssertEquals(TestEnum.TestB, Parameters.EnumParam);\n\
 		");
 	}
 
@@ -805,10 +900,14 @@ public:
 		ADD_TESTCASE(TestParseBooleanScriptParameterWithImplicitAttributes);
 		ADD_TESTCASE(TestParseNumberScriptParameter);
 		ADD_TESTCASE(TestParseNumberScriptParameterWithImplicitAttributes);
+		ADD_TESTCASE(TestParseEnumScriptParameter);
+		ADD_TESTCASE(TestParseEnumScriptParameterWithImplicitAttributes);
 		ADD_TESTCASE(TestUseBooleanScriptParameter);
 		ADD_TESTCASE(TestUseBooleanScriptParameterWithDefaultValue);
 		ADD_TESTCASE(TestUseNumberScriptParameter);
 		ADD_TESTCASE(TestUseNumberScriptParameterWithDefaultValue);
+		ADD_TESTCASE(TestUseEnumScriptParameter);
+		ADD_TESTCASE(TestUseEnumScriptParameterWithDefaultValue);
 		ADD_TESTCASE(TestInferParameterTypeFromDefaultBool);
 		ADD_TESTCASE(TestInferParameterTypeFromDefaultNumber);
 		ADD_TESTCASE(TestInferParameterTypeFromMin);
