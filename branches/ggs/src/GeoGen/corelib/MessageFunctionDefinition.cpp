@@ -5,6 +5,8 @@
 #include "..\InternalErrorException.hpp"
 #include "MathDefinitionRangeException.hpp"
 #include "..\runtime\UserErrorException.hpp"
+#include "StringFormatException.hpp"
+#include "..\String.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -29,11 +31,34 @@ ManagedObject* MessageFunctionDefinition::CallNative(CodeLocation location, runt
 
 	vector<TypeDefinition const*> expectedParameterTypes;
 	expectedParameterTypes.push_back(stringTypeDefinition);
+	if (arguments.size() > 1){
+		for (unsigned i = 1; i < arguments.size(); i++)
+		{
+			expectedParameterTypes.push_back(arguments[i]->GetType());
+		}
+	}
 
 	this->CheckArguments(location, expectedParameterTypes, arguments);
 
-	string str = dynamic_cast<StringObject*>(arguments[0])->GetValue();
+	String formatStr = dynamic_cast<StringObject*>(arguments[0])->GetValue();
+	vector<String> strArgs;
+	if (arguments.size() > 1){
+		for (unsigned i = 1; i < arguments.size(); i++)
+		{
+			strArgs.push_back(arguments[i]->GetStringValue());
+		}
+	}
 	
+	String str;
+	try
+	{
+		str = FormatString(formatStr, strArgs);
+	}	
+	catch (ApiUsageException)
+	{
+		throw StringFormatException(location);
+	}
+
 	switch (this->function)
 	{
 	case PRINT:
