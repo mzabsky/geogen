@@ -1,10 +1,9 @@
 #pragma once
 
-#include <string>
-
-#include "..\CodeLocation.hpp"
-#include "..\ErrorCode.hpp"
-#include "..\runtime\RuntimeException.hpp"
+#include "../String.hpp"
+#include "../CodeLocation.hpp"
+#include "../ErrorCode.hpp"
+#include "../runtime/RuntimeException.hpp"
 
 namespace geogen
 {
@@ -13,19 +12,19 @@ namespace geogen
 		class InvalidOperationOnEmptyArrayException : public runtime::RuntimeException
 		{
 		private:
-			std::string operationName;
+			String operationName;
 		public:
-			InvalidOperationOnEmptyArrayException(CodeLocation location, std::string const& operationName) :
+			InvalidOperationOnEmptyArrayException(CodeLocation location, String const& operationName) :
 				RuntimeException(GGE2601_InvalidOperationOnEmptyArray, location), operationName(operationName) {};
 
-			inline std::string GetOperationName()
+			inline String GetOperationName()
 			{
 				return this->operationName;
 			}
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Attempted to execute operation \"" << this->GetOperationName() + "\" on an empty array on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}

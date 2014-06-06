@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "CompiledScript.hpp"
 #include "Library.hpp"
 #include "FunctionDefinition.hpp"
@@ -29,7 +27,7 @@ using namespace std;
 using namespace geogen;
 using namespace runtime;
 
-const string CompiledScript::MAIN_FUNCTION_NAME = "<main>";
+const String CompiledScript::MAIN_FUNCTION_NAME = "<main>";
 
 CompiledScript::CompiledScript() : metadata(CodeLocation(0, 0))
 {
@@ -48,11 +46,6 @@ CompiledScript::~CompiledScript()
 	{
 		delete *it;
 	}
-
-/*	if(this->metadata != NULL)
-	{
-		delete metadata;
-	}*?*/
 }
 
 bool CompiledScript::AddGlobalFunctionDefinition(FunctionDefinition* functionDefintion)
@@ -119,7 +112,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 	{	
 		if (this->GetMetadata().GetItem("Width")->GetType() == METADATA_TYPE_IDENTIFIER)
 		{
-			string identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem("Width"))->GetValue();
+			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem("Width"))->GetValue();
 			if (identifierName != "Infinite")
 			{
 				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem("Width")->GetLocation(), identifierName);
@@ -205,7 +198,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 	{
 		if (this->GetMetadata().GetItem("Height")->GetType() == METADATA_TYPE_IDENTIFIER)
 		{
-			string identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem("Height"))->GetValue();
+			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem("Height"))->GetValue();
 			if (identifierName != "Infinite")
 			{
 				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem("Height")->GetLocation(), identifierName);
@@ -302,7 +295,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 	
 		for (MetadataKeyValueCollection::const_iterator it = parametersSection->Begin(); it != parametersSection->End(); it++)
 		{		
-			string name = it->first;
+			String name = it->first;
 			CodeLocation location = it->second->GetLocation();
 		
 			if (it->second->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
@@ -312,7 +305,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 
 			MetadataKeyValueCollection const* currentSection = dynamic_cast<MetadataKeyValueCollection const*>(it->second);
 
-			string label;
+			String label;
 			if (currentSection->ContainsItem("Label"))
 			{
 				if (currentSection->GetItem("Label")->GetType() != METADATA_TYPE_STRING)
@@ -327,7 +320,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 				label = name;
 			}
 		
-			string description;
+			String description;
 			if (currentSection->ContainsItem("Description"))
 			{
 				if (currentSection->GetItem("Description")->GetType() != METADATA_TYPE_STRING)
@@ -346,7 +339,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 					throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Type")->GetLocation(), name, "Type", MetadataTypeToString(currentSection->GetItem("Type")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 				}
 
-				string parameterTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
+				String parameterTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
 				if (parameterTypeName == "Boolean")
 				{
 					parameterType = SCRIPT_PARAMETER_TYPE_BOOLEAN;
@@ -457,7 +450,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Restriction")->GetLocation(), name, "Restriction", MetadataTypeToString(currentSection->GetItem("Restriction")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 						}
 
-						string restrictionName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Restriction"))->GetValue();
+						String restrictionName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Restriction"))->GetValue();
 						if (restrictionName == "Unrestricted")
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED;
@@ -485,7 +478,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 				}
 			case SCRIPT_PARAMETER_TYPE_ENUM:
 				{
-					string enumTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
+					String enumTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
 
 					TypeDefinition const* typeDefinition = this->GetTypeDefinitions().GetItem(enumTypeName);
 					if (typeDefinition == NULL || !typeDefinition->IsEnumType()){
@@ -502,7 +495,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Default")->GetLocation(), name, "Default", MetadataTypeToString(currentSection->GetItem("Default")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 						}
 
-						string defaultValueName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Default"))->GetValue();
+						String defaultValueName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Default"))->GetValue();
 
 						if (!enumTypeDefinition->IsValueStringDefined(defaultValueName))
 						{

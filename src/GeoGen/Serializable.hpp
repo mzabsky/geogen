@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-#include <ostream>
+#include "String.hpp"
 
 namespace geogen 
 {
@@ -9,7 +8,7 @@ namespace geogen
 	{
 	private:
 	public:
-		virtual void Serialize(std::iostream& stream) const = 0;
-		std::string ToString() const;
+		virtual void Serialize(IOStream& stream) const = 0;
+		String ToString() const;
 	};
 }

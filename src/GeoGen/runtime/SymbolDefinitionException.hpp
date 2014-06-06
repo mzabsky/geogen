@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
 #include "RuntimeException.hpp"
 
 namespace geogen
@@ -12,14 +9,14 @@ namespace geogen
 		class SymbolDefinitionException : public RuntimeException
 		{
 		private:
-			std::string symbolName;
+			String symbolName;
 		public:
-			explicit SymbolDefinitionException(ErrorCode code, CodeLocation location, std::string const& symbolName) :
+			explicit SymbolDefinitionException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				RuntimeException(code, location), symbolName(symbolName) {};
 
-			inline std::string GetSymbolName() const { return this->symbolName; }
+			inline String GetSymbolName() const { return this->symbolName; }
 
-			virtual std::string GetDetailMessage() = 0;
+			virtual String GetDetailMessage() = 0;
 		};
 	}
 }

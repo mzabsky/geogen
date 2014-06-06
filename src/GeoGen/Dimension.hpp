@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "String.hpp"
 
 namespace geogen
 {
@@ -10,5 +10,5 @@ namespace geogen
 		DIMENSION_HEIGHT
 	};
 
-	std::string DimensionToString(Dimension dimensions);
+	String DimensionToString(Dimension dimensions);
 }

@@ -11,11 +11,11 @@ namespace geogen
 		class MetadataString : public MetadataValue
 		{
 		private:
-			std::string value;
+			String value;
 		public:
-			MetadataString(CodeLocation location, std::string value) : MetadataValue(location), value(value) {};
+			MetadataString(CodeLocation location, String value) : MetadataValue(location), value(value) {};
 
-			std::string GetValue() const { return this->value; }
+			String GetValue() const { return this->value; }
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_STRING; };
 		};

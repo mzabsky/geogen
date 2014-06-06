@@ -13,7 +13,7 @@ namespace geogen
 
 			virtual bool IsStaticObject(){ return true; };
 
-			virtual std::string GetStringValue() const
+			virtual String GetStringValue() const
 			{
 				return "Static";
 			};

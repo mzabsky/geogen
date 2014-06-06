@@ -11,16 +11,16 @@ namespace geogen
 			class DeclareGlobalValueInstruction : public Instruction
 			{
 			private:
-				std::string variableName;
+				String variableName;
 			public:
-				DeclareGlobalValueInstruction(CodeLocation location, std::string variableName) : Instruction(location)
+				DeclareGlobalValueInstruction(CodeLocation location, String variableName) : Instruction(location)
 				{
 					this->variableName = variableName;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "DeclareGlobalValue " << variableName; }
+				virtual void Serialize(IOStream& stream) const { stream << "DeclareGlobalValue " << variableName; }
 
-				virtual std::string GetInstructionName() const { return "DeclareGlobalValue"; };
+				virtual String GetInstructionName() const { return "DeclareGlobalValue"; };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

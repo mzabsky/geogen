@@ -34,7 +34,7 @@ void VirtualMachine::InitializeTypes()
 	}
 }
 
-void VirtualMachine::DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, std::string const& message)
+void VirtualMachine::DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
 {
 	cout << "Script message: " << message << endl;
 }
@@ -82,14 +82,14 @@ void VirtualMachine::ValidateArguments()
 		ScriptParameter* originalParameter = originalParameters.GetItem(it->first);
 		if (originalParameter == NULL)
 		{
-			stringstream ss;
+			StringStream ss;
 			ss << "Argument \"" << it->first << "\" was not declared by the script.";
 			throw ApiUsageException(ss.str());
 		}
 
 		if (!it->second->EqualsTo(originalParameter))
 		{
-			stringstream ss;
+			StringStream ss;
 			ss << "Argument \"" << it->first << "\" does not match the corresponding formal parameter declared by the script.";
 			throw ApiUsageException(ss.str());
 		}
@@ -156,12 +156,12 @@ ManagedObject* VirtualMachine::GetNull()
 	return variableTableItem->GetValue();
 }
 
-TypeDefinition const* VirtualMachine::GetTypeDefinition(std::string const& typeName) const
+TypeDefinition const* VirtualMachine::GetTypeDefinition(String const& typeName) const
 {
 	TypeDefinition const* typeDefinition = this->GetCompiledScript().GetTypeDefinitions().GetItem(typeName);
 	if (typeDefinition == NULL)
 	{
-		stringstream ss;
+		StringStream ss;
 		ss << "Could not get \"" << typeName << "\" type definition.";
 
 		throw InternalErrorException(ss.str());
@@ -181,7 +181,7 @@ corelib::NumberTypeDefinition const* VirtualMachine::GetNumberTypeDefinition() c
 	return dynamic_cast<corelib::NumberTypeDefinition const*>(this->GetTypeDefinition("Number"));
 }
 
-VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)
+VariableTableItem* VirtualMachine::FindVariable(String const& variableName)
 {
 	if (this->status != VIRTUAL_MACHINE_STATUS_READY)
 	{
@@ -214,7 +214,7 @@ VariableTableItem* VirtualMachine::FindVariable(std::string const& variableName)
 	return foundVariable;
 }
 
-ManagedObject* VirtualMachine::GetStaticInstance(std::string const& typeName)
+ManagedObject* VirtualMachine::GetStaticInstance(String const& typeName)
 {
 	VariableTableItem* variableTableItem = this->GetGlobalVariableTable().GetVariable(typeName);
 

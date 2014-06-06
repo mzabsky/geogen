@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "../String.hpp"
 
 #include "SymbolDefinitionTable.hpp"
 
@@ -19,18 +19,18 @@ namespace geogen
 		class TypeDefinition
 		{
 		private:
-			std::string name;
+			String name;
 
 			SymbolDefinitionTable<VariableDefinition> variableDefinitions;
 			SymbolDefinitionTable<FunctionDefinition> functionDefinitions;
 			SymbolDefinitionTable<VariableDefinition> staticVariableDefinitions;
 			SymbolDefinitionTable<FunctionDefinition> staticFunctionDefinitions;
 		protected:
-			TypeDefinition(std::string const& name) : name(name) {}
+			TypeDefinition(String const& name) : name(name) {}
 		public:			
 			virtual ~TypeDefinition() {};
 			
-			inline std::string const& GetName() const { return this->name; };			
+			inline String const& GetName() const { return this->name; };			
 
 			inline SymbolDefinitionTable<VariableDefinition>& GetVariableDefinitions() { return this->variableDefinitions; };
 			inline SymbolDefinitionTable<VariableDefinition> const& GetVariableDefinitions() const { return this->variableDefinitions; };

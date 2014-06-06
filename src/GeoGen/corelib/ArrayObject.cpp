@@ -162,7 +162,7 @@ void ArrayObject::RemoveValue(runtime::VirtualMachine* vm, CodeLocation location
 }
 
 
-string ArrayObject::GetStringValue() const
+String ArrayObject::GetStringValue() const
 {
 	std::stringstream ss;
 	ss << "{" << endl;

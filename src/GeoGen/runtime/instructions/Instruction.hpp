@@ -1,10 +1,8 @@
 #pragma once
 
-#include <string>
-#include <ostream>
-
-#include "..\..\Serializable.hpp"
-#include "..\..\CodeLocation.hpp"
+#include "../../String.hpp"
+#include "../../Serializable.hpp"
+#include "../../CodeLocation.hpp"
 
 namespace geogen 
 {
@@ -16,12 +14,6 @@ namespace geogen
 			INSTRUCTION_STEP_RESULT_TYPE_CONTINUE,
 			INSTRUCTION_STEP_RESULT_TYPE_BREAK
 		};
-
-		/*struct InstructionStepResult
-		{
-			InstructionStepResultType type;
-			int codeBlockCount;
-		};*/
 
 		class VirtualMachine;
 
@@ -44,7 +36,7 @@ namespace geogen
 					return result; 
 				};
 
-				virtual std::string GetInstructionName() const = 0;
+				virtual String GetInstructionName() const = 0;
 			};
 		}
 	}

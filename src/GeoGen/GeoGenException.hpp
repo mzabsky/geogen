@@ -1,11 +1,8 @@
 #pragma once
 
-#include <string>
 #include <stdexcept>
-#include <string>  
-#include <iostream>
-#include <sstream>
 
+#include "String.hpp"
 #include "ErrorCode.hpp"
 
 namespace geogen
@@ -14,7 +11,7 @@ namespace geogen
 	{
 	private:
 		ErrorCode code;
-		std::string message;
+		String message;
 	public:
 		explicit GeoGenException(ErrorCode code) : code(code)
 		{
@@ -34,6 +31,6 @@ namespace geogen
 			return this->code;
 		}
 
-		virtual std::string GetDetailMessage() { return ""; }
+		virtual String GetDetailMessage() { return ""; }
 	};
 }

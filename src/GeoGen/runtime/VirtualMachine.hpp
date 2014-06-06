@@ -1,9 +1,9 @@
 #pragma once
 
 #include <vector>
-#include <string>
 #include <stack>
 
+#include "../String.hpp"
 #include "CompiledScript.hpp"
 #include "CallStackEntry.hpp"
 #include "MemoryManager.hpp"
@@ -41,7 +41,7 @@ namespace geogen
 		class VirtualMachine
 		{
 		public:
-			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, std::string const& message);
+			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, String const& message);
 		private:
 			VirtualMachineStatus status;
 			
@@ -79,7 +79,7 @@ namespace geogen
 
 			inline ScriptMessageHandler GetScriptMessageHandler() const { return this->scriptMessageHandler; };
 			inline void SetScriptMessageHandler(ScriptMessageHandler scriptMessageHandler) { this->scriptMessageHandler = scriptMessageHandler; };
-			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, std::string const& message);
+			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message);
 
 			inline ObjectStack& GetObjectStack() { return this->objectStack; };
 			//inline std::stack<ManagedObject const*> const& GetObjectStack() const { return *((std::stack<ManagedObject const*>*)&this->objectStack); };
@@ -94,11 +94,11 @@ namespace geogen
 			void Run();
 
 			ManagedObject* GetNull();
-			TypeDefinition const* GetTypeDefinition(std::string const& typeName) const;
+			TypeDefinition const* GetTypeDefinition(String const& typeName) const;
 			corelib::BooleanTypeDefinition const* GetBooleanTypeDefinition() const;
 			corelib::NumberTypeDefinition const* GetNumberTypeDefinition() const;
-			VariableTableItem* FindVariable(std::string const& variableName);
-			ManagedObject* GetStaticInstance(std::string const& typeName);
+			VariableTableItem* FindVariable(String const& variableName);
+			ManagedObject* GetStaticInstance(String const& typeName);
 		};
 	}
 }

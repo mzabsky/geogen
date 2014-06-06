@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
 #include "RuntimeException.hpp"
 
 namespace geogen
@@ -12,16 +9,16 @@ namespace geogen
 		class ReadOnlyWriteException : public RuntimeException
 		{
 		private:
-			std::string symbolName;
+			String symbolName;
 		public:
-			explicit ReadOnlyWriteException(CodeLocation location, std::string const& symbolName) :
+			explicit ReadOnlyWriteException(CodeLocation location, String const& symbolName) :
 				RuntimeException(GGE2108_ReadOnlyWrite, location), symbolName(symbolName) {};
 
-			inline std::string GetSymbolName() const { return this->symbolName; }
+			inline String GetSymbolName() const { return this->symbolName; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Attempted to write read only variable \"" << this->GetSymbolName() + "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}

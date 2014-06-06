@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <ostream>
-
 #include "../Number.hpp"
 
 namespace geogen

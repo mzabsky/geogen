@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include "../String.hpp"
 #include "../Number.hpp"
 #include "../runtime/TypeDefinition.hpp"
 
@@ -22,7 +23,7 @@ namespace geogen
 		private:
 			ValueDefinitions valueDefinitions;
 		public:
-			EnumTypeDefinition(std::string const& name, ValueDefinitions values);
+			EnumTypeDefinition(String const& name, ValueDefinitions values);
 
 			virtual void Initialize(runtime::VirtualMachine* vm) const;
 
@@ -40,7 +41,7 @@ namespace geogen
 			runtime::ManagedObject* GetValueByInt(runtime::VirtualMachine* vm, int intValue) const;
 			bool IsValueIntDefined(int intValue) const;
 			int GetDefaultValueInt() const;
-			bool IsValueStringDefined(std::string stringValue) const;
+			bool IsValueStringDefined(String stringValue) const;
 		};
 	}
 }

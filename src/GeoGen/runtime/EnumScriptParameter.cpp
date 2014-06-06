@@ -9,7 +9,7 @@ using namespace geogen;
 using namespace geogen::runtime;
 using namespace geogen::corelib;
 
-EnumScriptParameter::EnumScriptParameter(std::string const& name, std::string const& label, std::string const& description, EnumTypeDefinition const* enumType, int defaultValue)
+EnumScriptParameter::EnumScriptParameter(String const& name, String const& label, String const& description, EnumTypeDefinition const* enumType, int defaultValue)
 : ScriptParameter(name, label, description), enumType(enumType)
 {
 	if (this->GetEnumType()->IsValueIntDefined(defaultValue))

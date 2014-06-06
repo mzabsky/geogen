@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
 #include "../CodeLocation.hpp"
 #include "../GeoGenException.hpp"
 

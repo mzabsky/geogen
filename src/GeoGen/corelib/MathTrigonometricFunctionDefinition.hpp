@@ -33,7 +33,7 @@ namespace geogen
 		private:
 			Function function;
 
-			MathTrigonometricFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			MathTrigonometricFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

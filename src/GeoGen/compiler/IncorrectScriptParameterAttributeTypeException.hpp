@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -12,25 +10,25 @@ namespace geogen
 		class IncorrectScriptParameterAttributeTypeException : public CompilerException
 		{
 		private:
-			std::string parameterName;
-			std::string attributeName;
-			std::string expectedAttributeTypeName;
-			std::string actualAttributeTypeName;
+			String parameterName;
+			String attributeName;
+			String expectedAttributeTypeName;
+			String actualAttributeTypeName;
 		public:
-			IncorrectScriptParameterAttributeTypeException(CodeLocation location, std::string const& parameterName, std::string attributeName, std::string expectedAttributeTypeName, std::string actualAttributeTypeName) :
+			IncorrectScriptParameterAttributeTypeException(CodeLocation location, String const& parameterName, String attributeName, String expectedAttributeTypeName, String actualAttributeTypeName) :
 				CompilerException(GGE1406_IncorrectScriptParameterAttributeType, location), parameterName(parameterName), attributeName(attributeName), expectedAttributeTypeName(expectedAttributeTypeName), actualAttributeTypeName(actualAttributeTypeName) {};
 
-			inline std::string GetParameterName() const { return this->parameterName; }
+			inline String GetParameterName() const { return this->parameterName; }
 
-			inline std::string GetAttributeName() const { return this->attributeName; }
+			inline String GetAttributeName() const { return this->attributeName; }
 
-			inline std::string GetExpectedAttributeTypeName() const { return this->expectedAttributeTypeName; }
+			inline String GetExpectedAttributeTypeName() const { return this->expectedAttributeTypeName; }
 			
-			inline std::string GetActualAttributeTypeName() const { return this->actualAttributeTypeName; }
+			inline String GetActualAttributeTypeName() const { return this->actualAttributeTypeName; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Script parameter \"" << parameterName << "\" has incorrect type of attribute \"" << attributeName << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << ". Expected \"" << expectedAttributeTypeName << "\", got \"" << actualAttributeTypeName << "\".";
 
 				return ss.str();

@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -12,19 +10,19 @@ namespace geogen
 		class IncorrectScriptParameterValueRestrictionException : public CompilerException
 		{
 		private:
-			std::string parameterName;
-			std::string restrictionName;
+			String parameterName;
+			String restrictionName;
 		public:
-			IncorrectScriptParameterValueRestrictionException(CodeLocation location, std::string const& parameterName, std::string restrictionName) :
+			IncorrectScriptParameterValueRestrictionException(CodeLocation location, String const& parameterName, String restrictionName) :
 				CompilerException(GGE1407_IncorrectScriptParameterValueRestriction, location), parameterName(parameterName), restrictionName(restrictionName) {};
 
-			inline std::string GetParameterName() const { return this->parameterName; }
+			inline String GetParameterName() const { return this->parameterName; }
 
-			inline std::string GetRestrictionName() const { return this->restrictionName; }
+			inline String GetRestrictionName() const { return this->restrictionName; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Script parameter \"" << parameterName << "\" has incorrect value restriction \"" << restrictionName << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << ".";
 
 				return ss.str();

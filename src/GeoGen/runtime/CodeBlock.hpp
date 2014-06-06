@@ -28,7 +28,7 @@ namespace geogen
 			inline const_iterator Begin() const { return this->instructions.begin(); }
 			inline const_iterator End() const { return this->instructions.end(); }
 
-			virtual void Serialize(std::iostream& stream) const;
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

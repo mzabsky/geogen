@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -12,21 +10,21 @@ namespace geogen
 		class InvalidEscapeSequenceException : public CompilerException
 		{
 		private:
-			std::string  sequence;
+			String sequence;
 		public:
-			explicit InvalidEscapeSequenceException(CodeLocation location, std::string const& sequence) :
+			explicit InvalidEscapeSequenceException(CodeLocation location, String const& sequence) :
 				CompilerException(GGE1101_InvalidEscapeSequence, location), sequence(sequence)
 			{
 			};
 
-			inline std::string GetEscapeSequence() const
+			inline String GetEscapeSequence() const
 			{
 				return this->sequence;
 			}
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Invalid escape sequence \"" << this->GetEscapeSequence() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}

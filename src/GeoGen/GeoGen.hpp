@@ -38,7 +38,6 @@
 #include "runtime/ScriptParameters.hpp"
 #include "runtime/ScriptVariableDefinition.hpp"
 #include "runtime/SymbolDefinitionTable.hpp"
-#include "runtime/SymbolNameTable.hpp"
 #include "runtime/TypeDefinition.hpp"
 #include "runtime/UndefinedSymbolAccessException.hpp"
 #include "runtime/VariableDefinition.hpp"

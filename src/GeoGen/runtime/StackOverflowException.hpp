@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <stdexcept>
 
 #include "RuntimeException.hpp"
@@ -27,9 +26,9 @@ namespace geogen
 
 			inline StackType GetStackType() const { return this->stackType; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				switch (this->GetStackType())
 				{
 				case STACK_TYPE_CALL:

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <deque>
 
 #include "../Serializable.hpp"
@@ -40,7 +39,7 @@ namespace geogen
 			inline iterator Begin() { return this->stack.begin(); }
 			inline iterator End() { return this->stack.end(); }
 
-			virtual void Serialize(std::iostream& stream) const;
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

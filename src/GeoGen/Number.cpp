@@ -1,13 +1,11 @@
-#include <string>
-#include <sstream>
-
+#include "String.hpp"
 #include "Number.hpp"
 
 namespace geogen 
 {
-	Number StringToNumber(std::string const& str)
+	Number StringToNumber(String const& str)
 	{
-		std::istringstream i(str);
+		StringStream i(str);
 		double x;
 		if (!(i >> x))
 			return 0;

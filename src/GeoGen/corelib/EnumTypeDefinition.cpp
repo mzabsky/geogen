@@ -10,7 +10,7 @@ using namespace geogen;
 using namespace runtime;
 using namespace corelib;
 
-EnumTypeDefinition::EnumTypeDefinition(std::string const& name, ValueDefinitions valueDefinitions) : TypeDefinition(name), valueDefinitions(valueDefinitions)
+EnumTypeDefinition::EnumTypeDefinition(String const& name, ValueDefinitions valueDefinitions) : TypeDefinition(name), valueDefinitions(valueDefinitions)
 {
 	if (valueDefinitions.size() == 0)
 	{
@@ -141,7 +141,7 @@ int EnumTypeDefinition::GetDefaultValueInt() const
 }
 
 
-bool EnumTypeDefinition::IsValueStringDefined(std::string stringValue) const
+bool EnumTypeDefinition::IsValueStringDefined(String stringValue) const
 {
 	return this->valueDefinitions.find(stringValue) != this->valueDefinitions.end();
 }

@@ -64,7 +64,7 @@ namespace geogen
 
 			inline unsigned Count() const { return this->array.size(); };
 
-			virtual std::string GetStringValue() const;
+			virtual String GetStringValue() const;
 		};
 	}
 }

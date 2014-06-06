@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
+#include "../String.hpp"
 #include "../runtime/MemberNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 #include "ArrayTypeDefinition.hpp"
@@ -22,7 +22,7 @@ namespace geogen
 		private:
 			Method method;
 
-			ArrayFrontBackFunctionDefinition(std::string const& name, Method method, const TypeDefinition* owningType) : MemberNativeFunctionDefinition(name, owningType), method(method) {};
+			ArrayFrontBackFunctionDefinition(String const& name, Method method, const TypeDefinition* owningType) : MemberNativeFunctionDefinition(name, owningType), method(method) {};
 		public:
 			static ArrayFrontBackFunctionDefinition* Create(Method method, TypeDefinition const* owningType);
 

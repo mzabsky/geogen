@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "../runtime/RuntimeException.hpp"
 #include "MathDefinitionRangeException.hpp"
 
@@ -16,7 +14,7 @@ namespace geogen
 			DivisionByZeroException(CodeLocation location) :
 				MathDefinitionRangeException(GGE2301_DivisionByZero, location, "/", 0) {};
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
 				return "Attempted to divide by 0.";
 			}

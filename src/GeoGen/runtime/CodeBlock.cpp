@@ -1,11 +1,9 @@
-#include <istream>
-#include <iostream>
-#include <sstream>
 #include <iomanip>
 
 #include "CodeBlock.hpp"
 #include "instructions/Instruction.hpp"
 
+using namespace geogen;
 using namespace geogen::runtime;
 
 CodeBlock::~CodeBlock() 
@@ -33,14 +31,14 @@ void CodeBlock::MoveInstructionsFrom(CodeBlock& another)
 	another.instructions.clear();
 }
 
-void CodeBlock::Serialize(std::iostream& stream) const
+void CodeBlock::Serialize(IOStream& stream) const
 {
 	stream << "{" << std::endl;
 
 	for(const_iterator it = this->Begin(); it != this->End(); it++)
 	{
-		std::stringstream instructionStream;
-		std::string line;
+		StringStream instructionStream;
+		String line;
 
 		(*it)->Serialize(instructionStream);
 

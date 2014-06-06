@@ -215,7 +215,6 @@
     <ClInclude Include="runtime\StaticObject.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionException.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
-    <ClInclude Include="runtime\SymbolNameTable.hpp" />
     <ClInclude Include="runtime\TypeDefinition.hpp" />
     <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp" />
     <ClInclude Include="runtime\UserErrorException.hpp" />
@@ -329,7 +328,6 @@
     <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\ScriptFunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\StoreMemberValueInstruction.cpp" />
-    <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="runtime\TypeDefinition.cpp" />
     <ClCompile Include="runtime\VariableDefinition.cpp" />
     <ClCompile Include="runtime\VariableTable.cpp" />

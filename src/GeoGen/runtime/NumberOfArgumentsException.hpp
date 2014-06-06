@@ -21,9 +21,9 @@ namespace geogen
 			inline unsigned GetExpectedNumberOfArguments() const { return this->expectedNumberOfArguments; }
 			inline unsigned GetActualNumberOfArguments() const { return this->actualNumberOfArguments; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Incorrect number of arguments to a function call, " << this->GetExpectedNumberOfArguments() << " expected, got " << this->GetActualNumberOfArguments() << " on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}

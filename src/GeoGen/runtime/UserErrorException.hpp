@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
 #include "RuntimeException.hpp"
 
 namespace geogen
@@ -12,16 +9,16 @@ namespace geogen
 		class UserErrorException : public RuntimeException
 		{
 		private:
-			std::string userMessage;
+			String userMessage;
 		public:
-			UserErrorException(CodeLocation location, std::string const& userMessage) :
+			UserErrorException(CodeLocation location, String const& userMessage) :
 				RuntimeException(GGE5000_UserError, location), userMessage(userMessage) {};
 
-			inline std::string GetUserMessage() const { return this->userMessage; }
+			inline String GetUserMessage() const { return this->userMessage; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Script triggered an error with message \"" << this->GetUserMessage() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 
 				return ss.str();

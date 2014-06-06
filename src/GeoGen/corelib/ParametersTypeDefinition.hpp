@@ -11,7 +11,7 @@ namespace geogen
 		class ParametersTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
-			typedef std::map<int, std::string> const ValueDefinitions;
+			typedef std::map<int, String> const ValueDefinitions;
 		private:
 			ValueDefinitions valueDefinitions;
 		public:

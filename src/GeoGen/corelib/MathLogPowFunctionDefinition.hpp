@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
 #include "../corelib/NumberTypeDefinition.hpp"
@@ -27,7 +26,7 @@ namespace geogen
 		private:
 			Function function;
 
-			MathLogPowFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			MathLogPowFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

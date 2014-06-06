@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <map>
 #include <algorithm>
 
@@ -55,8 +54,8 @@ namespace geogen
 
 			double renderScale = 1;
 		public:
-			typedef std::map<std::string, ScriptParameter const*>::const_iterator const_iterator;
-			typedef std::map<std::string, ScriptParameter*>::iterator iterator;
+			typedef std::map<String, ScriptParameter const*>::const_iterator const_iterator;
+			typedef std::map<String, ScriptParameter*>::iterator iterator;
 
 			/// <summary>
 			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.

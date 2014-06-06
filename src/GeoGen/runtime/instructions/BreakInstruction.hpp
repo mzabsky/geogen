@@ -20,7 +20,7 @@ namespace geogen
 
 				virtual void Serialize(std::iostream& stream) const { stream << "Break " << codeBlockCount; }
 
-				virtual std::string GetInstructionName() const { return "Break"; };
+				virtual String GetInstructionName() const { return "Break"; };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

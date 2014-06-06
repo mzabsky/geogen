@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "Instruction.hpp"
 #include "../CodeBlock.hpp"
 
@@ -25,9 +23,9 @@ namespace geogen
 				inline CodeBlock& GetElseBranchCodeBlock() { return this->elseBranchCodeBlock; };
 				inline CodeBlock const& GetElseBranchCodeBlock() const { return this->elseBranchCodeBlock; };
 
-				virtual void Serialize(std::iostream& stream) const;
+				virtual void Serialize(IOStream& stream) const;
 
-				virtual std::string GetInstructionName() const { return "If"; };
+				virtual String GetInstructionName() const { return "If"; };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

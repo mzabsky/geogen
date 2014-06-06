@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
+#include "../String.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
@@ -27,7 +27,7 @@ namespace geogen
 		private:
 			Function function;
 
-			MessageFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			MessageFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

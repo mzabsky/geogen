@@ -17,7 +17,6 @@ void GlobalNativeFunctionDefinition::Call(CodeLocation location, VirtualMachine*
 		throw new InternalErrorException("Static functions cannot be instance methods.");
 	}
 
-
 	ObjectStack& objectStack = vm->GetObjectStack();
 	CallStack& callStack = vm->GetCallStack();
 

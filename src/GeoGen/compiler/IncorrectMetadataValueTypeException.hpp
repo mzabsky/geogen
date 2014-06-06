@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -11,22 +10,22 @@ namespace geogen
 		class IncorrectMetadataValueTypeException : public CompilerException
 		{
 		private:
-			std::string valueName;
-			std::string expectedType;
-			std::string actualType;
+			String valueName;
+			String expectedType;
+			String actualType;
 		public:
-			IncorrectMetadataValueTypeException(ErrorCode errorCode, CodeLocation location, std::string const& valueName, std::string const& expectedType, std::string const& actualType) :
+			IncorrectMetadataValueTypeException(ErrorCode errorCode, CodeLocation location, String const& valueName, String const& expectedType, String const& actualType) :
 				CompilerException(errorCode, location), valueName(valueName), expectedType(expectedType), actualType(actualType) {};
 
-			inline std::string GetValueName() const { return this->valueName; }
+			inline String GetValueName() const { return this->valueName; }
 
-			inline std::string GetExpectedType() const { return this->expectedType; }
+			inline String GetExpectedType() const { return this->expectedType; }
 
-			inline std::string GetActualType() const { return this->actualType; }
+			inline String GetActualType() const { return this->actualType; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Metadata value \"" << valueName << "\" expected to be of type \"" << expectedType << "\", had \"" << actualType << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << ".";
 
 				return ss.str();

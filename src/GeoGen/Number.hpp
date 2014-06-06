@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "String.hpp"
 
 namespace geogen
 {
@@ -9,7 +9,7 @@ namespace geogen
 
 	const Number NUMBER_PI = 3.14159265358979323846;
 
-	Number StringToNumber(std::string const& str);
+	Number StringToNumber(String const& str);
 	bool IsNumberInt(Number n);
 	int NumberToInt(Number n);
 }

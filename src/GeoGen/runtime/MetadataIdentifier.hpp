@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "MetadataValue.hpp"
 
 namespace geogen 
@@ -11,11 +9,11 @@ namespace geogen
 		class MetadataIdentifier : public MetadataValue
 		{
 		private:
-			std::string value;
+			String value;
 		public:
-			MetadataIdentifier(CodeLocation location, std::string value) : MetadataValue(location), value(value) {};
+			MetadataIdentifier(CodeLocation location, String value) : MetadataValue(location), value(value) {};
 
-			std::string GetValue() const { return this->value; }
+			String GetValue() const { return this->value; }
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_IDENTIFIER; };
 		};

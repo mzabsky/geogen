@@ -40,7 +40,7 @@ scope BlockScope
 	bool isInFunction = false;
 	bool isInLoop = false;
 	int codeBlockLevel = 0;
-	std::vector<std::string> lines;
+	std::vector<String> lines;
 }
 
 
@@ -55,7 +55,7 @@ scope BlockScope
     	    
     	    CodeLocation location(recognizer->state->exception->line, currentTree->getCharPositionInLine(currentTree));
     	    
-    	    string expectedTokenName = "";
+    	    String expectedTokenName = "";
     	    if(ex->expecting == ANTLR3_TOKEN_EOF)
     	    {
     	    	expectedTokenName = "EOF";
@@ -88,7 +88,7 @@ scope BlockScope
 		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (char*)operatorToken->getText(operatorToken)->chars, 2));
 	}
 	
-	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, std::string const& text, CodeBlock* e1, CodeBlock* returnCodeBlock)
+	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, String const& text, CodeBlock* e1, CodeBlock* returnCodeBlock)
 	{
 		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
 	
@@ -168,7 +168,7 @@ enumValues returns [map<std::string, int> returnEnumValues]
 @init { map<std::string, int> tempEnumValues; double number = 0; int nextAutoNumber = 0; bool isNumberDefined = false;}
 : ^(VALUES (^(IDENTIFIER (NUMBER { number = StringToNumber((char*)$NUMBER.text->chars); isNumberDefined = true;} )?)
 	{ 
-		std::string valueName = (char*)$IDENTIFIER.text->chars;
+		String valueName = (char*)$IDENTIFIER.text->chars;
 	
 		CodeLocation enumValueLocation($IDENTIFIER.line, $IDENTIFIER.pos);
 		
@@ -834,10 +834,10 @@ label:
 	| NUMBER
 	| STRING;
 	
-stringLiteral returns [std::string value, int line, int pos]:
+stringLiteral returns [String value, int line, int pos]:
 	STRING
 {
-	std::string str ((char*)$STRING.text->chars);
+	String str ((char*)$STRING.text->chars);
 	$value = str;//str.substr(1, str.length() - 2);
 	$line = $STRING.line;
 	$pos = $STRING.pos;

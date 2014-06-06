@@ -32,7 +32,7 @@ namespace geogen
 
 			Function function;
 
-			EqualityOperatorFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			EqualityOperatorFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

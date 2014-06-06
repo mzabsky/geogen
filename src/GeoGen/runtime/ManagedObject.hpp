@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <functional>
 
+#include "../String.hpp"
 #include "../CodeLocation.hpp"
 #include "VirtualMachine.hpp"
 #include "MemoryManager.hpp"
@@ -25,11 +25,9 @@ namespace geogen
 
 			TypeDefinition const* type;
 			ObjectId objectId;
-			std::map<std::string, ManagedObject*> memberValues;
 			unsigned refCount = 0;
 
 			VariableTable memberVariableTable;
-			//bool DefineMemberValue(VirtualMachine& vm, std::string const& name);			
 		protected:
 			ManagedObject(VirtualMachine* vm, TypeDefinition const* type);
 		public:			
@@ -38,8 +36,6 @@ namespace geogen
 			virtual bool IsStaticObject(){ return false; };
 
 			inline TypeDefinition const* GetType() const { return this->type; };
-
-			//bool operator<(const ManagedObject* rhs);
 
 			inline VariableTable& GetMemberVariableTable() { return this->memberVariableTable; }
 
@@ -50,13 +46,7 @@ namespace geogen
 			inline ObjectId GetObjectId() { return this->objectId; };
 			inline void SetObjectId(ObjectId objectId) { this->objectId = objectId; };
 
-			//void SetMemberValue(VirtualMachine& vm, std::string const& name, ManagedObject* object);
-			//bool SetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName, ManagedObject* object);
-
-			//ManagedObject* GetMemberValue(VirtualMachine& vm, std::string const& name) const;
-			//ManagedObject* GetMemberValue(VirtualMachine& vm, CodeLocation location, std::string memberName) const;
-
-			virtual std::string GetStringValue() const = 0;
+			virtual String GetStringValue() const = 0;
 			virtual void Serialize(std::iostream& stream) const;			
 		};
 

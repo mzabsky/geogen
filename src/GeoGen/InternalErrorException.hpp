@@ -1,9 +1,5 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include <stdexcept>
-
 #include "ErrorCode.hpp"
 #include "GeoGenException.hpp"
 
@@ -12,14 +8,14 @@ namespace geogen
 	class InternalErrorException : public GeoGenException
 	{
 	private:
-		std::string message;
+		String message;
 	public:
-		explicit InternalErrorException(std::string const& message) :
+		explicit InternalErrorException(String const& message) :
 			GeoGenException(GGE4000_InternalError), message(message) {};
 
-		virtual std::string GetDetailMessage()
+		virtual String GetDetailMessage()
 		{
-			std::stringstream ss;
+			StringStream ss;
 			ss << "Internal error has occured in GeoGen (" << message << ").";
 
 			return ss.str();
