@@ -166,7 +166,7 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 
 enumValues returns [map<std::string, int> returnEnumValues]
 @init { map<std::string, int> tempEnumValues; double number = 0; int nextAutoNumber = 0; bool isNumberDefined = false;}
-: ^(VALUES (^(IDENTIFIER (NUMBER { number = (int)StringToNumber((char*)$NUMBER.text->chars); isNumberDefined = true;} )?)
+: ^(VALUES (^(IDENTIFIER (NUMBER { number = StringToNumber((char*)$NUMBER.text->chars); isNumberDefined = true;} )?)
 	{ 
 		std::string valueName = (char*)$IDENTIFIER.text->chars;
 	
