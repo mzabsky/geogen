@@ -98,11 +98,21 @@ public:
 		");
 	}
 
+	static void TestEmptyScriptEnumFails()
+	{
+		TEST_SCRIPT_FAILURE(UnexpectedTokenException, "\n\
+			enum MyEnum \n\
+			{\n\
+			}\n\
+		");
+	}
+
 	EnumTests() : TestFixtureBase("EnumTests")
 	{
 		ADD_TESTCASE(TestScriptEnum);
 		ADD_TESTCASE(TestScriptEnumWithManualValues);
 		ADD_TESTCASE(TestScriptEnumWithNonIntegerValue);
 		ADD_TESTCASE(TestScriptEnumWithValueRedefinition);
+		ADD_TESTCASE(TestEmptyScriptEnumFails);
 	}
 };

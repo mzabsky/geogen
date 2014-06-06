@@ -22,7 +22,7 @@ namespace geogen
 		private:
 			ValueDefinitions valueDefinitions;
 		public:
-			EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions values);
+			EnumTypeDefinition(std::string const& name, ValueDefinitions values);
 
 			virtual void Initialize(runtime::VirtualMachine* vm) const;
 
