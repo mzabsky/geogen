@@ -11,7 +11,7 @@ namespace geogen
 		class ReferenceTypeDefinition : public TypeDefinition
 		{
 		protected:
-			ReferenceTypeDefinition(std::string const& name) : TypeDefinition(name) {}
+			ReferenceTypeDefinition(String const& name) : TypeDefinition(name) {}
 		public:			
 			virtual ManagedObject* Copy(ManagedObject* a) const;
 		};

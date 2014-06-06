@@ -25,7 +25,7 @@ using namespace geogen::utils;
 
 Compiler::Compiler(){}
 
-CompiledScript* Compiler::CompileScript(std::string const& code) const
+CompiledScript* Compiler::CompileScript(String const& code) const
 {
 	auto_ptr<CompiledScript> script(new CompiledScript());
 	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());
@@ -89,33 +89,6 @@ CompiledScript* Compiler::CompileScript(std::string const& code) const
 				throw InternalErrorException("Parameters object name conflict.");
 			}
 		}
-		//ScriptFunctionDefinition* code2 = ((ScriptFunctionDefinition*)script->GetGlobalFunctionDefinitions().GetItem("aaa"));
-
-		/*cout << "=======================" << endl;
-
-		std::string code = script->GetRootCodeBlock().ToString();
-
-		cout << code << endl;
-		cout << "=======================" << endl;
-
-		
-
-		cout << code2 << endl;
-		cout << "=======================" << endl;
-
-		std::string code3 = script->GetSymbolNameTable().ToString();
-
-		cout << code3 << endl;
-		cout << "=======================" << endl;
-
-		for(SymbolDefinitionTable<FunctionDefinition>::const_iterator i = script->GetGlobalFunctionDefinitions().Begin(); i != script->GetGlobalFunctionDefinitions().End(); i++){
-			ScriptFunctionDefinition const*  d = (ScriptFunctionDefinition const*)i->second;
-			std::cout << i->second->GetName() << " " << ((ScriptFunctionDefinition*)i->second)->GetParameterCount() << std::endl;
-		}
-
-		for(SymbolNameTable::const_iterator i = script->GetSymbolNameTable().Begin(); i != script->GetSymbolNameTable().End(); i++){
-			std::cout << *i << std::endl;
-		}*/
 	}
 
 	return script.release();

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
 #include "MetadataValue.hpp"
@@ -18,7 +17,7 @@ namespace geogen
 
 			MetadataSimpleCollection(CodeLocation location) : MetadataValue(location) {}
 
-			inline void AddItem(std::string const& name, MetadataValue* value) {				
+			inline void AddItem(String const& name, MetadataValue* value) {				
 				this->table.push_back(value);
 			};
 

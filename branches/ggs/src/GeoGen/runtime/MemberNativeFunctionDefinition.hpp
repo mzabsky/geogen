@@ -28,7 +28,7 @@ namespace geogen
 		private:
 			TypeDefinition const* owningTypeDefinition;
 		public:
-			MemberNativeFunctionDefinition(std::string const& name, TypeDefinition const* owningTypeDefinition) : FunctionDefinition(name), owningTypeDefinition(owningTypeDefinition){};
+			MemberNativeFunctionDefinition(String const& name, TypeDefinition const* owningTypeDefinition) : FunctionDefinition(name), owningTypeDefinition(owningTypeDefinition){};
 
 			virtual ManagedObject* CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, std::vector<ManagedObject*> arguments) const = 0;
 

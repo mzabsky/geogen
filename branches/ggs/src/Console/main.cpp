@@ -8,6 +8,7 @@
 #include <windows.h>
 #include "..\GeoGen\utils\StringUtils.hpp"
 
+using namespace geogen;
 using namespace std;
 
 void SetConsoleColor(int foreground, int background)
@@ -17,15 +18,15 @@ void SetConsoleColor(int foreground, int background)
 }
 
 int main(){
-	std::stringstream  code;
+	StringStream  code;
 	std::ifstream file("testinput.txt");
-	std::string temp;
+	String temp;
 	while (std::getline(file, temp)) 
 	{
 		code << temp << std::endl;
 	}
 
-	std::string codeString = code.str();
+	String codeString = code.str();
 
 	geogen::compiler::Compiler compiler;
 	//HeightMap.Empty()        
@@ -36,7 +37,7 @@ int main(){
 
 	vector<string> codeLines = geogen::utils::StringToLines(codeString);
 
-	string input = "";
+	String input = "";
 	unsigned numShowCodeLines = 5;
 	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
 	{		
@@ -54,7 +55,7 @@ int main(){
 				int currentLineNumber = currentInstruction->GetLocation().GetLine() + i;
 				if (currentLineNumber >= 0 && currentLineNumber < (int)codeLines.size())
 				{
-					string currentLine = codeLines[currentLineNumber];
+					String currentLine = codeLines[currentLineNumber];
 
 					cout
 						<< std::setw(4)
@@ -90,9 +91,9 @@ int main(){
 			cout << "Input: " << input << endl << endl;
 
 			size_t separatorPosition = input.find(" ");
-			string command = input.substr(0, separatorPosition);
-			string args = "";
-			if (separatorPosition != string::npos)
+			String command = input.substr(0, separatorPosition);
+			String args = "";
+			if (separatorPosition != String::npos)
 			{
 				args = input.substr(separatorPosition + 1);
 			}

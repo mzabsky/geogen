@@ -12,19 +12,19 @@
 		class IncorrectScriptParameterTypeException : public CompilerException
 		{
 		private:
-			std::string parameterName;
-			std::string parameterTypeName;
+			String parameterName;
+			String parameterTypeName;
 		public:
-			IncorrectScriptParameterTypeException(CodeLocation location, std::string const& parameterName, std::string parameterTypeName) :
+			IncorrectScriptParameterTypeException(CodeLocation location, String const& parameterName, String parameterTypeName) :
 				CompilerException(GGE1405_IncorrectScriptParameterType, location), parameterName(parameterName), parameterTypeName(parameterTypeName) {};
 
-			inline std::string GetParameterName() const { return this->parameterName; }
+			inline String GetParameterName() const { return this->parameterName; }
 
-			inline std::string GetParameterTypeName() const { return this->parameterTypeName; }
+			inline String GetParameterTypeName() const { return this->parameterTypeName; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Script parameter \"" << parameterName << "\" has incorrect type \"" << parameterTypeName << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << ". Expected \"Number\", \"Boolean\" or \"Enum\".";
 
 				return ss.str();

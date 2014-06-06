@@ -62,7 +62,7 @@ void CodeBlockStack::CheckSize(unsigned requiredSize)
 	}
 }
 
-void CodeBlockStack::Serialize(std::iostream& stream) const
+void CodeBlockStack::Serialize(IOStream& stream) const
 {
 	stream << ">";
 	for (const_reverse_iterator it = this->RBegin(); it != this->REnd(); it++)

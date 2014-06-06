@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -12,16 +10,16 @@ namespace geogen
 		class InvalidSymbolDefinitionException : public CompilerException
 		{
 		private:
-			std::string symbolName;
+			String symbolName;
 		public:
-			explicit InvalidSymbolDefinitionException(ErrorCode code, CodeLocation location, std::string const& symbolName) :
+			explicit InvalidSymbolDefinitionException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				CompilerException(code, location), symbolName(symbolName) {};
 
-			inline std::string GetSymbolName() const { return this->symbolName; }
+			inline String GetSymbolName() const { return this->symbolName; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				return std::string("Symbol \"") + symbolName + "\" has bad definition.";
+				return String("Symbol \"") + symbolName + "\" has bad definition.";
 			}
 		};
 	}

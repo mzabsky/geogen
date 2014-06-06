@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <ostream>
-
 #include "Serializable.hpp"
 
 namespace geogen
@@ -20,6 +17,6 @@ namespace geogen
 
 		inline int GetColumn() { return this->column; }
 
-		virtual void Serialize(std::iostream& stream) const { stream << "Line " << line << ", column " << column << std::endl; }
+		virtual void Serialize(IOStream& stream) const { stream << "Line " << line << ", column " << column << std::endl; }
 	};
 }

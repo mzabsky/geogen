@@ -12,18 +12,18 @@ namespace geogen
 		class UnexpectedTokenException : public CompilerException
 		{
 		private:
-			std::string expectedTokenName;
-			/*std::string actualTokenName;
-			std::string actualTokenText;*/
+			String expectedTokenName;
+			/*String actualTokenName;
+			String actualTokenText;*/
 		public:
-			explicit UnexpectedTokenException(ErrorCode code, CodeLocation location, std::string const& expectedTokenName/*, std::string const& actualTokenName, std::string const& actualTokenText*/) :
+			explicit UnexpectedTokenException(ErrorCode code, CodeLocation location, String const& expectedTokenName/*, String const& actualTokenName, String const& actualTokenText*/) :
 				CompilerException(code, location), expectedTokenName(expectedTokenName)/*, actualTokenName(actualTokenName), actualTokenText(actualTokenText)*/
 			{				
 			};
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Unexpected token on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ", expected \"" << expectedTokenName << "\".";
 				return ss.str();
 			}

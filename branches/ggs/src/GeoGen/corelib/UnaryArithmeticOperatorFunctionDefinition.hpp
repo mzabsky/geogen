@@ -27,7 +27,7 @@ namespace geogen
 
 			Function function;
 
-			UnaryArithmeticOperatorFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			UnaryArithmeticOperatorFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

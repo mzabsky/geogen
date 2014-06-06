@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
 #include "FunctionDefinition.hpp"
@@ -21,7 +20,7 @@ namespace geogen
 			CodeBlock rootCodeBlock;
 			CodeLocation location;
 		public:
-			ScriptFunctionDefinition(std::string const& name, CodeLocation location, int parameterCount) 
+			ScriptFunctionDefinition(String const& name, CodeLocation location, int parameterCount) 
 				: FunctionDefinition(name), location(location), parameterCount(parameterCount)
 			{
 			}

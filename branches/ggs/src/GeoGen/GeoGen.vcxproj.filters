@@ -27,7 +27,6 @@
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
-    <ClInclude Include="runtime\SymbolNameTable.hpp" />
     <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
@@ -185,7 +184,6 @@
     </ClCompile>
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Serializable.cpp" />
-    <ClCompile Include="runtime\SymbolNameTable.cpp" />
     <ClCompile Include="runtime\CodeBlock.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />

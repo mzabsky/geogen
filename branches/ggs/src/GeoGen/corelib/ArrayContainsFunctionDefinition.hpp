@@ -22,7 +22,7 @@ namespace geogen
 		private:
 			Method method;
 
-			ArrayContainsFunctionDefinition(std::string const& name, Method method, const TypeDefinition* owningType) : MemberNativeFunctionDefinition(name, owningType), method(method) {};
+			ArrayContainsFunctionDefinition(String const& name, Method method, const TypeDefinition* owningType) : MemberNativeFunctionDefinition(name, owningType), method(method) {};
 		public:
 			static ArrayContainsFunctionDefinition* Create(Method method, TypeDefinition const* owningType);
 

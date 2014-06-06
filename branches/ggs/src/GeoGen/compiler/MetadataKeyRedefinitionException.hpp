@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -12,16 +10,16 @@ namespace geogen
 		class MetadataKeyRedefinitionException : public CompilerException
 		{
 		private:
-			std::string key;
+			String key;
 		public:
-			MetadataKeyRedefinitionException(CodeLocation location, std::string const& key) :
+			MetadataKeyRedefinitionException(CodeLocation location, String const& key) :
 				CompilerException(GGE1401_MetadataKeyAlreadyDefined, location), key(key) {};
 
-			inline std::string GetKey() const { return this->key; }
+			inline String GetKey() const { return this->key; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Metadata key \"" << key << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << " was already defined.";
 
 				return ss.str();

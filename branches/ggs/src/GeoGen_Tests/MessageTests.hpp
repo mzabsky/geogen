@@ -43,7 +43,7 @@ public:
 		ASSERT_EQUALS(bool, true, messageTriggered);
 	}
 
-	static void TestPrintWithArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, std::string const& message)
+	static void TestPrintWithArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
 	{
 		ASSERT_EQUALS(string, "1 2", message);
 		messageTriggered = true;

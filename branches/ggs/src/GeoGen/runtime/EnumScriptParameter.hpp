@@ -21,7 +21,7 @@ namespace geogen
 			int defaultValue;
 			corelib::EnumTypeDefinition const* enumType;
 		public:
-			EnumScriptParameter(std::string const& name, std::string const& label, std::string const& description, corelib::EnumTypeDefinition const* enumType, int defaultValue);
+			EnumScriptParameter(String const& name, String const& label, String const& description, corelib::EnumTypeDefinition const* enumType, int defaultValue);
 			EnumScriptParameter(EnumScriptParameter const&);
 			EnumScriptParameter& operator=(EnumScriptParameter const&);
 

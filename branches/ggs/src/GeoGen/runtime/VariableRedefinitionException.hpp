@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "RuntimeException.hpp"
 #include "SymbolDefinitionException.hpp"
 
@@ -12,12 +10,12 @@ namespace geogen
 		class VariableRedefinitionException : public SymbolDefinitionException
 		{
 		public:
-			VariableRedefinitionException(CodeLocation location, std::string const& symbolName) :
+			VariableRedefinitionException(CodeLocation location, String const& symbolName) :
 				SymbolDefinitionException(GGE2204_VariableAlreadyDefined, location, symbolName) {};
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Variable \"" << this->GetSymbolName() + "\" declared on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << " was already defined.";
 				return ss.str();
 			}

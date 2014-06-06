@@ -64,7 +64,7 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 	return codeBlockStepResult;
 }
 
-void CodeBlockStackEntry::Serialize(std::iostream& stream) const
+void CodeBlockStackEntry::Serialize(IOStream& stream) const
 {
 	if (this->GetCurrentInstruction() != NULL)
 	{

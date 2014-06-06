@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -12,16 +10,16 @@ namespace geogen
 		class SymbolRedefinitionException : public CompilerException
 		{
 		private:
-			std::string symbolName;
+			String symbolName;
 		public:
-			SymbolRedefinitionException(ErrorCode code, CodeLocation location, std::string const& symbolName) :
+			SymbolRedefinitionException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				CompilerException(code, location), symbolName(symbolName) {};
 
-			inline std::string GetSymbolName() const { return this->symbolName; }
+			inline String GetSymbolName() const { return this->symbolName; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Symbol \"" << symbolName << "\" defined on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << " is already defined in its scope.";
 
 				return ss.str();

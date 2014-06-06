@@ -1,12 +1,10 @@
-#include <sstream>
-
 #include "Serializable.hpp"
 
 namespace geogen 
 {
-	std::string Serializable::ToString() const
+	String Serializable::ToString() const
 	{
-		std::stringstream stream;
+		StringStream stream;
 		this->Serialize(stream);
 		return stream.str();
 	}

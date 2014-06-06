@@ -20,7 +20,7 @@ namespace geogen
 
 			inline CodeLocation GetLocation(){ return this->location; }
 
-			virtual std::string GetDetailMessage() = 0;
+			virtual String GetDetailMessage() = 0;
 		};
 	}
 }

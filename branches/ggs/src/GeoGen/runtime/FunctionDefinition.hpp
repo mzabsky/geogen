@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../CodeLocation.hpp"
+#include "../String.hpp"
 
-#include <string>
 #include <vector>
 
 namespace geogen 
@@ -22,12 +22,12 @@ namespace geogen
 		class FunctionDefinition
 		{
 		private:
-			std::string name;
+			String name;
 		public:
-			FunctionDefinition(std::string const& name) { this->name = name; }
+			FunctionDefinition(String const& name) { this->name = name; }
 			virtual ~FunctionDefinition() {};
 
-			inline std::string const& GetName() const { return this->name; };
+			inline String const& GetName() const { return this->name; };
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_FUNCTION; }
 

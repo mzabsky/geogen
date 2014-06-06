@@ -1,10 +1,9 @@
 #pragma once
 
-#include <string>
-
-#include "..\CodeLocation.hpp"
-#include "..\ErrorCode.hpp"
-#include "..\runtime\RuntimeException.hpp"
+#include "../String.hpp"
+#include "../CodeLocation.hpp"
+#include "../ErrorCode.hpp"
+#include "../runtime/RuntimeException.hpp"
 
 namespace geogen
 {
@@ -13,14 +12,14 @@ namespace geogen
 		class StringFormatException : public runtime::RuntimeException
 		{
 		private:
-			std::string keyStringValue;
+			String keyStringValue;
 		public:
 			StringFormatException(CodeLocation location) :
 				RuntimeException(GGE2701_IncorrectStringFormat, location), keyStringValue(keyStringValue) {};
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Invalid template string format on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}

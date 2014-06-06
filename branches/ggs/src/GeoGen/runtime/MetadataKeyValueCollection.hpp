@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <map>
 
 #include "MetadataValue.hpp"
@@ -14,8 +13,8 @@ namespace geogen
 		{
 		private:
 		public:
-			typedef std::map<std::string, MetadataValue const*>::const_iterator const_iterator;
-			typedef std::map<std::string, MetadataValue*>::iterator iterator;
+			typedef std::map<String, MetadataValue const*>::const_iterator const_iterator;
+			typedef std::map<String, MetadataValue*>::iterator iterator;
 
 			MetadataKeyValueCollection(CodeLocation location) : MetadataValue(location) {}
 

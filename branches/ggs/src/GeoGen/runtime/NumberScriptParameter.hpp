@@ -28,7 +28,7 @@ namespace geogen
 
 			Number ApplyRestriction(Number value) const;
 		public:
-			NumberScriptParameter(std::string const& name, std::string const& label, std::string const& description, Number defaultValue, Number min, Number max, ScriptParameterValueRestriction restriction);
+			NumberScriptParameter(String const& name, String const& label, String const& description, Number defaultValue, Number min, Number max, ScriptParameterValueRestriction restriction);
 			NumberScriptParameter(NumberScriptParameter const&);
 			NumberScriptParameter& operator=(NumberScriptParameter const&);
 

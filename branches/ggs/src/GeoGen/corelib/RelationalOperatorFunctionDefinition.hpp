@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
+#include "../String.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
@@ -31,7 +31,7 @@ namespace geogen
 
 			Function function;
 
-			RelationalOperatorFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			RelationalOperatorFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

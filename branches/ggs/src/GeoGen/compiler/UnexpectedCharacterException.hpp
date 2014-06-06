@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
+#include "../String.hpp"
 #include "CompilerException.hpp"
 
 namespace geogen
@@ -12,9 +10,9 @@ namespace geogen
 		class UnexpectedCharacterException : public CompilerException
 		{
 		private:
-			char character;
+			Char character;
 		public:
-			explicit UnexpectedCharacterException(CodeLocation location, char character) :
+			explicit UnexpectedCharacterException(CodeLocation location, Char character) :
 				CompilerException(GGE1101_UnexpectedCharacter, location), character(character)
 			{
 			};
@@ -24,9 +22,9 @@ namespace geogen
 				return this->character;
 			}
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Unexpected character \"" << this->GetCharacter() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}

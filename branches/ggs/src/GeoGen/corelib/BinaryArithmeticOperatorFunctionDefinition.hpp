@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
+#include "../String.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../runtime/GlobalNativeFunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
@@ -37,7 +37,7 @@ namespace geogen
 
 			Function function;
 
-			BinaryArithmeticOperatorFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			BinaryArithmeticOperatorFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:			
@@ -46,8 +46,6 @@ namespace geogen
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_OPERATOR; }
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::ManagedObject*> arguments) const;
-
-
 		};
 	}
 }

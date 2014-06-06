@@ -1,9 +1,7 @@
 #pragma once
 
 #include <map>
-#include <string>
 #include <stack>
-#include <iostream>
 
 //#include "ManagedObject.hpp"
 #include "CodeBlock.hpp"
@@ -12,7 +10,6 @@
 #include "instructions/Instruction.hpp"
 #include "../Serializable.hpp"
 #include "../CodeLocation.hpp"
-
 
 namespace geogen
 {
@@ -28,13 +25,6 @@ namespace geogen
 			CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_BREAK,
 			CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE
 		};
-
-		/*struct CodeBlockStackEntryStepResult
-		{
-			CodeBlockStackEntryStepResultType type;
-			unsigned codeBlockCount;
-			bool isLooping;
-		};*/
 
 		class CodeBlockStackEntry : public Serializable
 		{
@@ -60,7 +50,7 @@ namespace geogen
 			const instructions::Instruction* GetCurrentInstruction() const;
 			CodeBlockStackEntryStepResult Step(VirtualMachine* vm);
 
-			virtual void Serialize(std::iostream& stream) const;
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

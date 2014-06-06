@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "Instruction.hpp"
 
 namespace geogen 
@@ -13,18 +11,18 @@ namespace geogen
 			class CallMemberInstruction : public Instruction
 			{
 			private:
-				std::string functionName;
+				String functionName;
 				int argumentCount;
 			public:				
-				CallMemberInstruction(CodeLocation location, std::string functionName, int argumentCount) : Instruction(location)
+				CallMemberInstruction(CodeLocation location, String functionName, int argumentCount) : Instruction(location)
 				{
 					this->functionName = functionName;
 					this->argumentCount = argumentCount;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "CallMember " << functionName << " " << argumentCount; }
+				virtual void Serialize(IOStream& stream) const { stream << "CallMember " << functionName << " " << argumentCount; }
 
-				virtual std::string GetInstructionName() const { return "CallMember"; };
+				virtual String GetInstructionName() const { return "CallMember"; };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

@@ -31,7 +31,7 @@ namespace geogen
 			CodeLocation callLocation;
 			FunctionDefinition const* functionDefinition;
 			CodeBlockStack codeBlockStack;
-			std::map<std::string, ManagedObject*> localVariableValues;
+			std::map<String, ManagedObject*> localVariableValues;
 
 			CallStackEntry(CallStackEntry const& other) : callLocation(0, 0) {};
 			CallStackEntry& operator=(CallStackEntry const& other) {};
@@ -57,7 +57,7 @@ namespace geogen
 			//inline const_iterator Begin() const { return this->instructions.begin(); }
 			//inline const_iterator End() const { return this->instructions.end(); }
 
-			virtual void Serialize(std::iostream& stream) const;
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

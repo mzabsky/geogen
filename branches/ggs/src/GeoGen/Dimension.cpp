@@ -1,7 +1,7 @@
 #include "Dimension.hpp"
 #include "InternalErrorException.hpp"
 
-std::string geogen::DimensionToString(Dimension dimensions)
+geogen::String geogen::DimensionToString(Dimension dimensions)
 {
 	switch (dimensions)
 	{

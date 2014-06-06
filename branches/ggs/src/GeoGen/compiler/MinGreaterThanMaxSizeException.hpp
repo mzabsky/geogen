@@ -20,9 +20,9 @@ namespace geogen
 
 			inline Dimension GetDimension() const { return this->dimension; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "The minimum size was greater than the maximum size in dimension \"" << DimensionToString(dimension) << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << ".";
 
 				return ss.str();

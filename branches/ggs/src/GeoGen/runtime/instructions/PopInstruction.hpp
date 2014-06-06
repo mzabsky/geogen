@@ -16,9 +16,9 @@ namespace geogen
 				{
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "Pop"; }
+				virtual void Serialize(IOStream& stream) const { stream << "Pop"; }
 
-				virtual std::string GetInstructionName() const { return "Pop"; };
+				virtual String GetInstructionName() const { return "Pop"; };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

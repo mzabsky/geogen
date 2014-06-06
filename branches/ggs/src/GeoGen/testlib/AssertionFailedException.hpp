@@ -1,10 +1,5 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include <stdexcept>
-
-#include "../ErrorCode.hpp"
 #include "../GeoGenException.hpp"
 #include "../CodeLocation.hpp"
 
@@ -14,15 +9,15 @@ namespace geogen
 	{
 	private:
 		CodeLocation location;
-		std::string expected;
-		std::string actual;
+		String expected;
+		String actual;
 	public:
-		explicit AssertionFailedException(CodeLocation location, std::string const& expected, std::string const& actual) :
+		explicit AssertionFailedException(CodeLocation location, String const& expected, String const& actual) :
 			GeoGenException((ErrorCode)9000), location(location), expected(expected), actual(actual) {};
 
-		virtual std::string GetDetailMessage()
+		virtual String GetDetailMessage()
 		{
-			std::stringstream ss;
+			StringStream ss;
 			ss << "Assertion failed: expected " << expected << ", got " << actual << " on line " << location.GetLine() << ", column " << location.GetColumn() << "."; 
 
 			return ss.str();

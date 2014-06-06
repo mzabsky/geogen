@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
 #include "RuntimeException.hpp"
 #include "SymbolDefinitionException.hpp"
 
@@ -16,9 +13,9 @@ namespace geogen
 			NullReferenceException(CodeLocation location) :
 				RuntimeException(GGE2106_NullReference, location) {};
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Attempted to dereference null object reference on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "TypeDefinition.hpp"
 
 namespace geogen 

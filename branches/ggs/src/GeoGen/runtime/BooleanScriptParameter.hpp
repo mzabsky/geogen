@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "ScriptParameter.hpp"
 
 namespace geogen
@@ -14,7 +12,7 @@ namespace geogen
 			bool defaultValue;
 			bool value;
 		public:
-			BooleanScriptParameter(std::string const& name, std::string const& label, std::string const& description, bool defaultValue) : ScriptParameter(name, label, description), value(defaultValue), defaultValue(defaultValue) {};
+			BooleanScriptParameter(String const& name, String const& label, String const& description, bool defaultValue) : ScriptParameter(name, label, description), value(defaultValue), defaultValue(defaultValue) {};
 			BooleanScriptParameter(BooleanScriptParameter const&);
 			BooleanScriptParameter& operator=(BooleanScriptParameter const&);
 

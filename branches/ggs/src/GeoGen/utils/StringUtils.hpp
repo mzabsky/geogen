@@ -1,12 +1,13 @@
 #pragma once
 
-#include<string>
-#include<vector>
+#include <vector>
+
+#include "../String.hpp"
 
 namespace geogen
 {
 	namespace utils
 	{
-		std::vector<std::string> StringToLines(std::string const& str);
+		std::vector<String> StringToLines(String const& str);
 	}
 }

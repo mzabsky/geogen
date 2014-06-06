@@ -5,7 +5,7 @@ using namespace std;
 using namespace geogen;
 using namespace runtime;
 
-string geogen::runtime::MetadataTypeToString(MetadataType metadataType)
+String geogen::runtime::MetadataTypeToString(MetadataType metadataType)
 {
 	switch (metadataType)
 	{

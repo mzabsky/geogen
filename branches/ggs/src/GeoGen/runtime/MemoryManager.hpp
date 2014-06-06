@@ -31,7 +31,7 @@ namespace geogen
 			void RegisterObject(ManagedObject* object);
 			void DestroyObject(ManagedObject* object);
 
-			virtual void Serialize(std::iostream& stream) const;
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

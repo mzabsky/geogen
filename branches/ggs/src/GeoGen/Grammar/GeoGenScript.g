@@ -1,30 +1,3 @@
-/*
-
-TODO:
-- Escape sequences for string literals
-
-Operator priority (based on http://en.cppreference.com/w/cpp/language/operator_precedence):
-
-Prio. | Assoc. | Operators
-------------------------------------------------------------
-1     | LTR    | . [] ()
-2     | RTL    | ++ -- ! + - @
-3     | LTR    | * / %
-4     |        | + -
-5     |        | << >> 
-6     |        | < <= > >=
-7     |        | == !=
-8     |        | &
-9     |        | ^
-10    |        | |
-11    |        | &&
-12    |        | ||
-13    |        | ?:
-14    | RTL    | = += -= *= /= %= <<= >>= &= ^= |= is
-15    | LTR    | ,
-
-*/
-
 grammar GeoGenScript;
 options { 
 	//backtrack = true; 
@@ -105,7 +78,7 @@ tokens {
     	    // Char pos odlisna pro tree parser
     	    CodeLocation location(recognizer->state->exception->line, recognizer->state->exception->charPositionInLine);
 
-    	    string expectedTokenName = "";
+    	    String expectedTokenName = "";
     	    if(ex->expecting == ANTLR3_TOKEN_EOF)
     	    {
     	    	expectedTokenName = "EOF";
@@ -383,7 +356,7 @@ ESCAPED :       '\\'
                 | '"' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\"")); }
                 | 'n' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\n")); }
                 | 't' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\t")); }
-                | ~('\\' | '"' | 'n' | 't') { throw InvalidEscapeSequenceException(CodeLocation(ctx->pLexer->input->getLine(ctx->pLexer->input), ctx->pLexer->input->getCharPositionInLine(ctx->pLexer->input) - 1), string(1, (char)LA(0))); }
+                | ~('\\' | '"' | 'n' | 't') { throw InvalidEscapeSequenceException(CodeLocation(ctx->pLexer->input->getLine(ctx->pLexer->input), ctx->pLexer->input->getCharPositionInLine(ctx->pLexer->input) - 1), String(1, (char)LA(0))); }
                 )
         ;
 

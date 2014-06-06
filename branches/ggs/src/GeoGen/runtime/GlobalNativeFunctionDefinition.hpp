@@ -17,7 +17,7 @@ namespace geogen
 		class GlobalNativeFunctionDefinition : public FunctionDefinition
 		{
 		public:
-			GlobalNativeFunctionDefinition(std::string const& name) : FunctionDefinition(name) {};
+			GlobalNativeFunctionDefinition(String const& name) : FunctionDefinition(name) {};
 
 			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const;
 

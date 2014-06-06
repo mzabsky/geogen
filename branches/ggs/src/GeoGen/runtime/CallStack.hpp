@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <deque>
 #include "../CodeLocation.hpp"
 #include "../Serializable.hpp"
@@ -60,7 +59,7 @@ namespace geogen
 			inline reverse_iterator RBegin() { return this->stack.rbegin(); }
 			inline reverse_iterator REnd() { return this->stack.rend(); }
 
-			virtual void Serialize(std::iostream& stream) const;
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

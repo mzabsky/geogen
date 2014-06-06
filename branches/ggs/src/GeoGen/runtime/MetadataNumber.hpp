@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "../Number.hpp"
 #include "MetadataValue.hpp"
 

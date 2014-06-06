@@ -1,10 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <string>
 
-#include "SymbolDefinitionTable.hpp"
-#include "SymbolNameTable.hpp"
+#include "../String.hpp"
 #include "CodeBlock.hpp"
 #include "MetadataValue.hpp"
 #include "MetadataKeyValueCollection.hpp"
@@ -39,7 +37,7 @@ namespace geogen
 
 				corelib::CoreLibrary coreLibrary;
 			public:
-				static const std::string MAIN_FUNCTION_NAME;
+				static const String MAIN_FUNCTION_NAME;
 
 				CompiledScript();
 				~CompiledScript();

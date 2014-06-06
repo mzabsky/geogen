@@ -78,7 +78,7 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 	}
 }
 
-void CallStackEntry::Serialize(std::iostream& stream) const
+void CallStackEntry::Serialize(IOStream& stream) const
 {
 	stream << this->functionDefinition->GetName() << " on line " << this->GetCallLocation().GetLine() << ", column " << this->GetCallLocation().GetColumn();
 }

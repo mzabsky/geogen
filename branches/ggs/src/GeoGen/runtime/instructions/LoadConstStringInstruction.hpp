@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "Instruction.hpp"
 
 namespace geogen 
@@ -13,16 +11,16 @@ namespace geogen
 			class LoadConstStringInstruction : public Instruction
 			{
 			private:
-				std::string constString;
+				String constString;
 			public:				
-				LoadConstStringInstruction(CodeLocation location, std::string const& constString) : Instruction(location)
+				LoadConstStringInstruction(CodeLocation location, String const& constString) : Instruction(location)
 				{
 					this->constString = constString;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "LoadConstString " << constString; }
+				virtual void Serialize(IOStream& stream) const { stream << "LoadConstString " << constString; }
 
-				virtual std::string GetInstructionName() const { return "LoadConstString"; };
+				virtual String GetInstructionName() const { return "LoadConstString"; };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

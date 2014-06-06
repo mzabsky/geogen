@@ -1,8 +1,7 @@
 #pragma once
 
-#include <string>
-
 #include "CompilerException.hpp"
+#include "../String.hpp"
 #include "../Number.hpp"
 #include "../runtime/ScriptParameters.hpp"
 
@@ -20,9 +19,9 @@ namespace geogen
 
 			inline Number GetActualValue() const { return this->actualValue; }
 
-			virtual std::string GetDetailMessage()
+			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Map size has to be a positive integer greater than or equal to " << runtime::MAP_SIZE_MIN << ", less than or equal to " << runtime::MAP_SIZE_MAX << ", was \"" << actualValue << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << ".";
 
 				return ss.str();

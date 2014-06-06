@@ -6,7 +6,7 @@ using namespace std;
 using namespace geogen;
 using namespace geogen::runtime;
 
-NumberScriptParameter::NumberScriptParameter(std::string const& name, std::string const& label, std::string const& description, Number defaultValue, Number min, Number max, ScriptParameterValueRestriction restriction)
+NumberScriptParameter::NumberScriptParameter(String const& name, String const& label, String const& description, Number defaultValue, Number min, Number max, ScriptParameterValueRestriction restriction)
 : ScriptParameter(name, label, description), value(defaultValue), defaultValue(defaultValue), min(min), max(max), restriction(restriction) 
 {
 	// Test min and max against that restriction.

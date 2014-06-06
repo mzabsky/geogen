@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <map>
 
+#include "../String.hpp"
 #include "../CodeLocation.hpp"
 
 namespace geogen 
@@ -36,6 +36,6 @@ namespace geogen
 			virtual MetadataType GetType() const = 0;
 		};
 
-		std::string MetadataTypeToString(MetadataType metadataType);
+		String MetadataTypeToString(MetadataType metadataType);
 	}
 }

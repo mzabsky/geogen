@@ -29,7 +29,7 @@ namespace geogen
 		private:
 			Function function;
 
-			MathRoundFunctionDefinition(std::string const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
+			MathRoundFunctionDefinition(String const& name, Function function) : GlobalNativeFunctionDefinition(name), function(function)
 			{
 			};
 		public:

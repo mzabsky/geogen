@@ -8,7 +8,7 @@ using namespace runtime;
 using namespace corelib;
 using namespace std;
 
-ManagedObject* StringTypeDefinition::CreateInstance(VirtualMachine* vm, string const& value) const
+ManagedObject* StringTypeDefinition::CreateInstance(VirtualMachine* vm, String const& value) const
 {
 	auto_ptr<ManagedObject> object(new StringObject(vm, this, value));
 	vm->GetMemoryManager().RegisterObject(object.get());
