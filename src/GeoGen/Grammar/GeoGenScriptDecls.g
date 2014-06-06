@@ -157,7 +157,7 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 {
 	CodeLocation location($ENUM.line, $ENUM.pos);
 		
-	EnumTypeDefinition* decl = new EnumTypeDefinition(location, (char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
+	EnumTypeDefinition* decl = new EnumTypeDefinition((char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
 	
 	if (!ctx->compiledScript->AddTypeDefinition(decl)){
 		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, decl->GetName());
@@ -193,7 +193,7 @@ enumValues returns [map<std::string, int> returnEnumValues]
 		
 		isNumberDefined = false;
 		number = 0;
-	})*);
+	})+);
 
 //enumValue: ;
 

@@ -134,7 +134,7 @@ keyValueValue: expression | keyValueCollection;
 
 declaration: enumDeclaration | functionDeclaration;
 
-enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}' -> ^('enum' IDENTIFIER ^(VALUES enumValues?));
+enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}' -> ^('enum' IDENTIFIER ^(VALUES enumValues));
 
 enumValues: values+=enumValue (',' values+=enumValue)* -> $values+;
 
@@ -252,7 +252,7 @@ prio1Expression:
     prio0Expression (
         '.'^ IDENTIFIER
         | '('^ (expression (','! expression)*)? ')'!
-        | '['^ expression (','! expression)* ']'!
+        | '['^ (expression (','! expression)*)? ']'!
     )*;
 
 prio0Expression: 

@@ -10,8 +10,12 @@ using namespace geogen;
 using namespace runtime;
 using namespace corelib;
 
-EnumTypeDefinition::EnumTypeDefinition(CodeLocation location, std::string const& name, ValueDefinitions valueDefinitions) : TypeDefinition(name), valueDefinitions(valueDefinitions)
+EnumTypeDefinition::EnumTypeDefinition(std::string const& name, ValueDefinitions valueDefinitions) : TypeDefinition(name), valueDefinitions(valueDefinitions)
 {
+	if (valueDefinitions.size() == 0)
+	{
+		throw ApiUsageException("Can't declare enum with no enum values");
+	}
 }
 
 void EnumTypeDefinition::Initialize(VirtualMachine* vm) const
