@@ -7,6 +7,7 @@
 #include "InternalErrorException.hpp"
 #include "Number.hpp"
 #include "Serializable.hpp"
+#include "String.hpp"
 
 #include "compiler/Compiler.hpp"
 #include "compiler/CompilerException.hpp"

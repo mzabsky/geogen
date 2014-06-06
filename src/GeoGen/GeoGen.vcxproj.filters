@@ -166,6 +166,8 @@
     <ClInclude Include="compiler\InvalidEscapeSequenceException.hpp" />
     <ClInclude Include="runtime\EnumScriptParameter.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
+    <ClInclude Include="String.hpp" />
+    <ClInclude Include="corelib\StringFormatException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -267,6 +269,7 @@
     <ClCompile Include="corelib\MessageFunctionDefinition.cpp" />
     <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="runtime\EnumScriptParameter.cpp" />
+    <ClCompile Include="String.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

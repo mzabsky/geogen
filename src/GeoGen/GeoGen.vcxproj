@@ -121,6 +121,7 @@
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\StringFormatException.hpp" />
     <ClInclude Include="corelib\StringTypeDefinition.hpp" />
     <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="Dimension.hpp" />
@@ -229,6 +230,10 @@
     <ClInclude Include="testlib\AssertionFailedException.hpp" />
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="utils\OwningMap.hpp" />
+    <ClInclude Include="String.hpp" />
+    <ClCompile Include="String.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="utils\StringUtils.hpp" />
   </ItemGroup>
   <ItemGroup>

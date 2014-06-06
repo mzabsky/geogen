@@ -19,9 +19,9 @@ namespace geogen
 			};
 			inline T GetValue() const { return this->value; }
 
-			virtual std::string GetStringValue() const
+			virtual String GetStringValue() const
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << this->GetValue();
 
 				return ss.str();
