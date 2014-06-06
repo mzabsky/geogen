@@ -107,6 +107,7 @@
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="runtime\CompiledScript.hpp" />
     <ClInclude Include="corelib\CoreLibrary.hpp" />
     <ClInclude Include="corelib\DivisionByZeroException.hpp" />
+    <ClInclude Include="runtime\EnumScriptParameter.hpp" />
     <ClInclude Include="runtime\ManagedObject.hpp" />
     <ClInclude Include="corelib\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
@@ -252,6 +254,7 @@
     <ClCompile Include="corelib\StringTypeDefinition.cpp" />
     <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
+    <ClCompile Include="runtime\EnumScriptParameter.cpp" />
     <ClCompile Include="runtime\FunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />

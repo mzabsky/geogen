@@ -7,6 +7,8 @@
 #include "BooleanTypeDefinition.hpp"
 #include "../runtime/NumberScriptParameter.hpp"
 #include "NumberTypeDefinition.hpp"
+#include "../runtime/EnumScriptParameter.hpp"
+#include "EnumTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -53,6 +55,16 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 			{
 				NumberScriptParameter const* typedParameter = dynamic_cast<NumberScriptParameter const*>(actualArgument == NULL ? it->second : actualArgument);
 				ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
+				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
+				{
+					throw InternalErrorException("Parameter member name conflict.");
+				}
+				break;
+			}	
+		case SCRIPT_PARAMETER_TYPE_ENUM:
+			{
+				EnumScriptParameter const* typedParameter = dynamic_cast<EnumScriptParameter const*>(actualArgument == NULL ? it->second : actualArgument);
+				ManagedObject* object = typedParameter->GetEnumType()->CreateInstance(vm, typedParameter->GetValue());
 				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
 				{
 					throw InternalErrorException("Parameter member name conflict.");

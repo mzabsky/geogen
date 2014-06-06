@@ -5,7 +5,7 @@
 
 #include "CompilerException.hpp"
 
-namespace geogen
+/*namespace geogen
 {
 	namespace compiler
 	{
@@ -31,4 +31,4 @@ namespace geogen
 			}
 		};
 	}
-}
+}*/

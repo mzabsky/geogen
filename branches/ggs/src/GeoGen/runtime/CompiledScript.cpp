@@ -12,7 +12,9 @@
 #include "..\InternalErrorException.hpp"
 #include "MetadataBoolean.hpp"
 #include "BooleanScriptParameter.hpp"
+#include "EnumScriptParameter.hpp"
 #include "MetadataNumber.hpp"
+#include "..\corelib\EnumTypeDefinition.hpp"
 #include "..\compiler\ScriptParameterTypeNotSpecifiedException.hpp"
 #include "..\compiler\IncorrectScriptParameterTypeException.hpp"
 #include "..\compiler\IncorrectScriptParameterAttributeTypeException.hpp"
@@ -21,6 +23,7 @@
 #include "..\compiler\UndefinedMetadataIdentifierException.hpp"
 #include "..\compiler\IncorrectMapSizeNumericValueException.hpp"
 #include "..\compiler\MinGreaterThanMaxSizeException.hpp"
+#include "..\compiler\IncorrectEnumScriptParameterTypeException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -354,7 +357,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 				}
 				else
 				{
-					throw compiler::IncorrectScriptParameterTypeException(location, name, parameterTypeName);
+					parameterType = SCRIPT_PARAMETER_TYPE_ENUM;
 				}
 			}
 			else
@@ -480,7 +483,42 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 					parameter = new NumberScriptParameter(name, label, description, defaultValue, min, max, restriction);
 					break;
 				}
-			case SCRIPT_PARAMETER_TYPE_ENUM: 
+			case SCRIPT_PARAMETER_TYPE_ENUM:
+				{
+					string enumTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
+
+					TypeDefinition const* typeDefinition = this->GetTypeDefinitions().GetItem(enumTypeName);
+					if (typeDefinition == NULL || !typeDefinition->IsEnumType()){
+						throw compiler::IncorrectEnumScriptParameterTypeException(currentSection->GetItem("Type")->GetLocation(), name, enumTypeName);
+					}
+
+					corelib::EnumTypeDefinition const* enumTypeDefinition = dynamic_cast<corelib::EnumTypeDefinition const*>(typeDefinition);
+
+					int defaultValue;
+					if (currentSection->ContainsItem("Default"))
+					{
+						if (currentSection->GetItem("Default")->GetType() != METADATA_TYPE_IDENTIFIER)
+						{
+							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Default")->GetLocation(), name, "Default", MetadataTypeToString(currentSection->GetItem("Default")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
+						}
+
+						string defaultValueName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Default"))->GetValue();
+
+						if (!enumTypeDefinition->IsValueStringDefined(defaultValueName))
+						{
+							throw compiler::UndefinedMetadataIdentifierException(currentSection->GetItem("Default")->GetLocation(), defaultValueName);
+						}
+
+						defaultValue = enumTypeDefinition->GetValueDefinitions().find(defaultValueName)->second;
+					}
+					else 
+					{
+						defaultValue = enumTypeDefinition->GetDefaultValueInt();
+					}
+
+					parameter = new EnumScriptParameter(name, label, description, enumTypeDefinition, defaultValue);
+					break;
+				}
 			default:
 				throw InternalErrorException("Unknown parameter type.");
 			}
