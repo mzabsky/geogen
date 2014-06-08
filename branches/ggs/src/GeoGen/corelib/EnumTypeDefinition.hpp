@@ -19,7 +19,7 @@ namespace geogen
 		class EnumTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
-			typedef std::map<std::string, int> const ValueDefinitions;
+			typedef std::map<String, int> const ValueDefinitions;
 		private:
 			ValueDefinitions valueDefinitions;
 		public:

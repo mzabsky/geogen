@@ -1,5 +1,3 @@
-#include <string>
-
 #include "../CodeLocation.hpp"
 #include "ManagedObject.hpp"
 #include "ReadOnlyWriteException.hpp"

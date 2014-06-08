@@ -18,7 +18,7 @@ namespace geogen
 					this->codeBlockCount = codeBlockCount;
 				}
 
-				virtual void Serialize(std::iostream& stream) const { stream << "Break " << codeBlockCount; }
+				virtual void Serialize(IOStream& stream) const { stream << "Break " << codeBlockCount; }
 
 				virtual String GetInstructionName() const { return "Break"; };
 

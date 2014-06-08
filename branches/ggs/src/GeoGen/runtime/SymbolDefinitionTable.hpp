@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <map>
 
 #include "../ErrorCode.hpp"
@@ -14,7 +13,7 @@ namespace geogen
 		class SymbolDefinitionTable
 		{
 		private:
-			std::map<std::string, TSymbolBase*> table;
+			std::map<String, TSymbolBase*> table;
 
 			// Non-copyable
 			SymbolDefinitionTable(SymbolDefinitionTable const&) {}
@@ -22,7 +21,7 @@ namespace geogen
 		public:
 			SymbolDefinitionTable() {}
 
-			typedef typename std::map<std::string, TSymbolBase const*>::const_iterator const_iterator;
+			typedef typename std::map<String, TSymbolBase const*>::const_iterator const_iterator;
 			//typedef std::map<String, TSymbolBase*>::iterator iterator;
 
 			/*void MoveItemsFrom(SymbolDefinitionTable<TSymbolBase>& another)
@@ -37,7 +36,7 @@ namespace geogen
 
 			/*inline TSymbolBase* GetItem(String symbolName)
 			{
-				std::map<std::string, TSymbolBase*>::iterator item = this->table.find(symbolName);
+				std::map<String, TSymbolBase*>::iterator item = this->table.find(symbolName);
 				
 				if(item == this->table.end()){
 					return NULL;
@@ -92,7 +91,7 @@ namespace geogen
 			{
 				if (TOwning)
 				{
-					for (std::map<std::string, TSymbolBase*>::iterator it = this->table.begin(); it != this->table.end(); it++)
+					for (std::map<String, TSymbolBase*>::iterator it = this->table.begin(); it != this->table.end(); it++)
 					{
 						delete it->second;
 					}

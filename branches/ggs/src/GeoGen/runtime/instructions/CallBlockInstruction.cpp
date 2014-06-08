@@ -11,15 +11,16 @@
 #include "../TypeDefinition.hpp"
 
 using namespace std;
+using namespace geogen;
 using namespace geogen::runtime;
 using namespace geogen::corelib;
 using namespace geogen::runtime::instructions;
 
-void CallBlockInstruction::Serialize(std::iostream& stream) const
+void CallBlockInstruction::Serialize(IOStream& stream) const
 {
 	stream << "CallBlock" << std::endl;
 
-	std::stringstream substream;
+	StringStream substream;
 	this->codeBlock.Serialize(substream);
 
 	stream << substream.str();

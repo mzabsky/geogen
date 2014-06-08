@@ -59,7 +59,7 @@ void ObjectStack::CheckSize(unsigned requiredSize)
 	}
 }
 
-void ObjectStack::Serialize(std::iostream& stream) const
+void ObjectStack::Serialize(IOStream& stream) const
 {
 	for (const_iterator it = this->Begin(); it != this->End(); it++)
 	{

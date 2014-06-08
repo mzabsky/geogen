@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "ScriptParameter.hpp"
 #include "../Number.hpp"
 

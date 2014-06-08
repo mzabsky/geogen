@@ -164,8 +164,8 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 	}
 };
 
-enumValues returns [map<std::string, int> returnEnumValues]
-@init { map<std::string, int> tempEnumValues; double number = 0; int nextAutoNumber = 0; bool isNumberDefined = false;}
+enumValues returns [map<String, int> returnEnumValues]
+@init { map<String, int> tempEnumValues; double number = 0; int nextAutoNumber = 0; bool isNumberDefined = false;}
 : ^(VALUES (^(IDENTIFIER (NUMBER { number = StringToNumber((char*)$NUMBER.text->chars); isNumberDefined = true;} )?)
 	{ 
 		String valueName = (char*)$IDENTIFIER.text->chars;
@@ -186,7 +186,7 @@ enumValues returns [map<std::string, int> returnEnumValues]
 		
 		nextAutoNumber = number + 1;
 		
-		if(!returnEnumValues.insert(std::pair<std::string, int>(valueName, number)).second)
+		if(!returnEnumValues.insert(std::pair<String, int>(valueName, number)).second)
 		{		
 			throw SymbolRedefinitionException(GGE1309_EnumValueAlreadyDefined, enumValueLocation, valueName);
 		}
@@ -218,7 +218,7 @@ functionDeclaration
 	        {
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
 			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
-			//varDecls.AddItem(new ScriptVariableDefinition(std::string((char*)tree->getText(tree)->chars)));
+			//varDecls.AddItem(new ScriptVariableDefinition(String((char*)tree->getText(tree)->chars)));
 		        codeBlock.AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)tree->getText(tree)->chars));	
 		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)tree->getText(tree)->chars));	
 		        codeBlock.AddInstruction(new instructions::PopInstruction(location));	

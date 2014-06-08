@@ -5,6 +5,7 @@
 #include "../InternalErrorException.hpp"
 
 using namespace std;
+using namespace geogen;
 using namespace geogen::runtime;
 
 MemoryManager::~MemoryManager()
@@ -55,7 +56,7 @@ void MemoryManager::DestroyObject(ManagedObject* object)
 	delete object;
 }
 
-void MemoryManager::Serialize(std::iostream& stream) const
+void MemoryManager::Serialize(IOStream& stream) const
 {
 	for (const_iterator it = this->objects.begin(); it != this->objects.end(); it++)
 	{
