@@ -11,20 +11,21 @@
 #include "../TypeDefinition.hpp"
 
 using namespace std;
+using namespace geogen;
 using namespace geogen::runtime;
 using namespace geogen::corelib;
 using namespace geogen::runtime::instructions;
 
-void IfInstruction::Serialize(std::iostream& stream) const
+void IfInstruction::Serialize(IOStream& stream) const
 {
 	stream << "If" << std::endl;
 
-	std::stringstream substream1;
+	StringStream substream1;
 	this->ifBranchCodeBlock.Serialize(substream1);
 
 	stream << substream1.str();
 
-	std::stringstream substream2;
+	StringStream substream2;
 	this->elseBranchCodeBlock.Serialize(substream2);
 
 	stream << substream2.str();

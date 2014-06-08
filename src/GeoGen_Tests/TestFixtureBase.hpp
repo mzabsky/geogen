@@ -1,8 +1,6 @@
 #pragma once
 
 #include <map>
-#include <string>
-#include <iostream>
 
 #include "../GeoGen/GeoGen.hpp"
 #include "../GeoGen/testlib/TestLibrary.hpp"
@@ -73,7 +71,7 @@ public:
 	}
 
 protected:
-	static auto_ptr<CompiledScript>  TestGetCompiledScript(std::string const& script)
+	static auto_ptr<CompiledScript>  TestGetCompiledScript(String const& script)
 	{
 		Compiler compiler;
 		auto_ptr<CompiledScript> compiledScript = auto_ptr<CompiledScript>(compiler.CompileScript(script));
@@ -82,7 +80,7 @@ protected:
 		return compiledScript;
 	}
 
-	static void TestScript(string script, ScriptParameters const& arguments = ScriptParameters())
+	static void TestScript(String script, ScriptParameters const& arguments = ScriptParameters())
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(script);
 
@@ -97,7 +95,7 @@ protected:
 	}
 
 	template<typename TException>
-	static void TestScriptFailure(string script, string exceptionName)
+	static void TestScriptFailure(String script, string exceptionName)
 	{
 		try{
 			TestScript(script);

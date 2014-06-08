@@ -1,23 +1,19 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include <stdexcept>
-
 #include "../GeoGen/ErrorCode.hpp"
 #include "../GeoGen/GeoGenException.hpp"
 
 class NoExceptionException : public geogen::GeoGenException
 {
 private:
-	std::string exceptionType;
+	geogen::String exceptionType;
 public:
-	NoExceptionException(std::string exceptionType) :
+	NoExceptionException(geogen::String exceptionType) :
 		GeoGenException((geogen::ErrorCode)9000), exceptionType(exceptionType) {};
 
-	virtual std::string GetDetailMessage()
+	virtual geogen::String GetDetailMessage()
 	{
-		std::stringstream ss;
+		geogen::StringStream ss;
 		ss << "Exception of expected type " << exceptionType << " was not thrown.";
 
 		return ss.str();

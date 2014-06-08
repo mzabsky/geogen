@@ -15,7 +15,7 @@ namespace geogen
 	public:
 		explicit GeoGenException(ErrorCode code) : code(code)
 		{
-			std::stringstream ss;
+			StringStream ss;
 			ss << "GeoGen error GGE" << (int)code << ". See GetDetailMessage for additional information." << std::endl;
 
 			message = ss.str();

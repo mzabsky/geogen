@@ -11,11 +11,11 @@ namespace geogen
 	{
 		namespace instructions
 		{
-			void WhileInstruction::Serialize(std::iostream& stream) const
+			void WhileInstruction::Serialize(IOStream& stream) const
 			{
 				stream << "While" << std::endl;
 
-				std::stringstream substream;
+				StringStream substream;
 				this->codeBlock.Serialize(substream);
 				
 				stream << substream.str();

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <stdexcept>
-
 #include "RuntimeException.hpp"
 
 namespace geogen

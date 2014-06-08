@@ -47,7 +47,7 @@ namespace geogen
 			inline void SetObjectId(ObjectId objectId) { this->objectId = objectId; };
 
 			virtual String GetStringValue() const = 0;
-			virtual void Serialize(std::iostream& stream) const;			
+			virtual void Serialize(IOStream& stream) const;			
 		};
 
 		struct CompareObjects {

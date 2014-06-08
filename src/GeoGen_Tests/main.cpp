@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "../GeoGen/GeoGen.hpp"
 
 #include "BasicOperatorsTests.hpp"
@@ -33,7 +31,7 @@ int main()
 	RUN_FIXTURE(MathTests);
 	RUN_FIXTURE(MessageTests);
 	RUN_FIXTURE(StringTests);
-	RUN_FIXTURE(EnumTests);
+	//RUN_FIXTURE(EnumTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 

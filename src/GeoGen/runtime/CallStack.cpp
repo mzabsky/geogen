@@ -50,7 +50,7 @@ void CallStack::Push(CodeLocation location, FunctionDefinition const* functionDe
 	this->stack.push_back(entry);
 }
 
-void CallStack::Serialize(std::iostream& stream) const
+void CallStack::Serialize(IOStream& stream) const
 {
 	stream << ">";
 	for (const_reverse_iterator it = this->RBegin(); it != this->REnd(); it++)

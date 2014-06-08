@@ -269,7 +269,7 @@ public:
 	BasicOperatorsTests() : TestFixtureBase("BasicOperatorsTests")
 	{
 		ADD_TESTCASE(TestOperators);
-		ADD_TESTCASE(TestOperatorFailures);
+		//ADD_TESTCASE(TestOperatorFailures);
 		ADD_TESTCASE(TestConditionalOperatorTrue);
 		ADD_TESTCASE(TestConditionalOperatorFalse);
 	}

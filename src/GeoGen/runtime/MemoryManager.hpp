@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <list>
 
 #include "../Serializable.hpp"

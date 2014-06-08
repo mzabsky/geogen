@@ -19,7 +19,7 @@ namespace geogen
 
 			virtual String GetDetailMessage()
 			{
-				std::stringstream ss;
+				StringStream ss;
 				ss << "Undefined identifier \"" << identifier << "\" refernced in script metadata on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << ". Expected \"Number\", \"Boolean\" or \"Enum\".";
 
 				return ss.str();

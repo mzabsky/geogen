@@ -1,9 +1,7 @@
-#include <iostream>
-#include <fstream>
-
 #include "../GeoGen/GeoGen.hpp"
 #include "../GeoGen/compiler/Compiler.hpp"
 #include <iomanip>
+#include <fstream>
 
 #include <windows.h>
 #include "..\GeoGen\utils\StringUtils.hpp"
@@ -35,7 +33,7 @@ int main(){
 	geogen::runtime::VirtualMachine vm(*script, geogen::runtime::ScriptParameters());
 	//vm.Run();
 
-	vector<string> codeLines = geogen::utils::StringToLines(codeString);
+	vector<String> codeLines = geogen::utils::StringToLines(codeString);
 
 	String input = "";
 	unsigned numShowCodeLines = 5;
