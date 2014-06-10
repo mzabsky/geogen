@@ -110,7 +110,7 @@ public:
 	EnumTests() : TestFixtureBase("EnumTests")
 	{
 		ADD_TESTCASE(TestScriptEnum);
-		ADD_TESTCASE(TestScriptEnumWithManualValues);
+		/*ADD_TESTCASE(TestScriptEnumWithManualValues);*/
 		ADD_TESTCASE(TestScriptEnumWithNonIntegerValue);
 		ADD_TESTCASE(TestScriptEnumWithValueRedefinition);
 		ADD_TESTCASE(TestEmptyScriptEnumFails);
