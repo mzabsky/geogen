@@ -15,6 +15,6 @@ void VariableDefinition::Initialize(VirtualMachine* vm) const
 
 	if (!vm->GetGlobalVariableTable().DeclareVariable(this->GetName(), defaultValue, this->IsConstant()))
 	{
-		throw InternalErrorException("Could not declare static object variable (already initialized or name conflict?).");
+		throw InternalErrorException(GG_STR("Could not declare static object variable (already initialized or name conflict?)."));
 	}
 }

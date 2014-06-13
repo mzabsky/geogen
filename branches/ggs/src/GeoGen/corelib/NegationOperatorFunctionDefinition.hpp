@@ -12,7 +12,7 @@ namespace geogen
 		class NegationOperatorFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:
-			NegationOperatorFunctionDefinition() : GlobalNativeFunctionDefinition("!") {};
+			NegationOperatorFunctionDefinition() : GlobalNativeFunctionDefinition(GG_STR("!")) {};
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_OPERATOR; }
 

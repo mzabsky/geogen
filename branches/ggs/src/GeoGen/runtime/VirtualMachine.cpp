@@ -36,7 +36,7 @@ void VirtualMachine::InitializeTypes()
 
 void VirtualMachine::DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
 {
-	cout << "Script message: " << message << endl;
+	wcout << "Script message: " << StringToWstring(message) << endl;
 }
 
 void VirtualMachine::InitializeGlobalVariables()
@@ -55,7 +55,7 @@ void VirtualMachine::InitializeMainFunction()
 	FunctionDefinition const* mainFunctionDefinition = this->GetCompiledScript().GetGlobalFunctionDefinitions().GetItem(CompiledScript::MAIN_FUNCTION_NAME);
 	if (mainFunctionDefinition == NULL)
 	{
-		throw InternalErrorException("The script doesn't have a main function.");
+		throw InternalErrorException(GG_STR("The script doesn't have a main function."));
 	}
 
 	this->CallFunction(CodeLocation(0, 0), mainFunctionDefinition, NULL, 0);
@@ -74,7 +74,7 @@ void VirtualMachine::ValidateArguments()
 		originalParameters.GetMaxMapHeight() != originalParameters.GetMaxMapHeight()
 		)
 	{
-		throw ApiUsageException("Map size defaults/min/max don't match defaults/min/max declared by the script.");
+		throw ApiUsageException(GG_STR("Map size defaults/min/max don't match defaults/min/max declared by the script."));
 	}
 
 	for (ScriptParameters::const_iterator it = this->GetArguments().Begin(); it != this->GetArguments().End(); it++)
@@ -100,7 +100,7 @@ VirtualMachineStepResult VirtualMachine::Step()
 {
 	if (this->status != VIRTUAL_MACHINE_STATUS_READY)
 	{
-		throw ApiUsageException("The VM is in incorrect state.");
+		throw ApiUsageException(GG_STR("The VM is in incorrect state."));
 	}
 
 	VirtualMachineStatusGuard statusGuard(this->status);
@@ -146,11 +146,11 @@ void VirtualMachine::Run()
 
 ManagedObject* VirtualMachine::GetNull()
 {
-	VariableTableItem* variableTableItem = this->GetGlobalVariableTable().GetVariable("null");
+	VariableTableItem* variableTableItem = this->GetGlobalVariableTable().GetVariable(GG_STR("null"));
 
 	if (variableTableItem == NULL)
 	{
-		throw InternalErrorException("Could not get \"null\" value.");
+		throw InternalErrorException(GG_STR("Could not get \"null\" value."));
 	}
 
 	return variableTableItem->GetValue();
@@ -173,19 +173,19 @@ TypeDefinition const* VirtualMachine::GetTypeDefinition(String const& typeName) 
 
 corelib::BooleanTypeDefinition const* VirtualMachine::GetBooleanTypeDefinition() const
 {
-	return dynamic_cast<corelib::BooleanTypeDefinition const*>(this->GetTypeDefinition("Boolean"));
+	return dynamic_cast<corelib::BooleanTypeDefinition const*>(this->GetTypeDefinition(GG_STR("Boolean")));
 }
 
 corelib::NumberTypeDefinition const* VirtualMachine::GetNumberTypeDefinition() const
 {
-	return dynamic_cast<corelib::NumberTypeDefinition const*>(this->GetTypeDefinition("Number"));
+	return dynamic_cast<corelib::NumberTypeDefinition const*>(this->GetTypeDefinition(GG_STR("Number")));
 }
 
 VariableTableItem* VirtualMachine::FindVariable(String const& variableName)
 {
 	if (this->status != VIRTUAL_MACHINE_STATUS_READY)
 	{
-		throw ApiUsageException("The VM is in incorrect state.");
+		throw ApiUsageException(GG_STR("The VM is in incorrect state."));
 	}
 
 	CodeBlockStack& codeBlockStack = this->GetCallStack().Top().GetCodeBlockStack();

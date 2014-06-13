@@ -10,18 +10,18 @@ String geogen::runtime::MetadataTypeToString(MetadataType metadataType)
 	switch (metadataType)
 	{
 	case METADATA_TYPE_NUMBER: 
-		return "Number";
+		return GG_STR("Number");
 	case METADATA_TYPE_STRING: 
-		return "String";
+		return GG_STR("String");
 	case METADATA_TYPE_BOOLEAN:
-		return "Boolean";
+		return GG_STR("Boolean");
 	case METADATA_TYPE_IDENTIFIER:
-		return "Identifier";
+		return GG_STR("Identifier");
 	case METADATA_TYPE_SIMPLE_COLLECTION:
-		return "SimpleCollection";
+		return GG_STR("SimpleCollection");
 	case METADATA_TYPE_KEYVALUE_COLLECTION: 
-		return "KeyValueCollection";
+		return GG_STR("KeyValueCollection");
 	default: 
-		throw InternalErrorException("Invalid metadata type.");
+		throw InternalErrorException(GG_STR("Invalid metadata type."));
 	}
 }

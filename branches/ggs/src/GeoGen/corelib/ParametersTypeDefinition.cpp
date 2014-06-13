@@ -15,7 +15,7 @@ using namespace geogen;
 using namespace runtime;
 using namespace corelib;
 
-ParametersTypeDefinition::ParametersTypeDefinition(ScriptParameters const& parameters) : TypeDefinition("Parameters")
+ParametersTypeDefinition::ParametersTypeDefinition(ScriptParameters const& parameters) : TypeDefinition(GG_STR("Parameters"))
 {
 	for (ScriptParameters::const_iterator it = parameters.Begin(); it != parameters.End(); it++)
 	{
@@ -30,7 +30,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 	ManagedObject* staticObject = vm->GetStaticInstance(this->GetName());
 	if (staticObject == NULL)
 	{
-		throw InternalErrorException("Paramters type not initialized properly (static instance missing).");
+		throw InternalErrorException(GG_STR("Paramters type not initialized properly (static instance missing)."));
 	}
 
 	ScriptParameters formalParameters = vm->GetCompiledScript().CreateScriptParameters();
@@ -47,7 +47,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 				ManagedObject* object = vm->GetBooleanTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
 				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
 				{
-					throw InternalErrorException("Parameter member name conflict.");
+					throw InternalErrorException(GG_STR("Parameter member name conflict."));
 				}
 				break;
 			}
@@ -57,7 +57,7 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 				ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, typedParameter->GetValue());
 				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
 				{
-					throw InternalErrorException("Parameter member name conflict.");
+					throw InternalErrorException(GG_STR("Parameter member name conflict."));
 				}
 				break;
 			}	
@@ -67,68 +67,68 @@ void ParametersTypeDefinition::Initialize(VirtualMachine* vm) const
 				ManagedObject* object = typedParameter->GetEnumType()->CreateInstance(vm, typedParameter->GetValue());
 				if (!staticObject->GetMemberVariableTable().DeclareVariable(it->first, object, true))
 				{
-					throw InternalErrorException("Parameter member name conflict.");
+					throw InternalErrorException(GG_STR("Parameter member name conflict."));
 				}
 				break;
 			}	
 		default:
-			throw InternalErrorException("Invalid script parameter type.");
+			throw InternalErrorException(GG_STR("Invalid script parameter type."));
 		}
 	}
 
 	if (vm->GetArguments().GetMapWidth() != MAP_SIZE_INFINITE){
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetMapWidth());
-		if (!staticObject->GetMemberVariableTable().DeclareVariable("MapWidth", object, true))
+		if (!staticObject->GetMemberVariableTable().DeclareVariable(GG_STR("MapWidth"), object, true))
 		{
-			throw InternalErrorException("MapWidth parameter member name conflict.");
+			throw InternalErrorException(GG_STR("MapWidth parameter member name conflict."));
 		}
 	}
 
 	if (vm->GetArguments().GetMapHeight() != MAP_SIZE_INFINITE){
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetMapHeight());
-		if (!staticObject->GetMemberVariableTable().DeclareVariable("MapHeight", object, true))
+		if (!staticObject->GetMemberVariableTable().DeclareVariable(GG_STR("MapHeight"), object, true))
 		{
-			throw InternalErrorException("MapHeight parameter member name conflict.");
+			throw InternalErrorException(GG_STR("MapHeight parameter member name conflict."));
 		}
 	}
 
 	{
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderOriginX());
-		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderOriginX", object, true))
+		if (!staticObject->GetMemberVariableTable().DeclareVariable(GG_STR("RenderOriginX"), object, true))
 		{
-			throw InternalErrorException("RenderOriginX parameter member name conflict.");
+			throw InternalErrorException(GG_STR("RenderOriginX parameter member name conflict."));
 		}
 	}
 
 	{
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderOriginY());
-		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderOriginY", object, true))
+		if (!staticObject->GetMemberVariableTable().DeclareVariable(GG_STR("RenderOriginY"), object, true))
 		{
-			throw InternalErrorException("RenderOriginY parameter member name conflict.");
+			throw InternalErrorException(GG_STR("RenderOriginY parameter member name conflict."));
 		}
 	}
 
 	{
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderWidth());
-		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderWidth", object, true))
+		if (!staticObject->GetMemberVariableTable().DeclareVariable(GG_STR("RenderWidth"), object, true))
 		{
-			throw InternalErrorException("RenderWidth parameter member name conflict.");
+			throw InternalErrorException(GG_STR("RenderWidth parameter member name conflict."));
 		}
 	}
 
 	{
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderHeight());
-		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderHeight", object, true))
+		if (!staticObject->GetMemberVariableTable().DeclareVariable(GG_STR("RenderHeight"), object, true))
 		{
-			throw InternalErrorException("RenderHeight parameter member name conflict.");
+			throw InternalErrorException(GG_STR("RenderHeight parameter member name conflict."));
 		}
 	}
 
 	{
 		ManagedObject* object = vm->GetNumberTypeDefinition()->CreateInstance(vm, vm->GetArguments().GetRenderScale());
-		if (!staticObject->GetMemberVariableTable().DeclareVariable("RenderScale", object, true))
+		if (!staticObject->GetMemberVariableTable().DeclareVariable(GG_STR("RenderScale"), object, true))
 		{
-			throw InternalErrorException("RenderScale parameter member name conflict.");
+			throw InternalErrorException(GG_STR("RenderScale parameter member name conflict."));
 		}
 	}
 }

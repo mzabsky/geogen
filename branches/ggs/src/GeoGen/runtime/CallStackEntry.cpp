@@ -16,7 +16,7 @@ CallStackEntryStepResult CallStackEntry::Step(VirtualMachine* vm)
 {
 	if (this->codeBlockStack.IsEmpty())
 	{
-		throw InternalErrorException("The code block stack was empty (this call stack entry is already finished?)");
+		throw InternalErrorException(GG_STR("The code block stack was empty (this call stack entry is already finished?)"));
 	}
 
 	int originalCodeBlockStackSize = this->codeBlockStack.Size();

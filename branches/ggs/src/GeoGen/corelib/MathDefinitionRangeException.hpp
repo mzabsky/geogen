@@ -33,7 +33,7 @@ namespace geogen
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "\"" << this->GetNumber() << "\" is outside of the definition range of operation \"" << this->GetOperationName() + "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				ss << "\"" << this->GetNumber() << "\" is outside of the definition range of operation \"" << this->GetOperationName() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}
 		};

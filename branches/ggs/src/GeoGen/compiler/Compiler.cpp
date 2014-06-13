@@ -28,7 +28,8 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 	auto_ptr<CompiledScript> script(new CompiledScript());
 	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());
 
-	AnlrInputStreamWrapper input ((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
+	string asciiCode = StringToAscii(code);
+	AnlrInputStreamWrapper input((pANTLR3_UINT8)asciiCode.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
 	AntlrLexerWrapper lex(input);	
 	AntlrTokenStreamWrapper tokens(ANTLR3_SIZE_HINT, lex);
 	AntlrParserWrapper parser(tokens);
@@ -38,7 +39,7 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 	if (parser.GetPtr()->pParser->rec->state->errorCount > 0)
     {
 		// This error should already have caused an exception in the parser.
-		throw InternalErrorException("Unreported parser error.");
+		throw InternalErrorException(GG_STR("Unreported parser error."));
     }
     else
 	{
@@ -60,7 +61,7 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 		if (walker.GetPtr()->pTreeParser->rec->state->errorCount > 0)
 		{
 			// This error should already have caused an exception in the tree walker.
-			throw InternalErrorException("Unreported tree walker error.");
+			throw InternalErrorException(GG_STR("Unreported tree walker error."));
 		}
 
 		/*if (script->GetMetadata() == NULL)
@@ -74,7 +75,7 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 		if (!script->AddGlobalFunctionDefinition(mainFunctionDefinition))
 		{
 			delete mainFunctionDefinition;
-			throw InternalErrorException("Main function name conflict.");
+			throw InternalErrorException(GG_STR("Main function name conflict."));
 		}
 
 		{
@@ -84,7 +85,7 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 			if (!script->AddTypeDefinition(parametersTypeDefinition))
 			{
 				delete parametersTypeDefinition;
-				throw InternalErrorException("Parameters object name conflict.");
+				throw InternalErrorException(GG_STR("Parameters object name conflict."));
 			}
 		}
 	}

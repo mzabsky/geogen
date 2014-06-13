@@ -43,7 +43,7 @@ bool VariableTable::IsVariableDeclared(String const& symbolName) const
 bool VariableTable::DeclareVariable(String const& symbolName, ManagedObject* value, bool isConst) {
 	if (value == NULL)
 	{
-		throw InternalErrorException("Can't declare variable with native NULL value (use VM null).");
+		throw InternalErrorException(GG_STR("Can't declare variable with native NULL value (use VM null)."));
 	}
 
 	if (this->table.find(symbolName) != this->table.end()){

@@ -14,10 +14,10 @@ BitLogicOperatorFunctionDefinition* BitLogicOperatorFunctionDefinition::Create(O
 {
 	switch (op)
 	{
-	case BIT_AND: return new BitLogicOperatorFunctionDefinition("&", CallOperatorBitAnd);
-	case BIT_OR: return new BitLogicOperatorFunctionDefinition("|", CallOperatorBitOr);
-	case BIT_XOR: return new BitLogicOperatorFunctionDefinition("^", CallOperatorBitXor);
-	default: throw InternalErrorException("Unknown operator type.");
+	case BIT_AND: return new BitLogicOperatorFunctionDefinition(GG_STR("&"), CallOperatorBitAnd);
+	case BIT_OR: return new BitLogicOperatorFunctionDefinition(GG_STR("|"), CallOperatorBitOr);
+	case BIT_XOR: return new BitLogicOperatorFunctionDefinition(GG_STR("^"), CallOperatorBitXor);
+	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 }
 
@@ -36,7 +36,7 @@ ManagedObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 
 		if (arg->IsStaticObject())
 		{
-			throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), "Static");
+			throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), GG_STR("Static"));
 		}
 
 		if (arg->GetType() == numberTypeDefinition)

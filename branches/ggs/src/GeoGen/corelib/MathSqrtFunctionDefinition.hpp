@@ -12,7 +12,7 @@ namespace geogen
 		class MathSqrtFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:
-			MathSqrtFunctionDefinition() : GlobalNativeFunctionDefinition("Sqrt") {};
+			MathSqrtFunctionDefinition() : GlobalNativeFunctionDefinition(GG_STR("Sqrt")) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::ManagedObject*> arguments) const;
 		};

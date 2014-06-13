@@ -14,9 +14,9 @@ UnaryArithmeticOperatorFunctionDefinition* UnaryArithmeticOperatorFunctionDefini
 {
 	switch (op)
 	{
-	case UNARY_PLUS: return new UnaryArithmeticOperatorFunctionDefinition("+un", CallOperatorUnaryPlus);
-	case UNARY_MINUS: return new UnaryArithmeticOperatorFunctionDefinition("-un", CallOperatorUnaryMinus);
-	default: throw InternalErrorException("Unknown operator type.");
+	case UNARY_PLUS: return new UnaryArithmeticOperatorFunctionDefinition(GG_STR("+un"), CallOperatorUnaryPlus);
+	case UNARY_MINUS: return new UnaryArithmeticOperatorFunctionDefinition(GG_STR("-un"), CallOperatorUnaryMinus);
+	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 }
 

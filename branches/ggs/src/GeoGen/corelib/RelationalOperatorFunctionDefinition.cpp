@@ -13,11 +13,11 @@ RelationalOperatorFunctionDefinition* RelationalOperatorFunctionDefinition::Crea
 {
 	switch (op)
 	{
-	case LESS_THAN: return new RelationalOperatorFunctionDefinition("<", CallOperatorLessThan);
-	case LESS_THAN_OR_EQUAL_TO: return new RelationalOperatorFunctionDefinition("<=", CallOperatorLessThanOrEqualTo);
-	case GREATER_THAN: return new RelationalOperatorFunctionDefinition(">", CallOperatorGreaterThan);
-	case GREATER_THAN_OR_EQUAL_TO: return new RelationalOperatorFunctionDefinition(">=", CallOperatorGreaterThanOrEqualTo);
-	default: throw InternalErrorException("Unknown operator type.");
+	case LESS_THAN: return new RelationalOperatorFunctionDefinition(GG_STR("<"), CallOperatorLessThan);
+	case LESS_THAN_OR_EQUAL_TO: return new RelationalOperatorFunctionDefinition(GG_STR("<="), CallOperatorLessThanOrEqualTo);
+	case GREATER_THAN: return new RelationalOperatorFunctionDefinition(GG_STR(">"), CallOperatorGreaterThan);
+	case GREATER_THAN_OR_EQUAL_TO: return new RelationalOperatorFunctionDefinition(GG_STR(">="), CallOperatorGreaterThanOrEqualTo);
+	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 }
 

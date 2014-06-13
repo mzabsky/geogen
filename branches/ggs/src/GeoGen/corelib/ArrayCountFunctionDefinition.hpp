@@ -14,7 +14,7 @@ namespace geogen
 		{
 		private:
 		public:
-			ArrayCountFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition("Count", owningType) {};
+			ArrayCountFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition(GG_STR("Count"), owningType) {};
 			
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 

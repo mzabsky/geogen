@@ -15,10 +15,10 @@ ArrayRemoveFunctionDefinition* ArrayRemoveFunctionDefinition::Create(Method meth
 	switch (method)
 	{
 	case REMOVE_KEY:
-		return new ArrayRemoveFunctionDefinition("RemoveKey", method, owningType);
+		return new ArrayRemoveFunctionDefinition(GG_STR("RemoveKey"), method, owningType);
 	case REMOVE_VALUE:
-		return new ArrayRemoveFunctionDefinition("RemoveValue", method, owningType);
-	default: throw InternalErrorException("Unknown method.");
+		return new ArrayRemoveFunctionDefinition(GG_STR("RemoveValue"), method, owningType);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
@@ -37,7 +37,7 @@ ManagedObject* ArrayRemoveFunctionDefinition::CallNative(CodeLocation location, 
 		thisArray->RemoveValue(vm, location, arguments[0]);
 		break;
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
 	return vm->GetNull();

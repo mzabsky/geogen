@@ -11,7 +11,7 @@ namespace geogen
 		private:
 			TypeDefinition const* type;
 		public:
-			ObjectTypeDefinition() : TypeDefinition("Object") { }
+			ObjectTypeDefinition() : TypeDefinition(GG_STR("Object")) { }
 		};
 	}
 }

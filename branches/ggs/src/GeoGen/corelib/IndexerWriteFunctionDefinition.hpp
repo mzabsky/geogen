@@ -12,7 +12,7 @@ namespace geogen
 		class IndexerWriteFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:
-			IndexerWriteFunctionDefinition() : GlobalNativeFunctionDefinition("[]=") {};
+			IndexerWriteFunctionDefinition() : GlobalNativeFunctionDefinition(GG_STR("[]=")) {};
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_OPERATOR; }
 

@@ -17,10 +17,10 @@ ArrayFrontBackFunctionDefinition* ArrayFrontBackFunctionDefinition::Create(Metho
 	switch (method)
 	{
 	case FRONT:
-		return new ArrayFrontBackFunctionDefinition("Front", method, owningType);
+		return new ArrayFrontBackFunctionDefinition(GG_STR("Front"), method, owningType);
 	case BACK:
-		return new ArrayFrontBackFunctionDefinition("Back", method, owningType);
-	default: throw InternalErrorException("Unknown method.");
+		return new ArrayFrontBackFunctionDefinition(GG_STR("Back"), method, owningType);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
@@ -37,6 +37,6 @@ ManagedObject* ArrayFrontBackFunctionDefinition::CallNative(CodeLocation locatio
 	case BACK:
 		return thisArray->Back(vm, location);
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }

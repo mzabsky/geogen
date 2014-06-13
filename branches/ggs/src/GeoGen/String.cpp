@@ -16,7 +16,7 @@ enum StringFormatterState
 };
 
 String geogen::FormatString(String str, std::vector<String> arguments) {
-	stringstream ss;
+	StringStream ss;
 	unsigned index = 0;
 
 	StringFormatterState state = STATE_CHARACTER;
@@ -54,7 +54,7 @@ String geogen::FormatString(String str, std::vector<String> arguments) {
 			}
 			else
 			{
-				throw ApiUsageException("Invalid format string.");
+				throw ApiUsageException(GG_STR("Invalid format string."));
 			}
 
 			break;
@@ -72,14 +72,14 @@ String geogen::FormatString(String str, std::vector<String> arguments) {
 				}
 				else
 				{
-					throw ApiUsageException("Invalid format string.");
+					throw ApiUsageException(GG_STR("Invalid format string."));
 				}
 
 				state = STATE_CHARACTER;
 			}
 			else
 			{
-				throw ApiUsageException("Invalid format string.");
+				throw ApiUsageException(GG_STR("Invalid format string."));
 			}
 
 			break;
@@ -91,20 +91,40 @@ String geogen::FormatString(String str, std::vector<String> arguments) {
 			}
 			else
 			{
-				throw ApiUsageException("Invalid format string.");
+				throw ApiUsageException(GG_STR("Invalid format string."));
 			}
 
 			break;
 		default:
-			throw InternalErrorException("Invalid string formatter state.");
+			throw InternalErrorException(GG_STR("Invalid string formatter state."));
 			break;
 		}		
 	}
 
 	if (state != STATE_CHARACTER)
 	{
-		throw InternalErrorException("Invalid string formatter state.");
+		throw InternalErrorException(GG_STR("Invalid string formatter state."));
 	}
 
 	return ss.str();
+}
+
+string geogen::StringToAscii(String str)
+{
+	return string(str.begin(), str.end());
+}
+
+wstring geogen::StringToWstring(String str)
+{
+	return wstring(str.begin(), str.end());
+}
+
+String geogen::AnyStringToString(string str)
+{
+	return String(str.begin(), str.end());
+}
+
+String geogen::AnyStringToString(wstring str)
+{
+	return String(str.begin(), str.end());
 }

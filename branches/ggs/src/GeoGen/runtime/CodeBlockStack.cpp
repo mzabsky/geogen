@@ -20,7 +20,7 @@ CodeBlockStackEntry& CodeBlockStack::Top()
 {
 	if (this->stack.size() < 1)
 	{
-		throw InternalErrorException("Can't get top of empty code block stack.");
+		throw InternalErrorException(GG_STR("Can't get top of empty code block stack."));
 	}
 
 	return *this->stack.back();
@@ -30,7 +30,7 @@ void CodeBlockStack::Pop()
 {
 	if (this->stack.size() < 1)
 	{
-		throw InternalErrorException("Can't get top of empty code block stack.");
+		throw InternalErrorException(GG_STR("Can't get top of empty code block stack."));
 	}
 
 	delete this->stack.back();
@@ -58,7 +58,7 @@ void CodeBlockStack::CheckSize(unsigned requiredSize)
 {
 	if (this->stack.size() < requiredSize)
 	{
-		throw InternalErrorException("Code block stack has fewer items than required for current operation.");
+		throw InternalErrorException(GG_STR("Code block stack has fewer items than required for current operation."));
 	}
 }
 

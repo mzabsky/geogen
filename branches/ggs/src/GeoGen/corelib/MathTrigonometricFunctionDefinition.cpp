@@ -15,22 +15,22 @@ MathTrigonometricFunctionDefinition* MathTrigonometricFunctionDefinition::Create
 	switch (function)
 	{
 	case SIN:
-		return new MathTrigonometricFunctionDefinition("Sin", function);
+		return new MathTrigonometricFunctionDefinition(GG_STR("Sin"), function);
 	case COS:
-		return new MathTrigonometricFunctionDefinition("Cos", function);
+		return new MathTrigonometricFunctionDefinition(GG_STR("Cos"), function);
 	case TAN:
-		return new MathTrigonometricFunctionDefinition("Tan", function);
+		return new MathTrigonometricFunctionDefinition(GG_STR("Tan"), function);
 	case ASIN:
-		return new MathTrigonometricFunctionDefinition("Asin", function);
+		return new MathTrigonometricFunctionDefinition(GG_STR("Asin"), function);
 	case ACOS:
-		return new MathTrigonometricFunctionDefinition("Acos", function);
+		return new MathTrigonometricFunctionDefinition(GG_STR("Acos"), function);
 	case ATAN:
-		return new MathTrigonometricFunctionDefinition("Atan", function);
+		return new MathTrigonometricFunctionDefinition(GG_STR("Atan"), function);
 	case DEG_TO_RAD:
-		return new MathTrigonometricFunctionDefinition("DegToRad", function);
+		return new MathTrigonometricFunctionDefinition(GG_STR("DegToRad"), function);
 	case RAD_TO_DEG:
-		return new MathTrigonometricFunctionDefinition("RadToDeg", function);
-	default: throw InternalErrorException("Unknown method.");
+		return new MathTrigonometricFunctionDefinition(GG_STR("RadToDeg"), function);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
@@ -75,7 +75,7 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 		result = input * 180. / NUMBER_PI;
 		break;
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
 	return numberTypeDefinition->CreateInstance(vm, result);

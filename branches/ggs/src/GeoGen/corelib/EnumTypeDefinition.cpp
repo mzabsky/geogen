@@ -14,7 +14,7 @@ EnumTypeDefinition::EnumTypeDefinition(String const& name, ValueDefinitions valu
 {
 	if (valueDefinitions.size() == 0)
 	{
-		throw ApiUsageException("Can't declare enum with no enum values");
+		throw ApiUsageException(GG_STR("Can't declare enum with no enum values"));
 	}
 }
 
@@ -25,7 +25,7 @@ void EnumTypeDefinition::Initialize(VirtualMachine* vm) const
 	ManagedObject* staticObject = vm->GetStaticInstance(this->GetName());
 	if (staticObject == NULL)
 	{
-		throw InternalErrorException("Enum type not initialized properly (static instance missing).");
+		throw InternalErrorException(GG_STR("Enum type not initialized properly (static instance missing)."));
 	}
 
 	for (ValueDefinitions::const_iterator it = this->valueDefinitions.begin(); it != this->valueDefinitions.end(); it++)
@@ -41,15 +41,13 @@ ManagedObject* EnumTypeDefinition::CreateInstance(VirtualMachine* vm, Number val
 	auto_ptr<ManagedObject> object(new NumberObject(vm, this, value));
 	vm->GetMemoryManager().RegisterObject(object.get());
 	return object.release();
-
-	// TODO: naplnit membery ZDE!
 }
 
 bool EnumTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using InstanceEqualsTo on object of incorrect type."));
 	}
 
 	if (b->GetType() == this)
@@ -64,7 +62,7 @@ bool EnumTypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObject 
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using InstanceEqualsTo on object of incorrect type."));
 	}
 
 	if (b->GetType() == this)
@@ -79,7 +77,7 @@ ManagedObject* EnumTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) co
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using Copy on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using Copy on object of incorrect type."));
 	}
 
 	if (a->IsStaticObject())
@@ -96,13 +94,13 @@ ManagedObject* EnumTypeDefinition::GetValueByInt(VirtualMachine* vm, int intValu
 	{
 		if (it->second == intValue){
 			if (!vm->GetGlobalVariableTable().IsVariableDeclared(this->GetName())){
-				throw InternalErrorException("Enum type missing.");
+				throw InternalErrorException(GG_STR("Enum type missing."));
 			}
 
 			ManagedObject* staticObject = vm->GetGlobalVariableTable().GetVariable(this->GetName())->GetValue();
 
 			if (!staticObject->GetMemberVariableTable().IsVariableDeclared(it->first)){
-				throw InternalErrorException("Enum value missing.");
+				throw InternalErrorException(GG_STR("Enum value missing."));
 			}
 
 			return staticObject->GetMemberVariableTable().GetVariable(it->first)->GetValue();

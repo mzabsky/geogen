@@ -21,7 +21,7 @@ ManagedObject* ObjectStack::Top()
 {
 	if (this->stack.size() < 1)
 	{
-		throw InternalErrorException("Can't get top of empty code block stack.");
+		throw InternalErrorException(GG_STR("Can't get top of empty code block stack."));
 	}
 
 	return this->stack.back();
@@ -31,7 +31,7 @@ void ObjectStack::Pop(VirtualMachine* vm)
 {
 	if (this->stack.size() < 1)
 	{
-		throw InternalErrorException("Can't get top of empty code block stack.");
+		throw InternalErrorException(GG_STR("Can't get top of empty code block stack."));
 	}
 
 	this->stack.back()->RemoveRef(vm->GetMemoryManager());
@@ -55,7 +55,7 @@ void ObjectStack::CheckSize(unsigned requiredSize)
 {
 	if (this->stack.size() < requiredSize)
 	{
-		throw InternalErrorException("Object stack has fewer items than required for current operation.");
+		throw InternalErrorException(GG_STR("Object stack has fewer items than required for current operation."));
 	}
 }
 

@@ -11,11 +11,11 @@ namespace geogen
 	{
 	private:
 		ErrorCode code;
-		String message;
+		std::string message; // This has to be narrow string, because std::exception uses narrow string in what method. 
 	public:
 		explicit GeoGenException(ErrorCode code) : code(code)
 		{
-			StringStream ss;
+			std::stringstream ss;
 			ss << "GeoGen error GGE" << (int)code << ". See GetDetailMessage for additional information." << std::endl;
 
 			message = ss.str();
@@ -31,6 +31,6 @@ namespace geogen
 			return this->code;
 		}
 
-		virtual String GetDetailMessage() { return ""; }
+		virtual String GetDetailMessage() { return GG_STR(""); }
 	};
 }

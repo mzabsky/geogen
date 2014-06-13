@@ -19,7 +19,9 @@ namespace geogen
 
 			virtual String GetDetailMessage()
 			{
-				return String("Symbol \"") + symbolName + "\" has bad definition.";
+				StringStream ss;
+				ss << "Symbol \"" << symbolName << "\" has bad definition.";
+				return ss.str();
 			}
 		};
 	}

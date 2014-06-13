@@ -14,7 +14,7 @@ namespace geogen
 		{
 		private:
 		public:
-			ArrayGetFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition("[]", owningType) {};
+			ArrayGetFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition(GG_STR("[]"), owningType) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 

@@ -10,7 +10,7 @@ void MemberNativeFunctionDefinition::Call(CodeLocation location, VirtualMachine*
 {
 	if (instance == NULL)
 	{
-		throw InternalErrorException("Instance functions must be called on an instance.");
+		throw InternalErrorException(GG_STR("Instance functions must be called on an instance."));
 	}
 
 	runtime::ObjectStack& objectStack = vm->GetObjectStack();
@@ -29,16 +29,16 @@ void MemberNativeFunctionDefinition::Call(CodeLocation location, VirtualMachine*
 
 	if (instance->GetType() != this->GetOwningTypeDefinition())
 	{
-		throw InternalErrorException("Method called on instance of incorrect type.");
+		throw InternalErrorException(GG_STR("Method called on instance of incorrect type."));
 	}
 
 	if (this->GetMethodType() == METHOD_TYPE_INSTANCE && instance->IsStaticObject())
 	{
-		throw InternalErrorException("Can't call instance method on static object.");
+		throw InternalErrorException(GG_STR("Can't call instance method on static object."));
 	}
 	else if (this->GetMethodType() == METHOD_TYPE_STATIC && !instance->IsStaticObject())
 	{
-		throw InternalErrorException("Can't call static method on an instance.");
+		throw InternalErrorException(GG_STR("Can't call static method on an instance."));
 	}
 
 	ManagedObject* returnValue = this->CallNative(location, vm, instance, arguments);

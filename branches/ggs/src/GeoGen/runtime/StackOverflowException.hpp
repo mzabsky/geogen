@@ -38,7 +38,7 @@ namespace geogen
 				case STACK_TYPE_CODE_BLOCK:
 					ss << "Code block";
 				default:
-					throw InternalErrorException("Unknown stack type");
+					throw InternalErrorException(GG_STR("Unknown stack type"));
 					break;
 				}
 

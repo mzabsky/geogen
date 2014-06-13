@@ -17,7 +17,7 @@ namespace geogen
 			{
 			};
 
-			inline char GetCharacter() const 
+			inline Char GetCharacter() const 
 			{
 				return this->character;
 			}

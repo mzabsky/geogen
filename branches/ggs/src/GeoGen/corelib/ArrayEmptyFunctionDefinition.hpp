@@ -14,7 +14,7 @@ namespace geogen
 		{
 		private:
 		public:
-			ArrayEmptyFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition("Empty", owningType) {};
+			ArrayEmptyFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition(GG_STR("Empty"), owningType) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 

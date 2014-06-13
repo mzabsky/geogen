@@ -21,7 +21,7 @@ namespace geogen
 				inline CodeBlock& GetCodeBlock() { return this->codeBlock; };
 				inline CodeBlock const& GetCodeBlock() const { return this->codeBlock; };
 
-				virtual String GetInstructionName() const { return "While"; };
+				virtual String GetInstructionName() const { return GG_STR("While"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

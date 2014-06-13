@@ -22,7 +22,7 @@ ManagedObject* ArrayObject::Front(VirtualMachine* vm, CodeLocation location)
 {
 	if (this->Count() == 0)
 	{
-		throw InvalidOperationOnEmptyArrayException(location, "Front");
+		throw InvalidOperationOnEmptyArrayException(location, GG_STR("Front"));
 	}
 
 	return this->array.begin()->second;
@@ -32,7 +32,7 @@ ManagedObject* ArrayObject::Back(VirtualMachine* vm, CodeLocation location)
 {
 	if (this->Count() == 0)
 	{
-		throw InvalidOperationOnEmptyArrayException(location, "Back");
+		throw InvalidOperationOnEmptyArrayException(location, GG_STR("Back"));
 	}
 
 	return this->array.rbegin()->second;
@@ -80,7 +80,7 @@ void ArrayObject::PopFront(runtime::VirtualMachine* vm, CodeLocation location)
 {
 	if (this->Count() == 0)
 	{
-		throw InvalidOperationOnEmptyArrayException(location, "PopFront");
+		throw InvalidOperationOnEmptyArrayException(location, GG_STR("PopFront"));
 	}
 
 	iterator it = this->Begin();
@@ -93,7 +93,7 @@ void ArrayObject::PopBack(runtime::VirtualMachine* vm, CodeLocation location)
 {
 	if (this->Count() == 0)
 	{
-		throw InvalidOperationOnEmptyArrayException(location, "PopBack");
+		throw InvalidOperationOnEmptyArrayException(location, GG_STR("PopBack"));
 	}
 
 	iterator it = --this->End();
@@ -111,7 +111,7 @@ void ArrayObject::PushBack(VirtualMachine* vm, CodeLocation location, ManagedObj
 
 	if (key->GetRefCount() < 1)
 	{
-		throw InternalErrorException("PushBack could not push object into the array.");
+		throw InternalErrorException(GG_STR("PushBack could not push object into the array."));
 	}
 }
 

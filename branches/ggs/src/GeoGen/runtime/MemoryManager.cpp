@@ -21,13 +21,13 @@ void MemoryManager::RegisterObject(ManagedObject* object)
 #ifdef DEBUG
 	if (find(this->objects.begin(), this->objects.end(), object) != this->objects.end())
 	{
-		throw InternalErrorException("Attempted to register already registered object.");
+		throw InternalErrorException(GG_STR("Attempted to register already registered object."));
 	}
 #endif
 
 	if (this->nextObjectId == MAX_OBJECT_ID)
 	{
-		throw InternalErrorException("Reached maximum object ID.");
+		throw InternalErrorException(GG_STR("Reached maximum object ID."));
 	}
 
 	object->SetObjectId(this->nextObjectId);
@@ -41,13 +41,13 @@ void MemoryManager::DestroyObject(ManagedObject* object)
 {
 	if (object->GetRefCount() != 0)
 	{
-		throw InternalErrorException("Can't release object with >0 references.");
+		throw InternalErrorException(GG_STR("Can't release object with >0 references."));
 	}
 
 #ifdef DEBUG
 	if (find(this->objects.begin(), this->objects.end(), object) == this->objects.end())
 	{
-		throw InternalErrorException("Cannot remove unregistered object.");
+		throw InternalErrorException(GG_STR("Cannot remove unregistered object."));
 	}
 #endif
 

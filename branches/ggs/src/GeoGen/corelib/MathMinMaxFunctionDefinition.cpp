@@ -14,10 +14,10 @@ MathMinMaxFunctionDefinition* MathMinMaxFunctionDefinition::Create(Function func
 	switch (function)
 	{
 	case MIN:
-		return new MathMinMaxFunctionDefinition("Min", function);
+		return new MathMinMaxFunctionDefinition(GG_STR("Min"), function);
 	case MAX:
-		return new MathMinMaxFunctionDefinition("Max", function);
-	default: throw InternalErrorException("Unknown method.");
+		return new MathMinMaxFunctionDefinition(GG_STR("Max"), function);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
@@ -73,7 +73,7 @@ ManagedObject* MathMinMaxFunctionDefinition::CallNative(CodeLocation location, r
 		result = this->Max(arguments);
 		break;
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
 	return numberTypeDefinition->CreateInstance(vm, result);

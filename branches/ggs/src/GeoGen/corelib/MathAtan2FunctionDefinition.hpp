@@ -12,7 +12,7 @@ namespace geogen
 		class MathAtan2FunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:
-			MathAtan2FunctionDefinition() : GlobalNativeFunctionDefinition("Atan2") {};
+			MathAtan2FunctionDefinition() : GlobalNativeFunctionDefinition(GG_STR("Atan2")) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::ManagedObject*> arguments) const;
 		};

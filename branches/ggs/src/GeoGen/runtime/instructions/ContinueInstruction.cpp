@@ -29,7 +29,7 @@ InstructionStepResult ContinueInstruction::Step(VirtualMachine* vm) const
 		{
 			if (i + 1 != this->codeBlockCount)
 			{
-				throw IntermediateCodeException("Continue attempted to cross through the topmost looping block.");
+				throw IntermediateCodeException(GG_STR("Continue attempted to cross through the topmost looping block."));
 			}
 
 			codeBlockStack.Push(this->GetLocation(), &vm->GetMemoryManager(), codeBlock, true);

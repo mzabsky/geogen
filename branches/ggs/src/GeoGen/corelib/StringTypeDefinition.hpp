@@ -18,7 +18,7 @@ namespace geogen
 		class StringTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
-			StringTypeDefinition() : TypeDefinition("String") {}
+			StringTypeDefinition() : TypeDefinition(GG_STR("String")) {}
 
 			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm, String const& value) const;
 

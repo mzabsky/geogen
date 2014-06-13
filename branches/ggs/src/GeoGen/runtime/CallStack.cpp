@@ -20,7 +20,7 @@ CallStackEntry& CallStack::Top()
 {
 	if (this->stack.size() < 1)
 	{
-		throw InternalErrorException("Can't get top of empty call stack.");
+		throw InternalErrorException(GG_STR("Can't get top of empty call stack."));
 	}
 
 	return *this->stack.back();
@@ -30,7 +30,7 @@ void CallStack::Pop()
 {
 	if (this->stack.size() < 1)
 	{
-		throw InternalErrorException("Can't get top of empty call stack.");
+		throw InternalErrorException(GG_STR("Can't get top of empty call stack."));
 	}
 
 	delete this->stack.back();
