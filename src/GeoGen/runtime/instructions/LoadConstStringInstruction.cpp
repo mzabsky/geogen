@@ -10,7 +10,7 @@ using namespace geogen::runtime::instructions;
 
 InstructionStepResult LoadConstStringInstruction::Step(VirtualMachine* vm) const
 {
-	StringTypeDefinition const* stringTypeDefinition = dynamic_cast<StringTypeDefinition const*>(vm->GetTypeDefinition("String"));
+	StringTypeDefinition const* stringTypeDefinition = dynamic_cast<StringTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("String")));
 
 	ManagedObject* object = stringTypeDefinition->CreateInstance(vm, this->constString);
 	vm->GetObjectStack().Push(this->GetLocation(), object);

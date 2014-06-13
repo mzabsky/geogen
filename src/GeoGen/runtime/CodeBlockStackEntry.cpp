@@ -58,7 +58,7 @@ CodeBlockStackEntryStepResult CodeBlockStackEntry::Step(VirtualMachine* vm)
 		codeBlockStepResult = CODE_BLOCK_STACK_ENTRY_STEP_RESULT_TYPE_CONTINUE;
 		break;
 	default:
-		throw InternalErrorException("Invalid item in CodeBlockStackEntryStepResultType.");
+		throw InternalErrorException(GG_STR("Invalid item in CodeBlockStackEntryStepResultType."));
 	}
 
 	return codeBlockStepResult;

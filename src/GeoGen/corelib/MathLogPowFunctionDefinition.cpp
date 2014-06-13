@@ -15,10 +15,10 @@ MathLogPowFunctionDefinition* MathLogPowFunctionDefinition::Create(Function func
 	switch (function)
 	{
 	case LOG:
-		return new MathLogPowFunctionDefinition("Log", function);
+		return new MathLogPowFunctionDefinition(GG_STR("Log"), function);
 	case POW:
-		return new MathLogPowFunctionDefinition("Pow", function);
-	default: throw InternalErrorException("Unknown method.");
+		return new MathLogPowFunctionDefinition(GG_STR("Pow"), function);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
@@ -46,7 +46,7 @@ ManagedObject* MathLogPowFunctionDefinition::CallNative(CodeLocation location, r
 		result = pow(arg1, arg2);
 		break;
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
 	return numberTypeDefinition->CreateInstance(vm, result);

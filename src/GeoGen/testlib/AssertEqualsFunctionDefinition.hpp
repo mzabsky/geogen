@@ -11,7 +11,7 @@ namespace geogen
 		{
 		private:
 		public:
-			AssertEqualsFunctionDefinition() : GlobalNativeFunctionDefinition("AssertEquals") {};
+			AssertEqualsFunctionDefinition() : GlobalNativeFunctionDefinition(GG_STR("AssertEquals")) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, std::vector<runtime::ManagedObject*> arguments) const;
 		};

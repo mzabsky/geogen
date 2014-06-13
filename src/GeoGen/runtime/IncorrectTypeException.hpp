@@ -21,7 +21,7 @@ namespace geogen
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Object of type \"" << this->GetExpectedTypeName() + "\" expected, got \"" << this->GetActualTypeName() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				ss << "Object of type \"" << this->GetExpectedTypeName() << "\" expected, got \"" << this->GetActualTypeName() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}
 		};

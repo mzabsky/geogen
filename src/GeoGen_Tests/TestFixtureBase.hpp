@@ -16,7 +16,7 @@ using namespace testlib;
 
 #define ADD_TESTCASE(tc) this->AddTestCase(#tc, tc);
 
-#define TEST_SCRIPT_FAILURE(exception, script) TestScriptFailure<exception>(script, #exception)
+#define TEST_SCRIPT_FAILURE(exception, script) TestScriptFailure<exception>(AnyStringToString(script), #exception)
 
 #define RUN_FIXTURE(fixture) fixture().Run(numberOfFailures, numberOfPassed);
 
@@ -28,43 +28,56 @@ public:
 	typedef void(*TestCase)();
 
 private:
-	string name;
-	map<string, TestCase> testCases;
+	String name;
+	map<String, TestCase> testCases;
 	static TestLibrary testLib;
 protected:
-	void AddTestCase(string name, TestCase testCase)
+	void AddTestCase(String name, TestCase testCase)
 	{
-		this->testCases.insert(std::pair<string, TestCase>(name, testCase));
+		this->testCases.insert(std::pair<String, TestCase>(name, testCase));
 	}
 
-	TestFixtureBase(string name) : name(name)
+#ifndef GEOGEN_ASCII
+	void AddTestCase(string name, TestCase testCase)
+	{
+		this->testCases.insert(std::pair<String, TestCase>(AnyStringToString(name), testCase));
+	}
+#endif
+
+	TestFixtureBase(String name) : name(name)
 	{
 	}
+
+#ifndef GEOGEN_ASCII
+	TestFixtureBase(std::string name) : name(AnyStringToString(name))
+	{
+	}
+#endif
 public:
 	void Run(int& numberOfFailures, int& numberOfPassed)
 	{
-		for (map<string, TestCase>::iterator it = this->testCases.begin(); it != this->testCases.end(); it++)
+		for (map<String, TestCase>::iterator it = this->testCases.begin(); it != this->testCases.end(); it++)
 		{
 			try {
 				it->second();
 			}
 			catch (GeoGenException& e)
 			{
-				cout << "Test case " << name << "::" << it->first << " failed with error  \"GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << "\"." << endl;
+				wcout << "Test case " << name << "::" << it->first << " failed with error  \"GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << "\"." << endl;
 
 				numberOfFailures++;
 
 				continue;
 			}
 			catch (exception e){
-				cout << "Test case " << name << "::" << it->first << " failed with message \"" << e.what() << "\"." << endl;
+				wcout << "Test case " << name << "::" << it->first << " failed with message \"" << e.what() << "\"." << endl;
 
 				numberOfFailures++;
 
 				continue;
 			}
 
-			cout << "Test case " << name << "::" << it->first << " passed." << endl;
+			wcout << "Test case " << name << "::" << it->first << " passed." << endl;
 
 			numberOfPassed++;
 		}
@@ -80,6 +93,13 @@ protected:
 		return compiledScript;
 	}
 
+#ifndef GEOGEN_ASCII
+	static auto_ptr<CompiledScript>  TestGetCompiledScript(string const& script)
+	{
+		return TestGetCompiledScript(AnyStringToString(script));
+	}
+#endif
+
 	static void TestScript(String script, ScriptParameters const& arguments = ScriptParameters())
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(script);
@@ -94,6 +114,13 @@ protected:
 		}
 	}
 
+#ifndef GEOGEN_ASCII
+	static void TestScript(string script, ScriptParameters const& arguments = ScriptParameters())
+	{
+		TestScript(AnyStringToString(script), arguments);
+	}
+#endif
+
 	template<typename TException>
 	static void TestScriptFailure(String script, string exceptionName)
 	{
@@ -104,15 +131,15 @@ protected:
 			return;
 		}
 
-		throw NoExceptionException(exceptionName);
+		throw NoExceptionException(AnyStringToString(exceptionName));
 	}
 
 	template<typename T>
 	static void AssertEquals(T a, T b, int line)
 	{
-		stringstream ssa;
+		StringStream ssa;
 		ssa << a;
-		stringstream ssb;
+		StringStream ssb;
 		ssb << b;
 
 		if (a != b)

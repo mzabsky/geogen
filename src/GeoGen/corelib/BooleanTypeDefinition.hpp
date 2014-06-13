@@ -17,7 +17,7 @@ namespace geogen
 		class BooleanTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
-			BooleanTypeDefinition() : TypeDefinition("Boolean") {}
+			BooleanTypeDefinition() : TypeDefinition(GG_STR("Boolean")) {}
 
 			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm, bool value) const;
 

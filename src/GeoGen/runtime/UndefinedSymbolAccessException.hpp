@@ -16,7 +16,7 @@ namespace geogen
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Undefined symbol \"" << this->GetSymbolName() + "\" accessed on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() <<  ".";
+				ss << "Undefined symbol \"" << this->GetSymbolName() << "\" accessed on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() <<  ".";
 				return ss.str();
 			}
 		};

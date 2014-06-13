@@ -61,7 +61,7 @@ namespace geogen
 			inline bool AddItem(TSymbolBase const* symbol) {
 				if (TOwning)
 				{
-					throw ApiUsageException("Cannot add const object to an exclusively owning collection.");
+					throw ApiUsageException(GG_STR("Cannot add const object to an exclusively owning collection."));
 				}
 
 				if (this->table.find(symbol->GetName()) != this->table.end()){

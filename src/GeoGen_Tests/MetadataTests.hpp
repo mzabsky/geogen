@@ -24,9 +24,9 @@ public:
 			}\n\
 		");
 
-		MetadataValue const* value = compiledScript->GetMetadata().GetItem("ValueName");
+		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_STRING, value->GetType());
-		ASSERT_EQUALS(string, "ValueValue", dynamic_cast<MetadataString const*>(value)->GetValue());
+		ASSERT_EQUALS(String, GG_STR("ValueValue"), dynamic_cast<MetadataString const*>(value)->GetValue());
 	}
 
 	static void TestGetIdentifierMetadataValue()
@@ -38,9 +38,9 @@ public:
 			}\n\
 		");
 
-		MetadataValue const* value = compiledScript->GetMetadata().GetItem("ValueName");
+		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_IDENTIFIER, value->GetType());
-		ASSERT_EQUALS(string, "ValueValue", dynamic_cast<MetadataIdentifier const*>(value)->GetValue());
+		ASSERT_EQUALS(String, GG_STR("ValueValue"), dynamic_cast<MetadataIdentifier const*>(value)->GetValue());
 	}
 
 	static void TestGetNumberMetadataValue()
@@ -52,7 +52,7 @@ public:
 			}\n\
 		");
 
-		MetadataValue const* value = compiledScript->GetMetadata().GetItem("ValueName");
+		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_NUMBER, value->GetType());
 		ASSERT_EQUALS(Number, 5.5, dynamic_cast<MetadataNumber const*>(value)->GetValue());
 	}
@@ -66,7 +66,7 @@ public:
 			}\n\
 		");
 
-		MetadataValue const* value = compiledScript->GetMetadata().GetItem("ValueName");
+		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_BOOLEAN, value->GetType());
 		ASSERT_EQUALS(bool, true, dynamic_cast<MetadataBoolean const*>(value)->GetValue());
 	}
@@ -80,14 +80,14 @@ public:
 			}\n\
 		");
 
-		MetadataValue const* value = compiledScript->GetMetadata().GetItem("ValueName");
+		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_SIMPLE_COLLECTION, value->GetType());
 
 		MetadataSimpleCollection const* collection = dynamic_cast<MetadataSimpleCollection const*>(value);
 		ASSERT_EQUALS(size_t, 3, collection->Size());
 
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_STRING, (*collection->Begin())->GetType());
-		ASSERT_EQUALS(string, "ValueValue", dynamic_cast<MetadataString const*>(*collection->Begin())->GetValue());
+		ASSERT_EQUALS(String, GG_STR("ValueValue"), dynamic_cast<MetadataString const*>(*collection->Begin())->GetValue());
 
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_NUMBER, (*(collection->Begin() + 1))->GetType());
 		ASSERT_EQUALS(Number, 5.5, dynamic_cast<MetadataNumber const*>(*(collection->Begin() + 1))->GetValue());
@@ -105,20 +105,20 @@ public:
 			}\n\
 		");
 
-		MetadataValue const* value = compiledScript->GetMetadata().GetItem("ValueName");
+		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_KEYVALUE_COLLECTION, value->GetType());
 
 		MetadataKeyValueCollection const* collection = dynamic_cast<MetadataKeyValueCollection const*>(value);
 		ASSERT_EQUALS(size_t, 3, collection->Size());
 
-		ASSERT_EQUALS(MetadataType, METADATA_TYPE_STRING, collection->GetItem("StringKey")->GetType());
-		ASSERT_EQUALS(string, "ValueValue", dynamic_cast<MetadataString const*>(collection->GetItem("StringKey"))->GetValue());
+		ASSERT_EQUALS(MetadataType, METADATA_TYPE_STRING, collection->GetItem(GG_STR("StringKey"))->GetType());
+		ASSERT_EQUALS(String, GG_STR("ValueValue"), dynamic_cast<MetadataString const*>(collection->GetItem(GG_STR("StringKey")))->GetValue());
 
-		ASSERT_EQUALS(MetadataType, METADATA_TYPE_NUMBER, collection->GetItem("NumberKey")->GetType());
-		ASSERT_EQUALS(Number, 5.5, dynamic_cast<MetadataNumber const*>(collection->GetItem("NumberKey"))->GetValue());
+		ASSERT_EQUALS(MetadataType, METADATA_TYPE_NUMBER, collection->GetItem(GG_STR("NumberKey"))->GetType());
+		ASSERT_EQUALS(Number, 5.5, dynamic_cast<MetadataNumber const*>(collection->GetItem(GG_STR("NumberKey")))->GetValue());
 
-		ASSERT_EQUALS(MetadataType, METADATA_TYPE_BOOLEAN, collection->GetItem("BooleanKey")->GetType());
-		ASSERT_EQUALS(bool, true, dynamic_cast<MetadataBoolean const*>(collection->GetItem("BooleanKey"))->GetValue());
+		ASSERT_EQUALS(MetadataType, METADATA_TYPE_BOOLEAN, collection->GetItem(GG_STR("BooleanKey"))->GetType());
+		ASSERT_EQUALS(bool, true, dynamic_cast<MetadataBoolean const*>(collection->GetItem(GG_STR("BooleanKey")))->GetValue());
 	}
 
 	static void TestMetadataKeyRedefinition()
@@ -147,12 +147,12 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		ASSERT_EQUALS(bool, true, params.ContainsItem("BoolParam"));
-		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_BOOLEAN, params.GetItem("BoolParam")->GetType());		
+		ASSERT_EQUALS(bool, true, params.ContainsItem(GG_STR("BoolParam")));
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_BOOLEAN, params.GetItem(GG_STR("BoolParam"))->GetType());
 
-		BooleanScriptParameter* param = dynamic_cast<BooleanScriptParameter*>(params.GetItem("BoolParam"));
-		ASSERT_EQUALS(string, "Boolean Parameter", param->GetLabel());
-		ASSERT_EQUALS(string, "Desc", param->GetDescription());
+		BooleanScriptParameter* param = dynamic_cast<BooleanScriptParameter*>(params.GetItem(GG_STR("BoolParam")));
+		ASSERT_EQUALS(String, GG_STR("Boolean Parameter"), param->GetLabel());
+		ASSERT_EQUALS(String, GG_STR("Desc"), param->GetDescription());
 		ASSERT_EQUALS(bool, true, param->GetDefaultValue());
 		ASSERT_EQUALS(bool, true, param->GetValue());
 	}
@@ -170,9 +170,9 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		BooleanScriptParameter* param = dynamic_cast<BooleanScriptParameter*>(params.GetItem("BoolParam"));
-		ASSERT_EQUALS(string, "BoolParam", param->GetLabel());
-		ASSERT_EQUALS(string, "", param->GetDescription());
+		BooleanScriptParameter* param = dynamic_cast<BooleanScriptParameter*>(params.GetItem(GG_STR("BoolParam")));
+		ASSERT_EQUALS(String, GG_STR("BoolParam"), param->GetLabel());
+		ASSERT_EQUALS(String, GG_STR(""), param->GetDescription());
 		ASSERT_EQUALS(bool, false, param->GetDefaultValue());
 		ASSERT_EQUALS(bool, false, param->GetValue());
 	}
@@ -190,12 +190,12 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		ASSERT_EQUALS(bool, true, params.ContainsItem("NumberParam"));
-		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("NumberParam")->GetType());		
+		ASSERT_EQUALS(bool, true, params.ContainsItem(GG_STR("NumberParam")));
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem(GG_STR("NumberParam"))->GetType());
 
-		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
-		ASSERT_EQUALS(string, "Number Parameter", param->GetLabel());
-		ASSERT_EQUALS(string, "Desc", param->GetDescription());
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem(GG_STR("NumberParam")));
+		ASSERT_EQUALS(String, GG_STR("Number Parameter"), param->GetLabel());
+		ASSERT_EQUALS(String, GG_STR("Desc"), param->GetDescription());
 		ASSERT_EQUALS(Number, 5, param->GetDefaultValue());
 		ASSERT_EQUALS(Number, 5, param->GetValue());
 		ASSERT_EQUALS(Number, 2, param->GetMin());
@@ -216,9 +216,9 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
-		ASSERT_EQUALS(string, "NumberParam", param->GetLabel());
-		ASSERT_EQUALS(string, "", param->GetDescription());
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem(GG_STR("NumberParam")));
+		ASSERT_EQUALS(String, GG_STR("NumberParam"), param->GetLabel());
+		ASSERT_EQUALS(String, GG_STR(""), param->GetDescription());
 		ASSERT_EQUALS(Number, 0, param->GetDefaultValue());
 		ASSERT_EQUALS(Number, 0, param->GetValue());
 		ASSERT_EQUALS(Number, 0, param->GetMin());
@@ -238,7 +238,7 @@ public:
 		");
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
-		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem(GG_STR("NumberParam")));
 		param->SetValue(10.5);
 
 		ASSERT_EQUALS(Number, 10, param->GetValue());
@@ -256,7 +256,7 @@ public:
 		");
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
-		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem(GG_STR("NumberParam")));
 		param->SetValue(1050);
 
 		ASSERT_EQUALS(Number, 1024, param->GetValue());
@@ -274,7 +274,7 @@ public:
 		");
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
-		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem("NumberParam"));
+		NumberScriptParameter* param = dynamic_cast<NumberScriptParameter*>(params.GetItem(GG_STR("NumberParam")));
 		param->SetValue(1050);
 
 		ASSERT_EQUALS(Number, 1000, param->GetValue());
@@ -298,12 +298,12 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem("EnumParam"));
-		ASSERT_EQUALS(string, "EnumParam", param->GetLabel());
-		ASSERT_EQUALS(string, "", param->GetDescription());
+		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem(GG_STR("EnumParam")));
+		ASSERT_EQUALS(String, GG_STR("EnumParam"), param->GetLabel());
+		ASSERT_EQUALS(String, GG_STR(""), param->GetDescription());
 		ASSERT_EQUALS(Number, 2, param->GetDefaultValue());
 		ASSERT_EQUALS(Number, 2, param->GetValue());				
-		ASSERT_EQUALS(TypeDefinition const*, compiledScript->GetTypeDefinitions().GetItem("TestEnum"), param->GetEnumType());
+		ASSERT_EQUALS(TypeDefinition const*, compiledScript->GetTypeDefinitions().GetItem(GG_STR("TestEnum")), param->GetEnumType());
 	}
 
 	static void TestParseEnumScriptParameterWithImplicitAttributes()
@@ -324,19 +324,19 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem("EnumParam"));
-		ASSERT_EQUALS(string, "EnumParam", param->GetLabel());
-		ASSERT_EQUALS(string, "", param->GetDescription());
+		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem(GG_STR("EnumParam")));
+		ASSERT_EQUALS(String, GG_STR("EnumParam"), param->GetLabel());
+		ASSERT_EQUALS(String, GG_STR(""), param->GetDescription());
 		ASSERT_EQUALS(Number, 0, param->GetDefaultValue());
 		ASSERT_EQUALS(Number, 0, param->GetValue());				
-		ASSERT_EQUALS(TypeDefinition const*, compiledScript->GetTypeDefinitions().GetItem("TestEnum"), param->GetEnumType());
+		ASSERT_EQUALS(TypeDefinition const*, compiledScript->GetTypeDefinitions().GetItem(GG_STR("TestEnum")), param->GetEnumType());
 	}
 
 	static void TestUseBooleanScriptParameter()
 	{
 		ScriptParameters params;
-		BooleanScriptParameter* param = new BooleanScriptParameter("BoolParam", "Boolean Parameter", "Desc", false);
-		params.AddItem("BoolParam", param);
+		BooleanScriptParameter* param = new BooleanScriptParameter(GG_STR("BoolParam"), GG_STR("Boolean Parameter"), GG_STR("Desc"), false);
+		params.AddItem(GG_STR("BoolParam"), param);
 		param->SetValue(true);
 		
 		TestScript("\n\
@@ -366,8 +366,8 @@ public:
 	static void TestUseNumberScriptParameter()
 	{
 		ScriptParameters params;
-		NumberScriptParameter* param = new NumberScriptParameter("NumberParam", "Number Parameter", "Desc", 2, 0, 10, SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED);
-		params.AddItem("NumberParam", param);
+		NumberScriptParameter* param = new NumberScriptParameter(GG_STR("NumberParam"), GG_STR("Number Parameter"), GG_STR("Desc"), 2, 0, 10, SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED);
+		params.AddItem(GG_STR("NumberParam"), param);
 		param->SetValue(5);
 		
 		TestScript("\n\
@@ -414,7 +414,7 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem("EnumParam"));
+		EnumScriptParameter* param = dynamic_cast<EnumScriptParameter*>(params.GetItem(GG_STR("EnumParam")));
 		param->SetValue(1);
 
 		VirtualMachine vm(*compiledScript, params);
@@ -449,7 +449,7 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_BOOLEAN, params.GetItem("TestParam")->GetType());
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_BOOLEAN, params.GetItem(GG_STR("TestParam"))->GetType());
 	}
 
 	static void TestInferParameterTypeFromDefaultNumber()
@@ -465,7 +465,7 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem(GG_STR("TestParam"))->GetType());
 	}
 
 	static void TestInferParameterTypeFromMin()
@@ -481,7 +481,7 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem(GG_STR("TestParam"))->GetType());
 	}
 
 	static void TestInferParameterTypeFromMax()
@@ -497,7 +497,7 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem(GG_STR("TestParam"))->GetType());
 	}
 
 	static void TestInferParameterTypeFromRestriction()
@@ -513,7 +513,7 @@ public:
 		
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 
-		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem("TestParam")->GetType());
+		ASSERT_EQUALS(ScriptParameterType, SCRIPT_PARAMETER_TYPE_NUMBER, params.GetItem(GG_STR("TestParam"))->GetType());
 	}
 
 

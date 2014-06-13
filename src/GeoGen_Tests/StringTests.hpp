@@ -7,7 +7,7 @@ class StringTests : public TestFixtureBase
 public:
 	static void TestStringLiteralWithEscapeSequencesMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
 	{
-		ASSERT_EQUALS(String, "Text \n \t \\ \"!", message);
+		ASSERT_EQUALS(String, GG_STR("Text \n \t \\ \"!"), message);
 	}
 
 	static void TestStringLiteralWithEscapeSequences()
@@ -35,48 +35,48 @@ public:
 	static void TestFormatString()
 	{
 		vector<String> args;
-		args.push_back("0a");
-		args.push_back("1a");
-		args.push_back("2a");
-		args.push_back("3a");
-		args.push_back("4a");
-		args.push_back("5a");
-		args.push_back("6a");
-		args.push_back("7a");
-		args.push_back("8a");
-		args.push_back("9a");
-		args.push_back("10a");
-		args.push_back("11a");
-		args.push_back("12a");
-		args.push_back("13a");
+		args.push_back(GG_STR("0a"));
+		args.push_back(GG_STR("1a"));
+		args.push_back(GG_STR("2a"));
+		args.push_back(GG_STR("3a"));
+		args.push_back(GG_STR("4a"));
+		args.push_back(GG_STR("5a"));
+		args.push_back(GG_STR("6a"));
+		args.push_back(GG_STR("7a"));
+		args.push_back(GG_STR("8a"));
+		args.push_back(GG_STR("9a"));
+		args.push_back(GG_STR("10a"));
+		args.push_back(GG_STR("11a"));
+		args.push_back(GG_STR("12a"));
+		args.push_back(GG_STR("13a"));
 
-		String result = FormatString("{0} {1} {3} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}", args);
+		String result = FormatString(GG_STR("{0} {1} {3} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}"), args);
 
-		ASSERT_EQUALS(String, "0a 1a 3a 2a 4a 5a 6a 7a 8a 9a 10a 11a 12a 12a 1a { }", result);
+		ASSERT_EQUALS(String, GG_STR("0a 1a 3a 2a 4a 5a 6a 7a 8a 9a 10a 11a 12a 12a 1a { }"), result);
 	}
 	
 	static void TestFormatStringCharInIndexFails()
 	{
 		vector<String> args;
-		args.push_back("0a");
-		args.push_back("1a");
-		args.push_back("2a");
-		args.push_back("3a");
-		args.push_back("4a");
-		args.push_back("5a");
-		args.push_back("6a");
-		args.push_back("7a");
-		args.push_back("8a");
-		args.push_back("9a");
-		args.push_back("10a");
-		args.push_back("11a");
-		args.push_back("12a");
-		args.push_back("13a");
+		args.push_back(GG_STR("0a"));
+		args.push_back(GG_STR("1a"));
+		args.push_back(GG_STR("2a"));
+		args.push_back(GG_STR("3a"));
+		args.push_back(GG_STR("4a"));
+		args.push_back(GG_STR("5a"));
+		args.push_back(GG_STR("6a"));
+		args.push_back(GG_STR("7a"));
+		args.push_back(GG_STR("8a"));
+		args.push_back(GG_STR("9a"));
+		args.push_back(GG_STR("10a"));
+		args.push_back(GG_STR("11a"));
+		args.push_back(GG_STR("12a"));
+		args.push_back(GG_STR("13a"));
 
 		bool thrown = false;
 		try
 		{
-			FormatString("{0} {1} {a} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}", args);
+			FormatString(GG_STR("{0} {1} {a} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}"), args);
 		}
 		catch (ApiUsageException)
 		{
@@ -89,25 +89,25 @@ public:
 	static void TestFormatStringUnexpectedClosingBracketFails()
 	{
 		vector<String> args;
-		args.push_back("0a");
-		args.push_back("1a");
-		args.push_back("2a");
-		args.push_back("3a");
-		args.push_back("4a");
-		args.push_back("5a");
-		args.push_back("6a");
-		args.push_back("7a");
-		args.push_back("8a");
-		args.push_back("9a");
-		args.push_back("10a");
-		args.push_back("11a");
-		args.push_back("12a");
-		args.push_back("13a");
+		args.push_back(GG_STR("0a"));
+		args.push_back(GG_STR("1a"));
+		args.push_back(GG_STR("2a"));
+		args.push_back(GG_STR("3a"));
+		args.push_back(GG_STR("4a"));
+		args.push_back(GG_STR("5a"));
+		args.push_back(GG_STR("6a"));
+		args.push_back(GG_STR("7a"));
+		args.push_back(GG_STR("8a"));
+		args.push_back(GG_STR("9a"));
+		args.push_back(GG_STR("10a"));
+		args.push_back(GG_STR("11a"));
+		args.push_back(GG_STR("12a"));
+		args.push_back(GG_STR("13a"));
 
 		bool thrown = false;
 		try
 		{
-			FormatString("{0} {1} ( {a} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}", args);
+			FormatString(GG_STR("{0} {1} ( {a} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}"), args);
 		}
 		catch (ApiUsageException)
 		{
@@ -120,25 +120,25 @@ public:
 	static void TestFormatStringTooHighIndexFails()
 	{
 		vector<String> args;
-		args.push_back("0a");
-		args.push_back("1a");
-		args.push_back("2a");
-		args.push_back("3a");
-		args.push_back("4a");
-		args.push_back("5a");
-		args.push_back("6a");
-		args.push_back("7a");
-		args.push_back("8a");
-		args.push_back("9a");
-		args.push_back("10a");
-		args.push_back("11a");
-		args.push_back("12a");
-		args.push_back("13a");
+		args.push_back(GG_STR("0a"));
+		args.push_back(GG_STR("1a"));
+		args.push_back(GG_STR("2a"));
+		args.push_back(GG_STR("3a"));
+		args.push_back(GG_STR("4a"));
+		args.push_back(GG_STR("5a"));
+		args.push_back(GG_STR("6a"));
+		args.push_back(GG_STR("7a"));
+		args.push_back(GG_STR("8a"));
+		args.push_back(GG_STR("9a"));
+		args.push_back(GG_STR("10a"));
+		args.push_back(GG_STR("11a"));
+		args.push_back(GG_STR("12a"));
+		args.push_back(GG_STR("13a"));
 
 		bool thrown = false;
 		try
 		{
-			FormatString("{0} {1} {25} {a} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}", args);
+			FormatString(GG_STR("{0} {1} {25} {a} {2} {4} {5} {6} {7} {8} {9} {10} {11} {12} {12} {1} {{ }}"), args);
 		}
 		catch (ApiUsageException)
 		{

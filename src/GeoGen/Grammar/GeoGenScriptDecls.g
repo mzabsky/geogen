@@ -49,30 +49,30 @@ scope BlockScope
 }
 
 @members {
-    	void handleTreeWalkerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames) { 
-    	    pANTLR3_EXCEPTION ex = recognizer->state->exception;
-    	    pANTLR3_BASE_TREE currentTree = (pANTLR3_BASE_TREE)(recognizer->state->exception->token);
-    	    
-    	    CodeLocation location(recognizer->state->exception->line, currentTree->getCharPositionInLine(currentTree));
-    	    
-    	    String expectedTokenName = "";
-    	    if(ex->expecting == ANTLR3_TOKEN_EOF)
-    	    {
-    	    	expectedTokenName = "EOF";
-    	    }
-			else if (ex->expecting > 0)
-    	    {
-    	    	expectedTokenName = (char*)tokenNames[ex->expecting];
-    	    }
-    	    
-    	    throw UnexpectedTokenException(GGE1201_UnexpectedToken, location, expectedTokenName/*, currentTokenName, currentTokenText*/);
-    	    
-    	    /*switch  (ex->type)
-    	    {
-    		case:			    
-    		    throw GeoGenException(GGE1201_UnexpectedToken); 
-    	    }*/
-    	 }
+       	void handleTreeWalkerError (pANTLR3_BASE_RECOGNIZER recognizer, pANTLR3_UINT8 * tokenNames) { 
+       	    pANTLR3_EXCEPTION ex = recognizer->state->exception;
+       	    pANTLR3_BASE_TREE currentTree = (pANTLR3_BASE_TREE)(recognizer->state->exception->token);
+       	    
+       	    CodeLocation location(recognizer->state->exception->line, currentTree->getCharPositionInLine(currentTree));
+       	    
+       	    String expectedTokenName = GG_STR("");
+       	    if(ex->expecting == ANTLR3_TOKEN_EOF)
+       	    {
+				expectedTokenName = GG_STR("EOF");
+       	    }
+   			else if (ex->expecting > 0)
+       	    {
+       	    	expectedTokenName = AnyStringToString((char*)tokenNames[ex->expecting]);
+       	    }
+       	    
+       	    throw UnexpectedTokenException(GGE1201_UnexpectedToken, location, expectedTokenName/*, currentTokenName, currentTokenText*/);
+       	    
+       	    /*switch  (ex->type)
+       	    {
+       		case:			    
+       		    throw GeoGenException(GGE1201_UnexpectedToken); 
+       	    }*/
+       	 }
 
 	void binaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, CodeBlock* e1, CodeBlock* e2, CodeBlock* returnCodeBlock)
 	{
@@ -85,17 +85,17 @@ scope BlockScope
 		returnCodeBlock->MoveInstructionsFrom(*e1); 
 		delete e1; 
 		
-		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (char*)operatorToken->getText(operatorToken)->chars, 2));
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, AnyStringToString((char*)operatorToken->getText(operatorToken)->chars), 2));
 	}
 	
-	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, String const& text, CodeBlock* e1, CodeBlock* returnCodeBlock)
+	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, string const& text, CodeBlock* e1, CodeBlock* returnCodeBlock)
 	{
 		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
 	
 		returnCodeBlock->MoveInstructionsFrom(*e1); 
 		delete e1; 		
 		
-		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, text, 1));
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, AnyStringToString(text), 1));
 	}    	     	 
 }
 
@@ -131,16 +131,16 @@ metadataKeyValueCollection returns [MetadataValue* value]
 		/*delete $metadataKeyValuePair.name; */
 	})*);
 	
-metadataKeyValuePair returns [char* name, MetadataValue* value] @init{ $value = NULL; }: 
-	^(IDENTIFIER metadataKeyValueValue) { $name = (char*)$IDENTIFIER.text->chars; $value = $metadataKeyValueValue.value; }
-	| ^(NUMBER metadataKeyValueValue '@'?)  { $name = (char*)$NUMBER.text->chars; $value = $metadataKeyValueValue.value; };
+metadataKeyValuePair returns [String name, MetadataValue* value] @init{ $value = NULL; }: 
+	^(IDENTIFIER metadataKeyValueValue) { $name = AnyStringToString((char*)$IDENTIFIER.text->chars); $value = $metadataKeyValueValue.value; }
+	| ^(NUMBER metadataKeyValueValue '@'?)  { $name = AnyStringToString((char*)$NUMBER.text->chars); $value = $metadataKeyValueValue.value; };
 
 metadataKeyValueValue returns [MetadataValue* value] @init{ $value = NULL; }: 
 	stringLiteral  { $value = new MetadataString(CodeLocation($stringLiteral.line, $stringLiteral.pos), $stringLiteral.value); }
 	| TRUE_LIT  { $value = new MetadataBoolean(CodeLocation($TRUE_LIT.line, $TRUE_LIT.pos), true); }
 	| FALSE_LIT  { $value = new MetadataBoolean(CodeLocation($FALSE_LIT.line, $FALSE_LIT.pos), false); }
-	| NUMBER { $value = new MetadataNumber(CodeLocation($NUMBER.line, $NUMBER.pos), StringToNumber((char*)$NUMBER.text->chars)); }
-	| IDENTIFIER { $value = new MetadataIdentifier(CodeLocation($IDENTIFIER.line, $IDENTIFIER.pos), (char*)$IDENTIFIER.text->chars); }
+	| NUMBER { $value = new MetadataNumber(CodeLocation($NUMBER.line, $NUMBER.pos), StringToNumber(AnyStringToString((char*)$NUMBER.text->chars))); }
+	| IDENTIFIER { $value = new MetadataIdentifier(CodeLocation($IDENTIFIER.line, $IDENTIFIER.pos), AnyStringToString((char*)$IDENTIFIER.text->chars)); }
 	| metadataKeyValueCollection { $value = $metadataKeyValueCollection.value; };
 
 keyValueCollection: ^(COLLECTION keyValuePair*);
@@ -157,7 +157,7 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 {
 	CodeLocation location($ENUM.line, $ENUM.pos);
 		
-	EnumTypeDefinition* decl = new EnumTypeDefinition((char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
+	EnumTypeDefinition* decl = new EnumTypeDefinition(AnyStringToString((char*)$IDENTIFIER.text->chars), $enumValues.returnEnumValues);
 	
 	if (!ctx->compiledScript->AddTypeDefinition(decl)){
 		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, decl->GetName());
@@ -166,9 +166,9 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 
 enumValues returns [map<String, int> returnEnumValues]
 @init { map<String, int> tempEnumValues; double number = 0; int nextAutoNumber = 0; bool isNumberDefined = false;}
-: ^(VALUES (^(IDENTIFIER (NUMBER { number = StringToNumber((char*)$NUMBER.text->chars); isNumberDefined = true;} )?)
+: ^(VALUES (^(IDENTIFIER (NUMBER { number = StringToNumber(AnyStringToString((char*)$NUMBER.text->chars)); isNumberDefined = true;} )?)
 	{ 
-		String valueName = (char*)$IDENTIFIER.text->chars;
+		String valueName = AnyStringToString((char*)$IDENTIFIER.text->chars);
 	
 		CodeLocation enumValueLocation($IDENTIFIER.line, $IDENTIFIER.pos);
 		
@@ -205,7 +205,7 @@ functionDeclaration
 : ^(FUNCTION name=IDENTIFIER ^(PARAMETERS formalParameters+=IDENTIFIER*) block)
 {
 	CodeLocation location($FUNCTION.line, $FUNCTION.pos);
-	ScriptFunctionDefinition* decl = new ScriptFunctionDefinition((char*)$name.text->chars, location, $formalParameters != NULL ? $formalParameters->count : 0);
+	ScriptFunctionDefinition* decl = new ScriptFunctionDefinition(AnyStringToString((char*)$name.text->chars), location, $formalParameters != NULL ? $formalParameters->count : 0);
 
 	//SymbolDefinitionTable<VariableDefinition>& varDecls = decl->GetLocalVariableDefinitions();	
 	
@@ -219,8 +219,8 @@ functionDeclaration
 			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
 			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
 			//varDecls.AddItem(new ScriptVariableDefinition(String((char*)tree->getText(tree)->chars)));
-		        codeBlock.AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)tree->getText(tree)->chars));	
-		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)tree->getText(tree)->chars));	
+		        codeBlock.AddInstruction(new instructions::DeclareLocalValueInstruction(location, AnyStringToString((char*)tree->getText(tree)->chars)));	
+		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, AnyStringToString((char*)tree->getText(tree)->chars)));	
 		        codeBlock.AddInstruction(new instructions::PopInstruction(location));	
 		}
 	             	
@@ -330,14 +330,14 @@ variableDeclaration returns [CodeBlock* returnCodeBlock]
 		delete $expression.returnCodeBlock; 
 		
 		/*$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));*/
-		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
-		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
 		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
 	})?)
 {
     	CodeLocation location($VAR.line, $VAR.pos);
 	if(!hadValue){
-		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareLocalValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
 	}
 };
 
@@ -353,14 +353,14 @@ globalVariableDeclaration returns [CodeBlock* returnCodeBlock]
 		delete $expression.returnCodeBlock; 
 		
 		/*$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));*/
-		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
-		$returnCodeBlock->AddInstruction(new instructions::StoreGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::StoreGlobalValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
 		$returnCodeBlock->AddInstruction(new instructions::PopInstruction(location));
 	})?)
 {
     	CodeLocation location($GLOBAL.line, $GLOBAL.pos);
 	if(!hadValue){
-		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::DeclareGlobalValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
 	}
 };
 
@@ -375,7 +375,7 @@ yieldStatement returns [CodeBlock* returnCodeBlock]
 	}
 	else 
 	{
-		$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction(location, (char*)$STRING.text->chars));	
+		$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction(location, AnyStringToString((char*)$STRING.text->chars)));	
 	}
 };
 
@@ -581,14 +581,14 @@ expression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
 		delete $e1.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::LoadMemberValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::LoadMemberValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
 	}
 	| callExpression { $returnCodeBlock->MoveInstructionsFrom(*$callExpression.returnCodeBlock); delete $callExpression.returnCodeBlock;} 
 	| indexAccessExpression { $returnCodeBlock->MoveInstructionsFrom(*$indexAccessExpression.returnCodeBlock); delete $indexAccessExpression.returnCodeBlock;} 
 	| IDENTIFIER 
 	{ 
 		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
-		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars)); 
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars))); 
 	}
 	//collectionLiteral |
 	| TRUE_LIT
@@ -604,7 +604,7 @@ expression returns [CodeBlock* returnCodeBlock]
 	| NUMBER 
 	{ 
 		CodeLocation location($NUMBER.line, $NUMBER.pos);	
-		$returnCodeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(location, StringToNumber((char*)$NUMBER.text->chars)));
+		$returnCodeBlock->AddInstruction(new instructions::LoadConstNumberInstruction(location, StringToNumber(AnyStringToString((char*)$NUMBER.text->chars))));
 	}
 	| stringLiteral 
 	{ 
@@ -628,17 +628,17 @@ coordinateExpression returns[CodeBlock* returnCodeBlock]
 	
 	if(argumentCodeBlocks.size() < 1 || argumentCodeBlocks.size() > 2)
 	{
-		throw InternalErrorException("Incorrect number of arguments in coordinate literal.");
+		throw InternalErrorException(GG_STR("Incorrect number of arguments in coordinate literal."));
 	}
 	
 	if(argumentCodeBlocks.size() == 1){
-		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, "Coordinate"));	
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, GG_STR("Coordinate")));	
 	}
 	else if(argumentCodeBlocks.size() == 2){
-		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, "Point"));	
+		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, GG_STR("Point")));	
 	}
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, "Create", argumentCodeBlocks.size()));	
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("Create"), argumentCodeBlocks.size()));	
 };
 
 callExpression returns [CodeBlock* returnCodeBlock]
@@ -654,7 +654,7 @@ callExpression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
 	}
 
-	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (char*)$IDENTIFIER.text->chars, argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
 }
 |	
 ^('(' ^('.' e1=expression IDENTIFIER) (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
@@ -669,7 +669,7 @@ callExpression returns [CodeBlock* returnCodeBlock]
 
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, (char*)$IDENTIFIER.text->chars, argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars), argumentCodeBlocks.size()));
 }
 ;
 
@@ -688,7 +688,7 @@ indexAccessExpression returns [CodeBlock* returnCodeBlock]
 
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, "[]", argumentCodeBlocks.size()));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("[]"), argumentCodeBlocks.size()));
 };
 
 conditionalOperatorExpression returns [CodeBlock* returnCodeBlock]
@@ -719,7 +719,7 @@ lvalueExpression returns [CodeBlock* returnCodeBlock]
 	IDENTIFIER 
 	{ 
 		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
-		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, (char*)$IDENTIFIER.text->chars));  
+		$returnCodeBlock->AddInstruction(new instructions::StoreScopeValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));  
 	}
 	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
 	{
@@ -728,7 +728,7 @@ lvalueExpression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
 		delete $e1.returnCodeBlock; 
 		
-		$returnCodeBlock->AddInstruction(new instructions::StoreMemberValueInstruction(location, (char*)$IDENTIFIER.text->chars));
+		$returnCodeBlock->AddInstruction(new instructions::StoreMemberValueInstruction(location, AnyStringToString((char*)$IDENTIFIER.text->chars)));
 	}
 	| lvalueIndexAccessExpression 
 	{ 
@@ -752,7 +752,7 @@ lvalueIndexAccessExpression returns [CodeBlock* returnCodeBlock]
 	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
 	
 	// +1 for the value being written into the array
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, "[]=", argumentCodeBlocks.size() + 1));
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("[]="), argumentCodeBlocks.size() + 1));
 };
 
 
@@ -837,7 +837,7 @@ label:
 stringLiteral returns [String value, int line, int pos]:
 	STRING
 {
-	String str ((char*)$STRING.text->chars);
+	String str = AnyStringToString((char*)$STRING.text->chars);
 	$value = str;//str.substr(1, str.length() - 2);
 	$line = $STRING.line;
 	$pos = $STRING.pos;

@@ -15,14 +15,14 @@ MathRoundFunctionDefinition* MathRoundFunctionDefinition::Create(Function functi
 	switch (function)
 	{
 	case ROUND:
-		return new MathRoundFunctionDefinition("Round", function);
+		return new MathRoundFunctionDefinition(GG_STR("Round"), function);
 	case CEIL:
-		return new MathRoundFunctionDefinition("Ceil", function);
+		return new MathRoundFunctionDefinition(GG_STR("Ceil"), function);
 	case FLOOR:
-		return new MathRoundFunctionDefinition("Floor", function);
+		return new MathRoundFunctionDefinition(GG_STR("Floor"), function);
 	case ABS:
-		return new MathRoundFunctionDefinition("Abs", function);
-	default: throw InternalErrorException("Unknown method.");
+		return new MathRoundFunctionDefinition(GG_STR("Abs"), function);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
@@ -53,7 +53,7 @@ ManagedObject* MathRoundFunctionDefinition::CallNative(CodeLocation location, ru
 		result = abs(input);
 		break;
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
 	return numberTypeDefinition->CreateInstance(vm, result);

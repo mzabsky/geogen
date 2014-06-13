@@ -17,9 +17,9 @@ void SetConsoleColor(int foreground, int background)
 
 int main(){
 	StringStream  code;
-	std::ifstream file("testinput.txt");
+	std::wifstream file("testinput.txt");
 	String temp;
-	while (std::getline(file, temp)) 
+	while (std::getline<Char>(file, temp)) 
 	{
 		code << temp << std::endl;
 	}
@@ -35,7 +35,7 @@ int main(){
 
 	vector<String> codeLines = geogen::utils::StringToLines(codeString);
 
-	String input = "";
+	string input = "";
 	unsigned numShowCodeLines = 5;
 	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
 	{		
@@ -62,18 +62,18 @@ int main(){
 
 					if (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine())
 					{
-						cout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
+						wcout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
 						SetConsoleColor(7, 1);
 						cout << currentLine[currentInstruction->GetLocation().GetColumn()];
 						SetConsoleColor(7, 0);
 						if (currentLine.length() > 0)
 						{
-							cout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
+							wcout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
 						}
 					}
 					else
 					{
-						cout << currentLine;
+						wcout << currentLine;
 					}
 				}
 
@@ -89,8 +89,8 @@ int main(){
 			cout << "Input: " << input << endl << endl;
 
 			size_t separatorPosition = input.find(" ");
-			String command = input.substr(0, separatorPosition);
-			String args = "";
+			string command = input.substr(0, separatorPosition);
+			string args = "";
 			if (separatorPosition != String::npos)
 			{
 				args = input.substr(separatorPosition + 1);
@@ -117,7 +117,7 @@ int main(){
 			{
 				cout << "Object stack:" << std::endl;
 
-				cout << vm.GetObjectStack().ToString();
+				wcout << vm.GetObjectStack().ToString();
 			}
 			else if (command == "r" || command == "read")
 			{
@@ -129,26 +129,26 @@ int main(){
 				}
 				else
 				{
-					geogen::runtime::VariableTableItem* variableTableItem = vm.FindVariable(args);
+					geogen::runtime::VariableTableItem* variableTableItem = vm.FindVariable(AnyStringToString(args));
 					if (variableTableItem == NULL)
 					{
 						cout << "Undefined" << std::endl;
 					}
 					else
 					{
-						cout << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
+						wcout << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
 					}
 				}
 			}
 			else if (command == "c" || command == "cs" || command == "callstack")
 			{
 				cout << "Call stack:" << std::endl;
-				cout << vm.GetCallStack().ToString() << std::endl;
+				wcout << vm.GetCallStack().ToString() << std::endl;
 			}
 			else if (command == "cbs" || command == "codeblockstack")
 			{
 				cout << "Code block stack:" << std::endl;
-				cout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
+				wcout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
 			}
 			else if (command == "cbc" || command == "codeblockcode")
 			{
@@ -163,7 +163,7 @@ int main(){
 				if (codeBlockNumber < codeBlockStack.Size())
 				{
 					cout << "Code block stack entry " << codeBlockNumber << ":" << std::endl;
-					cout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
+					wcout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
 				}
 				else
 				{
@@ -173,7 +173,7 @@ int main(){
 			else if (command == "o" || command == "mm" || command == "managedobjects")
 			{
 				cout << "Managed objects:" << std::endl;
-				cout << vm.GetMemoryManager().ToString() << std::endl;
+				wcout << vm.GetMemoryManager().ToString() << std::endl;
 			}
 			else
 			{
@@ -181,7 +181,7 @@ int main(){
 			}
 		}
 
-		cout << endl << "Next instruction: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". " << endl << endl << "Command? ";
+		wcout << endl << "Next instruction: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". " << endl << endl << "Command? ";
         
 		getline(std::cin, input);
 	}

@@ -14,14 +14,14 @@ BinaryArithmeticOperatorFunctionDefinition* BinaryArithmeticOperatorFunctionDefi
 {
 	switch (op)
 	{
-	case MULTIPLICATION: return new BinaryArithmeticOperatorFunctionDefinition("*", CallOperatorMultiplication);
-	case DIVISION: return new BinaryArithmeticOperatorFunctionDefinition("/", CallOperatorDivision);
-	case MODULO: return new BinaryArithmeticOperatorFunctionDefinition("%", CallOperatorModulo);
-	case ADDITION: return new BinaryArithmeticOperatorFunctionDefinition("+", CallOperatorAddition);
-	case SUBTRACTION: return new BinaryArithmeticOperatorFunctionDefinition("-", CallOperatorSubtraction);
-	case BIT_SHIFT_LEFT: return new BinaryArithmeticOperatorFunctionDefinition("<<", CallOperatorBitShiftLeft);
-	case BIT_SHIFT_RIGHT: return new BinaryArithmeticOperatorFunctionDefinition(">>", CallOperatorBitShiftRight);
-	default: throw InternalErrorException("Unknown operator type.");
+	case MULTIPLICATION: return new BinaryArithmeticOperatorFunctionDefinition(GG_STR("*"), CallOperatorMultiplication);
+	case DIVISION: return new BinaryArithmeticOperatorFunctionDefinition(GG_STR("/"), CallOperatorDivision);
+	case MODULO: return new BinaryArithmeticOperatorFunctionDefinition(GG_STR("%"), CallOperatorModulo);
+	case ADDITION: return new BinaryArithmeticOperatorFunctionDefinition(GG_STR("+"), CallOperatorAddition);
+	case SUBTRACTION: return new BinaryArithmeticOperatorFunctionDefinition(GG_STR("-"), CallOperatorSubtraction);
+	case BIT_SHIFT_LEFT: return new BinaryArithmeticOperatorFunctionDefinition(GG_STR("<<"), CallOperatorBitShiftLeft);
+	case BIT_SHIFT_RIGHT: return new BinaryArithmeticOperatorFunctionDefinition(GG_STR(">>"), CallOperatorBitShiftRight);
+	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 }
 

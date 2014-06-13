@@ -41,7 +41,7 @@ InstructionStepResult IfInstruction::Step(VirtualMachine* vm) const
 		throw IncorrectTypeException(GGE2104_IncorrectConditionResultType, this->GetLocation(), boolTypeDefinition->GetName(), conditionObject->GetType()->GetName());
 	}
 	else if (conditionObject->IsStaticObject()){
-		throw IncorrectTypeException(GGE2104_IncorrectConditionResultType, this->GetLocation(), boolTypeDefinition->GetName(), "Static");
+		throw IncorrectTypeException(GGE2104_IncorrectConditionResultType, this->GetLocation(), boolTypeDefinition->GetName(), GG_STR("Static"));
 	}
 
 	if (dynamic_cast<BooleanObject*>(conditionObject)->GetValue())

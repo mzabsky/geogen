@@ -15,7 +15,7 @@ using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
 
-ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition("Array")
+ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 {	
 	this->GetFunctionDefinitions().AddItem(new ArrayEmptyFunctionDefinition(this));
 
@@ -42,7 +42,7 @@ bool ArrayTypeDefinition::InstanceEqualsTo(runtime::ManagedObject const* a, runt
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using InstanceEqualsTo on object of incorrect type."));
 	}
 
 	if (b->GetType() == this)
@@ -79,7 +79,7 @@ bool ArrayTypeDefinition::InstanceLessThan(runtime::ManagedObject const* a, runt
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using InstanceLessThan on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using InstanceLessThan on object of incorrect type."));
 	}
 
 	return TypeDefinition::InstanceLessThan(a, b);

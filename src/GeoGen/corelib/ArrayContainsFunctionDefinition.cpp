@@ -17,10 +17,10 @@ ArrayContainsFunctionDefinition* ArrayContainsFunctionDefinition::Create(Method 
 	switch (method)
 	{
 	case CONTAINS_KEY:
-		return new ArrayContainsFunctionDefinition("ContainsKey", method, owningType);
+		return new ArrayContainsFunctionDefinition(GG_STR("ContainsKey"), method, owningType);
 	case CONTAINS_VALUE:
-		return new ArrayContainsFunctionDefinition("ContainsValue", method, owningType);
-	default: throw InternalErrorException("Unknown method.");
+		return new ArrayContainsFunctionDefinition(GG_STR("ContainsValue"), method, owningType);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
@@ -40,7 +40,7 @@ ManagedObject* ArrayContainsFunctionDefinition::CallNative(CodeLocation location
 		result = thisArray->ContainsValue(vm, location, arguments[0]);
 		break;
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
 	BooleanTypeDefinition const* boolTypeDefinition = vm->GetBooleanTypeDefinition();

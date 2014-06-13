@@ -18,16 +18,16 @@ MessageFunctionDefinition* MessageFunctionDefinition::Create(Function function)
 	switch (function)
 	{
 	case PRINT:
-		return new MessageFunctionDefinition("Print", function);
+		return new MessageFunctionDefinition(GG_STR("Print"), function);
 	case TRIGGER_ERROR:
-		return new MessageFunctionDefinition("TriggerError", function);
-	default: throw InternalErrorException("Unknown method.");
+		return new MessageFunctionDefinition(GG_STR("TriggerError"), function);
+	default: throw InternalErrorException(GG_STR("Unknown method."));
 	}
 }
 
 ManagedObject* MessageFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, vector<ManagedObject*> arguments) const
 {
-	StringTypeDefinition const* stringTypeDefinition = dynamic_cast<StringTypeDefinition const*>(vm->GetTypeDefinition("String"));
+	StringTypeDefinition const* stringTypeDefinition = dynamic_cast<StringTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("String")));
 
 	vector<TypeDefinition const*> expectedParameterTypes;
 	expectedParameterTypes.push_back(stringTypeDefinition);
@@ -71,7 +71,7 @@ ManagedObject* MessageFunctionDefinition::CallNative(CodeLocation location, runt
 		throw UserErrorException(location, str);
 		break;
 	default:
-		throw InternalErrorException("Unknown method.");
+		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
 	return vm->GetNull();

@@ -13,7 +13,7 @@ namespace geogen
 		{
 		private:
 		public:
-			AssignmentOperatorFunctionDefinition() : GlobalNativeFunctionDefinition("=") {};
+			AssignmentOperatorFunctionDefinition() : GlobalNativeFunctionDefinition(GG_STR("=")) {};
 
 			virtual FunctionType GetFunctionType() const { return FUNCTION_TYPE_OPERATOR; }
 

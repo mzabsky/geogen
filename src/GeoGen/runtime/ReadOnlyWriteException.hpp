@@ -19,7 +19,7 @@ namespace geogen
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Attempted to write read only variable \"" << this->GetSymbolName() + "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				ss << "Attempted to write read only variable \"" << this->GetSymbolName() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}
 		};

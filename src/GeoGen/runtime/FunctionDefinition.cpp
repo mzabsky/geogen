@@ -17,7 +17,7 @@ void FunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefini
 		{
 			ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
 
-			throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), "Static");
+			throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), GG_STR("Static"));
 		}
 
 		if (actualArguments[i]->GetType() != expectedTypes[i])

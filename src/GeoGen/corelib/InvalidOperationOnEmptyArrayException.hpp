@@ -25,7 +25,7 @@ namespace geogen
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Attempted to execute operation \"" << this->GetOperationName() + "\" on an empty array on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				ss << "Attempted to execute operation \"" << this->GetOperationName() << "\" on an empty array on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}
 		};

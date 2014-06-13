@@ -22,7 +22,7 @@ namespace geogen
 
 				virtual void Serialize(IOStream& stream) const { stream << "CallMember " << functionName << " " << argumentCount; }
 
-				virtual String GetInstructionName() const { return "CallMember"; };
+				virtual String GetInstructionName() const { return GG_STR("CallMember"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

@@ -24,7 +24,7 @@ public:
 
 	static void TestPrintWithoutArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
 	{
-		ASSERT_EQUALS(string, "Text message!", message);
+		ASSERT_EQUALS(String, GG_STR("Text message!"), message);
 		messageTriggered = true;
 	}
 
@@ -45,7 +45,7 @@ public:
 
 	static void TestPrintWithArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
 	{
-		ASSERT_EQUALS(string, "1 2", message);
+		ASSERT_EQUALS(String, GG_STR("1 2"), message);
 		messageTriggered = true;
 	}
 

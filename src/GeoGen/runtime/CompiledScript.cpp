@@ -27,7 +27,7 @@ using namespace std;
 using namespace geogen;
 using namespace runtime;
 
-const String CompiledScript::MAIN_FUNCTION_NAME = "<main>";
+const String CompiledScript::MAIN_FUNCTION_NAME = GG_STR("<main>");
 
 CompiledScript::CompiledScript() : metadata(CodeLocation(0, 0))
 {
@@ -78,7 +78,7 @@ void CompiledScript::AddLibrary(Library const* library)
 	{
 		if (!this->typeDefinitions.AddItem(it->second))
 		{
-			throw ApiUsageException("Type with the same name is already registered.");
+			throw ApiUsageException(GG_STR("Type with the same name is already registered."));
 		}
 	}
 
@@ -86,7 +86,7 @@ void CompiledScript::AddLibrary(Library const* library)
 	{
 		if (!this->globalFunctionDefinitions.AddItem(it->second))
 		{
-			throw ApiUsageException("Global function with the same name is already registered.");
+			throw ApiUsageException(GG_STR("Global function with the same name is already registered."));
 		}
 	}
 
@@ -94,7 +94,7 @@ void CompiledScript::AddLibrary(Library const* library)
 	{
 		if (!this->globalVariableDefinitions.AddItem(it->second))
 		{
-			throw ApiUsageException("Global variable with the same name is already registered.");
+			throw ApiUsageException(GG_STR("Global variable with the same name is already registered."));
 		}
 	}
 }
@@ -108,189 +108,189 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 	unsigned minMapHeight = MAP_SIZE_MIN;
 	unsigned maxMapHeight = MAP_SIZE_INFINITE;
 	
-	if (this->GetMetadata().ContainsItem("Width"))
+	if (this->GetMetadata().ContainsItem(GG_STR("Width")))
 	{	
-		if (this->GetMetadata().GetItem("Width")->GetType() == METADATA_TYPE_IDENTIFIER)
+		if (this->GetMetadata().GetItem(GG_STR("Width"))->GetType() == METADATA_TYPE_IDENTIFIER)
 		{
-			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem("Width"))->GetValue();
-			if (identifierName != "Infinite")
+			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem(GG_STR("Width")))->GetValue();
+			if (identifierName != GG_STR("Infinite"))
 			{
-				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem("Width")->GetLocation(), identifierName);
+				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem(GG_STR("Width"))->GetLocation(), identifierName);
 			}
 
 			defaultMapWidth = MAP_SIZE_INFINITE;
 			minMapWidth = MAP_SIZE_MIN;
 			maxMapWidth = MAP_SIZE_INFINITE;
 		}		
-		else if (this->GetMetadata().GetItem("Width")->GetType() == METADATA_TYPE_KEYVALUE_COLLECTION)
+		else if (this->GetMetadata().GetItem(GG_STR("Width"))->GetType() == METADATA_TYPE_KEYVALUE_COLLECTION)
 		{
-			MetadataKeyValueCollection const* widthSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem("Width"));
+			MetadataKeyValueCollection const* widthSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem(GG_STR("Width")));
 
-			if (widthSection->ContainsItem("Default"))
+			if (widthSection->ContainsItem(GG_STR("Default")))
 			{
-				if (widthSection->GetItem("Default")->GetType() == METADATA_TYPE_NUMBER)
+				if (widthSection->GetItem(GG_STR("Default"))->GetType() == METADATA_TYPE_NUMBER)
 				{
-					Number numericValue = dynamic_cast<MetadataNumber const*>(widthSection->GetItem("Default"))->GetValue();
+					Number numericValue = dynamic_cast<MetadataNumber const*>(widthSection->GetItem(GG_STR("Default")))->GetValue();
 
 					if (numericValue < MAP_SIZE_MIN || numericValue > MAP_SIZE_MAX || !IsNumberInt(numericValue))
 					{
-						throw compiler::IncorrectMapSizeNumericValueException(widthSection->GetItem("Default")->GetLocation(), numericValue);
+						throw compiler::IncorrectMapSizeNumericValueException(widthSection->GetItem(GG_STR("Default"))->GetLocation(), numericValue);
 					}
 
 					defaultMapWidth = NumberToInt(numericValue);
 				}
 				else
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(widthSection->GetItem("Default")->GetLocation(), "Width", "Default", MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(widthSection->GetItem("Default")->GetType()));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(widthSection->GetItem(GG_STR("Default"))->GetLocation(), GG_STR("Width"), GG_STR("Default"), MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(widthSection->GetItem(GG_STR("Default"))->GetType()));
 				}
 			}
 
-			if (widthSection->ContainsItem("Min"))
+			if (widthSection->ContainsItem(GG_STR("Min")))
 			{
-				if (widthSection->GetItem("Min")->GetType() == METADATA_TYPE_NUMBER)
+				if (widthSection->GetItem(GG_STR("Min"))->GetType() == METADATA_TYPE_NUMBER)
 				{
-					Number numericValue = dynamic_cast<MetadataNumber const*>(widthSection->GetItem("Min"))->GetValue();
+					Number numericValue = dynamic_cast<MetadataNumber const*>(widthSection->GetItem(GG_STR("Min")))->GetValue();
 
 					if (numericValue < MAP_SIZE_MIN || numericValue > MAP_SIZE_MAX || !IsNumberInt(numericValue))
 					{
-						throw compiler::IncorrectMapSizeNumericValueException(widthSection->GetItem("Min")->GetLocation(), numericValue);
+						throw compiler::IncorrectMapSizeNumericValueException(widthSection->GetItem(GG_STR("Min"))->GetLocation(), numericValue);
 					}
 
 					minMapWidth = NumberToInt(numericValue);
 				}
 				else
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(widthSection->GetItem("Min")->GetLocation(), "Width", "Min", MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(widthSection->GetItem("Min")->GetType()));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(widthSection->GetItem(GG_STR("Min"))->GetLocation(), GG_STR("Width"), GG_STR("Min"), MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(widthSection->GetItem(GG_STR("Min"))->GetType()));
 				}
 			}
 
-			if (widthSection->ContainsItem("Max"))
+			if (widthSection->ContainsItem(GG_STR("Max")))
 			{
-				if (widthSection->GetItem("Max")->GetType() == METADATA_TYPE_NUMBER)
+				if (widthSection->GetItem(GG_STR("Max"))->GetType() == METADATA_TYPE_NUMBER)
 				{
-					Number numericValue = dynamic_cast<MetadataNumber const*>(widthSection->GetItem("Max"))->GetValue();
+					Number numericValue = dynamic_cast<MetadataNumber const*>(widthSection->GetItem(GG_STR("Max")))->GetValue();
 
 					if (numericValue < MAP_SIZE_MIN || numericValue > MAP_SIZE_MAX || !IsNumberInt(numericValue))
 					{
-						throw compiler::IncorrectMapSizeNumericValueException(widthSection->GetItem("Max")->GetLocation(), numericValue);
+						throw compiler::IncorrectMapSizeNumericValueException(widthSection->GetItem(GG_STR("Max"))->GetLocation(), numericValue);
 					}
 
 					maxMapWidth = NumberToInt(numericValue);
 				}
 				else
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(widthSection->GetItem("Max")->GetLocation(), "Width", "Max", MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(widthSection->GetItem("Max")->GetType()));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(widthSection->GetItem(GG_STR("Max"))->GetLocation(), GG_STR("Width"), GG_STR("Max"), MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(widthSection->GetItem(GG_STR("Max"))->GetType()));
 				}
 			}
 
 			if (minMapWidth > maxMapWidth)
 			{
-				throw compiler::MinGreaterThanMaxSizeException(widthSection->GetItem("Min")->GetLocation(), DIMENSION_WIDTH);
+				throw compiler::MinGreaterThanMaxSizeException(widthSection->GetItem(GG_STR("Min"))->GetLocation(), DIMENSION_WIDTH);
 			}
 		}
 		else
 		{
-			throw compiler::IncorrectMetadataValueTypeException(GGE1408_WidthNotKeyValueCollection, this->GetMetadata().GetItem("Width")->GetLocation(), "Width", "KeyValueCollection", MetadataTypeToString(this->GetMetadata().GetItem("Width")->GetType()));
+			throw compiler::IncorrectMetadataValueTypeException(GGE1408_WidthNotKeyValueCollection, this->GetMetadata().GetItem(GG_STR("Width"))->GetLocation(), GG_STR("Width"), MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem(GG_STR("Width"))->GetType()));
 		}
 	}
 
-	if (this->GetMetadata().ContainsItem("Height"))
+	if (this->GetMetadata().ContainsItem(GG_STR("Height")))
 	{
-		if (this->GetMetadata().GetItem("Height")->GetType() == METADATA_TYPE_IDENTIFIER)
+		if (this->GetMetadata().GetItem(GG_STR("Height"))->GetType() == METADATA_TYPE_IDENTIFIER)
 		{
-			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem("Height"))->GetValue();
-			if (identifierName != "Infinite")
+			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem(GG_STR("Height")))->GetValue();
+			if (identifierName != GG_STR("Infinite"))
 			{
-				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem("Height")->GetLocation(), identifierName);
+				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem(GG_STR("Height"))->GetLocation(), identifierName);
 			}
 
 			defaultMapHeight = MAP_SIZE_INFINITE;
 			minMapHeight = MAP_SIZE_MIN;
 			maxMapHeight = MAP_SIZE_INFINITE;
 		}
-		else if (this->GetMetadata().GetItem("Height")->GetType() == METADATA_TYPE_KEYVALUE_COLLECTION)
+		else if (this->GetMetadata().GetItem(GG_STR("Height"))->GetType() == METADATA_TYPE_KEYVALUE_COLLECTION)
 		{
-			MetadataKeyValueCollection const* heightSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem("Height"));
+			MetadataKeyValueCollection const* heightSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem(GG_STR("Height")));
 
-			if (heightSection->ContainsItem("Default"))
+			if (heightSection->ContainsItem(GG_STR("Default")))
 			{
-				if (heightSection->GetItem("Default")->GetType() == METADATA_TYPE_NUMBER)
+				if (heightSection->GetItem(GG_STR("Default"))->GetType() == METADATA_TYPE_NUMBER)
 				{
-					Number numericValue = dynamic_cast<MetadataNumber const*>(heightSection->GetItem("Default"))->GetValue();
+					Number numericValue = dynamic_cast<MetadataNumber const*>(heightSection->GetItem(GG_STR("Default")))->GetValue();
 
 					if (numericValue < MAP_SIZE_MIN || numericValue > MAP_SIZE_MAX || !IsNumberInt(numericValue))
 					{
-						throw compiler::IncorrectMapSizeNumericValueException(heightSection->GetItem("Default")->GetLocation(), numericValue);
+						throw compiler::IncorrectMapSizeNumericValueException(heightSection->GetItem(GG_STR("Default"))->GetLocation(), numericValue);
 					}
 
 					defaultMapHeight = NumberToInt(numericValue);
 				}
 				else
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(heightSection->GetItem("Default")->GetLocation(), "Height", "Default", MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(heightSection->GetItem("Default")->GetType()));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(heightSection->GetItem(GG_STR("Default"))->GetLocation(), GG_STR("Height"), GG_STR("Default"), MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(heightSection->GetItem(GG_STR("Default"))->GetType()));
 				}
 			}
 
-			if (heightSection->ContainsItem("Min"))
+			if (heightSection->ContainsItem(GG_STR("Min")))
 			{
-				if (heightSection->GetItem("Min")->GetType() == METADATA_TYPE_NUMBER)
+				if (heightSection->GetItem(GG_STR("Min"))->GetType() == METADATA_TYPE_NUMBER)
 				{
-					Number numericValue = dynamic_cast<MetadataNumber const*>(heightSection->GetItem("Min"))->GetValue();
+					Number numericValue = dynamic_cast<MetadataNumber const*>(heightSection->GetItem(GG_STR("Min")))->GetValue();
 
 					if (numericValue < MAP_SIZE_MIN || numericValue > MAP_SIZE_MAX || !IsNumberInt(numericValue))
 					{
-						throw compiler::IncorrectMapSizeNumericValueException(heightSection->GetItem("Min")->GetLocation(), numericValue);
+						throw compiler::IncorrectMapSizeNumericValueException(heightSection->GetItem(GG_STR("Min"))->GetLocation(), numericValue);
 					}
 
 					minMapHeight = NumberToInt(numericValue);
 				}
 				else
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(heightSection->GetItem("Min")->GetLocation(), "Height", "Min", MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(heightSection->GetItem("Min")->GetType()));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(heightSection->GetItem(GG_STR("Min"))->GetLocation(), GG_STR("Height"), GG_STR("Min"), MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(heightSection->GetItem(GG_STR("Min"))->GetType()));
 				}
 			}
 
-			if (heightSection->ContainsItem("Max"))
+			if (heightSection->ContainsItem(GG_STR("Max")))
 			{
-				if (heightSection->GetItem("Max")->GetType() == METADATA_TYPE_NUMBER)
+				if (heightSection->GetItem(GG_STR("Max"))->GetType() == METADATA_TYPE_NUMBER)
 				{
-					Number numericValue = dynamic_cast<MetadataNumber const*>(heightSection->GetItem("Max"))->GetValue();
+					Number numericValue = dynamic_cast<MetadataNumber const*>(heightSection->GetItem(GG_STR("Max")))->GetValue();
 
 					if (numericValue < MAP_SIZE_MIN || numericValue > MAP_SIZE_MAX || !IsNumberInt(numericValue))
 					{
-						throw compiler::IncorrectMapSizeNumericValueException(heightSection->GetItem("Max")->GetLocation(), numericValue);
+						throw compiler::IncorrectMapSizeNumericValueException(heightSection->GetItem(GG_STR("Max"))->GetLocation(), numericValue);
 					}
 
 					maxMapHeight = NumberToInt(numericValue);
 				}
 				else
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(heightSection->GetItem("Max")->GetLocation(), "Height", "Max", MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(heightSection->GetItem("Max")->GetType()));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(heightSection->GetItem(GG_STR("Max"))->GetLocation(), GG_STR("Height"), GG_STR("Max"), MetadataTypeToString(METADATA_TYPE_STRING), MetadataTypeToString(heightSection->GetItem(GG_STR("Max"))->GetType()));
 				}
 			}
 
 			if (minMapHeight > maxMapHeight)
 			{
-				throw compiler::MinGreaterThanMaxSizeException(heightSection->GetItem("Min")->GetLocation(), DIMENSION_HEIGHT);
+				throw compiler::MinGreaterThanMaxSizeException(heightSection->GetItem(GG_STR("Min"))->GetLocation(), DIMENSION_HEIGHT);
 			}
 		}
 		else
 		{
-			throw compiler::IncorrectMetadataValueTypeException(GGE1409_HeightNotKeyValueCollection, this->GetMetadata().GetItem("Height")->GetLocation(), "Height", "KeyValueCollection", MetadataTypeToString(this->GetMetadata().GetItem("Height")->GetType()));
+			throw compiler::IncorrectMetadataValueTypeException(GGE1409_HeightNotKeyValueCollection, this->GetMetadata().GetItem(GG_STR("Height"))->GetLocation(), GG_STR("Height"), MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem(GG_STR("Height"))->GetType()));
 		}
 	}
 
 	ScriptParameters table(defaultMapWidth, defaultMapHeight, minMapWidth, minMapHeight, maxMapWidth, maxMapHeight);
 
 	// This code is first invoked by the compiler, so it throws compiler exceptions.
-	if (this->GetMetadata().ContainsItem("Parameters"))
+	if (this->GetMetadata().ContainsItem(GG_STR("Parameters")))
 	{	
-		if (this->GetMetadata().GetItem("Parameters")->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
+		if (this->GetMetadata().GetItem(GG_STR("Parameters"))->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
 		{
-			throw compiler::IncorrectMetadataValueTypeException(GGE1402_ScriptParametersNotKeyValueCollection, this->GetMetadata().GetItem("Parameters")->GetLocation(), "Parameters", MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem("Parameters")->GetType()));
+			throw compiler::IncorrectMetadataValueTypeException(GGE1402_ScriptParametersNotKeyValueCollection, this->GetMetadata().GetItem(GG_STR("Parameters"))->GetLocation(), GG_STR("Parameters"), MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem(GG_STR("Parameters"))->GetType()));
 		}
 
-		MetadataKeyValueCollection const* parametersSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem("Parameters"));
+		MetadataKeyValueCollection const* parametersSection = dynamic_cast<MetadataKeyValueCollection const*>(this->GetMetadata().GetItem(GG_STR("Parameters")));
 
 	
 		for (MetadataKeyValueCollection::const_iterator it = parametersSection->Begin(); it != parametersSection->End(); it++)
@@ -300,20 +300,20 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 		
 			if (it->second->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
 			{
-				throw compiler::IncorrectMetadataValueTypeException(GGE1403_ScriptParameterNotKeyValueCollection, location, name, "KeyValueCollection", MetadataTypeToString(this->GetMetadata().GetItem("Parameters")->GetType()));
+				throw compiler::IncorrectMetadataValueTypeException(GGE1403_ScriptParameterNotKeyValueCollection, location, name, MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem(GG_STR("Parameters"))->GetType()));
 			}
 
 			MetadataKeyValueCollection const* currentSection = dynamic_cast<MetadataKeyValueCollection const*>(it->second);
 
 			String label;
-			if (currentSection->ContainsItem("Label"))
+			if (currentSection->ContainsItem(GG_STR("Label")))
 			{
-				if (currentSection->GetItem("Label")->GetType() != METADATA_TYPE_STRING)
+				if (currentSection->GetItem(GG_STR("Label"))->GetType() != METADATA_TYPE_STRING)
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Label")->GetLocation(), name, "Label", MetadataTypeToString(currentSection->GetItem("Label")->GetType()), MetadataTypeToString(METADATA_TYPE_STRING));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Label"))->GetLocation(), name, GG_STR("Label"), MetadataTypeToString(currentSection->GetItem(GG_STR("Label"))->GetType()), MetadataTypeToString(METADATA_TYPE_STRING));
 				}
 
-				label = dynamic_cast<MetadataString const*>(currentSection->GetItem("Label"))->GetValue();
+				label = dynamic_cast<MetadataString const*>(currentSection->GetItem(GG_STR("Label")))->GetValue();
 			}
 			else
 			{
@@ -321,30 +321,30 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			}
 		
 			String description;
-			if (currentSection->ContainsItem("Description"))
+			if (currentSection->ContainsItem(GG_STR("Description")))
 			{
-				if (currentSection->GetItem("Description")->GetType() != METADATA_TYPE_STRING)
+				if (currentSection->GetItem(GG_STR("Description"))->GetType() != METADATA_TYPE_STRING)
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Description")->GetLocation(), name, "Description", MetadataTypeToString(currentSection->GetItem("Description")->GetType()), MetadataTypeToString(METADATA_TYPE_STRING));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Description"))->GetLocation(), name, GG_STR("Description"), MetadataTypeToString(currentSection->GetItem(GG_STR("Description"))->GetType()), MetadataTypeToString(METADATA_TYPE_STRING));
 				}
 
-				description = dynamic_cast<MetadataString const*>(currentSection->GetItem("Description"))->GetValue();
+				description = dynamic_cast<MetadataString const*>(currentSection->GetItem(GG_STR("Description")))->GetValue();
 			}
 
 			ScriptParameterType parameterType = SCRIPT_PARAMETER_TYPE_NUMBER;
-			if (currentSection->ContainsItem("Type"))
+			if (currentSection->ContainsItem(GG_STR("Type")))
 			{
-				if (currentSection->GetItem("Type")->GetType() != METADATA_TYPE_IDENTIFIER)
+				if (currentSection->GetItem(GG_STR("Type"))->GetType() != METADATA_TYPE_IDENTIFIER)
 				{
-					throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Type")->GetLocation(), name, "Type", MetadataTypeToString(currentSection->GetItem("Type")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
+					throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Type"))->GetLocation(), name, GG_STR("Type"), MetadataTypeToString(currentSection->GetItem(GG_STR("Type"))->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 				}
 
-				String parameterTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
-				if (parameterTypeName == "Boolean")
+				String parameterTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem(GG_STR("Type")))->GetValue();
+				if (parameterTypeName == GG_STR("Boolean"))
 				{
 					parameterType = SCRIPT_PARAMETER_TYPE_BOOLEAN;
 				}
-				else if (parameterTypeName == "Number")
+				else if (parameterTypeName == GG_STR("Number"))
 				{
 					parameterType = SCRIPT_PARAMETER_TYPE_NUMBER;
 				}
@@ -357,8 +357,8 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			{
 				bool typeDetermined = false;
 				// First type inference rule - obtain the type from the default value.
-				if (currentSection->ContainsItem("Default")){
-					MetadataType defaultType = currentSection->GetItem("Default")->GetType();
+				if (currentSection->ContainsItem(GG_STR("Default"))){
+					MetadataType defaultType = currentSection->GetItem(GG_STR("Default"))->GetType();
 					switch (defaultType)
 					{
 					case METADATA_TYPE_BOOLEAN:
@@ -376,7 +376,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 
 				// Second type inference rule - obtain the type from Min, Max and Restriction
 				if (!typeDetermined){
-					if (currentSection->ContainsItem("Min") || currentSection->ContainsItem("Max") || currentSection->ContainsItem("Restriction"))
+					if (currentSection->ContainsItem(GG_STR("Min")) || currentSection->ContainsItem(GG_STR("Max")) || currentSection->ContainsItem(GG_STR("Restriction")))
 					{
 						parameterType = SCRIPT_PARAMETER_TYPE_NUMBER;
 						typeDetermined = true;
@@ -394,14 +394,14 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			case SCRIPT_PARAMETER_TYPE_BOOLEAN:
 				{
 					bool defaultValue = false;
-					if (currentSection->ContainsItem("Default"))
+					if (currentSection->ContainsItem(GG_STR("Default")))
 					{
-						if (currentSection->GetItem("Default")->GetType() != METADATA_TYPE_BOOLEAN)
+						if (currentSection->GetItem(GG_STR("Default"))->GetType() != METADATA_TYPE_BOOLEAN)
 						{
-							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Default")->GetLocation(), name, "Default", MetadataTypeToString(currentSection->GetItem("Default")->GetType()), MetadataTypeToString(METADATA_TYPE_BOOLEAN));
+							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Default"))->GetLocation(), name, GG_STR("Default"), MetadataTypeToString(currentSection->GetItem(GG_STR("Default"))->GetType()), MetadataTypeToString(METADATA_TYPE_BOOLEAN));
 						}
 
-						defaultValue = dynamic_cast<MetadataBoolean const*>(currentSection->GetItem("Default"))->GetValue();			
+						defaultValue = dynamic_cast<MetadataBoolean const*>(currentSection->GetItem(GG_STR("Default")))->GetValue();
 					}
 
 					parameter = new BooleanScriptParameter(name, label, description, defaultValue);
@@ -410,60 +410,60 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			case SCRIPT_PARAMETER_TYPE_NUMBER:
 				{
 					Number defaultValue = 0;
-					if (currentSection->ContainsItem("Default"))
+					if (currentSection->ContainsItem(GG_STR("Default")))
 					{
-						if (currentSection->GetItem("Default")->GetType() != METADATA_TYPE_NUMBER)
+						if (currentSection->GetItem(GG_STR("Default"))->GetType() != METADATA_TYPE_NUMBER)
 						{
-							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Default")->GetLocation(), name, "Default", MetadataTypeToString(currentSection->GetItem("Default")->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
+							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Default"))->GetLocation(), name, GG_STR("Default"), MetadataTypeToString(currentSection->GetItem(GG_STR("Default"))->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
 						}
 
-						defaultValue = dynamic_cast<MetadataNumber const*>(currentSection->GetItem("Default"))->GetValue();
+						defaultValue = dynamic_cast<MetadataNumber const*>(currentSection->GetItem(GG_STR("Default")))->GetValue();
 					}
 
 					Number min = 0;
-					if (currentSection->ContainsItem("Min"))
+					if (currentSection->ContainsItem(GG_STR("Min")))
 					{
-						if (currentSection->GetItem("Min")->GetType() != METADATA_TYPE_NUMBER)
+						if (currentSection->GetItem(GG_STR("Min"))->GetType() != METADATA_TYPE_NUMBER)
 						{
-							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Min")->GetLocation(), name, "Min", MetadataTypeToString(currentSection->GetItem("Min")->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
+							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Min"))->GetLocation(), name, GG_STR("Min"), MetadataTypeToString(currentSection->GetItem(GG_STR("Min"))->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
 						}
 
-						min = dynamic_cast<MetadataNumber const*>(currentSection->GetItem("Min"))->GetValue();
+						min = dynamic_cast<MetadataNumber const*>(currentSection->GetItem(GG_STR("Min")))->GetValue();
 					}
 
 					Number max = 100;
-					if (currentSection->ContainsItem("Max"))
+					if (currentSection->ContainsItem(GG_STR("Max")))
 					{
-						if (currentSection->GetItem("Max")->GetType() != METADATA_TYPE_NUMBER)
+						if (currentSection->GetItem(GG_STR("Max"))->GetType() != METADATA_TYPE_NUMBER)
 						{
-							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Max")->GetLocation(), name, "Max", MetadataTypeToString(currentSection->GetItem("Max")->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
+							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Max"))->GetLocation(), name, GG_STR("Max"), MetadataTypeToString(currentSection->GetItem(GG_STR("Max"))->GetType()), MetadataTypeToString(METADATA_TYPE_NUMBER));
 						}
 
-						max = dynamic_cast<MetadataNumber const*>(currentSection->GetItem("Max"))->GetValue();
+						max = dynamic_cast<MetadataNumber const*>(currentSection->GetItem(GG_STR("Max")))->GetValue();
 					}
 
 					ScriptParameterValueRestriction restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED;
-					if (currentSection->ContainsItem("Restriction"))
+					if (currentSection->ContainsItem(GG_STR("Restriction")))
 					{
-						if (currentSection->GetItem("Restriction")->GetType() != METADATA_TYPE_IDENTIFIER)
+						if (currentSection->GetItem(GG_STR("Restriction"))->GetType() != METADATA_TYPE_IDENTIFIER)
 						{
-							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Restriction")->GetLocation(), name, "Restriction", MetadataTypeToString(currentSection->GetItem("Restriction")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
+							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Restriction"))->GetLocation(), name, GG_STR("Restriction"), MetadataTypeToString(currentSection->GetItem(GG_STR("Restriction"))->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 						}
 
-						String restrictionName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Restriction"))->GetValue();
-						if (restrictionName == "Unrestricted")
+						String restrictionName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem(GG_STR("Restriction")))->GetValue();
+						if (restrictionName == GG_STR("Unrestricted"))
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_UNRESTRICTED;
 						}
-						else if (restrictionName == "Integers")
+						else if (restrictionName == GG_STR("Integers"))
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_INTEGERS;
 						}
-						else if (restrictionName == "PowersOf2")
+						else if (restrictionName == GG_STR("PowersOf2"))
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_POWERS_OF_2;
 						}
-						else if (restrictionName == "PowersOf10")
+						else if (restrictionName == GG_STR("PowersOf10"))
 						{
 							restriction = SCRIPT_PARAMETER_VALUE_RESTRICTION_POWERS_OF_10;
 						}
@@ -478,28 +478,28 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 				}
 			case SCRIPT_PARAMETER_TYPE_ENUM:
 				{
-					String enumTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Type"))->GetValue();
+					String enumTypeName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem(GG_STR("Type")))->GetValue();
 
 					TypeDefinition const* typeDefinition = this->GetTypeDefinitions().GetItem(enumTypeName);
 					if (typeDefinition == NULL || !typeDefinition->IsEnumType()){
-						throw compiler::IncorrectEnumScriptParameterTypeException(currentSection->GetItem("Type")->GetLocation(), name, enumTypeName);
+						throw compiler::IncorrectEnumScriptParameterTypeException(currentSection->GetItem(GG_STR("Type"))->GetLocation(), name, enumTypeName);
 					}
 
 					corelib::EnumTypeDefinition const* enumTypeDefinition = dynamic_cast<corelib::EnumTypeDefinition const*>(typeDefinition);
 
 					int defaultValue;
-					if (currentSection->ContainsItem("Default"))
+					if (currentSection->ContainsItem(GG_STR("Default")))
 					{
-						if (currentSection->GetItem("Default")->GetType() != METADATA_TYPE_IDENTIFIER)
+						if (currentSection->GetItem(GG_STR("Default"))->GetType() != METADATA_TYPE_IDENTIFIER)
 						{
-							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem("Default")->GetLocation(), name, "Default", MetadataTypeToString(currentSection->GetItem("Default")->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
+							throw compiler::IncorrectScriptParameterAttributeTypeException(currentSection->GetItem(GG_STR("Default"))->GetLocation(), name, GG_STR("Default"), MetadataTypeToString(currentSection->GetItem(GG_STR("Default"))->GetType()), MetadataTypeToString(METADATA_TYPE_IDENTIFIER));
 						}
 
-						String defaultValueName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem("Default"))->GetValue();
+						String defaultValueName = dynamic_cast<MetadataIdentifier const*>(currentSection->GetItem(GG_STR("Default")))->GetValue();
 
 						if (!enumTypeDefinition->IsValueStringDefined(defaultValueName))
 						{
-							throw compiler::UndefinedMetadataIdentifierException(currentSection->GetItem("Default")->GetLocation(), defaultValueName);
+							throw compiler::UndefinedMetadataIdentifierException(currentSection->GetItem(GG_STR("Default"))->GetLocation(), defaultValueName);
 						}
 
 						defaultValue = enumTypeDefinition->GetValueDefinitions().find(defaultValueName)->second;
@@ -513,7 +513,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 					break;
 				}
 			default:
-				throw InternalErrorException("Unknown parameter type.");
+				throw InternalErrorException(GG_STR("Unknown parameter type."));
 			}
 
 			table.AddItem(name, parameter);

@@ -11,15 +11,15 @@ NumberScriptParameter::NumberScriptParameter(String const& name, String const& l
 {
 	// Test min and max against that restriction.
 	if (min != this->ApplyRestriction(min)){
-		throw ApiUsageException("Min does not match the restriction");
+		throw ApiUsageException(GG_STR("Min does not match the restriction"));
 	}
 
 	if (max != this->ApplyRestriction(max)){
-		throw ApiUsageException("Max does not match the restriction");
+		throw ApiUsageException(GG_STR("Max does not match the restriction"));
 	}
 
 	if (defaultValue != this->ApplyRestriction(defaultValue)){
-		throw ApiUsageException("Default value does not match the restriction");
+		throw ApiUsageException(GG_STR("Default value does not match the restriction"));
 	}
 }
 
@@ -102,6 +102,6 @@ Number NumberScriptParameter::ApplyRestriction(Number value) const
 	}
 	else 
 	{
-		throw InternalErrorException("Invalid restriction.");
+		throw InternalErrorException(GG_STR("Invalid restriction."));
 	}
 }

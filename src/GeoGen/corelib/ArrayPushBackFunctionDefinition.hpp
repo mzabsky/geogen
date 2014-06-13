@@ -14,7 +14,7 @@ namespace geogen
 		{
 		private:
 		public:
-			ArrayPushBackFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition("PushBack", owningType) {};
+			ArrayPushBackFunctionDefinition(ArrayTypeDefinition const* owningType) : MemberNativeFunctionDefinition(GG_STR("PushBack"), owningType) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 

@@ -23,7 +23,7 @@ ManagedObject::~ManagedObject()
 #ifdef DEBUG				
 	if (this->magic != MANAGED_OBJECT_MAGIC)
 	{
-		throw InternalErrorException("Memory corruption detected when deleting managed object (object already deleted?)");
+		throw InternalErrorException(GG_STR("Memory corruption detected when deleting managed object (object already deleted?)"));
 	}
 #endif
 };
@@ -44,7 +44,7 @@ void ManagedObject::RemoveRef(MemoryManager& vm)
 {
 	if (this->refCount == 0)
 	{
-		throw InternalErrorException("Can't reduce refcount of an object with no references.");
+		throw InternalErrorException(GG_STR("Can't reduce refcount of an object with no references."));
 	}
 
 	this->refCount--;

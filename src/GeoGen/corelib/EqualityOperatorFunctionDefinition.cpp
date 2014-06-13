@@ -13,9 +13,9 @@ EqualityOperatorFunctionDefinition* EqualityOperatorFunctionDefinition::Create(O
 {
 	switch (op)
 	{
-	case EQUAL_TO: return new EqualityOperatorFunctionDefinition("==", CallOperatorEqualTo);
-	case NOT_EQUAL_TO: return new EqualityOperatorFunctionDefinition("!=", CallOperatorNotEqualTo);
-	default: throw InternalErrorException("Unknown operator type.");
+	case EQUAL_TO: return new EqualityOperatorFunctionDefinition(GG_STR("=="), CallOperatorEqualTo);
+	case NOT_EQUAL_TO: return new EqualityOperatorFunctionDefinition(GG_STR("!="), CallOperatorNotEqualTo);
+	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 }
 

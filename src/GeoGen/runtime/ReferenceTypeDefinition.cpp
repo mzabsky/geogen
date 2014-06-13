@@ -9,7 +9,7 @@ ManagedObject* ReferenceTypeDefinition::Copy(ManagedObject* a) const
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using Copy on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using Copy on object of incorrect type."));
 	}
 
 	return a;

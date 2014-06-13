@@ -20,7 +20,7 @@ namespace geogen
 
 				virtual void Serialize(IOStream& stream) const { stream << "LoadConstString " << constString; }
 
-				virtual String GetInstructionName() const { return "LoadConstString"; };
+				virtual String GetInstructionName() const { return GG_STR("LoadConstString"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

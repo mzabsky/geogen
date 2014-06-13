@@ -12,9 +12,9 @@ LogicalOperatorFunctionDefinition* LogicalOperatorFunctionDefinition::Create(Ope
 {
 	switch (op)
 	{
-	case LOGICAL_AND: return new LogicalOperatorFunctionDefinition("&&", CallOperatorLogicalAnd);
-	case LOGICAL_OR: return new LogicalOperatorFunctionDefinition("||", CallOperatorLogicalOr);
-	default: throw InternalErrorException("Unknown operator type.");
+	case LOGICAL_AND: return new LogicalOperatorFunctionDefinition(GG_STR("&&"), CallOperatorLogicalAnd);
+	case LOGICAL_OR: return new LogicalOperatorFunctionDefinition(GG_STR("||"), CallOperatorLogicalOr);
+	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 }
 

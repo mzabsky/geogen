@@ -11,7 +11,7 @@ void ScriptFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, M
 {
 	if (instance != NULL)
 	{
-		throw new InternalErrorException("Script functions cannot be instance methods.");
+		throw new InternalErrorException(GG_STR("Script functions cannot be instance methods."));
 	}
 
 	if (numberOfArguments != this->GetParameterCount())

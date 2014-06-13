@@ -18,7 +18,9 @@ namespace geogen
 
 			virtual String GetDetailMessage()
 			{
-				return "Incorrect intermediate code was being executed, possibly indicating an internal error in the compiler (" + message + ").";
+				StringStream ss;
+				ss << "Incorrect intermediate code was being executed, possibly indicating an internal error in the compiler (" << message << GG_STR(").");
+				return ss.str();
 			}
 		};
 	}

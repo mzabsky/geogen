@@ -78,14 +78,14 @@ tokens {
     	    // Char pos odlisna pro tree parser
     	    CodeLocation location(recognizer->state->exception->line, recognizer->state->exception->charPositionInLine);
 
-    	    String expectedTokenName = "";
+    	    String expectedTokenName = GG_STR("");
     	    if(ex->expecting == ANTLR3_TOKEN_EOF)
     	    {
-    	    	expectedTokenName = "EOF";
+    	    	expectedTokenName = GG_STR("EOF");
     	    }
-			else if (ex->expecting > 0)
+	    else if (ex->expecting > 0)
     	    {
-    	    	expectedTokenName = (char*)tokenNames[ex->expecting];
+    	    	expectedTokenName = AnyStringToString((char*)tokenNames[ex->expecting]);
     	    }
     	    
     	    throw UnexpectedTokenException(GGE1201_UnexpectedToken, location, expectedTokenName);

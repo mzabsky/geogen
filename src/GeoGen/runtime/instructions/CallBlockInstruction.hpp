@@ -21,7 +21,7 @@ namespace geogen
 
 				virtual void Serialize(IOStream& stream) const;
 
-				virtual String GetInstructionName() const { return "CallCodeBlock"; };
+				virtual String GetInstructionName() const { return GG_STR("CallCodeBlock"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
 			};

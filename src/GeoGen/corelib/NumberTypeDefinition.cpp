@@ -20,7 +20,7 @@ bool NumberTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObjec
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using InstanceLessThan on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using InstanceLessThan on object of incorrect type."));
 	}
 
 	if (b->GetType() == this)
@@ -35,7 +35,7 @@ bool NumberTypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObjec
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using InstanceEqualsTo on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using InstanceEqualsTo on object of incorrect type."));
 	}
 
 	if (b->GetType() == this)
@@ -50,7 +50,7 @@ ManagedObject* NumberTypeDefinition::Copy(VirtualMachine* vm, ManagedObject* a) 
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException("Using Copy on object of incorrect type.");
+		throw InternalErrorException(GG_STR("Using Copy on object of incorrect type."));
 	}
 
 	if (a->IsStaticObject())
