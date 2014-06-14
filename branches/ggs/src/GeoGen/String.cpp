@@ -7,8 +7,6 @@
 using namespace std;
 using namespace geogen;
 
-//OStream& geogen::Cout = std::cout;
-
 enum StringFormatterState
 {
 	STATE_CHARACTER,
