@@ -148,6 +148,24 @@ public:
 		ASSERT_EQUALS(bool, true, thrown);
 	}
 
+#ifndef GEOGEN_ASCII
+	static void TestStringLiteralWithNonAsciiCharactersMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
+	{
+		ASSERT_EQUALS(String, L"ěščřžýáíé", message);
+	}
+
+	static void TestStringLiteralWithNonAsciiCharacters()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(L"\n\
+			Print(\"ěščřžýáíé\");\n\
+		");
+
+		VirtualMachine vm(*compiledScript.get(), ScriptParameters());
+		vm.SetScriptMessageHandler(TestStringLiteralWithNonAsciiCharactersMessageHandler);
+		vm.Run();
+	}
+#endif
+
 	StringTests() : TestFixtureBase("StringTests")
 	{
 		ADD_TESTCASE(TestStringLiteralWithEscapeSequences);
@@ -157,5 +175,6 @@ public:
 		ADD_TESTCASE(TestFormatStringCharInIndexFails);
 		ADD_TESTCASE(TestFormatStringUnexpectedClosingBracketFails);
 		ADD_TESTCASE(TestFormatStringTooHighIndexFails);
+		ADD_TESTCASE(TestStringLiteralWithNonAsciiCharacters);
 	}
 };
