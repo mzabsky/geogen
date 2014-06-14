@@ -7,11 +7,14 @@
 
 namespace geogen
 {
-	enum Encoding8bit
+	/// <summary>
+	/// Character encoding in 1-byte character mode. 
+	/// </summary>
+	/*enum Encoding8bit
 	{
 		SINGLE_BYTE,
 		UTF8LE
-	};
+	};*/
 
 #ifndef GEOGEN_WCHAR
 	typedef char Char;
@@ -32,7 +35,13 @@ namespace geogen
 	typedef std::wstring String;
 	typedef std::wstringstream StringStream;
 	typedef std::wifstream IFStream;
-	typedef std::wiostream IOStream;
+	typedef std::wofstream OFStream;
+	typedef std::wostream OStream;
+	typedef std::wistream IStream;
+	typedef std::wiostream IOStream;	
+
+	static OStream& Cout = std::wcout;
+	static IStream& Cin = std::wcin;
 
 	#ifndef WIDEN
 		#define WIDEN(str) L ## str
