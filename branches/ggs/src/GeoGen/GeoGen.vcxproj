@@ -198,7 +198,7 @@
     <ClInclude Include="runtime\MetadataIdentifier.hpp" />
     <ClInclude Include="runtime\MetadataKeyValueCollection.hpp" />
     <ClInclude Include="runtime\MetadataNumber.hpp" />
-    <ClInclude Include="runtime\MetadataSimpleCollection.hpp" />
+    <ClInclude Include="runtime\MetadataList.hpp" />
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
     <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />

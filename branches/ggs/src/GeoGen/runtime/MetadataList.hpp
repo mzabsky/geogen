@@ -8,14 +8,14 @@ namespace geogen
 {
 	namespace runtime
 	{
-		class MetadataSimpleCollection : public MetadataValue
+		class MetadataList : public MetadataValue
 		{
 		private:
 			std::vector<MetadataValue*> table;
 		public:
 			typedef std::vector<MetadataValue const*>::const_iterator const_iterator;
 
-			MetadataSimpleCollection(CodeLocation location) : MetadataValue(location) {}
+			MetadataList(CodeLocation location) : MetadataValue(location) {}
 
 			inline void AddItem(String const& name, MetadataValue* value) {				
 				this->table.push_back(value);
@@ -27,7 +27,7 @@ namespace geogen
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_SIMPLE_COLLECTION; };
 
-			virtual ~MetadataSimpleCollection()
+			virtual ~MetadataList()
 			{
 				for(std::vector<MetadataValue*>::iterator it = this->table.begin(); it != this->table.end(); it++)
 				{

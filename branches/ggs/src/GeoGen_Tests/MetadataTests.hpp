@@ -71,7 +71,7 @@ public:
 		ASSERT_EQUALS(bool, true, dynamic_cast<MetadataBoolean const*>(value)->GetValue());
 	}
 
-	static void TestGetSimpleCollectionMetadataValue()
+	static void TestGetListMetadataValue()
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
 			metadata {\n\
@@ -83,7 +83,7 @@ public:
 		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_SIMPLE_COLLECTION, value->GetType());
 
-		MetadataSimpleCollection const* collection = dynamic_cast<MetadataSimpleCollection const*>(value);
+		MetadataList const* collection = dynamic_cast<MetadataList const*>(value);
 		ASSERT_EQUALS(size_t, 3, collection->Size());
 
 		ASSERT_EQUALS(MetadataType, METADATA_TYPE_STRING, (*collection->Begin())->GetType());
@@ -893,7 +893,7 @@ public:
 		ADD_TESTCASE(TestGetIdentifierMetadataValue);
 		ADD_TESTCASE(TestGetNumberMetadataValue);
 		ADD_TESTCASE(TestGetBooleanMetadataValue);
-		//ADD_TESTCASE(TestGetSimpleCollectionMetadataValue);
+		//ADD_TESTCASE(TestGetListMetadataValue);
 		ADD_TESTCASE(TestGetKeyValueCollectionMetadataValue);
 		ADD_TESTCASE(TestMetadataKeyRedefinition);
 		ADD_TESTCASE(TestParseBooleanScriptParameter);

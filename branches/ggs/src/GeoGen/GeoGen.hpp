@@ -27,7 +27,7 @@
 #include "runtime/MetadataIdentifier.hpp"
 #include "runtime/MetadataNumber.hpp"
 #include "runtime/MetadataString.hpp"
-#include "runtime/MetadataSimpleCollection.hpp"
+#include "runtime/MetadataList.hpp"
 #include "runtime/MetadataValue.hpp"
 #include "runtime/ObjectTypeDefinition.hpp"
 #include "runtime/PrimitiveObject.hpp"

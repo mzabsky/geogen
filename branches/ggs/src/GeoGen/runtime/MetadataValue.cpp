@@ -18,7 +18,7 @@ String geogen::runtime::MetadataTypeToString(MetadataType metadataType)
 	case METADATA_TYPE_IDENTIFIER:
 		return GG_STR("Identifier");
 	case METADATA_TYPE_SIMPLE_COLLECTION:
-		return GG_STR("SimpleCollection");
+		return GG_STR("List");
 	case METADATA_TYPE_KEYVALUE_COLLECTION: 
 		return GG_STR("KeyValueCollection");
 	default: 
