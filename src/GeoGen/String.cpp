@@ -22,7 +22,7 @@ String geogen::FormatString(String str, std::vector<String> arguments) {
 	StringFormatterState state = STATE_CHARACTER;
 	for (unsigned i = 0; i < str.length(); i++)
 	{
-		char c = str[i];
+		Char c = str[i];
 		
 		switch (state)
 		{
