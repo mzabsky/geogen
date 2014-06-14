@@ -17,7 +17,7 @@ void SetConsoleColor(int foreground, int background)
 
 int main(){
 	StringStream  code;
-	std::wifstream file("testinput.txt");
+	IFStream file("testinput.txt");
 	String temp;
 	while (std::getline<Char>(file, temp)) 
 	{
@@ -35,7 +35,7 @@ int main(){
 
 	vector<String> codeLines = geogen::utils::StringToLines(codeString);
 
-	string input = "";
+	String input = "";
 	unsigned numShowCodeLines = 5;
 	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
 	{		
@@ -62,31 +62,31 @@ int main(){
 
 					if (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine())
 					{
-						wcout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
+						Cout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
 						SetConsoleColor(7, 1);
-						cout << currentLine[currentInstruction->GetLocation().GetColumn()];
+						Cout << currentLine[currentInstruction->GetLocation().GetColumn()];
 						SetConsoleColor(7, 0);
 						if (currentLine.length() > 0)
 						{
-							wcout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
+							Cout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
 						}
 					}
 					else
 					{
-						wcout << currentLine;
+						Cout << currentLine;
 					}
 				}
 
-				cout << std::endl;
+				Cout << std::endl;
 
 				//	<< *it << std::endl;
 			}
 		}
 
-		cout << endl;
+		Cout << endl;
 
 		{
-			cout << "Input: " << input << endl << endl;
+			Cout << "Input: " << input << endl << endl;
 
 			size_t separatorPosition = input.find(" ");
 			string command = input.substr(0, separatorPosition);
@@ -98,57 +98,57 @@ int main(){
 
 			if (command == "step" || command == "")
 			{
-				cout << "Step" << std::endl;
+				Cout << "Step" << std::endl;
 
 				vm.Step();
 			}
 			else if (command == "h" || command == "?" || command == "help")
 			{
-				cout << "h - Help" << std::endl;
-				cout << "step - Step (or use Enter)" << std::endl;
-				cout << "s - Object stack" << std::endl;
-				cout << "r - Get a value of a variable" << std::endl;
-				cout << "c - Call stack" << std::endl;
-				cout << "cbs - Code block stack" << std::endl;
-				cout << "cbc [x = 0] - Code of x-th topmost code block." << std::endl;
-				cout << "o - Managed objects" << std::endl;
+				Cout << "h - Help" << std::endl;
+				Cout << "step - Step (or use Enter)" << std::endl;
+				Cout << "s - Object stack" << std::endl;
+				Cout << "r - Get a value of a variable" << std::endl;
+				Cout << "c - Call stack" << std::endl;
+				Cout << "cbs - Code block stack" << std::endl;
+				Cout << "cbc [x = 0] - Code of x-th topmost code block." << std::endl;
+				Cout << "o - Managed objects" << std::endl;
 			}
 			else if (command == "s" || command == "stack")
 			{
-				cout << "Object stack:" << std::endl;
+				Cout << "Object stack:" << std::endl;
 
-				wcout << vm.GetObjectStack().ToString();
+				Cout << vm.GetObjectStack().ToString();
 			}
 			else if (command == "r" || command == "read")
 			{
-				cout << "Variable \"" << args << "\":" << std::endl;
+				Cout << "Variable \"" << args << "\":" << std::endl;
 
 				if (args == "")
 				{
-					cout << "Variable name not specified" << std::endl;
+					Cout << "Variable name not specified" << std::endl;
 				}
 				else
 				{
 					geogen::runtime::VariableTableItem* variableTableItem = vm.FindVariable(AnyStringToString(args));
 					if (variableTableItem == NULL)
 					{
-						cout << "Undefined" << std::endl;
+						Cout << "Undefined" << std::endl;
 					}
 					else
 					{
-						wcout << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
+						Cout << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
 					}
 				}
 			}
 			else if (command == "c" || command == "cs" || command == "callstack")
 			{
-				cout << "Call stack:" << std::endl;
-				wcout << vm.GetCallStack().ToString() << std::endl;
+				Cout << "Call stack:" << std::endl;
+				Cout << vm.GetCallStack().ToString() << std::endl;
 			}
 			else if (command == "cbs" || command == "codeblockstack")
 			{
-				cout << "Code block stack:" << std::endl;
-				wcout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
+				Cout << "Code block stack:" << std::endl;
+				Cout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
 			}
 			else if (command == "cbc" || command == "codeblockcode")
 			{
@@ -162,33 +162,33 @@ int main(){
 
 				if (codeBlockNumber < codeBlockStack.Size())
 				{
-					cout << "Code block stack entry " << codeBlockNumber << ":" << std::endl;
-					wcout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
+					Cout << "Code block stack entry " << codeBlockNumber << ":" << std::endl;
+					Cout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
 				}
 				else
 				{
-					cout << "Incorrect code block stack entry number" << endl;
+					Cout << "Incorrect code block stack entry number" << endl;
 				}
 			}
 			else if (command == "o" || command == "mm" || command == "managedobjects")
 			{
-				cout << "Managed objects:" << std::endl;
-				wcout << vm.GetMemoryManager().ToString() << std::endl;
+				Cout << "Managed objects:" << std::endl;
+				Cout << vm.GetMemoryManager().ToString() << std::endl;
 			}
 			else
 			{
-				cout << "Unknown command" << std::endl;
+				Cout << "Unknown command" << std::endl;
 			}
 		}
 
-		wcout << endl << "Next instruction: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". " << endl << endl << "Command? ";
+		Cout << endl << "Next instruction: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". " << endl << endl << "Command? ";
         
-		getline(std::cin, input);
+		getline<Char>(Cin, input);
 	}
 	
 	//std::cout << script->GetSymbolNameTable().ToString();
 
-	std::cout << "Virtual machine finished!";
+	Cout << "Virtual machine finished!";
 
 	return 0;
 }

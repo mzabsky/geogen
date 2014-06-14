@@ -14,6 +14,14 @@ using namespace runtime;
 using namespace corelib;
 using namespace testlib;
 
+/*
+#ifdef GEOGEN_WCHAR
+	#define Cout wcout
+#else
+	#define Cout cout
+#endif
+*/
+
 #define ADD_TESTCASE(tc) this->AddTestCase(#tc, tc);
 
 #define TEST_SCRIPT_FAILURE(exception, script) TestScriptFailure<exception>(AnyStringToString(script), #exception)
@@ -37,7 +45,7 @@ protected:
 		this->testCases.insert(std::pair<String, TestCase>(name, testCase));
 	}
 
-#ifndef GEOGEN_ASCII
+#ifdef GEOGEN_WCHAR
 	void AddTestCase(string name, TestCase testCase)
 	{
 		this->testCases.insert(std::pair<String, TestCase>(AnyStringToString(name), testCase));
@@ -48,7 +56,7 @@ protected:
 	{
 	}
 
-#ifndef GEOGEN_ASCII
+#ifdef GEOGEN_WCHAR
 	TestFixtureBase(std::string name) : name(AnyStringToString(name))
 	{
 	}
@@ -63,21 +71,21 @@ public:
 			}
 			catch (GeoGenException& e)
 			{
-				wcout << "Test case " << name << "::" << it->first << " failed with error  \"GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << "\"." << endl;
+				Cout << "Test case " << name << "::" << it->first << " failed with error  \"GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << "\"." << endl;
 
 				numberOfFailures++;
 
 				continue;
 			}
 			catch (exception e){
-				wcout << "Test case " << name << "::" << it->first << " failed with message \"" << e.what() << "\"." << endl;
+				Cout << "Test case " << name << "::" << it->first << " failed with message \"" << e.what() << "\"." << endl;
 
 				numberOfFailures++;
 
 				continue;
 			}
 
-			wcout << "Test case " << name << "::" << it->first << " passed." << endl;
+			Cout << "Test case " << name << "::" << it->first << " passed." << endl;
 
 			numberOfPassed++;
 		}
@@ -93,7 +101,7 @@ protected:
 		return compiledScript;
 	}
 
-#ifndef GEOGEN_ASCII
+#ifdef GEOGEN_WCHAR
 	static auto_ptr<CompiledScript>  TestGetCompiledScript(string const& script)
 	{
 		return TestGetCompiledScript(AnyStringToString(script));
@@ -114,7 +122,7 @@ protected:
 		}
 	}
 
-#ifndef GEOGEN_ASCII
+#ifdef GEOGEN_ASCII
 	static void TestScript(string script, ScriptParameters const& arguments = ScriptParameters())
 	{
 		TestScript(AnyStringToString(script), arguments);
