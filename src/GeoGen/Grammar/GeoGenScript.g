@@ -346,19 +346,18 @@ NUMBER: INTEGER ('.' INTEGER)?;
 
 QUOTE   :      '"';
 STRING
-@init{ pANTLR3_STRING unesc = GETTEXT()->factory->newRaw(GETTEXT()->factory); }
-        :       QUOTE ( reg = ~('\\' | '"') { unesc->addc(unesc, reg); }
+@init{ pANTLR3_STRING unesc;/* = GETTEXT()->factory->newRaw(GETTEXT()->factory);*/ }
+        :       QUOTE {unesc = GETTEXT()->factory->newRaw(GETTEXT()->factory);} ( reg = ~('\\' | '"') { unesc->addc(unesc, reg); }
                         | esc = ESCAPED { unesc->appendS(unesc, GETTEXT()); } )* QUOTE { SETTEXT(unesc); };
 
 fragment
 ESCAPED :       '\\'
-                ( '\\' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\\")); }
-                | '"' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\"")); }
-                | 'n' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\n")); }
-                | 't' { SETTEXT(GETTEXT()->factory->newStr8(GETTEXT()->factory, (pANTLR3_UINT8)"\t")); }
+                ( '\\' { SETTEXT(GETTEXT()->factory->newStr(GETTEXT()->factory, (pANTLR3_UINT8)GG_STR("\\"))); }
+                | '"' { SETTEXT(GETTEXT()->factory->newStr(GETTEXT()->factory, (pANTLR3_UINT8)GG_STR("\""))); }
+                | 'n' { SETTEXT(GETTEXT()->factory->newStr(GETTEXT()->factory, (pANTLR3_UINT8)GG_STR("\n"))); }
+                | 't' { SETTEXT(GETTEXT()->factory->newStr(GETTEXT()->factory, (pANTLR3_UINT8)GG_STR("\t"))); }
                 | ~('\\' | '"' | 'n' | 't') { throw InvalidEscapeSequenceException(CodeLocation(ctx->pLexer->input->getLine(ctx->pLexer->input), ctx->pLexer->input->getCharPositionInLine(ctx->pLexer->input) - 1), String(1, (char)LA(0))); }
                 )
         ;
-
 
 WHITESPACE: (' ' |'\t' |'\n' |'\r' )+ {$channel=HIDDEN;} ;

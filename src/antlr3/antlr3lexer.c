@@ -883,6 +883,9 @@ getText	    (pANTLR3_LEXER lexer)
 		return	lexer->rec->state->text;
 
 	}
+
+	int i = lexer->getCharIndex(lexer);
+
 	return  lexer->input->substr(
 									lexer->input, 
 									lexer->rec->state->tokenStartCharIndex,

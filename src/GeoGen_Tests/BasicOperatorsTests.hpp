@@ -262,6 +262,7 @@ public:
 	static void TestConditionalOperatorFalse()
 	{
 		TestScript("\
+			var a = \"aaaaa\";\n\
 			AssertEquals(2, false ? 1 : 2);\n\
 		");
 	}
