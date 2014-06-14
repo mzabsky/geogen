@@ -28,8 +28,12 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 	auto_ptr<CompiledScript> script(new CompiledScript());
 	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());
 
-	wstring asciiCode = StringToWstring(code);
-	AnlrInputStreamWrapper input((pANTLR3_UINT8)asciiCode.c_str(), ANTLR3_ENC_UTF16LE, code.length() * 2, (pANTLR3_UINT8)"");
+#ifdef GEOGEN_WCHAR
+	AnlrInputStreamWrapper input((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_UTF16LE, code.length() * 2, (pANTLR3_UINT8)"");
+#else
+	AnlrInputStreamWrapper input((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
+#endif
+
 	AntlrLexerWrapper lex(input);	
 	AntlrTokenStreamWrapper tokens(ANTLR3_SIZE_HINT, lex);
 	AntlrParserWrapper parser(tokens);

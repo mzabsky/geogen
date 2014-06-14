@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <vector>
 #include <sstream>
@@ -5,18 +7,31 @@
 
 namespace geogen
 {
+	enum Encoding8bit
+	{
+		SINGLE_BYTE,
+		UTF8LE
+	};
 
-#ifdef GEOGEN_ASCII
+#ifndef GEOGEN_WCHAR
 	typedef char Char;
 	typedef std::string String;
 	typedef std::stringstream StringStream;
+	typedef std::ifstream IFStream;
+	typedef std::ofstream OFStream;
+	typedef std::ostream OStream;
+	typedef std::istream IStream;
 	typedef std::iostream IOStream;	
+
+	static OStream& Cout = std::cout;
+	static IStream& Cin = std::cin;
 
 	#define GG_STR(str) str
 #else
 	typedef wchar_t Char;
 	typedef std::wstring String;
 	typedef std::wstringstream StringStream;
+	typedef std::wifstream IFStream;
 	typedef std::wiostream IOStream;
 
 	#ifndef WIDEN

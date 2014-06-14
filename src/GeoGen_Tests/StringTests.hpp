@@ -148,7 +148,7 @@ public:
 		ASSERT_EQUALS(bool, true, thrown);
 	}
 
-#ifndef GEOGEN_ASCII
+#ifdef GEOGEN_WCHAR
 	static void TestStringLiteralWithNonAsciiCharactersMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
 	{
 		ASSERT_EQUALS(String, L"ěščřžýáíé", message);
@@ -175,6 +175,9 @@ public:
 		ADD_TESTCASE(TestFormatStringCharInIndexFails);
 		ADD_TESTCASE(TestFormatStringUnexpectedClosingBracketFails);
 		ADD_TESTCASE(TestFormatStringTooHighIndexFails);
+
+#ifdef GEOGEN_WCHAR
 		ADD_TESTCASE(TestStringLiteralWithNonAsciiCharacters);
+#endif
 	}
 };
