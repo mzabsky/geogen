@@ -76,12 +76,11 @@ public:
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
 			metadata {\n\
 				ValueName: { \"ValueValue\", 5.5, true }\n\
-				\n\
 			}\n\
 		");
 
 		MetadataValue const* value = compiledScript->GetMetadata().GetItem(GG_STR("ValueName"));
-		ASSERT_EQUALS(MetadataType, METADATA_TYPE_SIMPLE_COLLECTION, value->GetType());
+		ASSERT_EQUALS(MetadataType, METADATA_LIST, value->GetType());
 
 		MetadataList const* collection = dynamic_cast<MetadataList const*>(value);
 		ASSERT_EQUALS(size_t, 3, collection->Size());
@@ -893,7 +892,7 @@ public:
 		ADD_TESTCASE(TestGetIdentifierMetadataValue);
 		ADD_TESTCASE(TestGetNumberMetadataValue);
 		ADD_TESTCASE(TestGetBooleanMetadataValue);
-		//ADD_TESTCASE(TestGetListMetadataValue);
+		ADD_TESTCASE(TestGetListMetadataValue);
 		ADD_TESTCASE(TestGetKeyValueCollectionMetadataValue);
 		ADD_TESTCASE(TestMetadataKeyRedefinition);
 		ADD_TESTCASE(TestParseBooleanScriptParameter);

@@ -17,7 +17,7 @@ namespace geogen
 
 			MetadataList(CodeLocation location) : MetadataValue(location) {}
 
-			inline void AddItem(String const& name, MetadataValue* value) {				
+			inline void AddItem(MetadataValue* value) {				
 				this->table.push_back(value);
 			};
 
@@ -25,7 +25,7 @@ namespace geogen
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
 
-			virtual MetadataType GetType() const { return METADATA_TYPE_SIMPLE_COLLECTION; };
+			virtual MetadataType GetType() const { return METADATA_LIST; };
 
 			virtual ~MetadataList()
 			{
