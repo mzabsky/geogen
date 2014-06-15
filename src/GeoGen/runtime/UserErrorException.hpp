@@ -9,17 +9,23 @@ namespace geogen
 		class UserErrorException : public RuntimeException
 		{
 		private:
-			String userMessage;
+			String formattedUserMessage;
+			String unformattedUserMessage;
+			std::vector<String> arguments;
 		public:
-			UserErrorException(CodeLocation location, String const& userMessage) :
-				RuntimeException(GGE5000_UserError, location), userMessage(userMessage) {};
+			UserErrorException(CodeLocation location, String const& formattedUserMessage, String const& unformattedUserMessage, std::vector<String> const& arguments) :
+				RuntimeException(GGE5000_UserError, location), formattedUserMessage(formattedUserMessage), unformattedUserMessage(unformattedUserMessage), arguments(arguments) {};
 
-			inline String GetUserMessage() const { return this->userMessage; }
+			inline String GetFormattedUserMessage() const { return this->formattedUserMessage; }
+
+			inline String GetUnformattedUserMessage() const { return this->unformattedUserMessage; }
+
+			inline std::vector<String> const& GetArguments() const { return this->arguments; }
 
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Script triggered an error with message \"" << this->GetUserMessage() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				ss << "Script triggered an error with message \"" << this->GetFormattedUserMessage() << "\" on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 
 				return ss.str();
 			};

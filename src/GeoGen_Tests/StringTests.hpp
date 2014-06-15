@@ -5,9 +5,9 @@
 class StringTests : public TestFixtureBase
 {
 public:
-	static void TestStringLiteralWithEscapeSequencesMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
+	static void TestStringLiteralWithEscapeSequencesMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments)
 	{
-		ASSERT_EQUALS(String, GG_STR("Text \n \t \\ \"!"), message);
+		ASSERT_EQUALS(String, GG_STR("Text \n \t \\ \"!"), formattedMessage);
 	}
 
 	static void TestStringLiteralWithEscapeSequences()

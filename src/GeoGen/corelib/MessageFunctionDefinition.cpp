@@ -64,11 +64,11 @@ ManagedObject* MessageFunctionDefinition::CallNative(CodeLocation location, runt
 	case PRINT:
 		if (vm->GetScriptMessageHandler() != NULL)
 		{
-			vm->GetScriptMessageHandler()(vm, location, str);
+			vm->GetScriptMessageHandler()(vm, location, str, formatStr, strArgs);
 		}		
 		break;
 	case TRIGGER_ERROR:
-		throw UserErrorException(location, str);
+		throw UserErrorException(location, str, formatStr, strArgs);
 		break;
 	default:
 		throw InternalErrorException(GG_STR("Unknown method."));
