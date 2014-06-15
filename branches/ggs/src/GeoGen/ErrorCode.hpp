@@ -20,7 +20,7 @@ namespace geogen
 		GGE1402_ScriptParametersNotKeyValueCollection = 1402,
 		GGE1403_ScriptParameterNotKeyValueCollection = 1403,
 		GGE1404_ScriptParameterTypeNotSpecified = 1404,
-		//GGE1405_IncorrectScriptParameterType = 1405,
+		GGE1405_ReservedScriptParameterNameUsed = 1405,
 		GGE1406_IncorrectScriptParameterAttributeType = 1406,
 		GGE1407_IncorrectScriptParameterValueRestriction = 1407,
 		GGE1408_WidthNotKeyValueCollection = 1408,

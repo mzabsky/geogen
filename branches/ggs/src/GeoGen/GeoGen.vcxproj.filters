@@ -167,6 +167,7 @@
     <ClInclude Include="String.hpp" />
     <ClInclude Include="corelib\StringFormatException.hpp" />
     <ClInclude Include="runtime\MetadataList.hpp" />
+    <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

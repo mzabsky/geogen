@@ -13,14 +13,14 @@ namespace geogen
 			String parameterName;
 		public:
 			ScriptParameterTypeNotSpecifiedException(CodeLocation location, String const& parameterName) :
-				CompilerException(GGE1404_ScriptParameterTypeNotSpecified, location), parameterName(parameterName) {};
+				CompilerException(GGE1405_ReservedScriptParameterNameUsed, location), parameterName(parameterName) {};
 
 			inline String GetParameterName() const { return this->parameterName; }
 
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Script parameter \"" << parameterName << "\" on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << " doesn't have its type specified and its type can't be inferred.";
+				ss << "Reserved script parameter \"" << parameterName << "\" was used on line " << GetLocation().GetLine() << ", column " << GetLocation().GetColumn() << " doesn't have its type specified and its type can't be inferred.";
 
 				return ss.str();
 			}
