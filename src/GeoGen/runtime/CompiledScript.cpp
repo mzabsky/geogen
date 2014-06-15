@@ -22,6 +22,7 @@
 #include "..\compiler\IncorrectMapSizeNumericValueException.hpp"
 #include "..\compiler\MinGreaterThanMaxSizeException.hpp"
 #include "..\compiler\IncorrectEnumScriptParameterTypeException.hpp"
+#include "..\compiler\ReservedScriptParameterNameException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -301,6 +302,18 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			if (it->second->GetType() != METADATA_TYPE_KEYVALUE_COLLECTION)
 			{
 				throw compiler::IncorrectMetadataValueTypeException(GGE1403_ScriptParameterNotKeyValueCollection, location, name, MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem(GG_STR("Parameters"))->GetType()));
+			}
+
+			if (
+				name == "MapWidth" || 
+				name == "MapHeight" || 
+				name == "RenderOriginX" || 
+				name == "RenderOriginY" || 
+				name == "RenderWidth" || 
+				name == "RenderHeight" || 
+				name == "RenderScale")
+			{
+				throw compiler::ReservedScriptParameterNameException(location, name);
 			}
 
 			MetadataKeyValueCollection const* currentSection = dynamic_cast<MetadataKeyValueCollection const*>(it->second);
