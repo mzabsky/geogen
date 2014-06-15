@@ -22,9 +22,9 @@ public:
 	}
 
 
-	static void TestPrintWithoutArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
+	static void TestPrintWithoutArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments)
 	{
-		ASSERT_EQUALS(String, GG_STR("Text message!"), message);
+		ASSERT_EQUALS(String, GG_STR("Text message!"), formattedMessage);
 		messageTriggered = true;
 	}
 
@@ -43,9 +43,13 @@ public:
 		ASSERT_EQUALS(bool, true, messageTriggered);
 	}
 
-	static void TestPrintWithArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
+	static void TestPrintWithArgsHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments)
 	{
-		ASSERT_EQUALS(String, GG_STR("1 2"), message);
+		ASSERT_EQUALS(String, GG_STR("1 2"), formattedMessage);
+		ASSERT_EQUALS(String, GG_STR("{0} {1}"), unformattedMessage);
+		ASSERT_EQUALS(unsigned, 2, arguments.size());
+		ASSERT_EQUALS(String, "1", arguments[0]);
+		ASSERT_EQUALS(String, "2", arguments[1]);
 		messageTriggered = true;
 	}
 
@@ -71,4 +75,4 @@ public:
 		ADD_TESTCASE(TestPrintWithoutArgs);
 		ADD_TESTCASE(TestPrintWithArgs);
 	}
-};
+};;

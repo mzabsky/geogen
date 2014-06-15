@@ -41,7 +41,7 @@ namespace geogen
 		class VirtualMachine
 		{
 		public:
-			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, String const& message);
+			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 		private:
 			VirtualMachineStatus status;
 			
@@ -79,7 +79,7 @@ namespace geogen
 
 			inline ScriptMessageHandler GetScriptMessageHandler() const { return this->scriptMessageHandler; };
 			inline void SetScriptMessageHandler(ScriptMessageHandler scriptMessageHandler) { this->scriptMessageHandler = scriptMessageHandler; };
-			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message);
+			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 
 			inline ObjectStack& GetObjectStack() { return this->objectStack; };
 			//inline std::stack<ManagedObject const*> const& GetObjectStack() const { return *((std::stack<ManagedObject const*>*)&this->objectStack); };

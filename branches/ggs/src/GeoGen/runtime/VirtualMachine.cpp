@@ -34,9 +34,9 @@ void VirtualMachine::InitializeTypes()
 	}
 }
 
-void VirtualMachine::DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& message)
+void VirtualMachine::DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments)
 {
-	wcout << "Script message: " << StringToWstring(message) << endl;
+	wcout << "Script message: " << StringToWstring(formattedMessage) << endl;
 }
 
 void VirtualMachine::InitializeGlobalVariables()
