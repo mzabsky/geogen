@@ -108,6 +108,7 @@
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlatStep.hpp" />
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
@@ -126,6 +127,8 @@
     <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="Dimension.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
+    <ClInclude Include="genlib\HeightProfile.hpp" />
+    <ClInclude Include="genlib\DataObject.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
@@ -140,9 +143,12 @@
     <ClInclude Include="Point.hpp" />
     <ClInclude Include="renderer\Renderer.hpp" />
     <ClInclude Include="renderer\RendererObject.hpp" />
+    <ClInclude Include="renderer\RendererObjectTable.hpp" />
     <ClInclude Include="renderer\RenderingSequence.hpp" />
     <ClInclude Include="renderer\RendererObjectSlotTable.hpp" />
     <ClInclude Include="renderer\RenderingStep.hpp" />
+    <ClInclude Include="renderer\RenderingStep1D.hpp" />
+    <ClInclude Include="renderer\RenderingStep2D.hpp" />
     <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
     <ClInclude Include="corelib\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CallStack.hpp" />
@@ -226,11 +232,21 @@
     <ClInclude Include="runtime\VirtualMachine.hpp" />
     <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
     <ClInclude Include="Serializable.hpp" />
+    <ClInclude Include="Size.hpp" />
     <ClInclude Include="testlib\AssertEqualsFunctionDefinition.hpp" />
     <ClInclude Include="testlib\AssertionFailedException.hpp" />
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
+    <ClCompile Include="corelib\HeightProfileFlatStep.cpp" />
+    <ClCompile Include="genlib\HeightProfile.cpp" />
+    <ClCompile Include="renderer\Renderer.cpp" />
+    <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />
+    <ClCompile Include="renderer\RendererObjectTable.cpp" />
+    <ClCompile Include="renderer\RenderingSequence.cpp" />
+    <ClCompile Include="renderer\RenderingStep.cpp" />
+    <ClCompile Include="renderer\RenderingStep1D.cpp" />
+    <ClCompile Include="renderer\RenderObject.cpp" />
     <ClCompile Include="String.cpp">
       <FileType>CppHeader</FileType>
     </ClCompile>

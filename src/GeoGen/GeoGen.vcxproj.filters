@@ -168,6 +168,13 @@
     <ClInclude Include="corelib\StringFormatException.hpp" />
     <ClInclude Include="runtime\MetadataList.hpp" />
     <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
+    <ClInclude Include="renderer\RendererObjectTable.hpp" />
+    <ClInclude Include="genlib\HeightProfile.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlatStep.hpp" />
+    <ClInclude Include="Size.hpp" />
+    <ClInclude Include="renderer\RenderingStep1D.hpp" />
+    <ClInclude Include="renderer\RenderingStep2D.hpp" />
+    <ClInclude Include="genlib\DataObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -269,6 +276,15 @@
     <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="runtime\EnumScriptParameter.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />
+    <ClCompile Include="renderer\RendererObjectTable.cpp" />
+    <ClCompile Include="renderer\Renderer.cpp" />
+    <ClCompile Include="renderer\RenderingSequence.cpp" />
+    <ClCompile Include="genlib\HeightProfile.cpp" />
+    <ClCompile Include="renderer\RenderObject.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlatStep.cpp" />
+    <ClCompile Include="renderer\RenderingStep1D.cpp" />
+    <ClCompile Include="renderer\RenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

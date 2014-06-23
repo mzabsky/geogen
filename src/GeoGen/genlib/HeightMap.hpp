@@ -1,12 +1,13 @@
-#pragma once
+ #pragma once
 
 #include "../Number.hpp"
+#include "DataObject.hpp"
 
 namespace geogen
 {
 	namespace genlib
 	{
-		class HeightMap
+		class HeightMap : public DataObject
 		{
 		private:
 			int width, height;

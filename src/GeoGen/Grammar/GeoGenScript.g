@@ -10,6 +10,7 @@ options {
 tokens { 
 	SCRIPT; 
 	COLLECTION; 
+	SIMPLE_COLLECTION; 
 	DECLARATIONS; 
 	BLOCK; 
 	PARAMETERS;
@@ -99,11 +100,13 @@ metadata: 'metadata' keyValueCollection -> ^('metadata' keyValueCollection);
 
 keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}' -> ^(COLLECTION keyValuePair*);
 
+simpleCollection: '{' keyValueValue (',' keyValueValue )* '}' -> ^(SIMPLE_COLLECTION keyValueValue*);
+
 keyValuePair: 
 	IDENTIFIER ':' keyValueValue -> ^(IDENTIFIER keyValueValue)
-	| NUMBER ':' keyValueValue -> ^(NUMBER keyValueValue);
+	/*| NUMBER ':' keyValueValue -> ^(NUMBER keyValueValue)*/;
 
-keyValueValue: expression | keyValueCollection;
+keyValueValue: expression | keyValueCollection | simpleCollection;
 
 declaration: enumDeclaration | functionDeclaration;
 

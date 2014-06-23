@@ -4,34 +4,47 @@
 
 #include "../Point.hpp"
 #include "RenderingSequence.hpp"
+#include "RendererObjectTable.hpp"
 
 namespace geogen
 {
 	namespace renderer
 	{
-		class RenderingStep;
-		class RendererObject;		
+		enum RendererStepResult 
+		{
+			RENDERER_STEP_RESULT_RUNNING,
+			RENDERER_STEP_RESULT_FINISHED
+		};
+
+		enum RendererStatus
+		{
+			RENDERER_STATUS_READY,
+			RENDERER_STATUS_FINISHED,
+			RENDERER_STATUS_FAULTED
+		};
 
 		class Renderer
 		{
 		private:
-			std::vector<unsigned> referencedSlots;
-			unsigned affectedSlot;
-			Point renderOrigin;
-			Point renderSize;
 			RenderingSequence& renderingSequence;
+			RendererObjectTable objectTable;
+			RendererStatus status;
+
+			// Non-copyable
+			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0) {};
+			Renderer& operator=(Renderer const&) {};
 		public:
-			Renderer(RenderingSequence& renderingSequence, unsigned affectedSlot, std::vector<unsigned> referencedSlots)
-				: renderingSequence(renderingSequence), affectedSlot(affectedSlot), referencedSlots(referencedSlots) {}
+			Renderer(RenderingSequence& renderingSequence);
 
-			inline const std::vector<unsigned> GetReferencedSlots() const { return this->referencedSlots; };
-			inline unsigned GetAffectedSlot() const { return this->affectedSlot; }
+			inline RendererStatus GetStatus() const { return this->status; }
 
-			inline Point GetRenderOrigin() const { return this->renderOrigin; }
-			inline Point GetRenderSize() const { return this->renderSize; }
+			inline RenderingSequence& GetRenderingSequence() { return this->renderingSequence; }
+			inline RenderingSequence const& GetRenderingSequence() const { return this->renderingSequence; }
+			inline RendererObjectTable& GetObjectTable() { return this->objectTable; }
+			inline RendererObjectTable const& GetObjectTable() const { return this->objectTable; }
 
-			virtual void Step(Renderer* renderer) const = 0;
-			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingStep*> referencingSteps) const = 0;
+			RendererStepResult Step();
+			void Run();
 		};
 	}
 }

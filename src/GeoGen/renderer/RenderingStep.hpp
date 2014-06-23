@@ -11,25 +11,36 @@ namespace geogen
 	{
 		class Renderer;
 
+		enum RenderingStepType
+		{
+			RENDERING_STEP_TYPE_1D,
+			RENDERING_STEP_TYPE_2D
+		};
+
 		class RenderingStep
 		{
 		private:
 			CodeLocation location;
-			std::vector<unsigned> referencedSlots;
-			unsigned affectedSlot;
-			Point renderOrigin;
-			Point renderSize;
+			std::vector<unsigned> argumentSlots;
+			unsigned returnSlot;			
+
+			// Non-copyable
+			RenderingStep(RenderingStep const&) : location(0, 0) {};
+			RenderingStep& operator=(RenderingStep const&) {};
+		protected:
+			void TriggerRenderingBoundsCalculationError(String message) const;
 		public:
 			RenderingStep(CodeLocation location) : location(location) {}
 
-			inline const std::vector<unsigned> GetReferencedSlots() const { return this->referencedSlots; };
-			inline unsigned GetAffectedSlot() const { return this->affectedSlot; }
+			virtual RenderingStepType GetRenderingStepType() const = 0;
+			virtual String GetName() const = 0;
 
-			inline Point GetRenderOrigin() const { return this->renderOrigin; }
-			inline Point GetRenderSize() const { return this->renderSize; }
+			inline CodeLocation GetLocation() const { return this->location; }
+			inline const std::vector<unsigned> GetArgumentSlots() const { return this->argumentSlots; };
+			inline unsigned GetReturnSlot() const { return this->returnSlot; }
 
 			virtual void Step(Renderer* renderer) const = 0;
-			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingStep*> referencingSteps) const = 0;
+			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingStep*> referencingSteps) = 0;
 		};
 	}
 }

@@ -1,14 +1,16 @@
 #pragma once
 
 namespace geogen {
+	typedef int Coordinate;
+
 	class Point{
 	private:
-		int x, y;
+		Coordinate x, y;
 	public:
 		Point() : x(0), y(0) {}
-		Point(int x, int y) : x(x), y(y) {}
+		Point(Coordinate x, Coordinate y) : x(x), y(y) {}
 
-		inline int GetX() const { return this->x; }
-		inline int GetY() const { return this->y; }
+		inline Coordinate GetX() const { return this->x; }
+		inline Coordinate GetY() const { return this->y; }
 	};
 }
