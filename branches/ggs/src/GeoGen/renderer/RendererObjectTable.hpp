@@ -8,6 +8,7 @@ namespace geogen
 	{
 		class RendererObject;
 
+		/// <summary> A table of <see cref="RendererObject"/>s stored in a fixed number of slots. </summary>
 		class RendererObjectTable
 		{
 		private:
