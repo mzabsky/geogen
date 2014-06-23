@@ -131,6 +131,19 @@ metadataKeyValueCollection returns [MetadataValue* value]
 		/*delete $metadataKeyValuePair.name; */
 	})*);
 	
+metadataList returns [MetadataValue* value]
+@init {
+	MetadataList* ret = NULL;
+	$value = NULL;
+} : ^(SIMPLE_COLLECTION 
+	{
+		ret = new MetadataList(CodeLocation($SIMPLE_COLLECTION.line, $SIMPLE_COLLECTION.pos));
+		$value = ret;	
+	} (metadataKeyValueValue 
+	{ 
+		ret->AddItem($metadataKeyValueValue.value);
+	})*);
+	
 metadataKeyValuePair returns [String name, MetadataValue* value] @init{ $value = NULL; }: 
 	^(IDENTIFIER metadataKeyValueValue) { $name = (Char*)$IDENTIFIER.text->chars; $value = $metadataKeyValueValue.value; }
 	| ^(NUMBER metadataKeyValueValue '@'?)  { $name = (Char*)$NUMBER.text->chars; $value = $metadataKeyValueValue.value; };
@@ -141,15 +154,16 @@ metadataKeyValueValue returns [MetadataValue* value] @init{ $value = NULL; }:
 	| FALSE_LIT  { $value = new MetadataBoolean(CodeLocation($FALSE_LIT.line, $FALSE_LIT.pos), false); }
 	| NUMBER { $value = new MetadataNumber(CodeLocation($NUMBER.line, $NUMBER.pos), StringToNumber((Char*)$NUMBER.text->chars)); }
 	| IDENTIFIER { $value = new MetadataIdentifier(CodeLocation($IDENTIFIER.line, $IDENTIFIER.pos), (Char*)$IDENTIFIER.text->chars); }
-	| metadataKeyValueCollection { $value = $metadataKeyValueCollection.value; };
+	| metadataKeyValueCollection { $value = $metadataKeyValueCollection.value; }
+	| metadataList { $value = $metadataList.value; };
 
-keyValueCollection: ^(COLLECTION keyValuePair*);
+//keyValueCollection: ^(COLLECTION keyValuePair*);
 
-keyValuePair: 
+/*keyValuePair: 
 	^(IDENTIFIER keyValueValue)
-	| ^(NUMBER keyValueValue '@'?);
+	| ^(NUMBER keyValueValue '@'?);*/
 
-keyValueValue: expression | keyValueCollection;
+//keyValueValue: expression | keyValueCollection;
 
 declaration: enumDeclaration | functionDeclaration;
 

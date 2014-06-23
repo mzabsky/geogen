@@ -11,6 +11,7 @@
 #include "CallStack.hpp"
 #include "ObjectStack.hpp"
 #include "ScriptParameters.hpp"
+#include "../renderer/RenderingSequence.hpp"
 
 namespace geogen
 {
@@ -58,18 +59,21 @@ namespace geogen
 
 			ScriptMessageHandler scriptMessageHandler;
 
+			renderer::RenderingSequence renderingSequence;
+
 			void InitializeTypes();
 			void InitializeGlobalVariables();
 			void InitializeMainFunction();
 			void ValidateArguments();
 
 			// Non-copyable
-			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler) {};
+			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler), renderingSequence(0) {};
 			VirtualMachine& operator=(VirtualMachine const&) {};
 		public:
 			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);	
 			~VirtualMachine() {};
 
+			inline renderer::RenderingSequence& GetRenderingSequence() { return this->renderingSequence; }
 			inline VirtualMachineStatus GetStatus() const { return this->status; }
 			inline MemoryManager& GetMemoryManager() { return this->memoryManager; }
 			inline VariableTable& GetGlobalVariableTable() { return this->globalVariableTable; }
