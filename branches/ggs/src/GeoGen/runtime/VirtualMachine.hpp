@@ -12,6 +12,7 @@
 #include "ObjectStack.hpp"
 #include "ScriptParameters.hpp"
 #include "../renderer/RenderingSequence.hpp"
+#include "../renderer/RendererObjectSlotTable.hpp"
 
 namespace geogen
 {
@@ -59,6 +60,7 @@ namespace geogen
 
 			ScriptMessageHandler scriptMessageHandler;
 
+			renderer::RendererObjectSlotTable rendererObjectSlotTable;
 			renderer::RenderingSequence renderingSequence;
 
 			void InitializeTypes();
@@ -73,7 +75,6 @@ namespace geogen
 			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);	
 			~VirtualMachine() {};
 
-			inline renderer::RenderingSequence& GetRenderingSequence() { return this->renderingSequence; }
 			inline VirtualMachineStatus GetStatus() const { return this->status; }
 			inline MemoryManager& GetMemoryManager() { return this->memoryManager; }
 			inline VariableTable& GetGlobalVariableTable() { return this->globalVariableTable; }
@@ -90,6 +91,9 @@ namespace geogen
 
 			inline CallStack& GetCallStack() { return this->callStack; };
 			//inline std::stack<CallStackEntry const> const& GetCallStack() const { return *((std::stack<ManagedObject const*>*)&this->callStack); };
+
+			inline renderer::RenderingSequence& GetRenderingSequence() { return this->renderingSequence; }
+			inline renderer::RendererObjectSlotTable& GetRendererObjectSlotTable() { return this->rendererObjectSlotTable; }
 
 			VirtualMachineStepResult Step();
 

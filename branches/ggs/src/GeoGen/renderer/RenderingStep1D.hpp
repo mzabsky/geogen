@@ -15,7 +15,8 @@ namespace geogen
 			Coordinate renderOrigin;
 			Size1D renderSize;			
 		public:
-			RenderingStep1D(CodeLocation location) : RenderingStep(location) {}
+			RenderingStep1D(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot) : RenderingStep(location, argumentSlots, returnSlot)
+			{}
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
 
