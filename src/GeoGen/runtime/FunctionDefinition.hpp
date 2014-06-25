@@ -33,7 +33,22 @@ namespace geogen
 
 			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const = 0;
 
-			void CheckArguments(CodeLocation location, std::vector<TypeDefinition const*> expectedTypes, std::vector<ManagedObject*> actualArguments) const;
+			/// <summary>
+			/// Check a list of actual arguments against a list of expected parameters. If these don't match,
+			/// an exception is thrown.
+			/// </summary>
+			/// <param name="location"> The code location. </param>
+			/// <param name="expectedTypes"> The list of expected parameters. </param>
+			/// <param name="actualArguments"> The actual arguments. </param>
+			/// <param name="requiredArgumentCount"> Number of required arguments, if -1 all arguments are required. </param>
+			/// <exception cref="IncorrectTypeException"> Thrown when the two lists don't match. </exception>
+			void CheckArguments(CodeLocation location, std::vector<TypeDefinition const*> expectedTypes, std::vector<ManagedObject*> actualArguments, int requiredArgumentCount = -1) const;			
+			
+			/// <summary> Check a count of actual arguments against a list of expected parameters. If these don't match, an exception is thrown. </summary>
+			/// <exception cref="IncorrectTypeException"> Thrown when the list sizes don't match. </exception>
+			/// <param name="location"> The code location. </param>
+			/// <param name="expectedArgumentCount"> The list of expected parameters. </param>
+			/// <param name="actualArguments"> The actual arguments. </param>			
 			void CheckArguments(CodeLocation location, unsigned expectedArgumentCount, std::vector<ManagedObject*> actualArguments) const;
 		};
 	}

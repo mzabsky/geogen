@@ -108,7 +108,9 @@
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
-    <ClInclude Include="corelib\HeightProfileFlatStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
@@ -122,6 +124,7 @@
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
     <ClInclude Include="corelib\StringFormatException.hpp" />
     <ClInclude Include="corelib\StringTypeDefinition.hpp" />
     <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
@@ -212,6 +215,7 @@
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
+    <ClInclude Include="runtime\RendererObjectStub.hpp" />
     <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="ApiUsageException.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
@@ -238,7 +242,9 @@
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
-    <ClCompile Include="corelib\HeightProfileFlatStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
+    <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />
     <ClCompile Include="renderer\Renderer.cpp" />
     <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />

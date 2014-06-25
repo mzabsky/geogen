@@ -170,11 +170,15 @@
     <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
     <ClInclude Include="renderer\RendererObjectTable.hpp" />
     <ClInclude Include="genlib\HeightProfile.hpp" />
-    <ClInclude Include="corelib\HeightProfileFlatStep.hpp" />
     <ClInclude Include="Size.hpp" />
     <ClInclude Include="renderer\RenderingStep1D.hpp" />
     <ClInclude Include="renderer\RenderingStep2D.hpp" />
     <ClInclude Include="genlib\DataObject.hpp" />
+    <ClInclude Include="runtime\RendererObjectStub.hpp" />
+    <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
+    <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -282,9 +286,11 @@
     <ClCompile Include="renderer\RenderingSequence.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />
     <ClCompile Include="renderer\RenderObject.cpp" />
-    <ClCompile Include="corelib\HeightProfileFlatStep.cpp" />
     <ClCompile Include="renderer\RenderingStep1D.cpp" />
     <ClCompile Include="renderer\RenderingStep.cpp" />
+    <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

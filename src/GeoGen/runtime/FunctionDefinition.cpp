@@ -7,9 +7,17 @@ using namespace std;
 using namespace geogen;
 using namespace geogen::runtime;
 
-void FunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<ManagedObject*> actualArguments) const
+void FunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<ManagedObject*> actualArguments, int requiredArgumentCount) const
 {
-	CheckArguments(location, expectedTypes.size(), actualArguments);
+	// Check argument count first
+	if (requiredArgumentCount == -1)
+	{
+		CheckArguments(location, expectedTypes.size(), actualArguments);
+	}	
+	else 
+	{
+		CheckArguments(location, max((unsigned)requiredArgumentCount, expectedTypes.size()), actualArguments);
+	}
 
 	for (vector<ManagedObject*>::size_type i = 0; i < actualArguments.size(); i++)
 	{

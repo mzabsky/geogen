@@ -30,7 +30,7 @@ namespace geogen
 		protected:
 			void TriggerRenderingBoundsCalculationError(String message) const;
 		public:
-			RenderingStep(CodeLocation location) : location(location) {}
+			RenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot) : location(location), argumentSlots(argumentSlots), returnSlot(returnSlot) {}
 
 			virtual RenderingStepType GetRenderingStepType() const = 0;
 			virtual String GetName() const = 0;
