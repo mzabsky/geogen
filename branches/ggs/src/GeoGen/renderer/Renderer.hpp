@@ -5,6 +5,7 @@
 #include "../Point.hpp"
 #include "RenderingSequence.hpp"
 #include "RendererObjectTable.hpp"
+#include "RenderingSequenceMetadata.hpp"
 
 namespace geogen
 {
@@ -37,9 +38,10 @@ namespace geogen
 			RenderingSequence& renderingSequence;
 			RendererObjectTable objectTable;
 			RendererStatus status;
+			RenderingSequenceMetadata renderingSequenceMetadata;
 
 			// Non-copyable
-			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0) {};
+			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0), renderingSequenceMetadata(*(RenderingSequence*)NULL) {};
 			Renderer& operator=(Renderer const&) {};
 		public:
 
@@ -59,6 +61,10 @@ namespace geogen
 			/// <returns> The rendering sequence. </returns>
 			inline RenderingSequence const& GetRenderingSequence() const { return this->renderingSequence; }
 
+			inline RenderingSequenceMetadata const& GetRenderingSequenceMetadata() const { return this->renderingSequenceMetadata; }
+			inline RenderingSequenceMetadata& GetRenderingSequenceMetadata()  { return this->renderingSequenceMetadata; }
+
+			
 			/// <summary> Gets the object table. </summary>
 			/// <returns> The object table. </returns>
 			inline RendererObjectTable& GetObjectTable() { return this->objectTable; }
@@ -66,6 +72,8 @@ namespace geogen
 			/// <summary> Gets the object table. </summary>
 			/// <returns> The object table. </returns>
 			inline RendererObjectTable const& GetObjectTable() const { return this->objectTable; }
+
+			void CalculateRenderingBounds();
 
 			/// <summary> Executes next step in the rendering sequence. Can only be called if the renderer is in status <see cref="RENDERER_STATUS_READY"/>.</summary>
 			/// <returns> A step result. </returns>

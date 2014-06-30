@@ -3,10 +3,10 @@
 using namespace geogen;
 using namespace genlib;
 
-HeightProfile::HeightProfile(int origin, int length)
-:origin(origin), length(length)
+HeightProfile::HeightProfile(Interval interval)
+:interval(interval)
 {
-	this->heightData = new Height[length];
+	this->heightData = new Height[interval.GetLength()];
 }
 
 HeightProfile::~HeightProfile()

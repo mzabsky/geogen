@@ -19,8 +19,7 @@ namespace geogen
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
 
-			inline Point GetRenderOrigin() const { return this->renderOrigin; }
-			inline Size2D GetRenderSize() const { return this->renderSize; }
+			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds);
 		};
 	}
 }
