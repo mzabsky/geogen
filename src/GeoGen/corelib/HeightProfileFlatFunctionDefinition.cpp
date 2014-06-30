@@ -8,6 +8,7 @@
 #include "BooleanTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
 #include "HeightProfileFlatRenderingStep.hpp"
+#include "HeightOverflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -25,7 +26,12 @@ ManagedObject* HeightProfileFlatFunctionDefinition::CallNative(CodeLocation loca
 
 	this->CheckArguments(location, expectedTypes, arguments, 0);
 
-	Height height = arguments.size() > 0 ? ((NumberObject*)arguments[0])->GetValue() : 0;
+	Number numberHeight = arguments.size() > 0 ? ((NumberObject*)arguments[0])->GetValue() : 0;
+	Height height;
+	if (!TryNumberToHeight(numberHeight, height))
+	{
+		throw HeightOverflowException(location);
+	}
 
 	ManagedObject* returnObject = dynamic_cast<HeightProfileTypeDefinition const*>(type)->CreateInstance(vm);
 	

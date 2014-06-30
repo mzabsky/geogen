@@ -5,7 +5,7 @@ using namespace geogen;
 using namespace renderer;
 
 Renderer::Renderer(RenderingSequence& renderingSequence)
-: renderingSequence(renderingSequence), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY)
+: renderingSequence(renderingSequence), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY), renderingSequenceMetadata(renderingSequence)
 {
 }
 

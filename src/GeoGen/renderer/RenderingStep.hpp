@@ -10,6 +10,7 @@ namespace geogen
 	namespace renderer
 	{
 		class Renderer;
+		class RenderingBounds;
 
 		enum RenderingStepType
 		{
@@ -39,8 +40,14 @@ namespace geogen
 			inline const std::vector<unsigned> GetArgumentSlots() const { return this->argumentSlots; };
 			inline unsigned GetReturnSlot() const { return this->returnSlot; }
 
+			/// Executes this step.
+			/// @param renderer The renderer.
 			virtual void Step(Renderer* renderer) const = 0;
-			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingStep*> referencingSteps) = 0;
+
+			/// Updates the rendering bounds based on the bounds of its arguments.
+			/// @param renderer			 The renderer.
+			/// @param referencingBounds The referencing bounds.
+			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) = 0;
 		};
 	}
 }
