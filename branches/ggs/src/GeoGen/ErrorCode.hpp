@@ -54,6 +54,7 @@ namespace geogen
 		GGE2601_InvalidOperationOnEmptyArray = 2601,
 		GGE2602_ArrayKeyNotFound = 2602,
 		GGE2701_IncorrectStringFormat = 2701,
+		GGE2702_InvalidEnumNumericValue = 2702,
 		GGE3000_ApiUsageError = 3000,
 		GGE4000_InternalError = 4000,
 		GGE4001_IntermediateCodeError = 4001,
