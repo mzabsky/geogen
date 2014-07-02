@@ -18,7 +18,7 @@ namespace geogen
 		class NumberTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
-			NumberTypeDefinition() : TypeDefinition(GG_STR("Number")) {}
+			NumberTypeDefinition();
 
 			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm, Number value) const;
 

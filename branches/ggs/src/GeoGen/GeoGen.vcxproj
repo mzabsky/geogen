@@ -125,6 +125,7 @@
     <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
     <ClInclude Include="corelib\StringFormatException.hpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="corelib\InvalidEnumValueException.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />
     <ClCompile Include="Rectangle.cpp" />
