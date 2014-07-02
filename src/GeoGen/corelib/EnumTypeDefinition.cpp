@@ -4,6 +4,7 @@
 #include "NumberTypeDefinition.hpp"
 #include "../runtime/VariableDefinition.hpp"
 #include "../CodeLocation.hpp"
+#include "EnumFromNumberFunctionDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -16,6 +17,8 @@ EnumTypeDefinition::EnumTypeDefinition(String const& name, ValueDefinitions valu
 	{
 		throw ApiUsageException(GG_STR("Can't declare enum with no enum values"));
 	}
+
+	this->GetStaticFunctionDefinitions().AddItem(new EnumFromNumberFunctionDefinition(this));
 }
 
 void EnumTypeDefinition::Initialize(VirtualMachine* vm) const

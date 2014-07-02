@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
+#include "../GeoGen/corelib/InvalidEnumValueException.hpp"
 
 class EnumTests : public TestFixtureBase
 {
@@ -107,6 +108,30 @@ public:
 		");
 	}
 
+	static void TestFromNumber()
+	{
+		TestScript("\n\
+			enum TestEnum\n\
+			{\n\
+				A = 1,\n\
+				B = 2\n\
+			}\n\
+			AssertEquals(TestEnum.B, TestEnum.FromNumber(2));\n\
+		");
+	}
+
+	static void TestFromNumberFailsWithInvalidNumber()
+	{
+		TEST_SCRIPT_FAILURE(corelib::InvalidEnumValueException, "\n\
+			enum TestEnum\n\
+			{\n\
+				A = 1,\n\
+				B = 2\n\
+			}\n\
+			AssertEquals(TestEnum.B, TestEnum.FromNumber(3));\n\
+		");
+	}
+
 	EnumTests() : TestFixtureBase("EnumTests")
 	{
 		ADD_TESTCASE(TestScriptEnum);
@@ -114,5 +139,7 @@ public:
 		ADD_TESTCASE(TestScriptEnumWithNonIntegerValue);
 		ADD_TESTCASE(TestScriptEnumWithValueRedefinition);
 		ADD_TESTCASE(TestEmptyScriptEnumFails);
+		ADD_TESTCASE(TestFromNumber);
+		ADD_TESTCASE(TestFromNumberFailsWithInvalidNumber);
 	}
 };

@@ -106,6 +106,7 @@
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
     <ClInclude Include="corelib\HeightOverflowException.hpp" />
@@ -251,6 +252,9 @@
     <ClInclude Include="String.hpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
+    <ClInclude Include="corelib\InvalidEnumValueException.hpp">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />
     <ClCompile Include="Rectangle.cpp" />
@@ -368,6 +372,9 @@
     <ClCompile Include="Serializable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp">
+      <FileType>Document</FileType>
+    </ClCompile>
     <None Include="Grammar\GeoGenScript.g" />
     <None Include="Grammar\GeoGenScriptDecls.g" />
     <None Include="Grammar\output\GeoGenScript.tokens" />

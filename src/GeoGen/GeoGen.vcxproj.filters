@@ -186,6 +186,8 @@
     <ClInclude Include="Interval.hpp" />
     <ClInclude Include="renderer\RenderingSequenceMetadata.hpp" />
     <ClInclude Include="corelib\HeightOverflowException.hpp" />
+    <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\InvalidEnumValueException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -301,6 +303,7 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Interval.cpp" />
     <ClCompile Include="renderer\RenderingSequenceMetadata.cpp" />
+    <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
