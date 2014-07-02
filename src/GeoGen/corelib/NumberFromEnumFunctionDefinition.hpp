@@ -5,11 +5,11 @@ namespace geogen
 {
 	namespace corelib
 	{
-		/// Function definition for Enum.FromNumber.
-		class EnumFromNumberFunctionDefinition : public runtime::MemberNativeFunctionDefinition
+		/// Function definition for Number.FromEnum.
+		class NumberFromEnumFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:
-			EnumFromNumberFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("FromNumber"), type) {};
+			NumberFromEnumFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("FromEnum"), type) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* type, std::vector<runtime::ManagedObject*> arguments) const;
 

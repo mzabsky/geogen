@@ -132,6 +132,30 @@ public:
 		");
 	}
 
+	static void TestFromEnum()
+	{
+		TestScript("\n\
+			enum TestEnum\n\
+			{\n\
+				A = 1,\n\
+				B = 2\n\
+			}\n\
+			AssertEquals(2, Number.FromEnum(TestEnum.B));\n\
+		");
+	}
+
+	static void TestFromEnumFailsWithNonEnum()
+	{
+		TEST_SCRIPT_FAILURE(runtime::IncorrectTypeException, "\n\
+			enum TestEnum\n\
+			{\n\
+				A = 1,\n\
+				B = 2\n\
+			}\n\
+			AssertEquals(3, Number.FromEnum(2));\n\
+		");
+	}
+
 	EnumTests() : TestFixtureBase("EnumTests")
 	{
 		ADD_TESTCASE(TestScriptEnum);
@@ -141,5 +165,7 @@ public:
 		ADD_TESTCASE(TestEmptyScriptEnumFails);
 		ADD_TESTCASE(TestFromNumber);
 		ADD_TESTCASE(TestFromNumberFailsWithInvalidNumber);
+		ADD_TESTCASE(TestFromEnum);
+		ADD_TESTCASE(TestFromEnumFailsWithNonEnum);
 	}
 };

@@ -3,11 +3,17 @@
 #include "../Number.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/StaticObject.hpp"
+#include "NumberFromEnumFunctionDefinition.hpp"
 
 using namespace geogen;
 using namespace runtime;
 using namespace corelib;
 using namespace std;
+
+NumberTypeDefinition::NumberTypeDefinition() : TypeDefinition(GG_STR("Number")) 
+{
+	this->GetStaticFunctionDefinitions().AddItem(new NumberFromEnumFunctionDefinition(this));
+}
 
 ManagedObject* NumberTypeDefinition::CreateInstance(VirtualMachine* vm, Number value) const
 {
