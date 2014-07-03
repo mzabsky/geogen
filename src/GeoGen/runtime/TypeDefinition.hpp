@@ -54,6 +54,17 @@ namespace geogen
 			virtual bool InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const;
 
 			virtual ManagedObject* Copy(VirtualMachine* vm, ManagedObject* a) const = 0;
+
+			/// Checks if this type is convertible to another type.
+			/// @param anotherTypeDefinition The other type.
+			/// @return true if convertible to the other type, false if not.
+			virtual bool IsConvertibleTo(TypeDefinition* anotherTypeDefinition);
+
+			/// Converts an managed object of this type to another type.
+			/// @param object The object to be converted. Must be convertible.
+			/// @param anotherTypeDefinition The type to be converted to.
+			/// @return null The converted object. If the two types are the same, the input object will be returned without any changes.
+			virtual ManagedObject* ConvertTo(ManagedObject* object, TypeDefinition* anotherTypeDefinition);
 		};
 	}
 }

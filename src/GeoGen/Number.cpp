@@ -1,6 +1,10 @@
+#include <cfenv>
+
 #include "String.hpp"
 #include "Number.hpp"
 #include "ApiUsageException.hpp"
+#include "runtime/NumberOverflowException.hpp"
+#include "runtime/NumberUnderflowException.hpp"
 
 namespace geogen 
 {
@@ -49,5 +53,22 @@ namespace geogen
 		}
 
 		return h;
+	}
+
+	void RuntimeMathCheckInit()
+	{
+		feclearexcept(FE_ALL_EXCEPT);
+	}
+
+	void RuntimeMathCheck(CodeLocation location)
+	{
+		if (fetestexcept(FE_OVERFLOW))
+		{
+			throw runtime::NumberOverflowException(location);
+		}
+		else if (fetestexcept(FE_UNDERFLOW))
+		{
+			throw runtime::NumberUnderflowException(location);
+		}
 	}
 }

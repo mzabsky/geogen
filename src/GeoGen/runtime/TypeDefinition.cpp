@@ -32,3 +32,19 @@ bool TypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObject cons
 {
 	return a == b;
 }
+
+bool TypeDefinition::IsConvertibleTo(TypeDefinition* anotherTypeDefinition)
+{
+	return this == anotherTypeDefinition;
+}
+
+ManagedObject* TypeDefinition::ConvertTo(ManagedObject* object, TypeDefinition* anotherTypeDefinition)
+{
+	if (this == anotherTypeDefinition)
+	{
+		return object;
+	}
+	else {
+		throw InternalErrorException("Invalid type conversion.");
+	}
+}

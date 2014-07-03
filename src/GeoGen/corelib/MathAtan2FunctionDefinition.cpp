@@ -21,7 +21,11 @@ ManagedObject* MathAtan2FunctionDefinition::CallNative(CodeLocation location, Vi
 
 	this->CheckArguments(location, expectedParameters, arguments);
 
+	RuntimeMathCheckInit();
+
 	Number result = atan2(dynamic_cast<NumberObject*>(arguments[0])->GetValue(), dynamic_cast<NumberObject*>(arguments[1])->GetValue());
 
+	RuntimeMathCheck(location);
+	
 	return numberTypeDefinition->CreateInstance(vm, result);
 }

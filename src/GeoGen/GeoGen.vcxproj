@@ -188,8 +188,10 @@
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="corelib\NullTypeDefinition.hpp" />
     <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
+    <ClInclude Include="runtime\NumberOverflowException.hpp" />
     <ClInclude Include="runtime\NumberScriptParameter.hpp" />
     <ClInclude Include="corelib\NumberTypeDefinition.hpp" />
+    <ClInclude Include="runtime\NumberUnderflowException.hpp" />
     <ClInclude Include="runtime\ObjectId.hpp" />
     <ClInclude Include="runtime\ObjectStack.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />

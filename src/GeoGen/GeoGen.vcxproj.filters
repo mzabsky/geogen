@@ -189,6 +189,8 @@
     <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidEnumValueException.hpp" />
     <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\NumberOverflowException.hpp" />
+    <ClInclude Include="runtime\NumberUnderflowException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

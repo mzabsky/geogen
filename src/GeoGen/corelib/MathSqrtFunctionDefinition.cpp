@@ -23,8 +23,11 @@ ManagedObject* MathSqrtFunctionDefinition::CallNative(CodeLocation location, Vir
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
+	RuntimeMathCheckInit();
+
 	if (input < 0) throw MathDefinitionRangeException(GGE2307_OutsideSqrtFunctionDefinitionRange, location, this->GetName(), input);
 
+	RuntimeMathCheck(location);
 	
 	Number result = sqrt(input);
 
