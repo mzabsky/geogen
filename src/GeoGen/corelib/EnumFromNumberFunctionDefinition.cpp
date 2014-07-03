@@ -26,9 +26,9 @@ ManagedObject* EnumFromNumberFunctionDefinition::CallNative(CodeLocation locatio
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();	
 
-	if (!IsNumberInt(input) || !enumType->IsValueIntDefined(NumberToInt(input)))
+	if (!enumType->IsValueIntDefined(NumberToInt(input)))
 	{
-		throw InvalidEnumValueException(location, input, enumType->GetName());
+		throw InvalidEnumValueException(location, NumberToInt(input), enumType->GetName());
 	}
 
 	return enumType->CreateInstance(vm, NumberToInt(input));
