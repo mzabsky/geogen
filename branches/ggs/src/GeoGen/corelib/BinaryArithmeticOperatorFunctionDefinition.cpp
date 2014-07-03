@@ -4,6 +4,8 @@
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "DivisionByZeroException.hpp"
 #include "../InternalErrorException.hpp"
+#include "../runtime/NumberOverflowException.hpp"
+#include "../runtime/NumberUnderflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -38,8 +40,12 @@ ManagedObject* BinaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocati
 	NumberObject* a = dynamic_cast<NumberObject*>(arguments[0]);
 	NumberObject* b = dynamic_cast<NumberObject*>(arguments[1]);
 
+	RuntimeMathCheckInit();
+
 	Number result = this->function(location, a->GetValue(), b->GetValue());
-	
+
+	RuntimeMathCheck(location);
+
     ManagedObject* returnObject = numberTypeDefinition->CreateInstance(vm, result);
 	return returnObject;
 }

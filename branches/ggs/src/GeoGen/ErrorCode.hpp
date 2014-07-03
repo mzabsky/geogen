@@ -48,6 +48,7 @@ namespace geogen
 		GGE2305_OutsideTrigonometricFunctionDefinitionRange = 2305,
 		GGE2306_OutsideLogFunctionDefinitionRange = 2306,
 		GGE2307_OutsideSqrtFunctionDefinitionRange = 2307,
+		GGE2308_NumberUnderflow = 2308,
 		GGE2501_CallStackOverflow = 2501,
 		GGE2502_CodeBlockStackOverflow = 2502,
 		GGE2503_ObjectStackOverflow = 2503,

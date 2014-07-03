@@ -2,6 +2,7 @@
 
 #include <limits>
 
+#include "CodeLocation.hpp"
 #include "String.hpp"
 
 namespace geogen
@@ -20,4 +21,7 @@ namespace geogen
 
 	bool TryNumberToHeight(Number n, Height& out);
 	Height NumberToHeight(Number n);
+
+	void RuntimeMathCheckInit();
+	void RuntimeMathCheck(CodeLocation location);
 }
