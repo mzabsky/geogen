@@ -1,5 +1,6 @@
 #include "RendererObjectTable.hpp"
 #include "../InternalErrorException.hpp"
+#include "RendererObject.hpp"
 
 using namespace geogen;
 using namespace renderer;
