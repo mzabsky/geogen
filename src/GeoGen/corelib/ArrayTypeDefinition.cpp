@@ -38,44 +38,44 @@ ManagedObject* ArrayTypeDefinition::CreateInstance(VirtualMachine* vm) const
 	return object;
 }
 
-bool ArrayTypeDefinition::InstanceEqualsTo(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const
-{
-	if (a->GetType() != this)
-	{
-		throw InternalErrorException(GG_STR("Using InstanceEqualsTo on object of incorrect type."));
-	}
+//bool ArrayTypeDefinition::InstanceEqualsTo(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const
+//{
+//	if (a->GetType() != this)
+//	{
+//		throw InternalErrorException(GG_STR("Using InstanceEqualsTo on object of incorrect type."));
+//	}
+//
+//	if (b->GetType() == this)
+//	{
+//		ArrayObject const* arrayA = dynamic_cast<ArrayObject const*>(a);
+//		ArrayObject const* arrayB = dynamic_cast<ArrayObject const*>(b);
+//		
+//		if (arrayA->Count() != arrayB->Count())
+//		{
+//			return false;
+//		}
+//
+//		ArrayObject::const_iterator itB = arrayB->Begin();
+//		for (ArrayObject::const_iterator itA = arrayA->Begin(); itA != arrayA->End(); itA++)
+//		{
+//			/*if (!itA->first->GetType()->InstanceEqualsTo(itA->first, itB->first))
+//			{
+//				return false;
+//			}
+//
+//			if (!itA->second->GetType()->InstanceEqualsTo(itA->second, itB->second))
+//			{
+//				return false;
+//			}*/
+//
+//			itB++;
+//		}
+//	}
+//
+//	return TypeDefinition::InstanceLessThan(a, b);
+//}
 
-	if (b->GetType() == this)
-	{
-		ArrayObject const* arrayA = dynamic_cast<ArrayObject const*>(a);
-		ArrayObject const* arrayB = dynamic_cast<ArrayObject const*>(b);
-		
-		if (arrayA->Count() != arrayB->Count())
-		{
-			return false;
-		}
-
-		ArrayObject::const_iterator itB = arrayB->Begin();
-		for (ArrayObject::const_iterator itA = arrayA->Begin(); itA != arrayA->End(); itA++)
-		{
-			if (!itA->first->GetType()->InstanceEqualsTo(itA->first, itB->first))
-			{
-				return false;
-			}
-
-			if (!itA->second->GetType()->InstanceEqualsTo(itA->second, itB->second))
-			{
-				return false;
-			}
-
-			itB++;
-		}
-	}
-
-	return TypeDefinition::InstanceLessThan(a, b);
-}
-
-bool ArrayTypeDefinition::InstanceLessThan(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const
+/*bool ArrayTypeDefinition::InstanceLessThan(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const
 {
 	if (a->GetType() != this)
 	{
@@ -83,7 +83,7 @@ bool ArrayTypeDefinition::InstanceLessThan(runtime::ManagedObject const* a, runt
 	}
 
 	return TypeDefinition::InstanceLessThan(a, b);
-}
+}*/
 
 ManagedObject* ArrayTypeDefinition::Copy(VirtualMachine* vm, runtime::ManagedObject* a) const
 {

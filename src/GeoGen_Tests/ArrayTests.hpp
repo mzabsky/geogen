@@ -29,10 +29,11 @@ public:
 	{
 		TestScript("\n\
 			var a = Array.Empty();\n\
-			a.PushBack(1);\n\
 			a.PushBack(2);\n\
+			a.PushBack(3);\n\
+			a.PushBack(1);\n\
 			\n\
-			AssertEquals(1, a.Front());\n\
+			AssertEquals(2, a.Front());\n\
 		");
 	}
 
@@ -40,10 +41,11 @@ public:
 	{
 		TestScript("\n\
 			var a = Array.Empty();\n\
-			a.PushBack(1);\n\
 			a.PushBack(2);\n\
+			a.PushBack(3);\n\
+			a.PushBack(1);\n\
 			\n\
-			AssertEquals(2, a.Back());\n\
+			AssertEquals(1, a.Back());\n\
 		");
 	}
 
