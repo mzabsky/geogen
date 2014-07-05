@@ -191,6 +191,9 @@
     <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
     <ClInclude Include="runtime\NumberOverflowException.hpp" />
     <ClInclude Include="runtime\NumberUnderflowException.hpp" />
+    <ClInclude Include="corelib\CoordinateTypeDefinition.hpp" />
+    <ClInclude Include="corelib\CoordinateFromNumberFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -308,6 +311,9 @@
     <ClCompile Include="renderer\RenderingSequenceMetadata.cpp" />
     <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
+    <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
