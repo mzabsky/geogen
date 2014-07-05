@@ -12,6 +12,7 @@
 #include "MessageTests.hpp"
 #include "StringTests.hpp"
 #include "EnumTests.hpp"
+#include "CoordinateTests.hpp"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ int main()
 	RUN_FIXTURE(MessageTests);
 	RUN_FIXTURE(StringTests);
 	RUN_FIXTURE(EnumTests);
+	RUN_FIXTURE(CoordinateTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 

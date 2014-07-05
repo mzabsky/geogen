@@ -1,7 +1,8 @@
 #include "CoreLibrary.hpp"
-#include "../corelib/NumberTypeDefinition.hpp"
-#include "../corelib/BooleanTypeDefinition.hpp"
-#include "../corelib/NullTypeDefinition.hpp"
+#include "NumberTypeDefinition.hpp"
+#include "BooleanTypeDefinition.hpp"
+#include "NullTypeDefinition.hpp"
+#include "CoordinateTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "AssignmentOperatorFunctionDefinition.hpp"
@@ -31,6 +32,7 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new NumberTypeDefinition());
 	this->typeDefinitions.AddItem(new StringTypeDefinition());
 	this->typeDefinitions.AddItem(new ArrayTypeDefinition());
+	this->typeDefinitions.AddItem(new CoordinateTypeDefinition());
 
     // Core operators
 	this->globalFunctionDefinitions.AddItem(new AssignmentOperatorFunctionDefinition());

@@ -106,6 +106,8 @@
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\CoordinateFromNumberFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\CoordinateTypeDefinition.hpp" />
     <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
@@ -125,6 +127,7 @@
     <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
@@ -253,11 +256,14 @@
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
+    <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
     <ClInclude Include="corelib\InvalidEnumValueException.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />

@@ -46,6 +46,9 @@
     <ClInclude Include="EnumTests.hpp">
       <Filter>Fixtures</Filter>
     </ClInclude>
+    <ClInclude Include="CoordinateTests.hpp">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">
