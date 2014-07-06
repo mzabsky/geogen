@@ -3,6 +3,7 @@
 #include "BooleanTypeDefinition.hpp"
 #include "NullTypeDefinition.hpp"
 #include "CoordinateTypeDefinition.hpp"
+#include "PointTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
 #include "OrientationTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
@@ -35,6 +36,7 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new StringTypeDefinition());
 	this->typeDefinitions.AddItem(new ArrayTypeDefinition());
 	this->typeDefinitions.AddItem(new CoordinateTypeDefinition());
+	this->typeDefinitions.AddItem(new PointTypeDefinition());
 
 	// Enums
 	this->typeDefinitions.AddItem(OrientationTypeDefinition::Create());

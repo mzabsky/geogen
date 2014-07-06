@@ -26,14 +26,16 @@ bool CoordinateTypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedO
 {
 	if (a->GetType() != this)
 	{
-		throw InternalErrorException(GG_STR("Using InstanceLessThan on object of incorrect type."));
+		throw InternalErrorException(GG_STR("Using InstanceLe/*ssThan on object of incorrect type."));
 	}
 
 	if (b->GetType() == this)
 	{
-		return dynamic_cast<CoordinateObject const*>(a)->GetValue() < dynamic_cast<CoordinateObject const*>(b)->GetValue();
+		CoordinateObject const* coordA = dynamic_cast<CoordinateObject const*>(a);
+		CoordinateObject const* coordB = dynamic_cast<CoordinateObject const*>(b);
+		return coordA->GetValue() < coordB->GetValue() && coordA->IsRelative() < coordB->IsRelative();
 	}
-
+	
 	return TypeDefinition::InstanceLessThan(a, b);
 }
 

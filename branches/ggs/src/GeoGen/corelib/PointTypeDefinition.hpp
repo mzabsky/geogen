@@ -8,14 +8,14 @@ namespace geogen
 {
 	namespace corelib
 	{
-		class CoordinateObject;
+		class PointObject;
 
-		class CoordinateTypeDefinition : public runtime::TypeDefinition
+		class PointTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
-			CoordinateTypeDefinition();
+			PointTypeDefinition();
 
-			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm, Number value, bool isRelative) const;
+			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm, Number x, Number y, bool isXRelative, bool isYRelative) const;
 
 			virtual bool InstanceLessThan(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const;
 			virtual bool InstanceEqualsTo(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const;
