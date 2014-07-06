@@ -18,7 +18,7 @@ namespace geogen
 			CoordinateObject(runtime::VirtualMachine* vm, runtime::TypeDefinition const* type, Number value, bool isRelative) : ManagedObject(vm, type), value(value), isRelative(isRelative) {};
 			inline Number GetValue() const { return this->value; }
 			inline bool IsRelative() const { return this->isRelative; }
-			Coordinate GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Orientation orientation);
+			Coordinate GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Orientation orientation) const;
 
 			virtual String GetStringValue() const
 			{

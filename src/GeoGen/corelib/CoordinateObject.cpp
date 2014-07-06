@@ -11,7 +11,7 @@ using namespace corelib;
 using namespace runtime;
 using namespace std;
 
-Coordinate CoordinateObject::GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Orientation orientation)
+Coordinate CoordinateObject::GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Orientation orientation) const
 {
 	if (!this->IsRelative())
 	{
