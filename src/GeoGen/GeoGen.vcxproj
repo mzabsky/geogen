@@ -107,6 +107,8 @@
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\CoordinateFromNumberFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\CoordinateObject.hpp" />
+    <ClInclude Include="corelib\CoordinateOverflowException.hpp" />
     <ClInclude Include="corelib\CoordinateTypeDefinition.hpp" />
     <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
@@ -129,7 +131,11 @@
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\OrientationTypeDefinition.hpp" />
+    <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp" />
+    <ClInclude Include="Orientation.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
     <ClInclude Include="corelib\StringFormatException.hpp" />
     <ClInclude Include="corelib\StringTypeDefinition.hpp" />
@@ -257,6 +263,7 @@
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\CoordinateObject.cpp" />
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
@@ -265,6 +272,12 @@
     </ClInclude>
     <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\OrientationTypeDefinition.cpp" />
+    <ClInclude Include="corelib\UnknownRelativeCoordinateOrientationException.hpp">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClCompile Include="Orientation.cpp" />
+    <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />
     <ClCompile Include="Rectangle.cpp" />

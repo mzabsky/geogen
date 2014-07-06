@@ -61,7 +61,7 @@ namespace geogen
 			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.
 			/// </summary>
 			ScriptParameters(unsigned defaultMapWidth, unsigned defaultMapHeight, unsigned minMapWidth, unsigned minMapHeight, unsigned maxMapWidth, unsigned maxMapHeight) :
-				defaultMapWidth(defaultMapWidth), defaultMapHeight(defaultMapHeight), minMapWidth(minMapWidth), maxMapHeight(maxMapHeight), maxMapWidth(maxMapWidth), minMapHeight(minMapHeight) {}
+				mapWidth(defaultMapWidth), mapHeight(defaultMapHeight), defaultMapWidth(defaultMapWidth), defaultMapHeight(defaultMapHeight), minMapWidth(minMapWidth), maxMapHeight(maxMapHeight), maxMapWidth(maxMapWidth), minMapHeight(minMapHeight) {}
 
 			/// <summary>
 			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.

@@ -12,10 +12,12 @@ ScriptParameters::ScriptParameters(ScriptParameters const& other)
 	this->defaultMapWidth = other.GetDefaultMapWidth();
 	this->minMapWidth = other.GetMinMapWidth();
 	this->maxMapWidth = other.GetMaxMapWidth();
+	this->mapWidth = other.GetMapWidth();
 
 	this->defaultMapHeight = other.GetDefaultMapHeight();
 	this->minMapHeight = other.GetMinMapHeight();
 	this->maxMapHeight = other.GetMaxMapHeight();
+	this->mapHeight = other.GetMapHeight();
 
 	for (const_iterator it = other.Begin(); it != other.End(); it++)
 	{
@@ -28,10 +30,12 @@ ScriptParameters& ScriptParameters::operator=(ScriptParameters const& other)
 	this->defaultMapWidth = other.GetDefaultMapWidth();
 	this->minMapWidth = other.GetMinMapWidth();
 	this->maxMapWidth = other.GetMaxMapWidth();
+	this->mapWidth = other.GetMapWidth();
 
 	this->defaultMapHeight = other.GetDefaultMapHeight();
 	this->minMapHeight = other.GetMinMapHeight();
 	this->maxMapHeight = other.GetMaxMapHeight();
+	this->mapHeight = other.GetMapHeight();
 
 	this->table.clear();
 

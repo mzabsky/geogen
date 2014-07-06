@@ -2,6 +2,7 @@
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/StaticObject.hpp"
+#include "CoordinateObject.hpp"
 #include "CoordinateFromNumberFunctionDefinition.hpp"
 
 using namespace geogen;
@@ -14,10 +15,9 @@ CoordinateTypeDefinition::CoordinateTypeDefinition() : TypeDefinition(GG_STR("Co
 	this->GetStaticFunctionDefinitions().AddItem(new CoordinateFromNumberFunctionDefinition(this));
 }
 
-
-ManagedObject* CoordinateTypeDefinition::CreateInstance(VirtualMachine* vm, Coordinate value) const
+ManagedObject* CoordinateTypeDefinition::CreateInstance(VirtualMachine* vm, Number value, bool isRelative) const
 {
-	auto_ptr<ManagedObject> object(new CoordinateObject(vm, this, value));
+	auto_ptr<ManagedObject> object(new CoordinateObject(vm, this, value, isRelative));
 	vm->GetMemoryManager().RegisterObject(object.get());
 	return object.release();
 }
@@ -64,5 +64,5 @@ ManagedObject* CoordinateTypeDefinition::Copy(VirtualMachine* vm, ManagedObject*
 		return a;
 	}
 
-	return CreateInstance(vm, dynamic_cast<CoordinateObject const*>(a)->GetValue());
+	return CreateInstance(vm, dynamic_cast<CoordinateObject const*>(a)->GetValue(), dynamic_cast<CoordinateObject const*>(a)->IsRelative());
 }
