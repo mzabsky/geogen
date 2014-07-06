@@ -14,6 +14,14 @@ public:
 		");
 	}
 
+	static void TestCoordinateFromNumberToNumberUsingLiteral()
+	{
+		TestScript("\n\
+			AssertEquals(100, Number.FromCoordinate([100]));\n\
+		");
+	}
+
+
 	static void TestRelativeCoordinateFromNumberToNumber()
 	{
 		TestScript("\n\
@@ -44,6 +52,7 @@ public:
 	CoordinateTests() : TestFixtureBase("CoordinateTests")
 	{
 		ADD_TESTCASE(TestCoordinateFromNumberToNumber);
+		ADD_TESTCASE(TestCoordinateFromNumberToNumberUsingLiteral);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumber);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberOrientationNotSpecifiedFails);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberInInfiniteDimensionFails);
