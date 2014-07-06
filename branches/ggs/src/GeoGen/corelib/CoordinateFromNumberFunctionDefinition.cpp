@@ -22,5 +22,5 @@ ManagedObject* CoordinateFromNumberFunctionDefinition::CallNative(CodeLocation l
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
-	return coordinateType->CreateInstance(vm, NumberToInt(NumberToInt(input)));
+	return coordinateType->CreateInstance(vm, input, false);
 }

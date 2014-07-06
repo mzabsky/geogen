@@ -194,6 +194,9 @@
     <ClInclude Include="corelib\CoordinateTypeDefinition.hpp" />
     <ClInclude Include="corelib\CoordinateFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\CoordinateObject.hpp" />
+    <ClInclude Include="Orientation.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -314,6 +317,8 @@
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="Orientation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

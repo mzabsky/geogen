@@ -108,7 +108,21 @@ protected:
 	}
 #endif
 
-	static void TestScript(String script, ScriptParameters const& arguments = ScriptParameters())
+	static void TestScript(String script)
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(script);
+
+		VirtualMachine vm(*compiledScript.get(), compiledScript->CreateScriptParameters());
+
+		vm.Run();
+
+		if (vm.GetStatus() != VIRTUAL_MACHINE_STATUS_FINISHED)
+		{
+			throw exception("VM finished in incorrect status.");
+		}
+	}
+
+	static void TestScript(String script, ScriptParameters const& arguments)
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript(script);
 

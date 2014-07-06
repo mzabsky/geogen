@@ -16,7 +16,7 @@ void FunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefini
 	}	
 	else 
 	{
-		CheckArguments(location, max((unsigned)requiredArgumentCount, expectedTypes.size()), actualArguments);
+		CheckArguments(location, max((unsigned)requiredArgumentCount, min(expectedTypes.size(), actualArguments.size())), actualArguments);
 	}
 
 	for (vector<ManagedObject*>::size_type i = 0; i < actualArguments.size(); i++)

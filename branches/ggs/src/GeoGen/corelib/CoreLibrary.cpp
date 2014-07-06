@@ -4,6 +4,7 @@
 #include "NullTypeDefinition.hpp"
 #include "CoordinateTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
+#include "OrientationTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "AssignmentOperatorFunctionDefinition.hpp"
 #include "RelationalOperatorFunctionDefinition.hpp"
@@ -12,6 +13,7 @@
 #include "LogicalOperatorFunctionDefinition.hpp"
 #include "NegationOperatorFunctionDefinition.hpp"
 #include "UnaryArithmeticOperatorFunctionDefinition.hpp"
+#include "RelativeCoordinateOperatorFunctionDefinition.hpp"
 #include "StringTypeDefinition.hpp"
 #include "MathMinMaxFunctionDefinition.hpp"
 #include "MathTrigonometricFunctionDefinition.hpp"
@@ -33,6 +35,9 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new StringTypeDefinition());
 	this->typeDefinitions.AddItem(new ArrayTypeDefinition());
 	this->typeDefinitions.AddItem(new CoordinateTypeDefinition());
+
+	// Enums
+	this->typeDefinitions.AddItem(OrientationTypeDefinition::Create());
 
     // Core operators
 	this->globalFunctionDefinitions.AddItem(new AssignmentOperatorFunctionDefinition());
@@ -57,6 +62,7 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(BitLogicOperatorFunctionDefinition::Create(BitLogicOperatorFunctionDefinition::BIT_XOR));
 	this->globalFunctionDefinitions.AddItem(LogicalOperatorFunctionDefinition::Create(LogicalOperatorFunctionDefinition::LOGICAL_AND));
 	this->globalFunctionDefinitions.AddItem(LogicalOperatorFunctionDefinition::Create(LogicalOperatorFunctionDefinition::LOGICAL_OR));
+	this->globalFunctionDefinitions.AddItem(new RelativeCoordinateOperatorFunctionDefinition());
 
 	// Math functions
 	this->globalFunctionDefinitions.AddItem(MathMinMaxFunctionDefinition::Create(MathMinMaxFunctionDefinition::MIN));
