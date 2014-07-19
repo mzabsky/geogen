@@ -19,7 +19,7 @@ ManagedObject* MathSqrtFunctionDefinition::CallNative(CodeLocation location, Vir
 	vector<TypeDefinition const*> expectedParameters;
 	expectedParameters.push_back(numberTypeDefinition);
 
-	this->CheckArguments(location, expectedParameters, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameters, arguments);
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 

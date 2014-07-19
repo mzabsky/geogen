@@ -25,7 +25,7 @@ ManagedObject* RelativeCoordinateOperatorFunctionDefinition::CallNative(CodeLoca
 	{
 		expectedTypes.push_back(pointTypeDefinition);
 
-		this->CheckArguments(location, expectedTypes, arguments);
+		vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 		if (vm->GetArguments().GetMapWidth() == MAP_SIZE_INFINITE && vm->GetArguments().GetMapHeight() == MAP_SIZE_INFINITE)
 		{
@@ -46,7 +46,7 @@ ManagedObject* RelativeCoordinateOperatorFunctionDefinition::CallNative(CodeLoca
 	{
 		expectedTypes.push_back(coordinateTypeDefinition);
 
-		this->CheckArguments(location, expectedTypes, arguments);
+		vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 		CoordinateObject* input = dynamic_cast<CoordinateObject*>(arguments[0]);
 		if (input->IsRelative())

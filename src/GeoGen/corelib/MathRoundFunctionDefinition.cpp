@@ -33,7 +33,7 @@ ManagedObject* MathRoundFunctionDefinition::CallNative(CodeLocation location, ru
 	vector<TypeDefinition const*> expectedParameterTypes;
 	expectedParameterTypes.push_back(numberTypeDefinition);
 
-	this->CheckArguments(location, expectedParameterTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameterTypes, arguments);
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 

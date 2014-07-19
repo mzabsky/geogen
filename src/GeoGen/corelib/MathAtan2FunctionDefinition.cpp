@@ -19,7 +19,7 @@ ManagedObject* MathAtan2FunctionDefinition::CallNative(CodeLocation location, Vi
 	expectedParameters.push_back(numberTypeDefinition);
 	expectedParameters.push_back(numberTypeDefinition);
 
-	this->CheckArguments(location, expectedParameters, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameters, arguments);
 
 	RuntimeMathCheckInit();
 

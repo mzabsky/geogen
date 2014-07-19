@@ -204,6 +204,7 @@
     <ClInclude Include="corelib\PointObject.hpp" />
     <ClInclude Include="corelib\PointTypeDefinition.hpp" />
     <ClInclude Include="corelib\PointCreateFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\ManagedObjectHolder.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -331,6 +332,7 @@
     <ClCompile Include="corelib\PointObject.cpp" />
     <ClCompile Include="corelib\PointTypeDefinition.cpp" />
     <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
+    <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

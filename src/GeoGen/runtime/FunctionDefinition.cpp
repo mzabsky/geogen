@@ -2,12 +2,13 @@
 #include "IncorrectTypeException.hpp"
 #include "NumberOfArgumentsException.hpp"
 #include "ManagedObject.hpp"
+#include "TypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
 using namespace geogen::runtime;
 
-void FunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<ManagedObject*> actualArguments, int requiredArgumentCount) const
+vector<ManagedObjectHolder> FunctionDefinition::CheckArguments(VirtualMachine* vm, CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<ManagedObject*>& actualArguments, int requiredArgumentCount) const
 {
 	// Check argument count first
 	if (requiredArgumentCount == -1)
@@ -19,6 +20,7 @@ void FunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefini
 		CheckArguments(location, max((unsigned)requiredArgumentCount, min(expectedTypes.size(), actualArguments.size())), actualArguments);
 	}
 
+	vector<ManagedObjectHolder> holders;
 	for (vector<ManagedObject*>::size_type i = 0; i < actualArguments.size(); i++)
 	{
 		if (actualArguments[i]->IsStaticObject())
@@ -30,11 +32,21 @@ void FunctionDefinition::CheckArguments(CodeLocation location, vector<TypeDefini
 
 		if (actualArguments[i]->GetType() != expectedTypes[i])
 		{
-			ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
+			if (expectedTypes[i]->IsConvertibleFrom(vm, actualArguments[i]->GetType()))
+			{
+				actualArguments[i] = expectedTypes[i]->Convert(vm, actualArguments[i]);
+				holders.push_back(ManagedObjectHolder(vm, actualArguments[i]));
+			}
+			else 
+			{
+				ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
 
-			throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), actualArguments[i]->GetType()->GetName());
+				throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), actualArguments[i]->GetType()->GetName());
+			}
 		}
 	}
+
+	return holders;
 }
 
 void FunctionDefinition::CheckArguments(CodeLocation location, unsigned expectedArgumentCount, vector<ManagedObject*> actualArguments) const

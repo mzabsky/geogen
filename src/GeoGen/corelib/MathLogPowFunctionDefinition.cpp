@@ -30,7 +30,7 @@ ManagedObject* MathLogPowFunctionDefinition::CallNative(CodeLocation location, r
 	expectedParameterTypes.push_back(numberTypeDefinition);
 	expectedParameterTypes.push_back(numberTypeDefinition);
 
-	this->CheckArguments(location, expectedParameterTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameterTypes, arguments);
 
 	Number arg1 = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 	Number arg2 = dynamic_cast<NumberObject*>(arguments[1])->GetValue();

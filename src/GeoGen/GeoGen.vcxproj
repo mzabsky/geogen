@@ -193,6 +193,7 @@
     <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
     <ClInclude Include="runtime\IntermediateCodeException.hpp" />
     <ClInclude Include="runtime\Library.hpp" />
+    <ClInclude Include="runtime\ManagedObjectHolder.hpp" />
     <ClInclude Include="runtime\MemberNativeFunctionDefinition.hpp" />
     <ClInclude Include="runtime\MemoryManager.hpp" />
     <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp" />
@@ -296,6 +297,7 @@
     <ClCompile Include="renderer\RenderingStep.cpp" />
     <ClCompile Include="renderer\RenderingStep1D.cpp" />
     <ClCompile Include="renderer\RenderObject.cpp" />
+    <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
     <ClCompile Include="String.cpp">
       <FileType>CppHeader</FileType>
     </ClCompile>

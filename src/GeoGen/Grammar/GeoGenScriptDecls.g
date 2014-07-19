@@ -647,12 +647,13 @@ coordinateExpression returns[CodeBlock* returnCodeBlock]
 	
 	if(argumentCodeBlocks.size() == 1){
 		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, GG_STR("Coordinate")));	
+		$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("FromNumber"), argumentCodeBlocks.size()));	
 	}
 	else if(argumentCodeBlocks.size() == 2){
 		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, GG_STR("Point")));	
+		$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("Create"), argumentCodeBlocks.size()));	
 	}
 	
-	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("Create"), argumentCodeBlocks.size()));	
 };
 
 callExpression returns [CodeBlock* returnCodeBlock]

@@ -26,7 +26,7 @@ ManagedObject* LogicalOperatorFunctionDefinition::CallNative(CodeLocation locati
 	expectedTypes.push_back(booleanTypeDefinition);
 	expectedTypes.push_back(booleanTypeDefinition);
 
-	this->CheckArguments(location, expectedTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	BooleanObject* a = dynamic_cast<BooleanObject*>(arguments[0]);
 	BooleanObject* b = dynamic_cast<BooleanObject*>(arguments[1]);

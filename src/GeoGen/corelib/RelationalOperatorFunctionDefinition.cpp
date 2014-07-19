@@ -30,7 +30,7 @@ ManagedObject* RelationalOperatorFunctionDefinition::CallNative(CodeLocation loc
 	expectedTypes.push_back(numberTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
 
-	this->CheckArguments(location, expectedTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	NumberObject* a = dynamic_cast<NumberObject*>(arguments[0]);
 	NumberObject* b = dynamic_cast<NumberObject*>(arguments[1]);

@@ -4,6 +4,8 @@
 #include "../runtime/StaticObject.hpp"
 #include "CoordinateObject.hpp"
 #include "CoordinateFromNumberFunctionDefinition.hpp"
+#include "../runtime/TypeDefinition.hpp"
+#include "NumberTypeDefinition.hpp"
 
 using namespace geogen;
 using namespace corelib;
@@ -67,4 +69,26 @@ ManagedObject* CoordinateTypeDefinition::Copy(VirtualMachine* vm, ManagedObject*
 	}
 
 	return CreateInstance(vm, dynamic_cast<CoordinateObject const*>(a)->GetValue(), dynamic_cast<CoordinateObject const*>(a)->IsRelative());
+}
+
+bool CoordinateTypeDefinition::IsConvertibleFrom(VirtualMachine* vm, TypeDefinition const* anotherTypeDefinition) const
+{
+	return anotherTypeDefinition == this || anotherTypeDefinition == vm->GetNumberTypeDefinition();
+}
+
+ManagedObject* CoordinateTypeDefinition::Convert(VirtualMachine* vm, ManagedObject* object) const
+{
+	if (object->GetType() == this)
+	{
+		return object;
+	}
+	else if (object->GetType() == vm->GetNumberTypeDefinition())
+	{
+		NumberObject* numberObject = dynamic_cast<NumberObject*>(object);
+		return this->CreateInstance(vm, numberObject->GetValue(), false);
+	}
+	else 
+	{
+		throw InternalErrorException("Invalid type conversion.");
+	}
 }

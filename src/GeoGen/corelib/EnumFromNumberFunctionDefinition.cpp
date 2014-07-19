@@ -22,7 +22,7 @@ ManagedObject* EnumFromNumberFunctionDefinition::CallNative(CodeLocation locatio
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(numberTypeDefinition);
 
-	this->CheckArguments(location, expectedTypes, arguments);	
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();	
 
