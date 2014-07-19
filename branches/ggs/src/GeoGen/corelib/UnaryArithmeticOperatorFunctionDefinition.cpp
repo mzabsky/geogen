@@ -27,7 +27,7 @@ ManagedObject* UnaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocatio
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(numberTypeDefinition);
 
-	this->CheckArguments(location, expectedTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	NumberObject* a = dynamic_cast<NumberObject*>(arguments[0]);
 

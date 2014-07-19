@@ -22,7 +22,7 @@ ManagedObject* NumberFromCoordinateFunctionDefinition::CallNative(CodeLocation l
 	expectedTypes.push_back(coordinateTypeDefinition);
 	expectedTypes.push_back(orientationTypeDefinition);
 
-	this->CheckArguments(location, expectedTypes, arguments, 1);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 1);
 
 	CoordinateObject* coordinateValue = dynamic_cast<CoordinateObject*>(arguments[0]);
 

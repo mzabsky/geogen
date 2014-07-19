@@ -23,7 +23,7 @@ ManagedObject* PointCreateFunctionDefinition::CallNative(CodeLocation location, 
 	expectedTypes.push_back(coordinateTypeDefinition);	
 	expectedTypes.push_back(coordinateTypeDefinition);
 
-	this->CheckArguments(location, expectedTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	CoordinateObject* coordX = dynamic_cast<CoordinateObject*>(arguments[0]);
 	CoordinateObject* coordY = dynamic_cast<CoordinateObject*>(arguments[1]);

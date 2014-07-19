@@ -61,7 +61,7 @@ ManagedObject* MathMinMaxFunctionDefinition::CallNative(CodeLocation location, r
 		expectedParameterTypes.push_back(numberTypeDefinition);
 	}
 
-	this->CheckArguments(location, expectedParameterTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameterTypes, arguments);
 
 	Number result;
 	switch (this->function)

@@ -144,6 +144,13 @@ public:
 		");
 	}
 
+	static void TestConversionFromNumber()
+	{
+		TestScript("\n\
+			AssertEquals(100, Number.FromCoordinate(100));\n\
+		");
+	}
+
 	CoordinateTests() : TestFixtureBase("CoordinateTests")
 	{
 		/*ADD_TESTCASE(TestCoordinateFromNumberToNumber);
@@ -152,7 +159,7 @@ public:
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberOrientationNotSpecifiedFails);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberInInfiniteDimensionFails);*/
 
-		ADD_TESTCASE(TestPointCreate);
+		/*ADD_TESTCASE(TestPointCreate);
 		ADD_TESTCASE(TestPointCreateUsingLiteral);
 		ADD_TESTCASE(TestBothRelativePointCreate);
 		ADD_TESTCASE(TestXRelativePointCreate);
@@ -161,6 +168,7 @@ public:
 		ADD_TESTCASE(TestYRelativePointCreateOrientationNotSpecifiedFails);
 		ADD_TESTCASE(TestRelativePointCreateInBothInfiniteDimensionsFails);
 		ADD_TESTCASE(TestRelativePointCreateInXInfiniteDimensionFails);
-		ADD_TESTCASE(TestRelativePointCreateInYInfiniteDimensionFails);
+		ADD_TESTCASE(TestRelativePointCreateInYInfiniteDimensionFails);*/
+		ADD_TESTCASE(TestConversionFromNumber);
 	}
 };

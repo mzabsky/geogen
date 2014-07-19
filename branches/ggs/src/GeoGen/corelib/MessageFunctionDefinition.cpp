@@ -38,7 +38,7 @@ ManagedObject* MessageFunctionDefinition::CallNative(CodeLocation location, runt
 		}
 	}
 
-	this->CheckArguments(location, expectedParameterTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameterTypes, arguments);
 
 	String formatStr = dynamic_cast<StringObject*>(arguments[0])->GetValue();
 	vector<String> strArgs;

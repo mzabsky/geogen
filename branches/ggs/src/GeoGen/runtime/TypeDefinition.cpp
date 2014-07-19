@@ -33,18 +33,19 @@ bool TypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObject cons
 	return a == b;
 }
 
-bool TypeDefinition::IsConvertibleTo(TypeDefinition* anotherTypeDefinition)
+bool TypeDefinition::IsConvertibleFrom(VirtualMachine* vm, TypeDefinition const* anotherTypeDefinition) const
 {
 	return this == anotherTypeDefinition;
 }
 
-ManagedObject* TypeDefinition::ConvertTo(ManagedObject* object, TypeDefinition* anotherTypeDefinition)
+ManagedObject* TypeDefinition::Convert(VirtualMachine* vm, ManagedObject* object) const
 {
-	if (this == anotherTypeDefinition)
+	if (this == object->GetType())
 	{
 		return object;
 	}
-	else {
+	else 
+	{
 		throw InternalErrorException("Invalid type conversion.");
 	}
 }
