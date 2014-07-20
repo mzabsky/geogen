@@ -153,13 +153,13 @@ public:
 
 	CoordinateTests() : TestFixtureBase("CoordinateTests")
 	{
-		/*ADD_TESTCASE(TestCoordinateFromNumberToNumber);
+		ADD_TESTCASE(TestCoordinateFromNumberToNumber);
 		ADD_TESTCASE(TestCoordinateFromNumberToNumberUsingLiteral);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumber);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberOrientationNotSpecifiedFails);
-		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberInInfiniteDimensionFails);*/
+		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberInInfiniteDimensionFails);
 
-		/*ADD_TESTCASE(TestPointCreate);
+		ADD_TESTCASE(TestPointCreate);
 		ADD_TESTCASE(TestPointCreateUsingLiteral);
 		ADD_TESTCASE(TestBothRelativePointCreate);
 		ADD_TESTCASE(TestXRelativePointCreate);
@@ -168,7 +168,7 @@ public:
 		ADD_TESTCASE(TestYRelativePointCreateOrientationNotSpecifiedFails);
 		ADD_TESTCASE(TestRelativePointCreateInBothInfiniteDimensionsFails);
 		ADD_TESTCASE(TestRelativePointCreateInXInfiniteDimensionFails);
-		ADD_TESTCASE(TestRelativePointCreateInYInfiniteDimensionFails);*/
+		ADD_TESTCASE(TestRelativePointCreateInYInfiniteDimensionFails);
 		ADD_TESTCASE(TestConversionFromNumber);
 	}
 };
