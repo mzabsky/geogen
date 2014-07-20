@@ -31,9 +31,9 @@ namespace geogen
 			inline iterator Begin() { return this->table.begin(); }
 			inline iterator End() { return this->table.end(); }
 
-			inline RendererObject* GetObject(unsigned slot);
-			inline void SetObject(unsigned slot, RendererObject* object);
-			inline void ReleaseObject(unsigned slot);
+			RendererObject* GetObject(unsigned slot);
+			void SetObject(unsigned slot, RendererObject* object);
+			void ReleaseObject(unsigned slot);
 		};
 	}
 }

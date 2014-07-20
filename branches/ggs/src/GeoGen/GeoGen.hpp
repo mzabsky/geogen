@@ -63,7 +63,6 @@
 #include "runtime/instructions/StoreMemberValueInstruction.hpp"
 #include "runtime/instructions/StoreGlobalValueInstruction.hpp"
 #include "runtime/instructions/WhileInstruction.hpp"
-#include "runtime/instructions/YieldAsMainInstruction.hpp"
 #include "runtime/instructions/YieldAsNamedInstruction.hpp"
 
 #include "corelib/EnumTypeDefinition.hpp"

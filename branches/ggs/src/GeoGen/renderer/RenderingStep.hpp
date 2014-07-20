@@ -29,7 +29,7 @@ namespace geogen
 			RenderingStep(RenderingStep const&) : location(0, 0) {};
 			RenderingStep& operator=(RenderingStep const&) {};
 		protected:
-			void TriggerRenderingBoundsCalculationError(String message) const;
+			void TriggerRenderingBoundsCalculationError(String message) const;			
 		public:
 			RenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot) : location(location), argumentSlots(argumentSlots), returnSlot(returnSlot) {}
 
@@ -47,7 +47,7 @@ namespace geogen
 			/// Updates the rendering bounds based on the bounds of its arguments.
 			/// @param renderer			 The renderer.
 			/// @param referencingBounds The referencing bounds.
-			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) = 0;
+			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const = 0;
 		};
 	}
 }

@@ -6,10 +6,10 @@ namespace geogen
 {
 	namespace corelib
 	{
-		class HeightProfileTypeDefinition : public RendererTypeDefinition
+		class HeightMapTypeDefinition : public RendererTypeDefinition
 		{
 		public:
-			HeightProfileTypeDefinition();
+			HeightMapTypeDefinition();
 		};
 	}
 }

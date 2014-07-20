@@ -44,7 +44,6 @@
     <ClInclude Include="runtime\instructions\PopInstruction.hpp" />
     <ClInclude Include="runtime\instructions\StoreMemberValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\WhileInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\YieldAsMainInstruction.hpp" />
     <ClInclude Include="runtime\instructions\YieldAsNamedInstruction.hpp" />
     <ClInclude Include="runtime\instructions\LoadMemberValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\LoadNullInstruction.hpp" />
@@ -205,6 +204,12 @@
     <ClInclude Include="corelib\PointTypeDefinition.hpp" />
     <ClInclude Include="corelib\PointCreateFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ManagedObjectHolder.hpp" />
+    <ClInclude Include="renderer\RenderingGraph.hpp" />
+    <ClInclude Include="renderer\RenderingGraphNode.hpp" />
+    <ClInclude Include="corelib\YieldRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapTypeDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -250,7 +255,6 @@
     <ClCompile Include="runtime\instructions\StoreMemberValueInstruction.cpp" />
     <ClCompile Include="runtime\instructions\LoadNullInstruction.cpp" />
     <ClCompile Include="runtime\instructions\PopInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\YieldAsMainInstruction.cpp" />
     <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
     <ClCompile Include="runtime\instructions\LoadScopeValueInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp" />
@@ -333,6 +337,14 @@
     <ClCompile Include="corelib\PointTypeDefinition.cpp" />
     <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
     <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
+    <ClCompile Include="renderer\RenderingGraph.cpp" />
+    <ClCompile Include="corelib\YieldRenderingStep.cpp" />
+    <ClCompile Include="renderer\RenderingStep2D.cpp" />
+    <ClCompile Include="genlib\HeightMap.cpp" />
+    <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

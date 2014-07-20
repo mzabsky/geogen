@@ -113,6 +113,9 @@
     <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
+    <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapTypeDefinition.hpp" />
     <ClInclude Include="corelib\HeightOverflowException.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp" />
@@ -136,6 +139,7 @@
     <ClInclude Include="corelib\PointObject.hpp" />
     <ClInclude Include="corelib\PointTypeDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp" />
+    <ClInclude Include="corelib\YieldRenderingStep.hpp" />
     <ClInclude Include="Orientation.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp" />
@@ -167,6 +171,8 @@
     <ClInclude Include="renderer\RenderingBounds.hpp" />
     <ClInclude Include="renderer\RenderingBounds1D.hpp" />
     <ClInclude Include="renderer\RenderingBounds2D.hpp" />
+    <ClInclude Include="renderer\RenderingGraph.hpp" />
+    <ClInclude Include="renderer\RenderingGraphNode.hpp" />
     <ClInclude Include="renderer\RenderingSequence.hpp" />
     <ClInclude Include="renderer\RendererObjectSlotTable.hpp" />
     <ClInclude Include="renderer\RenderingSequenceMetadata.hpp" />
@@ -225,7 +231,6 @@
     <ClInclude Include="runtime\instructions\StoreScopeValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\StoreMemberValueInstruction.hpp" />
     <ClInclude Include="runtime\instructions\WhileInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\YieldAsMainInstruction.hpp" />
     <ClInclude Include="runtime\instructions\YieldAsNamedInstruction.hpp" />
     <ClInclude Include="runtime\MetadataBoolean.hpp" />
     <ClInclude Include="runtime\MetadataIdentifier.hpp" />
@@ -269,11 +274,15 @@
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateObject.cpp" />
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
     <ClInclude Include="corelib\InvalidEnumValueException.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
     <ClCompile Include="corelib\OrientationTypeDefinition.cpp" />
@@ -283,6 +292,7 @@
     <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\PointObject.cpp" />
     <ClCompile Include="corelib\PointTypeDefinition.cpp" />
+    <ClCompile Include="genlib\HeightMap.cpp" />
     <ClCompile Include="Orientation.cpp" />
     <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
@@ -292,11 +302,14 @@
     <ClCompile Include="renderer\Renderer.cpp" />
     <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />
     <ClCompile Include="renderer\RendererObjectTable.cpp" />
+    <ClCompile Include="renderer\RenderingGraph.cpp" />
     <ClCompile Include="renderer\RenderingSequence.cpp" />
     <ClCompile Include="renderer\RenderingSequenceMetadata.cpp" />
     <ClCompile Include="renderer\RenderingStep.cpp" />
     <ClCompile Include="renderer\RenderingStep1D.cpp" />
+    <ClCompile Include="renderer\RenderingStep2D.cpp" />
     <ClCompile Include="renderer\RenderObject.cpp" />
+    <ClCompile Include="corelib\YieldRenderingStep.cpp" />
     <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
     <ClCompile Include="String.cpp">
       <FileType>CppHeader</FileType>
@@ -387,7 +400,6 @@
     <ClCompile Include="runtime\instructions\PopInstruction.cpp" />
     <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\YieldAsMainInstruction.cpp" />
     <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
     <ClCompile Include="runtime\MemoryManager.cpp" />
     <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp" />

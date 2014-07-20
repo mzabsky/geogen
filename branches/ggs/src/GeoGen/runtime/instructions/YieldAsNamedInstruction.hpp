@@ -13,6 +13,8 @@ namespace geogen
 			private:
 				String functionName;
 			public:				
+				static const String MAP_NAME_MAIN;
+
 				YieldAsNamedInstruction(CodeLocation location, String const& mapName) : Instruction(location)
 				{
 					this->functionName = mapName;

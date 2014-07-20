@@ -14,7 +14,7 @@ RenderingSequenceMetadata::RenderingSequenceMetadata(RenderingSequence const& re
 	for (RenderingSequence::const_iterator it = renderingSequence.Begin(); it != renderingSequence.End(); it++)
 	{
 		this->stepNumbers.insert(pair<RenderingStep const*, unsigned>(*it, stepNumber));
-		
+
 		switch ((*it)->GetRenderingStepType())
 		{
 		case RENDERING_STEP_TYPE_1D:

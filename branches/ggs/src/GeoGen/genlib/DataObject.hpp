@@ -9,7 +9,7 @@ namespace geogen
 		class DataObject
 		{
 		public:
-			virtual ~DataObject() = 0;
+			virtual ~DataObject() = 0 {};
 		};
 	}
 }

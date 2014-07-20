@@ -25,6 +25,8 @@ namespace geogen
 			/// <param name="vm"> The virtual machine. </param>
 			/// <returns> New instance of this type. This instance will be already registered with the <see cref="MemoryManager"/>.</returns>
 			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm) const;
+
+			virtual runtime::ManagedObject* Copy(runtime::VirtualMachine* vm, runtime::ManagedObject* a) const;
 		};
 	}
 }
