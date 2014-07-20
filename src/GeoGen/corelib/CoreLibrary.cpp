@@ -23,6 +23,8 @@
 #include "MathSqrtFunctionDefinition.hpp"
 #include "MathRoundFunctionDefinition.hpp"
 #include "MessageFunctionDefinition.hpp"
+#include "HeightMapTypeDefinition.hpp"
+#include "HeightProfileTypeDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -89,4 +91,8 @@ CoreLibrary::CoreLibrary()
 	// Text reporting
 	this->globalFunctionDefinitions.AddItem(MessageFunctionDefinition::Create(MessageFunctionDefinition::PRINT));
 	this->globalFunctionDefinitions.AddItem(MessageFunctionDefinition::Create(MessageFunctionDefinition::TRIGGER_ERROR));
+
+	// Generator types
+	this->typeDefinitions.AddItem(new HeightProfileTypeDefinition());
+	this->typeDefinitions.AddItem(new HeightMapTypeDefinition());
 }

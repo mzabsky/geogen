@@ -7,11 +7,11 @@ namespace geogen
 {
 	namespace corelib
 	{
-		/// <summary> Function definition for HeightProfile.Flat. </summary>
-		class HeightProfileFlatFunctionDefinition : public runtime::MemberNativeFunctionDefinition
+		/// <summary> Function definition for HeightMap.Flat. </summary>
+		class HeightMapFlatFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:
-			HeightProfileFlatFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Flat"), type) {};
+			HeightMapFlatFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Flat"), type) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* type, std::vector<runtime::ManagedObject*> arguments) const;
 

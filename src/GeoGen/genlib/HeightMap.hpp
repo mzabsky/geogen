@@ -1,6 +1,7 @@
  #pragma once
 
 #include "../Number.hpp"
+#include "../Rectangle.hpp"
 #include "DataObject.hpp"
 
 namespace geogen
@@ -10,10 +11,11 @@ namespace geogen
 		class HeightMap : public DataObject
 		{
 		private:
-			int width, height;
+			Rectangle rectangle;
 			Height* heightData;
 		public:
-			HeightMap(int width, int height);
+			HeightMap(Rectangle rectangle);
+			~HeightMap();
 			void Add(Height height);
 		};
 	}	

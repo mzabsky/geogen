@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Size.hpp"
+#include "../Rectangle.hpp"
 #include "RenderingStep.hpp"
 
 namespace geogen
@@ -8,18 +8,19 @@ namespace geogen
 	namespace renderer
 	{
 		class Renderer;
+		class RenderingBounds;
 
 		class RenderingStep2D : public RenderingStep
 		{
-		private:
-			Point renderOrigin;
-			Size2D renderSize;
+		protected:
+			void SetRenderingBounds(Renderer* renderer, Rectangle rectangle) const;
 		public:
-			RenderingStep2D(CodeLocation location) : RenderingStep(location) {}
+			RenderingStep2D(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot) : RenderingStep(location, argumentSlots, returnSlot)
+			{}
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
 
-			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds);
+			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const;
 		};
 	}
 }

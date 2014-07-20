@@ -6,6 +6,7 @@
 #include "RenderingSequence.hpp"
 #include "RendererObjectTable.hpp"
 #include "RenderingSequenceMetadata.hpp"
+#include "RenderingGraph.hpp"
 
 namespace geogen
 {
@@ -35,19 +36,20 @@ namespace geogen
 		class Renderer
 		{
 		private:
-			RenderingSequence& renderingSequence;
+			RenderingSequence const& renderingSequence;
 			RendererObjectTable objectTable;
 			RendererStatus status;
 			RenderingSequenceMetadata renderingSequenceMetadata;
+			RenderingGraph graph;
 
 			// Non-copyable
-			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0), renderingSequenceMetadata(*(RenderingSequence*)NULL) {};
+			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0), renderingSequenceMetadata(*(RenderingSequence*)NULL), graph(*(RenderingSequence*)NULL) {};
 			Renderer& operator=(Renderer const&) {};
 		public:
 
 			/// <summary> Initializes a new instance of the Renderer class. </summary>
 			/// <param name="renderingSequence"> The rendering sequence to be rendered with this instance. The rendering sequence must exist for whole life of the renderer. </param>
-			Renderer(RenderingSequence& renderingSequence);
+			Renderer(RenderingSequence const& renderingSequence);
 
 			/// <summary> Gets the status of the Renderer. </summary>
 			/// <returns> The status. </returns>
@@ -55,7 +57,7 @@ namespace geogen
 
 			/// <summary> Gets the rendering sequence. </summary>
 			/// <returns> The rendering sequence. </returns>
-			inline RenderingSequence& GetRenderingSequence() { return this->renderingSequence; }
+			inline RenderingSequence const& GetRenderingSequence() { return this->renderingSequence; }
 
 			/// <summary> Gets the rendering sequence. </summary>
 			/// <returns> The rendering sequence. </returns>

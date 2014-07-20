@@ -15,3 +15,8 @@ ManagedObject* RendererTypeDefinition::CreateInstance(VirtualMachine* vm) const
 	vm->GetMemoryManager().RegisterObject(object.get());
 	return object.release();
 }
+
+runtime::ManagedObject* RendererTypeDefinition::Copy(runtime::VirtualMachine* vm, runtime::ManagedObject* a) const
+{
+	return a;
+}

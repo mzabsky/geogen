@@ -16,7 +16,7 @@ namespace geogen
 			RenderingBounds2D(Rectangle rectangle) : rectangle(rectangle) {}
 
 			inline Rectangle GetRectangle() const { return this->rectangle; }
-			inline void GetRectangle(Rectangle rectangle) { this->rectangle = rectangle; }
+			inline void SetRectangle(Rectangle rectangle) { this->rectangle = rectangle; }
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_2D; };
 		};
