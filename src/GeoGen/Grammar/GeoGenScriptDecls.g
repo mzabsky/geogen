@@ -384,8 +384,11 @@ yieldStatement returns [CodeBlock* returnCodeBlock]
 { 
 	CodeLocation location($YIELD.line, $YIELD.pos);
 	
+	$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
+	delete $expression.returnCodeBlock; 
+	
 	if($STRING == NULL){
-		$returnCodeBlock->AddInstruction(new instructions::YieldAsMainInstruction(location));
+		$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction(location, renderer::Renderer::MAP_NAME_MAIN));
 	}
 	else 
 	{

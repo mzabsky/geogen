@@ -37,7 +37,7 @@ namespace geogen
 			virtual String GetName() const = 0;
 
 			inline CodeLocation GetLocation() const { return this->location; }
-			inline const std::vector<unsigned> GetArgumentSlots() const { return this->argumentSlots; };
+			inline std::vector<unsigned> const& GetArgumentSlots() const { return this->argumentSlots; };
 			inline unsigned GetReturnSlot() const { return this->returnSlot; }
 
 			/// Executes this step.

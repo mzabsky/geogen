@@ -1,12 +1,12 @@
 #pragma once
 
-#include <limits>
+#include <climits>
 
 namespace geogen {
 	typedef int Coordinate;
 
-	const Coordinate COORDINATE_MAX = std::numeric_limits<Coordinate>::max();
-	const Coordinate COORDINATE_MIN = std::numeric_limits<Coordinate>::min();
+	const Coordinate COORDINATE_MAX = INT_MAX;
+	const Coordinate COORDINATE_MIN = INT_MIN;
 
 	class Point{
 	private:

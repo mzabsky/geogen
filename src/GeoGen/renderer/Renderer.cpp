@@ -6,9 +6,31 @@ using namespace std;
 using namespace geogen;
 using namespace renderer;
 
+const String Renderer::MAP_NAME_MAIN = GG_STR("main");
+
 Renderer::Renderer(RenderingSequence const& renderingSequence)
-: renderingSequence(renderingSequence), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY), renderingSequenceMetadata(renderingSequence), graph(renderingSequence)
+: renderingSequence(renderingSequence), nextStep(renderingSequence.Begin()), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY), renderingSequenceMetadata(renderingSequence), graph(renderingSequence)
 {
+}
+
+RendererStepResult Renderer::Step()
+{
+	if (this->nextStep == this->renderingSequence.End())
+	{
+		this->status = RENDERER_STATUS_FINISHED;
+		return RENDERER_STEP_RESULT_FINISHED;
+	}
+
+	(*this->nextStep)->Step(this);
+	this->nextStep++;
+
+	if (this->nextStep == this->renderingSequence.End())
+	{
+		this->status = RENDERER_STATUS_FINISHED;
+		return RENDERER_STEP_RESULT_FINISHED;
+	}
+
+	return RENDERER_STEP_RESULT_RUNNING;
 }
 
 void Renderer::Run()

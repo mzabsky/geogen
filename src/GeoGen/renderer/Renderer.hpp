@@ -7,6 +7,7 @@
 #include "RendererObjectTable.hpp"
 #include "RenderingSequenceMetadata.hpp"
 #include "RenderingGraph.hpp"
+#include "RenderedMapTable.hpp"
 
 namespace geogen
 {
@@ -37,15 +38,20 @@ namespace geogen
 		{
 		private:
 			RenderingSequence const& renderingSequence;
+			RenderingSequence::const_iterator nextStep;
+
 			RendererObjectTable objectTable;
 			RendererStatus status;
 			RenderingSequenceMetadata renderingSequenceMetadata;
 			RenderingGraph graph;
+			RenderedMapTable renderedMapTable;
+
 
 			// Non-copyable
 			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0), renderingSequenceMetadata(*(RenderingSequence*)NULL), graph(*(RenderingSequence*)NULL) {};
 			Renderer& operator=(Renderer const&) {};
 		public:
+			static const String MAP_NAME_MAIN;
 
 			/// <summary> Initializes a new instance of the Renderer class. </summary>
 			/// <param name="renderingSequence"> The rendering sequence to be rendered with this instance. The rendering sequence must exist for whole life of the renderer. </param>
@@ -58,6 +64,8 @@ namespace geogen
 			/// <summary> Gets the rendering sequence. </summary>
 			/// <returns> The rendering sequence. </returns>
 			inline RenderingSequence const& GetRenderingSequence() { return this->renderingSequence; }
+
+			inline RenderingStep const* GetNextRenderingStep() const { return this->nextStep == this->renderingSequence.End() ? NULL : *this->nextStep; }
 
 			/// <summary> Gets the rendering sequence. </summary>
 			/// <returns> The rendering sequence. </returns>
@@ -74,6 +82,9 @@ namespace geogen
 			/// <summary> Gets the object table. </summary>
 			/// <returns> The object table. </returns>
 			inline RendererObjectTable const& GetObjectTable() const { return this->objectTable; }
+
+			inline RenderedMapTable const& GetRenderedMapTable() const { return this->renderedMapTable; }
+			inline RenderedMapTable& GetRenderedMapTable() { return this->renderedMapTable; }
 
 			void CalculateRenderingBounds();
 

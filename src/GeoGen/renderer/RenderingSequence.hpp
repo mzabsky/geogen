@@ -26,7 +26,7 @@ namespace geogen
 
 			const unsigned SLOT_NUMBER_NONE = -1;
 
-			RenderingSequence(double renderScale) : renderScale(renderScale) {};
+			RenderingSequence(double renderScale) : renderScale(renderScale), objectTableSize(0){};
 			~RenderingSequence();
 
 			inline double GetRenderScale() const { return this->renderScale; }

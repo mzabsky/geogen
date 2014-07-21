@@ -16,6 +16,12 @@ namespace geogen
 		public:
 			HeightMap(Rectangle rectangle);
 			~HeightMap();
+			HeightMap(HeightMap const& other);
+			HeightMap& operator=(HeightMap& other);
+
+			inline Rectangle GetRectangle() const { return this->rectangle; }
+			inline Height* GetHeightDataPtr() { return this->heightData; }
+
 			void Add(Height height);
 		};
 	}	
