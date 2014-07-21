@@ -13,6 +13,8 @@ using namespace compiler;
 using namespace runtime;
 using namespace corelib;
 using namespace testlib;
+using namespace genlib;
+using namespace renderer;
 
 /*
 #ifdef GEOGEN_WCHAR

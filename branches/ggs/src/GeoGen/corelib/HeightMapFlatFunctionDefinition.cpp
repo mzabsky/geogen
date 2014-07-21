@@ -12,7 +12,7 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::renderer;
 
-ManagedObject* HeightMapFlatFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* type, vector<ManagedObject*> arguments) const
+ManagedObject* HeightMapFlatFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
@@ -28,7 +28,7 @@ ManagedObject* HeightMapFlatFunctionDefinition::CallNative(CodeLocation location
 		throw HeightOverflowException(location);
 	}
 
-	ManagedObject* returnObject = dynamic_cast<HeightMapTypeDefinition const*>(type)->CreateInstance(vm);
+	ManagedObject* returnObject = dynamic_cast<HeightMapTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
 
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);

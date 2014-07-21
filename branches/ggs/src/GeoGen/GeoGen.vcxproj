@@ -165,6 +165,8 @@
     <ClInclude Include="Point.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="Interval.hpp" />
+    <ClInclude Include="renderer\RenderedMap.hpp" />
+    <ClInclude Include="renderer\RenderedMapTable.hpp" />
     <ClInclude Include="renderer\Renderer.hpp" />
     <ClInclude Include="renderer\RendererObject.hpp" />
     <ClInclude Include="renderer\RendererObjectTable.hpp" />
@@ -299,6 +301,7 @@
     <ClCompile Include="genlib\HeightProfile.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Interval.cpp" />
+    <ClCompile Include="renderer\RenderedMapTable.cpp" />
     <ClCompile Include="renderer\Renderer.cpp" />
     <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />
     <ClCompile Include="renderer\RendererObjectTable.cpp" />

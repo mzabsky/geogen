@@ -15,12 +15,15 @@ RenderingSequenceMetadata::RenderingSequenceMetadata(RenderingSequence const& re
 	{
 		this->stepNumbers.insert(pair<RenderingStep const*, unsigned>(*it, stepNumber));
 
-		switch ((*it)->GetRenderingStepType())
+		RenderingStepType stepType = (*it)->GetRenderingStepType();
+		switch (stepType)
 		{
 		case RENDERING_STEP_TYPE_1D:
 			this->renderingBounds.push_back(new RenderingBounds1D(Interval()));
+			break;
 		case RENDERING_STEP_TYPE_2D:
 			this->renderingBounds.push_back(new RenderingBounds2D(Rectangle()));
+			break;
 		default:
 			throw InternalErrorException("Invalid rendering step type.");
 		}

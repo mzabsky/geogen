@@ -18,7 +18,7 @@ namespace geogen
 			RenderingStep2D(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot) : RenderingStep(location, argumentSlots, returnSlot)
 			{}
 
-			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
+			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_2D; };
 
 			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const;
 		};

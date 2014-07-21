@@ -15,7 +15,13 @@ namespace geogen
 			Height* heightData;
 		public:
 			HeightProfile(Interval interval);
+			HeightProfile(HeightProfile const& other);
+			HeightProfile& operator=(HeightProfile& other);
 			~HeightProfile();
+
+			inline Interval GetInterval() const { return this->interval; }
+			inline Height* GetHeightDataPtr() { return this->heightData; }
+
 			void Add(Height height);
 		};
 	}
