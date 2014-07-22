@@ -59,6 +59,8 @@ public:
 
 		ASSERT_EQUALS(bool, true, renderer.GetRenderedMapTable().ContainsItem(Renderer::MAP_NAME_MAIN));
 		ASSERT_EQUALS(Height, 19659, (*renderer.GetRenderedMapTable().GetItem(Renderer::MAP_NAME_MAIN))(4, 4));
+
+		SaveRenders("TestAddTwoMaps", renderer.GetRenderedMapTable());
 	}
 
 	RendererTests() : TestFixtureBase("RendererTests")
