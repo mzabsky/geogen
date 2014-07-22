@@ -34,6 +34,7 @@ namespace geogen
 
 			void Add(Height height);
 			void AddMap(HeightMap* addend);
+			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
 		};
 	}	
 }

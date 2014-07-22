@@ -2,6 +2,7 @@
 #include "../runtime/ManagedObject.hpp"
 #include "HeightMapFlatFunctionDefinition.hpp"
 #include "HeightMapAddFunctionDefinition.hpp"
+#include "HeightMapRadialGradientFunctionDefinition.hpp"
 
 using namespace geogen;
 using namespace corelib;
@@ -12,4 +13,5 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 {
 	this->GetFunctionDefinitions().AddItem(new HeightMapFlatFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapAddFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapRadialGradientFunctionDefinition(this));
 }
