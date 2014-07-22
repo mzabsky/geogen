@@ -13,7 +13,7 @@ namespace geogen
 		{
 		public:
 			typedef std::map<String, genlib::HeightMap*>::iterator iterator;
-			typedef std::map<String, genlib::HeightMap*>::const_iterator const_iterator;
+			typedef std::map<String, genlib::HeightMap const*>::const_iterator const_iterator;
 
 			/// Removes an entry with given name from the table.
 			/// @param name The name.

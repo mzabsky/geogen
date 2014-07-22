@@ -7,6 +7,8 @@
 #include "NoExceptionException.hpp"
 #include "..\GeoGen\testlib\AssertionFailedException.hpp"
 
+#include "../png++/png.hpp"
+
 using namespace std;
 using namespace geogen;
 using namespace compiler;
@@ -90,6 +92,25 @@ public:
 			Cout << "Test case " << name << "::" << it->first << " passed." << endl;
 
 			numberOfPassed++;
+		}
+	}
+
+	static void SaveRenders(String testName, RenderedMapTable const& renderedMapTable)
+	{
+		for (RenderedMapTable::const_iterator it = renderedMapTable.Begin(); it != renderedMapTable.End(); it++)
+		{
+			png::image< png::ga_pixel_16 > image(it->second->GetRectangle().GetSize().GetWidth(), it->second->GetRectangle().GetSize().GetHeight());
+			for (size_t y = 0; y < image.get_height(); ++y)
+			{
+				for (size_t x = 0; x < image.get_width(); ++x)
+				{
+					image[y][x] = png::ga_pixel_16((*it->second)(x, y));
+				}
+			}
+
+			stringstream ss;
+			ss << StringToAscii(testName) << "_" << StringToAscii(it->first) << ".png";
+			image.write(ss.str());
 		}
 	}
 
