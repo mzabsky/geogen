@@ -113,6 +113,8 @@
     <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
+    <ClInclude Include="corelib\HeightMapAddFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapTypeDefinition.hpp" />
@@ -276,6 +278,8 @@
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateObject.cpp" />
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapAddFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />

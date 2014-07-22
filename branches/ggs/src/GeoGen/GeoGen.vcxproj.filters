@@ -212,6 +212,8 @@
     <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
     <ClInclude Include="renderer\RenderedMap.hpp" />
     <ClInclude Include="renderer\RenderedMapTable.hpp" />
+    <ClInclude Include="corelib\HeightMapAddFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -348,6 +350,8 @@
     <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />
     <ClCompile Include="renderer\RenderedMapTable.cpp" />
+    <ClCompile Include="corelib\HeightMapAddFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
