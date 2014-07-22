@@ -58,3 +58,20 @@ void HeightMap::AddMap(HeightMap* addend)
 		(*this)(x, y) += (*addend)(x, y);
 	}
 }
+
+void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
+{
+	FOR_EACH_IN_RECT(x, y, this->rectangle)
+	{
+		long distance = point.GetDistanceTo(this->rectangle.GetPosition() + Point(x, y));
+
+		if (distance > radius)
+		{
+			(*this)(x, y) = toHeight;
+		}
+		else
+		{
+			(*this)(x, y) = fromHeight + (Height)(((long)toHeight - (long)fromHeight) * (long)distance / (long)radius);
+		}
+	}
+}

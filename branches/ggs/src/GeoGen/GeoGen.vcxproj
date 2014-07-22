@@ -117,6 +117,8 @@
     <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapRadialGradientRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapTypeDefinition.hpp" />
     <ClInclude Include="corelib\HeightOverflowException.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
@@ -282,6 +284,8 @@
     <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapRadialGradientRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />

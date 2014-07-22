@@ -104,12 +104,12 @@ public:
 			{
 				for (size_t x = 0; x < image.get_width(); ++x)
 				{
-					image[y][x] = png::ga_pixel_16((*it->second)(x, y));
+					image[y][x] = png::ga_pixel_16((unsigned short)((long)-HEIGHT_MIN + (long)(*it->second)(x, y)));
 				}
 			}
 
 			stringstream ss;
-			ss << StringToAscii(testName) << "_" << StringToAscii(it->first) << ".png";
+			ss << StringToAscii(testName) << "_" << StringToAscii(it->first) << "_" << it->second->GetRectangle().GetPosition().GetX() << "_" << it->second->GetRectangle().GetPosition().GetY() << ".png";
 			image.write(ss.str());
 		}
 	}

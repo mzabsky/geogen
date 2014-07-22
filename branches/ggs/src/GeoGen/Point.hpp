@@ -1,6 +1,7 @@
 #pragma once
 
 #include <climits>
+#include <math.h>
 
 #include "Size.hpp"
 
@@ -63,5 +64,10 @@ namespace geogen {
 
 		inline Coordinate GetX() const { return this->x; }
 		inline Coordinate GetY() const { return this->y; }
+
+		inline unsigned long GetDistanceTo(Point destination) const
+		{
+			return (unsigned long)sqrt((double)(((long)destination.x - (long)this->x) * ((long)destination.x - (long)this->x) + ((long)destination.y - (long)this->y) * ((long)destination.y - (long)this->y)));
+		}
 	};
 }
