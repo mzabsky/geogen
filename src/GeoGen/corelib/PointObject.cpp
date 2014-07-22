@@ -15,7 +15,7 @@ Point PointObject::GetAbsolutePoint(runtime::VirtualMachine* vm, CodeLocation lo
 {
 	if (!this->IsXRelative() && !this->IsYRelative())
 	{
-		return Point(this->GetX(), this->GetY());
+		return Point((Coordinate)NumberToInt(this->GetX()), (Coordinate)NumberToInt(this->GetY()));
 	}
 
 	Number resultX, resultY;

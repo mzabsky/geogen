@@ -19,6 +19,12 @@ ScriptParameters::ScriptParameters(ScriptParameters const& other)
 	this->maxMapHeight = other.GetMaxMapHeight();
 	this->mapHeight = other.GetMapHeight();
 
+	this->renderOriginX = other.renderOriginX;
+	this->renderOriginY = other.renderOriginY;
+	this->renderWidth = other.renderWidth;
+	this->renderHeight = other.renderHeight;
+	this->renderScale = other.renderScale;
+
 	for (const_iterator it = other.Begin(); it != other.End(); it++)
 	{
 		this->table[it->first] = it->second->Clone();
@@ -36,6 +42,12 @@ ScriptParameters& ScriptParameters::operator=(ScriptParameters const& other)
 	this->minMapHeight = other.GetMinMapHeight();
 	this->maxMapHeight = other.GetMaxMapHeight();
 	this->mapHeight = other.GetMapHeight();
+
+	this->renderOriginX = other.renderOriginX;
+	this->renderOriginY = other.renderOriginY;
+	this->renderWidth = other.renderWidth;
+	this->renderHeight = other.renderHeight;
+	this->renderScale = other.renderScale;
 
 	this->table.clear();
 

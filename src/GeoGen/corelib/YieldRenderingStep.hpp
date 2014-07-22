@@ -15,7 +15,8 @@ namespace geogen
 			Rectangle rect;
 		public:
 			YieldRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, String name, Rectangle rect)
-				: RenderingStep2D(location, argumentSlots, returnSlot), name(name), rect(rect) {};
+				: RenderingStep2D(location, argumentSlots, returnSlot), name(name), rect(rect) {
+			};
 
 			virtual String GetName() const { return GG_STR("Yield"); };
 
