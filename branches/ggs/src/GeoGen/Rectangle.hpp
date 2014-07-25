@@ -65,6 +65,7 @@ namespace geogen {
 
 		static Rectangle Combine(Rectangle a, Rectangle b);
 		static Rectangle Intersect(Rectangle a, Rectangle b);
+		static Rectangle Expand(Rectangle a, Size1D size);
 
 		bool Contains(Rectangle other) const;
 		bool Contains(Point point) const;

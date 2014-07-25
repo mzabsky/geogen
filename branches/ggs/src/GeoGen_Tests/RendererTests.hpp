@@ -105,10 +105,37 @@ public:
 		}
 	}
 
+	static void TestBlur()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			var heightMap = HeightMap.RadialGradient([250, 250], 100, 1.0, 0.0); \n\
+			heightMap.Blur(20); \n\
+			yield heightMap; \n\
+		");
+
+		ScriptParameters parameters = compiledScript->CreateScriptParameters();
+		parameters.SetRenderWidth(500);
+		parameters.SetRenderHeight(500);
+
+		VirtualMachine vm(*compiledScript, parameters);
+		vm.Run();
+
+		RenderingSequence& renderingSequence = vm.GetRenderingSequence();
+
+		Renderer renderer(renderingSequence);
+		renderer.CalculateRenderingBounds();
+		renderer.Run();
+
+		ASSERT_EQUALS(bool, true, renderer.GetRenderedMapTable().ContainsItem(Renderer::MAP_NAME_MAIN));
+
+		SaveRenders("TestBlur", renderer.GetRenderedMapTable());
+	}
+
 	RendererTests() : TestFixtureBase("RendererTests")
 	{
-		ADD_TESTCASE(TestSimpleRender);
+		/*ADD_TESTCASE(TestSimpleRender);
 		ADD_TESTCASE(TestAddTwoMaps);
-		ADD_TESTCASE(TestSimpleTiling);
+		ADD_TESTCASE(TestSimpleTiling);*/
+		ADD_TESTCASE(TestBlur);
 	}
 };

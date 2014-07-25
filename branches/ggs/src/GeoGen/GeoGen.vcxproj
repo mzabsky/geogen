@@ -115,6 +115,8 @@
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
     <ClInclude Include="corelib\HeightMapAddFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapBlurFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapBlurRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp" />
@@ -282,6 +284,8 @@
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapAddFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapBlurFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapBlurRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp" />
