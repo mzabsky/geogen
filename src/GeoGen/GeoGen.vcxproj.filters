@@ -216,6 +216,8 @@
     <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapBlurFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapBlurRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -356,6 +358,8 @@
     <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapBlurFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapBlurRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

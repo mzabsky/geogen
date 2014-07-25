@@ -3,6 +3,7 @@
 #include "../Number.hpp"
 #include "../Rectangle.hpp"
 #include "DataObject.hpp"
+#include "../Orientation.hpp"
 
 namespace geogen
 {
@@ -17,6 +18,7 @@ namespace geogen
 			HeightMap(Rectangle rectangle, Height height = 0);
 			~HeightMap();
 			HeightMap(HeightMap const& other);
+			HeightMap(HeightMap const& other, Rectangle cutoutRect);
 			HeightMap& operator=(HeightMap& other);
 
 			inline Rectangle GetRectangle() const { return this->rectangle; }
@@ -32,9 +34,16 @@ namespace geogen
 				return this->heightData[x + this->rectangle.GetSize().GetWidth() * y];
 			}
 
+			inline Coordinate GetOriginX() const { return this->rectangle.GetPosition().GetX(); }
+			inline Coordinate GetOriginY() const { return this->rectangle.GetPosition().GetY(); }
+			inline Size1D GetWidth() const { return this->rectangle.GetSize().GetWidth(); }
+			inline Size1D GetHeight() const { return this->rectangle.GetSize().GetHeight(); }
+
 			void Add(Height height);
 			void AddMap(HeightMap* addend);
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
+			void Blur(Size1D radius);
+			void Blur(Size1D radius, Orientation direction);
 		};
 	}	
 }

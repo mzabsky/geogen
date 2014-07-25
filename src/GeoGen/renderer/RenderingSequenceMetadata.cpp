@@ -27,6 +27,8 @@ RenderingSequenceMetadata::RenderingSequenceMetadata(RenderingSequence const& re
 		default:
 			throw InternalErrorException("Invalid rendering step type.");
 		}
+
+		stepNumber++;
 	}
 }
 

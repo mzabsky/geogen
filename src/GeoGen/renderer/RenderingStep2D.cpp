@@ -39,5 +39,12 @@ void RenderingStep2D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 		}
 	}
 
-	this->SetRenderingBounds(renderer, newRect);
+	Rectangle calculatedRect = this->CalculateRenderingBounds(renderer, newRect);
+
+	this->SetRenderingBounds(renderer, calculatedRect);
+}
+
+Rectangle RenderingStep2D::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
+{
+	return argumentBounds;
 }
