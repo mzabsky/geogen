@@ -4,15 +4,16 @@ using namespace geogen;
 using namespace genlib;
 
 #define FOR_EACH_IN_RECT(x, y, rect) \
-	for (Coordinate y = 0; y < (Coordinate)rect.GetSize().GetWidth(); y++) \
-		for (Coordinate x = 0; x < (Coordinate)rect.GetSize().GetWidth(); x++) \
+	for (Coordinate y = rect.GetPosition().GetY(); y < rect.GetEndingPoint().GetY(); y++) \
+		for (Coordinate x = rect.GetPosition().GetX(); x < rect.GetEndingPoint().GetX(); x++) \
 
 HeightMap::HeightMap(Rectangle rectangle, Height height)
 :rectangle(rectangle)
 {
 	this->heightData = new Height[rectangle.GetSize().GetTotalLength()];
 	
-	FOR_EACH_IN_RECT(x, y, rectangle)
+	Rectangle physicalRect = rectangle - rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, physicalRect)
 	{
 		(*this)(x, y) = height;
 	}
@@ -31,20 +32,22 @@ HeightMap::HeightMap(HeightMap const& other, Rectangle cutoutRect)
 	this->rectangle = cutoutRect;
 	this->heightData = new Height[cutoutRect.GetSize().GetTotalLength()];
 
+	Rectangle physicalRect = cutoutRect - cutoutRect.GetPosition();
+
 	// Fill all pixels with 0, because the cuout rect might have only partially overlapped with the original rect.
-	FOR_EACH_IN_RECT(x, y, cutoutRect)
+	FOR_EACH_IN_RECT(x, y, physicalRect)
 	{
 		(*this)(x, y) = 0;
 	}
 
-	Rectangle intersection = Rectangle::Intersect(other.rectangle, cutoutRect);
+	Rectangle intersection = Rectangle::Intersect(other.rectangle, cutoutRect) - cutoutRect.GetPosition();
 
-	
-	Point offsetSource = intersection.GetPosition() - other.rectangle.GetPosition();
-	Point offsetDestination = intersection.GetPosition() - cutoutRect.GetPosition();
+	//Point offsetSource = intersection.GetPosition() - other.rectangle.GetPosition();
+	//Point offsetDestination = intersection.GetPosition() - cutoutRect.GetPosition();
+	Point offset = cutoutRect.GetPosition() - other.rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, intersection)
 	{
-		(*this)(x + offsetDestination.GetX(), y + offsetDestination.GetY()) = other(x + offsetSource.GetX(), y + offsetSource.GetY());
+		(*this)(x, y) = other(x + offset.GetX(), y + offset.GetY());
 	}
 	
 	memcpy(this->heightData, other.heightData, sizeof(Height)* this->rectangle.GetSize().GetTotalLength());
@@ -69,22 +72,19 @@ HeightMap::~HeightMap()
 
 void HeightMap::AddMap(HeightMap* addend)
 {
-	if (!this->rectangle.Contains(addend->GetRectangle()))
-	{
-		throw ApiUsageException("The second addend must be contained by the first addend.");
-	}
+	Rectangle operationRect = Rectangle::Intersect(this->rectangle, addend->rectangle) - this->rectangle.GetPosition();
 
-	Rectangle operationRect = Rectangle::Intersect(this->rectangle, addend->rectangle) - (addend->rectangle.GetPosition() - this->rectangle.GetPosition());
-
+	Point offset = addend->GetRectangle().GetPosition() - this->rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect) 
 	{
-		(*this)(x, y) += (*addend)(x, y);
+		(*this)(x, y) += (*addend)(x + offset.GetX(), y + offset.GetY());
 	}
 }
 
 void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
 {
-	FOR_EACH_IN_RECT(x, y, this->rectangle)
+	Rectangle physicalRect = this->rectangle - this->rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, physicalRect)
 	{
 		long distance = point.GetDistanceTo(this->rectangle.GetPosition() + Point(x, y));
 
@@ -176,7 +176,7 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 
 void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 {
-	Rectangle operationRect = Rectangle::Intersect(this->rectangle, fillRectangle) - (fillRectangle.GetPosition() - this->rectangle.GetPosition());
+	Rectangle operationRect = Rectangle::Intersect(this->rectangle, fillRectangle) - this->rectangle.GetPosition();
 
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
