@@ -1,6 +1,5 @@
 #include "HeightMap.hpp"
 #include "../ApiUsageException.hpp"
-
 using namespace geogen;
 using namespace genlib;
 
@@ -173,4 +172,14 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 	/* Relink and delete the original array data */
 	delete[] this->heightData;
 	this->heightData = new_data;
+}
+
+void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
+{
+	Rectangle operationRect = Rectangle::Intersect(this->rectangle, fillRectangle) - (fillRectangle.GetPosition() - this->rectangle.GetPosition());
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = height;
+	}
 }

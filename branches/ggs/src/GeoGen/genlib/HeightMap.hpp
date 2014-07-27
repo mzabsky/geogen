@@ -44,6 +44,7 @@ namespace geogen
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
 			void Blur(Size1D radius);
 			void Blur(Size1D radius, Orientation direction);
+			void FillRectangle(Rectangle fillRectangle, Height height);
 		};
 	}	
 }
