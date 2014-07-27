@@ -8,7 +8,7 @@ namespace geogen
 {
 	namespace renderer
 	{
-		/// <summary> A table used to temporarily store rendered maps. </summary>
+		/// A table used to temporarily store rendered maps.
 		class RenderedMapTable : public utils::OwningMap<genlib::HeightMap>
 		{
 		public:
