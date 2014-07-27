@@ -7,11 +7,11 @@ namespace geogen
 {
 	namespace corelib
 	{
-		/// Function definition for HeightMap.FillRectangle.
-		class HeightMapFillRectangleFunctionDefinition : public runtime::MemberNativeFunctionDefinition
+		/// Function definition for HeightMap.Fill.
+		class HeightMapFillFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:
-			HeightMapFillRectangleFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("FillRectangle"), type) {};
+			HeightMapFillFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Fill"), type) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 

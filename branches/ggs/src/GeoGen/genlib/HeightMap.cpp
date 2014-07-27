@@ -161,13 +161,13 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 					window_value += (*this)(x, this->GetHeight() - 1) - (*this)(x, y - radius);
 				}
 
-				/* Set the value of current tile to arithmetic average of window tiles. */
+				// Set the value of current tile to arithmetic average of window tiles. 
 				new_data[x + this->GetWidth() * y] = window_value / window_size;
 			}
 		}
 	}
 
-	/* Relink and delete the original array data */
+	// Relink and delete the original array data
 	delete[] this->heightData;
 	this->heightData = new_data;
 }
