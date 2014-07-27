@@ -3,12 +3,14 @@
 namespace geogen {
 	typedef unsigned Size1D;
 
+	const Size1D SIZE1D_MAX = UINT_MAX;
+
 	class Size2D{
 	private:
-		unsigned width, height;
+		Size1D width, height;
 	public:
 		Size2D() : width(0), height(0) {}
-		Size2D(unsigned width, unsigned height) : width(width), height(height) {}
+		Size2D(Size1D width, Size1D height) : width(width), height(height) {}
 
 		inline Size2D Size2D::operator+(const Size2D& other) const
 		{
@@ -32,8 +34,10 @@ namespace geogen {
 			return *this;
 		}
 
-		inline unsigned GetWidth() const { return this->width; }
-		inline unsigned GetHeight() const { return this->height; }
-		inline unsigned GetTotalLength() const { return this->width * this->height; }
+		inline Size1D GetWidth() const { return this->width; }
+		inline Size1D GetHeight() const { return this->height; }
+		inline unsigned long long GetTotalLength() const { return this->width * this->height; }
 	};
+
+	const Size2D SIZE2D_MAX = Size2D(SIZE1D_MAX, SIZE1D_MAX);
 }

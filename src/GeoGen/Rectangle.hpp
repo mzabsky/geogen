@@ -73,6 +73,9 @@ namespace geogen {
 
 	};
 
+	const Rectangle RECTANGLE_MAX = Rectangle(Point(COORDINATE_MIN, COORDINATE_MIN), SIZE2D_MAX);
+
+
 	/*class RectangleIterator
 	{
 	private:

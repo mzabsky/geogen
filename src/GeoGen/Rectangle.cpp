@@ -4,7 +4,7 @@
 using namespace geogen;
 
 namespace geogen
-{
+{	
 	Rectangle Rectangle::Combine(Rectangle a, Rectangle b)
 	{
 		Coordinate returnRectX = a.GetPosition().GetX();
