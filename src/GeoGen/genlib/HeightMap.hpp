@@ -39,6 +39,8 @@ namespace geogen
 			inline Size1D GetWidth() const { return this->rectangle.GetSize().GetWidth(); }
 			inline Size1D GetHeight() const { return this->rectangle.GetSize().GetHeight(); }
 
+			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle - this->rectangle.GetPosition(); }
+
 			void Add(Height height);
 			void AddMap(HeightMap* addend);
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);

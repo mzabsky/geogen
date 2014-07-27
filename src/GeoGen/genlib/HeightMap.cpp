@@ -12,7 +12,7 @@ HeightMap::HeightMap(Rectangle rectangle, Height height)
 {
 	this->heightData = new Height[rectangle.GetSize().GetTotalLength()];
 	
-	Rectangle physicalRect = rectangle - rectangle.GetPosition();
+	Rectangle physicalRect = this->GetPhysicalRectangle(rectangle);
 	FOR_EACH_IN_RECT(x, y, physicalRect)
 	{
 		(*this)(x, y) = height;
@@ -32,7 +32,7 @@ HeightMap::HeightMap(HeightMap const& other, Rectangle cutoutRect)
 	this->rectangle = cutoutRect;
 	this->heightData = new Height[cutoutRect.GetSize().GetTotalLength()];
 
-	Rectangle physicalRect = cutoutRect - cutoutRect.GetPosition();
+	Rectangle physicalRect = this->GetPhysicalRectangle(cutoutRect);
 
 	// Fill all pixels with 0, because the cuout rect might have only partially overlapped with the original rect.
 	FOR_EACH_IN_RECT(x, y, physicalRect)
@@ -40,10 +40,8 @@ HeightMap::HeightMap(HeightMap const& other, Rectangle cutoutRect)
 		(*this)(x, y) = 0;
 	}
 
-	Rectangle intersection = Rectangle::Intersect(other.rectangle, cutoutRect) - cutoutRect.GetPosition();
+	Rectangle intersection = this->GetPhysicalRectangle(Rectangle::Intersect(other.rectangle, cutoutRect));
 
-	//Point offsetSource = intersection.GetPosition() - other.rectangle.GetPosition();
-	//Point offsetDestination = intersection.GetPosition() - cutoutRect.GetPosition();
 	Point offset = cutoutRect.GetPosition() - other.rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, intersection)
 	{
@@ -72,7 +70,7 @@ HeightMap::~HeightMap()
 
 void HeightMap::AddMap(HeightMap* addend)
 {
-	Rectangle operationRect = Rectangle::Intersect(this->rectangle, addend->rectangle) - this->rectangle.GetPosition();
+	Rectangle operationRect = this->GetPhysicalRectangle(Rectangle::Intersect(this->rectangle, addend->rectangle));
 
 	Point offset = addend->GetRectangle().GetPosition() - this->rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect) 
@@ -83,7 +81,7 @@ void HeightMap::AddMap(HeightMap* addend)
 
 void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
 {
-	Rectangle physicalRect = this->rectangle - this->rectangle.GetPosition();
+	Rectangle physicalRect = this->GetPhysicalRectangle(this->rectangle);
 	FOR_EACH_IN_RECT(x, y, physicalRect)
 	{
 		long distance = point.GetDistanceTo(this->rectangle.GetPosition() + Point(x, y));
@@ -176,8 +174,7 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 
 void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 {
-	Rectangle operationRect = Rectangle::Intersect(this->rectangle, fillRectangle) - this->rectangle.GetPosition();
-
+	Rectangle operationRect = this->GetPhysicalRectangle(Rectangle::Intersect(this->rectangle, fillRectangle));
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = height;
