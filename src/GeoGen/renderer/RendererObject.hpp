@@ -10,21 +10,22 @@ namespace geogen
 {
 	namespace renderer
 	{
-		/// <summary> Supported types of <see cref="RendererObject"/>. </summary>
+		/// Supported types of RendererObject.
 		enum RendererObjectType
 		{
-			/// <summary> 1-dimensional map (profile). </summary>
+			/// 1-dimensional map (HeightProfile).
 			RENDERER_OBJECT_TYPE_HEIGHT_PROFILE,
-			/// <summary> 2-dimensional map. </summary>
+		
+			/// 2-dimensional map (HeightMap).
 			RENDERER_OBJECT_TYPE_HEIGHT_MAP
 		};
 
-		/// <summary> Converts a <see cref="RendererObjectType"/> to string. </summary>
-		/// <param name="objectType"> The renderer object type. </param>
-		/// <returns> The string name of the type. </returns>
+		/// Converts a RendererObjectType to string.
+		/// @param objectType The renderer object type.
+		/// @return The string name of the type.
 		String RenderObjectTypeToString(RendererObjectType objectType);
 
-		/// <summary> Represents an object managed by the renderer. Associates a type label with an instance of <see cref="DataObject"/>.</summary>
+		/// Represents an object managed by the renderer. Associates a type label with an instance of genlib::DataObject.
 		class RendererObject : public Serializable
 		{			
 		private:
@@ -36,29 +37,29 @@ namespace geogen
 			RendererObject& operator=(RendererObject const&) {};
 		public:
 
-			/// <summary> Initializes a new instance of the RendererObject class. </summary>
-			/// <param name="objectType"> Type of the object. </param>
-			/// <param name="ptr"> The data object. The renderer object takes ownership of this pointer. It will be released when the renderer object is released. </param>
+			/// Initializes a new instance of the RendererObject class.
+			/// @param objectType Type of the object.
+			/// @param ptr The data object. The renderer object takes ownership of this pointer. It will be released when the renderer object is released.
 			RendererObject(RendererObjectType objectType, genlib::DataObject* ptr) : ptr(ptr), objectType(objectType)
 			{
 			}
 
-			/// <summary> Finalizes an instance of the RendererObject class. Releases the wrapped pointer. </summary>
+			/// Finalizes an instance of the RendererObject class. Releases the wrapped pointer.
 			~RendererObject()
 			{
 				delete ptr;
 			}
 
-			/// <summary> Gets the wrapped pointer. </summary>
-			/// <returns> The wrapped pointer. </returns>
+			/// Gets the wrapped pointer.
+			/// @return The wrapped pointer.
 			inline genlib::DataObject* GetPtr() { return this->ptr; }
 
-			/// <summary> Gets type of the object. </summary>
-			/// <returns> The object type. </returns>
+			/// Gets type of the object.
+			/// @return The object type.
 			inline RendererObjectType GetObjectType() { return this->objectType; }
 
-			/// <summary> Writes the human readable string representation of this instance to the given stream. </summary>
-			/// <param name="stream"> The stream. </param>
+			/// Writes the human readable string representation of this instance to the given stream.
+			/// @param stream The stream.
 			virtual void Serialize(IOStream& stream) const
 			{
 				stream << RenderObjectTypeToString(this->objectType) << "[ " << this->ptr << "]" << std::endl;
