@@ -20,6 +20,7 @@
 
 #include "random/RandomSeed.hpp"
 #include "random/RandomSequence.hpp"
+#include "random/RandomSequence2D.hpp"
 
 #include "renderer/RenderedMap.hpp"
 #include "renderer/RenderedMapTable.hpp"
