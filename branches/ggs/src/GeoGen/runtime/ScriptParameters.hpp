@@ -170,7 +170,7 @@ namespace geogen
 
 			/// <summary> Sets scale of the render. </summary>
 			/// <param name="renderHeight"> Scale of the render. </param>
-			inline void SetRenderScale(double renderScale);
+			void SetRenderScale(double renderScale);
 
 			/// <summary>
 			/// Resets all parameters to their default values.

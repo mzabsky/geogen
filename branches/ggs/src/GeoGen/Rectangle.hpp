@@ -59,6 +59,17 @@ namespace geogen {
 			return *this;
 		}
 
+		inline Rectangle Rectangle::operator*(const double other) const
+		{
+			return Rectangle(this->position * other, this->size * other);
+		}
+
+		Rectangle& Rectangle::operator*=(const double other)
+		{
+			*this = *this * other;
+			return *this;
+		}
+
 		inline Point GetPosition() const { return this->position; }
 		inline Size2D GetSize() const { return this->size; }
 		inline Point GetEndingPoint() const { return endingPoint; }

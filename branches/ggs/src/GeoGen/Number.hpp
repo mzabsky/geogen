@@ -9,6 +9,7 @@ namespace geogen
 {
 	typedef double Number;
 	typedef short Height;
+	typedef double Scale;
 
 	const Height HEIGHT_MIN = -32767;
 	const Height HEIGHT_MAX = 32767;

@@ -105,6 +105,50 @@ public:
 		}
 	}
 
+	static void TestTilingWithScaling()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			var heightMap = HeightMap.RadialGradient([400, 400], 950, 1.0, 0.0); \n\
+			yield heightMap; \n\
+		");
+
+		vector<pair<Coordinate, Coordinate>> positions;
+		positions.push_back(pair<Coordinate, Coordinate>(0, 0));
+		positions.push_back(pair<Coordinate, Coordinate>(0, 250));
+		positions.push_back(pair<Coordinate, Coordinate>(0, 500));
+		positions.push_back(pair<Coordinate, Coordinate>(250, 0));
+		positions.push_back(pair<Coordinate, Coordinate>(250, 250));
+		positions.push_back(pair<Coordinate, Coordinate>(250, 500));
+		positions.push_back(pair<Coordinate, Coordinate>(500, 0));
+		positions.push_back(pair<Coordinate, Coordinate>(500, 250));
+		positions.push_back(pair<Coordinate, Coordinate>(500, 500));
+
+		for (vector<pair<Coordinate, Coordinate>>::iterator it = positions.begin(); it != positions.end(); it++)
+		{
+			ScriptParameters parameters = compiledScript->CreateScriptParameters();
+			parameters.SetRenderWidth(250);
+			parameters.SetRenderHeight(250);
+			parameters.SetRenderOriginX(it->first);
+			parameters.SetRenderOriginY(it->second);
+			parameters.SetRenderScale(0.5);
+
+			VirtualMachine vm(*compiledScript, parameters);
+			vm.Run();
+
+			RenderingSequence& renderingSequence = vm.GetRenderingSequence();
+
+			Renderer renderer(renderingSequence);
+			renderer.CalculateRenderingBounds();
+			renderer.Run();
+
+			ASSERT_EQUALS(bool, true, renderer.GetRenderedMapTable().ContainsItem(Renderer::MAP_NAME_MAIN));
+			//ASSERT_EQUALS(Height, 19659, (*renderer.GetRenderedMapTable().GetItem(Renderer::MAP_NAME_MAIN))(4, 4));
+
+			SaveRenders("TestTilingWithScaling", renderer.GetRenderedMapTable());
+		}
+	}
+
+
 	static void TestBlur()
 	{
 		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
@@ -133,9 +177,10 @@ public:
 
 	RendererTests() : TestFixtureBase("RendererTests")
 	{
-		/*ADD_TESTCASE(TestSimpleRender);
-		ADD_TESTCASE(TestAddTwoMaps);
-		ADD_TESTCASE(TestSimpleTiling);*/
-		ADD_TESTCASE(TestBlur);
+		//ADD_TESTCASE(TestSimpleRender);
+		//ADD_TESTCASE(TestAddTwoMaps);
+		//ADD_TESTCASE(TestSimpleTiling);
+		ADD_TESTCASE(TestTilingWithScaling);
+		//ADD_TESTCASE(TestBlur);
 	}
 };
