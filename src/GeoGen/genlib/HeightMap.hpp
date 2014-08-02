@@ -14,8 +14,9 @@ namespace geogen
 		private:
 			Rectangle rectangle;
 			Height* heightData;
+			Scale scale;
 		public:
-			HeightMap(Rectangle rectangle, Height height = 0);
+			HeightMap(Rectangle rectangle, Height height = 0, Scale scale = 1);
 			~HeightMap();
 			HeightMap(HeightMap const& other);
 			HeightMap(HeightMap const& other, Rectangle cutoutRect);
@@ -38,8 +39,11 @@ namespace geogen
 			inline Coordinate GetOriginY() const { return this->rectangle.GetPosition().GetY(); }
 			inline Size1D GetWidth() const { return this->rectangle.GetSize().GetWidth(); }
 			inline Size1D GetHeight() const { return this->rectangle.GetSize().GetHeight(); }
+			inline Scale GetScale() const { return this->GetScale(); }
 
-			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle - this->rectangle.GetPosition(); }
+			inline Rectangle GetPhysicalRectangleUnscaled(Rectangle logicalRectangle) const { return logicalRectangle - this->rectangle.GetPosition(); }
+			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle * this->scale - this->rectangle.GetPosition(); }
+			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }
 
 			void Add(Height height);
 			void AddMap(HeightMap* addend);

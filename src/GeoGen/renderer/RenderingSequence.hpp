@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "../Number.hpp"
+
 namespace geogen 
 {
 	namespace renderer
@@ -12,7 +14,7 @@ namespace geogen
 		{
 			std::vector<RenderingStep*> steps;
 			unsigned objectTableSize;
-			double renderScale;
+			Scale renderScale;
 
 			// Non-copyable
 			RenderingSequence(RenderingSequence const&) {};
@@ -23,13 +25,10 @@ namespace geogen
 			typedef std::vector<RenderingStep const*>::const_reverse_iterator const_reverse_iterator;
 			typedef std::vector<RenderingStep*>::reverse_iterator reverse_iterator;
 
-
-			const unsigned SLOT_NUMBER_NONE = -1;
-
-			RenderingSequence(double renderScale) : renderScale(renderScale), objectTableSize(0){};
+			RenderingSequence(Scale renderScale) : renderScale(renderScale), objectTableSize(0){};
 			~RenderingSequence();
 
-			inline double GetRenderScale() const { return this->renderScale; }
+			inline Scale GetRenderScale() const { return this->renderScale; }
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->steps.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->steps.end()); }
