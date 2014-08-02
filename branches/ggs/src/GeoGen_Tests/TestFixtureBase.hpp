@@ -17,6 +17,7 @@ using namespace corelib;
 using namespace testlib;
 using namespace genlib;
 using namespace renderer;
+using namespace random;
 
 /*
 #ifdef GEOGEN_WCHAR

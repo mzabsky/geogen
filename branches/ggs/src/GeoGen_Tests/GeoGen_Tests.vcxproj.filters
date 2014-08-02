@@ -52,6 +52,9 @@
     <ClInclude Include="RendererTests.hpp">
       <Filter>Fixtures</Filter>
     </ClInclude>
+    <ClInclude Include="RandomTests.hpp">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">

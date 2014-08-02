@@ -25,6 +25,8 @@ ScriptParameters::ScriptParameters(ScriptParameters const& other)
 	this->renderHeight = other.renderHeight;
 	this->renderScale = other.renderScale;
 
+	this->randomSeed = other.randomSeed;
+
 	for (const_iterator it = other.Begin(); it != other.End(); it++)
 	{
 		this->table[it->first] = it->second->Clone();
@@ -49,13 +51,15 @@ ScriptParameters& ScriptParameters::operator=(ScriptParameters const& other)
 	this->renderHeight = other.renderHeight;
 	this->renderScale = other.renderScale;
 
+	this->randomSeed = other.randomSeed;
+
 	this->table.clear();
 
 	for (const_iterator it = other.Begin(); it != other.End(); it++)
 	{
 		this->table[it->first] = it->second->Clone();
 	}
-
+	
 	return *this;
 }
 

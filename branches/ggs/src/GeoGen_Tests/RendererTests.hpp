@@ -1,13 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "..\GeoGen\runtime\VariableRedefinitionException.hpp"
-#include "..\GeoGen\runtime\BooleanScriptParameter.hpp"
-#include "..\GeoGen\runtime\NumberScriptParameter.hpp"
-#include "..\GeoGen\runtime\EnumScriptParameter.hpp"
-#include "..\GeoGen\compiler\IncorrectScriptParameterAttributeTypeException.hpp"
-#include "..\GeoGen\compiler\IncorrectMapSizeNumericValueException.hpp"
-#include "..\GeoGen\compiler\MinGreaterThanMaxSizeException.hpp"
 
 class RendererTests : public TestFixtureBase
 {
@@ -177,10 +170,10 @@ public:
 
 	RendererTests() : TestFixtureBase("RendererTests")
 	{
-		//ADD_TESTCASE(TestSimpleRender);
-		//ADD_TESTCASE(TestAddTwoMaps);
-		//ADD_TESTCASE(TestSimpleTiling);
+		ADD_TESTCASE(TestSimpleRender);
+		ADD_TESTCASE(TestAddTwoMaps);
+		ADD_TESTCASE(TestSimpleTiling);
 		ADD_TESTCASE(TestTilingWithScaling);
-		//ADD_TESTCASE(TestBlur);
+		ADD_TESTCASE(TestBlur);
 	}
 };
