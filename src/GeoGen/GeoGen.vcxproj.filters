@@ -221,6 +221,11 @@
     <ClInclude Include="corelib\HeightMapFillRectangleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFillRectangleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFillFunctionDefinition.hpp" />
+    <ClInclude Include="random\RandomSequence.hpp" />
+    <ClInclude Include="random\RandomSeed.hpp" />
+    <ClInclude Include="random\Hash.hpp" />
+    <ClInclude Include="random\mtrand\MTRand.hpp" />
+    <ClInclude Include="random\RandomSequence2D.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -366,6 +371,9 @@
     <ClCompile Include="corelib\HeightMapFillRectangleRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFillRectangleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFillFunctionDefinition.cpp" />
+    <ClCompile Include="random\RandomSeed.cpp" />
+    <ClCompile Include="random\mtrand\MTRand.cpp" />
+    <ClCompile Include="random\RandomSequence.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

@@ -47,7 +47,7 @@ namespace geogen {
 
 		inline Size1D GetWidth() const { return this->width; }
 		inline Size1D GetHeight() const { return this->height; }
-		inline unsigned long long GetTotalLength() const { return this->width * this->height; }
+		inline unsigned GetTotalLength() const { return this->width * this->height; }
 	};
 
 	const Size2D SIZE2D_MAX = Size2D(SIZE1D_MAX, SIZE1D_MAX);

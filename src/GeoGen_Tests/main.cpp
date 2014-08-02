@@ -15,6 +15,7 @@
 #include "CoordinateTests.hpp"
 #include "RendererTests.hpp"
 #include "MetadataTests.hpp"
+#include "RandomTests.hpp"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ int main()
 	int numberOfFailures = 0;
 	int numberOfPassed = 0;
 
-	/*RUN_FIXTURE(BasicOperatorsTests);
+	RUN_FIXTURE(BasicOperatorsTests);
 	RUN_FIXTURE(FlowControlTests);
 	RUN_FIXTURE(VariablesTests);
 	RUN_FIXTURE(CommentTests);
@@ -35,8 +36,9 @@ int main()
 	RUN_FIXTURE(MessageTests);
 	RUN_FIXTURE(StringTests);
 	RUN_FIXTURE(EnumTests);
-	RUN_FIXTURE(CoordinateTests);*/
+	RUN_FIXTURE(CoordinateTests);
 	RUN_FIXTURE(RendererTests);
+	RUN_FIXTURE(RandomTests);
 
 	cout << "================================================================" << endl << "Finished! " << numberOfFailures << " tests failed, " << numberOfPassed << " tests passed.";
 

@@ -18,6 +18,9 @@
 #include "compiler/UnexpectedTokenException.hpp"
 #include "compiler/UnexpectedCharacterException.hpp"
 
+#include "random/RandomSeed.hpp"
+#include "random/RandomSequence.hpp"
+
 #include "renderer/RenderedMap.hpp"
 #include "renderer/RenderedMapTable.hpp"
 #include "renderer/Renderer.hpp"

@@ -98,6 +98,7 @@
     <ClInclude Include="MessageTests.hpp" />
     <ClInclude Include="MetadataTests.hpp" />
     <ClInclude Include="NoExceptionException.hpp" />
+    <ClInclude Include="RandomTests.hpp" />
     <ClInclude Include="RendererTests.hpp" />
     <ClInclude Include="StringTests.hpp" />
     <ClInclude Include="TestFixtureBase.hpp" />

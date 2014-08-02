@@ -5,6 +5,7 @@
 
 #include "ScriptParameter.hpp" // Necessary to properly compile the owning map.
 #include "../utils/OwningMap.hpp"
+#include "../random/RandomSeed.hpp"
 
 namespace geogen
 {	
@@ -53,6 +54,8 @@ namespace geogen
 			unsigned renderHeight = MAP_SIZE_AUTOMATIC;
 
 			double renderScale = 1;
+
+			random::RandomSeed randomSeed;
 		public:
 			typedef std::map<String, ScriptParameter const*>::const_iterator const_iterator;
 			typedef std::map<String, ScriptParameter*>::iterator iterator;
@@ -171,6 +174,10 @@ namespace geogen
 			/// <summary> Sets scale of the render. </summary>
 			/// <param name="renderHeight"> Scale of the render. </param>
 			void SetRenderScale(double renderScale);
+
+			inline random::RandomSeed GetRandomSeed() const { return this->randomSeed; }
+
+			inline void SetRandomSeed(random::RandomSeed randomSeed) { this->randomSeed = randomSeed; }
 
 			/// <summary>
 			/// Resets all parameters to their default values.
