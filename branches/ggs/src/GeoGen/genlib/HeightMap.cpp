@@ -182,7 +182,7 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 
 void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 {
-	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, fillRectangle));
+	Rectangle operationRect = Rectangle::Intersect(this->GetPhysicalRectangleUnscaled(this->rectangle), this->GetPhysicalRectangle(fillRectangle));
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = height;
