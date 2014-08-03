@@ -82,7 +82,7 @@ public:
 			int actual = histogram.get()[i];
 			int expected = count / range;
 			int deviation = abs(expected - actual);
-			int maxDeviation = expected * 0.01;
+			int maxDeviation = (int)(expected * 0.01);
 			ASSERT_EQUALS(bool, true, deviation < maxDeviation);
 		}
 	}

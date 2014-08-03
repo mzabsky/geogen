@@ -226,6 +226,9 @@
     <ClInclude Include="random\Hash.hpp" />
     <ClInclude Include="random\mtrand\MTRand.hpp" />
     <ClInclude Include="random\RandomSequence2D.hpp" />
+    <ClInclude Include="genlib\NoiseLayer.hpp" />
+    <ClInclude Include="corelib\HeightMapNoiseFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapNoiseRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -374,6 +377,8 @@
     <ClCompile Include="random\RandomSeed.cpp" />
     <ClCompile Include="random\mtrand\MTRand.cpp" />
     <ClCompile Include="random\RandomSequence.cpp" />
+    <ClCompile Include="corelib\HeightMapNoiseFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapNoiseRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

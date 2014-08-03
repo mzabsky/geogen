@@ -1,7 +1,10 @@
 #include "HeightMap.hpp"
 #include "../ApiUsageException.hpp"
+#include "../random/RandomSequence2D.hpp"
+
 using namespace geogen;
 using namespace genlib;
+using namespace random;
 
 #define FOR_EACH_IN_RECT(x, y, rect) \
 	for (Coordinate y = rect.GetPosition().GetY(); y < rect.GetEndingPoint().GetY(); y++) \
@@ -186,5 +189,20 @@ void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = height;
+	}
+}
+
+void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
+{
+	this->FillRectangle(RECTANGLE_MAX, 0);
+
+	RandomSequence2D randomSequence(seed);
+
+	FOR_EACH_IN_RECT(logicalX, logicalY, this->rectangle)
+	{
+		Point logicalPoint(logicalX, logicalY);
+		Point physicalPoint = this->GetPhysicalPointUnscaled(logicalPoint);
+
+		(*this)(physicalPoint) = randomSequence.GetHeight(logicalPoint);
 	}
 }
