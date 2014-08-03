@@ -122,6 +122,8 @@
     <ClInclude Include="corelib\HeightMapFillRectangleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapNoiseFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapNoiseRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapTypeDefinition.hpp" />
@@ -149,6 +151,7 @@
     <ClInclude Include="corelib\PointTypeDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp" />
     <ClInclude Include="corelib\YieldRenderingStep.hpp" />
+    <ClInclude Include="genlib\NoiseLayer.hpp" />
     <ClInclude Include="Orientation.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp" />
@@ -299,6 +302,8 @@
     <ClCompile Include="corelib\HeightMapFillRectangleRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapNoiseFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapNoiseRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />

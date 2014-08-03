@@ -8,30 +8,30 @@ namespace geogen
 	{		
 		inline unsigned Hash(unsigned x)
 		{
-			x = ((x >> 16) ^ x) * 0x45d9f3b;
-			x = ((x >> 16) ^ x) * 0x45d9f3b;
+			x = ((x >> 16) ^ x) * 4256233;
+			x = ((x >> 16) ^ x) * 4256249;
 			x = ((x >> 16) ^ x);
 			return x;
 		}
 
 		inline unsigned Hash(unsigned a, unsigned b)
 		{
-			return (a * 122949829 + b) * 141650963;
+			return Hash(((a * 1028385129 + b * 945191568 + 2015177) /** 141650963*/) ^ 1028385129);
 		}
 
 		inline unsigned Hash(unsigned a, unsigned b, unsigned c)
 		{
-			return ((a * 122949829 + b) * 141650963 + c) * 160481219;
+			return Hash(Hash(a, b), c);
 		}
 
 		inline unsigned Hash(unsigned a, unsigned b, unsigned c, unsigned d)
 		{
-			return (((a * 122949829 + b) * 141650963 + c) * 160481219 + d) * 179424691;
+			return Hash(Hash(Hash(a, b), c), d);
 		}
 
 		inline unsigned Hash(unsigned a, unsigned b, unsigned c, unsigned d, unsigned e)
 		{
-			return ((((a * 122949829 + b) * 141650963 + c) * 160481219 + d) * 179424691 + e) * 198491329;
+			return Hash(Hash(Hash(Hash(a, b), c), d), e);
 		}
 
 		inline unsigned Hash(String str)

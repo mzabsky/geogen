@@ -168,6 +168,31 @@ public:
 		SaveRenders("TestBlur", renderer.GetRenderedMapTable());
 	}
 
+	static void TestNoise()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			var heightMap = HeightMap.Noise(); \n\
+			yield heightMap; \n\
+		");
+
+		ScriptParameters parameters = compiledScript->CreateScriptParameters();
+		parameters.SetRenderWidth(500);
+		parameters.SetRenderHeight(500);
+
+		VirtualMachine vm(*compiledScript, parameters);
+		vm.Run();
+
+		RenderingSequence& renderingSequence = vm.GetRenderingSequence();
+
+		Renderer renderer(renderingSequence);
+		renderer.CalculateRenderingBounds();
+		renderer.Run();
+
+		ASSERT_EQUALS(bool, true, renderer.GetRenderedMapTable().ContainsItem(Renderer::MAP_NAME_MAIN));
+
+		SaveRenders("TestNoise", renderer.GetRenderedMapTable());
+	}
+
 	RendererTests() : TestFixtureBase("RendererTests")
 	{
 		ADD_TESTCASE(TestSimpleRender);
@@ -175,5 +200,6 @@ public:
 		ADD_TESTCASE(TestSimpleTiling);
 		ADD_TESTCASE(TestTilingWithScaling);
 		ADD_TESTCASE(TestBlur);
+		ADD_TESTCASE(TestNoise);
 	}
 };

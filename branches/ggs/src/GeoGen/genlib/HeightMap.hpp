@@ -1,9 +1,13 @@
  #pragma once
 
+#include <vector>
+
 #include "../Number.hpp"
 #include "../Rectangle.hpp"
 #include "DataObject.hpp"
 #include "../Orientation.hpp"
+#include "NoiseLayer.hpp"
+#include "../random/RandomSeed.hpp"
 
 namespace geogen
 {
@@ -35,6 +39,16 @@ namespace geogen
 				return this->heightData[x + this->rectangle.GetSize().GetWidth() * y];
 			}
 
+			inline Height& HeightMap::operator() (Point p)
+			{
+				return this->heightData[p.GetX() + this->rectangle.GetSize().GetWidth() * p.GetY()];
+			}
+
+			inline Height HeightMap::operator() (Point p) const
+			{
+				return this->heightData[p.GetX() + this->rectangle.GetSize().GetWidth() * p.GetY()];
+			}
+
 			inline Coordinate GetOriginX() const { return this->rectangle.GetPosition().GetX(); }
 			inline Coordinate GetOriginY() const { return this->rectangle.GetPosition().GetY(); }
 			inline Size1D GetWidth() const { return this->rectangle.GetSize().GetWidth(); }
@@ -43,7 +57,8 @@ namespace geogen
 
 			inline Rectangle GetPhysicalRectangleUnscaled(Rectangle logicalRectangle) const { return logicalRectangle - this->rectangle.GetPosition(); }
 			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle * this->scale - this->rectangle.GetPosition(); }
-			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }
+			inline Point GetPhysicalPointUnscaled(Point logicalPoint) const { return logicalPoint - this->rectangle.GetPosition(); }
+			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }			
 
 			void Add(Height height);
 			void AddMap(HeightMap* addend);
@@ -51,6 +66,7 @@ namespace geogen
 			void Blur(Size1D radius);
 			void Blur(Size1D radius, Orientation direction);
 			void FillRectangle(Rectangle fillRectangle, Height height);
+			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
 		};
 	}	
 }
