@@ -16,7 +16,7 @@ namespace geogen
 			RandomSequence(RandomSeed seed);
 
 			inline int NextInt() { return this->mtRand(); }
-			inline int NextInt(int min, int max) { return min + (this->NextInt() % (int)(max - min + 1)); }
+			inline int NextInt(int min, int max) { return min + ((unsigned)this->NextInt() % (int)(max - min + 1)); }
 			inline Height NextHeight() { return (Height)this->NextInt(HEIGHT_MIN, HEIGHT_MAX); }
 			inline double NextDouble() { return (double)(this->NextInt()) * (1. / 4294967295.); }
 		};

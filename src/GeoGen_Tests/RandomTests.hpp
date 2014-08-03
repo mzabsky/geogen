@@ -45,25 +45,46 @@ public:
 
 	static void TestRandomSequenceHistogram()
 	{
-		/*RandomSequence sequence(8);
+		RandomSequence sequence(8);
 
-		const unsigned count = 1000;
-		unsigned* histogram = new unsigned[count];
+		const unsigned range = 5;
+		const unsigned count = 100000;
+		auto_ptr<unsigned> histogram = auto_ptr<unsigned>(new unsigned[range]);
 
-		for (unsigned i = 0; i < count; i++)
+		for (unsigned i = 0; i < range; i++)
 		{
-			histogram[i] = 0;
-		}
-
-		for (unsigned i = 0; i < 1000000; i++)
-		{
-			histogram[sequence.NextInt(0, count - 1)]++;
+			histogram.get()[i] = 0;
 		}
 
 		for (unsigned i = 0; i < count; i++)
 		{
-			cout << i << "\t" << histogram[i] << endl;
-		}*/
+			/*int min = 0;
+			int max = count - 1;
+			unsigned r = (unsigned)sequence.NextInt();
+			int act = min + (r % (int)(max - min + 1));
+
+			cout << r << " -> " << act << endl;
+
+
+			histogram[act]++;*/
+
+			/*int x = sequence.NextInt();
+			if (x < count)
+			{
+				histogram[x]++;
+			}*/
+
+			histogram.get()[sequence.NextInt(0, range - 1)]++;
+		}
+
+		for (unsigned i = 0; i < range; i++)
+		{
+			int actual = histogram.get()[i];
+			int expected = count / range;
+			int deviation = abs(expected - actual);
+			int maxDeviation = expected * 0.01;
+			ASSERT_EQUALS(bool, true, deviation < maxDeviation);
+		}
 	}
 
 	RandomTests() : TestFixtureBase("RandomTests")
