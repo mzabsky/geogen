@@ -18,6 +18,8 @@ namespace geogen
 			virtual String GetName() const { return GG_STR("HeightMap.Flat"); };
 
 			virtual void Step(renderer::Renderer* renderer) const;
+
+			virtual void SerializeArguments(IOStream& stream) const;
 		};
 	}
 }

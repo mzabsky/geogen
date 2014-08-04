@@ -21,3 +21,8 @@ Rectangle HeightMapBlurRenderingStep::CalculateRenderingBounds(Renderer* rendere
 {
 	return Rectangle::Expand(argumentBounds, this->radius);
 }
+
+void HeightMapBlurRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	stream << this->radius;
+}

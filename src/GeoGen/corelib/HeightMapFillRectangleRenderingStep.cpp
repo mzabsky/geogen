@@ -16,3 +16,10 @@ void HeightMapFillRectangleRenderingStep::Step(Renderer* renderer) const
 	
 	self->FillRectangle(this->fillRectangle, this->height);
 }
+
+void HeightMapFillRectangleRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	this->fillRectangle.Serialize(stream);
+
+	stream << GG_STR(", ") << this->height;
+}

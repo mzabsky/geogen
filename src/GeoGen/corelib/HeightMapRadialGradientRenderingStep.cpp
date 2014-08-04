@@ -18,3 +18,10 @@ void HeightMapRadialGradientRenderingStep::Step(Renderer* renderer) const
 	RendererObject* object = new RendererObject(RENDERER_OBJECT_TYPE_HEIGHT_MAP, map);
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
+
+void HeightMapRadialGradientRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	this->point.Serialize(stream);
+
+	stream << GG_STR(", ") << this->radius << GG_STR(", ") << this->fromHeight << GG_STR(", ") << this->toHeight;
+}
