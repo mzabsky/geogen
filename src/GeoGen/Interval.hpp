@@ -4,7 +4,8 @@
 #include "Size.hpp"
 
 namespace geogen {
-	class Interval{
+	class Interval : public Serializable
+	{
 	private:
 		Coordinate start;
 		Size1D length;
@@ -16,5 +17,10 @@ namespace geogen {
 		inline Size1D GetLength() const { return this->length; }
 
 		static Interval Combine(Interval a, Interval b);
+
+		void Serialize(IOStream& stream) const
+		{
+			stream << GG_STR("[") << this->start << GG_STR(", ") << this->length << GG_STR("]");
+		}
 	};
 }
