@@ -17,3 +17,8 @@ void HeightMapFlatRenderingStep::Step(Renderer* renderer) const
 
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
+
+void HeightMapFlatRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	stream << this->height;
+}

@@ -4,6 +4,7 @@
 
 #include "../CodeLocation.hpp"
 #include "../Point.hpp"
+#include "../Serializable.hpp"
 
 namespace geogen
 {
@@ -18,7 +19,7 @@ namespace geogen
 			RENDERING_STEP_TYPE_2D
 		};
 
-		class RenderingStep
+		class RenderingStep : public Serializable
 		{
 		private:
 			CodeLocation location;
@@ -48,6 +49,9 @@ namespace geogen
 			/// @param renderer			 The renderer.
 			/// @param referencingBounds The referencing bounds.
 			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const = 0;
+
+			void RenderingStep::Serialize(IOStream& stream) const;
+			void RenderingStep::SerializeArguments(IOStream& stream) const {};
 		};
 	}
 }

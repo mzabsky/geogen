@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "Size.hpp"
+#include "Serializable.hpp"
 
 namespace geogen {
 	typedef int Coordinate;
@@ -12,7 +13,8 @@ namespace geogen {
 	const Coordinate COORDINATE_MAX = INT_MAX;
 	const Coordinate COORDINATE_MIN = INT_MIN;
 
-	class Point{
+	class Point : public Serializable
+	{
 	private:
 		Coordinate x, y;
 	public:
@@ -80,6 +82,11 @@ namespace geogen {
 		inline unsigned long long GetDistanceTo(Point destination) const
 		{
 			return (unsigned long)sqrt((double)(((long long)destination.x - (long long)this->x) * ((long long)destination.x - (long long)this->x) + ((long long)destination.y - (long long)this->y) * ((long long)destination.y - (long long)this->y)));
+		}
+
+		void Serialize(IOStream& stream) const
+		{
+			stream << GG_STR("[") << this->x << GG_STR(", ") << this->y << GG_STR("]");
 		}
 	};
 }

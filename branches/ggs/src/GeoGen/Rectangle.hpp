@@ -4,6 +4,7 @@
 
 #include "Point.hpp"
 #include "Size.hpp"
+#include "Serializable.hpp"
 
 namespace geogen {
 	class Rectangle{
@@ -82,6 +83,14 @@ namespace geogen {
 		bool Contains(Point point) const;
 		Point NextPoint(Point point) const;
 
+		void Serialize(IOStream& stream) const
+		{
+			stream << GG_STR("[");
+			this->position.Serialize(stream);
+			stream << GG_STR(", ");
+			this->size.Serialize(stream);
+			stream << GG_STR("]");
+		}
 	};
 
 	const Rectangle RECTANGLE_MAX = Rectangle(Point(COORDINATE_MIN, COORDINATE_MIN), SIZE2D_MAX);

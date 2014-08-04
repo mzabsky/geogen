@@ -19,3 +19,8 @@ void HeightMapNoiseRenderingStep::Step(Renderer* renderer) const
 
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
+
+void HeightMapNoiseRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	stream << "layers";
+}

@@ -27,3 +27,10 @@ void YieldRenderingStep::UpdateRenderingBounds(Renderer* renderer, vector<Render
 {
 	this->SetRenderingBounds(renderer, this->rect);
 }
+
+void YieldRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	this->rect.Serialize(stream);
+
+	stream << GG_STR(", ") << this->name;
+}

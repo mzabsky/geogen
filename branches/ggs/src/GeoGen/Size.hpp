@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Serializable.hpp"
+
 namespace geogen {
 	typedef unsigned Size1D;
 
 	const Size1D SIZE1D_MAX = UINT_MAX;
 
-	class Size2D{
+	class Size2D : public Serializable
+	{
 	private:
 		Size1D width, height;
 	public:
@@ -48,6 +51,11 @@ namespace geogen {
 		inline Size1D GetWidth() const { return this->width; }
 		inline Size1D GetHeight() const { return this->height; }
 		inline unsigned GetTotalLength() const { return this->width * this->height; }
+
+		void Serialize(IOStream& stream) const
+		{
+			stream << GG_STR("[") << this->width << GG_STR(", ") << this->height << GG_STR("]");
+		}
 	};
 
 	const Size2D SIZE2D_MAX = Size2D(SIZE1D_MAX, SIZE1D_MAX);

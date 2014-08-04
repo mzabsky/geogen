@@ -17,3 +17,8 @@ void HeightProfileFlatRenderingStep::Step(Renderer* renderer) const
 
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
+
+void HeightProfileFlatRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	stream << this->height;
+}

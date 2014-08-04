@@ -20,6 +20,8 @@ namespace geogen
 			virtual void Step(renderer::Renderer* renderer) const;
 
 			virtual Rectangle CalculateRenderingBounds(renderer::Renderer* renderer, Rectangle argumentBounds) const;
+
+			virtual void SerializeArguments(IOStream& stream) const;
 		};
 	}
 }
