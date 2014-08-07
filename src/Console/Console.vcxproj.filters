@@ -22,5 +22,6 @@
     <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\ManagedObjectsRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\RenderingSequenceRuntimeCommand.hpp" />
   </ItemGroup>
 </Project>
