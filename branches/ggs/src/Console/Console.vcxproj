@@ -72,7 +72,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommandTable.cpp" />
+    <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\HelpRuntimeCommand.hpp">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClInclude Include="Debugger.hpp" />
+    <ClInclude Include="runtime_commands\ManagedObjectsRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\ObjectStackRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\ReadVariableRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\StepRuntimeCommand.hpp">
+      <FileType>CppCode</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoGen\GeoGen.vcxproj">
@@ -84,6 +99,11 @@
     <Text Include="testinput2.txt">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Command.hpp" />
+    <ClInclude Include="CommandTable.hpp" />
+    <ClInclude Include="RuntimeCommand.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

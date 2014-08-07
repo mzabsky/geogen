@@ -6,7 +6,13 @@
 #include <windows.h>
 #include "..\GeoGen\utils\StringUtils.hpp"
 
+#include "CommandTable.hpp"
+
+#include "Debugger.hpp";
+
 using namespace geogen;
+using namespace console;
+using namespace runtime;
 using namespace std;
 
 void SetConsoleColor(int foreground, int background)
@@ -14,8 +20,53 @@ void SetConsoleColor(int foreground, int background)
 	int finalcolor = (16 * background) + foreground;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), finalcolor);
 }
+/*
+void ShowCodeContext(VirtualMachine* vm, OStream out, std::vector<String> lines, unsigned numberOfLines)
+{
+	if (numberOfLines > 0)
+	{//codeLines.at(max(currentInstruction->GetLocation().GetLine(), 0)
+		for (
+			int i = -(int)numberOfLines;
+			i < (int)numberOfLines;
+		i++)
+		{
+			int currentLineNumber = currentInstruction->GetLocation().GetLine() + i;
+			if (currentLineNumber >= 0 && currentLineNumber < (int)codeLines.size())
+			{
+				String currentLine = codeLines[currentLineNumber];
+
+				cout
+					<< std::setw(4)
+					<< currentLineNumber << " "
+					<< std::setw(4) << (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine() ? ">>>" : "") << " ";
+
+				if (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine())
+				{
+					Cout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
+					SetConsoleColor(7, 1);
+					Cout << currentLine[currentInstruction->GetLocation().GetColumn()];
+					SetConsoleColor(7, 0);
+					if (currentLine.length() > 0)
+					{
+						Cout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
+					}
+				}
+				else
+				{
+					Cout << currentLine;
+				}
+			}
+
+			Cout << std::endl;
+
+			//	<< *it << std::endl;
+		}
+	}
+}
+*/
 
 int main(){
+	
 	StringStream  code;
 	IFStream file("testinput.txt");
 	String temp;
@@ -37,51 +88,18 @@ int main(){
 
 	String input = "";
 	unsigned numShowCodeLines = 5;
+
+	Debugger debugger(Cin, Cout, *script, geogen::runtime::ScriptParameters());
+	debugger.Run();
+
+	if (false)
 	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
 	{		
 		geogen::runtime::instructions::Instruction const* currentInstruction = vm.GetCallStack().Top().GetCodeBlockStack().Top().GetCurrentInstruction();
 
 		system("cls");
 
-		if (numShowCodeLines > 0)
-		{//codeLines.at(max(currentInstruction->GetLocation().GetLine(), 0)
-			for (
-				int i = -(int)numShowCodeLines;
-				i < (int)numShowCodeLines;
-				i++)
-			{
-				int currentLineNumber = currentInstruction->GetLocation().GetLine() + i;
-				if (currentLineNumber >= 0 && currentLineNumber < (int)codeLines.size())
-				{
-					String currentLine = codeLines[currentLineNumber];
-
-					cout
-						<< std::setw(4)
-						<< currentLineNumber << " "
-						<< std::setw(4) << (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine() ? ">>>" : "") << " ";
-
-					if (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine())
-					{
-						Cout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
-						SetConsoleColor(7, 1);
-						Cout << currentLine[currentInstruction->GetLocation().GetColumn()];
-						SetConsoleColor(7, 0);
-						if (currentLine.length() > 0)
-						{
-							Cout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
-						}
-					}
-					else
-					{
-						Cout << currentLine;
-					}
-				}
-
-				Cout << std::endl;
-
-				//	<< *it << std::endl;
-			}
-		}
+		
 
 		Cout << endl;
 
