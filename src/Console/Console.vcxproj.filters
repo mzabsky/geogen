@@ -2,9 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="CommandTable.cpp" />
+    <ClCompile Include="Debugger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="testinput2.txt" />
     <Text Include="testinput.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RuntimeCommand.hpp" />
+    <ClInclude Include="Command.hpp" />
+    <ClInclude Include="CommandTable.hpp" />
+    <ClInclude Include="runtime_commands\StepRuntimeCommand.hpp" />
+    <ClInclude Include="Debugger.hpp" />
+    <ClInclude Include="runtime_commands\HelpRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\ObjectStackRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\ReadVariableRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\ManagedObjectsRuntimeCommand.hpp" />
   </ItemGroup>
 </Project>
