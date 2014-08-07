@@ -36,3 +36,12 @@ void RenderingSequence::AddStep(RenderingStep* step)
 
 	this->steps.push_back(step);
 }
+
+void RenderingSequence::Serialize(IOStream& stream) const
+{
+	for (const_iterator it = this->Begin(); it != this->End(); it++)
+	{
+		(*it)->Serialize(stream);
+		stream << std::endl;
+	}
+}

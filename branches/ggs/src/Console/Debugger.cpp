@@ -6,6 +6,7 @@
 #include "runtime_commands/ManagedObjectsRuntimeCommand.hpp"
 #include "runtime_commands/ObjectStackRuntimeCommand.hpp"
 #include "runtime_commands/ReadVariableRuntimeCommand.hpp"
+#include "runtime_commands/RenderingSequenceRuntimeCommand.hpp"
 #include "runtime_commands/StepRuntimeCommand.hpp"
 
 using namespace geogen;
@@ -28,6 +29,7 @@ Debugger::Debugger(IStream& in, OStream& out, runtime::CompiledScript const& cod
 	commandTable.AddCommand(new ManagedObjectsRuntimeCommand());
 	commandTable.AddCommand(new ObjectStackRuntimeCommand());
 	commandTable.AddCommand(new ReadVariableRuntimeCommand());
+	commandTable.AddCommand(new RenderingSequenceRuntimeCommand());
 	commandTable.AddCommand(new StepRuntimeCommand());
 }
 

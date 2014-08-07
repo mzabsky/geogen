@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "../Number.hpp"
+#include "../Serializable.hpp"
 
 namespace geogen 
 {
@@ -10,7 +11,7 @@ namespace geogen
 	{
 		class RenderingStep;
 
-		class RenderingSequence 
+		class RenderingSequence : public Serializable
 		{
 			std::vector<RenderingStep*> steps;
 			unsigned objectTableSize;
@@ -44,6 +45,8 @@ namespace geogen
 			void AddStep(RenderingStep* step);
 
 			inline unsigned GetRequiredObjectTableSize() const { return this->objectTableSize; };
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }
