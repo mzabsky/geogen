@@ -26,7 +26,7 @@ namespace geogen
 			return this->message.c_str();
 		}
 
-		ErrorCode GetErrorCode()
+		ErrorCode GetErrorCode() const
 		{
 			return this->code;
 		}
