@@ -16,7 +16,6 @@ namespace geogen
 			public:
 				ReadVariableRuntimeCommand()
 				{
-					this->cues.push_back(GG_STR("r"));
 					this->cues.push_back(GG_STR("rv"));
 					this->cues.push_back(GG_STR("rvar"));
 					this->cues.push_back(GG_STR("readvar"));
@@ -25,7 +24,7 @@ namespace geogen
 
 				virtual String GetName() { return GG_STR("Read variable"); };
 
-				virtual String GetHelpString() { return GG_STR("r [name] - Read variable [name]."); };
+				virtual String GetHelpString() { return GG_STR("read [name] - Read variable [name]."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{

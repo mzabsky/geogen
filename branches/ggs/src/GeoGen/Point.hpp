@@ -89,4 +89,22 @@ namespace geogen {
 			stream << GG_STR("[") << this->x << GG_STR(", ") << this->y << GG_STR("]");
 		}
 	};
+
+	inline Coordinate NextMultipleOfInclusive(Coordinate coord, Coordinate multiplier)
+	{
+		return coord + multiplier - 1 - (coord - 1) % multiplier;
+	}
+
+	inline Coordinate NextMultipleOfExclusive(Coordinate coord, Coordinate multiplier)
+	{
+		return coord + multiplier - coord % multiplier;
+	}
+
+	inline Coordinate PreviousMultipleOfExclusive(Coordinate coord, Coordinate multiplier)
+	{
+		int remainder = coord % multiplier;
+		if (remainder == 0)
+			return coord - multiplier;
+		return coord - remainder;
+	}
 }
