@@ -30,11 +30,12 @@ namespace geogen
 			typedef std::deque<CodeBlockStackEntry*>::reverse_iterator reverse_iterator;
 
 			CodeBlockStackEntry& Top();
+			CodeBlockStackEntry const& Top() const;
 			void Pop();
 			void Push(CodeLocation location, MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
-			inline bool IsEmpty() { return this->stack.empty(); };
-			inline size_t Size() { return this->stack.size(); };
-			void CheckSize(unsigned requiredSize);
+			inline bool IsEmpty() const { return this->stack.empty(); };
+			inline size_t Size() const { return this->stack.size(); };
+			void CheckSize(unsigned requiredSize) const;
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->stack.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->stack.end()); }

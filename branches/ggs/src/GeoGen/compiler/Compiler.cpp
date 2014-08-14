@@ -25,7 +25,7 @@ Compiler::Compiler(){}
 
 CompiledScript* Compiler::CompileScript(String const& code) const
 {
-	auto_ptr<CompiledScript> script(new CompiledScript());
+	auto_ptr<CompiledScript> script(new CompiledScript(code));
 	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());
 
 #ifdef GEOGEN_WCHAR

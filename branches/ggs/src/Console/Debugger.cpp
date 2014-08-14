@@ -1,4 +1,8 @@
+#include <iomanip>
+
 #include "Debugger.hpp"
+#include "../GeoGen/utils/StringUtils.hpp"
+#include "ConsoleUtils.hpp"
 #include "runtime_commands/CallStackRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockCodeRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockStackRuntimeCommand.hpp"
@@ -20,9 +24,11 @@ using namespace std;
 using namespace runtime_commands;
 using namespace instructions;
 
-Debugger::Debugger(IStream& in, OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters)
+const unsigned Debugger::NUMBER_OF_SHOWN_LINES_DEFAULT = 7;
+
+Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters)
 : vm(code, parameters), in(in), out(out)
-{
+{	
 	commandTable.AddCommand(new CallStackRuntimeCommand());
 	commandTable.AddCommand(new CodeBlockCodeRuntimeCommand());
 	commandTable.AddCommand(new CodeBlockStackRuntimeCommand());
@@ -35,31 +41,80 @@ Debugger::Debugger(IStream& in, OStream& out, runtime::CompiledScript const& cod
 	commandTable.AddCommand(new StepRuntimeCommand());
 }
 
-runtime::instructions::Instruction const* Debugger::GetCurrentInstruction()
+void Debugger::ShowCodeContext() const
 {
-	if (this->GetVirtualMachine() == NULL) return NULL;
-	if (this->GetVirtualMachine()->GetCallStack().IsEmpty()) return NULL;
+	vector<String> codeLines = geogen::utils::StringToLines(this->vm.GetCompiledScript().GetCode());
 
-	runtime::CallStackEntry& callStackTop = this->GetVirtualMachine()->GetCallStack().Top();
+	if (this->numberOfShownLines > 0)
+	{//codeLines.at(max(currentInstruction->GetLocation().GetLine(), 0)
+		Instruction const* currentInstruction = this->GetCurrentInstruction();
+
+		for (
+			int i = -(int)numberOfShownLines;
+			i < (int)numberOfShownLines;
+			i++
+		)
+		{
+			int currentLineNumber = currentInstruction->GetLocation().GetLine() + i;
+			if (currentLineNumber >= 0 && currentLineNumber < (int)codeLines.size())
+			{
+				String currentLine = codeLines[currentLineNumber];
+
+				cout
+					<< std::setw(4)
+					<< currentLineNumber << " "
+					<< std::setw(4) << (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine() ? ">>>" : "") << " ";
+
+				if (currentLineNumber + 1 == currentInstruction->GetLocation().GetLine())
+				{
+					Cout << currentLine.substr(0, currentInstruction->GetLocation().GetColumn());
+					HighlightYellow();
+					Cout << currentLine[currentInstruction->GetLocation().GetColumn()];
+					Unhighlight();
+					if (currentLine.length() > 0)
+					{
+						Cout << currentLine.substr(currentInstruction->GetLocation().GetColumn() + 1);
+					}
+				}
+				else
+				{
+					Cout << currentLine;
+				}
+			}
+
+			Cout << std::endl;
+
+			//	<< *it << std::endl;
+		}
+	}
+}
+
+runtime::instructions::Instruction const* Debugger::GetCurrentInstruction() const
+{
+	if (this->vm.GetCallStack().IsEmpty()) return NULL;
+
+	runtime::CallStackEntry const& callStackTop = this->vm.GetCallStack().Top();
 
 	if (callStackTop.GetCodeBlockStack().IsEmpty()) return NULL;
 
-	runtime::CodeBlockStackEntry& codeBlockStackTop = callStackTop.GetCodeBlockStack().Top();
+	runtime::CodeBlockStackEntry const& codeBlockStackTop = callStackTop.GetCodeBlockStack().Top();
 
 	return codeBlockStackTop.GetCurrentInstruction();
 };
 
 void Debugger::Run()
 {
+	this->ShowCodeContext();
+
+	runtime::instructions::Instruction const* currentInstruction = this->GetCurrentInstruction();
+	out << std::endl << GG_STR("Next instruction: ") << (currentInstruction->ToString()) << GG_STR(" on line ") << currentInstruction->GetLocation().GetLine() << GG_STR(", column ") << currentInstruction->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
+
 	String input = "";
 	while (vm.GetStatus() == VIRTUAL_MACHINE_STATUS_READY)
 	{
-		Instruction const* currentInstruction = this->GetCurrentInstruction();
-		out << endl << GG_STR("Next instruction: ") << (currentInstruction->ToString()) << GG_STR(" on line ") << currentInstruction->GetLocation().GetLine() << GG_STR(", column ") << currentInstruction->GetLocation().GetColumn() << GG_STR(". ") << endl << endl << GG_STR("Command? ");
+		out << GG_STR("Command? ");
 
 		getline<Char>(in, input);
-
-		out << "Input: " << input << endl << endl;
 
 		size_t separatorPosition = input.find(" ");
 		string commandCue = input.substr(0, separatorPosition);
@@ -72,7 +127,7 @@ void Debugger::Run()
 		Command const* command = this->commandTable.GetCommand(commandCue);
 		if (command == NULL)
 		{
-			out << GG_STR("Unknown command");
+			out << GG_STR("Unknown command. Use \"h\" to print list of available commands.") << endl << endl;
 		}
 		else
 		{

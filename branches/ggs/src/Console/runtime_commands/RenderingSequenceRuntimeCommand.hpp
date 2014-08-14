@@ -20,9 +20,9 @@ namespace geogen
 					this->cues.push_back(GG_STR("renderingsequence"));
 				}
 
-				virtual String GetName() { return GG_STR("Rendering sequence"); };
+				virtual String GetName() const { return GG_STR("Rendering sequence"); };
 
-				virtual String GetHelpString() { return GG_STR("rs - Displays rendering sequence."); };
+				virtual String GetHelpString() const { return GG_STR("rs - Displays rendering sequence."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{

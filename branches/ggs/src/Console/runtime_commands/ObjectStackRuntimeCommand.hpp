@@ -22,9 +22,9 @@ namespace geogen
 					this->cues.push_back(GG_STR("objectstack"));
 				}
 
-				virtual String GetName() { return GG_STR("Object stack"); };
+				virtual String GetName() const { return GG_STR("Object stack"); };
 
-				virtual String GetHelpString() { return GG_STR("s - Displays object stack."); };
+				virtual String GetHelpString() const { return GG_STR("s - Displays object stack."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{

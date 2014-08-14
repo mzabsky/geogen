@@ -12,11 +12,15 @@ namespace geogen
 	{
 		class Debugger
 		{
+			static const unsigned NUMBER_OF_SHOWN_LINES_DEFAULT;
+
 			runtime::VirtualMachine vm;
 			CommandTable commandTable;
 
 			IStream& in;
 			OStream& out;
+
+			unsigned numberOfShownLines = NUMBER_OF_SHOWN_LINES_DEFAULT;
 
 			// Non-copyable
 			Debugger(Debugger const&) : vm(*(runtime::CompiledScript*)NULL, *(runtime::ScriptParameters*)NULL), in(Cin), out(Cout) {};
@@ -29,8 +33,12 @@ namespace geogen
 			inline OStream& GetOut() { return this->out; }
 
 			inline runtime::VirtualMachine* GetVirtualMachine() { return &this->vm; };
-			runtime::instructions::Instruction const* GetCurrentInstruction();
+			runtime::instructions::Instruction const* GetCurrentInstruction() const;
 			inline CommandTable& GetCommandTable() { return this->commandTable; };
+
+			void ShowCodeContext() const;
+			inline unsigned GetNumberOfShownLines() const { return this->numberOfShownLines; }
+			inline void SetNumberOfShownLines(unsigned numberOfShownLines) { this->numberOfShownLines = numberOfShownLines; }
 
 			void Run();
 		};

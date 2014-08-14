@@ -21,15 +21,15 @@ namespace geogen
 					this->cues.push_back(GG_STR("help"));
 				}
 
-				virtual String GetName() { return GG_STR("Help"); };
+				virtual String GetName() const { return GG_STR("Help"); };
 
-				virtual String GetHelpString() { return GG_STR("h - Displays the list of usable commands."); };
+				virtual String GetHelpString() const { return GG_STR("h - Displays the list of usable commands."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{
 					for (CommandTable::iterator it = debugger->GetCommandTable().Begin(); it != debugger->GetCommandTable().End(); it++)
 					{
-						debugger->GetOut() << (*it)->GetHelpString() << std::endl;
+						debugger->GetOut() << (*it)->GetHelpString() << std::endl << std::endl;
 					}
 				}
 			};

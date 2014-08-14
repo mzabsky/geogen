@@ -9,17 +9,14 @@
 #include "CommandTable.hpp"
 
 #include "Debugger.hpp";
+#include "ConsoleUtils.hpp"
 
 using namespace geogen;
 using namespace console;
+using namespace compiler;
 using namespace runtime;
 using namespace std;
 
-void SetConsoleColor(int foreground, int background)
-{
-	int finalcolor = (16 * background) + foreground;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), finalcolor);
-}
 /*
 void ShowCodeContext(VirtualMachine* vm, OStream out, std::vector<String> lines, unsigned numberOfLines)
 {
@@ -79,12 +76,8 @@ int main(){
 
 	try
 	{
-		geogen::compiler::Compiler compiler;
-		//HeightMap.Empty()        
-		geogen::runtime::CompiledScript const* script = compiler.CompileScript(codeString);
-
-		geogen::runtime::VirtualMachine vm(*script, geogen::runtime::ScriptParameters());
-		//vm.Run();
+		Compiler compiler;
+		CompiledScript const* script = compiler.CompileScript(codeString);
 
 		vector<String> codeLines = geogen::utils::StringToLines(codeString);
 
@@ -98,8 +91,9 @@ int main(){
 	}
 	catch (GeoGenException& e)
 	{
-		String str = e.GetDetailMessage();
+		HighlightRed();
 		Cout << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl;
+		HighlightYellow();
 	}
 
 	/*
@@ -216,6 +210,8 @@ int main(){
 	}*/
 	
 	//std::cout << script->GetSymbolNameTable().ToString();	
+
+OStream& c = Cout;
 
 	return 0;
 }

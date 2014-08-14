@@ -22,9 +22,9 @@ namespace geogen
 					this->cues.push_back(GG_STR("readvariable"));
 				}
 
-				virtual String GetName() { return GG_STR("Read variable"); };
+				virtual String GetName() const { return GG_STR("Read variable"); };
 
-				virtual String GetHelpString() { return GG_STR("read [name] - Read variable [name]."); };
+				virtual String GetHelpString() const { return GG_STR("read [name] - Read variable [name]."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{
@@ -46,6 +46,8 @@ namespace geogen
 							debugger->GetOut() << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
 						}
 					}
+
+					debugger->GetOut() << std::endl;
 				}
 			};
 		}

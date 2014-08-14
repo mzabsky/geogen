@@ -26,6 +26,16 @@ CallStackEntry& CallStack::Top()
 	return *this->stack.back();
 }
 
+CallStackEntry const& CallStack::Top() const
+{
+	if (this->stack.size() < 1)
+	{
+		throw InternalErrorException(GG_STR("Can't get top of empty call stack."));
+	}
+
+	return *this->stack.back();
+}
+
 void CallStack::Pop()
 {
 	if (this->stack.size() < 1)

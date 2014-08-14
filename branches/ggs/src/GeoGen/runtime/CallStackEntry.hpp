@@ -42,6 +42,7 @@ namespace geogen
 
 			inline CodeLocation GetCallLocation() const { return this->callLocation; };
 			inline CodeBlockStack& GetCodeBlockStack() { return this->codeBlockStack; };
+			inline CodeBlockStack const& GetCodeBlockStack() const { return this->codeBlockStack; };
 
 			inline FunctionDefinition const* GetFunctionDefinition() const { return this->functionDefinition; }
 

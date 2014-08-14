@@ -13,9 +13,9 @@ namespace geogen
 		protected:
 			std::vector<String> cues;
 		public:
-			virtual String GetName() = 0;
-			inline std::vector<String>& GetCues() { return this->cues; };
-			virtual String GetHelpString() = 0;
+			virtual String GetName() const = 0;
+			inline std::vector<String> const& GetCues() const { return this->cues; };
+			virtual String GetHelpString() const = 0;
 
 			virtual ~Command() {}
 		};
