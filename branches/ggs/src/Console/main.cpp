@@ -77,21 +77,32 @@ int main(){
 
 	String codeString = code.str();
 
-	geogen::compiler::Compiler compiler;
-	//HeightMap.Empty()        
-	geogen::runtime::CompiledScript const* script = compiler.CompileScript(codeString);
+	try
+	{
+		geogen::compiler::Compiler compiler;
+		//HeightMap.Empty()        
+		geogen::runtime::CompiledScript const* script = compiler.CompileScript(codeString);
 
-	geogen::runtime::VirtualMachine vm(*script, geogen::runtime::ScriptParameters());
-	//vm.Run();
+		geogen::runtime::VirtualMachine vm(*script, geogen::runtime::ScriptParameters());
+		//vm.Run();
 
-	vector<String> codeLines = geogen::utils::StringToLines(codeString);
+		vector<String> codeLines = geogen::utils::StringToLines(codeString);
 
-	String input = "";
-	unsigned numShowCodeLines = 5;
+		String input = "";
+		unsigned numShowCodeLines = 5;
 
-	Debugger debugger(Cin, Cout, *script, geogen::runtime::ScriptParameters());
-	debugger.Run();
+		Debugger debugger(Cin, Cout, *script, geogen::runtime::ScriptParameters());
+		debugger.Run();
 
+		Cout << "Virtual machine finished!";
+	}
+	catch (GeoGenException& e)
+	{
+		String str = e.GetDetailMessage();
+		Cout << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl;
+	}
+
+	/*
 	if (false)
 	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
 	{		
@@ -202,11 +213,9 @@ int main(){
 		Cout << endl << "Next instruction: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". " << endl << endl << "Command? ";
         
 		getline<Char>(Cin, input);
-	}
+	}*/
 	
-	//std::cout << script->GetSymbolNameTable().ToString();
-
-	Cout << "Virtual machine finished!";
+	//std::cout << script->GetSymbolNameTable().ToString();	
 
 	return 0;
 }
