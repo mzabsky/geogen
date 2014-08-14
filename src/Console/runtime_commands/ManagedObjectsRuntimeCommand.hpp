@@ -22,13 +22,13 @@ namespace geogen
 					this->cues.push_back(GG_STR("managedobjects"));
 				}
 
-				virtual String GetName() { return GG_STR("Managed objects"); };
+				virtual String GetName() const { return GG_STR("Managed objects"); };
 
-				virtual String GetHelpString() { return GG_STR("o - Displays all existing managed objects."); };
+				virtual String GetHelpString() const { return GG_STR("o - Displays all existing managed objects."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{
-					debugger->GetOut() << "Code block stack: " << std::endl;
+					debugger->GetOut() << "List of all managed objects: " << std::endl;
 					debugger->GetOut() << debugger->GetVirtualMachine()->GetMemoryManager().ToString() << std::endl;
 				}
 			};

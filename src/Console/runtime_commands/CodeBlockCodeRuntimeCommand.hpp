@@ -20,9 +20,9 @@ namespace geogen
 					this->cues.push_back(GG_STR("codeblockcode"));
 				}
 
-				virtual String GetName() { return GG_STR("Code block code"); };
+				virtual String GetName() const { return GG_STR("Code block code"); };
 
-				virtual String GetHelpString() { return GG_STR("cbc [n] - Displays code of n-th code block on the code block stack (0 = topmost = default)."); };
+				virtual String GetHelpString() const { return GG_STR("cbc [n] - Displays code of n-th code block on the code block stack (0 = topmost = default)."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{

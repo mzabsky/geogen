@@ -31,11 +31,15 @@ namespace geogen
 				MetadataKeyValueCollection metadata;
 
 				corelib::CoreLibrary coreLibrary;
+
+				String code;
 			public:
 				static const String MAIN_FUNCTION_NAME;
 
-				CompiledScript();
+				CompiledScript(String code);
 				~CompiledScript();
+
+				inline String GetCode() const { return this->code; }
 
 				ScriptParameters CreateScriptParameters() const;
 

@@ -20,9 +20,9 @@ namespace geogen
 					this->cues.push_back(GG_STR("codeblockstack"));
 				}
 
-				virtual String GetName() { return GG_STR("Code block stack"); };
+				virtual String GetName() const { return GG_STR("Code block stack"); };
 
-				virtual String GetHelpString() { return GG_STR("cbs - Displays code block stack."); };
+				virtual String GetHelpString() const { return GG_STR("cbs - Displays code block stack."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{

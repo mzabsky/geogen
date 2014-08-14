@@ -30,7 +30,7 @@ using namespace runtime;
 
 const String CompiledScript::MAIN_FUNCTION_NAME = GG_STR("<main>");
 
-CompiledScript::CompiledScript() : metadata(CodeLocation(0, 0))
+CompiledScript::CompiledScript(String code) : code(code), metadata(CodeLocation(0, 0))
 {
 	this->AddLibrary(&this->coreLibrary);
 //	this->metadata = NULL;

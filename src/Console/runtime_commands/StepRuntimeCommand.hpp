@@ -20,13 +20,18 @@ namespace geogen
 					this->cues.push_back(GG_STR("step"));
 				}
 
-				virtual String GetName() { return GG_STR("Step"); };
+				virtual String GetName() const { return GG_STR("Step"); };
 
-				virtual String GetHelpString() { return GG_STR("step - Advances by one instruction (default)."); };
+				virtual String GetHelpString() const { return GG_STR("step - Advances by one instruction (default)."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{
+					debugger->GetOut() << GG_STR("Step") << std::endl << std::endl;
 					debugger->GetVirtualMachine()->Step();
+					debugger->ShowCodeContext();
+
+					runtime::instructions::Instruction const* currentInstruction = debugger->GetCurrentInstruction();
+					debugger->GetOut() << std::endl << GG_STR("Next instruction: ") << (currentInstruction->ToString()) << GG_STR(" on line ") << currentInstruction->GetLocation().GetLine() << GG_STR(", column ") << currentInstruction->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
 				}
 			};
 		}

@@ -87,13 +87,18 @@ namespace geogen
 			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 
 			inline ObjectStack& GetObjectStack() { return this->objectStack; };
+			inline ObjectStack const& GetObjectStack() const { return this->objectStack; };
 			//inline std::stack<ManagedObject const*> const& GetObjectStack() const { return *((std::stack<ManagedObject const*>*)&this->objectStack); };
 
 			inline CallStack& GetCallStack() { return this->callStack; };
+			inline CallStack const& GetCallStack() const { return this->callStack; };
 			//inline std::stack<CallStackEntry const> const& GetCallStack() const { return *((std::stack<ManagedObject const*>*)&this->callStack); };
 
 			inline renderer::RenderingSequence& GetRenderingSequence() { return this->renderingSequence; }
+			inline renderer::RenderingSequence const& GetRenderingSequence() const { return this->renderingSequence; }
+
 			inline renderer::RendererObjectSlotTable& GetRendererObjectSlotTable() { return this->rendererObjectSlotTable; }
+			inline renderer::RendererObjectSlotTable const& GetRendererObjectSlotTable() const { return this->rendererObjectSlotTable; }
 
 			VirtualMachineStepResult Step();
 

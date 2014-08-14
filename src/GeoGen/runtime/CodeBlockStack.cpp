@@ -26,6 +26,16 @@ CodeBlockStackEntry& CodeBlockStack::Top()
 	return *this->stack.back();
 }
 
+CodeBlockStackEntry const& CodeBlockStack::Top() const
+{
+	if (this->stack.size() < 1)
+	{
+		throw InternalErrorException(GG_STR("Can't get top of empty code block stack."));
+	}
+
+	return *this->stack.back();
+}
+
 void CodeBlockStack::Pop()
 {
 	if (this->stack.size() < 1)
@@ -54,7 +64,7 @@ void CodeBlockStack::Push(CodeLocation location, MemoryManager* memoryManager, C
 	}
 }
 
-void CodeBlockStack::CheckSize(unsigned requiredSize)
+void CodeBlockStack::CheckSize(unsigned requiredSize) const
 {
 	if (this->stack.size() < requiredSize)
 	{

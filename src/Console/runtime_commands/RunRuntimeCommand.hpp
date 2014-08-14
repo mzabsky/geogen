@@ -20,12 +20,13 @@ namespace geogen
 					this->cues.push_back(GG_STR("run"));
 				}
 
-				virtual String GetName() { return GG_STR("Run"); };
+				virtual String GetName() const { return GG_STR("Run"); };
 
-				virtual String GetHelpString() { return GG_STR("r - Advances until the virtual machine finishes or fails."); };
+				virtual String GetHelpString() const { return GG_STR("r - Advances until the virtual machine finishes or fails."); };
 
 				virtual void Run(Debugger* debugger, String arguments) const
 				{
+					debugger->GetOut() << GG_STR("Run") << std::endl << std::endl;
 					debugger->GetVirtualMachine()->Run();
 				}
 			};
