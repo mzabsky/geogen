@@ -86,6 +86,7 @@
     <ClInclude Include="runtime_commands\ObjectStackRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\ReadVariableRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\RenderingSequenceRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\RunRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\StepRuntimeCommand.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
