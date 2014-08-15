@@ -4,7 +4,8 @@
 #include "instructions/Instruction.hpp"
 
 using namespace geogen;
-using namespace geogen::runtime;
+using namespace runtime;
+using namespace std;
 
 CodeBlock::~CodeBlock() 
 {
@@ -33,20 +34,21 @@ void CodeBlock::MoveInstructionsFrom(CodeBlock& another)
 
 void CodeBlock::Serialize(IOStream& stream) const
 {
-	stream << "{" << std::endl;
+	//stream << "{" << std::endl;
 
 	for(const_iterator it = this->Begin(); it != this->End(); it++)
 	{
-		StringStream instructionStream;
-		String line;
+		//StringStream instructionStream;
+		//String line;
 
-		(*it)->Serialize(instructionStream);
+		(*it)->Serialize(stream);
+		stream << endl;
 
-		while (getline(instructionStream, line))
+		/*while (getline(instructionStream, line))
 		{
 			stream << " [" << std::setw(3) << (*it)->GetLocation().GetLine() << ", " << std::setw(3) << (*it)->GetLocation().GetColumn() << "]\t" << line << std::endl;
-		}
+		}*/
 	}
 
-	stream << "}" << std::endl;
+	//stream << "}" << std::endl;
 }

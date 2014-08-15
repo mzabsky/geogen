@@ -61,7 +61,6 @@ bool VariableTable::DeclareVariable(String const& symbolName, ManagedObject* val
 
 void VariableTable::Serialize(IOStream& stream) const
 {
-	stream << "{" << endl;
 	for (const_iterator it = this->Begin(); it != this->End(); it++)
 	{
 		stream << it->first << GG_STR(": ") << (it->second.IsConst() ? "const " : "");

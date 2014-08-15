@@ -98,33 +98,28 @@ void ScriptParameters::ResetToDefaults()
 
 void ScriptParameters::Serialize(IOStream& stream) const
 {
-	stream << "{" << endl;
-	stream << "\t" << "MapWidth: " << this->mapWidth << endl;
-	stream << "\t" << "DefaultMapWidth: " << this->defaultMapWidth << endl;
-	stream << "\t" << "MinMapWidth: " << this->minMapWidth << endl;
-	stream << "\t" << "MaxMapWidth: " << this->maxMapWidth << endl;
+	stream << "MapWidth: " << this->mapWidth << endl;
+	stream << "DefaultMapWidth: " << this->defaultMapWidth << endl;
+	stream << "MinMapWidth: " << this->minMapWidth << endl;
+	stream << "MaxMapWidth: " << this->maxMapWidth << endl;
 	
-	stream << "\t" << "MapHeight: " << this->mapHeight << endl;
-	stream << "\t" << "DefaultMapHeight: " << this->defaultMapHeight << endl;
-	stream << "\t" << "MinMapHeight: " << this->minMapHeight << endl;
-	stream << "\t" << "MaxMapHeight: " << this->maxMapHeight << endl;
+	stream << "MapHeight: " << this->mapHeight << endl;
+	stream << "DefaultMapHeight: " << this->defaultMapHeight << endl;
+	stream << "MinMapHeight: " << this->minMapHeight << endl;
+	stream << "MaxMapHeight: " << this->maxMapHeight << endl;
 	
-	stream << "\t" << "RenderOriginX: " << this->renderOriginX << endl;
-	stream << "\t" << "RenderOriginY: " << this->renderOriginY << endl;
-	stream << "\t" << "RenderWidth: " << this->renderWidth << endl;
-	stream << "\t" << "RenderHeight: " << this->renderHeight << endl;
+	stream << "RenderOriginX: " << this->renderOriginX << endl;
+	stream << "RenderOriginY: " << this->renderOriginY << endl;
+	stream << "RenderWidth: " << this->renderWidth << endl;
+	stream << "RenderHeight: " << this->renderHeight << endl;
 
-	stream << "\t" << "RenderScale: " << this->renderScale << endl;
-	stream << "\t" << "RandomSeed: " << this->randomSeed << endl;
+	stream << "RenderScale: " << this->renderScale << endl;
+	stream << "RandomSeed: " << this->randomSeed << endl;
 
-	stream << "\t" << "Parameters: " << endl;
-	stream << "\t" << "{" << endl;
+	stream << "Parameters: " << endl;
 
 	for (const_iterator it = this->Begin(); it != this->End(); it++)
 	{		
 		it->second->SerializeWithTabs(stream, 1);
 	}
-
-	stream << "\t" << "}" << endl;
-	stream << "}" << endl;
 }

@@ -55,17 +55,29 @@ void TypeDefinition::Serialize(IOStream& stream) const
 {
 	//stream << "{" << endl;
 
-	stream << "\t" << "FunctionDefinitions: " << endl;
-	this->GetFunctionDefinitions().SerializeWithTabs(stream, 1);
+	if (this->GetFunctionDefinitions().Size() > 0)
+	{
+		stream << "FunctionDefinitions: " << endl;
+		this->GetFunctionDefinitions().SerializeWithTabs(stream, 1);
+	}
 
-	stream << "\t" << "StaticFunctionDefinitions: " << endl;
-	this->GetStaticFunctionDefinitions().SerializeWithTabs(stream, 1);
+	if (this->GetStaticFunctionDefinitions().Size() > 0)
+	{
+		stream << "StaticFunctionDefinitions: " << endl;
+		this->GetStaticFunctionDefinitions().SerializeWithTabs(stream, 1);
+	}
 
-	stream << "\t" << "VariableDefinitions: " << endl;
-	this->GetVariableDefinitions().SerializeWithTabs(stream, 1);
+	if (this->GetVariableDefinitions().Size() > 0)
+	{
+		stream << "VariableDefinitions: " << endl;
+		this->GetVariableDefinitions().SerializeWithTabs(stream, 1);
+	}
 
-	stream << "\t" << "StaticVariableDefinitions: " << endl;
-	this->GetStaticVariableDefinitions().SerializeWithTabs(stream, 1);
+	if (this->GetStaticVariableDefinitions().Size() > 0)
+	{
+		stream << "StaticVariableDefinitions: " << endl;
+		this->GetStaticVariableDefinitions().SerializeWithTabs(stream, 1);
+	}
 
 	//stream << "}" << endl;
 }

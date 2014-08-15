@@ -85,20 +85,18 @@ namespace geogen
 				return true;
 			};
 
+			inline unsigned Size() const { return this->table.size(); }
+
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
 
 			virtual void Serialize(IOStream& stream) const
 			{
-				stream << GG_STR("{") << std::endl;
-				
 				for (const_iterator it = this->Begin(); it != this->End(); it++)
 				{
-					stream << GG_STR("\t") << it->first << GG_STR(": ");
+					stream << it->first << GG_STR(": ") << std::endl;
 					it->second->SerializeWithTabs(stream, 1);
 				}
-
-				stream << GG_STR("}") << std::endl;
 			}
 
 			~SymbolDefinitionTable()
