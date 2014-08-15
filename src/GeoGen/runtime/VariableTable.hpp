@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include "../Serializable.hpp"
 #include "../String.hpp"
 #include "VariableTableItem.hpp"
 
@@ -12,7 +13,7 @@ namespace geogen
 		class ManagedObject;
 		class MemoryManager;
 
-		class VariableTable
+		class VariableTable : public Serializable
 		{
 		private:
 			MemoryManager* memoryManager;
@@ -40,7 +41,9 @@ namespace geogen
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
 
 			inline iterator Begin() { return this->table.begin(); }
-			inline iterator End() { return this->table.end(); }			
+			inline iterator End() { return this->table.end(); }	
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

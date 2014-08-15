@@ -21,3 +21,9 @@ void ScriptFunctionDefinition::Call(CodeLocation location, VirtualMachine* vm, M
 
 	vm->GetCallStack().Top().CallCodeBlock(location, vm, this->GetRootCodeBlock(), false);
 }
+
+void ScriptFunctionDefinition::Serialize(IOStream& stream) const
+{
+	stream << this->GetParameterCount() << GG_STR(" parameters on line ") << this->GetLocation().GetLine() << GG_STR(", column ") << endl;
+	this->rootCodeBlock.SerializeWithTabs(stream, 1);
+}

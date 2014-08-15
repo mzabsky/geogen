@@ -14,6 +14,8 @@ namespace geogen
 		/// <param name="stream"> The stream. </param>
 		virtual void Serialize(IOStream& stream) const = 0;
 
+		virtual void SerializeWithTabs(IOStream& stream, unsigned tabs) const;
+
 		/// <summary> Convert this instance into a human readable string representation. </summary>
 		/// <returns> A string that represents this instance. </returns>
 		String ToString() const;

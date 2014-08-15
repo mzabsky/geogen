@@ -41,3 +41,14 @@ ScriptParameter* BooleanScriptParameter::Clone() const
 {
 	return new BooleanScriptParameter(*this);
 }
+
+void BooleanScriptParameter::Serialize(IOStream& stream) const
+{
+	stream << "{" << endl;
+	stream << "\t" << "Name: " << this->name << endl;
+	stream << "\t" << "Label: " << this->label << endl;
+	stream << "\t" << "Description: " << this->description << endl;
+	stream << "\t" << "DefaultValue: " << this->defaultValue << endl;
+	stream << "\t" << "Value: " << this->value << endl;
+	stream << "}" << endl;
+}

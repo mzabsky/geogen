@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include "../Serializable.hpp"
 #include "../ErrorCode.hpp"
 #include "../ApiUsageException.hpp"
 
@@ -10,7 +11,7 @@ namespace geogen
 	namespace runtime 
 	{		
 		template<class TSymbolBase, bool TOwning = false>
-		class SymbolDefinitionTable
+		class SymbolDefinitionTable : public Serializable
 		{
 		private:
 			std::map<String, TSymbolBase*> table;
@@ -86,6 +87,19 @@ namespace geogen
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
+
+			virtual void Serialize(IOStream& stream) const
+			{
+				stream << GG_STR("{") << std::endl;
+				
+				for (const_iterator it = this->Begin(); it != this->End(); it++)
+				{
+					stream << GG_STR("\t") << it->first << GG_STR(": ");
+					it->second->SerializeWithTabs(stream, 1);
+				}
+
+				stream << GG_STR("}") << std::endl;
+			}
 
 			~SymbolDefinitionTable()
 			{

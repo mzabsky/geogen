@@ -21,6 +21,18 @@ namespace geogen
 			void MoveKeyValuesFrom(MetadataKeyValueCollection& another);
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_KEYVALUE_COLLECTION; };
+			
+			virtual void Serialize(IOStream& stream) const
+			{
+				stream << GG_STR("{") << std::endl;
+				for (const_iterator it = this->Begin(); it != this->End(); it++)
+				{
+					stream << it->first << GG_STR(": ");
+					it->second->SerializeWithTabs(stream, 1); 
+					stream << std::endl;
+				}
+				stream << GG_STR("}");
+			}
 		};
 	}
 }

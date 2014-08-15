@@ -21,7 +21,7 @@ namespace geogen
 		class VirtualMachine;
 		class TypeDefinition;
 
-		class FunctionDefinition
+		class FunctionDefinition : public Serializable
 		{
 		private:
 			String name;
@@ -52,6 +52,8 @@ namespace geogen
 			/// <param name="expectedArgumentCount"> The list of expected parameters. </param>
 			/// <param name="actualArguments"> The actual arguments. </param>			
 			void CheckArguments(CodeLocation location, unsigned expectedArgumentCount, std::vector<ManagedObject*> actualArguments) const;
+
+			virtual void Serialize(IOStream& stream) const = 0;
 		};
 	}
 }

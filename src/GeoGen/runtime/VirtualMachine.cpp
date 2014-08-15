@@ -225,3 +225,32 @@ ManagedObject* VirtualMachine::GetStaticInstance(String const& typeName)
 
 	else return variableTableItem->GetValue();
 }
+
+void VirtualMachine::Serialize(IOStream& stream) const
+{
+	stream << "Status: " << status << endl;
+
+	stream << "MemoryManager: " << endl; 
+	this->memoryManager.SerializeWithTabs(stream, 1);
+
+	stream << "CallStack: " << endl;
+	this->callStack.SerializeWithTabs(stream, 1);
+
+	stream << "CompiledScript: " << endl;
+	this->compiledScript.SerializeWithTabs(stream, 1);
+
+	stream << "ObjectStack: " << endl;
+	this->objectStack.SerializeWithTabs(stream, 1);
+
+	stream << "GlobalVariableTable: " << endl;
+	this->globalVariableTable.SerializeWithTabs(stream, 1);
+
+	stream << "Arguments: " << endl;
+	this->arguments.SerializeWithTabs(stream, 1);
+
+	//stream << "RendererObjectSlotTable: " << endl;
+	//this->rendererObjectSlotTable.Serialize(stream);
+	
+	stream << "RenderingSequence: " << endl;
+	this->renderingSequence.SerializeWithTabs(stream, 1);
+}

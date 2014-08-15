@@ -42,3 +42,8 @@ void GlobalNativeFunctionDefinition::Call(CodeLocation location, VirtualMachine*
 
 	objectStack.Push(location, returnValue);
 }
+
+void GlobalNativeFunctionDefinition::Serialize(IOStream& stream) const
+{
+	stream << GG_STR("<native>") << endl;
+}

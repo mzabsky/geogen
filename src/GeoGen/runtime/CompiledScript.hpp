@@ -18,7 +18,7 @@ namespace geogen
 		class FunctionDefinition;
 		class Library;
 
-		class CompiledScript
+		class CompiledScript : public Serializable
 		{
 			private:	
 				SymbolDefinitionTable<VariableDefinition> globalVariableDefinitions;
@@ -65,6 +65,8 @@ namespace geogen
 				bool AddTypeDefinition(TypeDefinition* typeDefinition);
 
 				void AddLibrary(Library const* library);
+
+				virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

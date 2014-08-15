@@ -4,6 +4,7 @@
 
 using namespace geogen;
 using namespace geogen::runtime;
+using namespace std;
 
 VariableTable::~VariableTable()
 {
@@ -57,3 +58,13 @@ bool VariableTable::DeclareVariable(String const& symbolName, ManagedObject* val
 
 	return true;
 };
+
+void VariableTable::Serialize(IOStream& stream) const
+{
+	stream << "{" << endl;
+	for (const_iterator it = this->Begin(); it != this->End(); it++)
+	{
+		stream << it->first << GG_STR(": ") << (it->second.IsConst() ? "const " : "");
+		it->second.GetValue()->SerializeWithTabs(stream, 1);
+	}
+}

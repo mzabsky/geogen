@@ -4,7 +4,8 @@
 #include "StaticObject.hpp"
 
 using namespace std;
-using namespace geogen::runtime;
+using namespace geogen;
+using namespace runtime;
 
 void TypeDefinition::Initialize(VirtualMachine* vm) const
 {
@@ -48,4 +49,23 @@ ManagedObject* TypeDefinition::Convert(VirtualMachine* vm, ManagedObject* object
 	{
 		throw InternalErrorException("Invalid type conversion.");
 	}
+}
+
+void TypeDefinition::Serialize(IOStream& stream) const
+{
+	//stream << "{" << endl;
+
+	stream << "\t" << "FunctionDefinitions: " << endl;
+	this->GetFunctionDefinitions().SerializeWithTabs(stream, 1);
+
+	stream << "\t" << "StaticFunctionDefinitions: " << endl;
+	this->GetStaticFunctionDefinitions().SerializeWithTabs(stream, 1);
+
+	stream << "\t" << "VariableDefinitions: " << endl;
+	this->GetVariableDefinitions().SerializeWithTabs(stream, 1);
+
+	stream << "\t" << "StaticVariableDefinitions: " << endl;
+	this->GetStaticVariableDefinitions().SerializeWithTabs(stream, 1);
+
+	//stream << "}" << endl;
 }

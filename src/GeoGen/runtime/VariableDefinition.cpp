@@ -2,7 +2,10 @@
 #include "VariableDefinition.hpp"
 #include "ManagedObject.hpp"
 
-using namespace geogen::runtime;
+using namespace geogen;
+using namespace runtime;
+using namespace std;
+
 
 void VariableDefinition::Initialize(VirtualMachine* vm) const
 {
@@ -17,4 +20,9 @@ void VariableDefinition::Initialize(VirtualMachine* vm) const
 	{
 		throw InternalErrorException(GG_STR("Could not declare static object variable (already initialized or name conflict?)."));
 	}
+}
+
+void VariableDefinition::Serialize(IOStream& stream) const
+{
+	stream << (this->isConstant ? "const " : "") << this->name << endl;
 }

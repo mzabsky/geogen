@@ -34,6 +34,16 @@ namespace geogen
 					delete *it;
 				}
 			}
+
+			virtual void Serialize(IOStream& stream) const
+			{
+				stream << GG_STR("{") << std::endl;
+				for (const_iterator it = this->Begin(); it != this->End(); it++)
+				{
+					(*it)->SerializeWithTabs(stream, 1); stream << std::endl;
+				}
+				stream << GG_STR("}");
+			}
 		};
 	}
 }
