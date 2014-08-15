@@ -37,6 +37,8 @@ namespace geogen
 			bool IsVariableDeclared(String const& symbolName) const;
 			bool DeclareVariable(String const& symbolName, ManagedObject* value, bool isConst);
 
+			inline unsigned Size() const { return this->table.size(); }
+
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
 			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
 

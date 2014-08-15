@@ -32,12 +32,18 @@ namespace geogen
 						arguments = GG_STR("dump.txt");
 					}
 
-					OFStream outfile(arguments);
-					outfile << debugger->GetVirtualMachine()->ToString();
+					OFStream dumpStream(arguments);
+					dumpStream << debugger->GetVirtualMachine()->ToString();
+					dumpStream.flush();
 
-					debugger->GetOut() << GG_STR("Duming VM to \"") << arguments << GG_STR("\".") << std::endl << std::endl;
-
-					outfile.flush();
+					if (dumpStream.fail())
+					{
+						debugger->GetOut() << GG_STR("Could not write dump file.");
+					}
+					else
+					{
+						debugger->GetOut() << GG_STR("Saved dump file \"") << arguments << GG_STR("\".") << std::endl;
+					}
 				}
 			};
 		}

@@ -1,4 +1,20 @@
-
+metadata {
+	StringField: "Str",
+	BoolField: true,
+	NumberField: 5,
+	IdentifierField: Trololo,
+	Parameters:
+	{
+		NumberParam: { Type: Number, Label: "Number Parameter", Description: "Desc", Default: 5, Min: 2, Max: 10, Restriction: Integers },
+		BoolParam: { Type: Number, Label: "Number Parameter", Description: "Desc", Default: 5, Min: 2, Max: 10, Restriction: Integers }
+	},
+	ListField:
+	{
+		ListItem,
+		ListItem2,
+		ListItem3
+	}
+}
 
 
 
