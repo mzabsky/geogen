@@ -18,17 +18,13 @@ using namespace geogen::runtime::instructions;
 
 void IfInstruction::Serialize(IOStream& stream) const
 {
-	stream << "If" << std::endl;
+	stream << GG_STR("If") << endl;
+	stream << GG_STR("\ttrue") << endl;
 
-	StringStream substream1;
-	this->ifBranchCodeBlock.Serialize(substream1);
+	this->ifBranchCodeBlock.SerializeWithTabs(stream, 2);
 
-	stream << substream1.str();
-
-	StringStream substream2;
-	this->elseBranchCodeBlock.Serialize(substream2);
-
-	stream << substream2.str();
+	stream << GG_STR("\tfalse") << endl;
+	this->elseBranchCodeBlock.SerializeWithTabs(stream, 2);
 }
 
 InstructionStepResult IfInstruction::Step(VirtualMachine* vm) const

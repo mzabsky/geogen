@@ -14,11 +14,7 @@ namespace geogen
 			void WhileInstruction::Serialize(IOStream& stream) const
 			{
 				stream << "While" << std::endl;
-
-				StringStream substream;
-				this->codeBlock.Serialize(substream);
-				
-				stream << substream.str();
+				this->codeBlock.SerializeWithTabs(stream, 1);
 			}
 
 			InstructionStepResult WhileInstruction::Step(VirtualMachine* vm) const
