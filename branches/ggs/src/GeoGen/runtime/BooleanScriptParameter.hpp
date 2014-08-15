@@ -25,6 +25,8 @@ namespace geogen
 			virtual void ResetToDefault() { this->value = this->defaultValue; };
 			virtual bool EqualsTo(ScriptParameter const* other) const;
 			virtual ScriptParameter* Clone() const;
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

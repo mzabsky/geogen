@@ -25,5 +25,6 @@
     <ClInclude Include="runtime_commands\RenderingSequenceRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\RunRuntimeCommand.hpp" />
     <ClInclude Include="ConsoleUtils.hpp" />
+    <ClInclude Include="runtime_commands\DumpRuntimeCommand.hpp" />
   </ItemGroup>
 </Project>

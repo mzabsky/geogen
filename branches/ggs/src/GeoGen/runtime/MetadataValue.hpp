@@ -19,7 +19,7 @@ namespace geogen
 			METADATA_TYPE_KEYVALUE_COLLECTION
 		};
 
-		class MetadataValue
+		class MetadataValue : public Serializable
 		{
 		private:
 			CodeLocation location;
@@ -34,6 +34,8 @@ namespace geogen
 			CodeLocation GetLocation() const { return this->location; }
 
 			virtual MetadataType GetType() const = 0;
+
+			virtual void Serialize(IOStream& stream) const = 0;
 		};
 
 		String MetadataTypeToString(MetadataType metadataType);

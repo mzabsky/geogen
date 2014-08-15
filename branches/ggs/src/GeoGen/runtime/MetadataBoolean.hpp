@@ -16,6 +16,11 @@ namespace geogen
 			bool GetValue() const { return this->value; }
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_BOOLEAN; };
+
+			virtual void Serialize(IOStream& stream) const
+			{
+				stream << (this->value ? GG_STR("true") : GG_STR("false"));
+			}
 		};
 	}
 }

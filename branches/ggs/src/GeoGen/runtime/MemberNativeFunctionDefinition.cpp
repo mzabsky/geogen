@@ -52,3 +52,8 @@ void MemberNativeFunctionDefinition::Call(CodeLocation location, VirtualMachine*
 
 	objectStack.Push(location, returnValue);
 }
+
+void MemberNativeFunctionDefinition::Serialize(IOStream& stream) const
+{
+	stream << GG_STR("<native>") << endl;
+}

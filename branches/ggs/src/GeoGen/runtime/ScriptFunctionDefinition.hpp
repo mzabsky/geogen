@@ -33,6 +33,8 @@ namespace geogen
 			inline CodeBlock const& GetRootCodeBlock() const { return this->rootCodeBlock; }
 
 			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const;
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

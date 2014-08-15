@@ -6,6 +6,7 @@
 #include "ScriptParameter.hpp" // Necessary to properly compile the owning map.
 #include "../utils/OwningMap.hpp"
 #include "../random/RandomSeed.hpp"
+#include "../Serializable.hpp"
 
 namespace geogen
 {	
@@ -34,7 +35,7 @@ namespace geogen
 		/// <summary>
 		/// Contains configuration of map size, rendering bounds and any additional parameters the script may have.
 		/// </summary>
-		class ScriptParameters : public utils::OwningMap<ScriptParameter>
+		class ScriptParameters : public utils::OwningMap<ScriptParameter>, public Serializable
 		{
 		private:
 			unsigned mapWidth;
@@ -183,6 +184,8 @@ namespace geogen
 			/// Resets all parameters to their default values.
 			/// </summary>
 			void ResetToDefaults();
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

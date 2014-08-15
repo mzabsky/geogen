@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Serializable.hpp"
 #include "../String.hpp"
 
 namespace geogen
@@ -13,7 +14,7 @@ namespace geogen
 			SCRIPT_PARAMETER_TYPE_ENUM
 		};
 
-		class ScriptParameter
+		class ScriptParameter : public Serializable
 		{
 		protected:
 			String name;
@@ -32,6 +33,8 @@ namespace geogen
 			virtual void ResetToDefault() = 0;
 			virtual bool EqualsTo(ScriptParameter const* other) const = 0;
 			virtual ScriptParameter* Clone() const = 0;
+
+			virtual void Serialize(IOStream& stream) const = 0;
 		};
 	}
 }

@@ -105,3 +105,17 @@ Number NumberScriptParameter::ApplyRestriction(Number value) const
 		throw InternalErrorException(GG_STR("Invalid restriction."));
 	}
 }
+
+void NumberScriptParameter::Serialize(IOStream& stream) const
+{
+	stream << "{" << endl;
+	stream << "\t" << "Name: " << this->name << endl;
+	stream << "\t" << "Label: " << this->label << endl;
+	stream << "\t" << "Description: " << this->description << endl;
+	stream << "\t" << "DefaultValue: " << this->defaultValue << endl;
+	stream << "\t" << "Value: " << this->value << endl;
+	stream << "\t" << "Min: " << this->min << endl;
+	stream << "\t" << "Max: " << this->max << endl;
+	stream << "\t" << "Restriction: " << this->restriction << endl;
+	stream << "}" << endl;
+}

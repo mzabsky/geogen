@@ -17,7 +17,7 @@ namespace geogen
 		class FunctionDefinition;
 		class VirtualMachine;
 
-		class TypeDefinition
+		class TypeDefinition : public Serializable
 		{
 		private:
 			String name;
@@ -68,6 +68,8 @@ namespace geogen
 			/// @return null The converted object. If the two types are the same, the input object will be
 			/// returned without any changes.
 			virtual ManagedObject* Convert(VirtualMachine* vm, ManagedObject* object) const;
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

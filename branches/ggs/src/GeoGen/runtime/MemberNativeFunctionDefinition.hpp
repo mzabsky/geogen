@@ -36,6 +36,8 @@ namespace geogen
 			virtual MethodType GetMethodType() const = 0;
 
 			inline TypeDefinition const* GetOwningTypeDefinition() const { return this->owningTypeDefinition; }
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

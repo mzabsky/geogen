@@ -21,6 +21,8 @@ namespace geogen
 			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const;
 
 			virtual ManagedObject* CallNative(CodeLocation location, VirtualMachine* vm, std::vector<ManagedObject*> arguments) const = 0;
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

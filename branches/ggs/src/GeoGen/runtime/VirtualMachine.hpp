@@ -40,7 +40,7 @@ namespace geogen
 			VIRTUAL_MACHINE_STEP_RESULT_FINISHED
 		};
 
-		class VirtualMachine
+		class VirtualMachine : public Serializable
 		{
 		public:
 			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
@@ -112,6 +112,8 @@ namespace geogen
 			corelib::NumberTypeDefinition const* GetNumberTypeDefinition() const;
 			VariableTableItem* FindVariable(String const& variableName);
 			ManagedObject* GetStaticInstance(String const& typeName);
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

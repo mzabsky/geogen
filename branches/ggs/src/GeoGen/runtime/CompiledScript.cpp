@@ -534,3 +534,26 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 	}
 	return table;
 }
+
+void CompiledScript::Serialize(IOStream& stream) const
+{
+	stream << GG_STR("{") << endl;
+	stream << GG_STR("\tCode: ") << endl;
+	stream << GG_STR("===============================") << endl;
+	stream << this->code << endl;
+	stream << GG_STR("===============================") << endl;
+
+	stream << GG_STR("\tTypeDefinitions: ") << endl;
+	this->GetTypeDefinitions().SerializeWithTabs(stream, 1);
+
+	stream << GG_STR("\tGlobalFunctionDefinitions: ") << endl;
+	this->GetGlobalFunctionDefinitions().SerializeWithTabs(stream, 1);
+
+	stream << GG_STR("\tGlobalVariableDefinitions: ") << endl;
+	this->GetGlobalVariableDefinitions().SerializeWithTabs(stream, 1);
+
+	stream << GG_STR("\tMetadata: ") << endl;
+	this->GetMetadata().SerializeWithTabs(stream, 1);
+
+	stream << GG_STR("}") << endl;
+}

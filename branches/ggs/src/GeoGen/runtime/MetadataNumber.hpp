@@ -17,6 +17,11 @@ namespace geogen
 			Number GetValue() const { return this->value; }
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_NUMBER; };
+
+			virtual void Serialize(IOStream& stream) const
+			{
+				stream << this->value;
+			}
 		};
 	}
 }

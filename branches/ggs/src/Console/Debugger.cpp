@@ -6,6 +6,7 @@
 #include "runtime_commands/CallStackRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockCodeRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockStackRuntimeCommand.hpp"
+#include "runtime_commands/DumpRuntimeCommand.hpp"
 #include "runtime_commands/HelpRuntimeCommand.hpp"
 #include "runtime_commands/ManagedObjectsRuntimeCommand.hpp"
 #include "runtime_commands/ObjectStackRuntimeCommand.hpp"
@@ -32,6 +33,7 @@ Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledS
 	commandTable.AddCommand(new CallStackRuntimeCommand());
 	commandTable.AddCommand(new CodeBlockCodeRuntimeCommand());
 	commandTable.AddCommand(new CodeBlockStackRuntimeCommand());
+	commandTable.AddCommand(new DumpRuntimeCommand());
 	commandTable.AddCommand(new HelpRuntimeCommand());
 	commandTable.AddCommand(new ManagedObjectsRuntimeCommand());
 	commandTable.AddCommand(new ObjectStackRuntimeCommand());

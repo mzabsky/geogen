@@ -79,6 +79,7 @@
     <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
     <ClInclude Include="ConsoleUtils.hpp" />
+    <ClInclude Include="runtime_commands\DumpRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\HelpRuntimeCommand.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
