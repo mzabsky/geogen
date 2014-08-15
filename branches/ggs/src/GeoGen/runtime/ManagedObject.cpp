@@ -28,11 +28,6 @@ ManagedObject::~ManagedObject()
 #endif
 };
 
-void ManagedObject::Serialize(IOStream& stream) const
-{
-	stream << "#" << this->objectId << " " << this->type->GetName() << " {" << this->GetStringValue() << "}";
-}
-
 void ManagedObject::AddRef(/*MemoryManager& vm*/)
 {
 	if (this->GetObjectId() == 0) throw exception();
@@ -52,5 +47,15 @@ void ManagedObject::RemoveRef(MemoryManager& vm)
 	if (this->refCount == 0)
 	{
 		vm.DestroyObject(this);
+	}
+}
+
+void ManagedObject::Serialize(IOStream& stream) const
+{
+	stream << "#" << this->objectId << " " << this->type->GetName() << " {" << this->GetStringValue() << "}";
+	if (this->memberVariableTable.Size() > 0)
+	{
+		stream << endl;
+		this->memberVariableTable.SerializeWithTabs(stream, 1);
 	}
 }

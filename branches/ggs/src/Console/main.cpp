@@ -73,7 +73,8 @@ int main(){
 	}
 
 	String codeString = code.str();
-
+	
+	String dumpString = GG_STR("");
 	try
 	{
 		Compiler compiler;
@@ -85,7 +86,16 @@ int main(){
 		unsigned numShowCodeLines = 5;
 
 		Debugger debugger(Cin, Cout, *script, geogen::runtime::ScriptParameters());
-		debugger.Run();
+
+		try
+		{
+			debugger.Run();
+		}		
+		catch (RuntimeException& e)
+		{
+			dumpString = debugger.GetVirtualMachine()->ToString();
+			throw;
+		}
 
 		Cout << "Virtual machine finished!";
 	}
@@ -93,7 +103,43 @@ int main(){
 	{
 		HighlightRed();
 		Cout << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl;
-		HighlightYellow();
+		Unhighlight();
+
+		if (dumpString != GG_STR(""))
+		{
+			Cout << GG_STR("Do you wish to save dump file? (y/n, default = n) ");
+			String saveDumpResponse;
+			getline(Cin, saveDumpResponse);
+
+			if (saveDumpResponse == GG_STR("y") || saveDumpResponse == GG_STR("Y") || saveDumpResponse == GG_STR("yes"))
+			{
+				Cout << GG_STR("Dump file name (default = dump.txt): ");
+				String dumpFileName;
+				getline(Cin, dumpFileName);
+				
+				if (dumpFileName == GG_STR(""))
+				{
+					dumpFileName = "dump.txt";
+				}
+
+				OFStream dumpStream(dumpFileName);
+				dumpStream << dumpString;
+				dumpStream.flush();
+
+				if (dumpStream.fail())
+				{
+					Cout << GG_STR("Could not write dump file.");
+				}
+				else 
+				{
+					Cout << GG_STR("Saved dump file \"") << dumpFileName << GG_STR("\".") << endl;
+				}
+			}
+			else 
+			{
+				Cout << GG_STR("Discarded dump file.");
+			}
+		}
 	}
 
 	/*
@@ -210,8 +256,6 @@ int main(){
 	}*/
 	
 	//std::cout << script->GetSymbolNameTable().ToString();	
-
-OStream& c = Cout;
 
 	return 0;
 }
