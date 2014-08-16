@@ -34,6 +34,7 @@ namespace geogen
 			inline CommandTable& GetCommandTable() { return this->commandTable; };
 
 			inline void Abort() { this->aborted = true; }
+			inline bool IsAborted() const { return this->aborted; }
 
 			void Run();
 		};

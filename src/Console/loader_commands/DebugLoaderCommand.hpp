@@ -69,9 +69,12 @@ namespace geogen
 						throw;
 					}
 
-					loader->GetOut() << "Saving maps." << std::endl;
+					if (!rendererDebugger.IsAborted())
+					{
+						loader->GetOut() << "Saving maps." << std::endl;
 
-					loader->SaveRenderedMaps(rendererDebugger.GetRenderer()->GetRenderedMapTable());
+						loader->SaveRenderedMaps(rendererDebugger.GetRenderer()->GetRenderedMapTable());
+					}
 				}
 			};
 		}
