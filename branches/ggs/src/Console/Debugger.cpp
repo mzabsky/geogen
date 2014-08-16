@@ -15,6 +15,7 @@
 #include "runtime_commands/RenderingSequenceRuntimeCommand.hpp"
 #include "runtime_commands/RunRuntimeCommand.hpp"
 #include "runtime_commands/StepRuntimeCommand.hpp"
+#include "runtime_commands/StopRuntimeCommand.hpp"
 
 using namespace geogen;
 using namespace compiler;
@@ -43,6 +44,7 @@ Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledS
 	commandTable.AddCommand(new RenderingSequenceRuntimeCommand());
 	commandTable.AddCommand(new RunRuntimeCommand());
 	commandTable.AddCommand(new StepRuntimeCommand());
+	commandTable.AddCommand(new StopRuntimeCommand());
 }
 
 void Debugger::ShowCodeContext() const
@@ -137,5 +139,13 @@ void Debugger::Run()
 		{
 			dynamic_cast<RuntimeCommand const*>(command)->Run(this, args);
 		}
+
+		if (this->aborted)
+		{
+			out << GG_STR("Debugger aborted.") << endl << endl;
+			return;
+		}
 	}
+
+	out << GG_STR("Debugger finished.") << endl << endl;
 }
