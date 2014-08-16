@@ -5,6 +5,7 @@
     <ClCompile Include="CommandTable.cpp" />
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="RendererDebugger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="testinput2.txt" />
@@ -38,5 +39,10 @@
     <ClInclude Include="runtime_commands\QuitRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\StopRuntimeCommand.hpp" />
     <ClInclude Include="loader_commands\RunLoaderCommand.hpp" />
+    <ClInclude Include="RendererDebugger.hpp" />
+    <ClInclude Include="RendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\HelpRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
   </ItemGroup>
 </Project>

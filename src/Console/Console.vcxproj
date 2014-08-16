@@ -76,6 +76,7 @@
     <ClCompile Include="CommandTable.cpp" />
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="RendererDebugger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="ArgDesc.hpp" />
     <ClInclude Include="Loader.hpp" />
@@ -84,8 +85,13 @@
     <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
+    <ClInclude Include="RendererCommand.hpp" />
+    <ClInclude Include="RendererDebugger.hpp" />
     <ClInclude Include="loader_commands\RunLoaderCommand.hpp" />
     <ClInclude Include="ProgramArguments.hpp" />
+    <ClInclude Include="renderer_commands\HelpRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
     <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
