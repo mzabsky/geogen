@@ -50,7 +50,7 @@ namespace geogen
 					{
 						debugger.Run();
 					}
-					catch (runtime::RuntimeException& e)
+					catch (runtime::RuntimeException&)
 					{
 						loader->SetDump(debugger.GetVirtualMachine()->ToString());
 						throw;

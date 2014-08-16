@@ -7,6 +7,7 @@
 #include "../utils/OwningMap.hpp"
 #include "../random/RandomSeed.hpp"
 #include "../Serializable.hpp"
+#include "../Point.hpp"
 
 namespace geogen
 {	
@@ -31,6 +32,9 @@ namespace geogen
 
 		/// <summary> The maximum render scale. </summary>
 		const double RENDER_SCALE_MAX = 10;
+
+		/// <summary> The default render size (if no other size can be used). </summary>
+		const Size1D RENDER_SIZE_DEFAULT = 1000;
 
 		/// <summary>
 		/// Contains configuration of map size, rendering bounds and any additional parameters the script may have.
@@ -71,7 +75,7 @@ namespace geogen
 			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.
 			/// </summary>
 			ScriptParameters() :
-				defaultMapWidth(MAP_SIZE_INFINITE), defaultMapHeight(MAP_SIZE_INFINITE), minMapWidth(MAP_SIZE_MIN), minMapHeight(MAP_SIZE_MIN), maxMapHeight(MAP_SIZE_INFINITE), maxMapWidth(MAP_SIZE_INFINITE) {}
+				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(MAP_SIZE_INFINITE), defaultMapHeight(MAP_SIZE_INFINITE), minMapWidth(MAP_SIZE_MIN), minMapHeight(MAP_SIZE_MIN), maxMapHeight(MAP_SIZE_INFINITE), maxMapWidth(MAP_SIZE_INFINITE) {}
 
 			ScriptParameters(ScriptParameters const&);
 			ScriptParameters& operator=(ScriptParameters const&);

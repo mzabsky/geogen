@@ -1,5 +1,7 @@
 #include <iomanip>
 
+#include "../png++/png.hpp"
+
 #include "Loader.hpp"
 #include "../GeoGen/utils/StringUtils.hpp"
 #include "ConsoleUtils.hpp"
@@ -20,7 +22,7 @@ using namespace loader_commands;
 using namespace instructions;
 
 Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments programArguments)
-: currentFile(programArguments.inputFile), outputFile(programArguments.outputFile), debug(debug), in(in), out(out)
+: currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out)
 {
 	this->commandTable.AddCommand(new DebugLoaderCommand());
 	this->commandTable.AddCommand(new HelpLoaderCommand());
@@ -108,4 +110,26 @@ void Loader::Run()
 			}
 		}
 	}
+}
+
+void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps)
+{
+	for (RenderedMapTable::iterator it = renderedMaps.Begin(); it != renderedMaps.End(); it++)
+	{
+		png::image<png::ga_pixel_16>image(it->second->GetRectangle().GetSize().GetWidth(), it->second->GetRectangle().GetSize().GetHeight());
+		for (size_t y = 0; y < image.get_height(); ++y)
+		{
+			for (size_t x = 0; x < image.get_width(); ++x)
+			{
+				image[y][x] = png::ga_pixel_16((unsigned short)((long)-HEIGHT_MIN + (long)(*it->second)(x, y)));
+			}
+		}
+
+		stringstream ss;
+		ss << this->outputDirectory << GG_STR("/") << StringToAscii(it->first) << GG_STR(".png");
+		image.write(ss.str());
+
+		out << GG_STR("Saved \"") << ss.str() << "\"." << endl;
+	}
+	renderedMaps.Clear();
 }

@@ -30,7 +30,7 @@ int main(int argc, char** argv){
 	//args.SetPosArgsVector(_params.script_args);
 
 	args.AddStringArg(GG_STR('i'), GG_STR("input"), GG_STR("Input script to be executed."), GG_STR("FILE"), &programArguments.inputFile);
-	args.AddStringArg(GG_STR('o'), GG_STR("output"), GG_STR("Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default."), GG_STR("FILE"), &programArguments.outputFile);
+	args.AddStringArg(GG_STR('o'), GG_STR("output"), GG_STR("Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default."), GG_STR("FILE"), &programArguments.outputDirectory);
 	//args.AddStringArg(GG_STR('d'), GG_STR("output-directory"), GG_STR("Directory where secondary maps will be saved. Set to \"../temp/\" by default."), GG_STR("DIRECTORY"), &_params.output_directory);
 	//args.AddStringArg(GG_STR('v'), GG_STR("overlay"), GG_STR("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and either 256 or 511 pixels wide."), GG_STR("FILE"), &_params.overlay_file);
 

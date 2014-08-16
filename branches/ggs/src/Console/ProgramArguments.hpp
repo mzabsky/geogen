@@ -14,7 +14,7 @@ namespace geogen
 			bool debug = false;
 			bool displayHelp = false;
 			String inputFile = GG_STR("");
-			String outputFile = GG_STR("./main.png");
+			String outputDirectory = GG_STR("./");
 			random::RandomSeed seed = (random::RandomSeed)time(time_t());
 			std::vector<String> scriptArgumentsStrings;
 		};
