@@ -85,11 +85,14 @@
     <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
+    <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
     <ClInclude Include="RendererCommand.hpp" />
     <ClInclude Include="RendererDebugger.hpp" />
     <ClInclude Include="loader_commands\RunLoaderCommand.hpp" />
     <ClInclude Include="ProgramArguments.hpp" />
     <ClInclude Include="renderer_commands\HelpRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\QuitRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\RenderingSequenceRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
     <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp" />

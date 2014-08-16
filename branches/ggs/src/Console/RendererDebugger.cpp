@@ -4,8 +4,11 @@
 #include "../GeoGen/utils/StringUtils.hpp"
 #include "ConsoleUtils.hpp"
 #include "renderer_commands/HelpRendererCommand.hpp"
+#include "renderer_commands/QuitRendererCommand.hpp"
+#include "renderer_commands/RenderingSequenceRendererCommand.hpp"
 #include "renderer_commands/RunRendererCommand.hpp"
 #include "renderer_commands/StepRendererCommand.hpp"
+#include "renderer_commands/StopRendererCommand.hpp"
 
 using namespace geogen;
 using namespace compiler;
@@ -21,8 +24,11 @@ RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, re
 : renderer(sequence), in(in), out(out)
 {
 	this->commandTable.AddCommand(new HelpRendererCommand());
+	this->commandTable.AddCommand(new QuitRendererCommand());
+	this->commandTable.AddCommand(new RenderingSequenceRendererCommand());
 	this->commandTable.AddCommand(new RunRendererCommand());
 	this->commandTable.AddCommand(new StepRendererCommand());
+	this->commandTable.AddCommand(new StopRendererCommand());
 
 }
 
