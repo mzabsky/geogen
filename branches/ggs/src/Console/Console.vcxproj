@@ -74,7 +74,16 @@
   <ItemGroup>
     <ClCompile Include="CommandTable.cpp" />
     <ClCompile Include="Debugger.cpp" />
+    <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="ArgDesc.hpp" />
+    <ClInclude Include="Loader.hpp" />
+    <ClInclude Include="LoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\DebugLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
+    <ClInclude Include="ProgramArguments.hpp" />
     <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
@@ -86,6 +95,7 @@
     <ClInclude Include="Debugger.hpp" />
     <ClInclude Include="runtime_commands\ManagedObjectsRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\ObjectStackRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\QuitRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\ReadVariableRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\RenderingSequenceRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\RunRuntimeCommand.hpp" />

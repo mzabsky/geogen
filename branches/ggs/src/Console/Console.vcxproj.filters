@@ -4,6 +4,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CommandTable.cpp" />
     <ClCompile Include="Debugger.cpp" />
+    <ClCompile Include="Loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="testinput2.txt" />
@@ -26,5 +27,14 @@
     <ClInclude Include="runtime_commands\RunRuntimeCommand.hpp" />
     <ClInclude Include="ConsoleUtils.hpp" />
     <ClInclude Include="runtime_commands\DumpRuntimeCommand.hpp" />
+    <ClInclude Include="ArgDesc.hpp" />
+    <ClInclude Include="Loader.hpp" />
+    <ClInclude Include="ProgramArguments.hpp" />
+    <ClInclude Include="LoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\DebugLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
+    <ClInclude Include="runtime_commands\QuitRuntimeCommand.hpp" />
   </ItemGroup>
 </Project>
