@@ -2,19 +2,19 @@
 
 #include <vector>
 
-#include "../RuntimeCommand.hpp"
-#include "../Debugger.hpp"
+#include "../LoaderCommand.hpp"
+#include "../Loader.hpp"
 
 namespace geogen
 {
 	namespace console
 	{
-		namespace runtime_commands
+		namespace loader_commands
 		{
-			class HelpRuntimeCommand : public RuntimeCommand
+			class HelpLoaderCommand : public LoaderCommand
 			{
 			public:
-				HelpRuntimeCommand()
+				HelpLoaderCommand()
 				{
 					this->cues.push_back(GG_STR("?"));
 					this->cues.push_back(GG_STR("h"));
@@ -25,14 +25,14 @@ namespace geogen
 
 				virtual String GetHelpString() const { return GG_STR("h - Displays the list of usable commands."); };
 
-				virtual void Run(Debugger* debugger, String arguments) const
+				virtual void Run(Loader* loader, String arguments) const
 				{
-					for (CommandTable::iterator it = debugger->GetCommandTable().Begin(); it != debugger->GetCommandTable().End(); it++)
+					for (CommandTable::iterator it = loader->GetCommandTable().Begin(); it != loader->GetCommandTable().End(); it++)
 					{
-						debugger->GetOut() << (*it)->GetHelpString() << std::endl;
+						loader->GetOut() << (*it)->GetHelpString() << std::endl;
 					}
 
-					debugger->GetOut() << std::endl;
+					loader->GetOut() << std::endl;
 				}
 			};
 		}

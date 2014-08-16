@@ -128,3 +128,13 @@ String geogen::AnyStringToString(wstring str)
 {
 	return String(str.begin(), str.end());
 }
+
+int geogen::StringToInt(String str)
+{
+#ifdef GGEN_WHCAR
+	char* end;
+	return wcstol(str.c_str(), &end, 10)
+#else
+	return atoi(str.c_str());
+#endif
+}

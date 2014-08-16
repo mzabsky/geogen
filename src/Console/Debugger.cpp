@@ -10,6 +10,7 @@
 #include "runtime_commands/HelpRuntimeCommand.hpp"
 #include "runtime_commands/ManagedObjectsRuntimeCommand.hpp"
 #include "runtime_commands/ObjectStackRuntimeCommand.hpp"
+#include "runtime_commands/QuitRuntimeCommand.hpp"
 #include "runtime_commands/ReadVariableRuntimeCommand.hpp"
 #include "runtime_commands/RenderingSequenceRuntimeCommand.hpp"
 #include "runtime_commands/RunRuntimeCommand.hpp"
@@ -37,6 +38,7 @@ Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledS
 	commandTable.AddCommand(new HelpRuntimeCommand());
 	commandTable.AddCommand(new ManagedObjectsRuntimeCommand());
 	commandTable.AddCommand(new ObjectStackRuntimeCommand());
+	commandTable.AddCommand(new QuitRuntimeCommand());
 	commandTable.AddCommand(new ReadVariableRuntimeCommand());
 	commandTable.AddCommand(new RenderingSequenceRuntimeCommand());
 	commandTable.AddCommand(new RunRuntimeCommand());
@@ -114,7 +116,7 @@ void Debugger::Run()
 	String input = "";
 	while (vm.GetStatus() == VIRTUAL_MACHINE_STATUS_READY)
 	{
-		out << GG_STR("Command? ");
+		out << GG_STR("DEBUGGER>> ");
 
 		getline<Char>(in, input);
 

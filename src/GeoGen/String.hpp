@@ -56,4 +56,6 @@ namespace geogen
 
 	std::wstring StringToWstring(String str);
 	String AnyStringToString(std::wstring str);
+
+	int StringToInt(String str);
 }
