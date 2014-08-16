@@ -22,7 +22,7 @@ namespace geogen
 
 			bool debug;
 			String currentFile;
-			String outputFile;
+			String outputDirectory;
 			runtime::CompiledScript* compiledScript;
 			//String code;
 			String dump;
@@ -40,8 +40,8 @@ namespace geogen
 			inline String GetCurrentFile() const { return this->currentFile; }
 			inline String SetCurrentFile(String currentFile) { this->currentFile = currentFile; }
 
-			inline String GetOutputFile() const { return this->outputFile; }
-			inline void SetOutputFile(String outputFile) { this->outputFile = outputFile; }
+			inline String GetOutputDirectory() const { return this->outputDirectory; }
+			inline void SetOutputDirectory(String outputDirectory) { this->outputDirectory = outputDirectory; }
 
 			inline String GetDump() const { return this->dump; }
 			inline void SetDump(String dump) { this->dump = dump; }
@@ -53,6 +53,7 @@ namespace geogen
 			inline void SetCompiledScript(runtime::CompiledScript* compiledScript) { this->compiledScript = compiledScript; }
 
 			void Run();
+			void SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps);
 		};
 	}
 }

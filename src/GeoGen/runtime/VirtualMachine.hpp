@@ -71,6 +71,8 @@ namespace geogen
 			// Non-copyable
 			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler), renderingSequence(0) {};
 			VirtualMachine& operator=(VirtualMachine const&) {};
+
+			void* callbackData = NULL;
 		public:
 			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);	
 			~VirtualMachine() {};
@@ -112,6 +114,9 @@ namespace geogen
 			corelib::NumberTypeDefinition const* GetNumberTypeDefinition() const;
 			VariableTableItem* FindVariable(String const& variableName);
 			ManagedObject* GetStaticInstance(String const& typeName);
+
+			inline void* GetCallbackData() const { return this->callbackData; }
+			inline void SetCallbackData(void* callbackData) { this->callbackData = callbackData; }
 
 			virtual void Serialize(IOStream& stream) const;
 		};

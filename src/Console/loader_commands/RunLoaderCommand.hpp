@@ -37,10 +37,22 @@ namespace geogen
 						return;
 					}
 
-					loader->GetOut() << "Runnning script." << std::endl << std::endl;
+					loader->GetOut() << "Runnning script." << std::endl;
 
 					runtime::VirtualMachine vm(*loader->GetCompiledScript(), runtime::ScriptParameters());
 					vm.Run();
+					
+					loader->GetOut() << "Rendering." << std::endl;
+
+					renderer::Renderer renderer(vm.GetRenderingSequence());
+					renderer.CalculateRenderingBounds();				
+					renderer.Run();
+
+					loader->GetOut() << "Saving maps." << std::endl;
+
+					loader->SaveRenderedMaps(renderer.GetRenderedMapTable());
+
+					loader->GetOut() << "Finished." << std::endl << std::endl;
 				}
 			};
 		}

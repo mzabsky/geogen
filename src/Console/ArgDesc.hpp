@@ -6,7 +6,6 @@
 #include "../GeoGen/String.hpp"
 
 #pragma warning(disable:4996)
-#define _CRT_SECURE_NO_WARNINGS
 
 namespace geogen
 {
