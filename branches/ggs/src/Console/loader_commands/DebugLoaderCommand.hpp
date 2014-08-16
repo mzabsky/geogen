@@ -7,6 +7,7 @@
 #include "../LoaderCommand.hpp"
 #include "../Loader.hpp"
 #include "../Debugger.hpp"
+#include "../RendererDebugger.hpp"
 #include "../ConsoleUtils.hpp"
 #include "../../GeoGen/GeoGen.hpp"
 #include "../../GeoGen/utils/StringUtils.hpp"
@@ -55,6 +56,22 @@ namespace geogen
 						loader->SetDump(debugger.GetVirtualMachine()->ToString());
 						throw;
 					}
+
+					RendererDebugger rendererDebugger(loader->GetIn(), loader->GetOut(), debugger.GetVirtualMachine()->GetRenderingSequence());
+
+					try
+					{
+						rendererDebugger.Run();
+					}
+					catch (runtime::RuntimeException&)
+					{
+						//loader->SetDump(debugger.GetVirtualMachine()->ToString());
+						throw;
+					}
+
+					loader->GetOut() << "Saving maps." << std::endl;
+
+					loader->SaveRenderedMaps(rendererDebugger.GetRenderer()->GetRenderedMapTable());
 				}
 			};
 		}

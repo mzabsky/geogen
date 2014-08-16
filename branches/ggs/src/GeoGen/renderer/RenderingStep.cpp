@@ -31,5 +31,5 @@ void RenderingStep::Serialize(IOStream& stream) const
 
 	this->SerializeArguments(stream);
 
-	stream << GG_STR(")") << endl;
+	stream << GG_STR(")");
 }

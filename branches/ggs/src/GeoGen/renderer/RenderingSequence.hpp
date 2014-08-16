@@ -41,6 +41,7 @@ namespace geogen
 			inline reverse_iterator RBegin() { return this->steps.rbegin(); }
 			inline reverse_iterator REnd() { return this->steps.rend(); }
 
+			inline unsigned Size() const { return this->steps.size(); }
 
 			void AddStep(RenderingStep* step);
 

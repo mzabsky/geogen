@@ -132,4 +132,6 @@ void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps)
 		out << GG_STR("Saved \"") << ss.str() << "\"." << endl;
 	}
 	renderedMaps.Clear();
+
+	out << endl;
 }
