@@ -16,6 +16,7 @@ namespace geogen
 			public:
 				ReadVariableRuntimeCommand()
 				{
+					this->cues.push_back(GG_STR("read"));
 					this->cues.push_back(GG_STR("rv"));
 					this->cues.push_back(GG_STR("rvar"));
 					this->cues.push_back(GG_STR("readvar"));

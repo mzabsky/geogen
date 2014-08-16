@@ -55,8 +55,6 @@ namespace geogen
 						loader->SetDump(debugger.GetVirtualMachine()->ToString());
 						throw;
 					}
-
-					loader->GetOut() << "Debugger finished!" << std::endl << std::endl;
 				}
 			};
 		}

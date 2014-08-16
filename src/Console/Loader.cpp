@@ -7,6 +7,7 @@
 #include "loader_commands/HelpLoaderCommand.hpp"
 #include "loader_commands/LoadLoaderCommand.hpp"
 #include "loader_commands/QuitLoaderCommand.hpp"
+#include "loader_commands/RunLoaderCommand.hpp"
 
 using namespace geogen;
 using namespace compiler;
@@ -25,6 +26,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 	this->commandTable.AddCommand(new HelpLoaderCommand());
 	this->commandTable.AddCommand(new LoadLoaderCommand());
 	this->commandTable.AddCommand(new QuitLoaderCommand());
+	this->commandTable.AddCommand(new RunLoaderCommand());
 }
 
 void Loader::Run()

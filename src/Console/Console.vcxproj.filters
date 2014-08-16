@@ -36,5 +36,7 @@
     <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
     <ClInclude Include="runtime_commands\QuitRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\StopRuntimeCommand.hpp" />
+    <ClInclude Include="loader_commands\RunLoaderCommand.hpp" />
   </ItemGroup>
 </Project>

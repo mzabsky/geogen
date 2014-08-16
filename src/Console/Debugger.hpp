@@ -22,6 +22,8 @@ namespace geogen
 
 			unsigned numberOfShownLines = NUMBER_OF_SHOWN_LINES_DEFAULT;
 
+			bool aborted = false;
+
 			// Non-copyable
 			Debugger(Debugger const&) : vm(*(runtime::CompiledScript*)NULL, *(runtime::ScriptParameters*)NULL), in(Cin), out(Cout) {};
 			Debugger& operator=(Debugger const&) {};
@@ -39,6 +41,8 @@ namespace geogen
 			void ShowCodeContext() const;
 			inline unsigned GetNumberOfShownLines() const { return this->numberOfShownLines; }
 			inline void SetNumberOfShownLines(unsigned numberOfShownLines) { this->numberOfShownLines = numberOfShownLines; }
+
+			inline void Abort() { this->aborted = true; }
 
 			void Run();
 		};
