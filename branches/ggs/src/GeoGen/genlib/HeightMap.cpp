@@ -56,7 +56,7 @@ HeightMap::HeightMap(HeightMap const& other, Rectangle cutoutRect)
 		(*this)(x, y) = other(x + offset.GetX(), y + offset.GetY());
 	}
 	
-	memcpy(this->heightData, other.heightData, sizeof(Height)* this->rectangle.GetSize().GetTotalLength());
+	//memcpy(this->heightData, other.heightData, sizeof(Height)* this->rectangle.GetSize().GetTotalLength());
 }
 
 HeightMap& HeightMap::operator=(HeightMap& other)
