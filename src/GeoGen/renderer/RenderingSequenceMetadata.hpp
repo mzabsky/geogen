@@ -14,7 +14,7 @@ namespace geogen
 		class RenderingBounds;
 		class RenderingStep;
 
-		class RenderingSequenceMetadata
+		class RenderingSequenceMetadata : public Serializable
 		{
 		private:
 			std::map<RenderingStep const*, unsigned> stepNumbers;
@@ -31,6 +31,8 @@ namespace geogen
 			RenderingBounds* GetRenderingBounds(RenderingStep const* step);
 
 			unsigned GetStepNumberByAddress(RenderingStep const* step) const;
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

@@ -85,6 +85,7 @@
     <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
+    <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
     <ClInclude Include="RendererCommand.hpp" />
     <ClInclude Include="RendererDebugger.hpp" />

@@ -19,6 +19,11 @@ namespace geogen
 			inline void SetInterval(Interval interval) { this->interval = interval; }
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
+
+			virtual void Serialize(IOStream& stream) const
+			{
+				this->interval.Serialize(stream);
+			}
 		};
 	}
 }
