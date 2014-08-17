@@ -51,7 +51,7 @@ namespace geogen
 			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const = 0;
 
 			void RenderingStep::Serialize(IOStream& stream) const;
-			void RenderingStep::SerializeArguments(IOStream& stream) const {};
+			virtual void RenderingStep::SerializeArguments(IOStream& stream) const {};
 		};
 	}
 }
