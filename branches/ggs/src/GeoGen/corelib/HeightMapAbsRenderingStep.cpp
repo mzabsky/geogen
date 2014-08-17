@@ -1,4 +1,4 @@
-#include "HeightMapAddRenderingStep.hpp"
+#include "HeightMapAbsRenderingStep.hpp"
 #include "../renderer/Renderer.hpp"
 #include "../renderer/RendererObject.hpp"
 #include "../InternalErrorException.hpp"
@@ -10,19 +10,9 @@ using namespace renderer;
 using namespace corelib;
 using namespace genlib;
 
-void HeightMapAddRenderingStep::Step(Renderer* renderer) const
+void HeightMapAbsRenderingStep::Step(Renderer* renderer) const
 {
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 	
-	if (this->GetArgumentSlots().size() == 1)
-	{
-		// No mask
-		self->Add(this->addend);
-	}
-	else
-	{
-		// Has mask
-		HeightMap* mask = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[1])->GetPtr());
-		self->AddMasked(this->addend, mask);
-	}
+	self->Abs();
 }
