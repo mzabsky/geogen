@@ -6,9 +6,17 @@
 #include "HeightMapBlurFunctionDefinition.hpp"
 #include "HeightMapClampHeightsFunctionDefinition.hpp"
 #include "HeightMapCombineFunctionDefinition.hpp"
+#include "HeightMapCropHeightsFunctionDefinition.hpp"
 #include "HeightMapFillFunctionDefinition.hpp"
 #include "HeightMapFillRectangleFunctionDefinition.hpp"
+#include "HeightMapIntersectFunctionDefinition.hpp"
+#include "HeightMapInvertFunctionDefinition.hpp"
+#include "HeightMapMoveFunctionDefinition.hpp"
+#include "HeightMapMultiplyFunctionDefinition.hpp"
+#include "HeightMapUnifyFunctionDefinition.hpp"
 
+#include "HeightMapCloneFunctionDefinition.hpp"
+#include "HeightMapConvexityMapFunctionDefinition.hpp"
 #include "HeightMapFlatFunctionDefinition.hpp"
 #include "HeightMapNoiseFunctionDefinition.hpp"
 #include "HeightMapRadialGradientFunctionDefinition.hpp"
@@ -25,9 +33,17 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetFunctionDefinitions().AddItem(new HeightMapBlurFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapClampHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapCombineFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapCropHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapFillFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapFillRectangleFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapIntersectFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapInvertFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapMoveFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapMultiplyFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapUnifyFunctionDefinition(this));
 
+	this->GetStaticFunctionDefinitions().AddItem(new HeightMapCloneFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightMapConvexityMapFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapFlatFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapRadialGradientFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapNoiseFunctionDefinition(this));

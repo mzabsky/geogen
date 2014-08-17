@@ -44,6 +44,23 @@ namespace geogen
 		}
 	}
 
+	bool TryNumberToSize(Number n, Size1D& out)
+	{
+		if (n < 0)
+		{
+			return false;
+		}
+		else if (n > (Number)SIZE1D_MAX)
+		{
+			return false;
+		}
+		else {
+			out = (Size1D)(n);
+			return false;
+		}
+	}
+
+
 	Height NumberToHeight(Number n)
 	{
 		Height h = 0;

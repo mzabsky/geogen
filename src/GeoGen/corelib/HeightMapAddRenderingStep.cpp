@@ -26,3 +26,8 @@ void HeightMapAddRenderingStep::Step(Renderer* renderer) const
 		self->AddMasked(this->addend, mask);
 	}
 }
+
+void HeightMapAddRenderingStep::SerializeArguments(IOStream& stream) const
+{
+	stream << this->addend;
+}

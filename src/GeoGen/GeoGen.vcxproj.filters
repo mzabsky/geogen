@@ -236,6 +236,24 @@
     <ClInclude Include="corelib\HeightMapClampHeightsRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapCombineFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapCombineRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapConvexityMapFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapConvexityMapRenderingStep.hpp" />
+    <ClInclude Include="corelib\SizeOverflowException.hpp" />
+    <ClInclude Include="corelib\HeightMapCropHeightsFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapCropHeightsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapIntersectFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapIntersectRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapInvertFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapInvertRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapMoveFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapMoveRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapMultiplyFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapMultiplyRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapMultiplyMapRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapCloneFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapCloneRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapUnifyFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapUnifyRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -393,6 +411,23 @@
     <ClCompile Include="corelib\HeightMapClampHeightsRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapCombineFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapCombineRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapConvexityMapFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapConvexityMapRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapCropHeightsFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapCropHeightsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapIntersectFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapIntersectRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapInvertFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapInvertRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapMoveFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapMoveRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapMultiplyFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapMultiplyRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapMultiplyMapRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapCloneFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapCloneRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapUnifyFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapUnifyRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
