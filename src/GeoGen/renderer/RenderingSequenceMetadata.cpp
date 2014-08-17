@@ -63,6 +63,7 @@ void RenderingSequenceMetadata::Serialize(IOStream& stream) const
 {
 	for (std::map<RenderingStep const*, unsigned>::const_iterator it = this->stepNumbers.begin(); it != this->stepNumbers.end(); it++)
 	{
+		stream << it->second << GG_STR("# ");
 		it->first->Serialize(stream);
 		stream << GG_STR(":       bounds ");
 		this->renderingBounds[it->second]->Serialize(stream);

@@ -55,8 +55,6 @@ HeightMap::HeightMap(HeightMap const& other, Rectangle cutoutRect)
 	{
 		(*this)(x, y) = other(x + offset.GetX(), y + offset.GetY());
 	}
-	
-	//memcpy(this->heightData, other.heightData, sizeof(Height)* this->rectangle.GetSize().GetTotalLength());
 }
 
 HeightMap& HeightMap::operator=(HeightMap& other)
@@ -116,9 +114,10 @@ void HeightMap::AddMasked(Height addend, HeightMap* mask)
 
 void HeightMap::AddMap(HeightMap* addend)
 {
-	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, addend->rectangle));
+	Rectangle intersection = Rectangle::Intersect(this->rectangle, addend->rectangle);
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point offset = addend->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect) 
 	{
 		(*this)(x, y) += (*addend)(x + offset.GetX(), y + offset.GetY());
@@ -134,9 +133,9 @@ void HeightMap::AddMapMasked(HeightMap* addend, HeightMap* mask)
 		throw ApiUsageException(GG_STR("Mask is too small."));
 	}
 	
-	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);	
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point addendOffset = addend->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point addendOffset = this->rectangle.GetPosition() - intersection.GetPosition();
 	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
@@ -244,7 +243,7 @@ void HeightMap::Combine(HeightMap* other, HeightMap* mask)
 
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point otherOffset = other->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point otherOffset = this->rectangle.GetPosition() - intersection.GetPosition();
 	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
@@ -291,9 +290,10 @@ void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 
 void HeightMap::Intersect(HeightMap* other)
 {
-	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, other->rectangle));
+	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point offset = other->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = min((*other)(x + offset.GetX(), y + offset.GetY()), (*this)(x, y));
@@ -330,9 +330,10 @@ void HeightMap::Multiply(Height factor)
 
 void HeightMap::MultiplyMap(HeightMap* factor)
 {
-	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, factor->rectangle));
+	Rectangle intersection = Rectangle::Intersect(this->rectangle, factor->rectangle);
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point offset = factor->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = Height((*this)(x, y) * ((*factor)(x + offset.GetX(), y + offset.GetY() / (double)HEIGHT_MAX)));
@@ -457,9 +458,10 @@ void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 
 void HeightMap::Unify(HeightMap* other)
 {
-	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, other->rectangle));
+	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point offset = other->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = max((*other)(x + offset.GetX(), y + offset.GetY()), (*this)(x, y));
