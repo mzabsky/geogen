@@ -39,11 +39,11 @@ namespace geogen
 			inline SymbolDefinitionTable<FunctionDefinition>& GetFunctionDefinitions() { return this->functionDefinitions; };
 			inline SymbolDefinitionTable<FunctionDefinition> const& GetFunctionDefinitions() const { return this->functionDefinitions; };
 
-			inline SymbolDefinitionTable<VariableDefinition>& GetStaticVariableDefinitions() { return this->variableDefinitions; };
-			inline SymbolDefinitionTable<VariableDefinition> const& GetStaticVariableDefinitions() const { return this->variableDefinitions; };
+			inline SymbolDefinitionTable<VariableDefinition>& GetStaticVariableDefinitions() { return this->staticVariableDefinitions; };
+			inline SymbolDefinitionTable<VariableDefinition> const& GetStaticVariableDefinitions() const { return this->staticVariableDefinitions; };
 
-			inline SymbolDefinitionTable<FunctionDefinition>& GetStaticFunctionDefinitions() { return this->functionDefinitions; };
-			inline SymbolDefinitionTable<FunctionDefinition> const& GetStaticFunctionDefinitions() const { return this->functionDefinitions; };
+			inline SymbolDefinitionTable<FunctionDefinition>& GetStaticFunctionDefinitions() { return this->staticFunctionDefinitions; };
+			inline SymbolDefinitionTable<FunctionDefinition> const& GetStaticFunctionDefinitions() const { return this->staticFunctionDefinitions; };
 
 			StaticObject* CreateStaticObject(VirtualMachine* vm) const;
 
