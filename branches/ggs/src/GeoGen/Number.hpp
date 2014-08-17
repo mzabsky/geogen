@@ -4,6 +4,7 @@
 
 #include "CodeLocation.hpp"
 #include "String.hpp"
+#include "Size.hpp"
 
 namespace geogen
 {
@@ -21,6 +22,7 @@ namespace geogen
 	int NumberToInt(Number n);
 
 	bool TryNumberToHeight(Number n, Height& out);
+	bool TryNumberToSize(Number n, Size1D& out);
 	Height NumberToHeight(Number n);
 
 	void RuntimeMathCheckInit();

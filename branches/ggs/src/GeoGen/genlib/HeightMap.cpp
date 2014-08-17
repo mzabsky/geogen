@@ -256,12 +256,86 @@ void HeightMap::Combine(HeightMap* other, HeightMap* mask)
 	}
 }
 
+void HeightMap::ConvexityMap(Size1D radius)
+{
+	HeightMap unsmoothed(*this);
+
+	/* Convexity map is a difference between the current map and its smoothed variant. Smoothing erases any terrain features
+	that peak upwards (are convex) or bulge downwards (are concave). */
+	this->Blur(radius);
+	this->Invert();
+	this->AddMap(&unsmoothed);
+}
+
+void HeightMap::CropHeights(Height min, Height max, Height replace)
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		if ((*this)(x, y) > max || (*this)(x, y) < min)
+		{
+			(*this)(x, y) = replace;
+		}
+	}
+}
+
 void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 {
 	Rectangle operationRect = Rectangle::Intersect(this->GetPhysicalRectangleUnscaled(this->rectangle), this->GetPhysicalRectangle(fillRectangle));
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = height;
+	}
+}
+
+void HeightMap::Intersect(HeightMap* other)
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, other->rectangle));
+
+	Point offset = other->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = min((*other)(x + offset.GetX(), y + offset.GetY()), (*this)(x, y));
+	}
+}
+
+void HeightMap::Invert()
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = -(*this)(x, y);
+	}
+}
+
+void HeightMap::Move(Point offset)
+{
+    // TODO: range check
+	this->rectangle += offset;
+}
+
+void HeightMap::Multiply(Height factor)
+{
+	double actualFactor = factor / (double)HEIGHT_MAX;
+
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = Height((*this)(x, y) * factor);
+	}
+}
+
+void HeightMap::MultiplyMap(HeightMap* factor)
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, factor->rectangle));
+
+	Point offset = factor->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = Height((*this)(x, y) * ((*factor)(x + offset.GetX(), y + offset.GetY() / (double)HEIGHT_MAX)));
 	}
 }
 
@@ -379,4 +453,15 @@ void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 	}
 
 	
+}
+
+void HeightMap::Unify(HeightMap* other)
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, other->rectangle));
+
+	Point offset = other->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = max((*other)(x + offset.GetX(), y + offset.GetY()), (*this)(x, y));
+	}
 }
