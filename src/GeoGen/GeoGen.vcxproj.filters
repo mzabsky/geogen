@@ -229,6 +229,13 @@
     <ClInclude Include="genlib\NoiseLayer.hpp" />
     <ClInclude Include="corelib\HeightMapNoiseFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapNoiseRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapAbsFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapAbsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapAddMapRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapClampHeightsFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapClampHeightsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapCombineFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapCombineRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -379,6 +386,13 @@
     <ClCompile Include="random\RandomSequence.cpp" />
     <ClCompile Include="corelib\HeightMapNoiseFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapNoiseRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapAbsFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapAbsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapAddMapRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapClampHeightsFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapClampHeightsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapCombineFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapCombineRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

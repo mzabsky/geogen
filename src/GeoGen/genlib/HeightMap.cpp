@@ -77,6 +77,43 @@ HeightMap::~HeightMap()
 	delete[] this->heightData;
 }
 
+void HeightMap::Abs()
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = (*this)(x, y) > 0 ? (*this)(x, y) : -(*this)(x, y);
+	}
+}
+
+void HeightMap::Add(Height addend)
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) += addend;
+	}
+}
+
+void HeightMap::AddMasked(Height addend, HeightMap* mask)
+{
+	if (!mask->rectangle.Contains(this->rectangle))
+	{
+		throw ApiUsageException(GG_STR("Mask is too small."));
+	}
+
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		Height maskHeight = (*mask)(x + maskOffset.GetX(), y + maskOffset.GetY());
+		(*this)(x, y) += addend * Height(maskHeight / (double)HEIGHT_MAX);
+	}
+}
+
 void HeightMap::AddMap(HeightMap* addend)
 {
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, addend->rectangle));
@@ -88,24 +125,24 @@ void HeightMap::AddMap(HeightMap* addend)
 	}
 }
 
-void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
+void HeightMap::AddMapMasked(HeightMap* addend, HeightMap* mask)
 {
-	Point physicalCenter = this->GetPhysicalPoint(point);
-	Size1D scaledRadius = Size1D(radius * this->scale);
-
-	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
-	FOR_EACH_IN_RECT(x, y, physicalRect)
+	Rectangle intersection = Rectangle::Intersect(this->rectangle, addend->rectangle);
+	
+	if (!mask->rectangle.Contains(intersection))
 	{
-		unsigned long long distance = physicalCenter.GetDistanceTo(Point(x, y));
+		throw ApiUsageException(GG_STR("Mask is too small."));
+	}
+	
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);	
 
-		if (distance > scaledRadius)
-		{
-			(*this)(x, y) = toHeight;
-		}
-		else
-		{
-			(*this)(x, y) = fromHeight + (Height)(((long long)toHeight - (long long)fromHeight) * (long long)distance / (long long)scaledRadius);
-		}
+	Point addendOffset = addend->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		Height addendHeight = (*addend)(x + addendOffset.GetX(), y + addendOffset.GetY());
+		Height maskHeight = (*mask)(x + maskOffset.GetX(), y + maskOffset.GetY());
+		(*this)(x, y) += addendHeight * Height(maskHeight / (double)HEIGHT_MAX);
 	}
 }
 
@@ -151,7 +188,7 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 			}
 		}
 	}
-	else { 
+	else {
 		for (Coordinate x = 0; x < this->GetHeight(); x++) {
 			// Prefill the window with value of the left edge + n topmost values (where n is radius).
 			Size1D window_size = scaledRadius * 2 + 1;
@@ -186,12 +223,66 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 	this->heightData = new_data;
 }
 
+void HeightMap::ClampHeights(Height min, Height max)
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		(*this)(x, y) = std::min(max, std::max(min, (*this)(x, y)));
+	}
+}
+
+void HeightMap::Combine(HeightMap* other, HeightMap* mask)
+{
+	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
+
+	if (!mask->rectangle.Contains(intersection))
+	{
+		throw ApiUsageException(GG_STR("Mask is too small."));
+	}
+
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
+
+	Point otherOffset = other->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		Height thisHeight = (*this)(x, y);
+		Height otherHeight = (*other)(x + otherOffset.GetX(), y + otherOffset.GetY());
+		Height maskHeight = (*mask)(x + maskOffset.GetX(), y + maskOffset.GetY());
+		double factor = maskHeight / (double)HEIGHT_MAX;
+		(*this)(x, y) += Height(thisHeight * factor) + Height(otherHeight * (1 - factor));
+	}
+}
+
 void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 {
 	Rectangle operationRect = Rectangle::Intersect(this->GetPhysicalRectangleUnscaled(this->rectangle), this->GetPhysicalRectangle(fillRectangle));
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = height;
+	}
+}
+
+void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
+{
+	Point physicalCenter = this->GetPhysicalPoint(point);
+	Size1D scaledRadius = Size1D(radius * this->scale);
+
+	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+	FOR_EACH_IN_RECT(x, y, physicalRect)
+	{
+		unsigned long long distance = physicalCenter.GetDistanceTo(Point(x, y));
+
+		if (distance > scaledRadius)
+		{
+			(*this)(x, y) = toHeight;
+		}
+		else
+		{
+			(*this)(x, y) = fromHeight + (Height)(((long long)toHeight - (long long)fromHeight) * (long long)distance / (long long)scaledRadius);
+		}
 	}
 }
 

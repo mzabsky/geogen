@@ -13,6 +13,8 @@ namespace geogen
 {
 	namespace genlib
 	{
+		class HeightProfile;
+
 		class HeightMap : public DataObject
 		{
 		private:
@@ -59,14 +61,39 @@ namespace geogen
 			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle * this->scale - this->rectangle.GetPosition(); }
 			inline Point GetPhysicalPointUnscaled(Point logicalPoint) const { return logicalPoint - this->rectangle.GetPosition(); }
 			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }			
-
-			void Add(Height height);
+			
+			void Abs();
+			void Add(Height addend);
+			void AddMasked(Height addend, HeightMap* mask);
 			void AddMap(HeightMap* addend);
-			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
+			void AddMapMasked(HeightMap* addend, HeightMap* mask);
 			void Blur(Size1D radius);
 			void Blur(Size1D radius, Orientation direction);
+			void ClampHeights(Height min, Height max);
+			void Combine(HeightMap* other, HeightMap* mask);
+			//void ConvexityMap(Size1D radius);
+			//void CropHeights(Height min, Height max, Height replace);
+			//void Distort(HeightMap* distortionMap, Size1D maxDistance);
 			void FillRectangle(Rectangle fillRectangle, Height height);
+			//void Gradient(Point source, Point destination, Height fromHeight, Height toHeight);
+			//void Intersect(HeightMap* other);
+			//void Invert();
+			//void Move(Point offset);
+			//void Multiply(Height factor);
+			//void MultiplyMap(HeightMap* factor);
 			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
+			//void NormalMap();
+			//void Outline();
+			//void Project(HeightProfile* profile);
+			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
+			//void Repeat(Rectangle repeatRectangle);
+			//void Scale(Scale horizontalScale, Scale verticalScale);
+			//void SelectHeights(Height min, Height max);
+			//void SlopeMap();
+			//void Shift(HeightProfile* profile, Size1D maxDistance);
+			//void TransformValues(HeightProfile* function, Height min, Height max);
+
+			// transforms
 		};
 	}	
 }
