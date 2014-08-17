@@ -19,6 +19,11 @@ namespace geogen
 			inline void SetRectangle(Rectangle rectangle) { this->rectangle = rectangle; }
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_2D; };
+
+			virtual void Serialize(IOStream& stream) const
+			{
+				this->rectangle.Serialize(stream);
+			}
 		};
 	}
 }

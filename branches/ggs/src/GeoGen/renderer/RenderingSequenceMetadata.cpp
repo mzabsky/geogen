@@ -58,3 +58,14 @@ RenderingBounds* RenderingSequenceMetadata::GetRenderingBounds(RenderingStep con
 {
 	return this->renderingBounds[this->GetStepNumberByAddress(step)];
 }
+
+void RenderingSequenceMetadata::Serialize(IOStream& stream) const
+{
+	for (std::map<RenderingStep const*, unsigned>::const_iterator it = this->stepNumbers.begin(); it != this->stepNumbers.end(); it++)
+	{
+		it->first->Serialize(stream);
+		stream << GG_STR(":       bounds ");
+		this->renderingBounds[it->second]->Serialize(stream);
+		stream << endl;
+	}
+}

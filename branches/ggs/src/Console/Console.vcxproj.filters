@@ -47,5 +47,6 @@
     <ClInclude Include="renderer_commands\QuitRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RenderingSequenceRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp" />
   </ItemGroup>
 </Project>
