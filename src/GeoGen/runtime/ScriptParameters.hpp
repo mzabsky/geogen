@@ -32,7 +32,7 @@ namespace geogen
 		const double RENDER_SCALE_MAX = 10;
 
 		/// <summary> The default render size (if no other size can be used). </summary>
-		const Size1D RENDER_SIZE_DEFAULT = 1000;
+		const Size1D RENDER_SIZE_DEFAULT = 1001;
 
 		/// <summary>
 		/// Contains configuration of map size, rendering bounds and any additional parameters the script may have.
@@ -67,7 +67,7 @@ namespace geogen
 			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.
 			/// </summary>
 			ScriptParameters(unsigned defaultMapWidth, unsigned defaultMapHeight, unsigned minMapWidth, unsigned minMapHeight, unsigned maxMapWidth, unsigned maxMapHeight) :
-				mapWidth(defaultMapWidth), mapHeight(defaultMapHeight), defaultMapWidth(defaultMapWidth), defaultMapHeight(defaultMapHeight), minMapWidth(minMapWidth), maxMapHeight(maxMapHeight), maxMapWidth(maxMapWidth), minMapHeight(minMapHeight) {}
+				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(defaultMapWidth), defaultMapHeight(defaultMapHeight), minMapWidth(minMapWidth), maxMapHeight(maxMapHeight), maxMapWidth(maxMapWidth), minMapHeight(minMapHeight) {}
 
 			/// <summary>
 			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.
@@ -82,7 +82,24 @@ namespace geogen
 			/// Gets current width of the map. If map width wasn't set yet, default width will be returned.
 			/// </summary>
 			/// <returns>Current map width.</returns>
-			inline unsigned GetMapWidth() const { return this->mapWidth; };
+			inline unsigned GetMapWidth() const
+			{
+				if (this->mapWidth == MAP_SIZE_AUTOMATIC)
+				{
+					if (this->maxMapWidth == MAP_SIZE_INFINITE)
+					{
+						return MAP_SIZE_INFINITE;
+					}
+					else
+					{
+						return this->GetRenderWidth() / this->GetRenderScale();
+					}
+				}
+				else
+				{
+					return this->mapWidth;
+				}
+			};
 
 			/// <summary>
 			/// Gets the default width of the map.
@@ -112,7 +129,24 @@ namespace geogen
 			/// Gets current height of the map. If map height wasn't set yet, default height will be returned.
 			/// </summary>
 			/// <returns>Current map height.</returns>
-			inline unsigned GetMapHeight() const { return this->mapHeight; };
+			inline unsigned GetMapHeight() const 
+			{ 
+				if (this->mapHeight == MAP_SIZE_AUTOMATIC)
+				{
+					if (this->maxMapHeight == MAP_SIZE_INFINITE)
+					{
+						return MAP_SIZE_INFINITE;
+					}
+					else 
+					{
+						return this->GetRenderHeight() / this->GetRenderScale();
+					}
+				}
+				else
+				{
+					return this->mapHeight;
+				}
+			};
 
 			/// <summary>
 			/// Gets the default height of the map.
@@ -156,7 +190,10 @@ namespace geogen
 
 			/// <summary> Gets width of the render. </summary>
 			/// <returns> Width of the render. </returns>
-			inline unsigned GetRenderWidth() const { return this->renderWidth; };
+			inline unsigned GetRenderWidth() const 
+			{ 
+				return this->renderWidth == MAP_SIZE_AUTOMATIC ? RENDER_SIZE_DEFAULT : this->renderWidth; 
+			};
 
 			/// <summary> Sets width of the render. </summary>
 			/// <param name="renderWidth"> Width of the render. </param>
@@ -164,7 +201,10 @@ namespace geogen
 
 			/// <summary> Gets height of the render. </summary>
 			/// <returns> Height of the render. </returns>
-			inline unsigned GetRenderHeight() const { return this->renderHeight; };
+			inline unsigned GetRenderHeight() const 
+			{ 
+				return this->renderWidth == MAP_SIZE_AUTOMATIC ? RENDER_SIZE_DEFAULT : this->renderHeight;
+			};
 
 			/// <summary> Sets height of the render. </summary>
 			/// <param name="renderHeight"> Height of the render. </param>

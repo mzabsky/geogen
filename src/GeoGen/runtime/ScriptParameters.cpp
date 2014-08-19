@@ -9,15 +9,15 @@ using namespace runtime;
 
 ScriptParameters::ScriptParameters(ScriptParameters const& other)
 {
-	this->defaultMapWidth = other.GetDefaultMapWidth();
-	this->minMapWidth = other.GetMinMapWidth();
-	this->maxMapWidth = other.GetMaxMapWidth();
-	this->mapWidth = other.GetMapWidth();
+	this->defaultMapWidth = other.defaultMapWidth;
+	this->minMapWidth = other.minMapWidth;
+	this->maxMapWidth = other.maxMapWidth;
+	this->mapWidth = other.mapWidth;
 
-	this->defaultMapHeight = other.GetDefaultMapHeight();
-	this->minMapHeight = other.GetMinMapHeight();
-	this->maxMapHeight = other.GetMaxMapHeight();
-	this->mapHeight = other.GetMapHeight();
+	this->defaultMapHeight = other.defaultMapHeight;
+	this->minMapHeight = other.minMapHeight;
+	this->maxMapHeight = other.maxMapHeight;
+	this->mapHeight = other.mapHeight;
 
 	this->renderOriginX = other.renderOriginX;
 	this->renderOriginY = other.renderOriginY;
@@ -35,15 +35,15 @@ ScriptParameters::ScriptParameters(ScriptParameters const& other)
 
 ScriptParameters& ScriptParameters::operator=(ScriptParameters const& other)
 {
-	this->defaultMapWidth = other.GetDefaultMapWidth();
-	this->minMapWidth = other.GetMinMapWidth();
-	this->maxMapWidth = other.GetMaxMapWidth();
-	this->mapWidth = other.GetMapWidth();
+	this->defaultMapWidth = other.defaultMapWidth;
+	this->minMapWidth = other.minMapWidth;
+	this->maxMapWidth = other.maxMapWidth;
+	this->mapWidth = other.mapWidth;
 
-	this->defaultMapHeight = other.GetDefaultMapHeight();
-	this->minMapHeight = other.GetMinMapHeight();
-	this->maxMapHeight = other.GetMaxMapHeight();
-	this->mapHeight = other.GetMapHeight();
+	this->defaultMapHeight = other.defaultMapHeight;
+	this->minMapHeight = other.minMapHeight;
+	this->maxMapHeight = other.maxMapHeight;
+	this->mapHeight = other.mapHeight;
 
 	this->renderOriginX = other.renderOriginX;
 	this->renderOriginY = other.renderOriginY;
@@ -72,7 +72,7 @@ void ScriptParameters::SetMapWidth(unsigned width)
 {
 	if (width == MAP_SIZE_AUTOMATIC)
 	{
-		this->mapWidth = this->defaultMapWidth;
+		this->mapWidth = MAP_SIZE_AUTOMATIC;
 	}
 
 	this->mapWidth = min(this->maxMapWidth, width);
@@ -82,7 +82,7 @@ void ScriptParameters::SetMapHeight(unsigned height)
 {
 	if (height == MAP_SIZE_AUTOMATIC)
 	{
-		this->mapHeight = this->defaultMapHeight;
+		this->mapHeight = MAP_SIZE_AUTOMATIC;
 	}
 
 	this->mapHeight = min(this->maxMapHeight, height);
