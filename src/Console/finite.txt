@@ -4,4 +4,6 @@ metadata
 	Height: { Max: 10000 }
 }
 
+TriggerError("{0} {1} {2} {3}", Random(0, 1), Random(0, 5), Random(0, 10), Random(0, 20));
+
 yield HeightMap.RadialGradient(@[0.5, 0.5], Parameters.MapWidth * 0.4, 1, 0);

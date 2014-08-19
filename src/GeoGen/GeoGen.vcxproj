@@ -169,6 +169,7 @@
     <ClInclude Include="corelib\MathRoundFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MaxLessThanMinException.hpp" />
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="corelib\PointCreateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\PointObject.hpp" />
     <ClInclude Include="corelib\PointTypeDefinition.hpp" />
+    <ClInclude Include="corelib\RandomFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp" />
     <ClInclude Include="corelib\SizeOverflowException.hpp" />
     <ClInclude Include="corelib\YieldRenderingStep.hpp" />
@@ -379,6 +381,7 @@
     <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\PointObject.cpp" />
     <ClCompile Include="corelib\PointTypeDefinition.cpp" />
+    <ClCompile Include="corelib\RandomFunctionDefinition.cpp" />
     <ClCompile Include="genlib\HeightMap.cpp" />
     <ClCompile Include="Orientation.cpp" />
     <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />

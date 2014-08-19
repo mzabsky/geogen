@@ -13,6 +13,7 @@
 #include "ScriptParameters.hpp"
 #include "../renderer/RenderingSequence.hpp"
 #include "../renderer/RendererObjectSlotTable.hpp"
+#include "../random/RandomSequence.hpp"
 
 namespace geogen
 {
@@ -69,10 +70,12 @@ namespace geogen
 			void ValidateArguments();
 
 			// Non-copyable
-			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler), renderingSequence(0) {};
+			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler), renderingSequence(0), commonRandomSequence(0) {};
 			VirtualMachine& operator=(VirtualMachine const&) {};
 
 			void* callbackData = NULL;
+
+			random::RandomSequence commonRandomSequence;
 		public:
 			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);	
 			~VirtualMachine() {};
@@ -105,6 +108,8 @@ namespace geogen
 			VirtualMachineStepResult Step();
 
 			void CallFunction(CodeLocation location, FunctionDefinition const* functionDefintion, ManagedObject* instance, unsigned numberOfArguments);
+
+			random::RandomSequence& GetCommonRandoSequence() { return this->commonRandomSequence; }
 
 			void Run();
 

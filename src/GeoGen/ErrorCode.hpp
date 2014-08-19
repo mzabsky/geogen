@@ -59,6 +59,7 @@ namespace geogen
 		GGE2702_InvalidEnumNumericValue = 2702,
 		GGE2703_UnknownRelativeCoordinateOrientation = 2703,
 		GGE2704_RelativeCoordinateInInfiniteDimensions = 2704,
+		GGE2705_MaxLessThanMin = 2705,
 		GGE3000_ApiUsageError = 3000,
 		GGE4000_InternalError = 4000,
 		GGE4001_IntermediateCodeError = 4001,

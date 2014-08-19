@@ -258,6 +258,8 @@
     <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapGradientFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapGradientRenderingStep.hpp" />
+    <ClInclude Include="corelib\RandomFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\MaxLessThanMinException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -436,6 +438,7 @@
     <ClCompile Include="renderer\RendererObject.cpp" />
     <ClCompile Include="corelib\HeightMapGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapGradientRenderingStep.cpp" />
+    <ClCompile Include="corelib\RandomFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
