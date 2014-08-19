@@ -32,7 +32,7 @@ namespace geogen
 		const double RENDER_SCALE_MAX = 10;
 
 		/// <summary> The default render size (if no other size can be used). </summary>
-		const Size1D RENDER_SIZE_DEFAULT = 1001;
+		const Size1D RENDER_SIZE_DEFAULT = 1000;
 
 		/// <summary>
 		/// Contains configuration of map size, rendering bounds and any additional parameters the script may have.
