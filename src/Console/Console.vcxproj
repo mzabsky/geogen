@@ -89,6 +89,7 @@
     <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
     <ClInclude Include="ImageWriter.hpp" />
     <ClInclude Include="loader_commands\ReloadLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\RenderScaleLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
     <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp" />
