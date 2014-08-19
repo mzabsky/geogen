@@ -39,10 +39,15 @@ namespace geogen
 			inline iterator Begin() { return this->table.begin(); }
 			inline iterator End() { return this->table.end(); }
 
+			/// Gets an object from the specified slot (alias for GetObjectBySlot).
+			/// @param slot The slot.
+			/// @return The object stored in the specified slot.
+			inline RendererObject* GetObject(unsigned slot) { return this->GetObjectBySlot(slot); };
+
 			/// Gets an object from the specified slot.
 			/// @param slot The slot.
 			/// @return The object stored in the specified slot.
-			RendererObject* GetObject(unsigned slot);
+			RendererObject* GetObjectBySlot(unsigned slot);
 
 			/// Stores the object into the specified slot.
 			/// @param slot			   The slot.

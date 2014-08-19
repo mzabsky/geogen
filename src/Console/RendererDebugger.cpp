@@ -9,6 +9,7 @@
 #include "renderer_commands/RenderingSequenceRendererCommand.hpp"
 #include "renderer_commands/RenderingSequenceMetadataRendererCommand.hpp"
 #include "renderer_commands/RunRendererCommand.hpp"
+#include "renderer_commands/SaveRendererCommand.hpp"
 #include "renderer_commands/StepRendererCommand.hpp"
 #include "renderer_commands/StopRendererCommand.hpp"
 
@@ -31,6 +32,7 @@ RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, re
 	this->commandTable.AddCommand(new RenderingSequenceRendererCommand());
 	this->commandTable.AddCommand(new RenderingSequenceMetadataRendererCommand());
 	this->commandTable.AddCommand(new RunRendererCommand());
+	this->commandTable.AddCommand(new SaveRendererCommand());
 	this->commandTable.AddCommand(new StepRendererCommand());
 	this->commandTable.AddCommand(new StopRendererCommand());
 
