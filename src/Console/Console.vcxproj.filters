@@ -57,5 +57,6 @@
     <ClInclude Include="loader_commands\ReloadLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\MapSizeLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\RenderScaleLoaderCommand.hpp" />
+    <ClInclude Include="runtime_commands\ArgumentsRuntimeCommand.hpp" />
   </ItemGroup>
 </Project>

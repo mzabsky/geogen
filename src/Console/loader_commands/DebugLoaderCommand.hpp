@@ -57,6 +57,11 @@ namespace geogen
 						throw;
 					}
 
+					if (debugger.IsAborted())
+					{
+						return;
+					}
+
 					RendererDebugger rendererDebugger(loader->GetIn(), loader->GetOut(), debugger.GetVirtualMachine()->GetRenderingSequence());
 
 					try

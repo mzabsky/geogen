@@ -43,6 +43,7 @@ namespace geogen
 			inline void SetNumberOfShownLines(unsigned numberOfShownLines) { this->numberOfShownLines = numberOfShownLines; }
 
 			inline void Abort() { this->aborted = true; }
+			inline bool IsAborted() const { return this->aborted; }
 
 			void Run();
 		};
