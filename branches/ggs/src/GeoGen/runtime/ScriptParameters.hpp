@@ -92,7 +92,7 @@ namespace geogen
 					}
 					else
 					{
-						return this->GetRenderWidth() / this->GetRenderScale();
+						return Size1D(this->GetRenderWidth() / this->GetRenderScale());
 					}
 				}
 				else
@@ -139,7 +139,7 @@ namespace geogen
 					}
 					else 
 					{
-						return this->GetRenderHeight() / this->GetRenderScale();
+						return Size1D(this->GetRenderHeight() / this->GetRenderScale());
 					}
 				}
 				else

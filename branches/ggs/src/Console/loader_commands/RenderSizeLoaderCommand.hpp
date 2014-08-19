@@ -48,6 +48,7 @@ namespace geogen
 			public:
 				RenderSizeLoaderCommand()
 				{
+					this->cues.push_back(GG_STR("rs"));
 					this->cues.push_back(GG_STR("size"));
 					this->cues.push_back(GG_STR("rsize"));
 					this->cues.push_back(GG_STR("rensize"));

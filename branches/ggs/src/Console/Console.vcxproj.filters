@@ -54,5 +54,6 @@
     <ClInclude Include="renderer_commands\SaveRendererCommand.hpp" />
     <ClInclude Include="ImageWriter.hpp" />
     <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\ReloadLoaderCommand.hpp" />
   </ItemGroup>
 </Project>
