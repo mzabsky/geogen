@@ -361,7 +361,6 @@
     <ClCompile Include="renderer\Renderer.cpp" />
     <ClCompile Include="renderer\RenderingSequence.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />
-    <ClCompile Include="renderer\RenderObject.cpp" />
     <ClCompile Include="renderer\RenderingStep1D.cpp" />
     <ClCompile Include="renderer\RenderingStep.cpp" />
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
@@ -432,6 +431,7 @@
     <ClCompile Include="corelib\HeightMapUnifyRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp" />
+    <ClCompile Include="renderer\RendererObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

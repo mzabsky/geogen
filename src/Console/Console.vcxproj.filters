@@ -48,5 +48,6 @@
     <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />
   </ItemGroup>
 </Project>

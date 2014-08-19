@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "../Serializable.hpp"
 
 namespace geogen
 {
@@ -10,7 +11,7 @@ namespace geogen
 
 		/// A table of RendererObject items stored in a fixed number of slots. Owns the contained
 		/// pointers.
-		class RendererObjectTable
+		class RendererObjectTable : public Serializable
 		{
 		private:
 			std::vector<RendererObject*> table;
@@ -51,6 +52,8 @@ namespace geogen
 			/// Releases the object stored in the specified slot.
 			/// @param slot The slot.
 			void ReleaseObject(unsigned slot);
+
+			void Serialize(IOStream& stream) const;
 		};
 	}
 }

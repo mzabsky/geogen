@@ -1,3 +1,5 @@
+#include <iomanip>
+
 #include "StringUtils.hpp"
 
 using namespace std;
@@ -15,4 +17,27 @@ vector<String> geogen::utils::StringToLines(String const& str)
 	}
 
 	return codeLines;
+}
+
+String geogen::utils::FormatFileSize(unsigned sizeInBytes)
+{
+	StringStream ss;
+	if (sizeInBytes < 1024 * 1.5)
+	{
+		ss << sizeInBytes << " B";
+	}
+	else if (sizeInBytes < 1024 * 1024 * 1.5)
+	{
+		ss << std::fixed << std::setprecision(2) << (sizeInBytes / 1024.) << " KB";
+	}
+	else if (sizeInBytes < 1024 * 1024 * 1024 * 1.5)
+	{
+		ss << std::fixed << std::setprecision(2) << (sizeInBytes / (1024. * 1024.)) << " MB";
+	}
+	else
+	{
+		ss << std::fixed << std::setprecision(2) << (sizeInBytes / (1024. * 1024. * 1024.)) << " GB";
+	}
+
+	return ss.str();
 }

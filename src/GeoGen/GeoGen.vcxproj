@@ -395,7 +395,7 @@
     <ClCompile Include="renderer\RenderingStep.cpp" />
     <ClCompile Include="renderer\RenderingStep1D.cpp" />
     <ClCompile Include="renderer\RenderingStep2D.cpp" />
-    <ClCompile Include="renderer\RenderObject.cpp" />
+    <ClCompile Include="renderer\RendererObject.cpp" />
     <ClCompile Include="corelib\YieldRenderingStep.cpp" />
     <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
     <ClCompile Include="String.cpp">
