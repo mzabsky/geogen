@@ -23,9 +23,9 @@ void YieldRenderingStep::Step(renderer::Renderer* renderer) const
 	}
 }
 
-void YieldRenderingStep::UpdateRenderingBounds(Renderer* renderer, vector<RenderingBounds*> argumentBounds) const
+Rectangle YieldRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
 {
-	this->SetRenderingBounds(renderer, this->rect);
+	return Rectangle::Combine(this->rect, argumentBounds);
 }
 
 void YieldRenderingStep::SerializeArguments(IOStream& stream) const

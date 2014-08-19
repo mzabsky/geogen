@@ -254,6 +254,8 @@
     <ClInclude Include="corelib\HeightMapCloneRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapUnifyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapUnifyRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapRescaleFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -428,6 +430,8 @@
     <ClCompile Include="corelib\HeightMapCloneRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapUnifyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapUnifyRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapRescaleFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

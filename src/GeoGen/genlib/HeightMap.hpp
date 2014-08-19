@@ -51,6 +51,17 @@ namespace geogen
 				return this->heightData[p.GetX() + this->rectangle.GetSize().GetWidth() * p.GetY()];
 			}
 
+			inline Height HeightMap::operator() (double x, double y)
+			{
+				Coordinate leftCoord = floor(x);
+				Coordinate rightCoord = ceil(x);
+				Coordinate topCoord = floor(x);
+				Coordinate bottomCoord = ceil(y);
+				Height top = Lerp(leftCoord, rightCoord, (*this)(leftCoord, topCoord), (*this)(rightCoord, topCoord), x);
+				Height bottom = Lerp(leftCoord, rightCoord, (*this)(leftCoord, bottomCoord), (*this)(rightCoord, bottomCoord), x);
+				return Lerp(topCoord, bottomCoord, top, bottom, y);
+			}
+
 			inline Coordinate GetOriginX() const { return this->rectangle.GetPosition().GetX(); }
 			inline Coordinate GetOriginY() const { return this->rectangle.GetPosition().GetY(); }
 			inline Size1D GetWidth() const { return this->rectangle.GetSize().GetWidth(); }
@@ -87,7 +98,7 @@ namespace geogen
 			//void Project(HeightProfile* profile);
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
 			//void Repeat(Rectangle repeatRectangle);
-			//void Scale(Scale horizontalScale, Scale verticalScale);
+			void Rescale(Scale horizontalScale, Scale verticalScale);
 			//void SelectHeights(Height min, Height max);
 			//void SlopeMap();
 			//void Shift(HeightProfile* profile, Size1D maxDistance);

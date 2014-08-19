@@ -42,11 +42,11 @@
     <ClInclude Include="RendererDebugger.hpp" />
     <ClInclude Include="RendererCommand.hpp" />
     <ClInclude Include="renderer_commands\HelpRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\QuitRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\RenderingSequenceRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\RenderingSequenceRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
   </ItemGroup>
 </Project>

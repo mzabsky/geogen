@@ -5,6 +5,7 @@
 #include "CodeLocation.hpp"
 #include "String.hpp"
 #include "Size.hpp"
+#include "Point.hpp"
 
 namespace geogen
 {
@@ -27,4 +28,16 @@ namespace geogen
 
 	void RuntimeMathCheckInit();
 	void RuntimeMathCheck(CodeLocation location);
+
+	/// Linear interpolation between to values on two 1D coordinates (see http://en.wikipedia.org/wiki/Linear_interpolation).
+	/// @param fromCoord  From coordinate (x0).
+	/// @param toCoord    To coordinate (x1).
+	/// @param fromHeight From height (y0).
+	/// @param toHeight   To height (y1).
+	/// @param point	  The point (x).
+	/// @return An interpolated height.
+	static inline Height Lerp(Coordinate fromCoord, Coordinate toCoord, Height fromHeight, Height toHeight, double point)
+	{
+		return Height(fromHeight + (toHeight - fromHeight) * (point - fromCoord) / (toCoord - fromCoord));
+	}
 }
