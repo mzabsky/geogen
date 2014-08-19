@@ -85,6 +85,7 @@
     <ClInclude Include="loader_commands\DebugLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\MapSizeLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
     <ClInclude Include="ImageWriter.hpp" />
     <ClInclude Include="loader_commands\ReloadLoaderCommand.hpp" />

@@ -16,7 +16,7 @@ namespace geogen
 	{
 		namespace loader_commands
 		{
-			static void SerializeMapSizeWithSpecial(OStream& out, Size2D size)
+			static void SerializeSizeWithSpecial(OStream& out, Size2D size)
 			{
 				out << GG_STR("[");
 
@@ -43,28 +43,26 @@ namespace geogen
 				out << GG_STR("]");
 			}
 
-			class RenderSizeLoaderCommand : public LoaderCommand
+			class MapSizeLoaderCommand : public LoaderCommand
 			{
 			public:
-				RenderSizeLoaderCommand()
+				MapSizeLoaderCommand()
 				{
-					this->cues.push_back(GG_STR("rs"));
-					this->cues.push_back(GG_STR("size"));
-					this->cues.push_back(GG_STR("rsize"));
-					this->cues.push_back(GG_STR("rensize"));
-					this->cues.push_back(GG_STR("rendersize"));
+					this->cues.push_back(GG_STR("ms"));
+					this->cues.push_back(GG_STR("msize"));
+					this->cues.push_back(GG_STR("mapsize"));
 				}
 
-				virtual String GetName() const { return GG_STR("Render size"); };
+				virtual String GetName() const { return GG_STR("Map size"); };
 
-				virtual String GetHelpString() const { return GG_STR("rsize [w] [h] - Sets render size of the map. If no arguments passed, displays current render size. Use \"auto\" to determine the size automatically."); };
+				virtual String GetHelpString() const { return GG_STR("msize [w] [h] - Sets map size of the map. If no arguments passed, displays current render size. Use \"auto\" to determine the size automatically."); };
 
 				virtual void Run(Loader* loader, String arguments) const
 				{
 					if (arguments == GG_STR(""))
 					{
-						loader->GetOut() << GG_STR("Render size: ");
-						SerializeMapSizeWithSpecial(loader->GetOut(), loader->GetRenderSize());
+						loader->GetOut() << GG_STR("Map size: ");
+						SerializeSizeWithSpecial(loader->GetOut(), loader->GetMapSize());
 						loader->GetOut() << std::endl << std::endl;
 						return;
 					}
@@ -75,11 +73,11 @@ namespace geogen
 					argumentsStream >> widthString;
 
 					Size1D newWidth;
-					if (widthString == GG_STR("a") || widthString == GG_STR("auto") || widthString == GG_STR("automatic") || widthString == GG_STR("d") || widthString == GG_STR("def")|| widthString == GG_STR("default"))
+					if (widthString == GG_STR("a") || widthString == GG_STR("auto") || widthString == GG_STR("automatic") || widthString == GG_STR("d") || widthString == GG_STR("def") || widthString == GG_STR("default"))
 					{
 						newWidth = runtime::MAP_SIZE_AUTOMATIC;
 					}
-					else 
+					else
 					{
 						StringStream ss(widthString);
 						ss >> newWidth;
@@ -118,10 +116,10 @@ namespace geogen
 						}
 					}
 
-					loader->SetRenderSize(Size2D(newWidth, newHeight));
+					loader->SetMapSize(Size2D(newWidth, newHeight));
 
-					loader->GetOut() << GG_STR("Render size: ");
-					SerializeSizeWithSpecial(loader->GetOut(), loader->GetRenderSize());
+					loader->GetOut() << GG_STR("Map size: ");
+					SerializeSizeWithSpecial(loader->GetOut(), loader->GetMapSize());
 					loader->GetOut() << std::endl << std::endl;
 				}
 			};
