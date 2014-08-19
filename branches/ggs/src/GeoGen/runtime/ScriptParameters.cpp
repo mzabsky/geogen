@@ -73,6 +73,7 @@ void ScriptParameters::SetMapWidth(unsigned width)
 	if (width == MAP_SIZE_AUTOMATIC)
 	{
 		this->mapWidth = MAP_SIZE_AUTOMATIC;
+		return;
 	}
 
 	this->mapWidth = min(this->maxMapWidth, width);
@@ -83,6 +84,7 @@ void ScriptParameters::SetMapHeight(unsigned height)
 	if (height == MAP_SIZE_AUTOMATIC)
 	{
 		this->mapHeight = MAP_SIZE_AUTOMATIC;
+		return;
 	}
 
 	this->mapHeight = min(this->maxMapHeight, height);

@@ -72,6 +72,7 @@ namespace geogen
 			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle * this->scale - this->rectangle.GetPosition(); }
 			inline Point GetPhysicalPointUnscaled(Point logicalPoint) const { return logicalPoint - this->rectangle.GetPosition(); }
 			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }			
+			inline Size1D GetScaledSize(Size1D size) const { return Size1D(size * this->scale); }
 			
 			void Abs();
 			void Add(Height addend);

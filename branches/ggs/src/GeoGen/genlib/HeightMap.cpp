@@ -153,10 +153,11 @@ void HeightMap::Blur(Size1D radius)
 
 void HeightMap::Blur(Size1D radius, Orientation direction)
 {
+
 	// Allocate the new array.
 	Height* new_data = new Height[this->rectangle.GetSize().GetTotalLength()];
 
-	Size1D scaledRadius = Size1D(radius * this->scale);
+	Size1D scaledRadius = this->GetScaledSize(radius);
 
 	if (direction == ORIENTATION_HORIZONTAL) {
 		for (Coordinate y = 0; y < (Coordinate)this->GetHeight(); y++) {
@@ -386,7 +387,7 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
 {
 	Point physicalCenter = this->GetPhysicalPoint(point);
-	Size1D scaledRadius = Size1D(radius * this->scale);
+	Size1D scaledRadius = this->GetScaledSize(radius);
 
 	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 	FOR_EACH_IN_RECT(x, y, physicalRect)

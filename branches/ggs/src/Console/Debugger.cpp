@@ -3,6 +3,7 @@
 #include "Debugger.hpp"
 #include "../GeoGen/utils/StringUtils.hpp"
 #include "ConsoleUtils.hpp"
+#include "runtime_commands/ArgumentsRuntimeCommand.hpp"
 #include "runtime_commands/CallStackRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockCodeRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockStackRuntimeCommand.hpp"
@@ -31,7 +32,8 @@ const unsigned Debugger::NUMBER_OF_SHOWN_LINES_DEFAULT = 7;
 
 Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters)
 : vm(code, parameters), in(in), out(out)
-{	
+{
+	commandTable.AddCommand(new ArgumentsRuntimeCommand());
 	commandTable.AddCommand(new CallStackRuntimeCommand());
 	commandTable.AddCommand(new CodeBlockCodeRuntimeCommand());
 	commandTable.AddCommand(new CodeBlockStackRuntimeCommand());

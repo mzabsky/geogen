@@ -104,6 +104,7 @@
     <ClInclude Include="renderer_commands\RenderingSequenceRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
+    <ClInclude Include="runtime_commands\ArgumentsRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
