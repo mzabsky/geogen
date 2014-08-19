@@ -6,6 +6,7 @@
 #include "HeightOverflowException.hpp"
 #include "HeightMapCropHeightsRenderingStep.hpp"
 #include "NumberTypeDefinition.hpp"
+#include "MaxLessThanMinException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -43,6 +44,11 @@ ManagedObject* HeightMapCropHeightsFunctionDefinition::CallNative(CodeLocation l
 	if (!TryNumberToHeight(numberReplace, replace))
 	{
 		throw HeightOverflowException(location);
+	}
+
+	if (min > max)
+	{
+		throw MaxLessThanMinException(location);
 	}
 
 	vector<unsigned> argumentSlots;
