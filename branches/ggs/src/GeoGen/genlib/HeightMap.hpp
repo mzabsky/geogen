@@ -86,7 +86,7 @@ namespace geogen
 			void CropHeights(Height min, Height max, Height replace);
 			//void Distort(HeightMap* distortionMap, Size1D maxDistance);
 			void FillRectangle(Rectangle fillRectangle, Height height);
-			//void Gradient(Point source, Point destination, Height fromHeight, Height toHeight);
+			void Gradient(Point source, Point destination, Height fromHeight, Height toHeight);
 			void Intersect(HeightMap* other);
 			void Invert();
 			void Move(Point offset);

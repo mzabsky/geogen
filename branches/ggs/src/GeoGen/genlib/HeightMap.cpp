@@ -288,6 +288,49 @@ void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 	}
 }
 
+void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Height toHeight)
+{
+	// Points are not used because greater value type is required for calculations below.
+	long long gradientOffsetX = destination.GetX() - (long long)source.GetX();
+	long long gradientOffsetY = destination.GetY() - (long long)source.GetY();
+
+	Point gradientOffset(gradientOffsetX, gradientOffsetY);
+
+	// Width of the gradient strip.
+	unsigned long long maxDistance = source.GetDistanceTo(destination);//  sqrt((double)(abs(gradientOffsetX) * abs(gradientOffsetX) + abs(gradientOffsetY) * abs(gradientOffsetY)));
+
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		long long currentOffsetX = x - (long long)source.GetX();
+		long long currentOffsetY = y - (long long)source.GetX();
+
+		// Get the point on the gradient vector (vector going through both source and destination point) to which is the current point closest.
+		Point cross(
+			Coordinate((gradientOffsetX * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / (gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY)),
+			Coordinate((gradientOffsetY * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / (gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY)));
+
+		// Calculate the distance from the "from" point to the intersection with gradient vector.
+		double distance = cross.GetDistanceFromOrigin();
+
+		// Distance from  the intersection point to the destination point.
+		double reverseDistance = cross.GetDistanceTo(gradientOffset); // TODO: Subtract from total distance?
+			
+		// Apply it to the array data.
+		if (distance <= maxDistance && reverseDistance <= maxDistance) {
+			// TODO: lerp uses only coordinate, not long long
+			(*this)(x, y) = Lerp(0, maxDistance, fromHeight, toHeight, distance);
+		}
+		else if (reverseDistance < distance) {
+			(*this)(x, y) = toHeight;
+		}
+		else {
+			(*this)(x, y) = fromHeight;
+		}
+	}
+}
+
 void HeightMap::Intersect(HeightMap* other)
 {
 	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
