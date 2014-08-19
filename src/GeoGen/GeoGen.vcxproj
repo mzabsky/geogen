@@ -179,6 +179,11 @@
     <ClInclude Include="corelib\PointObject.hpp" />
     <ClInclude Include="corelib\PointTypeDefinition.hpp" />
     <ClInclude Include="corelib\RandomFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DAdvanceFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DCreateFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DGetNumberFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DObject.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DTypeDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp" />
     <ClInclude Include="corelib\SizeOverflowException.hpp" />
     <ClInclude Include="corelib\YieldRenderingStep.hpp" />
@@ -382,6 +387,10 @@
     <ClCompile Include="corelib\PointObject.cpp" />
     <ClCompile Include="corelib\PointTypeDefinition.cpp" />
     <ClCompile Include="corelib\RandomFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DAdvanceFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DCreateFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightMap.cpp" />
     <ClCompile Include="Orientation.cpp" />
     <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />

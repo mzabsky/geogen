@@ -260,6 +260,11 @@
     <ClInclude Include="corelib\HeightMapGradientRenderingStep.hpp" />
     <ClInclude Include="corelib\RandomFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MaxLessThanMinException.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DTypeDefinition.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DObject.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DGetNumberFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DCreateFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\RandomSequence2DAdvanceFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -439,6 +444,10 @@
     <ClCompile Include="corelib\HeightMapGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapGradientRenderingStep.cpp" />
     <ClCompile Include="corelib\RandomFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DTypeDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DCreateFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\RandomSequence2DAdvanceFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

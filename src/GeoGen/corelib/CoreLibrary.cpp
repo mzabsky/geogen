@@ -26,6 +26,7 @@
 #include "HeightMapTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
 #include "RandomFunctionDefinition.hpp"
+#include "RandomSequence2DTypeDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -91,6 +92,7 @@ CoreLibrary::CoreLibrary()
 
 	// Randomness
 	this->globalFunctionDefinitions.AddItem(new RandomFunctionDefinition());
+	this->typeDefinitions.AddItem(new RandomSequence2DTypeDefinition());
 
 	// Text reporting
 	this->globalFunctionDefinitions.AddItem(MessageFunctionDefinition::Create(MessageFunctionDefinition::PRINT));
