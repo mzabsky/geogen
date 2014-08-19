@@ -10,6 +10,7 @@
 #include "loader_commands/MapSizeLoaderCommand.hpp"
 #include "loader_commands/QuitLoaderCommand.hpp"
 #include "loader_commands/ReloadLoaderCommand.hpp"
+#include "loader_commands/RenderScaleLoaderCommand.hpp"
 #include "loader_commands/RenderSizeLoaderCommand.hpp"
 #include "loader_commands/RunLoaderCommand.hpp"
 
@@ -32,6 +33,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 	this->commandTable.AddCommand(new MapSizeLoaderCommand());
 	this->commandTable.AddCommand(new QuitLoaderCommand());
 	this->commandTable.AddCommand(new ReloadLoaderCommand());
+	this->commandTable.AddCommand(new RenderScaleLoaderCommand());
 	this->commandTable.AddCommand(new RenderSizeLoaderCommand());
 	this->commandTable.AddCommand(new RunLoaderCommand());
 }
