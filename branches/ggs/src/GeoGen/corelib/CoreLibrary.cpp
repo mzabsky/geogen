@@ -25,6 +25,7 @@
 #include "MessageFunctionDefinition.hpp"
 #include "HeightMapTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
+#include "RandomFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -87,6 +88,9 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::CEIL));
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::FLOOR));
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::ABS));
+
+	// Randomness
+	this->globalFunctionDefinitions.AddItem(new RandomFunctionDefinition());
 
 	// Text reporting
 	this->globalFunctionDefinitions.AddItem(MessageFunctionDefinition::Create(MessageFunctionDefinition::PRINT));
