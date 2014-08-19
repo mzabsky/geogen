@@ -19,6 +19,7 @@
 #include "HeightMapCloneFunctionDefinition.hpp"
 #include "HeightMapConvexityMapFunctionDefinition.hpp"
 #include "HeightMapFlatFunctionDefinition.hpp"
+#include "HeightMapGradientFunctionDefinition.hpp"
 #include "HeightMapNoiseFunctionDefinition.hpp"
 #include "HeightMapRadialGradientFunctionDefinition.hpp"
 
@@ -47,6 +48,7 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapCloneFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapConvexityMapFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapFlatFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightMapGradientFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapRadialGradientFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapNoiseFunctionDefinition(this));
 }

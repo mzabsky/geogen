@@ -81,7 +81,12 @@ namespace geogen {
 
 		inline unsigned long long GetDistanceTo(Point destination) const
 		{
-			return (unsigned long)sqrt((double)(((long long)destination.x - (long long)this->x) * ((long long)destination.x - (long long)this->x) + ((long long)destination.y - (long long)this->y) * ((long long)destination.y - (long long)this->y)));
+			return (unsigned long long)sqrt((double)(((long long)destination.x - (long long)this->x) * ((long long)destination.x - (long long)this->x) + ((long long)destination.y - (long long)this->y) * ((long long)destination.y - (long long)this->y)));
+		}
+
+		inline unsigned long long GetDistanceFromOrigin() const
+		{
+			return (unsigned long long)sqrt((double)((long long)this->x * (long long)this->x + (long long)this->y * (long long)this->y));
 		}
 
 		void Serialize(IOStream& stream) const

@@ -13,4 +13,7 @@
 
 			heightMap.Unify(clone);
 
+			var gradient = HeightMap.Gradient([100, 100], [900, 900], 0, 1);
+			heightMap.Unify(gradient);
+
 			yield heightMap;
