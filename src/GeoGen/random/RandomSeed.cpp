@@ -36,6 +36,22 @@ RandomSeed geogen::random::CreateSeed(String str)
 	return Hash(str);
 }
 
+RandomSeed geogen::random::RecognizeSeed(String str)
+{
+	RandomSeed numericSeed;
+	StringStream ss(str);
+	ss >> numericSeed;
+
+	if (!ss.fail())
+	{
+		return numericSeed;
+	}
+	else
+	{
+		return CreateSeed(str);
+	}	
+}
+
 RandomSeed geogen::random::CombineSeeds(RandomSeed s1, RandomSeed s2)
 {
 	return Hash(s1, s2);

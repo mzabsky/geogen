@@ -14,6 +14,7 @@ namespace geogen
 		RandomSeed CreateSeed(long long n);
 		RandomSeed CreateSeed(double n);
 		RandomSeed CreateSeed(String str);
+		RandomSeed RecognizeSeed(String str);
 
 		RandomSeed CombineSeeds(RandomSeed s1, RandomSeed s2);
 		RandomSeed CombineSeeds(RandomSeed s1, RandomSeed s2, RandomSeed s3);
