@@ -21,7 +21,7 @@ namespace geogen
 			inline int GetInt(Point point) const { return Hash(this->current, point.GetX(), point.GetY()); }
 			inline int GetInt(Point point, int min, int max) { return min + ((unsigned)this->GetInt(point) % (int)(max - min + 1)); }
 			inline Height GetHeight(Point point) { return (Height)this->GetInt(point, HEIGHT_MIN, HEIGHT_MAX); }
-			inline double GetDouble(Point point) { return (double)(this->GetInt(point)) * (1. / 4294967295.); }
+			inline double GetDouble(Point point) { return (double)((unsigned)this->GetInt(point)) * (1. / 4294967295.); }
 		};
 	}
 }
