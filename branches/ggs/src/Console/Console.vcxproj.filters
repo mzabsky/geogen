@@ -55,5 +55,6 @@
     <ClInclude Include="ImageWriter.hpp" />
     <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\ReloadLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\MapSizeLoaderCommand.hpp" />
   </ItemGroup>
 </Project>
