@@ -41,9 +41,6 @@ namespace geogen
 			inline compiler::Compiler* GetCompiler() { return &this->compiler; };
 			inline CommandTable& GetCommandTable() { return this->commandTable; };
 
-			inline String GetCurrentFile() const { return this->currentFile; }
-			inline String SetCurrentFile(String currentFile) { this->currentFile = currentFile; }
-
 			inline String GetOutputDirectory() const { return this->outputDirectory; }
 			inline void SetOutputDirectory(String outputDirectory) { this->outputDirectory = outputDirectory; }
 
@@ -54,7 +51,8 @@ namespace geogen
 			inline void SetDebugMode(bool debugMode) { this->debug = debug; }
 
 			inline runtime::CompiledScript* GetCompiledScript() const { return this->compiledScript; }
-			inline void SetCompiledScript(runtime::CompiledScript* compiledScript) { this->compiledScript = compiledScript; }
+			inline void SetCompiledScript(String fileName, runtime::CompiledScript* compiledScript) { this->compiledScript = compiledScript; this->currentFile = fileName; }
+			inline String GetCurrentFileName() const { return this->currentFile; }
 
 			inline Point GetRenderOrigin() const { return this->renderOrigin; }
 			inline void SetRenderOrigin(Point renderOrigin) { this->renderOrigin = renderOrigin; }

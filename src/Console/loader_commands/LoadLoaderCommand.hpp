@@ -49,7 +49,7 @@ namespace geogen
 						loader->GetOut() << GG_STR("Loaded file \"") << arguments << GG_STR("\".") << std::endl;
 					}
 
-					loader->SetCompiledScript(loader->GetCompiler()->CompileScript(str));
+					loader->SetCompiledScript(arguments, loader->GetCompiler()->CompileScript(str));
 
 
 					loader->GetOut() << GG_STR("Compiled script.") << std::endl << std::endl;
