@@ -46,7 +46,7 @@ namespace geogen
 
 		if (b.GetPosition().GetX() > a.GetPosition().GetY())
 		{
-			returnRectWidth -= a.GetPosition().GetX() - b.GetPosition().GetX();
+			returnRectWidth -= b.GetPosition().GetX() - a.GetPosition().GetX();
 			returnRectX = b.GetPosition().GetX();
 		}
 
@@ -57,7 +57,7 @@ namespace geogen
 
 		if (b.GetPosition().GetY() > a.GetPosition().GetY())
 		{
-			returnRectHeight -= a.GetPosition().GetY() - b.GetPosition().GetY();
+			returnRectHeight -= b.GetPosition().GetY() - a.GetPosition().GetY();
 			returnRectY = b.GetPosition().GetY();
 		}
 

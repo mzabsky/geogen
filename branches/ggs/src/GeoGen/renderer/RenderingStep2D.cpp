@@ -15,10 +15,10 @@ void RenderingStep2D::SetRenderingBounds(Renderer* renderer, Rectangle rectangle
 
 void RenderingStep2D::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	if (argumentBounds.size() == 0)
+	/*if (argumentBounds.size() == 0)
 	{
 		this->TriggerRenderingBoundsCalculationError("empty referencing steps list");
-	}
+	}*/
 
 	Rectangle newRect;
 	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)

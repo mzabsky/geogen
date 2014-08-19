@@ -4,6 +4,13 @@
 
 			heightMap.Blur(20);
 
+			
+			yield heightMap as "prescale";
+			heightMap.Rescale(0.5);
+
+			yield heightMap as "postscale";
+			yield clone as "clone";
+
 			heightMap.Unify(clone);
 
 			yield heightMap;

@@ -13,6 +13,7 @@
 #include "HeightMapInvertFunctionDefinition.hpp"
 #include "HeightMapMoveFunctionDefinition.hpp"
 #include "HeightMapMultiplyFunctionDefinition.hpp"
+#include "HeightMapRescaleFunctionDefinition.hpp"
 #include "HeightMapUnifyFunctionDefinition.hpp"
 
 #include "HeightMapCloneFunctionDefinition.hpp"
@@ -40,6 +41,7 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetFunctionDefinitions().AddItem(new HeightMapInvertFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapMoveFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapMultiplyFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapRescaleFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapUnifyFunctionDefinition(this));
 
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapCloneFunctionDefinition(this));

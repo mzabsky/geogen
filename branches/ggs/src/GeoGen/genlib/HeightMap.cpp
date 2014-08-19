@@ -11,7 +11,7 @@ using namespace std;
 
 #define FOR_EACH_IN_RECT(x, y, rect) \
 	for (Coordinate y = rect.GetPosition().GetY(); y < rect.GetEndingPoint().GetY(); y++) \
-		for (Coordinate x = rect.GetPosition().GetX(); x < rect.GetEndingPoint().GetX(); x++) \
+		for (Coordinate x = rect.GetPosition().GetX(); x < rect.GetEndingPoint().GetX(); x++)
 
 HeightMap::HeightMap(Rectangle rectangle, Height height, Scale scale)
 :rectangle(rectangle), scale(scale)
@@ -336,7 +336,7 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		(*this)(x, y) = Height((*this)(x, y) * ((*factor)(x + offset.GetX(), y + offset.GetY() / (double)HEIGHT_MAX)));
+		(*this)(x, y) = Height((*this)(x, y) * ((*factor)(x + offset.GetX(), y + offset.GetY()) / (double)HEIGHT_MAX));
 	}
 }
 
@@ -359,6 +359,28 @@ void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, He
 			(*this)(x, y) = fromHeight + (Height)(((long long)toHeight - (long long)fromHeight) * (long long)distance / (long long)scaledRadius);
 		}
 	}
+}
+
+void HeightMap::Rescale(Scale horizontalScale, Scale verticalScale)
+{
+	Rectangle newRectangle(Point(this->rectangle.GetPosition().GetX() * horizontalScale, this->rectangle.GetPosition().GetY() * verticalScale), Size2D(this->rectangle.GetSize().GetWidth() * horizontalScale, this->rectangle.GetSize().GetHeight() * verticalScale));
+
+	// Allocate the new array.
+	Height* newData = new Height[newRectangle.GetSize().GetTotalLength()];
+
+	Rectangle operationRect = newRectangle - newRectangle.GetPosition();
+	
+	double actualHorizontalScale = (newRectangle.GetSize().GetWidth() - 1) / (double)(this->rectangle.GetSize().GetWidth() - 1);
+	double actualVerticalScale = (newRectangle.GetSize().GetHeight() - 1) / (double)(this->rectangle.GetSize().GetHeight() - 1);
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		newData[x + newRectangle.GetSize().GetWidth() * y] = (*this)(double(x / actualHorizontalScale), double(y / actualVerticalScale));
+	}
+
+	// Relink and delete the original array data
+	delete[] this->heightData;
+	this->heightData = newData;
+	this->rectangle = newRectangle;
 }
 
 void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)

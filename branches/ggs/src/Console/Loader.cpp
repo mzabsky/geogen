@@ -121,7 +121,7 @@ void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps)
 		{
 			for (size_t x = 0; x < image.get_width(); ++x)
 			{
-				image[y][x] = png::ga_pixel_16((unsigned short)((long)-HEIGHT_MIN + (long)(*it->second)(x, y)));
+				image[y][x] = png::ga_pixel_16((unsigned short)((long)-HEIGHT_MIN + (long)(*it->second)((Coordinate)x, (Coordinate)y)));
 			}
 		}
 
