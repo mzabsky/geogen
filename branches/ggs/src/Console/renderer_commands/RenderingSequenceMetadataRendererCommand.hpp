@@ -33,7 +33,13 @@ namespace geogen
 				virtual void Run(RendererDebugger* debugger, String arguments) const
 				{
 					debugger->GetOut() << GG_STR("Rendering sequence metadata (scale ") << debugger->GetRenderer()->GetRenderingSequence().GetRenderScale() << GG_STR("):") << std::endl;
-					debugger->GetOut() << debugger->GetRenderer()->GetRenderingSequenceMetadata().ToString() << std::endl;
+
+					for (renderer::RenderingSequence::const_iterator it = debugger->GetRenderer()->GetRenderingSequence().Begin(); it != debugger->GetRenderer()->GetRenderingSequence().End(); it++)
+					{
+						debugger->GetOut() << (*it)->ToString() << std::endl << GG_STR("\t") << debugger->GetRenderer()->GetRenderingSequenceMetadata().GetRenderingBounds(*it)->ToString() << std::endl;
+					}
+
+					debugger->GetOut() << std::endl;
 				}
 			};
 		}
