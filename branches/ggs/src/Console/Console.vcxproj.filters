@@ -6,6 +6,7 @@
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="RendererDebugger.cpp" />
+    <ClCompile Include="ImageWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="testinput2.txt" />
@@ -49,5 +50,7 @@
     <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\SaveRendererCommand.hpp" />
+    <ClInclude Include="ImageWriter.hpp" />
   </ItemGroup>
 </Project>

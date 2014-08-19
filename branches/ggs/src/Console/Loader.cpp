@@ -1,10 +1,9 @@
 #include <iomanip>
 
-#include "../png++/png.hpp"
-
 #include "Loader.hpp"
 #include "../GeoGen/utils/StringUtils.hpp"
 #include "ConsoleUtils.hpp"
+#include "ImageWriter.hpp"
 #include "loader_commands/DebugLoaderCommand.hpp"
 #include "loader_commands/HelpLoaderCommand.hpp"
 #include "loader_commands/LoadLoaderCommand.hpp"
@@ -116,20 +115,24 @@ void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps)
 {
 	for (RenderedMapTable::iterator it = renderedMaps.Begin(); it != renderedMaps.End(); it++)
 	{
-		png::image<png::ga_pixel_16>image(it->second->GetRectangle().GetSize().GetWidth(), it->second->GetRectangle().GetSize().GetHeight());
-		for (size_t y = 0; y < image.get_height(); ++y)
-		{
-			for (size_t x = 0; x < image.get_width(); ++x)
-			{
-				image[y][x] = png::ga_pixel_16((unsigned short)((long)-HEIGHT_MIN + (long)(*it->second)((Coordinate)x, (Coordinate)y)));
-			}
-		}
-
 		stringstream ss;
 		ss << this->outputDirectory << GG_STR("/") << StringToAscii(it->first) << GG_STR(".png");
-		image.write(ss.str());
 
-		out << GG_STR("Saved \"") << ss.str() << "\"." << endl;
+		bool success = true;
+		try
+		{
+			WriteImage(it->second, RENDERER_OBJECT_TYPE_HEIGHT_MAP, ss.str());
+		}
+		catch (exception&)
+		{
+			success = false;
+			out << GG_STR("Could not save \"") << ss.str() << "\"." << endl;
+		}
+
+		if (success)
+		{
+			out << GG_STR("Saved \"") << ss.str() << "\"." << endl;
+		}		
 	}
 	renderedMaps.Clear();
 

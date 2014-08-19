@@ -13,7 +13,7 @@ RendererObjectTable::~RendererObjectTable()
 	}
 }
 
-RendererObject* RendererObjectTable::GetObject(unsigned slot)
+RendererObject* RendererObjectTable::GetObjectBySlot(unsigned slot)
 {
 	if (slot >= this->GetSize())
 	{
