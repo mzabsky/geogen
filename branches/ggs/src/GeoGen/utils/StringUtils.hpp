@@ -9,5 +9,6 @@ namespace geogen
 	namespace utils
 	{
 		std::vector<String> StringToLines(String const& str);
+		String FormatFileSize(unsigned sizeInBytes);
 	}
 }

@@ -23,7 +23,7 @@ namespace geogen
 		/// Converts a RendererObjectType to string.
 		/// @param objectType The renderer object type.
 		/// @return The string name of the type.
-		String RenderObjectTypeToString(RendererObjectType objectType);
+		String RendererObjectTypeToString(RendererObjectType objectType);
 
 		/// Represents an object managed by the renderer. Associates a type label with an instance of genlib::DataObject.
 		class RendererObject : public Serializable
@@ -60,10 +60,7 @@ namespace geogen
 
 			/// Writes the human readable string representation of this instance to the given stream.
 			/// @param stream The stream.
-			virtual void Serialize(IOStream& stream) const
-			{
-				stream << RenderObjectTypeToString(this->objectType) << "[ " << this->ptr << "]" << std::endl;
-			}
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }
