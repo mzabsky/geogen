@@ -13,8 +13,6 @@ namespace geogen
 {	
 	namespace runtime
 	{
-		class ScriptParameter;
-
 		/// <summary> Infinite size in given dimension. </summary>
 		const unsigned MAP_SIZE_INFINITE = -1;
 

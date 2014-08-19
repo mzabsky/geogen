@@ -11,6 +11,7 @@
   <ItemGroup>
     <Text Include="testinput2.txt" />
     <Text Include="testinput.txt" />
+    <Text Include="finite.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RuntimeCommand.hpp" />
@@ -52,5 +53,6 @@
     <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\SaveRendererCommand.hpp" />
     <ClInclude Include="ImageWriter.hpp" />
+    <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
   </ItemGroup>
 </Project>

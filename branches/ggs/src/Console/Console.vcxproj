@@ -87,6 +87,7 @@
     <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
     <ClInclude Include="ImageWriter.hpp" />
+    <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
     <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\SaveRendererCommand.hpp" />
@@ -126,6 +127,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="finite.txt" />
     <Text Include="testinput.txt" />
     <Text Include="testinput2.txt">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>

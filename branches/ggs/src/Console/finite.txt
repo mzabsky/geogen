@@ -1,0 +1,7 @@
+metadata
+{
+	Width: { Max: 10000 },
+	Height: { Max: 10000 }
+}
+
+yield HeightMap.RadialGradient(@[0.5, 0.5], @0.4, 1, 0);

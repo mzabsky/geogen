@@ -39,7 +39,7 @@ namespace geogen
 
 					loader->GetOut() << "Runnning script." << std::endl;
 
-					runtime::VirtualMachine vm(*loader->GetCompiledScript(), runtime::ScriptParameters());
+					runtime::VirtualMachine vm(*loader->GetCompiledScript(), loader->CreateScriptParameters());
 					vm.Run();
 					
 					loader->GetOut() << "Rendering." << std::endl;

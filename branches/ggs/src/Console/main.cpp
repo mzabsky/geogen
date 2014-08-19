@@ -8,7 +8,7 @@
 
 #include "CommandTable.hpp"
 
-#include "Loader.hpp";
+#include "Loader.hpp"
 #include "ConsoleUtils.hpp"
 #include "ProgramArguments.hpp"
 #include "ArgDesc.hpp"
@@ -19,8 +19,6 @@ using namespace compiler;
 using namespace runtime;
 using namespace random;
 using namespace std;
-
-
 
 int main(int argc, char** argv){
 	ProgramArguments programArguments;

@@ -8,6 +8,7 @@
 #include "loader_commands/HelpLoaderCommand.hpp"
 #include "loader_commands/LoadLoaderCommand.hpp"
 #include "loader_commands/QuitLoaderCommand.hpp"
+#include "loader_commands/RenderSizeLoaderCommand.hpp"
 #include "loader_commands/RunLoaderCommand.hpp"
 
 using namespace geogen;
@@ -21,12 +22,13 @@ using namespace loader_commands;
 using namespace instructions;
 
 Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments programArguments)
-: currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out)
+: currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out), renderOrigin(0, 0), renderSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), mapSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), renderScale(1)
 {
 	this->commandTable.AddCommand(new DebugLoaderCommand());
 	this->commandTable.AddCommand(new HelpLoaderCommand());
 	this->commandTable.AddCommand(new LoadLoaderCommand());
 	this->commandTable.AddCommand(new QuitLoaderCommand());
+	this->commandTable.AddCommand(new RenderSizeLoaderCommand());
 	this->commandTable.AddCommand(new RunLoaderCommand());
 }
 
@@ -137,4 +139,14 @@ void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps)
 	renderedMaps.Clear();
 
 	out << endl;
+}
+
+ScriptParameters Loader::CreateScriptParameters()
+{
+	ScriptParameters params = this->GetCompiledScript()->CreateScriptParameters();
+
+	params.SetRenderHeight(this->GetRenderSize().GetWidth());
+	params.SetRenderWidth(this->GetRenderSize().GetHeight());
+
+	return params;
 }
