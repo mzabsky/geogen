@@ -26,7 +26,11 @@ namespace geogen
 			runtime::CompiledScript* compiledScript;
 			//String code;
 			String dump;
-			//ProgramArguments programArguments;
+
+			Point renderOrigin;
+			Size2D renderSize;
+			Size2D mapSize;
+			Scale renderScale;
 		public:
 			Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments parameters);
 			~Loader() { if (compiledScript != NULL) delete compiledScript; };
@@ -51,6 +55,20 @@ namespace geogen
 
 			inline runtime::CompiledScript* GetCompiledScript() const { return this->compiledScript; }
 			inline void SetCompiledScript(runtime::CompiledScript* compiledScript) { this->compiledScript = compiledScript; }
+
+			inline Point GetRenderOrigin() const { return this->renderOrigin; }
+			inline void SetRenderOrigin(Point renderOrigin) { this->renderOrigin = renderOrigin; }
+
+			inline Size2D GetRenderSize() const { return this->renderSize; }
+			inline void SetRenderSize(Size2D renderSize) { this->renderSize = renderSize; }
+
+			inline Size2D GetMapSize() const { return this->mapSize; }
+			inline void SetMapSize(Size2D mapSize) { this->mapSize = mapSize; }
+
+			inline Scale GetRenderScale() const { return this->renderScale; }
+			inline void SetRenderScale(Scale renderScale) { this->renderScale = renderScale; }
+
+			geogen::runtime::ScriptParameters CreateScriptParameters();
 
 			void Run();
 			void SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps);

@@ -45,7 +45,7 @@ namespace geogen
 
 					String input = "";
 
-					Debugger debugger(loader->GetIn(), loader->GetOut(), *loader->GetCompiledScript(), geogen::runtime::ScriptParameters());
+					Debugger debugger(loader->GetIn(), loader->GetOut(), *loader->GetCompiledScript(), loader->CreateScriptParameters());
 
 					try
 					{
