@@ -9,6 +9,7 @@
 #include "loader_commands/LoadLoaderCommand.hpp"
 #include "loader_commands/MapSizeLoaderCommand.hpp"
 #include "loader_commands/QuitLoaderCommand.hpp"
+#include "loader_commands/RandomSeedLoaderCommand.hpp"
 #include "loader_commands/ReloadLoaderCommand.hpp"
 #include "loader_commands/RenderScaleLoaderCommand.hpp"
 #include "loader_commands/RenderSizeLoaderCommand.hpp"
@@ -32,6 +33,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 	this->commandTable.AddCommand(new LoadLoaderCommand());
 	this->commandTable.AddCommand(new MapSizeLoaderCommand());
 	this->commandTable.AddCommand(new QuitLoaderCommand());
+	this->commandTable.AddCommand(new RandomSeedLoaderCommand());
 	this->commandTable.AddCommand(new ReloadLoaderCommand());
 	this->commandTable.AddCommand(new RenderScaleLoaderCommand());
 	this->commandTable.AddCommand(new RenderSizeLoaderCommand());
@@ -156,6 +158,7 @@ ScriptParameters Loader::CreateScriptParameters()
 	params.SetMapWidth(this->GetMapSize().GetWidth());
 	params.SetMapHeight(this->GetMapSize().GetHeight());
 	params.SetRenderScale(this->GetRenderScale());
+	params.SetRandomSeed(random::RecognizeSeed(this->randomSeed));
 
 	return params;
 }

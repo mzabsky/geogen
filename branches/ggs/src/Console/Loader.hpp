@@ -31,6 +31,8 @@ namespace geogen
 			Size2D renderSize;
 			Size2D mapSize;
 			Scale renderScale;
+
+			String randomSeed;
 		public:
 			Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments parameters);
 			~Loader() { if (compiledScript != NULL) delete compiledScript; };
@@ -65,6 +67,9 @@ namespace geogen
 
 			inline Scale GetRenderScale() const { return this->renderScale; }
 			inline void SetRenderScale(Scale renderScale) { this->renderScale = renderScale; }
+
+			inline String GetRandomSeed() const { return this->randomSeed; }
+			inline void SetRandomSeed(String randomSeed) { this->randomSeed = randomSeed; }
 
 			geogen::runtime::ScriptParameters CreateScriptParameters();
 
