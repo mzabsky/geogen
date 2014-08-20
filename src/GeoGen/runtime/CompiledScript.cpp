@@ -102,12 +102,12 @@ void CompiledScript::AddLibrary(Library const* library)
 
 ScriptParameters CompiledScript::CreateScriptParameters() const
 {
-	unsigned defaultMapWidth = MAP_SIZE_INFINITE;
+	unsigned defaultMapWidth = MAP_SIZE_AUTOMATIC;
 	unsigned minMapWidth = MAP_SIZE_MIN;
-	unsigned maxMapWidth = MAP_SIZE_INFINITE;	
-	unsigned defaultMapHeight = MAP_SIZE_INFINITE;
+	unsigned maxMapWidth = MAP_SIZE_MAX;	
+	unsigned defaultMapHeight = MAP_SIZE_AUTOMATIC;
 	unsigned minMapHeight = MAP_SIZE_MIN;
-	unsigned maxMapHeight = MAP_SIZE_INFINITE;
+	unsigned maxMapHeight = MAP_SIZE_MAX;
 	
 	if (this->GetMetadata().ContainsItem(GG_STR("Width")))
 	{	
@@ -117,8 +117,14 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			if (identifierName == GG_STR("Infinite"))
 			{
 				defaultMapWidth = MAP_SIZE_INFINITE;
-				minMapWidth = MAP_SIZE_MIN;
+				minMapWidth = MAP_SIZE_INFINITE;
 				maxMapWidth = MAP_SIZE_INFINITE;
+			}
+			else if (identifierName == GG_STR("Finite"))
+			{
+				defaultMapWidth = MAP_SIZE_AUTOMATIC;
+				minMapWidth = MAP_SIZE_MIN;
+				maxMapWidth = MAP_SIZE_MAX;
 			}
 			else
 			{
@@ -196,20 +202,34 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			throw compiler::IncorrectMetadataValueTypeException(GGE1408_WidthNotKeyValueCollection, this->GetMetadata().GetItem(GG_STR("Width"))->GetLocation(), GG_STR("Width"), MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem(GG_STR("Width"))->GetType()));
 		}
 	}
+	else
+	{
+		defaultMapWidth = MAP_SIZE_INFINITE;
+		minMapWidth = MAP_SIZE_INFINITE;
+		maxMapWidth = MAP_SIZE_INFINITE;
+	}
 
 	if (this->GetMetadata().ContainsItem(GG_STR("Height")))
 	{
 		if (this->GetMetadata().GetItem(GG_STR("Height"))->GetType() == METADATA_TYPE_IDENTIFIER)
 		{
 			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem(GG_STR("Height")))->GetValue();
-			if (identifierName != GG_STR("Infinite"))
+			if (identifierName == GG_STR("Infinite"))
+			{
+				defaultMapHeight = MAP_SIZE_INFINITE;
+				minMapHeight = MAP_SIZE_INFINITE;
+				maxMapHeight = MAP_SIZE_INFINITE;
+			}
+			else if (identifierName == GG_STR("Finite"))
+			{
+				defaultMapHeight = MAP_SIZE_AUTOMATIC;
+				minMapHeight = MAP_SIZE_MIN;
+				maxMapHeight = MAP_SIZE_MAX;
+			}
+			else
 			{
 				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem(GG_STR("Height"))->GetLocation(), identifierName);
 			}
-
-			defaultMapHeight = MAP_SIZE_INFINITE;
-			minMapHeight = MAP_SIZE_MIN;
-			maxMapHeight = MAP_SIZE_INFINITE;
 		}
 		else if (this->GetMetadata().GetItem(GG_STR("Height"))->GetType() == METADATA_TYPE_KEYVALUE_COLLECTION)
 		{
@@ -281,6 +301,12 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 		{
 			throw compiler::IncorrectMetadataValueTypeException(GGE1409_HeightNotKeyValueCollection, this->GetMetadata().GetItem(GG_STR("Height"))->GetLocation(), GG_STR("Height"), MetadataTypeToString(METADATA_TYPE_KEYVALUE_COLLECTION), MetadataTypeToString(this->GetMetadata().GetItem(GG_STR("Height"))->GetType()));
 		}
+	}
+	else
+	{
+		defaultMapHeight = MAP_SIZE_INFINITE;
+		minMapHeight = MAP_SIZE_INFINITE;
+		maxMapHeight = MAP_SIZE_INFINITE;
 	}
 
 	ScriptParameters table(defaultMapWidth, defaultMapHeight, minMapWidth, minMapHeight, maxMapWidth, maxMapHeight);
