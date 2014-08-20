@@ -1,11 +1,11 @@
-#include "HeightMapAddFunctionDefinition.hpp"
+#include "HeightProfileAddFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
-#include "HeightMapTypeDefinition.hpp"
-#include "HeightMapFlatRenderingStep.hpp"
+#include "HeightProfileTypeDefinition.hpp"
+#include "HeightProfileFlatRenderingStep.hpp"
 #include "HeightOverflowException.hpp"
-#include "HeightMapAddRenderingStep.hpp"
-#include "HeightMapAddMapRenderingStep.hpp"
+#include "HeightProfileAddRenderingStep.hpp"
+#include "HeightProfileAddProfileRenderingStep.hpp"
 #include "NumberTypeDefinition.hpp"
 
 using namespace std;
@@ -14,20 +14,20 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::renderer;
 
-ManagedObject* HeightMapAddFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* HeightProfileAddFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
-    
-    vector<TypeDefinition const*> expectedTypes;
+
+	vector<TypeDefinition const*> expectedTypes;
 
 	bool isHeightMode;
 	if (arguments.size() > 0 && arguments[0]->GetType() == this->GetOwningTypeDefinition())
 	{
 		isHeightMode = false;
 		expectedTypes.push_back(this->GetOwningTypeDefinition());
-	}	
-	else 
-    {
+	}
+	else
+	{
 		isHeightMode = true;
 		expectedTypes.push_back(numberTypeDefinition);
 	}
@@ -56,11 +56,11 @@ ManagedObject* HeightMapAddFunctionDefinition::CallNative(CodeLocation location,
 		}
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
-		RenderingStep* renderingStep = new HeightMapAddRenderingStep(location, argumentSlots, returnObjectSlot, height);
+		RenderingStep* renderingStep = new HeightProfileAddRenderingStep(location, argumentSlots, returnObjectSlot, height);
 		vm->GetRenderingSequence().AddStep(renderingStep);
 	}
-	else 
-    {
+	else
+	{
 		argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 
 		if (hasMask)
@@ -69,7 +69,7 @@ ManagedObject* HeightMapAddFunctionDefinition::CallNative(CodeLocation location,
 		}
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
-		RenderingStep* renderingStep = new HeightMapAddMapRenderingStep(location, argumentSlots, returnObjectSlot);
+		RenderingStep* renderingStep = new HeightProfileAddProfileRenderingStep(location, argumentSlots, returnObjectSlot);
 		vm->GetRenderingSequence().AddStep(renderingStep);
 	}
 

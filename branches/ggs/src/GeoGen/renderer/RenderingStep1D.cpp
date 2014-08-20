@@ -14,10 +14,10 @@ void RenderingStep1D::SetRenderingBounds(Renderer* renderer, Interval interval) 
 
 void RenderingStep1D::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	if (argumentBounds.size() == 0)
+	/*if (argumentBounds.size() == 0)
 	{
 		this->TriggerRenderingBoundsCalculationError("empty referencing steps list");
-	}
+	}*/
 
 	Interval newInterval;
 	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)
@@ -33,10 +33,18 @@ void RenderingStep1D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 		{
 			newInterval = current->GetInterval();
 		}
-		else {
+		else 
+		{
 			newInterval = Interval::Combine(newInterval, current->GetInterval());
 		}
 	}
 
-	this->SetRenderingBounds(renderer, newInterval);
+	Interval calculatedInterval = this->CalculateRenderingBounds(renderer, newInterval);
+
+	this->SetRenderingBounds(renderer, calculatedInterval);
+}
+
+Interval RenderingStep1D::CalculateRenderingBounds(Renderer* renderer, Interval argumentBounds) const
+{
+	return argumentBounds;
 }

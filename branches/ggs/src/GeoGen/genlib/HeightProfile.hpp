@@ -60,12 +60,11 @@ namespace geogen
 			void Abs();
 			void Add(Height addend);
 			void AddMasked(Height addend, HeightProfile* mask);
-			void AddMap(HeightProfile* addend);
-			void AddMapMasked(HeightProfile* addend, HeightProfile* mask);
+			void AddProfile(HeightProfile* addend);
+			void AddProfileMasked(HeightProfile* addend, HeightProfile* mask);
 			void Blur(Size1D radius);
 			void ClampHeights(Height min, Height max);
 			void Combine(HeightProfile* other, HeightProfile* mask);
-			void ConvexityMap(Size1D radius);
 			void CropHeights(Height min, Height max, Height replace);
 			//void Distort(HeightMap* distortionMap, Size1D maxDistance);
 			void FillInterval(Interval fillInterval, Height height);
@@ -74,7 +73,7 @@ namespace geogen
 			void Invert();
 			void Move(Coordinate offset);
 			void Multiply(Height factor);
-			void MultiplyMap(HeightProfile* factor);
+			void MultiplyProfile(HeightProfile* factor);
 			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
 			//void Repeat(Rectangle repeatRectangle);
 			void Rescale(Scale scale);

@@ -15,7 +15,7 @@ namespace geogen
 			HeightProfileFlatRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Height height)
 				: RenderingStep1D(location, argumentSlots, returnSlot), height(height) {};
 			
-			virtual String GetName() const { return GG_STR("HeightMap.Flat"); };
+			virtual String GetName() const { return GG_STR("HeightProfile.Flat"); };
 
 			virtual void Step(renderer::Renderer* renderer) const;
 

@@ -156,6 +156,9 @@
     <ClInclude Include="corelib\HeightMapUnifyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapUnifyRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightOverflowException.hpp" />
+    <ClInclude Include="corelib\HeightProfileAddFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileAddProfileRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileAddRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
@@ -371,6 +374,9 @@
     <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapUnifyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapUnifyRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileAddFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileAddProfileRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileAddRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
     <ClInclude Include="corelib\InvalidEnumValueException.hpp">

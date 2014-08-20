@@ -34,7 +34,8 @@ void RenderingStep2D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 		{
 			newRect = current->GetRectangle();
 		}
-		else {
+		else 
+		{
 			newRect = Rectangle::Combine(newRect, current->GetRectangle());
 		}
 	}

@@ -1,6 +1,10 @@
-			var sequence = RandomSequence2D.Create(5324);
-			sequence.Advance();
-			TriggerError("{0} {1} {2} {3}", sequence.GetNumber([0, 0], 5, 20), sequence.GetNumber([1, 1], 5, 20), sequence.GetNumber([1, 0], 5, 20), sequence.GetNumber([0, 1], 5, 20));
+			var profile = HeightProfile.Flat(0.5);
+			var profile2 = HeightProfile.Flat(0.1);
+			profile.Add(profile2);
+
+			//var sequence = RandomSequence2D.Create(5324);
+			//sequence.Advance();
+			//TriggerError("{0} {1} {2} {3}", sequence.GetNumber([0, 0], 5, 20), sequence.GetNumber([1, 1], 5, 20), sequence.GetNumber([1, 0], 5, 20), sequence.GetNumber([0, 1], 5, 20));
 			
 			var heightMap = HeightMap.RadialGradient([250, 250], 100, 1.0, 0.0);
 			var clone = HeightMap.Clone(heightMap);
@@ -8,7 +12,7 @@
 
 			heightMap.Blur(20);
 
-			heightMap.ClampHeights(0.2, 0.1);
+			//heightMap.ClampHeights(0.2, 0.1);
 
 			yield heightMap as "prescale";
 			heightMap.Rescale(0.5);

@@ -105,7 +105,7 @@ void HeightProfile::AddMasked(Height addend, HeightProfile* mask)
 	}
 }
 
-void HeightProfile::AddMap(HeightProfile* addend)
+void HeightProfile::AddProfile(HeightProfile* addend)
 {
 	Interval intersection = Interval::Intersect(this->interval, addend->interval);
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(intersection);
@@ -117,7 +117,7 @@ void HeightProfile::AddMap(HeightProfile* addend)
 	}
 }
 
-void HeightProfile::AddMapMasked(HeightProfile* addend, HeightProfile* mask)
+void HeightProfile::AddProfileMasked(HeightProfile* addend, HeightProfile* mask)
 {
 	Interval intersection = Interval::Intersect(this->interval, addend->interval);
 
@@ -210,17 +210,6 @@ void HeightProfile::Combine(HeightProfile* other, HeightProfile* mask)
 	}
 }
 
-void HeightProfile::ConvexityMap(Size1D radius)
-{
-	HeightProfile unsmoothed(*this);
-
-	/* Convexity map is a difference between the current map and its smoothed variant. Smoothing erases any terrain features
-	that peak upwards (are convex) or bulge downwards (are concave). */
-	this->Blur(radius);
-	this->Invert();
-	this->AddMap(&unsmoothed);
-}
-
 void HeightProfile::CropHeights(Height min, Height max, Height replace)
 {
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
@@ -310,7 +299,7 @@ void HeightProfile::Multiply(Height factor)
 	}
 }
 
-void HeightProfile::MultiplyMap(HeightProfile* factor)
+void HeightProfile::MultiplyProfile(HeightProfile* factor)
 {
 	Interval intersection = Interval::Intersect(this->interval, factor->interval);
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(intersection);
