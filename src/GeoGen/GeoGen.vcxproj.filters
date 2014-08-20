@@ -265,6 +265,9 @@
     <ClInclude Include="corelib\RandomSequence2DGetNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RandomSequence2DCreateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RandomSequence2DAdvanceFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileAddFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileAddRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileAddProfileRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -448,6 +451,9 @@
     <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RandomSequence2DCreateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RandomSequence2DAdvanceFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileAddFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileAddRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileAddProfileRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
