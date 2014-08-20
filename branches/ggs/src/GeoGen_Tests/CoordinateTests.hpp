@@ -70,50 +70,70 @@ public:
 
 	static void TestBothRelativePointCreate()
 	{
+		ScriptParameters params;
+		params.SetMapWidth(1000);
+		params.SetMapHeight(2000);
+
 		TestScript("\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(500, Number.FromCoordinate((@[[0.5], [0.2]]).X, Orientation.Horizontal));\n\
 			AssertEquals(400, Number.FromCoordinate((@[[0.5], [0.2]]).Y, Orientation.Vertical));\n\
-		");
+		", params);
 	}
 
 	static void TestXRelativePointCreate()
 	{
+		ScriptParameters params;
+		params.SetMapWidth(1000);
+		params.SetMapHeight(2000);
+
 		TestScript("\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(500, Number.FromCoordinate([@[0.5], [200]].X, Orientation.Horizontal));\n\
 			AssertEquals(200, Number.FromCoordinate([@[0.5], [200]].Y));\n\
-		");
+		", params);
 	}
 
 	static void TestYRelativePointCreate()
 	{
+		ScriptParameters params;
+		params.SetMapWidth(1000);
+		params.SetMapHeight(2000);
+
 		TestScript("\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(300, Number.FromCoordinate([[300], @[0.2]].X));\n\
 			AssertEquals(400, Number.FromCoordinate([[0.5], @[0.2]].Y, Orientation.Vertical));\n\
-		");
+		", params);
 	}
 
 	static void TestXRelativePointCreateOrientationNotSpecifiedFails()
 	{
+		ScriptParameters params;
+		params.SetMapWidth(1000);
+		params.SetMapHeight(2000);
+
 		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateOrientationException, "\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(500, Number.FromCoordinate([@[0.5], [200]].X));\n\
-		");
+		", params);
 	}
 
 	static void TestYRelativePointCreateOrientationNotSpecifiedFails()
 	{
+		ScriptParameters params;
+		params.SetMapWidth(1000);
+		params.SetMapHeight(2000);
+
 		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateOrientationException, "\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(400, Number.FromCoordinate([[300], @[0.2]].Y));\n\
-		");
+		", params);
 	}
 
 	static void TestRelativePointCreateInBothInfiniteDimensionsFails()

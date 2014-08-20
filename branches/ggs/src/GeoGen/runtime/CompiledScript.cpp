@@ -114,14 +114,16 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 		if (this->GetMetadata().GetItem(GG_STR("Width"))->GetType() == METADATA_TYPE_IDENTIFIER)
 		{
 			String identifierName = dynamic_cast<MetadataIdentifier const*>(this->GetMetadata().GetItem(GG_STR("Width")))->GetValue();
-			if (identifierName != GG_STR("Infinite"))
+			if (identifierName == GG_STR("Infinite"))
+			{
+				defaultMapWidth = MAP_SIZE_INFINITE;
+				minMapWidth = MAP_SIZE_MIN;
+				maxMapWidth = MAP_SIZE_INFINITE;
+			}
+			else
 			{
 				throw compiler::UndefinedMetadataIdentifierException(this->GetMetadata().GetItem(GG_STR("Width"))->GetLocation(), identifierName);
 			}
-
-			defaultMapWidth = MAP_SIZE_INFINITE;
-			minMapWidth = MAP_SIZE_MIN;
-			maxMapWidth = MAP_SIZE_INFINITE;
 		}		
 		else if (this->GetMetadata().GetItem(GG_STR("Width"))->GetType() == METADATA_TYPE_KEYVALUE_COLLECTION)
 		{
