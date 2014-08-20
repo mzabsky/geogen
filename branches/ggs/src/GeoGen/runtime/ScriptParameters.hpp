@@ -13,30 +13,32 @@ namespace geogen
 {	
 	namespace runtime
 	{
-		/// <summary> Infinite size in given dimension. </summary>
+		/// Infinite size in given dimension.
 		const unsigned MAP_SIZE_INFINITE = -1;
 
 		/// <summary> The size in given dimension will be set automatically by the generator. </summary>
 		const unsigned MAP_SIZE_AUTOMATIC = -2;
 
-		/// <summary> Maximum numeric value of a map size in either dimension. </summary>
+		/// Maximum numeric value of a map size in either dimension.
 		const unsigned MAP_SIZE_MAX = -3;
 
-		/// <summary> Minimum numeric value of a map size in either dimension. </summary>
+		/// Minimum numeric value of a map size in either dimension.
 		const unsigned MAP_SIZE_MIN = 1;
 
-		/// <summary> The minimum render scale. </summary>
+		/// The minimum render scale.
 		const double RENDER_SCALE_MIN = 0.001;
 
-		/// <summary> The maximum render scale. </summary>
+		/// The maximum render scale.
 		const double RENDER_SCALE_MAX = 10;
 
-		/// <summary> The default render size (if no other size can be used). </summary>
+		/// The default render size (if no other size can be used).
 		const Size1D RENDER_SIZE_DEFAULT = 1000;
 
-		/// <summary>
-		/// Contains configuration of map size, rendering bounds and any additional parameters the script may have.
-		/// </summary>
+		/// The default default map size.
+		const Size1D MAP_SIZE_DEFAULT = 1000;
+
+		/// Contains configuration of map size, rendering bounds and any additional parameters the script
+		/// may have.
 		class ScriptParameters : public utils::OwningMap<ScriptParameter>, public Serializable
 		{
 		private:
@@ -63,25 +65,31 @@ namespace geogen
 			typedef std::map<String, ScriptParameter const*>::const_iterator const_iterator;
 			typedef std::map<String, ScriptParameter*>::iterator iterator;
 
-			/// <summary>
-			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.
-			/// </summary>
+			/// Initializes a new instance of the ScriptParameters class.
+			/// @param defaultMapWidth  The default map width.
+			/// @param defaultMapHeight The default map height.
+			/// @param minMapWidth	    The minimum map width.
+			/// @param minMapHeight	    The minimum map height.
+			/// @param maxMapWidth	    The maximum map width.
+			/// @param maxMapHeight	    The maximum map height.
 			ScriptParameters(unsigned defaultMapWidth, unsigned defaultMapHeight, unsigned minMapWidth, unsigned minMapHeight, unsigned maxMapWidth, unsigned maxMapHeight) :
 				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(defaultMapWidth), defaultMapHeight(defaultMapHeight), minMapWidth(minMapWidth), maxMapHeight(maxMapHeight), maxMapWidth(maxMapWidth), minMapHeight(minMapHeight) {}
 
-			/// <summary>
-			/// Initializes a new instance of the <see cref="ScriptParameters"/> class.
-			/// </summary>
+			/// Initializes a new instance of the ScriptParameters class.
 			ScriptParameters() :
 				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(MAP_SIZE_INFINITE), defaultMapHeight(MAP_SIZE_INFINITE), minMapWidth(MAP_SIZE_MIN), minMapHeight(MAP_SIZE_MIN), maxMapHeight(MAP_SIZE_INFINITE), maxMapWidth(MAP_SIZE_INFINITE) {}
 
+			/// Copy constructor.
+			/// @param parameter1 The other instance.
 			ScriptParameters(ScriptParameters const&);
+
+			/// Assignment operator.
+			/// @param parameter1 The other instance.
+			/// @return A deep copy of this ScriptParameters.
 			ScriptParameters& operator=(ScriptParameters const&);
 
-			/// <summary>
 			/// Gets current width of the map. If map width wasn't set yet, default width will be returned.
-			/// </summary>
-			/// <returns>Current map width.</returns>
+			/// @return Current map width.
 			inline unsigned GetMapWidth() const
 			{
 				if (this->mapWidth == MAP_SIZE_AUTOMATIC)
@@ -101,34 +109,34 @@ namespace geogen
 				}
 			};
 
-			/// <summary>
 			/// Gets the default width of the map.
-			/// </summary>
-			/// <returns>Default width of the map.</returns>
-			inline unsigned GetDefaultMapWidth() const { return this->defaultMapWidth; };
+			/// @return Default width of the map.
+			inline unsigned GetDefaultMapWidth() const 
+			{ 
+				if (this->maxMapWidth == MAP_SIZE_INFINITE)
+				{
+					return MAP_SIZE_INFINITE;
+				}
+				else
+				{
+					return this->defaultMapWidth != MAP_SIZE_AUTOMATIC ? this->defaultMapWidth : MAP_SIZE_DEFAULT;
+				}
+			};
 
-			/// <summary>
 			/// Gets the minimum width of the map.
-			/// </summary>
-			/// <returns>Minimum width of the map. Always greater than 0.</returns>
+			/// @return Minimum width of the map. Always greater than 0.
 			inline unsigned GetMinMapWidth() const  { return this->minMapWidth; };
 
-			/// <summary>
 			/// Gets the maximum width of the map.
-			/// </summary>
-			/// <returns>Maximum width of the map. <see>MAP_SIZE_INFINITE</see> if infinite. </returns>
+			/// @return Maximum width of the map. <see>MAP_SIZE_INFINITE</see> if infinite.
 			inline unsigned GetMaxMapWidth() const { return this->maxMapWidth; };
 
-			/// <summary>
-			/// Sets the width of the map. 
-			/// </summary>
-			/// <param name="width">The new width. If <see>MAP_SIZE_AUTOMATIC</see>, default width will be used. </param>
+			/// Sets the width of the map.
+			/// @param width The new width. If MAP_SIZE_AUTOMATIC, default width will be used.
 			void SetMapWidth(unsigned width);
 
-			/// <summary>
 			/// Gets current height of the map. If map height wasn't set yet, default height will be returned.
-			/// </summary>
-			/// <returns>Current map height.</returns>
+			/// @return Current map height.
 			inline unsigned GetMapHeight() const 
 			{ 
 				if (this->mapHeight == MAP_SIZE_AUTOMATIC)
@@ -148,83 +156,87 @@ namespace geogen
 				}
 			};
 
-			/// <summary>
 			/// Gets the default height of the map.
-			/// </summary>
-			/// <returns>Default height of the map.</returns>
-			inline unsigned GetDefaultMapHeight() const { return this->defaultMapHeight; };
+			/// @return Default height of the map.
+			inline unsigned GetDefaultMapHeight() const 
+			{ 
+				if (this->maxMapHeight == MAP_SIZE_INFINITE)
+				{
+					return MAP_SIZE_INFINITE;
+				}
+				else 
+				{
+					return this->defaultMapHeight != MAP_SIZE_AUTOMATIC ? this->defaultMapHeight : MAP_SIZE_DEFAULT;
+				}
+			};
 
-			/// <summary>
 			/// Gets the minimum height of the map.
-			/// </summary>
-			/// <returns>Minimum height of the map. Always greater than 0.</returns>
+			/// @return Minimum height of the map. Always greater than 0.
 			inline unsigned GetMinMapHeight() const  { return this->minMapHeight; };
 
-			/// <summary>
 			/// Gets the maximum height of the map.
-			/// </summary>
-			/// <returns>Maximum height of the map. <see>MAP_SIZE_INFINITE</see> if infinite. </returns>
+			/// @return Maximum height of the map. <see>MAP_SIZE_INFINITE</see> if infinite.
 			inline unsigned GetMaxMapHeight() const { return this->maxMapHeight; };
 
-			/// <summary>
-			/// Sets the height of the map. 
-			/// </summary>
-			/// <param name="height">The new height. If <see>MAP_SIZE_AUTOMATIC</see>, default height will be used. </param>
+			/// Sets the height of the map.
+			/// @param height The new height. If MAP_SIZE_AUTOMATIC, default height will be used.
 			void SetMapHeight(unsigned height);
 
-			/// <summary> Gets X coordinate of the render origin. </summary>
-			/// <returns> X coordinate of the render origin. </returns>
+			/// Gets X coordinate of the render origin.
+			/// @return X coordinate of the render origin.
 			inline int GetRenderOriginX() const { return this->renderOriginX; };
 
-			/// <summary> Sets X coordinate of the render origin. </summary>
-			/// <param name="renderOriginX"> X coordinate of the render origin. </param>
+			/// Sets X coordinate of the render origin.
+			/// @param renderOriginX X coordinate of the render origin.
 			inline void SetRenderOriginX(int renderOriginX) { this->renderOriginX = renderOriginX; };
 
-			/// <summary> Gets Y coordinate of the render origin. </summary>
-			/// <returns> Y coordinate of the render origin. </returns>
+			/// Gets Y coordinate of the render origin.
+			/// @return Y coordinate of the render origin.
 			inline int GetRenderOriginY() const { return this->renderOriginY; };
 
-			/// <summary> Sets Y coordinate of the render origin. </summary>
-			/// <param name="renderOriginY"> Y coordinate of the render origin. </param>
+			/// Sets Y coordinate of the render origin.
+			/// @param renderOriginY Y coordinate of the render origin.
 			inline void SetRenderOriginY(int renderOriginY) { this->renderOriginY = renderOriginY; };
 
-			/// <summary> Gets width of the render. </summary>
-			/// <returns> Width of the render. </returns>
+			/// Gets width of the render.
+			/// @return Width of the render.
 			inline unsigned GetRenderWidth() const 
 			{ 
 				return this->renderWidth == MAP_SIZE_AUTOMATIC ? RENDER_SIZE_DEFAULT : this->renderWidth; 
 			};
 
-			/// <summary> Sets width of the render. </summary>
-			/// <param name="renderWidth"> Width of the render. </param>
+			/// Sets width of the render.
+			/// @param renderWidth Width of the render.
 			inline void SetRenderWidth(unsigned renderWidth) { this->renderWidth = renderWidth; };
 
-			/// <summary> Gets height of the render. </summary>
-			/// <returns> Height of the render. </returns>
+			/// Gets height of the render.
+			/// @return Height of the render.
 			inline unsigned GetRenderHeight() const 
 			{ 
 				return this->renderWidth == MAP_SIZE_AUTOMATIC ? RENDER_SIZE_DEFAULT : this->renderHeight;
 			};
 
-			/// <summary> Sets height of the render. </summary>
-			/// <param name="renderHeight"> Height of the render. </param>
+			/// Sets height of the render.
+			/// @param renderHeight Height of the render.
 			inline void SetRenderHeight(unsigned renderHeight) { this->renderHeight = renderHeight; };
 
-			/// <summary> Gets scale of the render. </summary>
-			/// <returns> Scale of the render. </returns>
+			/// Gets scale of the render.
+			/// @return Scale of the render.
 			inline double GetRenderScale() const { return this->renderScale; };
 
-			/// <summary> Sets scale of the render. </summary>
-			/// <param name="renderHeight"> Scale of the render. </param>
+			/// Sets scale of the render.
+			/// @param renderScale Scale of the render.
 			void SetRenderScale(double renderScale);
 
+			/// Gets the random seed.
+			/// @return The random seed.
 			inline random::RandomSeed GetRandomSeed() const { return this->randomSeed; }
 
+			/// Sets the random seed.
+			/// @param randomSeed The random seed.
 			inline void SetRandomSeed(random::RandomSeed randomSeed) { this->randomSeed = randomSeed; }
 
-			/// <summary>
 			/// Resets all parameters to their default values.
-			/// </summary>
 			void ResetToDefaults();
 
 			virtual void Serialize(IOStream& stream) const;

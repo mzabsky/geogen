@@ -526,7 +526,7 @@ public:
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 		
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapWidth());
-		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMinMapWidth());
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapWidth());
 	}
 
@@ -541,8 +541,23 @@ public:
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 		
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapWidth());
-		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMinMapWidth());
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapWidth());
+	}
+
+	static void TestExplicitFiniteWidth()
+	{
+		auto_ptr<CompiledScript> compiledScript = TestGetCompiledScript("\n\
+			metadata {\n\
+				Width: Finite\n\
+			}\n\
+		");
+		
+		ScriptParameters params = compiledScript->CreateScriptParameters();
+		
+		ASSERT_EQUALS(unsigned, MAP_SIZE_DEFAULT, params.GetDefaultMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapWidth());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_MAX, params.GetMaxMapWidth());
 	}
 
 	static void TestDefaultWidth()
@@ -711,7 +726,7 @@ public:
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 		
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapHeight());
-		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapHeight());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMinMapHeight());
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapHeight());
 	}
 
@@ -726,7 +741,7 @@ public:
 		ScriptParameters params = compiledScript->CreateScriptParameters();
 		
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetDefaultMapHeight());
-		ASSERT_EQUALS(unsigned, MAP_SIZE_MIN, params.GetMinMapHeight());
+		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMinMapHeight());
 		ASSERT_EQUALS(unsigned, MAP_SIZE_INFINITE, params.GetMaxMapHeight());
 	}
 
@@ -918,6 +933,7 @@ public:
 		ADD_TESTCASE(TestPowersOf10ParameterValueRestriction);
 		ADD_TESTCASE(TestDefaultInfiniteWidth);
 		ADD_TESTCASE(TestExplicitInfiniteWidth);
+		ADD_TESTCASE(TestExplicitFiniteWidth);
 		ADD_TESTCASE(TestDefaultWidth);
 		ADD_TESTCASE(TestDefaultWidthNonNumber);
 		ADD_TESTCASE(TestDefaultWidthNonInteger);
