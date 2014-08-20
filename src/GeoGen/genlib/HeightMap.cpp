@@ -313,10 +313,10 @@ void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Hei
 			Coordinate((gradientOffsetY * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / (gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY)));
 
 		// Calculate the distance from the "from" point to the intersection with gradient vector.
-		double distance = cross.GetDistanceFromOrigin();
+		double distance = double(cross.GetDistanceFromOrigin());
 
 		// Distance from  the intersection point to the destination point.
-		double reverseDistance = cross.GetDistanceTo(gradientOffset); // TODO: Subtract from total distance?
+		double reverseDistance = double(cross.GetDistanceTo(gradientOffset)); // TODO: Subtract from total distance?
 			
 		// Apply it to the array data.
 		if (distance <= maxDistance && reverseDistance <= maxDistance) {
@@ -407,7 +407,7 @@ void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, He
 
 void HeightMap::Rescale(Scale horizontalScale, Scale verticalScale)
 {
-	Rectangle newRectangle(Point(this->rectangle.GetPosition().GetX() * horizontalScale, this->rectangle.GetPosition().GetY() * verticalScale), Size2D(this->rectangle.GetSize().GetWidth() * horizontalScale, this->rectangle.GetSize().GetHeight() * verticalScale));
+	Rectangle newRectangle(Point(Coordinate(this->rectangle.GetPosition().GetX() * horizontalScale), Coordinate(this->rectangle.GetPosition().GetY() * verticalScale)), Size2D(Size1D(this->rectangle.GetSize().GetWidth() * horizontalScale), Size1D(this->rectangle.GetSize().GetHeight() * verticalScale)));
 
 	// Allocate the new array.
 	Height* newData = new Height[newRectangle.GetSize().GetTotalLength()];

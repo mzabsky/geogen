@@ -53,10 +53,10 @@ namespace geogen
 
 			inline Height HeightMap::operator() (double x, double y)
 			{
-				Coordinate leftCoord = floor(x);
-				Coordinate rightCoord = ceil(x);
-				Coordinate topCoord = floor(x);
-				Coordinate bottomCoord = ceil(y);
+				Coordinate leftCoord = Coordinate(floor(x));
+				Coordinate rightCoord = Coordinate(ceil(x));
+				Coordinate topCoord = Coordinate(floor(x));
+				Coordinate bottomCoord = Coordinate(ceil(y));
 				Height top = Lerp(leftCoord, rightCoord, (*this)(leftCoord, topCoord), (*this)(rightCoord, topCoord), x);
 				Height bottom = Lerp(leftCoord, rightCoord, (*this)(leftCoord, bottomCoord), (*this)(rightCoord, bottomCoord), x);
 				return Lerp(topCoord, bottomCoord, top, bottom, y);
@@ -66,7 +66,7 @@ namespace geogen
 			inline Coordinate GetOriginY() const { return this->rectangle.GetPosition().GetY(); }
 			inline Size1D GetWidth() const { return this->rectangle.GetSize().GetWidth(); }
 			inline Size1D GetHeight() const { return this->rectangle.GetSize().GetHeight(); }
-			inline Scale GetScale() const { return this->GetScale(); }
+			inline Scale GetScale() const { return this->scale; }
 
 			inline Rectangle GetPhysicalRectangleUnscaled(Rectangle logicalRectangle) const { return logicalRectangle - this->rectangle.GetPosition(); }
 			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle * this->scale - this->rectangle.GetPosition(); }
