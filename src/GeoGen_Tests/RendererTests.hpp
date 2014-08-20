@@ -200,6 +200,6 @@ public:
 		ADD_TESTCASE(TestSimpleTiling);
 		ADD_TESTCASE(TestTilingWithScaling);
 		ADD_TESTCASE(TestBlur);
-		ADD_TESTCASE(TestNoise);
+		//ADD_TESTCASE(TestNoise);
 	}
 };

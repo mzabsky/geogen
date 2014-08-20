@@ -15,7 +15,7 @@ public:
 		ASSERT_EQUALS(int, 1028385129, sequence.NextInt());
 		ASSERT_EQUALS(int, -561805179, sequence.NextInt());
 	}
-
+	 
 	static void TestParalellSequences()
 	{
 		RandomSequence sequence1(8);
@@ -36,13 +36,13 @@ public:
 	{
 		RandomSequence2D sequence(8);
 
-		ASSERT_EQUALS(int, -1264649449, sequence.GetInt(Point(0, 0)));
-		ASSERT_EQUALS(int, -1264649449, sequence.GetInt(Point(0, 0)));
-		ASSERT_EQUALS(int, -1104168230, sequence.GetInt(Point(0, 1)));
-		ASSERT_EQUALS(int, 945191568, sequence.GetInt(Point(1, 0)));
-		ASSERT_EQUALS(int, -943687011, sequence.GetInt(Point(0, 2)));
+		ASSERT_EQUALS(int, 1860076204, sequence.GetInt(Point(0, 0)));
+		ASSERT_EQUALS(int, 1860076204, sequence.GetInt(Point(0, 0)));
+		ASSERT_EQUALS(int, 806232052, sequence.GetInt(Point(0, 1)));
+		ASSERT_EQUALS(int, -247555535, sequence.GetInt(Point(1, 0)));
+		ASSERT_EQUALS(int, -1143852053, sequence.GetInt(Point(0, 2)));
 	}
-
+	 
 	static void TestRandomSequenceHistogram()
 	{
 		RandomSequence sequence(8);
