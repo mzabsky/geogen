@@ -17,7 +17,7 @@ using namespace geogen::runtime;
 
 ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 {	
-	this->GetFunctionDefinitions().AddItem(new ArrayEmptyFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new ArrayEmptyFunctionDefinition(this));
 
 	this->GetFunctionDefinitions().AddItem(new ArrayCountFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new ArrayPushBackFunctionDefinition(this));
