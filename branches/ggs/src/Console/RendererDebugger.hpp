@@ -19,6 +19,9 @@ namespace geogen
 			OStream& out;
 
 			bool aborted = false;
+			bool autosave = false;
+
+			unsigned currentStepNumber = 0;
 
 			// Non-copyable
 			RendererDebugger(RendererDebugger const&) : renderer(*(renderer::RenderingSequence*)NULL), in(Cin), out(Cout) {};
@@ -36,7 +39,12 @@ namespace geogen
 			inline void Abort() { this->aborted = true; }
 			inline bool IsAborted() const { return this->aborted; }
 
+			inline void SetAutosave(bool autosave) { this->autosave = autosave; }
+			inline bool GetAutosave() const { return this->autosave; }
+
 			void Run();
+
+			void Step();
 		};
 	}
 }

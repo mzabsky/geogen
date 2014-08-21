@@ -3,6 +3,7 @@
 #include "RendererDebugger.hpp"
 #include "../GeoGen/utils/StringUtils.hpp"
 #include "ConsoleUtils.hpp"
+#include "renderer_commands/AutosaveRendererCommand.hpp"
 #include "renderer_commands/HelpRendererCommand.hpp"
 #include "renderer_commands/ObjectTableRendererCommand.hpp"
 #include "renderer_commands/QuitRendererCommand.hpp"
@@ -26,6 +27,7 @@ using namespace instructions;
 RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, renderer::RenderingSequence const& sequence)
 : renderer(sequence), in(in), out(out)
 {
+	this->commandTable.AddCommand(new AutosaveRendererCommand());
 	this->commandTable.AddCommand(new HelpRendererCommand());
 	this->commandTable.AddCommand(new QuitRendererCommand());
 	this->commandTable.AddCommand(new ObjectTableRendererCommand());
@@ -82,4 +84,35 @@ void RendererDebugger::Run()
 	}
 
 	out << GG_STR("Renderer debugger finished.") << endl << endl;
+}
+
+void RendererDebugger::Step()
+{
+	RenderingStep const* step = this->GetRenderer()->GetNextRenderingStep();
+
+	this->renderer.Step();
+
+	if (this->autosave)
+	{
+		RendererObject* returnObject = this->renderer.GetObjectTable().GetObjectBySlot(step->GetReturnSlot());
+
+		String stepName = step->GetName();
+		std::replace(stepName.begin(), stepName.end(), '.', '-');
+
+		StringStream ss;
+		ss << GG_STR("step") << this->currentStepNumber << GG_STR("_") << stepName << (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
+
+		try
+		{
+			WriteImage(returnObject->GetPtr(), returnObject->GetObjectType(), ss.str());
+
+			this->GetOut() << GG_STR("Saved step result as \"") << ss.str() << ("\".") << std::endl;
+		}
+		catch (exception&)
+		{
+			this->GetOut() << GG_STR("Could not write \"") << ss.str() << ("\".") << std::endl;
+		}
+	}
+
+	this->currentStepNumber++;
 }
