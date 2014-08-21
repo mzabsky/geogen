@@ -386,7 +386,7 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 	}
 }
 
-void HeightMap::ProjectProfile(HeightProfile* profile, Orientation orientation)
+void HeightMap::Projection(HeightProfile* profile, Orientation orientation)
 {
 	if (orientation == ORIENTATION_HORIZONTAL)
 	{

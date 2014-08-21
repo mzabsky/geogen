@@ -268,8 +268,8 @@
     <ClInclude Include="corelib\HeightProfileAddFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileAddRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileAddProfileRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapProjectProfileFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapProjectProfileRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapProjectionFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapProjectionRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -456,8 +456,8 @@
     <ClCompile Include="corelib\HeightProfileAddFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileAddRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileAddProfileRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapProjectProfileFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapProjectProfileRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapProjectionFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapProjectionRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

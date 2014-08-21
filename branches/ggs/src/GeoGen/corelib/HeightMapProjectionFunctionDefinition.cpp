@@ -1,4 +1,4 @@
-#include "HeightMapProjectProfileFunctionDefinition.hpp"
+#include "HeightMapProjectionFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "NumberTypeDefinition.hpp"
@@ -8,7 +8,7 @@
 #include "HeightProfileTypeDefinition.hpp"
 #include "HeightMapFlatRenderingStep.hpp"
 #include "HeightOverflowException.hpp"
-#include "HeightMapProjectProfileRenderingStep.hpp"
+#include "HeightMapProjectionRenderingStep.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -16,7 +16,7 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::renderer;
 
-ManagedObject* HeightMapProjectProfileFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* HeightMapProjectionFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	HeightProfileTypeDefinition const* heightProfileTypeDefinition = dynamic_cast<HeightProfileTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("HeightProfile")));
 	OrientationTypeDefinition const* orientationTypeDefinition = dynamic_cast<OrientationTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Orientation")));
@@ -34,7 +34,7 @@ ManagedObject* HeightMapProjectProfileFunctionDefinition::CallNative(CodeLocatio
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightMapProjectProfileRenderingStep(location, argumentSlots, returnObjectSlot, orientation);
+	RenderingStep* renderingStep = new HeightMapProjectionRenderingStep(location, argumentSlots, returnObjectSlot, orientation);
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;
