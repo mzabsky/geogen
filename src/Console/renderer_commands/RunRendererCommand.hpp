@@ -34,7 +34,7 @@ namespace geogen
 						renderer::RenderingStep const* currentStep = debugger->GetRenderer()->GetNextRenderingStep();
 						debugger->GetOut() << i << GG_STR("/") << debugger->GetRenderer()->GetRenderingSequence().Size() << GG_STR(": ") << (currentStep->ToString()) << GG_STR(" on line ") << currentStep->GetLocation().GetLine() << GG_STR(", column ") << currentStep->GetLocation().GetColumn() << GG_STR(". ") << std::endl;
 
-						debugger->GetRenderer()->Step();
+						debugger->Step();
 
 						i++;
 					}

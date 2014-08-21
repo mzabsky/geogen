@@ -59,5 +59,6 @@
     <ClInclude Include="loader_commands\RenderScaleLoaderCommand.hpp" />
     <ClInclude Include="runtime_commands\ArgumentsRuntimeCommand.hpp" />
     <ClInclude Include="loader_commands\RandomSeedLoaderCommand.hpp" />
+    <ClInclude Include="renderer_commands\AutosaveRendererCommand.hpp" />
   </ItemGroup>
 </Project>

@@ -27,7 +27,7 @@ namespace geogen
 				virtual void Run(RendererDebugger* debugger, String arguments) const
 				{
 					debugger->GetOut() << GG_STR("Step") << std::endl << std::endl;
-					debugger->GetRenderer()->Step();
+					debugger->Step();
 
 					renderer::RenderingStep const* currentStep = debugger->GetRenderer()->GetNextRenderingStep();
 					if (currentStep != NULL)
