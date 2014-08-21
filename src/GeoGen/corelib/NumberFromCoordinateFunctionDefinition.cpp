@@ -4,7 +4,7 @@
 #include "NumberTypeDefinition.hpp"
 #include "CoordinateObject.hpp"
 #include "CoordinateTypeDefinition.hpp"
-#include "UnknownRelativeCoordinateOrientationException.hpp"
+#include "UnknownRelativeCoordinateDirectionException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -16,11 +16,11 @@ ManagedObject* NumberFromCoordinateFunctionDefinition::CallNative(CodeLocation l
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 	CoordinateTypeDefinition const* coordinateTypeDefinition = dynamic_cast<CoordinateTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Coordinate")));
-	TypeDefinition const* orientationTypeDefinition = vm->GetTypeDefinition(GG_STR("Orientation"));
+	TypeDefinition const* directionTypeDefinition = vm->GetTypeDefinition(GG_STR("Direction"));
 
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(coordinateTypeDefinition);
-	expectedTypes.push_back(orientationTypeDefinition);
+	expectedTypes.push_back(directionTypeDefinition);
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 1);
 
@@ -28,15 +28,15 @@ ManagedObject* NumberFromCoordinateFunctionDefinition::CallNative(CodeLocation l
 
 	if (coordinateValue->IsRelative())
 	{
-		// Orientation has to be supplied for relative coordinate.
+		// Direction has to be supplied for relative coordinate.
 		if (arguments.size() < 2)
 		{
-			throw UnknownRelativeCoordinateOrientationException(location);
+			throw UnknownRelativeCoordinateDirectionException(location);
 		}
 
-		Orientation orientation = (Orientation)NumberToInt(dynamic_cast<NumberObject*>(arguments[1])->GetValue());
+		Direction direction = (Direction)NumberToInt(dynamic_cast<NumberObject*>(arguments[1])->GetValue());
 
-		return numberTypeDefinition->CreateInstance(vm, coordinateValue->GetAbsoluteCoordinate(vm, location, orientation));
+		return numberTypeDefinition->CreateInstance(vm, coordinateValue->GetAbsoluteCoordinate(vm, location, direction));
 	}
 	else
 	{

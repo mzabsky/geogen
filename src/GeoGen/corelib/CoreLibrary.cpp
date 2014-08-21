@@ -5,7 +5,7 @@
 #include "CoordinateTypeDefinition.hpp"
 #include "PointTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
-#include "OrientationTypeDefinition.hpp"
+#include "DirectionTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "AssignmentOperatorFunctionDefinition.hpp"
 #include "RelationalOperatorFunctionDefinition.hpp"
@@ -43,7 +43,7 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new PointTypeDefinition());
 
 	// Enums
-	this->typeDefinitions.AddItem(OrientationTypeDefinition::Create());
+	this->typeDefinitions.AddItem(DirectionTypeDefinition::Create());
 
     // Core operators
 	this->globalFunctionDefinitions.AddItem(new AssignmentOperatorFunctionDefinition());

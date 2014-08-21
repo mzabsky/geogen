@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "../GeoGen/corelib/UnknownRelativeCoordinateOrientationException.hpp"
+#include "../GeoGen/corelib/UnknownRelativeCoordinateDirectionException.hpp"
 #include "../GeoGen/corelib/RelativeCoordinateInInfiniteDimensionException.hpp"
 
 class CoordinateTests : public TestFixtureBase
@@ -27,13 +27,13 @@ public:
 		TestScript("\n\
 			metadata { Width: { Max: 1000, Default: 1000 } }\n\
 			\n\
-			AssertEquals(500, Number.FromCoordinate(@Coordinate.FromNumber(0.5), Orientation.Horizontal));\n\
+			AssertEquals(500, Number.FromCoordinate(@Coordinate.FromNumber(0.5), Direction.Horizontal));\n\
 		");
 	}
 
-	static void TestRelativeCoordinateFromNumberToNumberOrientationNotSpecifiedFails()
+	static void TestRelativeCoordinateFromNumberToNumberDirectionNotSpecifiedFails()
 	{
-		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateOrientationException, "\n\
+		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateDirectionException, "\n\
 			metadata { Width: { Max: 1000, Default: 1000 } }\n\
 			\n\
 			AssertEquals(500, Number.FromCoordinate(@Coordinate.FromNumber(0.5)));\n\
@@ -45,7 +45,7 @@ public:
 		TEST_SCRIPT_FAILURE(RelativeCoordinateInInfiniteDimensionException, "\n\
 			metadata { Width: Infinite }\n\
 			\n\
-			AssertEquals(500, Number.FromCoordinate(@Coordinate.FromNumber(0.5), Orientation.Horizontal));\n\
+			AssertEquals(500, Number.FromCoordinate(@Coordinate.FromNumber(0.5), Direction.Horizontal));\n\
 		");
 	}
 
@@ -77,8 +77,8 @@ public:
 		TestScript("\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
-			AssertEquals(500, Number.FromCoordinate((@[[0.5], [0.2]]).X, Orientation.Horizontal));\n\
-			AssertEquals(400, Number.FromCoordinate((@[[0.5], [0.2]]).Y, Orientation.Vertical));\n\
+			AssertEquals(500, Number.FromCoordinate((@[[0.5], [0.2]]).X, Direction.Horizontal));\n\
+			AssertEquals(400, Number.FromCoordinate((@[[0.5], [0.2]]).Y, Direction.Vertical));\n\
 		", params);
 	}
 
@@ -91,7 +91,7 @@ public:
 		TestScript("\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
-			AssertEquals(500, Number.FromCoordinate([@[0.5], [200]].X, Orientation.Horizontal));\n\
+			AssertEquals(500, Number.FromCoordinate([@[0.5], [200]].X, Direction.Horizontal));\n\
 			AssertEquals(200, Number.FromCoordinate([@[0.5], [200]].Y));\n\
 		", params);
 	}
@@ -106,30 +106,30 @@ public:
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(300, Number.FromCoordinate([[300], @[0.2]].X));\n\
-			AssertEquals(400, Number.FromCoordinate([[0.5], @[0.2]].Y, Orientation.Vertical));\n\
+			AssertEquals(400, Number.FromCoordinate([[0.5], @[0.2]].Y, Direction.Vertical));\n\
 		", params);
 	}
 
-	static void TestXRelativePointCreateOrientationNotSpecifiedFails()
+	static void TestXRelativePointCreateDirectionNotSpecifiedFails()
 	{
 		ScriptParameters params;
 		params.SetMapWidth(1000);
 		params.SetMapHeight(2000);
 
-		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateOrientationException, "\n\
+		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateDirectionException, "\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(500, Number.FromCoordinate([@[0.5], [200]].X));\n\
 		", params);
 	}
 
-	static void TestYRelativePointCreateOrientationNotSpecifiedFails()
+	static void TestYRelativePointCreateDirectionNotSpecifiedFails()
 	{
 		ScriptParameters params;
 		params.SetMapWidth(1000);
 		params.SetMapHeight(2000);
 
-		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateOrientationException, "\n\
+		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateDirectionException, "\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(400, Number.FromCoordinate([[300], @[0.2]].Y));\n\
@@ -176,7 +176,7 @@ public:
 		ADD_TESTCASE(TestCoordinateFromNumberToNumber);
 		ADD_TESTCASE(TestCoordinateFromNumberToNumberUsingLiteral);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumber);
-		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberOrientationNotSpecifiedFails);
+		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberDirectionNotSpecifiedFails);
 		ADD_TESTCASE(TestRelativeCoordinateFromNumberToNumberInInfiniteDimensionFails);
 
 		ADD_TESTCASE(TestPointCreate);
@@ -184,8 +184,8 @@ public:
 		ADD_TESTCASE(TestBothRelativePointCreate);
 		ADD_TESTCASE(TestXRelativePointCreate);
 		ADD_TESTCASE(TestYRelativePointCreate);
-		ADD_TESTCASE(TestXRelativePointCreateOrientationNotSpecifiedFails);
-		ADD_TESTCASE(TestYRelativePointCreateOrientationNotSpecifiedFails);
+		ADD_TESTCASE(TestXRelativePointCreateDirectionNotSpecifiedFails);
+		ADD_TESTCASE(TestYRelativePointCreateDirectionNotSpecifiedFails);
 		ADD_TESTCASE(TestRelativePointCreateInBothInfiniteDimensionsFails);
 		ADD_TESTCASE(TestRelativePointCreateInXInfiniteDimensionFails);
 		ADD_TESTCASE(TestRelativePointCreateInYInfiniteDimensionFails);

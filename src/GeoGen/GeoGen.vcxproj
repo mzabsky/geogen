@@ -179,7 +179,7 @@
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\OrientationTypeDefinition.hpp" />
+    <ClInclude Include="corelib\DirectionTypeDefinition.hpp" />
     <ClInclude Include="corelib\PointCreateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\PointObject.hpp" />
     <ClInclude Include="corelib\PointTypeDefinition.hpp" />
@@ -193,7 +193,7 @@
     <ClInclude Include="corelib\SizeOverflowException.hpp" />
     <ClInclude Include="corelib\YieldRenderingStep.hpp" />
     <ClInclude Include="genlib\NoiseLayer.hpp" />
-    <ClInclude Include="Orientation.hpp" />
+    <ClInclude Include="Direction.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
@@ -389,8 +389,8 @@
     <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\OrientationTypeDefinition.cpp" />
-    <ClInclude Include="corelib\UnknownRelativeCoordinateOrientationException.hpp">
+    <ClCompile Include="corelib\DirectionTypeDefinition.cpp" />
+    <ClInclude Include="corelib\UnknownRelativeCoordinateDirectionException.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
@@ -402,7 +402,7 @@
     <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RandomSequence2DTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightMap.cpp" />
-    <ClCompile Include="Orientation.cpp" />
+    <ClCompile Include="Direction.cpp" />
     <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />

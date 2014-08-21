@@ -5,7 +5,7 @@
 #include "../Number.hpp"
 #include "../Rectangle.hpp"
 #include "DataObject.hpp"
-#include "../Orientation.hpp"
+#include "../Direction.hpp"
 #include "NoiseLayer.hpp"
 #include "../random/RandomSeed.hpp"
 
@@ -80,7 +80,7 @@ namespace geogen
 			void AddMap(HeightMap* addend);
 			void AddMapMasked(HeightMap* addend, HeightMap* mask);
 			void Blur(Size1D radius);
-			void Blur(Size1D radius, Orientation direction);
+			void Blur(Size1D radius, Direction direction);
 			void ClampHeights(Height min, Height max);
 			void Combine(HeightMap* other, HeightMap* mask);
 			void ConvexityMap(Size1D radius);
@@ -96,7 +96,7 @@ namespace geogen
 			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
 			//void NormalMap();
 			//void Outline();
-			void Projection(HeightProfile* profile, Orientation orientation);
+			void Projection(HeightProfile* profile, Direction direction);
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
 			//void Repeat(Rectangle repeatRectangle);
 			void Rescale(Scale horizontalScale, Scale verticalScale);

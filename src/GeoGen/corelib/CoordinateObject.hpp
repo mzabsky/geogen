@@ -3,7 +3,7 @@
 #include "../runtime/ManagedObject.hpp"
 #include "../Point.hpp"
 #include "../Number.hpp"
-#include "../Orientation.hpp"
+#include "../Direction.hpp"
 
 namespace geogen
 {
@@ -18,7 +18,7 @@ namespace geogen
 			CoordinateObject(runtime::VirtualMachine* vm, runtime::TypeDefinition const* type, Number value, bool isRelative) : ManagedObject(vm, type), value(value), isRelative(isRelative) {};
 			inline Number GetValue() const { return this->value; }
 			inline bool IsRelative() const { return this->isRelative; }
-			Coordinate GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Orientation orientation) const;
+			Coordinate GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Direction direction) const;
 
 			virtual String GetStringValue() const
 			{

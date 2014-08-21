@@ -3,7 +3,7 @@
 #include "../runtime/ManagedObject.hpp"
 #include "../Point.hpp"
 #include "../Number.hpp"
-#include "../Orientation.hpp"
+#include "../Direction.hpp"
 
 namespace geogen
 {

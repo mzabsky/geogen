@@ -149,11 +149,11 @@ void HeightMap::AddMapMasked(HeightMap* addend, HeightMap* mask)
 
 void HeightMap::Blur(Size1D radius)
 {
-	this->Blur(radius, ORIENTATION_HORIZONTAL);
-	this->Blur(radius, ORIENTATION_VERTICAL);
+	this->Blur(radius, DIRECTION_HORIZONTAL);
+	this->Blur(radius, DIRECTION_VERTICAL);
 }
 
-void HeightMap::Blur(Size1D radius, Orientation direction)
+void HeightMap::Blur(Size1D radius, Direction direction)
 {
 
 	// Allocate the new array.
@@ -161,7 +161,7 @@ void HeightMap::Blur(Size1D radius, Orientation direction)
 
 	Size1D scaledRadius = this->GetScaledSize(radius);
 
-	if (direction == ORIENTATION_HORIZONTAL) {
+	if (direction == DIRECTION_HORIZONTAL) {
 		for (Coordinate y = 0; y < (Coordinate)this->GetHeight(); y++) {
 			// Prefill the window with value of the left edge + n leftmost values (where n is kernel size).
 			Size1D window_size = scaledRadius * 2 + 1;
@@ -386,9 +386,9 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 	}
 }
 
-void HeightMap::Projection(HeightProfile* profile, Orientation orientation)
+void HeightMap::Projection(HeightProfile* profile, Direction direction)
 {
-	if (orientation == ORIENTATION_HORIZONTAL)
+	if (direction == DIRECTION_HORIZONTAL)
 	{
 		Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
 			Point(this->GetOriginX(), profile->GetStart()),
@@ -399,7 +399,7 @@ void HeightMap::Projection(HeightProfile* profile, Orientation orientation)
 			(*this)(x, y) = (*profile)(y);
 		}
 	}
-	else if (orientation == ORIENTATION_VERTICAL)
+	else if (direction == DIRECTION_VERTICAL)
 	{
 		Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
 			Point(profile->GetStart(), this->GetOriginY()),
@@ -410,7 +410,7 @@ void HeightMap::Projection(HeightProfile* profile, Orientation orientation)
 			(*this)(x, y) = (*profile)(x);
 		}
 	}
-	else throw InternalErrorException(GG_STR("Invalid orientation."));
+	else throw InternalErrorException(GG_STR("Invalid direction."));
 }
 
 void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
