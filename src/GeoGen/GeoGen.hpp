@@ -18,6 +18,12 @@
 #include "compiler/UnexpectedTokenException.hpp"
 #include "compiler/UnexpectedCharacterException.hpp"
 
+
+#include "genlib/DataObject.hpp"
+#include "genlib/HeightMap.hpp"
+#include "genlib/HeightProfile.hpp"
+#include "genlib/NoiseLayer.hpp"
+
 #include "random/RandomSeed.hpp"
 #include "random/RandomSequence.hpp"
 #include "random/RandomSequence2D.hpp"

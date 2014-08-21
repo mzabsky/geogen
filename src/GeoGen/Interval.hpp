@@ -2,6 +2,8 @@
 
 #include "Point.hpp"
 #include "Size.hpp"
+#include "Rectangle.hpp"
+#include "Orientation.hpp"
 
 namespace geogen {
 	class Interval : public Serializable
@@ -78,6 +80,7 @@ namespace geogen {
 
 		static Interval Combine(Interval a, Interval b);
 		static Interval Intersect(Interval a, Interval b);
+		static Interval FromRectangle(Rectangle rect, Orientation orientation);
 
 		void Serialize(IOStream& stream) const
 		{

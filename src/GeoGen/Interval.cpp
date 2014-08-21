@@ -49,3 +49,15 @@ Interval Interval::Intersect(Interval a, Interval b)
 
 	return Interval(returnIntervalStart, returnIntervalLength);
 }
+
+Interval Interval::FromRectangle(Rectangle rect, Orientation orientation)
+{
+	if (orientation == ORIENTATION_HORIZONTAL)
+	{
+		return Interval(rect.GetPosition().GetX(), rect.GetSize().GetWidth());		
+	}
+	else if (orientation == ORIENTATION_VERTICAL)
+	{
+		return Interval(rect.GetPosition().GetY(), rect.GetSize().GetHeight());
+	}
+}
