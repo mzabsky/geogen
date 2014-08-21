@@ -24,7 +24,7 @@ namespace geogen
 
 				virtual String GetName() const { return GG_STR("Save"); };
 
-				virtual String GetHelpString() const { return GG_STR("save [number] [filename] - Saves an object from the renderer object table as image to the hard drive (default filename = object[number].png)."); };
+				virtual String GetHelpString() const { return GG_STR("save [number] [filename] - Saves an object from the renderer object table as PNG image (2D objects) or CSV (1D) to the hard drive (default filename = object[number].png)."); };
 
 				virtual void Run(RendererDebugger* debugger, String arguments) const
 				{
@@ -60,7 +60,7 @@ namespace geogen
 					else 
 					{
 						StringStream filenameStream;
-						filenameStream << GG_STR("object") << number << GG_STR(".png");
+						filenameStream << GG_STR("object") << number << (object->GetObjectType() == renderer::RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
 						filename = filenameStream.str();
 					}
 

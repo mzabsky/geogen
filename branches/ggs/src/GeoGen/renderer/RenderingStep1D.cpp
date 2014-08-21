@@ -1,6 +1,7 @@
 #include "../InternalErrorException.hpp"
 #include "RenderingStep1D.hpp"
 #include "RenderingBounds1D.hpp"
+#include "RenderingBounds2D.hpp"
 #include "Renderer.hpp"
 
 using namespace std;
@@ -22,21 +23,32 @@ void RenderingStep1D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 	Interval newInterval;
 	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)
 	{
-		if ((*it)->GetRenderingStepType() != RENDERING_STEP_TYPE_1D)
+		if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_1D)
 		{
-			this->TriggerRenderingBoundsCalculationError("incompatible rendering step type");
+			RenderingBounds1D* current = dynamic_cast<RenderingBounds1D*>(*it);
+			/*
+			if (it == argumentBounds.begin())
+			{
+				newInterval = current->GetInterval();
+			}
+			else 
+			{*/
+				newInterval = Interval::Combine(newInterval, current->GetInterval());
+			//}			
+		}
+		else if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_2D)
+		{
+			RenderingBounds2D* current = dynamic_cast<RenderingBounds2D*>(*it);
+
+			newInterval = 
+				Interval::Combine(
+					newInterval, 
+					Interval::Combine(
+						Interval::FromRectangle(current->GetRectangle(), ORIENTATION_HORIZONTAL),
+						Interval::FromRectangle(current->GetRectangle(), ORIENTATION_VERTICAL)));
 		}
 
-		RenderingBounds1D* current = dynamic_cast<RenderingBounds1D*>(*it);
-		
-		if (it == argumentBounds.begin())
-		{
-			newInterval = current->GetInterval();
-		}
-		else 
-		{
-			newInterval = Interval::Combine(newInterval, current->GetInterval());
-		}
+		else throw InternalErrorException(GG_STR("Invalid step type"));
 	}
 
 	Interval calculatedInterval = this->CalculateRenderingBounds(renderer, newInterval);

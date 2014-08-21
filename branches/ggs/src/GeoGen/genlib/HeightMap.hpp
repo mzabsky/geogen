@@ -96,7 +96,7 @@ namespace geogen
 			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
 			//void NormalMap();
 			//void Outline();
-			//void Project(HeightProfile* profile);
+			void ProjectProfile(HeightProfile* profile, Orientation orientation);
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
 			//void Repeat(Rectangle repeatRectangle);
 			void Rescale(Scale horizontalScale, Scale verticalScale);

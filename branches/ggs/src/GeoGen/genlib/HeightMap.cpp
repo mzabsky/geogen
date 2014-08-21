@@ -3,6 +3,8 @@
 #include "HeightMap.hpp"
 #include "../ApiUsageException.hpp"
 #include "../random/RandomSequence2D.hpp"
+#include "HeightProfile.hpp"
+#include "../InternalErrorException.hpp"
 
 using namespace geogen;
 using namespace genlib;
@@ -382,6 +384,33 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 	{
 		(*this)(x, y) = Height((*this)(x, y) * ((*factor)(x + offset.GetX(), y + offset.GetY()) / (double)HEIGHT_MAX));
 	}
+}
+
+void HeightMap::ProjectProfile(HeightProfile* profile, Orientation orientation)
+{
+	if (orientation == ORIENTATION_HORIZONTAL)
+	{
+		Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
+			Point(this->GetOriginX(), profile->GetStart()),
+			Size2D(this->GetWidth(), profile->GetLength())));
+
+		FOR_EACH_IN_RECT(x, y, operationRect)
+		{
+			(*this)(x, y) = (*profile)(y);
+		}
+	}
+	else if (orientation == ORIENTATION_VERTICAL)
+	{
+		Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
+			Point(profile->GetStart(), this->GetOriginY()),
+			Size2D(profile->GetLength(), this->GetHeight())));
+
+		FOR_EACH_IN_RECT(x, y, operationRect)
+		{
+			(*this)(x, y) = (*profile)(x);
+		}
+	}
+	else throw InternalErrorException(GG_STR("Invalid orientation."));
 }
 
 void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
