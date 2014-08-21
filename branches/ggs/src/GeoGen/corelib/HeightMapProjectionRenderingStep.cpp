@@ -17,7 +17,7 @@ void HeightMapProjectionRenderingStep::Step(Renderer* renderer) const
 	HeightProfile* profile = dynamic_cast<HeightProfile*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 
 	HeightMap* map = new HeightMap(dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetRectangle(), 0, renderer->GetRenderingSequence().GetRenderScale());
-	map->Projection(profile, this->orientation);
+	map->Projection(profile, this->direction);
 
 	RendererObject* object = new RendererObject(RENDERER_OBJECT_TYPE_HEIGHT_MAP, map);
 
@@ -26,7 +26,7 @@ void HeightMapProjectionRenderingStep::Step(Renderer* renderer) const
 
 void HeightMapProjectionRenderingStep::SerializeArguments(IOStream& stream) const
 {
-	stream << OrientationToString(this->orientation);
+	stream << DirectionToString(this->direction);
 }
 
 /*void HeightMapProjectionRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const

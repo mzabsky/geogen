@@ -50,13 +50,13 @@ Interval Interval::Intersect(Interval a, Interval b)
 	return Interval(returnIntervalStart, returnIntervalLength);
 }
 
-Interval Interval::FromRectangle(Rectangle rect, Orientation orientation)
+Interval Interval::FromRectangle(Rectangle rect, Direction direction)
 {
-	if (orientation == ORIENTATION_HORIZONTAL)
+	if (direction == DIRECTION_HORIZONTAL)
 	{
 		return Interval(rect.GetPosition().GetX(), rect.GetSize().GetWidth());		
 	}
-	else if (orientation == ORIENTATION_VERTICAL)
+	else if (direction == DIRECTION_VERTICAL)
 	{
 		return Interval(rect.GetPosition().GetY(), rect.GetSize().GetHeight());
 	}

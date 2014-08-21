@@ -11,7 +11,7 @@ using namespace corelib;
 using namespace runtime;
 using namespace std;
 
-Coordinate CoordinateObject::GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Orientation orientation) const
+Coordinate CoordinateObject::GetAbsoluteCoordinate(runtime::VirtualMachine* vm, CodeLocation location, Direction direction) const
 {
 	if (!this->IsRelative())
 	{
@@ -19,16 +19,16 @@ Coordinate CoordinateObject::GetAbsoluteCoordinate(runtime::VirtualMachine* vm, 
 	}
 
 	Size1D mapSize;
-	switch (orientation)
+	switch (direction)
 	{
-	case ORIENTATION_HORIZONTAL:
+	case DIRECTION_HORIZONTAL:
 		mapSize = vm->GetArguments().GetMapWidth();
 		break;
-	case ORIENTATION_VERTICAL:
+	case DIRECTION_VERTICAL:
 		mapSize = vm->GetArguments().GetMapHeight();
 		break;
 	default:
-		throw InternalErrorException("Invalid Orientation.");
+		throw InternalErrorException("Invalid Direction.");
 	}
 
 	if (mapSize == MAP_SIZE_INFINITE)

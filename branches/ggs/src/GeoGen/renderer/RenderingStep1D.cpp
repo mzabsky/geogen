@@ -44,8 +44,8 @@ void RenderingStep1D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 				Interval::Combine(
 					newInterval, 
 					Interval::Combine(
-						Interval::FromRectangle(current->GetRectangle(), ORIENTATION_HORIZONTAL),
-						Interval::FromRectangle(current->GetRectangle(), ORIENTATION_VERTICAL)));
+						Interval::FromRectangle(current->GetRectangle(), DIRECTION_HORIZONTAL),
+						Interval::FromRectangle(current->GetRectangle(), DIRECTION_VERTICAL)));
 		}
 
 		else throw InternalErrorException(GG_STR("Invalid step type"));

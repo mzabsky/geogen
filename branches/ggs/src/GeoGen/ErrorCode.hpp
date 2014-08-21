@@ -57,7 +57,7 @@ namespace geogen
 		GGE2602_ArrayKeyNotFound = 2602,
 		GGE2701_IncorrectStringFormat = 2701,
 		GGE2702_InvalidEnumNumericValue = 2702,
-		GGE2703_UnknownRelativeCoordinateOrientation = 2703,
+		GGE2703_UnknownRelativeCoordinateDirection = 2703,
 		GGE2704_RelativeCoordinateInInfiniteDimensions = 2704,
 		GGE2705_MaxLessThanMin = 2705,
 		GGE3000_ApiUsageError = 3000,

@@ -2,7 +2,7 @@
 
 #include "../Number.hpp"
 #include "../renderer/RenderingStep2D.hpp"
-#include "../Orientation.hpp"
+#include "../Direction.hpp"
 
 namespace geogen
 {
@@ -11,10 +11,10 @@ namespace geogen
 		class HeightMapProjectionRenderingStep : public renderer::RenderingStep2D
 		{
 		private:
-			Orientation orientation;
+			Direction direction;
 		public:
-			HeightMapProjectionRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Orientation orientation)
-				: RenderingStep2D(location, argumentSlots, returnSlot), orientation(orientation) {};
+			HeightMapProjectionRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Direction direction)
+				: RenderingStep2D(location, argumentSlots, returnSlot), direction(direction) {};
 
 			virtual String GetName() const { return GG_STR("HeightMap.Projection"); };
 

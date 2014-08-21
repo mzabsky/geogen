@@ -6,7 +6,7 @@
 			//sequence.Advance();
 			//TriggerError("{0} {1} {2} {3}", sequence.GetNumber([0, 0], 5, 20), sequence.GetNumber([1, 1], 5, 20), sequence.GetNumber([1, 0], 5, 20), sequence.GetNumber([0, 1], 5, 20));
 			
-			var heightMap = HeightMap.Projection(profile, Orientation.Vertical);
+			var heightMap = HeightMap.Projection(profile, Direction.Vertical);
 
 			yield heightMap as "projection";
 
