@@ -1,4 +1,4 @@
-#include "HeightMapProjectProfileRenderingStep.hpp"
+#include "HeightMapProjectionRenderingStep.hpp"
 #include "../renderer/Renderer.hpp"
 #include "../renderer/RendererObject.hpp"
 #include "../InternalErrorException.hpp"
@@ -12,24 +12,24 @@ using namespace renderer;
 using namespace corelib;
 using namespace genlib;
 
-void HeightMapProjectProfileRenderingStep::Step(Renderer* renderer) const
+void HeightMapProjectionRenderingStep::Step(Renderer* renderer) const
 {
 	HeightProfile* profile = dynamic_cast<HeightProfile*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 
 	HeightMap* map = new HeightMap(dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetRectangle(), 0, renderer->GetRenderingSequence().GetRenderScale());
-	map->ProjectProfile(profile, this->orientation);
+	map->Projection(profile, this->orientation);
 
 	RendererObject* object = new RendererObject(RENDERER_OBJECT_TYPE_HEIGHT_MAP, map);
 
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
 
-void HeightMapProjectProfileRenderingStep::SerializeArguments(IOStream& stream) const
+void HeightMapProjectionRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << OrientationToString(this->orientation);
 }
 
-/*void HeightMapProjectProfileRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
+/*void HeightMapProjectionRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
 	Interval newInterval;
 	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)

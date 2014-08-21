@@ -21,7 +21,7 @@
 #include "HeightMapFlatFunctionDefinition.hpp"
 #include "HeightMapGradientFunctionDefinition.hpp"
 #include "HeightMapNoiseFunctionDefinition.hpp"
-#include "HeightMapProjectProfileFunctionDefinition.hpp"
+#include "HeightMapProjectionFunctionDefinition.hpp"
 #include "HeightMapRadialGradientFunctionDefinition.hpp"
 
 using namespace geogen;
@@ -50,7 +50,7 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapConvexityMapFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapFlatFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapGradientFunctionDefinition(this));
-	this->GetStaticFunctionDefinitions().AddItem(new HeightMapProjectProfileFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightMapProjectionFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapRadialGradientFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapNoiseFunctionDefinition(this));
 }
