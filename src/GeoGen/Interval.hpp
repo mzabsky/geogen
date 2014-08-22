@@ -87,4 +87,6 @@ namespace geogen {
 			stream << GG_STR("[") << this->start << GG_STR(", ") << this->length << GG_STR("]");
 		}
 	};
+
+	const Interval INTERVAL_MAX = Interval(COORDINATE_MIN, SIZE1D_MAX);
 }

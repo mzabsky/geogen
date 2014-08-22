@@ -270,6 +270,8 @@
     <ClInclude Include="Direction.hpp" />
     <ClInclude Include="corelib\DirectionTypeDefinition.hpp" />
     <ClInclude Include="corelib\UnknownRelativeCoordinateDirectionException.hpp" />
+    <ClInclude Include="corelib\HeightProfileFromArrayFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFromArrayRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -458,6 +460,8 @@
     <ClCompile Include="corelib\HeightMapProjectionRenderingStep.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="corelib\DirectionTypeDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFromArrayFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFromArrayRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

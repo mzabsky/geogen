@@ -60,6 +60,8 @@ namespace geogen
 		GGE2703_UnknownRelativeCoordinateDirection = 2703,
 		GGE2704_RelativeCoordinateInInfiniteDimensions = 2704,
 		GGE2705_MaxLessThanMin = 2705,
+		GGE2706_IncorrectHeightProfileKeyType = 2706,
+		GGE2707_IncorrectHeightProfileHeightType = 2707,
 		GGE3000_ApiUsageError = 3000,
 		GGE4000_InternalError = 4000,
 		GGE4001_IntermediateCodeError = 4001,

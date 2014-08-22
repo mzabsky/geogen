@@ -232,10 +232,44 @@ void HeightProfile::FillInterval(Interval fillInterval, Height height)
 	}
 }
 
-void HeightProfile::Gradient(Coordinate source, Coordinate destination, Height fromHeight, Height toHeight)
+void HeightProfile::FromArray(std::map<Coordinate, Height> const& heights)
 {
-	Coordinate start = min(source, destination);
-	Coordinate end = max(source, destination);
+	if (heights.size() == 0)
+	{
+		return;
+	}
+	else if (heights.size() == 1)
+	{
+		this->FillInterval(INTERVAL_MAX, heights.begin()->second);
+	}
+
+	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
+
+	if (heights.begin()->first > this->GetStart())
+	{
+		this->FillInterval(Interval(this->GetStart(), heights.begin()->first - this->GetStart()), heights.begin()->second);
+	}
+
+	std::map<Coordinate, Height>::const_iterator last = --heights.end();
+	if (last->first < this->interval.GetEnd())
+	{
+		this->FillInterval(Interval(last->first, this->interval.GetEnd() - last->first), last->second);
+	}
+	
+	Coordinate lastCoordinate = heights.begin()->first;
+	Height lastHeight = heights.begin()->second;
+	for (std::map<Coordinate, Height>::const_iterator it = ++heights.begin(); it != heights.end(); it++)
+	{
+		this->Gradient(lastCoordinate, it->first, lastHeight, it->second, false);
+		lastCoordinate = it->first;
+		lastHeight = it->second;
+	}
+}
+
+void HeightProfile::Gradient(Coordinate source, Coordinate destination, Height fromHeight, Height toHeight, bool fillOutside)
+{
+	Coordinate start = this->GetPhysicalCoordinate(min(source, destination));
+	Coordinate end = this->GetPhysicalCoordinate(max(source, destination));
 	Height startHeight = source == start ? fromHeight : toHeight;
 	Height endHeight = source == end ? fromHeight : toHeight;
 
@@ -244,17 +278,18 @@ void HeightProfile::Gradient(Coordinate source, Coordinate destination, Height f
 
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
-		if (x < start)
+		if (x >= start && x <= end)
+		{
+			Height lerp = Lerp(start, end, fromHeight, toHeight, x/*start + ((x - start) / double(gradientLength))*/);
+			(*this)(x) = Lerp(start, end, fromHeight, toHeight, x/*start + ((x - start) / double(gradientLength))*/);
+		}
+		else if (fillOutside && x < start)
 		{
 			(*this)(x) = fromHeight;
 		}
-		else if (x > end)
+		else if (fillOutside && x > end)
 		{
 			(*this)(x) = toHeight;
-		}
-		else
-		{
-			(*this)(x) = Lerp(start, end, fromHeight, toHeight, start + ((x - start) / double(gradientLength)));
 		}
 	}
 }

@@ -45,6 +45,9 @@ namespace geogen
 			inline reverse_iterator RBegin() { return this->list.rbegin(); }
 			inline reverse_iterator REnd() { return this->list.rend(); }
 
+			inline HashMap::iterator MBegin() { return this->hashmap.begin(); }
+			inline HashMap::iterator MEnd() { return this->hashmap.end(); }
+
 			void Set(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key, ManagedObject* value);
 			ManagedObject* Get(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key);
 
