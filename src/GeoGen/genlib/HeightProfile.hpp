@@ -20,7 +20,7 @@ namespace geogen
 			Height* heightData;
 			Scale scale;
 		public:
-			HeightProfile(Interval interval, Scale scale = 1);
+			HeightProfile(Interval interval, Height height, Scale scale = 1);
 			HeightProfile(HeightProfile const& other);
 			HeightProfile(HeightProfile const& other, Interval cutoutInterval);
 			HeightProfile& operator=(HeightProfile& other);

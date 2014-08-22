@@ -11,11 +11,16 @@ using namespace std;
 #define FOR_EACH_IN_INTERVAL(x, interval) \
 	for (Coordinate x = interval.GetStart(); x < interval.GetEnd(); x++)
 
-HeightProfile::HeightProfile(Interval interval, Scale scale)
+HeightProfile::HeightProfile(Interval interval, Height height, Scale scale)
 :interval(interval), scale(scale)
 {
 	this->heightData = new Height[interval.GetLength()];
-	memset(this->heightData, 0, interval.GetLength());
+
+	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
+	FOR_EACH_IN_INTERVAL(x, operationInterval)
+	{
+		(*this)(x) = height;
+	}
 }
 
 HeightProfile::HeightProfile(HeightProfile const& other)
