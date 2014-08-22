@@ -12,7 +12,7 @@ using namespace genlib;
 
 void HeightProfileFlatRenderingStep::Step(Renderer* renderer) const
 {
-	HeightProfile* profile = new HeightProfile(dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetInterval());
+	HeightProfile* profile = new HeightProfile(dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetInterval(), this->height, renderer->GetRenderingSequence().GetRenderScale());
 	RendererObject* object = new RendererObject(RENDERER_OBJECT_TYPE_HEIGHT_PROFILE, profile);
 
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
