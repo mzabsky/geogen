@@ -2,6 +2,7 @@
 #include "../runtime/ManagedObject.hpp"
 #include "HeightProfileAddFunctionDefinition.hpp"
 #include "HeightProfileFlatFunctionDefinition.hpp"
+#include "HeightProfileFromArrayFunctionDefinition.hpp"
 
 using namespace geogen;
 using namespace corelib;
@@ -13,4 +14,5 @@ HeightProfileTypeDefinition::HeightProfileTypeDefinition() : RendererTypeDefinit
 	this->GetFunctionDefinitions().AddItem(new HeightProfileAddFunctionDefinition(this));
 
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFlatFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFromArrayFunctionDefinition(this));
 }

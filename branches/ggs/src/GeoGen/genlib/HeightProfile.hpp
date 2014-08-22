@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include "../Interval.hpp"
 #include "../Number.hpp"
@@ -68,7 +69,8 @@ namespace geogen
 			void CropHeights(Height min, Height max, Height replace);
 			//void Distort(HeightMap* distortionMap, Size1D maxDistance);
 			void FillInterval(Interval fillInterval, Height height);
-			void Gradient(Coordinate source, Coordinate destination, Height fromHeight, Height toHeight);
+			void FromArray(std::map<Coordinate, Height> const& heights);
+			void Gradient(Coordinate source, Coordinate destination, Height fromHeight, Height toHeight, bool fillOutside);
 			void Intersect(HeightProfile* other);
 			void Invert();
 			void Move(Coordinate offset);

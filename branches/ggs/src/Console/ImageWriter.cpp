@@ -37,7 +37,7 @@ void geogen::console::WriteImage(genlib::DataObject* object, renderer::RendererO
 		
 		for (Coordinate x = 0; x < heightProfile->GetLength(); x++)
 		{
-			stream << x << GG_STR(",") << (*heightProfile)(x) << endl;
+			stream << (x + heightProfile->GetStart()) << GG_STR(",") << (*heightProfile)(x) << endl;
 		}
 
 		stream.flush();

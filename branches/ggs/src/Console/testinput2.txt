@@ -1,6 +1,14 @@
-			var profile = HeightProfile.Flat(0.5);
+			/*var profile = HeightProfile.Flat(0.5);
 			var profile2 = HeightProfile.Flat(0.1);
-			profile.Add(profile2);
+			profile.Add(profile2);*/
+
+			var array = Array.Empty();
+			array[@0.4] = 0.8;
+			array[@0.45] = 0;
+			array[@0.55] = 0;
+			array[@0.6] = 0.8;
+
+			var profile = HeightProfile.FromArray(array, Direction.Horizontal);
 
 			//var sequence = RandomSequence2D.Create(5324);
 			//sequence.Advance();
