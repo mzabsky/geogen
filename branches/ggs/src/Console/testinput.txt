@@ -1,78 +1,47 @@
-metadata {
-	StringField: "Str",
-	BoolField: true,
-	NumberField: 5,
-	IdentifierField: Trololo,
-	Parameters:
-	{
-		NumberParam: { Type: Number, Label: "Number Parameter", Description: "Desc", Default: 5, Min: 2, Max: 10, Restriction: Integers },
-		BoolParam: { Type: Number, Label: "Number Parameter", Description: "Desc", Default: 5, Min: 2, Max: 10, Restriction: Integers }
-	},
-	ListField:
-	{
-		ListItem,
-		ListItem2,
-		ListItem3
-	}
-}
+			/*var profile = HeightProfile.Flat(0.5);
+			var profile2 = HeightProfile.Flat(0.1);
+			profile.Add(profile2);*/
 
+			/*var array = Array.Empty();
+			array[@0.4] = 0.8;
+			array[@0.45] = 0;
+			array[@0.55] = 0;
+			array[@0.6] = 0.8;*/
+			var array = 
+			{
+				@0.4: 0.8,
+				@0.45: 0,
+				@0.55: 0,
+				@0.6: 0
+			};
 
+			var profile = HeightProfile.FromArray(array, Direction.Horizontal);
 
+			//var sequence = RandomSequence2D.Create(5324);
+			//sequence.Advance();
+			//TriggerError("{0} {1} {2} {3}", sequence.GetNumber([0, 0], 5, 20), sequence.GetNumber([1, 1], 5, 20), sequence.GetNumber([1, 0], 5, 20), sequence.GetNumber([0, 1], 5, 20));
+			
+			var heightMap = HeightMap.Projection(profile, Direction.Vertical);
 
-enum Enum {
-	ItemA,
-	ItemB,
-	ItemC
-}
+			yield heightMap as "projection";
 
+			//var heightMap = HeightMap.RadialGradient([250, 250], 100, 1.0, 0.0);
+			var clone = HeightMap.Clone(heightMap);
+			clone.Move([300, 300]);
 
+			heightMap.Blur(20);
 
-    function aaa(x, y){
-	1+4;
-	return;
-		return 5;
-} 
-1 / 5;
-var a = 1 + 2;
-var b = true;
-var c = "aaaa";
+			//heightMap.ClampHeights(0.2, 0.1);
 
-yield HeightMap.Empty() as "aaa";
-yield HeightMap.Empty();
+			yield heightMap as "prescale";
+			heightMap.Rescale(0.5);
 
-if(2 == 3){
-yield HeightMap.Empty();
-}
+			yield heightMap as "postscale";
+			yield clone as "clone";
 
-if (2 == 3){
+			heightMap.Unify(clone);
 
-yield HeightMap.Empty(); 
-} else {
-yield HeightMap.Empty() as "bbb"; 
-}
+			var gradient = HeightMap.Gradient([100, 100], [900, 900], 0, 1);
+			heightMap.Unify(gradient);
 
-while(a == true){
-	yield HeightMap.Flat() as "ccc"; 
-	break;
-}
-
-for(var i = 0;i < 5;i+=1){
-	yield HeightMap.Flat() as "ddd"; 
-}
-
-afield.bfield.cfield;
-funcname(parama, paramb, paramc);
-afield.bfield.cfield.funcname(parama, paramb, paramc);
-afield.bfield.cfield[parama, paramb, paramc];
-a ? b : c;
-lvalue1 = 1 + 2;
-lvalue2.fielda.fieldb = 1 + 2;
-lvalue2[parama] = 1 + 2;
-
-end = 1 + 2 + 3 + 4 + 5;
-
-preincr = ++++1;
-postincr = 1++--;
-
-var coo = [5, 2];
-var coo1 = @[4.00];
+			yield heightMap;

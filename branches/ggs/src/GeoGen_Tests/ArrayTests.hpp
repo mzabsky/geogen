@@ -15,6 +15,15 @@ public:
 		");
 	}
 
+	static void TestCountEmptyWithLiteral()
+	{
+		TestScript("\n\
+			var a = {};\n\
+			\n\
+			AssertEquals(0, a.Count());\n\
+		");
+	}
+
 	static void TestPushBackIncreasesCount()
 	{
 		TestScript("\n\
@@ -62,6 +71,17 @@ public:
 			AssertEquals(13, a[2]);\n\
 		");
 	}
+	
+	static void TestGetByAutoWithLiteral()
+	{
+		TestScript("\n\
+		    var a = { 11, 12, 13 };\n\
+			\n\
+			AssertEquals(11, a[0]);\n\
+			AssertEquals(12, a[1]);\n\
+			AssertEquals(13, a[2]);\n\
+		");
+	}
 
 	static void TestIndexerPassThrough()
 	{
@@ -77,6 +97,15 @@ public:
 		TestScript("\n\
 			var a = Array.Empty();\n\
 			a[5] = 20;\n\
+			\n\
+			AssertEquals(20, a[5]);\n\
+		");
+	}
+
+	static void TestSetGetWithLiteral()
+	{
+		TestScript("\n\
+			var a = { 5: 20 };\n\
 			\n\
 			AssertEquals(20, a[5]);\n\
 		");
@@ -207,12 +236,15 @@ public:
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
+		ADD_TESTCASE(TestCountEmptyWithLiteral);
 		ADD_TESTCASE(TestPushBackIncreasesCount);
 		ADD_TESTCASE(TestPushBackFront);
 		ADD_TESTCASE(TestPushBackBack);
 		ADD_TESTCASE(TestGetByAutoIndex);
+		ADD_TESTCASE(TestGetByAutoWithLiteral);
 		ADD_TESTCASE(TestIndexerPassThrough);
 		ADD_TESTCASE(TestSetGet);
+		ADD_TESTCASE(TestSetGetWithLiteral);
 		ADD_TESTCASE(TestSetGetString);
 		ADD_TESTCASE(TestContainsKeyReturnsTrue);
 		ADD_TESTCASE(TestContainsKeyReturnsFalse);

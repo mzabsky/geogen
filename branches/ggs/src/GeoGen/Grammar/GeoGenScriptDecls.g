@@ -629,6 +629,7 @@ expression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->AddInstruction(new instructions::LoadConstStringInstruction(location, $stringLiteral.value));
 	}
 	| coordinateExpression { $returnCodeBlock->MoveInstructionsFrom(*$coordinateExpression.returnCodeBlock); delete $coordinateExpression.returnCodeBlock;} 
+	| collectionLiteral { $returnCodeBlock->MoveInstructionsFrom(*$collectionLiteral.returnCodeBlock); delete $collectionLiteral.returnCodeBlock;} 
 	;
 	
 coordinateExpression returns[CodeBlock* returnCodeBlock]
@@ -842,8 +843,32 @@ prio8Expression: ;*/
     keyValueCollection |
     unkeyedCollectionLiteral;*/
 
-unkeyedCollectionLiteral:
-    '{' (expression (',' expression)*) '}';
+collectionLiteral returns [CodeBlock* returnCodeBlock]
+@init { $returnCodeBlock = new CodeBlock(); unsigned itemCount = 0; } :
+^(COLLECTION (collectionLiteralItem { returnCodeBlock->MoveInstructionsFrom(*$collectionLiteralItem.returnCodeBlock); delete $collectionLiteralItem.returnCodeBlock; itemCount++; } )*) 
+{
+	CodeLocation location($COLLECTION.line, $COLLECTION.pos);	
+	$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, GG_STR("Array")));	
+	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("<FromList>"), itemCount * 2));		
+};
+
+
+collectionLiteralItem returns [CodeBlock* returnCodeBlock]
+@init { $returnCodeBlock = new CodeBlock(); bool hasSecond = false; } :
+    ^(COLLECTION_ITEM e1=expression     	
+    	(e2=expression { returnCodeBlock->MoveInstructionsFrom(*$e2.returnCodeBlock); delete $e2.returnCodeBlock; hasSecond = true; })?) 
+    {
+	CodeLocation location($COLLECTION_ITEM.line, $COLLECTION_ITEM.pos);
+    
+	returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock;
+		
+    
+	if(!hasSecond)
+	{
+		returnCodeBlock->AddInstruction(new instructions::LoadNullInstruction(location));
+	}
+
+    };
 
 label:        
 	^(IDENTCHAIN IDENTIFIER+)
