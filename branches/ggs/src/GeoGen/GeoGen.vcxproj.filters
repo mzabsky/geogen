@@ -274,6 +274,18 @@
     <ClInclude Include="corelib\HeightProfileFromArrayRenderingStep.hpp" />
     <ClInclude Include="corelib\ArrayFromListFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NullKeyException.hpp" />
+    <ClInclude Include="corelib\HeightProfileGradientFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileGradientRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileAbsFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileAbsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileBlurFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileBlurRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileClampHeightsFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileClampHeightsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileCropHeightsFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileCropHeightsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileCombineFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileCombineRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -465,6 +477,18 @@
     <ClCompile Include="corelib\HeightProfileFromArrayFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFromArrayRenderingStep.cpp" />
     <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileGradientFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileGradientRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileAbsFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileAbsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileBlurFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileBlurRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileClampHeightsFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileClampHeightsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileCropHeightsFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileCropHeightsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileCombineFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileCombineRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
