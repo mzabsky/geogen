@@ -20,3 +20,8 @@ void HeightProfileBlurRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->radius;
 }
+
+Interval HeightProfileBlurRenderingStep::CalculateRenderingBounds(Renderer* renderer, Interval argumentBounds) const
+{
+	return Interval::Expand(argumentBounds, this->radius);
+}

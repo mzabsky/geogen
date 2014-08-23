@@ -40,4 +40,10 @@ namespace geogen
 	{
 		return Height(fromHeight + (toHeight - fromHeight) * (point - fromCoord) / (toCoord - fromCoord));
 	}
+
+	static inline double RoundAway(double x)
+	{
+		return x > 0 ? ceil(x) : floor(x);
+	}
+
 }

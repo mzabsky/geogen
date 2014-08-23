@@ -19,6 +19,8 @@ namespace geogen
 
 			virtual void Step(renderer::Renderer* renderer) const;
 
+			virtual Interval HeightProfileRescaleRenderingStep::CalculateRenderingBounds(renderer::Renderer* renderer, Interval argumentBounds) const;
+
 			virtual void SerializeArguments(IOStream& stream) const;
 		};
 	}

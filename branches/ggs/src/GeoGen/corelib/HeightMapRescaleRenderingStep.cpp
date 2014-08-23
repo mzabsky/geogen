@@ -17,11 +17,6 @@ void HeightMapRescaleRenderingStep::Step(Renderer* renderer) const
 	self->Rescale(this->horizontalScale, this->verticalScale);
 }
 
-static double RoundAway(double x)
-{
-	return x > 0 ? ceil(x) : floor(x);
-}
-
 Rectangle HeightMapRescaleRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
 {	 
 	return Rectangle(Point(RoundAway(argumentBounds.GetPosition().GetX() / this->horizontalScale), RoundAway(argumentBounds.GetPosition().GetY() / this->verticalScale)), Size2D(argumentBounds.GetSize().GetWidth() / this->horizontalScale, argumentBounds.GetSize().GetHeight() / this->verticalScale));

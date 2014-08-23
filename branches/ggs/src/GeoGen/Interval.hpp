@@ -81,6 +81,7 @@ namespace geogen {
 		static Interval Combine(Interval a, Interval b);
 		static Interval Intersect(Interval a, Interval b);
 		static Interval FromRectangle(Rectangle rect, Direction direction);
+		static Interval Expand(Interval interval, Size1D distance);
 
 		void Serialize(IOStream& stream) const
 		{
