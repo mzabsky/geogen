@@ -16,6 +16,11 @@ void HeightProfileMoveRenderingStep::Step(Renderer* renderer) const
 	self->Move(this->offset);
 }
 
+Interval HeightProfileMoveRenderingStep::CalculateRenderingBounds(Renderer* renderer, Interval argumentBounds) const
+{
+	return argumentBounds - this->offset;
+}
+
 void HeightProfileMoveRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->offset;

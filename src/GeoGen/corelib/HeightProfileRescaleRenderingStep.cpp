@@ -20,3 +20,8 @@ void HeightProfileRescaleRenderingStep::SerializeArguments(IOStream& stream) con
 {
 	stream << this->scale;
 }
+
+Interval HeightProfileRescaleRenderingStep::CalculateRenderingBounds(Renderer* renderer, Interval argumentBounds) const
+{
+	return Interval(RoundAway(argumentBounds.GetStart() / this->scale), Size1D(argumentBounds.GetLength() / this->scale));
+}

@@ -61,3 +61,8 @@ Interval Interval::FromRectangle(Rectangle rect, Direction direction)
 		return Interval(rect.GetPosition().GetY(), rect.GetSize().GetHeight());
 	}
 }
+
+Interval Interval::Expand(Interval interval, Size1D distance)
+{
+	return Interval(interval.GetStart() - distance, interval.GetLength() + 2 * distance);
+}
