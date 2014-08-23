@@ -10,6 +10,7 @@ options {
 tokens { 
 	SCRIPT; 
 	COLLECTION; 
+	COLLECTION_ITEM;
 	SIMPLE_COLLECTION; 
 	DECLARATIONS; 
 	BLOCK; 
@@ -94,6 +95,10 @@ tokens {
     	 }
 }
 
+@parser::context {
+	bool inExpression = false;
+}
+
 script: (decls+=declaration)* (metadata (stmts+=statement | decls+=declaration)* | stmts+=statement (stmts+=statement | decls+=declaration)*)? EOF -> ^(SCRIPT metadata ^(DECLARATIONS $decls*) ^(BLOCK $stmts*));
         
 metadata: 'metadata' keyValueCollection -> ^('metadata' keyValueCollection);
@@ -106,7 +111,15 @@ keyValuePair:
 	IDENTIFIER ':' keyValueValue -> ^(IDENTIFIER keyValueValue)
 	/*| NUMBER ':' keyValueValue -> ^(NUMBER keyValueValue)*/;
 
-keyValueValue: expression | keyValueCollection | simpleCollection;
+keyValueValue: IDENTIFIER | NUMBER | STRING | 'true' | 'false' | keyValueCollection | simpleCollection;
+
+/*keyValueLiteral:        
+	IDENTIFIER
+	| 'true'
+        | 'false'
+	| NUMBER
+	| STRING;*/
+
 
 declaration: enumDeclaration | functionDeclaration;
 
@@ -171,7 +184,13 @@ switchStatement:
 normalCase: 'case' label ':' statement* -> ^(CASE label ^(BLOCK statement*));
 defaultCase: 'default' ':' statement* -> ^(DEFAULT ^(BLOCK statement*));
 
-expression:
+expression
+@init 
+{ 
+	ctx->inExpression = true;
+}
+@after { ctx->inExpression = false; }
+:
     prio14Expression ;
 
 //prio14Operator: ;
@@ -234,7 +253,7 @@ prio1Expression:
 prio0Expression: 
      /*('(') => */('(' expression ')') -> expression
     | IDENTIFIER
-    //collectionLiteral |
+    | {ctx->inExpression}? collectionLiteral
     | coordinateLiteral
     | 'true'
     | 'false'
@@ -242,12 +261,13 @@ prio0Expression:
     | STRING 
     ; // expression!
 
-/*collectionLiteral: 
-    keyValueCollection |
-    unkeyedCollectionLiteral;*/
+collectionLiteral: 
+    '{' 
+    	(( collectionLiteralItem (',' collectionLiteralItem)* )? -> ^(COLLECTION collectionLiteralItem*))
+    '}';
 
-unkeyedCollectionLiteral:
-    '{' (expression (',' expression)*) '}';
+collectionLiteralItem:
+    keyE=expression (':' valueE=expression)? -> ^(COLLECTION_ITEM $keyE $valueE?);
 
 coordinateLiteral:
     '[' expression (',' expression)* ']' -> ^(COORDINATE expression+);

@@ -8,6 +8,7 @@
 #include "ArrayGetFunctionDefinition.hpp"
 #include "ArraySetFunctionDefinition.hpp"
 #include "ArrayContainsFunctionDefinition.hpp"
+#include "ArrayFromListFunctionDefinition.hpp"
 #include "ArrayRemoveFunctionDefinition.hpp"
 
 using namespace std;
@@ -18,6 +19,7 @@ using namespace geogen::runtime;
 ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 {	
 	this->GetStaticFunctionDefinitions().AddItem(new ArrayEmptyFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new ArrayFromListFunctionDefinition(this));
 
 	this->GetFunctionDefinitions().AddItem(new ArrayCountFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new ArrayPushBackFunctionDefinition(this));
