@@ -10,12 +10,12 @@ namespace geogen
 		class HeightMapCropHeightsRenderingStep : public renderer::RenderingStep2D
 		{
 		private:
-			Height min;
-			Height max;
+			Height minHeight;
+			Height maxHeight;
 			Height replace;
 		public:
-			HeightMapCropHeightsRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Height min, Height max, Height replace)
-				: RenderingStep2D(location, argumentSlots, returnSlot), min(min), max(max), replace(replace) {};
+			HeightMapCropHeightsRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Height minHeight, Height maxHeight, Height replace)
+				: RenderingStep2D(location, argumentSlots, returnSlot), minHeight(minHeight), maxHeight(maxHeight), replace(replace) {};
 
 			virtual String GetName() const { return GG_STR("HeightMap.CropHeights"); };
 

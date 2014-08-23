@@ -865,7 +865,8 @@ collectionLiteralItem returns [CodeBlock* returnCodeBlock]
     
 	if(!hasSecond)
 	{
-		returnCodeBlock->AddInstruction(new instructions::LoadNullInstruction(location));
+		//returnCodeBlock->AddInstruction(new instructions::LoadNullInstruction(location));
+		returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, ArrayTypeDefinition::UNSET_KEY_VARIABLE_NAME));
 	}
 
     };

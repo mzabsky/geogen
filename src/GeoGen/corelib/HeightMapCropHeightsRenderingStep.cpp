@@ -14,10 +14,10 @@ void HeightMapCropHeightsRenderingStep::Step(Renderer* renderer) const
 {
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 
-	self->CropHeights(this->min, this->max, this->replace);
+	self->CropHeights(this->minHeight, this->maxHeight, this->replace);
 }
 
 void HeightMapCropHeightsRenderingStep::SerializeArguments(IOStream& stream) const
 {
-	stream << this->min << GG_STR(", ") << this->max << GG_STR(", ") << this->replace;
+	stream << this->minHeight << GG_STR(", ") << this->maxHeight << GG_STR(", ") << this->replace;
 }

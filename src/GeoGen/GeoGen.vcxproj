@@ -538,6 +538,7 @@
     <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp">
       <FileType>Document</FileType>
     </ClCompile>
+    <None Include="generate-geogen-hpp.linq" />
     <None Include="Grammar\GeoGenScript.g" />
     <None Include="Grammar\GeoGenScriptDecls.g" />
     <None Include="Grammar\output\GeoGenScript.tokens" />
