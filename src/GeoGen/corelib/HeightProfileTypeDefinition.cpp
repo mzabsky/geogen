@@ -14,6 +14,7 @@
 #include "HeightProfileMoveFunctionDefinition.hpp"
 #include "HeightProfileMultiplyFunctionDefinition.hpp"
 #include "HeightProfileRescaleFunctionDefinition.hpp"
+#include "HeightProfileUnifyFunctionDefinition.hpp"
 
 #include "HeightProfileFlatFunctionDefinition.hpp"
 #include "HeightProfileFromArrayFunctionDefinition.hpp"
@@ -39,6 +40,7 @@ HeightProfileTypeDefinition::HeightProfileTypeDefinition() : RendererTypeDefinit
 	this->GetFunctionDefinitions().AddItem(new HeightProfileMoveFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileMultiplyFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileRescaleFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightProfileUnifyFunctionDefinition(this));
 
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFlatFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFromArrayFunctionDefinition(this));

@@ -300,6 +300,8 @@
     <ClInclude Include="corelib\HeightProfileMultiplyProfileRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileRescaleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileRescaleRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileUnifyFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileUnifyRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -517,6 +519,8 @@
     <ClCompile Include="corelib\HeightProfileMultiplyProfileRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileRescaleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileRescaleRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileUnifyFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileUnifyRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
