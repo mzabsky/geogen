@@ -293,6 +293,8 @@
     <ClInclude Include="corelib\HeightProfileIntersectRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileInvertFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileInvertRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileMoveFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileMoveRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -503,6 +505,8 @@
     <ClCompile Include="corelib\HeightProfileIntersectRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileInvertFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileInvertRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileMoveFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileMoveRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
