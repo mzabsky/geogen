@@ -4,6 +4,7 @@
 #include "ArrayObject.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
+#include "../InternalErrorException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -23,7 +24,13 @@ ManagedObject* ArrayFromListFunctionDefinition::CallNative(CodeLocation location
 		ManagedObject* key = arguments[unsigned(i * 2)];
 		ManagedObject* value = arguments[unsigned(i * 2 + 1)];
 
-		if (key == vm->GetNull())
+		VariableTableItem* unsetKeyVariable = vm->FindVariable(ArrayTypeDefinition::UNSET_KEY_VARIABLE_NAME);
+		if (unsetKeyVariable == NULL)
+		{
+			throw InternalErrorException(GG_STR("Could not find unset key marker."));
+		}
+
+		if (key == unsetKeyVariable->GetValue())
 		{
 			returnObject->PushBack(vm, location, value);
 		}

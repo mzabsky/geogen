@@ -55,6 +55,7 @@ namespace geogen
 		GGE2503_ObjectStackOverflow = 2503,
 		GGE2601_InvalidOperationOnEmptyArray = 2601,
 		GGE2602_ArrayKeyNotFound = 2602,
+		GGE2603_ArrayNullKey = 2603,
 		GGE2701_IncorrectStringFormat = 2701,
 		GGE2702_InvalidEnumNumericValue = 2702,
 		GGE2703_UnknownRelativeCoordinateDirection = 2703,

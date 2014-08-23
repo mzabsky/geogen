@@ -10,6 +10,9 @@ using namespace geogen::runtime;
 
 MemoryManager::~MemoryManager()
 {
+	// Don't let objects count refs anymode, they could touch already deleted object.
+	this->cleanupMode = true;
+
 	for (iterator it = this->objects.begin(); it != this->objects.end(); it++)
 	{
 		delete *it;

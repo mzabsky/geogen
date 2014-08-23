@@ -10,11 +10,14 @@
 #include "ArrayContainsFunctionDefinition.hpp"
 #include "ArrayFromListFunctionDefinition.hpp"
 #include "ArrayRemoveFunctionDefinition.hpp"
+#include "NumberTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
+
+const String ArrayTypeDefinition::UNSET_KEY_VARIABLE_NAME = GG_STR("<unsetKey>");
 
 ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 {	
@@ -31,6 +34,19 @@ ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 	this->GetFunctionDefinitions().AddItem(ArrayContainsFunctionDefinition::Create(ArrayContainsFunctionDefinition::CONTAINS_VALUE, this));
 	this->GetFunctionDefinitions().AddItem(ArrayRemoveFunctionDefinition::Create(ArrayRemoveFunctionDefinition::REMOVE_KEY, this));
 	this->GetFunctionDefinitions().AddItem(ArrayRemoveFunctionDefinition::Create(ArrayRemoveFunctionDefinition::REMOVE_VALUE, this));
+}
+
+
+void ArrayTypeDefinition::Initialize(VirtualMachine* vm) const
+{
+	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
+
+	if (!vm->GetGlobalVariableTable().DeclareVariable(GG_STR(UNSET_KEY_VARIABLE_NAME), numberTypeDefinition->CreateInstance(vm, 0), true))
+	{
+		throw InternalErrorException(GG_STR("Could not declare unset key marker."));
+	}
+
+	TypeDefinition::Initialize(vm);
 }
 
 ManagedObject* ArrayTypeDefinition::CreateInstance(VirtualMachine* vm) const

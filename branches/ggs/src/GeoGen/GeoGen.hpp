@@ -18,6 +18,10 @@
 #include "compiler/UnexpectedTokenException.hpp"
 #include "compiler/UnexpectedCharacterException.hpp"
 
+#include "corelib/ArrayTypeDefinition.hpp"
+#include "corelib/EnumTypeDefinition.hpp"
+#include "corelib/NumberTypeDefinition.hpp"
+#include "corelib/NullKeyException.hpp"
 
 #include "genlib/DataObject.hpp"
 #include "genlib/HeightMap.hpp"
@@ -91,6 +95,3 @@
 #include "runtime/instructions/StoreGlobalValueInstruction.hpp"
 #include "runtime/instructions/WhileInstruction.hpp"
 #include "runtime/instructions/YieldAsNamedInstruction.hpp"
-
-#include "corelib/EnumTypeDefinition.hpp"
-#include "corelib/NumberTypeDefinition.hpp"

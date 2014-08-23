@@ -273,6 +273,7 @@
     <ClInclude Include="corelib\HeightProfileFromArrayFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFromArrayRenderingStep.hpp" />
     <ClInclude Include="corelib\ArrayFromListFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\NullKeyException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
