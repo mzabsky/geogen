@@ -25,6 +25,8 @@ ManagedObject* HeightProfileFillIntervalFunctionDefinition::CallNative(CodeLocat
 	expectedTypes.push_back(coordinateTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
 
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
+
 	CoordinateObject* startObject = dynamic_cast<CoordinateObject*>(arguments[0]);
 	CoordinateObject* lengthObject = dynamic_cast<CoordinateObject*>(arguments[1]);
 
@@ -36,7 +38,6 @@ ManagedObject* HeightProfileFillIntervalFunctionDefinition::CallNative(CodeLocat
 	Coordinate start = startObject->GetValue();
 	Coordinate length = lengthObject->GetValue();
 
-	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	Number numberHeight = ((NumberObject*)arguments[2])->GetValue();
 	Height height;
