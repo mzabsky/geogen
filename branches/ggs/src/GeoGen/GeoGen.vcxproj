@@ -187,6 +187,9 @@
     <ClInclude Include="corelib\HeightProfileInvertRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileMoveFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileMoveRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileMultiplyFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileMultiplyProfileRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileMultiplyRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
@@ -435,6 +438,9 @@
     <ClCompile Include="corelib\HeightProfileInvertRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileMoveFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileMoveRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileMultiplyFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileMultiplyProfileRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileMultiplyRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
