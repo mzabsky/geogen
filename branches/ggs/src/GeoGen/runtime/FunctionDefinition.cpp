@@ -27,7 +27,7 @@ vector<ManagedObjectHolder> FunctionDefinition::CheckArguments(VirtualMachine* v
 		{
 			ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
 
-			throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), GG_STR("Static"));
+			throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), GG_STR("Type"));
 		}
 
 		if (actualArguments[i]->GetType() != expectedTypes[i])

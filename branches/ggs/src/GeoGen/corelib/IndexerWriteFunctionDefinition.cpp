@@ -21,7 +21,7 @@ ManagedObject* IndexerWriteFunctionDefinition::CallNative(CodeLocation location,
 
 	if (arguments[0]->IsStaticObject())
 	{
-		throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), GG_STR("Static"));
+		throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), GG_STR("Type"));
 	}
 
 	ManagedObject* returnObject;

@@ -36,7 +36,7 @@ ManagedObject* BitLogicOperatorFunctionDefinition::CallNative(CodeLocation locat
 
 		if (arg->IsStaticObject())
 		{
-			throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), GG_STR("Static"));
+			throw IncorrectTypeException(GGE2102_IncorrectOperandType, location, numberTypeDefinition->GetName(), GG_STR("Type"));
 		}
 
 		if (arg->GetType() == numberTypeDefinition)
