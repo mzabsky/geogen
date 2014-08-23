@@ -23,6 +23,8 @@ ManagedObject* HeightProfileMoveFunctionDefinition::CallNative(CodeLocation loca
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(coordinateTypeDefinition);
 
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
+
 	CoordinateObject* offsetObject = dynamic_cast<CoordinateObject*>(arguments[0]);
 
 	if (offsetObject->IsRelative())
@@ -32,7 +34,6 @@ ManagedObject* HeightProfileMoveFunctionDefinition::CallNative(CodeLocation loca
 
 	Coordinate offset = offsetObject->GetValue();
 
-	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
