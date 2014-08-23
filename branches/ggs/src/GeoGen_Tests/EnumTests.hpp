@@ -156,6 +156,17 @@ public:
 		");
 	}
 
+	static void TestEnumWithReservedNameFails()
+	{
+		TEST_SCRIPT_FAILURE(compiler::InvalidSymbolDefinitionException, "\n\
+			enum Type\n\
+			{\n\
+				A = 1,\n\
+				B = 2\n\
+			}\n\
+		");
+	}
+
 	EnumTests() : TestFixtureBase("EnumTests")
 	{
 		ADD_TESTCASE(TestScriptEnum);
@@ -167,5 +178,6 @@ public:
 		ADD_TESTCASE(TestFromNumberFailsWithInvalidNumber);
 		ADD_TESTCASE(TestFromEnum);
 		ADD_TESTCASE(TestFromEnumFailsWithNonEnum);
+		ADD_TESTCASE(TestEnumWithReservedNameFails);
 	}
 };
