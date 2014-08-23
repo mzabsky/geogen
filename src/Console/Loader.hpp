@@ -53,7 +53,13 @@ namespace geogen
 			inline void SetDebugMode(bool debugMode) { this->debug = debug; }
 
 			inline runtime::CompiledScript* GetCompiledScript() const { return this->compiledScript; }
-			inline void SetCompiledScript(String fileName, runtime::CompiledScript* compiledScript) { this->compiledScript = compiledScript; this->currentFile = fileName; }
+			inline void SetCompiledScript(String fileName, runtime::CompiledScript* compiledScript) 
+			{ 
+				if (this->compiledScript != NULL) { delete this->compiledScript; } 
+				this->compiledScript = compiledScript; 
+				this->currentFile = fileName; 
+			}
+
 			inline String GetCurrentFileName() const { return this->currentFile; }
 
 			inline Point GetRenderOrigin() const { return this->renderOrigin; }
