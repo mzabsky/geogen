@@ -286,6 +286,9 @@
     <ClInclude Include="corelib\HeightProfileCropHeightsRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileCombineFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileCombineRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileFillFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFillIntervalRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileFillIntervalFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -489,6 +492,9 @@
     <ClCompile Include="corelib\HeightProfileCropHeightsRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileCombineFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileCombineRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileFillFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFillIntervalRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileFillIntervalFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
