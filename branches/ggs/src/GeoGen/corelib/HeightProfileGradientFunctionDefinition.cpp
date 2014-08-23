@@ -19,12 +19,12 @@ using namespace geogen::renderer;
 
 ManagedObject* HeightProfileGradientFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
-	CoordinateTypeDefinition const* pointTypeDefinition = dynamic_cast<CoordinateTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Coordinate")));
+	CoordinateTypeDefinition const* coordinateTypeDefinition = dynamic_cast<CoordinateTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Coordinate")));
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
 	vector<TypeDefinition const*> expectedTypes;
-	expectedTypes.push_back(pointTypeDefinition);
-	expectedTypes.push_back(pointTypeDefinition);
+	expectedTypes.push_back(coordinateTypeDefinition);
+	expectedTypes.push_back(coordinateTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
 

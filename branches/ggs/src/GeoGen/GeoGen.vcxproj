@@ -172,6 +172,9 @@
     <ClInclude Include="corelib\HeightProfileCombineRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileCropHeightsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileCropHeightsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileFillFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFillIntervalFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFillIntervalRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFromArrayFunctionDefinition.hpp" />
@@ -408,6 +411,9 @@
     <ClCompile Include="corelib\HeightProfileCombineRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileCropHeightsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileCropHeightsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileFillFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFillIntervalFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFillIntervalRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
     <ClInclude Include="corelib\InvalidEnumValueException.hpp">
