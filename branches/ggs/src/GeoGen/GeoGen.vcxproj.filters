@@ -487,5 +487,6 @@
     <None Include="Grammar\output\GeoGenScriptDecls.tokens">
       <Filter>compiler\generated</Filter>
     </None>
+    <None Include="generate-geogen-hpp.linq" />
   </ItemGroup>
 </Project>

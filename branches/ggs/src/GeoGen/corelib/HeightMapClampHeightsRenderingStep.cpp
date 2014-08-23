@@ -14,10 +14,10 @@ void HeightMapClampHeightsRenderingStep::Step(Renderer* renderer) const
 {
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 
-	self->ClampHeights(this->min, this->max);
+	self->ClampHeights(this->minHeight, this->maxHeight);
 }
 
 void HeightMapClampHeightsRenderingStep::SerializeArguments(IOStream& stream) const
 {
-	stream << this->min << GG_STR(", ") << this->max;
+	stream << this->minHeight << GG_STR(", ") << this->maxHeight;
 }
