@@ -3,6 +3,7 @@
 #include "../InternalErrorException.hpp"
 #include "InvalidOperationOnEmptyArrayException.hpp"
 #include "ArrayKeyNotFoundException.hpp"
+#include "NullKeyException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -11,6 +12,12 @@ using namespace geogen::runtime;
 
 ArrayObject::~ArrayObject()
 {
+	// Don't remove refs if the MM is already deleting everything anyways (could remove refs on already released object).
+	if (this->GetMemberVariableTable().GetMemoryManager()->IsInCleanupMode())
+	{
+		return;
+	}
+
 	for (HashMap::iterator it = this->hashmap.begin(); it != this->hashmap.end(); it++)
 	{
 		it->first->RemoveRef(*this->GetMemberVariableTable().GetMemoryManager());
@@ -51,13 +58,16 @@ ManagedObject* ArrayObject::Get(VirtualMachine* vm, CodeLocation location, Manag
 
 void ArrayObject::Set(VirtualMachine* vm, CodeLocation location, ManagedObject* key, ManagedObject* value)
 {
+	if (key == vm->GetNull())
+	{
+		throw NullKeyException(location);
+	}
+
 	HashMap::iterator hashIt = this->hashmap.find(key);
 	if (hashIt != this->hashmap.end())
 	{
 		hashIt->second->RemoveRef(vm->GetMemoryManager());
 		hashIt->second = value;
-
-		// TODO: Nemelo by zde byt addref?
 	}
 	else
 	{

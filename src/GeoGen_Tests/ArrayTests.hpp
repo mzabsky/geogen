@@ -121,6 +121,21 @@ public:
 		");
 	}
 
+	static void TestNullKeyFails()
+	{
+		TEST_SCRIPT_FAILURE(NullKeyException, "\n\
+			var a = Array.Empty();\n\
+			a[null] = 21;\n\
+		");
+	}
+
+	static void TestNullKeyWithLiteralFails()
+	{
+		TEST_SCRIPT_FAILURE(NullKeyException, "\n\
+			var a = { null: 21 };\n\
+		");
+	}
+
 	static void TestContainsKeyReturnsTrue()
 	{
 		TestScript("\n\
@@ -246,6 +261,8 @@ public:
 		ADD_TESTCASE(TestSetGet);
 		ADD_TESTCASE(TestSetGetWithLiteral);
 		ADD_TESTCASE(TestSetGetString);
+		ADD_TESTCASE(TestNullKeyFails);
+		ADD_TESTCASE(TestNullKeyWithLiteralFails);
 		ADD_TESTCASE(TestContainsKeyReturnsTrue);
 		ADD_TESTCASE(TestContainsKeyReturnsFalse);
 		ADD_TESTCASE(TestContainsValueReturnsTrue);

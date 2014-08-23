@@ -17,9 +17,13 @@ namespace geogen
 		class ArrayTypeDefinition : public runtime::TypeDefinition
 		{
 		public:
+			static const String UNSET_KEY_VARIABLE_NAME;
+
 			ArrayTypeDefinition();
 
 			virtual runtime::ManagedObject* CreateInstance(runtime::VirtualMachine* vm) const;
+
+			virtual void Initialize(runtime::VirtualMachine* vm) const;
 
 			//virtual bool InstanceLessThan(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const;
 			//virtual bool InstanceEqualsTo(runtime::ManagedObject const* a, runtime::ManagedObject const* b) const;

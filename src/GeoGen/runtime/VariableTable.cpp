@@ -8,6 +8,12 @@ using namespace std;
 
 VariableTable::~VariableTable()
 {
+	// Don't remove refs if the MM is already deleting everything anyways (could remove refs on already released object).
+	if (this->memoryManager->IsInCleanupMode())
+	{
+		return;
+	}
+
 	for (std::map<String, VariableTableItem>::iterator it = this->table.begin(); it != this->table.end(); it++)
 	{
 		(*it).second.GetValue()->RemoveRef(*this->memoryManager);
