@@ -15,7 +15,7 @@ namespace geogen
 
 			virtual String GetStringValue() const
 			{
-				return GG_STR("Static");
+				return GG_STR("Type");
 			};
 		};
 	}
