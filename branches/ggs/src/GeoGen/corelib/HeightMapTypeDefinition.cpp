@@ -14,6 +14,7 @@
 #include "HeightMapMoveFunctionDefinition.hpp"
 #include "HeightMapMultiplyFunctionDefinition.hpp"
 #include "HeightMapRescaleFunctionDefinition.hpp"
+#include "HeightMapShiftFunctionDefinition.hpp"
 #include "HeightMapUnifyFunctionDefinition.hpp"
 
 #include "HeightMapCloneFunctionDefinition.hpp"
@@ -44,6 +45,7 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetFunctionDefinitions().AddItem(new HeightMapMoveFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapMultiplyFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapRescaleFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapShiftFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapUnifyFunctionDefinition(this));
 
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapCloneFunctionDefinition(this));

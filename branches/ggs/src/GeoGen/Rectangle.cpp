@@ -75,6 +75,12 @@ namespace geogen
 		return Rectangle(a.GetPosition() - Point(size, size), a.GetSize() + Size2D(2 * size, 2 * size));
 	}
 
+	Rectangle Rectangle::Contract(Rectangle a, Size1D size)
+	{
+		// TODO: size check
+		return Rectangle(a.GetPosition() + Point(size, size), Size2D(a.GetSize().GetWidth() > 2 * size ? a.GetSize().GetWidth() - 2 * size : 0, a.GetSize().GetHeight() > 2 * size ? a.GetSize().GetHeight() - 2 * size : 0));
+	}
+
 	bool Rectangle::Contains(Rectangle other) const
 	{
 		return

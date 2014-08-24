@@ -57,9 +57,11 @@ namespace geogen
 				Coordinate rightCoord = Coordinate(ceil(x));
 				Coordinate topCoord = Coordinate(floor(x));
 				Coordinate bottomCoord = Coordinate(ceil(y));
-				Height top = Lerp(leftCoord, rightCoord, (*this)(leftCoord, topCoord), (*this)(rightCoord, topCoord), x);
-				Height bottom = Lerp(leftCoord, rightCoord, (*this)(leftCoord, bottomCoord), (*this)(rightCoord, bottomCoord), x);
-				return Lerp(topCoord, bottomCoord, top, bottom, y);
+				
+				// TODO: Optimize.
+				Height top = leftCoord == rightCoord ? (*this)(leftCoord, topCoord) : Lerp(leftCoord, rightCoord, (*this)(leftCoord, topCoord), (*this)(rightCoord, topCoord), x);
+				Height bottom = leftCoord == rightCoord ? (*this)(leftCoord, bottomCoord) : Lerp(leftCoord, rightCoord, (*this)(leftCoord, bottomCoord), (*this)(rightCoord, bottomCoord), x);
+				return topCoord == bottomCoord ? top : Lerp(topCoord, bottomCoord, top, bottom, y);
 			}
 
 			inline Coordinate GetOriginX() const { return this->rectangle.GetPosition().GetX(); }
@@ -100,6 +102,7 @@ namespace geogen
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
 			//void Repeat(Rectangle repeatRectangle);
 			void Rescale(Scale horizontalScale, Scale verticalScale);
+			void Shift(HeightProfile* profile, Size1D maximumDistance, Direction direction);
 			//void SelectHeights(Height min, Height max);
 			//void SlopeMap();
 			//void Shift(HeightProfile* profile, Size1D maxDistance);

@@ -1,3 +1,28 @@
-metadata {
-	Height: { Default: 1000 }
+metadata
+{
+	Width: Finite,
+	Height: Finite
 }
+
+var riverProfile = HeightProfile.FromArray(
+{
+	@0.4: 0.8,
+	@0.45: 0,
+	@0.55: 0,
+	@0.6: 0.8
+}, Direction.Vertical);
+
+var coastProfile = HeightProfile.FromArray(
+{
+	@0.2: -0.5,
+	@0.5: 0.8
+}, Direction.Horizontal);
+
+var river = HeightMap.Projection(riverProfile, Direction.Horizontal);
+var coast = HeightMap.Projection(coastProfile, Direction.Vertical);
+
+var main = river.Intersect(coast);
+
+main.Shift(riverProfile, 200, Direction.Vertical);
+
+yield main;
