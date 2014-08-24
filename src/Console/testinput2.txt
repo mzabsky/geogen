@@ -12,6 +12,8 @@ var riverProfile = HeightProfile.FromArray(
 	@0.6: 0.8
 }, Direction.Vertical);
 
+riverProfile = HeightProfile.Repeat(riverProfile, Parameters.MapWidth * 0.4, Parameters.MapWidth * 0.2);
+
 var coastProfile = HeightProfile.FromArray(
 {
 	@0.2: -0.5,

@@ -352,6 +352,20 @@ void HeightProfile::MultiplyProfile(HeightProfile* factor)
 	}
 }
 
+
+void HeightProfile::Repeat(HeightProfile* pattern, Interval repeatInterval)
+{
+	Interval physicalRepeatInterval = Interval::Intersect(this->GetPhysicalInterval(repeatInterval), this->GetPhysicalIntervalUnscaled(pattern->GetInterval()));
+	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
+
+	FOR_EACH_IN_INTERVAL(x, operationInterval)
+	{
+		Coordinate patternIndex = (x + this->GetStart()) % physicalRepeatInterval.GetLength();
+		if (patternIndex < 0) patternIndex += physicalRepeatInterval.GetLength();
+		(*this)(x) = (*pattern)(patternIndex + physicalRepeatInterval.GetStart());
+	}
+}
+
 void HeightProfile::Rescale(Scale scale)
 {
 	Interval newInterval(Coordinate(this->interval.GetStart() * scale), Size1D(this->interval.GetLength() * scale));
