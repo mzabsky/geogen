@@ -1,5 +1,6 @@
 #include "Rectangle.hpp"
 #include "Size.hpp"
+#include "ApiUsageException.hpp"
 
 using namespace geogen;
 
@@ -75,10 +76,38 @@ namespace geogen
 		return Rectangle(a.GetPosition() - Point(size, size), a.GetSize() + Size2D(2 * size, 2 * size));
 	}
 
+	Rectangle Rectangle::Expand(Rectangle a, Size1D size, Direction direction)
+	{
+		// TODO: size check
+		if (direction == DIRECTION_HORIZONTAL)
+		{
+			return Rectangle(a.GetPosition() - Point(size, 0), a.GetSize() + Size2D(2 * size, 0));
+		}
+		else if (direction == DIRECTION_VERTICAL)
+		{
+			return Rectangle(a.GetPosition() - Point(0, size), a.GetSize() + Size2D(0, 2 * size));
+		}
+		else throw ApiUsageException(GG_STR("Invalid direction."));
+	}
+
 	Rectangle Rectangle::Contract(Rectangle a, Size1D size)
 	{
 		// TODO: size check
 		return Rectangle(a.GetPosition() + Point(size, size), Size2D(a.GetSize().GetWidth() > 2 * size ? a.GetSize().GetWidth() - 2 * size : 0, a.GetSize().GetHeight() > 2 * size ? a.GetSize().GetHeight() - 2 * size : 0));
+	}
+
+	Rectangle Rectangle::Contract(Rectangle a, Size1D size, Direction direction)
+	{
+		// TODO: size check
+		if (direction == DIRECTION_HORIZONTAL)
+		{
+			return Rectangle(a.GetPosition() + Point(size, 0), Size2D(a.GetSize().GetWidth() > 2 * size ? a.GetSize().GetWidth() - 2 * size : 0, 0));
+		}
+		else if (direction == DIRECTION_VERTICAL)
+		{
+			return Rectangle(a.GetPosition() + Point(0, size), Size2D(0, a.GetSize().GetHeight() > 2 * size ? a.GetSize().GetHeight() - 2 * size : 0));
+		}
+		else throw ApiUsageException(GG_STR("Invalid direction."));
 	}
 
 	bool Rectangle::Contains(Rectangle other) const

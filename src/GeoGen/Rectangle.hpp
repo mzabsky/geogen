@@ -5,6 +5,7 @@
 #include "Point.hpp"
 #include "Size.hpp"
 #include "Serializable.hpp"
+#include "Direction.hpp"
 
 namespace geogen {
 	class Rectangle{
@@ -78,7 +79,9 @@ namespace geogen {
 		static Rectangle Combine(Rectangle a, Rectangle b);
 		static Rectangle Intersect(Rectangle a, Rectangle b);
 		static Rectangle Expand(Rectangle a, Size1D size);
+		static Rectangle Expand(Rectangle a, Size1D size, Direction direction);
 		static Rectangle Contract(Rectangle a, Size1D size);
+		static Rectangle Contract(Rectangle a, Size1D size, Direction direction);
 
 		bool Contains(Rectangle other) const;
 		bool Contains(Point point) const;

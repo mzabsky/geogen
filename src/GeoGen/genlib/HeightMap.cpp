@@ -483,8 +483,7 @@ void HeightMap::Shift(HeightProfile* profile, Size1D maximumDistance, Direction 
 	}
 	else throw InternalErrorException(GG_STR("Invalid direction."));
 
-	// TODO: Contract only on one axis
-	Rectangle contraction = Rectangle::Contract(this->rectangle, maximumDistance);
+	Rectangle contraction = Rectangle::Contract(this->rectangle, maximumDistance, direction);
 	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(Rectangle::Contract(this->rectangle, maximumDistance), profileRect));
 
 	// Allocate the new array.
