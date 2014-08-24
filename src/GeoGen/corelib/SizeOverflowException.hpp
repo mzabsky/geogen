@@ -19,7 +19,7 @@ namespace geogen
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Attempted to too small/large size/distance value on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
+				ss << "Attempted to use too small/large size/distance value on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ".";
 				return ss.str();
 			}
 		};

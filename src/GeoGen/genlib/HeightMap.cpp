@@ -388,11 +388,25 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 
 void HeightMap::Projection(HeightProfile* profile, Direction direction)
 {
+	Rectangle profileRect;
 	if (direction == DIRECTION_HORIZONTAL)
 	{
-		Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
+		profileRect = Rectangle(Point(COORDINATE_MIN, profile->GetInterval().GetStart()), Size2D(SIZE1D_MAX, profile->GetInterval().GetLength()));
+	}
+	else if (direction == DIRECTION_VERTICAL)
+	{
+		profileRect = Rectangle(Point(profile->GetInterval().GetStart(), COORDINATE_MIN), Size2D(profile->GetInterval().GetLength(), SIZE1D_MAX));
+	}
+	else throw InternalErrorException(GG_STR("Invalid direction."));
+
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(this->rectangle, profileRect));
+
+
+	if (direction == DIRECTION_HORIZONTAL)
+	{
+		/*Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
 			Point(this->GetOriginX(), profile->GetStart()),
-			Size2D(this->GetWidth(), profile->GetLength())));
+			Size2D(this->GetWidth(), profile->GetLength())));*/
 
 		FOR_EACH_IN_RECT(x, y, operationRect)
 		{
@@ -401,9 +415,9 @@ void HeightMap::Projection(HeightProfile* profile, Direction direction)
 	}
 	else if (direction == DIRECTION_VERTICAL)
 	{
-		Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
+		/*Rectangle operationRect = this->GetPhysicalRectangle(Rectangle(
 			Point(profile->GetStart(), this->GetOriginY()),
-			Size2D(profile->GetLength(), this->GetHeight())));
+			Size2D(profile->GetLength(), this->GetHeight())));*/
 
 		FOR_EACH_IN_RECT(x, y, operationRect)
 		{
@@ -454,6 +468,48 @@ void HeightMap::Rescale(Scale horizontalScale, Scale verticalScale)
 	delete[] this->heightData;
 	this->heightData = newData;
 	this->rectangle = newRectangle;
+}
+
+void HeightMap::Shift(HeightProfile* profile, Size1D maximumDistance, Direction direction)
+{	
+	Rectangle profileRect;
+	if (direction == DIRECTION_HORIZONTAL)
+	{
+		profileRect = Rectangle(Point(COORDINATE_MIN, profile->GetInterval().GetStart()), Size2D(SIZE1D_MAX, profile->GetInterval().GetLength()));
+	}
+	else if (direction == DIRECTION_VERTICAL)
+	{
+		profileRect = Rectangle(Point(profile->GetInterval().GetStart(), COORDINATE_MIN), Size2D(profile->GetInterval().GetLength(), SIZE1D_MAX));
+	}
+	else throw InternalErrorException(GG_STR("Invalid direction."));
+
+	// TODO: Contract only on one axis
+	Rectangle contraction = Rectangle::Contract(this->rectangle, maximumDistance);
+	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(Rectangle::Contract(this->rectangle, maximumDistance), profileRect));
+
+	// Allocate the new array.
+	Height* newData = new Height[this->rectangle.GetSize().GetTotalLength()];
+
+	double factor = maximumDistance / double(HEIGHT_MAX);
+
+	if (direction == DIRECTION_HORIZONTAL)
+	{
+		FOR_EACH_IN_RECT(x, y, physicalRect)
+		{
+			newData[x + this->GetWidth() * y] = (*this)(x - (*profile)(y) * factor, double(y));
+		}
+	}
+	else if (direction == DIRECTION_VERTICAL)
+	{
+		FOR_EACH_IN_RECT(x, y, physicalRect)
+		{
+			//Height p = (*profile)(y);
+			newData[x + this->GetWidth() * y] = (*this)(double(x), y - (*profile)(x)* factor);
+		}
+	}
+
+	delete[] this->heightData;
+	this->heightData = newData;
 }
 
 void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)

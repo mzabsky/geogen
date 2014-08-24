@@ -173,8 +173,18 @@ enumDeclaration: ^(ENUM IDENTIFIER enumValues)
 		
 	EnumTypeDefinition* decl = new EnumTypeDefinition((Char*)$IDENTIFIER.text->chars, $enumValues.returnEnumValues);
 	
-	if (!ctx->compiledScript->AddTypeDefinition(decl)){
-		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, decl->GetName());
+	if (decl->GetName() == GG_STR("Type"))
+	{
+		String name = decl->GetName();
+		delete decl;
+		throw InvalidSymbolDefinitionException(GGE1311_ReservedTypeNameUsed, location, name);
+	}
+	
+	if (!ctx->compiledScript->AddTypeDefinition(decl))
+	{
+		String name = decl->GetName();
+		delete decl;
+		throw SymbolRedefinitionException(GGE1308_TypeAlreadyDefined, location, name);
 	}
 };
 
