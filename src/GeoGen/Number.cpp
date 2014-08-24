@@ -33,13 +33,13 @@ namespace geogen
 		{
 			return false;
 		}
-		else if (n > 0)
+		/*else if (n > 0)
 		{
 			out = (Height)(n * HEIGHT_MAX);
 			return true;
-		}
+		}*/
 		else {
-			out = (Height)(n * HEIGHT_MIN);
+			out = (Height)(n * HEIGHT_MAX);
 			return true;
 		}
 	}
@@ -56,7 +56,7 @@ namespace geogen
 		}
 		else {
 			out = (Size1D)(n);
-			return false;
+			return true;
 		}
 	}
 
