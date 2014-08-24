@@ -102,6 +102,7 @@
     <ClInclude Include="corelib\ArrayObject.hpp" />
     <ClInclude Include="corelib\ArrayPushBackFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayRemoveFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayRepeatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySetFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayTypeDefinition.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
@@ -368,6 +369,7 @@
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
     <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayRepeatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateObject.cpp" />
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />

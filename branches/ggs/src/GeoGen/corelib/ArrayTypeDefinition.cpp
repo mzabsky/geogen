@@ -10,6 +10,7 @@
 #include "ArrayContainsFunctionDefinition.hpp"
 #include "ArrayFromListFunctionDefinition.hpp"
 #include "ArrayRemoveFunctionDefinition.hpp"
+#include "ArrayRepeatFunctionDefinition.hpp"
 #include "NumberTypeDefinition.hpp"
 
 using namespace std;
@@ -34,6 +35,7 @@ ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 	this->GetFunctionDefinitions().AddItem(ArrayContainsFunctionDefinition::Create(ArrayContainsFunctionDefinition::CONTAINS_VALUE, this));
 	this->GetFunctionDefinitions().AddItem(ArrayRemoveFunctionDefinition::Create(ArrayRemoveFunctionDefinition::REMOVE_KEY, this));
 	this->GetFunctionDefinitions().AddItem(ArrayRemoveFunctionDefinition::Create(ArrayRemoveFunctionDefinition::REMOVE_VALUE, this));
+	this->GetFunctionDefinitions().AddItem(new ArrayRepeatFunctionDefinition(this));
 }
 
 

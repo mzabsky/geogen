@@ -21,14 +21,15 @@ void HeightMapShiftRenderingStep::Step(Renderer* renderer) const
 
 Rectangle HeightMapShiftRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
 {
-	if (this->direction == DIRECTION_HORIZONTAL)
+	return Rectangle::Expand(argumentBounds, this->maxDistance);
+	/*if (this->direction == DIRECTION_HORIZONTAL)
 	{
 		return Rectangle(argumentBounds.GetPosition() - Point(this->maxDistance, 0), argumentBounds.GetSize() + Size2D(this->maxDistance * 2, 0));
 	}
 	else if (this->direction == DIRECTION_VERTICAL)
 	{
 		return Rectangle(argumentBounds.GetPosition() - Point(0, this->maxDistance), argumentBounds.GetSize() + Size2D(0, this->maxDistance * 2));
-	}
+	}*/
 }
 
 void HeightMapShiftRenderingStep::SerializeArguments(IOStream& stream) const
