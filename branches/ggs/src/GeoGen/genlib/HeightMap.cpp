@@ -503,7 +503,6 @@ void HeightMap::Shift(HeightProfile* profile, Size1D maximumDistance, Direction 
 	{
 		FOR_EACH_IN_RECT(x, y, physicalRect)
 		{
-			//Height p = (*profile)(y);
 			newData[x + this->GetWidth() * y] = (*this)(double(x), y - (*profile)(x)* factor);
 		}
 	}

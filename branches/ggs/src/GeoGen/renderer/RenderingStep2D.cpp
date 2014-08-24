@@ -1,6 +1,7 @@
 #include "../InternalErrorException.hpp"
 #include "RenderingStep2D.hpp"
 #include "RenderingBounds2D.hpp"
+#include "RenderingBounds1D.hpp"
 #include "Renderer.hpp"
 #include "../Interval.hpp"
 
@@ -23,21 +24,27 @@ void RenderingStep2D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 	Rectangle newRect;
 	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)
 	{
-		if ((*it)->GetRenderingStepType() != RENDERING_STEP_TYPE_2D)
+		if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_1D)
 		{
-			this->TriggerRenderingBoundsCalculationError("incompatible rendering step type");
-		}
+			RenderingBounds1D* current = dynamic_cast<RenderingBounds1D*>(*it);
 
-		RenderingBounds2D* current = dynamic_cast<RenderingBounds2D*>(*it);
+			//this->TriggerRenderingBoundsCalculationError("incompatible rendering step type");
+			newRect = Rectangle::Combine(newRect, Rectangle(Point(current->GetInterval().GetStart(), current->GetInterval().GetStart()), Size2D(current->GetInterval().GetLength(), current->GetInterval().GetLength())));
+		}
+		else if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_2D)
+		{
+			RenderingBounds2D* current = dynamic_cast<RenderingBounds2D*>(*it);
 
-		if (it == argumentBounds.begin())
-		{
-			newRect = current->GetRectangle();
+			if (it == argumentBounds.begin())
+			{
+				newRect = current->GetRectangle();
+			}
+			else
+			{
+				newRect = Rectangle::Combine(newRect, current->GetRectangle());
+			}
 		}
-		else 
-		{
-			newRect = Rectangle::Combine(newRect, current->GetRectangle());
-		}
+		else throw InternalErrorException(GG_STR("Invalid rendering step type."));
 	}
 
 	Rectangle calculatedRect = this->CalculateRenderingBounds(renderer, newRect);

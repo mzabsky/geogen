@@ -2,6 +2,7 @@
 #include "../random/RandomSequence2D.hpp"
 #include "../ApiUsageException.hpp"
 #include "NoiseLayer.hpp"
+#include "HeightMap.hpp"
 
 using namespace geogen;
 using namespace genlib;
@@ -370,6 +371,61 @@ void HeightProfile::Rescale(Scale scale)
 	delete[] this->heightData;
 	this->heightData = newData;
 	this->interval = newInterval;
+}
+
+
+void HeightProfile::Slice(HeightMap* heightMap, Direction direction, Coordinate coordinate)
+{
+	this->FillInterval(INTERVAL_MAX, 0);
+
+	Interval rectInterval = this->GetPhysicalInterval(Interval::FromRectangle(heightMap->GetRectangle(), direction));	
+
+	Interval physicalInterval;
+	if (direction == DIRECTION_HORIZONTAL)
+	{
+		if (coordinate < heightMap->GetOriginY() || coordinate >= heightMap->GetRectangle().GetEndingPoint().GetY())
+		{
+			physicalInterval = Interval();
+		}
+		else
+		{
+			physicalInterval = Interval::Intersect(rectInterval, this->GetPhysicalIntervalUnscaled(this->interval));
+		}
+	}
+	else if (direction == DIRECTION_VERTICAL)
+	{
+		if (coordinate < heightMap->GetOriginX() || coordinate >= heightMap->GetRectangle().GetEndingPoint().GetX())
+		{
+			physicalInterval = Interval();
+		}
+		else
+		{
+			physicalInterval = Interval::Intersect(rectInterval, this->GetPhysicalIntervalUnscaled(this->interval));
+		}
+	}
+	else throw ApiUsageException("Invalid direction.");
+	
+
+	if (direction == DIRECTION_HORIZONTAL)
+	{
+		Coordinate physicalCoordinate = heightMap->GetPhysicalPoint(Point(0, coordinate)).GetY();
+
+		Coordinate offset = heightMap->GetOriginX() - this->GetStart();
+		FOR_EACH_IN_INTERVAL(x, physicalInterval)
+		{
+			(*this)(x) = (*heightMap)(x + offset, physicalCoordinate);
+		}
+	}
+	else if (direction == DIRECTION_VERTICAL)
+	{
+		Coordinate physicalCoordinate = heightMap->GetPhysicalPoint(Point(coordinate, 0)).GetX();
+
+		Coordinate offset = this->GetStart() - heightMap->GetOriginY();
+		FOR_EACH_IN_INTERVAL(x, physicalInterval)
+		{
+			(*this)(x) = (*heightMap)(physicalCoordinate, x + offset);
+		}
+	}
 }
 
 void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)

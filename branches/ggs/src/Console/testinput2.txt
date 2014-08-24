@@ -25,4 +25,7 @@ var main = river.Intersect(coast);
 
 main.Shift(riverProfile, 200, Direction.Vertical);
 
+var slice = HeightProfile.Slice(main, Direction.Vertical, @0.7);
+yield HeightMap.Projection(slice, Direction.Horizontal) as "slice";
+
 yield main;
