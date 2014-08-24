@@ -13,6 +13,8 @@ namespace geogen
 {
 	namespace genlib
 	{
+		class HeightMap;
+
 		class HeightProfile : public DataObject
 		{
 		private:
@@ -79,6 +81,7 @@ namespace geogen
 			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
 			//void Repeat(Rectangle repeatRectangle);
 			void Rescale(Scale scale);
+			void Slice(HeightMap* heightMap, Direction direction, Coordinate coordinate);
 			//void SelectHeights(Height min, Height max);
 			//void TransformValues(HeightProfile* function, Height min, Height max);
 			void Unify(HeightProfile* other);

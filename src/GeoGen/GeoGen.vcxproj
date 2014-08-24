@@ -194,6 +194,8 @@
     <ClInclude Include="corelib\HeightProfileMultiplyRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileRescaleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileRescaleRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileSliceFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileSliceRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileUnifyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileUnifyRenderingStep.hpp" />
@@ -451,6 +453,8 @@
     <ClCompile Include="corelib\HeightProfileMultiplyRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileRescaleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileRescaleRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileSliceFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileSliceRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileUnifyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileUnifyRenderingStep.cpp" />

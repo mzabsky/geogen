@@ -304,6 +304,8 @@
     <ClInclude Include="corelib\HeightProfileUnifyRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapShiftFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapShiftRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileSliceFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileSliceRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -525,6 +527,8 @@
     <ClCompile Include="corelib\HeightProfileUnifyRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapShiftFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapShiftRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileSliceFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileSliceRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
