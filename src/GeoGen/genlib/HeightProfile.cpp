@@ -353,7 +353,7 @@ void HeightProfile::MultiplyProfile(HeightProfile* factor)
 }
 
 
-void HeightProfile::Repeat(HeightProfile* pattern, Interval repeatInterval)
+void HeightProfile::Pattern(HeightProfile* pattern, Interval repeatInterval)
 {
 	Interval physicalRepeatInterval = Interval::Intersect(pattern->GetPhysicalInterval(repeatInterval), pattern->GetPhysicalIntervalUnscaled(pattern->GetInterval()));
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);

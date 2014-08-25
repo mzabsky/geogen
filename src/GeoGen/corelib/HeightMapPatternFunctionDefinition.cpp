@@ -1,11 +1,11 @@
-#include "HeightMapRepeatFunctionDefinition.hpp"
+#include "HeightMapPatternFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "PointTypeDefinition.hpp"
 #include "PointObject.hpp"
 #include "HeightMapTypeDefinition.hpp"
-#include "HeightMapRepeatRenderingStep.hpp"
+#include "HeightMapPatternRenderingStep.hpp"
 #include "SizeOverflowException.hpp"
 
 using namespace std;
@@ -14,7 +14,7 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::renderer;
 
-ManagedObject* HeightMapRepeatFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* HeightMapPatternFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	PointTypeDefinition const* pointTypeDefinition = dynamic_cast<PointTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Point")));
 
@@ -39,7 +39,7 @@ ManagedObject* HeightMapRepeatFunctionDefinition::CallNative(CodeLocation locati
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightMapRepeatRenderingStep(location, argumentSlots, returnObjectSlot, Rectangle(origin, size));
+	RenderingStep* renderingStep = new HeightMapPatternRenderingStep(location, argumentSlots, returnObjectSlot, Rectangle(origin, size));
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;

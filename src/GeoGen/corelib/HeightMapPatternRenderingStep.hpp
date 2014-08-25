@@ -7,15 +7,15 @@ namespace geogen
 {
 	namespace corelib
 	{
-		class HeightMapRepeatRenderingStep : public renderer::RenderingStep2D
+		class HeightMapPatternRenderingStep : public renderer::RenderingStep2D
 		{
 		private:
 			Rectangle repeatRectangle;
 		public:
-			HeightMapRepeatRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Rectangle repeatRectangle)
+			HeightMapPatternRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Rectangle repeatRectangle)
 				: RenderingStep2D(location, argumentSlots, returnSlot), repeatRectangle(repeatRectangle) {};
 
-			virtual String GetName() const { return GG_STR("HeightMap.Repeat"); };
+			virtual String GetName() const { return GG_STR("HeightMap.Pattern"); };
 
 			virtual void Step(renderer::Renderer* renderer) const;
 

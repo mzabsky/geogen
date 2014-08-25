@@ -7,11 +7,11 @@ namespace geogen
 {
 	namespace corelib
 	{
-		/// <summary> Function definition for HeightProfile.Repeat. </summary>
-		class HeightProfileRepeatFunctionDefinition : public runtime::MemberNativeFunctionDefinition
+		/// <summary> Function definition for HeightMap.Pattern. </summary>
+		class HeightMapPatternFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:
-			HeightProfileRepeatFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Repeat"), type) {};
+			HeightMapPatternFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Pattern"), type) {};
 
 			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 

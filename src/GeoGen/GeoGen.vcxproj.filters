@@ -307,10 +307,10 @@
     <ClInclude Include="corelib\HeightProfileSliceFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileSliceRenderingStep.hpp" />
     <ClInclude Include="corelib\ArrayRepeatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileRepeatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileRepeatRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapRepeatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapRepeatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapPatternFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapPatternRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfilePatternFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfilePatternRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -535,10 +535,10 @@
     <ClCompile Include="corelib\HeightProfileSliceFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileSliceRenderingStep.cpp" />
     <ClCompile Include="corelib\ArrayRepeatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileRepeatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileRepeatRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapRepeatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapRepeatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapPatternFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapPatternRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfilePatternFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfilePatternRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

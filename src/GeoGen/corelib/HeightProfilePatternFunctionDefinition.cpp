@@ -1,4 +1,4 @@
-#include "HeightProfileRepeatFunctionDefinition.hpp"
+#include "HeightProfilePatternFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
@@ -7,7 +7,7 @@
 #include "CoordinateTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
 #include "CoordinateObject.hpp"
-#include "HeightProfileRepeatRenderingStep.hpp"
+#include "HeightProfilePatternRenderingStep.hpp"
 #include "UnknownRelativeCoordinateDirectionException.hpp"
 
 using namespace std;
@@ -16,7 +16,7 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::renderer;
 
-ManagedObject* HeightProfileRepeatFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* HeightProfilePatternFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	CoordinateTypeDefinition const* coordinateTypeDefinition = dynamic_cast<CoordinateTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Coordinate")));
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
@@ -44,7 +44,7 @@ ManagedObject* HeightProfileRepeatFunctionDefinition::CallNative(CodeLocation lo
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightProfileRepeatRenderingStep(location, argumentSlots, returnObjectSlot, Interval(start, length));
+	RenderingStep* renderingStep = new HeightProfilePatternRenderingStep(location, argumentSlots, returnObjectSlot, Interval(start, length));
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;

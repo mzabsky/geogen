@@ -19,7 +19,7 @@
 #include "HeightProfileFlatFunctionDefinition.hpp"
 #include "HeightProfileFromArrayFunctionDefinition.hpp"
 #include "HeightProfileGradientFunctionDefinition.hpp"
-#include "HeightProfileRepeatFunctionDefinition.hpp"
+#include "HeightProfilePatternFunctionDefinition.hpp"
 #include "HeightProfileSliceFunctionDefinition.hpp"
 
 using namespace geogen;
@@ -47,6 +47,6 @@ HeightProfileTypeDefinition::HeightProfileTypeDefinition() : RendererTypeDefinit
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFlatFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFromArrayFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileGradientFunctionDefinition(this));
-	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileRepeatFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightProfilePatternFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileSliceFunctionDefinition(this));
 }

@@ -7,15 +7,15 @@ namespace geogen
 {
 	namespace corelib
 	{
-		class HeightProfileRepeatRenderingStep : public renderer::RenderingStep1D
+		class HeightProfilePatternRenderingStep : public renderer::RenderingStep1D
 		{
 		private:
 			Interval repeatInterval;
 		public:
-			HeightProfileRepeatRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Interval repeatInterval)
+			HeightProfilePatternRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Interval repeatInterval)
 				: RenderingStep1D(location, argumentSlots, returnSlot), repeatInterval(repeatInterval) {};
 
-			virtual String GetName() const { return GG_STR("HeightProfile.Repeat"); };
+			virtual String GetName() const { return GG_STR("HeightProfile.Pattern"); };
 
 			virtual void Step(renderer::Renderer* renderer) const;
 
