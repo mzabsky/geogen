@@ -12,7 +12,7 @@ var riverProfile = HeightProfile.FromArray(
 	@0.6: 0.8
 }, Direction.Vertical);
 
-riverProfile = HeightProfile.Repeat(riverProfile, Parameters.MapWidth * 0.4, Parameters.MapWidth * 0.2);
+//riverProfile = HeightProfile.Repeat(riverProfile, Parameters.MapWidth * 0.4, Parameters.MapWidth * 0.2);
 
 var coastProfile = HeightProfile.FromArray(
 {
@@ -29,5 +29,7 @@ main.Shift(riverProfile, 200, Direction.Vertical);
 
 var slice = HeightProfile.Slice(main, Direction.Vertical, @0.7);
 yield HeightMap.Projection(slice, Direction.Horizontal) as "slice";
+
+main = HeightMap.Repeat(main, @[0.3, 0.3], @[0.3, 0.3]);
 
 yield main;
