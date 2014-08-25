@@ -154,8 +154,8 @@
     <ClInclude Include="corelib\HeightMapProjectionRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapRepeatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapRepeatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapPatternFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapPatternRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRescaleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapShiftFunctionDefinition.hpp" />
@@ -195,8 +195,8 @@
     <ClInclude Include="corelib\HeightProfileMultiplyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileMultiplyProfileRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileMultiplyRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileRepeatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileRepeatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfilePatternFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfilePatternRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileRescaleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileRescaleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileSliceFunctionDefinition.hpp" />
@@ -416,8 +416,8 @@
     <ClCompile Include="corelib\HeightMapProjectionRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapRepeatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapRepeatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapPatternFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapPatternRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapShiftFunctionDefinition.cpp" />
@@ -459,8 +459,8 @@
     <ClCompile Include="corelib\HeightProfileMultiplyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileMultiplyProfileRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileMultiplyRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileRepeatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileRepeatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfilePatternFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfilePatternRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileRescaleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileRescaleRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileSliceFunctionDefinition.cpp" />

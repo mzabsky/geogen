@@ -100,8 +100,8 @@ namespace geogen
 			//void Outline();
 			void Projection(HeightProfile* profile, Direction direction);
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
-			//void Repeat(Rectangle repeatRectangle);
-			void Repeat(HeightMap* pattern, Rectangle repeatRectangle);
+			//void Pattern(Rectangle repeatRectangle);
+			void Pattern(HeightMap* pattern, Rectangle repeatRectangle);
 			void Rescale(Scale horizontalScale, Scale verticalScale);
 			void Shift(HeightProfile* profile, Size1D maximumDistance, Direction direction);
 			//void SelectHeights(Height min, Height max);

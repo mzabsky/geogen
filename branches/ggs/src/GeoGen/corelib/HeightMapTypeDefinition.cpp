@@ -24,7 +24,7 @@
 #include "HeightMapNoiseFunctionDefinition.hpp"
 #include "HeightMapProjectionFunctionDefinition.hpp"
 #include "HeightMapRadialGradientFunctionDefinition.hpp"
-#include "HeightMapRepeatFunctionDefinition.hpp"
+#include "HeightMapPatternFunctionDefinition.hpp"
 
 using namespace geogen;
 using namespace corelib;
@@ -55,6 +55,6 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapGradientFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapProjectionFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapRadialGradientFunctionDefinition(this));
-	this->GetStaticFunctionDefinitions().AddItem(new HeightMapRepeatFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightMapPatternFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapNoiseFunctionDefinition(this));
 }

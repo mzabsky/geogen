@@ -79,7 +79,7 @@ namespace geogen
 			void Multiply(Height factor);
 			void MultiplyProfile(HeightProfile* factor);
 			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
-			void Repeat(HeightProfile* pattern, Interval repeatInterval);
+			void Pattern(HeightProfile* pattern, Interval repeatInterval);
 			void Rescale(Scale scale);
 			void Slice(HeightMap* heightMap, Direction direction, Coordinate coordinate);
 			//void SelectHeights(Height min, Height max);
