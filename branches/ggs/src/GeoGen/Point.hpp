@@ -112,4 +112,16 @@ namespace geogen {
 			return coord - multiplier;
 		return coord - remainder;
 	}
+
+	static inline bool TryPointToSize(Point p, Size2D& out)
+	{
+		if (p.GetX() < 0 || p.GetY() < 0)
+		{
+			return false;
+		}
+		{
+			out = Size2D(Size1D(p.GetX()), Size1D(p.GetY()));
+			return true;
+		}
+	}
 }

@@ -154,6 +154,8 @@
     <ClInclude Include="corelib\HeightMapProjectionRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapRadialGradientRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapRepeatFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapRepeatRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRescaleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapShiftFunctionDefinition.hpp" />
@@ -414,6 +416,8 @@
     <ClCompile Include="corelib\HeightMapProjectionRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRadialGradientRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapRepeatFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapRepeatRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapShiftFunctionDefinition.cpp" />

@@ -448,6 +448,20 @@ void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, He
 	}
 }
 
+void HeightMap::Repeat(HeightMap* pattern, Rectangle repeatRectangle)
+{
+	Rectangle physicalRepeatRect = Rectangle::Intersect(pattern->GetPhysicalRectangle(repeatRectangle), pattern->GetPhysicalRectangleUnscaled(pattern->GetRectangle()));
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		Point patternPoint = Point((x + this->GetOriginX()) % physicalRepeatRect.GetSize().GetWidth(), (y + this->GetOriginY()) % physicalRepeatRect.GetSize().GetHeight());
+		if (patternPoint.GetX() < 0) patternPoint += Point(physicalRepeatRect.GetSize().GetWidth(), 0);
+		if (patternPoint.GetY() < 0) patternPoint += Point(0, physicalRepeatRect.GetSize().GetHeight());
+		(*this)(x, y) = (*pattern)(patternPoint + physicalRepeatRect.GetPosition());
+	}
+}
+
 void HeightMap::Rescale(Scale horizontalScale, Scale verticalScale)
 {
 	Rectangle newRectangle(Point(Coordinate(this->rectangle.GetPosition().GetX() * horizontalScale), Coordinate(this->rectangle.GetPosition().GetY() * verticalScale)), Size2D(Size1D(this->rectangle.GetSize().GetWidth() * horizontalScale), Size1D(this->rectangle.GetSize().GetHeight() * verticalScale)));
