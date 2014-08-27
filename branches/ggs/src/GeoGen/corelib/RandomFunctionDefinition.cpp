@@ -35,11 +35,11 @@ ManagedObject* RandomFunctionDefinition::CallNative(CodeLocation location, Virtu
 			throw MaxLessThanMinException(location);
 		}
 
-		n = vm->GetCommonRandoSequence().NextDouble() * (max - min) + min;
+		n = vm->GetCommonRandomSequence().NextDouble() * (max - min) + min;
 	}
 	else 
 	{
-		n = vm->GetCommonRandoSequence().NextDouble();
+		n = vm->GetCommonRandomSequence().NextDouble();
 	}
 
 	return numberTypeDefinition->CreateInstance(vm, n);
