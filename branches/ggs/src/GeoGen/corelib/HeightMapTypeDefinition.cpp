@@ -1,3 +1,4 @@
+
 #include "HeightMapTypeDefinition.hpp"
 #include "../runtime/ManagedObject.hpp"
 

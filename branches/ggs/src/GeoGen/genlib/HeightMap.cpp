@@ -450,6 +450,11 @@ void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, He
 
 void HeightMap::Pattern(HeightMap* pattern, Rectangle repeatRectangle)
 {
+	if (repeatRectangle.GetSize().GetTotalLength() == 0)
+	{
+		return;
+	}
+
 	Rectangle physicalRepeatRect = Rectangle::Intersect(pattern->GetPhysicalRectangle(repeatRectangle), pattern->GetPhysicalRectangleUnscaled(pattern->GetRectangle()));
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 
