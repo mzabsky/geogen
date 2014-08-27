@@ -22,10 +22,14 @@ ManagedObject* RandomSequence2DCreateFunctionDefinition::CallNative(CodeLocation
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 0);
 
-	unsigned passedSeed = 0;
+	RandomSeed passedSeed = 0;
 	if (arguments.size() > 0)
 	{
-		passedSeed = (unsigned)NumberToInt(dynamic_cast<NumberObject*>(arguments[0])->GetValue());
+		passedSeed = (RandomSeed)NumberToInt(dynamic_cast<NumberObject*>(arguments[0])->GetValue());
+	}
+	else
+	{
+		passedSeed = (RandomSeed)vm->GetCommonRandomSequence().NextUInt();
 	}
 	
 	RandomSeed actualSeed = CombineSeeds(passedSeed, vm->GetArguments().GetRandomSeed(), CreateSeed(GG_STR("RandomSequence2D")));

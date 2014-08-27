@@ -109,7 +109,7 @@ namespace geogen
 
 			void CallFunction(CodeLocation location, FunctionDefinition const* functionDefintion, ManagedObject* instance, unsigned numberOfArguments);
 
-			random::RandomSequence& GetCommonRandoSequence() { return this->commonRandomSequence; }
+			random::RandomSequence& GetCommonRandomSequence() { return this->commonRandomSequence; }
 
 			void Run();
 
