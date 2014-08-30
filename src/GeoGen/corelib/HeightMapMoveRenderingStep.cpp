@@ -16,9 +16,10 @@ void HeightMapMoveRenderingStep::Step(Renderer* renderer) const
 	self->Move(this->offset);
 }
 
-Rectangle HeightMapMoveRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
+void HeightMapMoveRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	return argumentBounds - this->offset;
+	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
+		this->GetRenderingBounds(renderer) - this->offset);
 }
 
 void HeightMapMoveRenderingStep::SerializeArguments(IOStream& stream) const

@@ -17,9 +17,10 @@ void HeightMapBlurRenderingStep::Step(Renderer* renderer) const
 	self->Blur(this->radius);
 }
 
-Rectangle HeightMapBlurRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
+void HeightMapBlurRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	return Rectangle::Expand(argumentBounds, this->radius);
+	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
+		Rectangle::Expand(this->GetRenderingBounds(renderer), this->radius));
 }
 
 void HeightMapBlurRenderingStep::SerializeArguments(IOStream& stream) const

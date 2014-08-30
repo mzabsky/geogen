@@ -20,6 +20,8 @@ namespace geogen
 			virtual void Step(renderer::Renderer* renderer) const;
 
 			virtual void SerializeArguments(IOStream& stream) const;
+
+			virtual void UpdateRenderingBounds(renderer::Renderer* renderer, std::vector<renderer::RenderingBounds*> argumentBounds) const;
 		};
 	}
 }

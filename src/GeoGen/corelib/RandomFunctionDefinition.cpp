@@ -27,15 +27,15 @@ ManagedObject* RandomFunctionDefinition::CallNative(CodeLocation location, Virtu
 	Number n;
 	if (arguments.size() > 0)
 	{
-		Number min = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
-		Number max = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
+		Number minValue = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
+		Number maxValue = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
 
-		if (min > max)
+		if (minValue > maxValue)
 		{
 			throw MaxLessThanMinException(location);
 		}
 
-		n = vm->GetCommonRandomSequence().NextDouble() * (max - min) + min;
+		n = vm->GetCommonRandomSequence().NextDouble() * (maxValue - minValue) + minValue;
 	}
 	else 
 	{

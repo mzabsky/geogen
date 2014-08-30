@@ -503,25 +503,38 @@ void HeightMap::Shift(HeightProfile* profile, Size1D maximumDistance, Direction 
 	else throw InternalErrorException(GG_STR("Invalid direction."));
 
 	Rectangle contraction = Rectangle::Contract(this->rectangle, maximumDistance, direction);
-	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(Rectangle::Intersect(Rectangle::Contract(this->rectangle, maximumDistance), profileRect));
+	Rectangle logicalRect = Rectangle::Intersect(contraction, profileRect);
+	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(logicalRect);
+
+	Coordinate profileOffset;
+	if (direction == DIRECTION_HORIZONTAL)
+	{
+		profileOffset = logicalRect.GetPosition().GetY() - profile->GetStart();
+	}
+	else if (direction == DIRECTION_VERTICAL)
+	{
+		profileOffset = logicalRect.GetPosition().GetX() - profile->GetStart();
+	}
 
 	// Allocate the new array.
 	Height* newData = new Height[this->rectangle.GetSize().GetTotalLength()];
+	memset(newData, 0, sizeof(Height)* this->rectangle.GetSize().GetTotalLength());
 
 	double factor = maximumDistance / double(HEIGHT_MAX);
 
 	if (direction == DIRECTION_HORIZONTAL)
 	{
 		FOR_EACH_IN_RECT(x, y, physicalRect)
-		{
-			newData[x + this->GetWidth() * y] = (*this)(x - (*profile)(y) * factor, double(y));
+		{			
+			newData[x + this->GetWidth() * y] = (*this)(x - (*profile)(y + profileOffset) * factor, double(y));
 		}
 	}
 	else if (direction == DIRECTION_VERTICAL)
 	{
 		FOR_EACH_IN_RECT(x, y, physicalRect)
 		{
-			newData[x + this->GetWidth() * y] = (*this)(double(x), y - (*profile)(x)* factor);
+
+			newData[x + this->GetWidth() * y] = (*this)(double(x), y - (*profile)(x + profileOffset)* factor);
 		}
 	}
 

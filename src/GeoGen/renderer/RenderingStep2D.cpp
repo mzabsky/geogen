@@ -16,43 +16,30 @@ void RenderingStep2D::SetRenderingBounds(Renderer* renderer, Rectangle rectangle
 
 void RenderingStep2D::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	/*if (argumentBounds.size() == 0)
-	{
-		this->TriggerRenderingBoundsCalculationError("empty referencing steps list");
-	}*/
+	Rectangle thisRectangle = dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetRectangle();
 
-	Rectangle newRect;
 	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)
 	{
 		if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_1D)
 		{
-			RenderingBounds1D* current = dynamic_cast<RenderingBounds1D*>(*it);
-
-			//this->TriggerRenderingBoundsCalculationError("incompatible rendering step type");
-			newRect = Rectangle::Combine(newRect, Rectangle(Point(current->GetInterval().GetStart(), current->GetInterval().GetStart()), Size2D(current->GetInterval().GetLength(), current->GetInterval().GetLength())));
+			this->TriggerRenderingBoundsCalculationError("incorrect rendering step type");
 		}
 		else if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_2D)
 		{
 			RenderingBounds2D* current = dynamic_cast<RenderingBounds2D*>(*it);
-
-			if (it == argumentBounds.begin())
-			{
-				newRect = current->GetRectangle();
-			}
-			else
-			{
-				newRect = Rectangle::Combine(newRect, current->GetRectangle());
-			}
+			current->CombineRectangle(thisRectangle);
 		}
-		else throw InternalErrorException(GG_STR("Invalid rendering step type."));
+
+		else throw InternalErrorException(GG_STR("Invalid step type"));
 	}
-
-	Rectangle calculatedRect = this->CalculateRenderingBounds(renderer, newRect);
-
-	this->SetRenderingBounds(renderer, calculatedRect);
 }
 
-Rectangle RenderingStep2D::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
+Rectangle RenderingStep2D::GetRenderingBounds(Renderer* renderer) const
+{
+	return dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetRectangle();
+}
+
+/*Rectangle RenderingStep2D::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
 {
 	return argumentBounds;
-}
+}*/

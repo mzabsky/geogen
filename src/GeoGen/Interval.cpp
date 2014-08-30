@@ -17,7 +17,15 @@ Interval Interval::Combine(Interval a, Interval b)
 	Coordinate returnIntervalStart = a.GetStart();
 	Coordinate returnIntervalLength = a.GetLength();
 
-	if (b.GetStart() < a.GetStart())
+	if (a.GetLength() == 0)
+	{
+		returnIntervalStart = b.GetStart();
+		returnIntervalLength = b.GetLength();
+	}
+	else if (b.GetLength() == 0)
+	{
+	}
+	else if (b.GetStart() < a.GetStart())
 	{
 		returnIntervalLength += a.GetStart() - b.GetStart();
 		returnIntervalStart = b.GetStart();

@@ -5,6 +5,7 @@
 #include "../genlib/HeightMap.hpp"
 #include "../genlib/HeightProfile.hpp"
 #include "../renderer/RenderingBounds2D.hpp"
+#include "../renderer/RenderingBounds1D.hpp"
 
 using namespace geogen;
 using namespace renderer;
@@ -19,17 +20,17 @@ void HeightMapShiftRenderingStep::Step(Renderer* renderer) const
 	self->Shift(profile, this->maxDistance, this->direction);
 }
 
-Rectangle HeightMapShiftRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
+void HeightMapShiftRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	return Rectangle::Expand(argumentBounds, this->maxDistance);
-	/*if (this->direction == DIRECTION_HORIZONTAL)
-	{
-		return Rectangle(argumentBounds.GetPosition() - Point(this->maxDistance, 0), argumentBounds.GetSize() + Size2D(this->maxDistance * 2, 0));
-	}
-	else if (this->direction == DIRECTION_VERTICAL)
-	{
-		return Rectangle(argumentBounds.GetPosition() - Point(0, this->maxDistance), argumentBounds.GetSize() + Size2D(0, this->maxDistance * 2));
-	}*/
+	Rectangle thisRect = this->GetRenderingBounds(renderer);
+
+	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
+		Rectangle::Expand(this->GetRenderingBounds(renderer), this->maxDistance, this->direction));
+
+	dynamic_cast<RenderingBounds1D*>(argumentBounds[1])->CombineInterval(
+		Interval(
+		this->direction == DIRECTION_HORIZONTAL ? thisRect.GetPosition().GetX() : thisRect.GetPosition().GetY(),
+		this->direction == DIRECTION_HORIZONTAL ? thisRect.GetSize().GetWidth() : thisRect.GetSize().GetHeight()));
 }
 
 void HeightMapShiftRenderingStep::SerializeArguments(IOStream& stream) const

@@ -23,9 +23,12 @@ void YieldRenderingStep::Step(renderer::Renderer* renderer) const
 	}
 }
 
-Rectangle YieldRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
+void YieldRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	return Rectangle::Combine(this->rect, argumentBounds);
+	dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->CombineRectangle(this->rect);
+
+	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
+		this->GetRenderingBounds(renderer));
 }
 
 void YieldRenderingStep::SerializeArguments(IOStream& stream) const

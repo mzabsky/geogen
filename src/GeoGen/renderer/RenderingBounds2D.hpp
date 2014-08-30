@@ -17,6 +17,7 @@ namespace geogen
 
 			inline Rectangle GetRectangle() const { return this->rectangle; }
 			inline void SetRectangle(Rectangle rectangle) { this->rectangle = rectangle; }
+			inline void CombineRectangle(Rectangle rectangle) { this->rectangle = Rectangle::Combine(rectangle, this->rectangle); }
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_2D; };
 

@@ -101,6 +101,10 @@ namespace geogen
 			/// @return The rendered map table.
 			inline RenderedMapTable& GetRenderedMapTable() { return this->renderedMapTable; }
 
+			/// Gets rendering sequence graph.
+			/// @return The rendering graph.
+			inline RenderingGraph& GetRenderingGraph() { return this->graph; }
+
 			/// Calculates the rendering bounds for all steps in the RenderingSequence.
 			void CalculateRenderingBounds();
 

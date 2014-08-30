@@ -19,7 +19,7 @@ namespace geogen
 
 			virtual String GetName() const { return GG_STR("HeightMap.Shift"); };
 
-			virtual Rectangle CalculateRenderingBounds(renderer::Renderer* renderer, Rectangle argumentBounds) const;
+			virtual void UpdateRenderingBounds(renderer::Renderer* renderer, std::vector<renderer::RenderingBounds*> argumentBounds) const;
 
 			virtual void Step(renderer::Renderer* renderer) const;
 
