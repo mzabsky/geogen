@@ -8,6 +8,7 @@
 #include "loader_commands/HelpLoaderCommand.hpp"
 #include "loader_commands/LoadLoaderCommand.hpp"
 #include "loader_commands/MapSizeLoaderCommand.hpp"
+#include "loader_commands/ParameterLoaderCommand.hpp"
 #include "loader_commands/QuitLoaderCommand.hpp"
 #include "loader_commands/RandomSeedLoaderCommand.hpp"
 #include "loader_commands/ReloadLoaderCommand.hpp"
@@ -19,6 +20,7 @@ using namespace geogen;
 using namespace compiler;
 using namespace runtime;
 using namespace console;
+using namespace corelib;
 using namespace renderer;
 using namespace utils;
 using namespace std;
@@ -32,6 +34,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 	this->commandTable.AddCommand(new HelpLoaderCommand());
 	this->commandTable.AddCommand(new LoadLoaderCommand());
 	this->commandTable.AddCommand(new MapSizeLoaderCommand());
+	this->commandTable.AddCommand(new ParameterLoaderCommand());
 	this->commandTable.AddCommand(new QuitLoaderCommand());
 	this->commandTable.AddCommand(new RandomSeedLoaderCommand());
 	this->commandTable.AddCommand(new ReloadLoaderCommand());
@@ -160,5 +163,87 @@ ScriptParameters Loader::CreateScriptParameters()
 	params.SetRenderScale(this->GetRenderScale());
 	params.SetRandomSeed(random::RecognizeSeed(this->randomSeed));
 
+	for (ScriptParameters::iterator it = params.Begin(); it != params.End(); it++)
+	{
+		if (this->parameterValues.find(it->first) != this->parameterValues.end())
+		{
+			String stringValue = this->parameterValues[it->first];
+
+			if (it->second->GetType() == SCRIPT_PARAMETER_TYPE_BOOLEAN)
+			{
+				BooleanScriptParameter* boolParameter = dynamic_cast<BooleanScriptParameter*>(it->second);
+				if (stringValue == GG_STR("true") || stringValue == GG_STR("True") || stringValue == GG_STR("t") || stringValue == GG_STR("T") || stringValue == GG_STR("1") || stringValue == GG_STR("on") || stringValue == GG_STR("On") || stringValue == GG_STR("yes") || stringValue == GG_STR("Yes") || stringValue == GG_STR("y") || stringValue == GG_STR("Y"))
+				{
+					boolParameter->SetValue(true);
+				}
+				else if (stringValue == GG_STR("false") || stringValue == GG_STR("False")|| stringValue == GG_STR("f") || stringValue == GG_STR("F") || stringValue == GG_STR("0") || stringValue == GG_STR("off") || stringValue == GG_STR("Off") || stringValue == GG_STR("yes") || stringValue == GG_STR("Yes") || stringValue == GG_STR("y") || stringValue == GG_STR("Y"))
+				{
+					boolParameter->SetValue(true);
+				}
+				else
+				{
+					this->PrintScriptParameterWarning(it->first, stringValue, ScriptParameterTypeToString(it->second->GetType()));
+				}
+			}
+			else if (it->second->GetType() == SCRIPT_PARAMETER_TYPE_NUMBER)
+			{
+				Number numberValue;
+				StringStream numberStream(stringValue);
+				numberStream >> numberValue;
+				if (numberStream.fail())
+				{
+					this->PrintScriptParameterWarning(it->first, stringValue, ScriptParameterTypeToString(it->second->GetType()));
+				}
+
+				NumberScriptParameter* numberParameter = dynamic_cast<NumberScriptParameter*>(it->second);
+				numberParameter->SetValue(numberValue);
+			}
+			else if (it->second->GetType() == SCRIPT_PARAMETER_TYPE_ENUM)
+			{
+				EnumScriptParameter* enumParameter = dynamic_cast<EnumScriptParameter*>(it->second);
+
+				Number numberValue;
+				StringStream numberStream(stringValue);
+				numberStream >> numberValue;
+				int intValue = NumberToInt(numberValue);
+				if (!numberStream.fail())
+				{
+					bool found = false;
+					for (EnumTypeDefinition::ValueDefinitions::const_iterator it2 = enumParameter->GetEnumType()->GetValueDefinitions().begin(); it2 != enumParameter->GetEnumType()->GetValueDefinitions().end(); it2++)
+					{
+						if (it2->second == intValue){
+							found = true;
+							enumParameter->SetValue(intValue);
+						}
+					}
+
+					if (!found)
+					{
+						this->PrintScriptParameterWarning(it->first, stringValue, enumParameter->GetEnumType()->GetName());
+					}
+				}
+				else
+				{
+					EnumTypeDefinition::ValueDefinitions::const_iterator it2 = enumParameter->GetEnumType()->GetValueDefinitions().find(stringValue);
+
+					if (it2 == enumParameter->GetEnumType()->GetValueDefinitions().end())
+					{
+						this->PrintScriptParameterWarning(it->first, stringValue, enumParameter->GetEnumType()->GetName());
+					}
+					else 
+					{
+						enumParameter->SetValue(it2->second);
+					}
+				}
+			}
+			else throw InternalErrorException(GG_STR("Invalid ScriptParameterType."));
+		}
+	}
+
 	return params;
+}
+
+void Loader::PrintScriptParameterWarning(String name, String value, String type)
+{
+	this->GetOut() << GG_STR("WARNING: Value \"") << value << GG_STR("\" of script parameter \"") << name << GG_STR("\" could not be parsed as type ") << type << GG_STR(".") << std::endl;
 }

@@ -2,6 +2,7 @@
 
 #include "../Serializable.hpp"
 #include "../String.hpp"
+#include "../InternalErrorException.hpp"
 
 namespace geogen
 {
@@ -36,5 +37,17 @@ namespace geogen
 
 			virtual void Serialize(IOStream& stream) const = 0;
 		};
+
+		static inline String ScriptParameterTypeToString(ScriptParameterType dimensions)
+		{
+			switch (dimensions)
+			{
+			case SCRIPT_PARAMETER_TYPE_NUMBER: return GG_STR("Number");
+			case SCRIPT_PARAMETER_TYPE_BOOLEAN: return GG_STR("Boolean");
+			case SCRIPT_PARAMETER_TYPE_ENUM: return GG_STR("Enum");
+			default:
+				throw InternalErrorException(GG_STR("Invalid ScriptParameterType."));
+			}
+		}
 	}
 }

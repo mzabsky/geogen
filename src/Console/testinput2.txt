@@ -1,7 +1,13 @@
 metadata
 {
 	Width: Finite,
-	Height: Finite
+	Height: Finite,
+	Parameters:
+	{
+		TestNumber: { Type: Number },
+		TestBoolean: { Type: Boolean },
+		TestEnum: { Type: Direction }
+	}
 }
 
 var riverProfile = HeightProfile.FromArray(
