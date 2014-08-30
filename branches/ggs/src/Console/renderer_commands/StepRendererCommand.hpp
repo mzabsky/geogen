@@ -26,14 +26,17 @@ namespace geogen
 
 				virtual void Run(RendererDebugger* debugger, String arguments) const
 				{
-					debugger->GetOut() << GG_STR("Step") << std::endl << std::endl;
+					debugger->GetOut() << GG_STR("Step") << std::endl;
+					debugger->GetOut() << GG_STR("Executed in ") << debugger->GetLastStepTime() << GG_STR(" seconds.") << std::endl;
 					debugger->Step();
 
 					renderer::RenderingStep const* currentStep = debugger->GetRenderer()->GetNextRenderingStep();
 					if (currentStep != NULL)
 					{
-						debugger->GetOut() << std::endl << GG_STR("Next step: ") << (currentStep->ToString()) << GG_STR(" on line ") << currentStep->GetLocation().GetLine() << GG_STR(", column ") << currentStep->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
+						debugger->GetOut() << std::endl << GG_STR("Next step: ") << (currentStep->ToString()) << GG_STR(" on line ") << currentStep->GetLocation().GetLine() << GG_STR(", column ") << currentStep->GetLocation().GetColumn() << GG_STR(". ") << std::endl;
 					}					
+
+					debugger->GetOut() << std::endl;
 				}
 			};
 		}

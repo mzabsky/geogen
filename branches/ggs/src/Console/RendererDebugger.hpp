@@ -23,6 +23,8 @@ namespace geogen
 
 			unsigned currentStepNumber = 0;
 
+			double lastStepTime = 0;
+
 			// Non-copyable
 			RendererDebugger(RendererDebugger const&) : renderer(*(renderer::RenderingSequence*)NULL), in(Cin), out(Cout) {};
 			RendererDebugger& operator=(RendererDebugger const&) {};
@@ -41,6 +43,8 @@ namespace geogen
 
 			inline void SetAutosave(bool autosave) { this->autosave = autosave; }
 			inline bool GetAutosave() const { return this->autosave; }
+
+			inline double GetLastStepTime() const { return this->lastStepTime; }
 
 			void Run();
 

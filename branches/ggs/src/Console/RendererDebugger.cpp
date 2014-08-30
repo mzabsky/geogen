@@ -1,4 +1,5 @@
 #include <iomanip>
+#include <time.h>
 
 #include "RendererDebugger.hpp"
 #include "../GeoGen/utils/StringUtils.hpp"
@@ -92,7 +93,11 @@ void RendererDebugger::Step()
 {
 	RenderingStep const* step = this->GetRenderer()->GetNextRenderingStep();
 
+	clock_t startTime = clock();
+
 	this->renderer.Step();
+
+	this->lastStepTime = (double)(clock() - startTime) / (double)CLOCKS_PER_SEC;
 
 	if (this->autosave)
 	{
