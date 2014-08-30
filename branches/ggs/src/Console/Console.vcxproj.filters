@@ -61,5 +61,6 @@
     <ClInclude Include="loader_commands\RandomSeedLoaderCommand.hpp" />
     <ClInclude Include="renderer_commands\AutosaveRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RenderingSequenceGraphRendererCommand.hpp" />
+    <ClInclude Include="loader_commands\ParameterLoaderCommand.hpp" />
   </ItemGroup>
 </Project>

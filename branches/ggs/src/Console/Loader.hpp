@@ -33,6 +33,8 @@ namespace geogen
 			Scale renderScale;
 
 			String randomSeed;
+
+			std::map<String, String> parameterValues;
 		public:
 			Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments parameters);
 			~Loader() { if (compiledScript != NULL) delete compiledScript; };
@@ -77,10 +79,14 @@ namespace geogen
 			inline String GetRandomSeed() const { return this->randomSeed; }
 			inline void SetRandomSeed(String randomSeed) { this->randomSeed = randomSeed; }
 
+			inline std::map<String, String>& GetParameterValues() { return this->parameterValues; }
+
 			geogen::runtime::ScriptParameters CreateScriptParameters();
 
 			void Run();
 			void SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps);
+
+			void PrintScriptParameterWarning(String name, String value, String type);
 		};
 	}
 }
