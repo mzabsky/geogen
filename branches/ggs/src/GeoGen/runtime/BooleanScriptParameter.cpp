@@ -44,9 +44,10 @@ ScriptParameter* BooleanScriptParameter::Clone() const
 
 void BooleanScriptParameter::Serialize(IOStream& stream) const
 {
-	stream << "Name: " << this->name << endl;
-	stream << "Label: " << this->label << endl;
-	stream << "Description: " << this->description << endl;
-	stream << "DefaultValue: " << this->defaultValue << endl;
-	stream << "Value: " << this->value << endl;
+	stream << GG_STR("Type: Boolean") << endl;
+	stream << GG_STR("Name: ") << this->name << endl;
+	stream << GG_STR("Label: ") << this->label << endl;
+	stream << GG_STR("Description: ") << this->description << endl;
+	stream << GG_STR("DefaultValue: ") << this->defaultValue << endl;
+	stream << GG_STR("Value: ") << this->value << endl;
 }

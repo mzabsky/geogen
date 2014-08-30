@@ -122,6 +122,7 @@ void ScriptParameters::Serialize(IOStream& stream) const
 
 	for (const_iterator it = this->Begin(); it != this->End(); it++)
 	{		
-		it->second->SerializeWithTabs(stream, 1);
+		stream << GG_STR("\t") << it->first << GG_STR(":") << endl;
+		it->second->SerializeWithTabs(stream, 2);
 	}
 }
