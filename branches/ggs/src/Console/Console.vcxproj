@@ -94,6 +94,7 @@
     <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
     <ClInclude Include="renderer_commands\AutosaveRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />
+    <ClInclude Include="renderer_commands\RenderingSequenceGraphRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\SaveRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />

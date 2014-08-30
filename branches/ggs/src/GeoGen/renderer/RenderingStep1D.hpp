@@ -22,7 +22,7 @@ namespace geogen
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
 
 			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const;
-			virtual Interval CalculateRenderingBounds(Renderer* renderer, Interval argumentBounds) const;
+			Interval GetRenderingBounds(Renderer* renderer) const;
 		};
 	}
 }

@@ -17,7 +17,7 @@ namespace geogen {
 
 		inline Size2D Size2D::operator+(const Size2D& other) const
 		{
-			return Size2D(this->width + other.GetWidth(), this->width + other.GetHeight());
+			return Size2D(this->width + other.GetWidth(), this->height + other.GetHeight());
 		}
 
 		Size2D& Size2D::operator+=(const Size2D& other)
@@ -28,7 +28,7 @@ namespace geogen {
 
 		inline Size2D Size2D::operator-(const Size2D& other) const
 		{
-			return Size2D(this->width - other.GetWidth(), this->width - other.GetHeight());
+			return Size2D(this->width - other.GetWidth(), this->height - other.GetHeight());
 		}
 
 		Size2D& Size2D::operator-=(const Size2D& other)
@@ -39,7 +39,7 @@ namespace geogen {
 
 		inline Size2D Size2D::operator*(const double other) const
 		{
-			return Size2D((Size1D)(this->width * other), (Size1D)(this->width * other));
+			return Size2D((Size1D)(this->width * other), (Size1D)(this->height * other));
 		}
 
 		Size2D& Size2D::operator*=(const double other)

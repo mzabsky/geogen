@@ -17,9 +17,14 @@ void HeightMapRescaleRenderingStep::Step(Renderer* renderer) const
 	self->Rescale(this->horizontalScale, this->verticalScale);
 }
 
-Rectangle HeightMapRescaleRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
-{	 
-	return Rectangle(Point(RoundAway(argumentBounds.GetPosition().GetX() / this->horizontalScale), RoundAway(argumentBounds.GetPosition().GetY() / this->verticalScale)), Size2D(argumentBounds.GetSize().GetWidth() / this->horizontalScale, argumentBounds.GetSize().GetHeight() / this->verticalScale));
+void HeightMapRescaleRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
+{
+	Rectangle thisRect = this->GetRenderingBounds(renderer);
+
+	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
+		Rectangle(
+			Point(RoundAway(thisRect.GetPosition().GetX() / this->horizontalScale), RoundAway(thisRect.GetPosition().GetY() / this->verticalScale)),
+			Size2D(RoundAway(thisRect.GetSize().GetWidth() / this->horizontalScale), RoundAway(thisRect.GetSize().GetHeight() / this->verticalScale))));
 }
 
 void HeightMapRescaleRenderingStep::SerializeArguments(IOStream& stream) const

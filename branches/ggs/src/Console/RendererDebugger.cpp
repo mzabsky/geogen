@@ -8,6 +8,7 @@
 #include "renderer_commands/ObjectTableRendererCommand.hpp"
 #include "renderer_commands/QuitRendererCommand.hpp"
 #include "renderer_commands/RenderingSequenceRendererCommand.hpp"
+#include "renderer_commands/RenderingSequenceGraphRendererCommand.hpp"
 #include "renderer_commands/RenderingSequenceMetadataRendererCommand.hpp"
 #include "renderer_commands/RunRendererCommand.hpp"
 #include "renderer_commands/SaveRendererCommand.hpp"
@@ -32,6 +33,7 @@ RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, re
 	this->commandTable.AddCommand(new QuitRendererCommand());
 	this->commandTable.AddCommand(new ObjectTableRendererCommand());
 	this->commandTable.AddCommand(new RenderingSequenceRendererCommand());
+	this->commandTable.AddCommand(new RenderingSequenceGraphRendererCommand());
 	this->commandTable.AddCommand(new RenderingSequenceMetadataRendererCommand());
 	this->commandTable.AddCommand(new RunRendererCommand());
 	this->commandTable.AddCommand(new SaveRendererCommand());

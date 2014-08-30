@@ -5,6 +5,7 @@
 #include "../genlib/HeightProfile.hpp"
 #include "../genlib/HeightMap.hpp"
 #include "../renderer/RenderingBounds1D.hpp"
+#include "../renderer/RenderingBounds2D.hpp"
 
 using namespace geogen;
 using namespace renderer;
@@ -21,37 +22,15 @@ void HeightProfileSliceRenderingStep::Step(Renderer* renderer) const
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
 
-/*void RenderingStep1D::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
+void HeightProfileSliceRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
+	Interval thisInterval = this->GetRenderingBounds(renderer);
 
-	Interval newInterval;
-	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)
-	{
-		if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_1D)
-		{
-			RenderingBounds1D* current = dynamic_cast<RenderingBounds1D*>(*it);
-
-			newInterval = Interval::Combine(newInterval, current->GetInterval());
-		}
-		else if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_2D)
-		{
-			RenderingBounds2D* current = dynamic_cast<RenderingBounds2D*>(*it);
-
-			newInterval =
-				Interval::Combine(
-				newInterval,
-				Interval::Combine(
-				Interval::FromRectangle(current->GetRectangle(), DIRECTION_HORIZONTAL),
-				Interval::FromRectangle(current->GetRectangle(), DIRECTION_VERTICAL)));
-		}
-
-		else throw InternalErrorException(GG_STR("Invalid step type"));
-	}
-
-	Interval calculatedInterval = this->CalculateRenderingBounds(renderer, newInterval);
-
-	this->SetRenderingBounds(renderer, calculatedInterval);
-}*/
+	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
+		this->direction == DIRECTION_HORIZONTAL ?
+		Rectangle(Point(thisInterval.GetStart(), this->coordinate), Size2D(thisInterval.GetLength(), 1)) :
+		Rectangle(Point(this->coordinate, thisInterval.GetStart()), Size2D(1, thisInterval.GetLength())));
+}
 
 void HeightProfileSliceRenderingStep::SerializeArguments(IOStream& stream) const
 {

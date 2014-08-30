@@ -20,6 +20,12 @@ void HeightProfilePatternRenderingStep::Step(Renderer* renderer) const
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
 
+void HeightProfilePatternRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
+{
+	dynamic_cast<RenderingBounds1D*>(argumentBounds[0])->CombineInterval(
+		this->repeatInterval);
+}
+
 void HeightProfilePatternRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	this->repeatInterval.Serialize(stream);

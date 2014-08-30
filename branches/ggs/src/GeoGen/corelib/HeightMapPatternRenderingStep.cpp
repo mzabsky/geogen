@@ -22,6 +22,12 @@ void HeightMapPatternRenderingStep::Step(Renderer* renderer) const
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
 
+void HeightMapPatternRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
+{
+	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
+		this->repeatRectangle);
+}
+
 void HeightMapPatternRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	this->repeatRectangle.Serialize(stream);

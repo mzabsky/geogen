@@ -4,6 +4,7 @@
 #include "HeightProfileTypeDefinition.hpp"
 #include "HeightProfileRescaleRenderingStep.hpp"
 #include "NumberTypeDefinition.hpp"
+#include "../renderer/RenderingBounds1D.hpp"
 
 using namespace std;
 using namespace geogen;

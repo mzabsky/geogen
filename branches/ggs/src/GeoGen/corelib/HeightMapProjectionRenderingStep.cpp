@@ -29,27 +29,13 @@ void HeightMapProjectionRenderingStep::SerializeArguments(IOStream& stream) cons
 	stream << DirectionToString(this->direction);
 }
 
-/*void HeightMapProjectionRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
+void HeightMapProjectionRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	Interval newInterval;
-	for (std::vector<RenderingBounds*>::iterator it = argumentBounds.begin(); it != argumentBounds.end(); it++)
-	{
-		if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_1D)
-		{
-			RenderingBounds1D* current = dynamic_cast<RenderingBounds1D*>(*it);
+	Point thisPosition = this->GetRenderingBounds(renderer).GetPosition();
+	Size2D thisSize = this->GetRenderingBounds(renderer).GetSize();
 
-			newInterval = Interval::Combine(newInterval, current->GetInterval());
-		}
-		else if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_2D)
-		{
-			RenderingBounds2D* current = dynamic_cast<RenderingBounds1D*>(*it);
-
-			newInterval = Interval::Combine(newInterval, current->GetInterval());
-		}
-		else throw InternalErrorException(GG_STR("Invalid rendering step type."))
-	}
-
-	Interval calculatedInterval = this->CalculateRenderingBounds(renderer, newInterval);
-
-	this->SetRenderingBounds(renderer, calculatedInterval);
-}*/
+	dynamic_cast<RenderingBounds1D*>(argumentBounds[0])->CombineInterval(
+		Interval(
+			this->direction == DIRECTION_HORIZONTAL ? thisPosition.GetY() : thisPosition.GetX(),
+			this->direction == DIRECTION_HORIZONTAL ? thisSize.GetHeight() : thisSize.GetWidth()));
+}

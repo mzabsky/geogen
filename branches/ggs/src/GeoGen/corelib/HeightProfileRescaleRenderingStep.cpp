@@ -3,7 +3,7 @@
 #include "../renderer/RendererObject.hpp"
 #include "../InternalErrorException.hpp"
 #include "../genlib/HeightProfile.hpp"
-#include "../renderer/RenderingBounds2D.hpp"
+#include "../renderer/RenderingBounds1D.hpp"
 
 using namespace geogen;
 using namespace renderer;
@@ -16,12 +16,17 @@ void HeightProfileRescaleRenderingStep::Step(Renderer* renderer) const
 	self->Rescale(this->scale);
 }
 
+void HeightProfileRescaleRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
+{
+	Interval thisInterval = this->GetRenderingBounds(renderer);
+
+	dynamic_cast<RenderingBounds1D*>(argumentBounds[0])->CombineInterval(
+		Interval(
+		(Coordinate)RoundAway(thisInterval.GetStart() / this->scale),
+		(Size1D)RoundAway(thisInterval.GetLength() / this->scale)));
+}
+
 void HeightProfileRescaleRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->scale;
-}
-
-Interval HeightProfileRescaleRenderingStep::CalculateRenderingBounds(Renderer* renderer, Interval argumentBounds) const
-{
-	return Interval(RoundAway(argumentBounds.GetStart() / this->scale), Size1D(argumentBounds.GetLength() / this->scale));
 }

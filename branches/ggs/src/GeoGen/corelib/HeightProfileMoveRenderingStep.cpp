@@ -3,7 +3,7 @@
 #include "../renderer/RendererObject.hpp"
 #include "../InternalErrorException.hpp"
 #include "../genlib/HeightProfile.hpp"
-#include "../renderer/RenderingBounds2D.hpp"
+#include "../renderer/RenderingBounds1D.hpp"
 
 using namespace geogen;
 using namespace renderer;
@@ -16,9 +16,10 @@ void HeightProfileMoveRenderingStep::Step(Renderer* renderer) const
 	self->Move(this->offset);
 }
 
-Interval HeightProfileMoveRenderingStep::CalculateRenderingBounds(Renderer* renderer, Interval argumentBounds) const
+void HeightProfileMoveRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
-	return argumentBounds - this->offset;
+	dynamic_cast<RenderingBounds1D*>(argumentBounds[0])->CombineInterval(
+		this->GetRenderingBounds(renderer) - this->offset);
 }
 
 void HeightProfileMoveRenderingStep::SerializeArguments(IOStream& stream) const
