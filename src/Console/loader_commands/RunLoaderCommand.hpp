@@ -37,6 +37,9 @@ namespace geogen
 						return;
 					}
 
+
+					clock_t startTime = clock();
+
 					loader->GetOut() << "Runnning script." << std::endl;
 
 					runtime::VirtualMachine vm(*loader->GetCompiledScript(), loader->CreateScriptParameters());
@@ -52,7 +55,9 @@ namespace geogen
 
 					loader->SaveRenderedMaps(renderer.GetRenderedMapTable());
 
-					loader->GetOut() << "Finished." << std::endl << std::endl;
+					double seconds = (double)(clock() - startTime) / (double)CLOCKS_PER_SEC;
+
+					loader->GetOut() << "Finished in " << seconds << " seconds." << std::endl << std::endl;
 				}
 			};
 		}
