@@ -7,6 +7,7 @@
 #include "../utils/OwningMap.hpp"
 #include "../random/RandomSeed.hpp"
 #include "../Serializable.hpp"
+#include "../Rectangle.hpp"
 #include "../Point.hpp"
 
 namespace geogen
@@ -219,6 +220,16 @@ namespace geogen
 			/// Sets height of the render.
 			/// @param renderHeight Height of the render.
 			inline void SetRenderHeight(unsigned renderHeight) { this->renderHeight = renderHeight; };
+
+			/// Sets the render rectangle.
+			/// @param renderRect The render rectangle.
+			inline void SetRenderRectangle(Rectangle renderRectangle) 
+			{ 
+				this->SetRenderOriginX(renderRectangle.GetPosition().GetX());
+				this->SetRenderOriginY(renderRectangle.GetPosition().GetY());
+				this->SetRenderWidth(renderRectangle.GetSize().GetWidth());
+				this->SetRenderHeight(renderRectangle.GetSize().GetHeight());
+			};
 
 			/// Gets scale of the render.
 			/// @return Scale of the render.

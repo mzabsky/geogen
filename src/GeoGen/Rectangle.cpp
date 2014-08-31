@@ -68,6 +68,16 @@ namespace geogen
 
 	Rectangle Rectangle::Intersect(Rectangle a, Rectangle b)
 	{
+		return Rectangle(
+			Point(
+				std::max(a.GetPosition().GetX(), b.GetPosition().GetX()),
+				std::max(a.GetPosition().GetY(), b.GetPosition().GetY())),
+			Size2D(
+				Size1D(std::max((long long)0, std::min((long long)a.GetEndingPoint().GetX(), (long long)b.GetEndingPoint().GetX()) - std::max((long long)a.GetPosition().GetX(), (long long)b.GetPosition().GetX()))),
+				Size1D(std::max((long long)0, std::min((long long)a.GetEndingPoint().GetY(), (long long)b.GetEndingPoint().GetY()) - std::max((long long)a.GetPosition().GetY(), (long long)b.GetPosition().GetY()))))
+			);
+
+		/*
 		Coordinate returnRectX = a.GetPosition().GetX();
 		Size1D returnRectWidth = a.GetSize().GetWidth();
 		Coordinate returnRectY = a.GetPosition().GetY();
@@ -95,7 +105,7 @@ namespace geogen
 			returnRectHeight = b.GetSize().GetHeight();
 		}
 
-		return Rectangle(Point(returnRectX, returnRectY), Size2D(returnRectWidth, returnRectHeight));
+		return Rectangle(Point(returnRectX, returnRectY), Size2D(returnRectWidth, returnRectHeight));*/
 	}
 
 	Rectangle Rectangle::Expand(Rectangle a, Size1D size)

@@ -87,7 +87,7 @@ namespace geogen
 							return false;
 						}
 
-						StringStream heightParseStream(arg1);
+						StringStream heightParseStream(arg2);
 						heightParseStream >> height;
 
 						if (heightParseStream.fail())
@@ -197,9 +197,11 @@ namespace geogen
 
 						loader->GetOut() << GG_STR("Tile ") << currentOrigin.ToString() << GG_STR(": Runnning script.") << std::endl;
 
+						Rectangle renderRectangle(currentOrigin, actualTileSize);
+						Rectangle actualRenderRectangle = Rectangle::Intersect(renderRectangle, bounds);
+
 						ScriptParameters scriptParameters = loader->CreateScriptParameters();
-						scriptParameters.SetRenderOriginX(x);
-						scriptParameters.SetRenderOriginY(y);
+						scriptParameters.SetRenderRectangle(actualRenderRectangle);
 						runtime::VirtualMachine vm(*loader->GetCompiledScript(), scriptParameters);
 						vm.Run();
 
