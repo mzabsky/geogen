@@ -63,5 +63,6 @@
     <ClInclude Include="renderer_commands\RenderingSequenceGraphRendererCommand.hpp" />
     <ClInclude Include="loader_commands\ParameterLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\RenderOriginLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\GenTilesLoaderCommand.hpp" />
   </ItemGroup>
 </Project>

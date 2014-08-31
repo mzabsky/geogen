@@ -6,6 +6,7 @@
 #include "ConsoleUtils.hpp"
 #include "ImageWriter.hpp"
 #include "loader_commands/DebugLoaderCommand.hpp"
+#include "loader_commands/GenTilesLoaderCommand.hpp"
 #include "loader_commands/HelpLoaderCommand.hpp"
 #include "loader_commands/LoadLoaderCommand.hpp"
 #include "loader_commands/MapSizeLoaderCommand.hpp"
@@ -33,6 +34,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 : currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out), randomSeed(programArguments.seed), renderOrigin(0, 0), renderSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), mapSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), renderScale(1), isInteractive(!programArguments.isNonInteractive)
 {
 	this->commandTable.AddCommand(new DebugLoaderCommand());
+	this->commandTable.AddCommand(new GenTilesLoaderCommand());
 	this->commandTable.AddCommand(new HelpLoaderCommand());
 	this->commandTable.AddCommand(new LoadLoaderCommand());
 	this->commandTable.AddCommand(new MapSizeLoaderCommand());
@@ -159,12 +161,12 @@ void Loader::Run()
 	}
 }
 
-void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps)
+void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String prefix)
 {
 	for (RenderedMapTable::iterator it = renderedMaps.Begin(); it != renderedMaps.End(); it++)
 	{
 		stringstream ss;
-		ss << this->outputDirectory << GG_STR("/") << StringToAscii(it->first) << GG_STR(".png");
+		ss << this->outputDirectory << GG_STR("/") << prefix << StringToAscii(it->first) << GG_STR(".png");
 
 		bool success = true;
 		try
