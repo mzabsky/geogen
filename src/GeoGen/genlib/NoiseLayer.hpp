@@ -17,6 +17,9 @@ namespace geogen
 			NoiseLayer(unsigned waveLength, unsigned amplitude) : waveLength(waveLength), amplitude(amplitude) {};
 			NoiseLayer(NoiseLayer const& other) { this->waveLength = other.waveLength; this->amplitude = other.amplitude; }
 			NoiseLayer& operator=(NoiseLayer& other) { this->waveLength = other.waveLength; this->amplitude = other.amplitude; return *this; }
+
+			inline unsigned GetWaveLength() const { return this->waveLength; }
+			inline unsigned GetAmplitude() const { return this->amplitude; }
 		};
 	}
 }

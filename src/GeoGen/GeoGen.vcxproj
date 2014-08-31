@@ -195,6 +195,8 @@
     <ClInclude Include="corelib\HeightProfileMultiplyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileMultiplyProfileRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileMultiplyRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileNoiseFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileNoiseRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfilePatternFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfilePatternRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileRescaleFunctionDefinition.hpp" />
@@ -459,6 +461,8 @@
     <ClCompile Include="corelib\HeightProfileMultiplyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileMultiplyProfileRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileMultiplyRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileNoiseFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileNoiseRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfilePatternFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfilePatternRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileRescaleFunctionDefinition.cpp" />

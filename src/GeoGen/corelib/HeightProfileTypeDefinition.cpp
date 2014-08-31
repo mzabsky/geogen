@@ -19,6 +19,7 @@
 #include "HeightProfileFlatFunctionDefinition.hpp"
 #include "HeightProfileFromArrayFunctionDefinition.hpp"
 #include "HeightProfileGradientFunctionDefinition.hpp"
+#include "HeightProfileNoiseFunctionDefinition.hpp"
 #include "HeightProfilePatternFunctionDefinition.hpp"
 #include "HeightProfileSliceFunctionDefinition.hpp"
 
@@ -47,6 +48,7 @@ HeightProfileTypeDefinition::HeightProfileTypeDefinition() : RendererTypeDefinit
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFlatFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileFromArrayFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileGradientFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileNoiseFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfilePatternFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightProfileSliceFunctionDefinition(this));
 }

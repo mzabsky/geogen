@@ -1,47 +1,41 @@
-			/*var profile = HeightProfile.Flat(0.5);
-			var profile2 = HeightProfile.Flat(0.1);
-			profile.Add(profile2);*/
+metadata
+{
+	Width: Finite,
+	Height: Finite,
+	Parameters:
+	{
+		TestNumber: { Type: Number },
+		TestBoolean: { Type: Boolean },
+		TestEnum: { Type: Direction }
+	}
+}
 
-			/*var array = Array.Empty();
-			array[@0.4] = 0.8;
-			array[@0.45] = 0;
-			array[@0.55] = 0;
-			array[@0.6] = 0.8;*/
-			var array = 
-			{
-				@0.4: 0.8,
-				@0.45: 0,
-				@0.55: 0,
-				@0.6: 0
-			};
+var riverProfile = HeightProfile.FromArray(
+{
+	@0.4: 0.8,
+	@0.45: 0,
+	@0.55: 0,
+	@0.6: 0.8
+}, Direction.Vertical);
 
-			var profile = HeightProfile.FromArray(array, Direction.Horizontal);
+//riverProfile = HeightProfile.Pattern(riverProfile, Parameters.MapWidth * 0.4, Parameters.MapWidth * 0.2);
 
-			//var sequence = RandomSequence2D.Create(5324);
-			//sequence.Advance();
-			//TriggerError("{0} {1} {2} {3}", sequence.GetNumber([0, 0], 5, 20), sequence.GetNumber([1, 1], 5, 20), sequence.GetNumber([1, 0], 5, 20), sequence.GetNumber([0, 1], 5, 20));
-			
-			var heightMap = HeightMap.Projection(profile, Direction.Vertical);
+var coastProfile = HeightProfile.FromArray(
+{
+	@0.2: -0.5,
+	@0.5: 0.8
+}, Direction.Horizontal);
 
-			yield heightMap as "projection";
+var river = HeightMap.Projection(riverProfile, Direction.Horizontal);
+var coast = HeightMap.Projection(coastProfile, Direction.Vertical);
 
-			//var heightMap = HeightMap.RadialGradient([250, 250], 100, 1.0, 0.0);
-			var clone = HeightMap.Clone(heightMap);
-			clone.Move([300, 300]);
+var main = river.Intersect(coast);
 
-			heightMap.Blur(20);
+main.Shift(riverProfile, 200, Direction.Vertical);
 
-			//heightMap.ClampHeights(0.2, 0.1);
+var slice = HeightProfile.Slice(main, Direction.Vertical, @0.7);
+yield HeightMap.Projection(slice, Direction.Horizontal) as "slice";
 
-			yield heightMap as "prescale";
-			heightMap.Rescale(0.5);
+main = HeightMap.Pattern(main, @[0.3, 0.3], @[0.3, 0.3]);
 
-			yield heightMap as "postscale";
-			yield clone as "clone";
-
-			heightMap.Unify(clone);
-
-			var gradient = HeightMap.Gradient([100, 100], [900, 900], 0, 1);
-			heightMap.Unify(gradient);
-
-			yield heightMap;
+yield main;
