@@ -23,7 +23,7 @@ RendererStepResult Renderer::Step()
 
 	(*this->nextStep)->Step(this);
 
-	// Release objects that won't be required by any other steps
+	// Release objects that won't be required by any future steps
 	vector<unsigned> const& objectsToRelease = this->GetRenderingSequenceMetadata().GetObjectIndexesToRelease(*this->nextStep);
 	for (vector<unsigned>::const_iterator it = objectsToRelease.begin(); it != objectsToRelease.end(); it++)
 	{
@@ -57,23 +57,8 @@ void Renderer::CalculateMetadata()
 
 void Renderer::CalculateRenderingBounds()
 {
-	vector<RenderingBounds*> renderingBoundsBySlot(this->renderingSequence.GetRequiredObjectTableSize(), NULL);
-	map<RenderingStep*, RenderingBounds*> argumentBounds;
-
 	for (RenderingSequence::const_reverse_iterator it = this->renderingSequence.RBegin(); it != this->renderingSequence.REnd(); it++)
 	{
-		if (renderingBoundsBySlot[(*it)->GetReturnSlot()] == NULL)
-		{
-			renderingBoundsBySlot[(*it)->GetReturnSlot()] = this->GetRenderingSequenceMetadata().GetRenderingBounds(*it);
-		}
-	}
-
-	//return;
-
-	for (RenderingSequence::const_reverse_iterator it = this->renderingSequence.RBegin(); it != this->renderingSequence.REnd(); it++)
-	{
-		String name = (*it)->GetName();
-
 		vector<RenderingBounds*> argumentBounds;
 		RenderingGraphNode* node = this->graph.GetNodeByStep(*it);
 		for (RenderingGraphNode::iterator it2 = node->BackBegin(); it2 != node->BackEnd(); it2++)
@@ -81,22 +66,7 @@ void Renderer::CalculateRenderingBounds()
 			argumentBounds.push_back(this->GetRenderingSequenceMetadata().GetRenderingBounds((*it2)->GetStep()));
 		}
 
-		/*if (renderingBoundsBySlot[(*it)->GetReturnSlot()] == NULL)
-		{
-			renderingBoundsBySlot[(*it)->GetReturnSlot()] = this->GetRenderingSequenceMetadata().GetRenderingBounds(*it);
-		}*/
-
-		//unsigned i = 0;
-		/*for (std::vector<unsigned>::const_iterator it2 = (*it)->GetArgumentSlots().begin(); it2 != (*it)->GetArgumentSlots().end(); it2++)
-		{
-			argumentBounds.push_back(renderingBoundsBySlot[*it2]);
-
-			//i++;
-		}*/
-
 		(*it)->UpdateRenderingBounds(this, argumentBounds);
-
-		renderingBoundsBySlot[(*it)->GetReturnSlot()] = this->GetRenderingSequenceMetadata().GetRenderingBounds(*it);
 	}
 }
 
