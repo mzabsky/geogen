@@ -180,6 +180,11 @@ namespace geogen
 						return;
 					}
 
+					ScriptParameters scriptParameters = loader->CreateScriptParameters();
+					Rectangle mapRectangle(Point(0, 0), Size2D(scriptParameters.GetMapWidth(), scriptParameters.GetMapHeight()));
+
+					bounds = Rectangle::Intersect(mapRectangle, bounds);
+
 					clock_t totalStartTime = clock();
 
 					Size2D actualTileSize(
