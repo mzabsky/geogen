@@ -99,6 +99,8 @@ void Loader::Run()
 							dumpFileName = "dump.txt";
 						}
 
+						dumpFileName = this->outputDirectory + GG_STR("/") + dumpFileName;
+
 						OFStream dumpStream(dumpFileName);
 						dumpStream << this->GetDump();
 						dumpStream.flush();

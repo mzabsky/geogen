@@ -20,6 +20,8 @@ namespace geogen
 			IStream& in;
 			OStream& out;
 
+			String outputDirectory;
+
 			unsigned numberOfShownLines = NUMBER_OF_SHOWN_LINES_DEFAULT;
 
 			bool aborted = false;
@@ -28,11 +30,13 @@ namespace geogen
 			Debugger(Debugger const&) : vm(*(runtime::CompiledScript*)NULL, *(runtime::ScriptParameters*)NULL), in(Cin), out(Cout) {};
 			Debugger& operator=(Debugger const&) {};
 		public:
-			Debugger(IStream& in, OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters);
+			Debugger(IStream& in, OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters, String outputDirectory);
 			~Debugger() {};
 
 			inline IStream& GetIn() { return this->in; }
 			inline OStream& GetOut() { return this->out; }
+
+			inline String GetOutputDirectory() { return this->outputDirectory; }
 
 			inline runtime::VirtualMachine* GetVirtualMachine() { return &this->vm; };
 			runtime::instructions::Instruction const* GetCurrentInstruction() const;
