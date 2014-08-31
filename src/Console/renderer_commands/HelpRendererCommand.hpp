@@ -23,7 +23,7 @@ namespace geogen
 
 				virtual String GetName() const { return GG_STR("Help"); };
 
-				virtual String GetHelpString() const { return GG_STR("h - Displays the list of usable commands."); };
+				virtual String GetHelpString() const { return GG_STR("? - Displays the list of commands available in current context."); };
 
 				virtual void Run(RendererDebugger* debugger, String arguments) const
 				{

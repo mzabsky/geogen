@@ -115,7 +115,7 @@ void Debugger::Run()
 	this->ShowCodeContext();
 
 	runtime::instructions::Instruction const* currentInstruction = this->GetCurrentInstruction();
-	out << std::endl << GG_STR("Next instruction: ") << (currentInstruction->ToString()) << GG_STR(" on line ") << currentInstruction->GetLocation().GetLine() << GG_STR(", column ") << currentInstruction->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
+	out << std::endl << GG_STR("Next instruction: \"") << (currentInstruction->ToString()) << GG_STR("\" on line ") << currentInstruction->GetLocation().GetLine() << GG_STR(", column ") << currentInstruction->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
 
 	String input = "";
 	while (vm.GetStatus() == VIRTUAL_MACHINE_STATUS_READY)
@@ -135,7 +135,7 @@ void Debugger::Run()
 		Command const* command = this->commandTable.GetCommand(commandCue);
 		if (command == NULL)
 		{
-			out << GG_STR("Unknown command. Use \"h\" to print list of available commands.") << endl << endl;
+			out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
 		}
 		else
 		{

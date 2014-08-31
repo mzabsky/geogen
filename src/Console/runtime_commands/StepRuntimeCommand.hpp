@@ -31,7 +31,7 @@ namespace geogen
 					debugger->ShowCodeContext();
 
 					runtime::instructions::Instruction const* currentInstruction = debugger->GetCurrentInstruction();
-					debugger->GetOut() << std::endl << GG_STR("Next instruction: ") << (currentInstruction->ToString()) << GG_STR(" on line ") << currentInstruction->GetLocation().GetLine() << GG_STR(", column ") << currentInstruction->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
+					debugger->GetOut() << std::endl << GG_STR("Next instruction: \"") << (currentInstruction->ToString()) << GG_STR("\" on line ") << currentInstruction->GetLocation().GetLine() << GG_STR(", column ") << currentInstruction->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
 				}
 			};
 		}

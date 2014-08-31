@@ -1,4 +1,5 @@
 #include <iomanip>
+#include <queue>
 
 #include "Loader.hpp"
 #include "../GeoGen/utils/StringUtils.hpp"
@@ -28,7 +29,7 @@ using namespace loader_commands;
 using namespace instructions;
 
 Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments programArguments)
-: currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out), randomSeed(programArguments.seed), renderOrigin(0, 0), renderSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), mapSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), renderScale(1)
+: currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out), randomSeed(programArguments.seed), renderOrigin(0, 0), renderSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), mapSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), renderScale(1), isInteractive(!programArguments.isNonInteractive)
 {
 	this->commandTable.AddCommand(new DebugLoaderCommand());
 	this->commandTable.AddCommand(new HelpLoaderCommand());
@@ -45,17 +46,47 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 
 void Loader::Run()
 {	
+	queue<String> commandQueue;
+
 	if (this->currentFile != GG_STR(""))
 	{
-		LoadLoaderCommand().Run(this, this->currentFile);
+		commandQueue.push(GG_STR("load ") + this->currentFile);
+
+		if (!this->isInteractive)
+		{
+			commandQueue.push(GG_STR("run"));
+		}
+	}
+	else if (!this->isInteractive)
+	{
+		out << GG_STR("Input script not specified.") << endl << endl;
+		return;
+	}
+
+	if (this->isInteractive)
+	{
+		out << GG_STR("Welcome to GeoGen interactive console.") << endl << endl;
+		out << GG_STR("Enter \"?\" to list commands available in current context.") << endl << endl;
 	}
 
 	String input = "";
 	while (true)
 	{
-		out << GG_STR("LOADER>> ");
+		if (commandQueue.empty())
+		{
+			if (!this->isInteractive)
+			{
+				break;
+			}
 
-		getline<Char>(in, input);
+			out << GG_STR("LOADER>> ");
+			getline<Char>(in, input);
+		}
+		else
+		{
+			input = commandQueue.front();
+			commandQueue.pop();
+		}
 
 		size_t separatorPosition = input.find(" ");
 		string commandCue = input.substr(0, separatorPosition);
@@ -68,7 +99,7 @@ void Loader::Run()
 		Command const* command = this->commandTable.GetCommand(commandCue);
 		if (command == NULL)
 		{
-			out << GG_STR("Unknown command. Use \"h\" to print list of available commands.") << endl << endl;
+			out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
 		}
 		else
 		{
@@ -82,7 +113,7 @@ void Loader::Run()
 				out << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl;
 				Unhighlight();
 
-				if (this->GetDump() != GG_STR(""))
+				if (this->GetDump() != GG_STR("") && this->isInteractive)
 				{
 					out << GG_STR("Do you wish to save dump file? (y/n, default = n) ");
 					String saveDumpResponse;

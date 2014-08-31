@@ -52,7 +52,7 @@ void RendererDebugger::Run()
 	out << std::endl << GG_STR("Calculated rendering bounds. ") << std::endl << std::endl;
 
 	renderer::RenderingStep const* currentStep = this->renderer.GetNextRenderingStep();
-	out << std::endl << GG_STR("Next step: ") << (currentStep->ToString()) << GG_STR(" on line ") << currentStep->GetLocation().GetLine() << GG_STR(", column ") << currentStep->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
+	out << std::endl << GG_STR("Next step: \"") << (currentStep->ToString()) << GG_STR("\" on line ") << currentStep->GetLocation().GetLine() << GG_STR(", column ") << currentStep->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
 
 	String input = "";
 	while (renderer.GetStatus() == RENDERER_STATUS_READY)
@@ -72,7 +72,7 @@ void RendererDebugger::Run()
 		Command const* command = this->commandTable.GetCommand(commandCue);
 		if (command == NULL)
 		{
-			out << GG_STR("Unknown command. Use \"h\" to print list of available commands.") << endl << endl;
+			out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
 		}
 		else
 		{

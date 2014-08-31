@@ -13,6 +13,7 @@ namespace geogen
 		{
 			bool debug = false;
 			bool displayHelp = false;
+			bool isNonInteractive = false;
 			String inputFile = GG_STR("");
 			String outputDirectory = GG_STR("./");
 			String seed = GG_STR("");
