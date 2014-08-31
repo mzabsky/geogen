@@ -36,7 +36,23 @@ namespace geogen
 
 					for (renderer::RenderingSequence::const_iterator it = debugger->GetRenderer()->GetRenderingSequence().Begin(); it != debugger->GetRenderer()->GetRenderingSequence().End(); it++)
 					{
-						debugger->GetOut() << (*it)->ToString() << std::endl << GG_STR("\t") << debugger->GetRenderer()->GetRenderingSequenceMetadata().GetRenderingBounds(*it)->ToString() << std::endl;
+						debugger->GetOut() << (*it)->ToString() << std::endl;
+						debugger->GetOut() << GG_STR("\tBounds: ") << debugger->GetRenderer()->GetRenderingSequenceMetadata().GetRenderingBounds(*it)->ToString() << std::endl;
+
+						debugger->GetOut() << GG_STR("\tObjects to release: ");
+
+						vector<unsigned> const& objectIndexesToRelease = debugger->GetRenderer()->GetRenderingSequenceMetadata().GetObjectIndexesToRelease(*it);
+						for (vector<unsigned>::const_iterator it2 = objectIndexesToRelease.begin(); it2 != objectIndexesToRelease.end(); it2++)
+						{
+							debugger->GetOut() << *it2;
+
+							if (it2 + 1 != objectIndexesToRelease.end())
+							{
+								debugger->GetOut() << GG_STR(", ");
+							}
+						}
+
+						debugger->GetOut() << std::endl;
 					}
 
 					debugger->GetOut() << std::endl;

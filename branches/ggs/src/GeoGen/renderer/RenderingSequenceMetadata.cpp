@@ -28,6 +28,8 @@ RenderingSequenceMetadata::RenderingSequenceMetadata(RenderingSequence const& re
 			throw InternalErrorException("Invalid rendering step type.");
 		}
 
+		this->objectsIndexesToRelease.push_back(vector<unsigned>());
+
 		stepNumber++;
 	}
 }
@@ -59,6 +61,16 @@ RenderingBounds* RenderingSequenceMetadata::GetRenderingBounds(RenderingStep con
 	return this->renderingBounds[this->GetStepNumberByAddress(step)];
 }
 
+std::vector<unsigned>& RenderingSequenceMetadata::GetObjectIndexesToRelease(RenderingStep const* step)
+{
+	return this->objectsIndexesToRelease[this->GetStepNumberByAddress(step)];
+}
+
+std::vector<unsigned> const& RenderingSequenceMetadata::GetObjectIndexesToRelease(RenderingStep const* step) const
+{
+	return this->objectsIndexesToRelease[this->GetStepNumberByAddress(step)];
+}
+
 void RenderingSequenceMetadata::Serialize(IOStream& stream) const
 {
 	for (std::map<RenderingStep const*, unsigned>::const_iterator it = this->stepNumbers.begin(); it != this->stepNumbers.end(); it++)
@@ -67,6 +79,18 @@ void RenderingSequenceMetadata::Serialize(IOStream& stream) const
 		//it->first->Serialize(stream);
 		stream << GG_STR(": bounds ");
 		this->renderingBounds[it->second]->Serialize(stream);
+		stream << GG_STR(",   objects to release ");
+
+		for (vector<unsigned>::const_iterator it2 = this->objectsIndexesToRelease[it->second].begin(); it2 != this->objectsIndexesToRelease[it->second].end(); it2++)
+		{
+			stream << *it2;
+
+			if (it2 + 1 != this->objectsIndexesToRelease[it->second].end())
+			{
+				stream << GG_STR(", ");
+			}
+		}
+
 		stream << endl;
 	}
 }
