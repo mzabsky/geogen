@@ -64,6 +64,8 @@ namespace geogen
 						filename = filenameStream.str();
 					}
 
+					filename = debugger->GetOutputDirectory() + GG_STR("/") + filename;
+
 					try
 					{
 						WriteImage(object->GetPtr(), object->GetObjectType(), filename);

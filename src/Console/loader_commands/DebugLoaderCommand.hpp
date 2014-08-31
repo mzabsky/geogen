@@ -45,7 +45,7 @@ namespace geogen
 
 					String input = "";
 
-					Debugger debugger(loader->GetIn(), loader->GetOut(), *loader->GetCompiledScript(), loader->CreateScriptParameters());
+					Debugger debugger(loader->GetIn(), loader->GetOut(), *loader->GetCompiledScript(), loader->CreateScriptParameters(), loader->GetOutputDirectory());
 
 					try
 					{
@@ -62,7 +62,7 @@ namespace geogen
 						return;
 					}
 
-					RendererDebugger rendererDebugger(loader->GetIn(), loader->GetOut(), debugger.GetVirtualMachine()->GetRenderingSequence());
+					RendererDebugger rendererDebugger(loader->GetIn(), loader->GetOut(), debugger.GetVirtualMachine()->GetRenderingSequence(), loader->GetOutputDirectory());
 
 					try
 					{

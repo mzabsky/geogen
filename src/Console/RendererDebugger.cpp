@@ -26,8 +26,8 @@ using namespace std;
 using namespace renderer_commands;
 using namespace instructions;
 
-RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, renderer::RenderingSequence const& sequence)
-: renderer(sequence), in(in), out(out)
+RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, renderer::RenderingSequence const& sequence, String outputDirectory)
+: renderer(sequence), in(in), out(out), outputDirectory(outputDirectory)
 {
 	this->commandTable.AddCommand(new AutosaveRendererCommand());
 	this->commandTable.AddCommand(new HelpRendererCommand());
@@ -107,7 +107,7 @@ void RendererDebugger::Step()
 		std::replace(stepName.begin(), stepName.end(), '.', '-');
 
 		StringStream ss;
-		ss << GG_STR("step") << this->currentStepNumber << GG_STR("_") << stepName << (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
+		ss << this->GetOutputDirectory() << GG_STR("/step") << this->currentStepNumber << GG_STR("_") << stepName << (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
 
 		try
 		{

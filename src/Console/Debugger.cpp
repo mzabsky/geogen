@@ -30,8 +30,8 @@ using namespace instructions;
 
 const unsigned Debugger::NUMBER_OF_SHOWN_LINES_DEFAULT = 7;
 
-Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters)
-: vm(code, parameters), in(in), out(out)
+Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters, String outputDirectory)
+: vm(code, parameters), in(in), out(out), outputDirectory(outputDirectory)
 {
 	commandTable.AddCommand(new ArgumentsRuntimeCommand());
 	commandTable.AddCommand(new CallStackRuntimeCommand());

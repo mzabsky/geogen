@@ -41,6 +41,11 @@ void geogen::console::WriteImage(genlib::DataObject* object, renderer::RendererO
 		}
 
 		stream.flush();
+
+		if (!stream)
+		{
+			throw exception();
+		}
 	}
 
 }
