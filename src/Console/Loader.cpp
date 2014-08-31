@@ -13,6 +13,7 @@
 #include "loader_commands/QuitLoaderCommand.hpp"
 #include "loader_commands/RandomSeedLoaderCommand.hpp"
 #include "loader_commands/ReloadLoaderCommand.hpp"
+#include "loader_commands/RenderOriginLoaderCommand.hpp"
 #include "loader_commands/RenderScaleLoaderCommand.hpp"
 #include "loader_commands/RenderSizeLoaderCommand.hpp"
 #include "loader_commands/RunLoaderCommand.hpp"
@@ -39,6 +40,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 	this->commandTable.AddCommand(new QuitLoaderCommand());
 	this->commandTable.AddCommand(new RandomSeedLoaderCommand());
 	this->commandTable.AddCommand(new ReloadLoaderCommand());
+	this->commandTable.AddCommand(new RenderOriginLoaderCommand());
 	this->commandTable.AddCommand(new RenderScaleLoaderCommand());
 	this->commandTable.AddCommand(new RenderSizeLoaderCommand());
 	this->commandTable.AddCommand(new RunLoaderCommand());
@@ -189,6 +191,8 @@ ScriptParameters Loader::CreateScriptParameters()
 {
 	ScriptParameters params = this->GetCompiledScript()->CreateScriptParameters();
 
+	params.SetRenderOriginX(this->GetRenderOrigin().GetX());
+	params.SetRenderOriginY(this->GetRenderOrigin().GetY());
 	params.SetRenderHeight(this->GetRenderSize().GetWidth());
 	params.SetRenderWidth(this->GetRenderSize().GetHeight());
 	params.SetMapWidth(this->GetMapSize().GetWidth());
