@@ -15,7 +15,7 @@ namespace geogen
 			bool displayHelp = false;
 			String inputFile = GG_STR("");
 			String outputDirectory = GG_STR("./");
-			random::RandomSeed seed = (random::RandomSeed)time(time_t());
+			String seed = GG_STR("");
 			std::vector<String> scriptArgumentsStrings;
 		};
 	}

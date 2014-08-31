@@ -138,3 +138,10 @@ int geogen::StringToInt(String str)
 	return atoi(str.c_str());
 #endif
 }
+
+String geogen::IntToString(int n)
+{
+	StringStream ss;
+	ss << n;
+	return ss.str();
+}
