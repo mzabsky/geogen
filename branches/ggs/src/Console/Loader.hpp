@@ -26,6 +26,7 @@ namespace geogen
 			runtime::CompiledScript* compiledScript;
 			//String code;
 			String dump;
+			bool isInteractive;
 
 			Point renderOrigin;
 			Size2D renderSize;
@@ -80,6 +81,8 @@ namespace geogen
 			inline void SetRandomSeed(String randomSeed) { this->randomSeed = randomSeed; }
 
 			inline std::map<String, String>& GetParameterValues() { return this->parameterValues; }
+
+			inline bool IsInteractive()const { return this->isInteractive; }
 
 			geogen::runtime::ScriptParameters CreateScriptParameters();
 

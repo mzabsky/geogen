@@ -34,6 +34,7 @@ int main(int argc, char** argv){
 	//args.AddStringArg(GG_STR('v'), GG_STR("overlay"), GG_STR("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and either 256 or 511 pixels wide."), GG_STR("FILE"), &_params.overlay_file);
 
 	args.AddStringArg(GG_STR('s'), GG_STR("seed"), GG_STR("Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same."), GG_STR("SEED"), &programArguments.seed);
+	args.AddBoolArg(GG_STR('n'), GG_STR("noninteractive"), GG_STR("Non-interactive mode."), &programArguments.isNonInteractive);
 
 	//args.AddBoolArg(GG_STR('a'), GG_STR("all-random"), GG_STR("All unset script arguments are generated randomly."), &_params.all_random);
 	//args.AddBoolArg(GG_STR('z'), GG_STR("ignore-zero"), GG_STR("Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap)."), &_params.ignore_zero);
