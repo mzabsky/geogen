@@ -8,7 +8,8 @@
 #include "Direction.hpp"
 
 namespace geogen {
-	class Rectangle{
+	class Rectangle : public Serializable 
+	{
 	private:
 		Point position;
 		Size2D size;
@@ -87,7 +88,7 @@ namespace geogen {
 		bool Contains(Point point) const;
 		Point NextPoint(Point point) const;
 
-		void Serialize(IOStream& stream) const
+		virtual void Serialize(IOStream& stream) const
 		{
 			stream << GG_STR("[");
 			this->position.Serialize(stream);

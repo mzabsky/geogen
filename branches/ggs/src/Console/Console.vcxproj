@@ -83,6 +83,7 @@
     <ClInclude Include="Loader.hpp" />
     <ClInclude Include="LoaderCommand.hpp" />
     <ClInclude Include="loader_commands\DebugLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\GenTilesLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\MapSizeLoaderCommand.hpp" />
