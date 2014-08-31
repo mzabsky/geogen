@@ -105,6 +105,12 @@ namespace geogen {
 		return coord + multiplier - coord % multiplier;
 	}
 
+	inline Coordinate PreviousMultipleOfInclusive(Coordinate coord, Coordinate multiplier)
+	{
+		int remainder = coord % multiplier;
+		return coord - remainder;
+	}
+
 	inline Coordinate PreviousMultipleOfExclusive(Coordinate coord, Coordinate multiplier)
 	{
 		int remainder = coord % multiplier;

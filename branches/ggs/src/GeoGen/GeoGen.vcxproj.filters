@@ -311,6 +311,8 @@
     <ClInclude Include="corelib\HeightMapPatternRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfilePatternFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfilePatternRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileNoiseFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileNoiseRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -539,6 +541,8 @@
     <ClCompile Include="corelib\HeightMapPatternRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfilePatternFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfilePatternRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileNoiseFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileNoiseRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

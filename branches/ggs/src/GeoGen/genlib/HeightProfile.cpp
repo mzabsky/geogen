@@ -352,6 +352,78 @@ void HeightProfile::MultiplyProfile(HeightProfile* factor)
 	}
 }
 
+void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
+{
+	layers.push_back(NoiseLayer(256, HEIGHT_MAX / 2));
+
+	this->FillInterval(INTERVAL_MAX, 0);
+
+	if (layers.size() == 0 || this->interval.GetLength() == 0)
+	{
+		return;
+	}
+
+	RandomSequence2D randomSequence(seed);
+
+	Interval logicalInterval = this->interval;
+
+	unsigned initialWaveLength = layers[0].GetWaveLength();
+	unsigned initialAmplitude = layers[0].GetAmplitude();
+
+	Coordinate leftBufferCoordinate = PreviousMultipleOfInclusive(logicalInterval.GetStart(), initialWaveLength);
+	Height leftBuffer = randomSequence.GetInt(leftBufferCoordinate, -(int)initialAmplitude, +(int)initialAmplitude);
+	Coordinate rightBufferCoordinate = NextMultipleOfInclusive(logicalInterval.GetEnd() - 1, initialWaveLength);
+	Height rightBuffer = randomSequence.GetInt(rightBufferCoordinate, -(int)initialAmplitude, +(int)initialAmplitude);
+
+	// Seed initial values
+	// TODO: GetPhysicalCoordinate UNSCALED???
+	for (Coordinate logicalX = NextMultipleOfInclusive(logicalInterval.GetStart(), initialWaveLength); logicalX < logicalInterval.GetEnd(); logicalX += initialWaveLength)
+	{
+		(*this)(this->GetPhysicalCoordinate(logicalX)) = randomSequence.GetInt(Point(logicalX, 0), -(int)initialAmplitude, +(int)initialAmplitude);
+	}
+
+	if (initialWaveLength == 1)
+	{
+		return;
+	}
+
+	randomSequence.Advance();
+
+	initialAmplitude /= 2;
+
+	for (unsigned waveLength = initialWaveLength / 2; waveLength > 0; waveLength /= 2)
+	{
+		unsigned previousWaveLength = waveLength * 2;
+
+		for (Coordinate logicalX = NextMultipleOfInclusive(logicalInterval.GetStart(), waveLength); logicalX < logicalInterval.GetEnd(); logicalX += waveLength)
+		{
+			Coordinate leftCoordinate = PreviousMultipleOfInclusive(logicalX, previousWaveLength);
+			Coordinate rightCoordinate = NextMultipleOfInclusive(logicalX, previousWaveLength);
+
+			Coordinate leftHeight = leftCoordinate < logicalInterval.GetStart() ? leftBuffer : (*this)(this->GetPhysicalCoordinate(leftCoordinate));
+			Coordinate rightHeight = rightCoordinate >= logicalInterval.GetEnd() ? rightBuffer : (*this)(this->GetPhysicalCoordinate(rightCoordinate));
+
+			Height randomComponent = initialAmplitude > 0 ? randomSequence.GetInt(logicalX, -(int)initialAmplitude, +(int)initialAmplitude) : 0;
+			Height interpolatedComponent = leftCoordinate != rightCoordinate ? Lerp(leftCoordinate, rightCoordinate, leftHeight, rightHeight, logicalX) : leftHeight;
+
+			(*this)(this->GetPhysicalCoordinate(logicalX)) = randomComponent + interpolatedComponent;
+		}
+
+		leftBufferCoordinate = PreviousMultipleOfInclusive(logicalInterval.GetStart(), waveLength);
+		Height leftBufferRandomComponent = initialAmplitude > 0 ? randomSequence.GetInt(Point(leftBufferCoordinate, 0), -(int)initialAmplitude, +(int)initialAmplitude) : 0;
+		Height leftBufferInterpolatedComponent = leftBufferCoordinate != logicalInterval.GetStart() ? Lerp(0, 2, leftBuffer, (*this)(this->GetPhysicalCoordinate(leftBufferCoordinate + previousWaveLength)), 1) : leftBuffer;
+		leftBuffer = leftBufferRandomComponent + leftBufferInterpolatedComponent;
+
+		rightBufferCoordinate = PreviousMultipleOfInclusive(logicalInterval.GetEnd() - 1, waveLength);
+		Height rightBufferRandomComponent = initialAmplitude > 0 ? randomSequence.GetInt(Point(rightBufferCoordinate, 0), -(int)initialAmplitude, +(int)initialAmplitude) : 0;
+		Height rightBufferInterpolatedComponent = rightBufferCoordinate != logicalInterval.GetStart() ? Lerp(0, 2, (*this)(this->GetPhysicalCoordinate(rightBufferCoordinate - previousWaveLength)), rightBuffer, 1) : rightBuffer;
+		rightBuffer = rightBufferRandomComponent + rightBufferInterpolatedComponent;
+
+		randomSequence.Advance();
+
+		initialAmplitude /= 2;
+	}
+}
 
 void HeightProfile::Pattern(HeightProfile* pattern, Interval repeatInterval)
 {
@@ -445,11 +517,6 @@ void HeightProfile::Slice(HeightMap* heightMap, Direction direction, Coordinate 
 			(*this)(x) = (*heightMap)(physicalCoordinate, x + offset);
 		}
 	}
-}
-
-void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
-{
-	
 }
 
 void HeightProfile::Unify(HeightProfile* other)
