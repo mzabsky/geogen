@@ -49,6 +49,7 @@ namespace geogen
 			RenderingGraph graph;
 			RenderedMapTable renderedMapTable;
 
+			unsigned stepCounter;
 
 			// Non-copyable
 			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0), renderingSequenceMetadata(*(RenderingSequence*)NULL), graph(*(RenderingSequence*)NULL) {};
@@ -119,6 +120,8 @@ namespace geogen
 
 			/// Executes steps of the rendering sequence until the renderer finishes or fails.
 			void Run();
+
+			double GetProgress() const;
 		};
 	}
 }

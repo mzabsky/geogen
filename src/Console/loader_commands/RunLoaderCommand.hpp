@@ -49,7 +49,20 @@ namespace geogen
 
 					renderer::Renderer renderer(vm.GetRenderingSequence());
 					renderer.CalculateMetadata();
-					renderer.Run();
+
+					loader->GetOut() << GG_STR("0% ");
+
+					int i = 0;
+					while (renderer.GetStatus() == geogen::renderer::RENDERER_STATUS_READY)
+					{
+						renderer.Step();
+
+						loader->GetOut() << round(renderer.GetProgress()*10)/10 << "% ";
+
+						i++;
+					}
+
+					loader->GetOut() << std::endl;
 
 					loader->GetOut() << "Saving maps." << std::endl;
 
