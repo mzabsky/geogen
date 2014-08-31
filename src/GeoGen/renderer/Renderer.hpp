@@ -105,8 +105,12 @@ namespace geogen
 			/// @return The rendering graph.
 			inline RenderingGraph& GetRenderingGraph() { return this->graph; }
 
+			void CalculateMetadata();
+
 			/// Calculates the rendering bounds for all steps in the RenderingSequence.
 			void CalculateRenderingBounds();
+
+			void CalculateObjectLifetimes();
 
 			/// Executes next step in the rendering sequence. Can only be called if the renderer is in status
 			/// <see cref="RENDERER_STATUS_READY"/>.

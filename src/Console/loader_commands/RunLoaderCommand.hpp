@@ -48,7 +48,7 @@ namespace geogen
 					loader->GetOut() << "Rendering." << std::endl;
 
 					renderer::Renderer renderer(vm.GetRenderingSequence());
-					renderer.CalculateRenderingBounds();				
+					renderer.CalculateMetadata();
 					renderer.Run();
 
 					loader->GetOut() << "Saving maps." << std::endl;

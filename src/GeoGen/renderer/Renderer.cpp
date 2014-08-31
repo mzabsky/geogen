@@ -22,8 +22,16 @@ RendererStepResult Renderer::Step()
 	}
 
 	(*this->nextStep)->Step(this);
-	this->nextStep++;
 
+	// Release objects that won't be required by any other steps
+	vector<unsigned> const& objectsToRelease = this->GetRenderingSequenceMetadata().GetObjectIndexesToRelease(*this->nextStep);
+	for (vector<unsigned>::const_iterator it = objectsToRelease.begin(); it != objectsToRelease.end(); it++)
+	{
+		this->GetObjectTable().ReleaseObject(*it);
+	}
+	
+	this->nextStep++;
+	
 	if (this->nextStep == this->renderingSequence.End())
 	{
 		this->status = RENDERER_STATUS_FINISHED;
@@ -39,6 +47,12 @@ void Renderer::Run()
 	{
 		this->Step();
 	}
+}
+
+void Renderer::CalculateMetadata()
+{
+	this->CalculateRenderingBounds();
+	this->CalculateObjectLifetimes();
 }
 
 void Renderer::CalculateRenderingBounds()
@@ -83,5 +97,24 @@ void Renderer::CalculateRenderingBounds()
 		(*it)->UpdateRenderingBounds(this, argumentBounds);
 
 		renderingBoundsBySlot[(*it)->GetReturnSlot()] = this->GetRenderingSequenceMetadata().GetRenderingBounds(*it);
+	}
+}
+
+void Renderer::CalculateObjectLifetimes()
+{
+	vector<bool> isObjectAlive(this->GetObjectTable().GetSize(), true);
+
+	for (RenderingSequence::const_reverse_iterator it = this->renderingSequence.RBegin(); it != this->renderingSequence.REnd(); it++)
+	{
+		vector<unsigned>& currentStepObjectIndexesToRelease = this->GetRenderingSequenceMetadata().GetObjectIndexesToRelease(*it);
+
+		for (vector<unsigned>::const_iterator it2 = (*it)->GetArgumentSlots().begin(); it2 != (*it)->GetArgumentSlots().end(); it2++)
+		{
+			if (isObjectAlive[*it2])
+			{
+				currentStepObjectIndexesToRelease.push_back(*it2);
+				isObjectAlive[*it2] = false;
+			}
+		}
 	}
 }
