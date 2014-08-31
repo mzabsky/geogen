@@ -31,7 +31,8 @@ RendererStepResult Renderer::Step()
 	}
 	
 	this->nextStep++;
-	
+	this->stepCounter++;
+
 	if (this->nextStep == this->renderingSequence.End())
 	{
 		this->status = RENDERER_STATUS_FINISHED;
@@ -87,4 +88,9 @@ void Renderer::CalculateObjectLifetimes()
 			}
 		}
 	}
+}
+
+double Renderer::GetProgress() const
+{
+	return stepCounter * 100 / double(this->GetRenderingSequence().Size());
 }
