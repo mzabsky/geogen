@@ -28,7 +28,7 @@ using namespace loader_commands;
 using namespace instructions;
 
 Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments programArguments)
-: currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out), renderOrigin(0, 0), renderSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), mapSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), renderScale(1)
+: currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out), randomSeed(programArguments.seed), renderOrigin(0, 0), renderSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), mapSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), renderScale(1)
 {
 	this->commandTable.AddCommand(new DebugLoaderCommand());
 	this->commandTable.AddCommand(new HelpLoaderCommand());

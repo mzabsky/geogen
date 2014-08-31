@@ -22,6 +22,7 @@ using namespace std;
 
 int main(int argc, char** argv){
 	ProgramArguments programArguments;
+	programArguments.seed = IntToString((int)time(0));
 
 	// initialize argument support
 	ArgDesc args(argc, argv);
@@ -32,7 +33,7 @@ int main(int argc, char** argv){
 	//args.AddStringArg(GG_STR('d'), GG_STR("output-directory"), GG_STR("Directory where secondary maps will be saved. Set to \"../temp/\" by default."), GG_STR("DIRECTORY"), &_params.output_directory);
 	//args.AddStringArg(GG_STR('v'), GG_STR("overlay"), GG_STR("Overlay file to be mapped on the output. This file must be a Windows Bitmap file one pixel high and either 256 or 511 pixels wide."), GG_STR("FILE"), &_params.overlay_file);
 
-	args.AddIntArg(GG_STR('s'), GG_STR("seed"), GG_STR("Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same."), GG_STR("SEED"), &*(int*)(programArguments.seed));
+	args.AddStringArg(GG_STR('s'), GG_STR("seed"), GG_STR("Pseudo-random generator seed. Maps generated with same seed, map script, arguments and generator version are always the same."), GG_STR("SEED"), &programArguments.seed);
 
 	//args.AddBoolArg(GG_STR('a'), GG_STR("all-random"), GG_STR("All unset script arguments are generated randomly."), &_params.all_random);
 	//args.AddBoolArg(GG_STR('z'), GG_STR("ignore-zero"), GG_STR("Height data range will be rescaled to fit the output file format including negative value. Zero level will probably not be preserved. Allows to fit negative values into format, which doesn't support them (Windows Bitmap)."), &_params.ignore_zero);
@@ -56,201 +57,6 @@ int main(int argc, char** argv){
 
 	Loader loader(Cin, Cout, programArguments);
 	loader.Run();
-
-	return 0;
-
-	/*StringStream  code;
-	IFStream file("testinput.txt");
-	String temp;
-	while (std::getline<Char>(file, temp)) 
-	{
-		code << temp << std::endl;
-	}
-
-	String codeString = code.str();
-	
-	String dumpString = GG_STR("");
-	try
-	{
-		Compiler compiler;
-		CompiledScript const* script = compiler.CompileScript(codeString);
-
-		vector<String> codeLines = geogen::utils::StringToLines(codeString);
-
-		String input = "";
-		unsigned numShowCodeLines = 5;
-
-		Debugger debugger(Cin, Cout, *script, geogen::runtime::ScriptParameters());
-
-		try
-		{
-			debugger.Run();
-		}		
-		catch (RuntimeException& e)
-		{
-			dumpString = debugger.GetVirtualMachine()->ToString();
-			throw;
-		}
-
-		Cout << "Virtual machine finished!";
-	}
-	catch (GeoGenException& e)
-	{
-		HighlightRed();
-		Cout << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl;
-		Unhighlight();
-
-		if (dumpString != GG_STR(""))
-		{
-			Cout << GG_STR("Do you wish to save dump file? (y/n, default = n) ");
-			String saveDumpResponse;
-			getline(Cin, saveDumpResponse);
-
-			if (saveDumpResponse == GG_STR("y") || saveDumpResponse == GG_STR("Y") || saveDumpResponse == GG_STR("yes"))
-			{
-				Cout << GG_STR("Dump file name (default = dump.txt): ");
-				String dumpFileName;
-				getline(Cin, dumpFileName);
-				
-				if (dumpFileName == GG_STR(""))
-				{
-					dumpFileName = "dump.txt";
-				}
-
-				OFStream dumpStream(dumpFileName);
-				dumpStream << dumpString;
-				dumpStream.flush();
-
-				if (dumpStream.fail())
-				{
-					Cout << GG_STR("Could not write dump file.");
-				}
-				else 
-				{
-					Cout << GG_STR("Saved dump file \"") << dumpFileName << GG_STR("\".") << endl;
-				}
-			}
-			else 
-			{
-				Cout << GG_STR("Discarded dump file.");
-			}
-		}
-	}
-	*/
-	/*
-	if (false)
-	while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
-	{		
-		geogen::runtime::instructions::Instruction const* currentInstruction = vm.GetCallStack().Top().GetCodeBlockStack().Top().GetCurrentInstruction();
-
-		system("cls");
-
-		
-
-		Cout << endl;
-
-		{
-			Cout << "Input: " << input << endl << endl;
-
-			size_t separatorPosition = input.find(" ");
-			string command = input.substr(0, separatorPosition);
-			string args = "";
-			if (separatorPosition != String::npos)
-			{
-				args = input.substr(separatorPosition + 1);
-			}
-
-			if (command == "step" || command == "")
-			{
-				Cout << "Step" << std::endl;
-
-				vm.Step();
-			}
-			else if (command == "h" || command == "?" || command == "help")
-			{
-				Cout << "h - Help" << std::endl;
-				Cout << "step - Step (or use Enter)" << std::endl;
-				Cout << "s - Object stack" << std::endl;
-				Cout << "r - Get a value of a variable" << std::endl;
-				Cout << "c - Call stack" << std::endl;
-				Cout << "cbs - Code block stack" << std::endl;
-				Cout << "cbc [x = 0] - Code of x-th topmost code block." << std::endl;
-				Cout << "o - Managed objects" << std::endl;
-			}
-			else if (command == "s" || command == "stack")
-			{
-				Cout << "Object stack:" << std::endl;
-
-				Cout << vm.GetObjectStack().ToString();
-			}
-			else if (command == "r" || command == "read")
-			{
-				Cout << "Variable \"" << args << "\":" << std::endl;
-
-				if (args == "")
-				{
-					Cout << "Variable name not specified" << std::endl;
-				}
-				else
-				{
-					geogen::runtime::VariableTableItem* variableTableItem = vm.FindVariable(AnyStringToString(args));
-					if (variableTableItem == NULL)
-					{
-						Cout << "Undefined" << std::endl;
-					}
-					else
-					{
-						Cout << "{ " << variableTableItem->GetValue()->ToString() << " } " << (variableTableItem->IsConst() ? "const" : "") << std::endl;
-					}
-				}
-			}
-			else if (command == "c" || command == "cs" || command == "callstack")
-			{
-				Cout << "Call stack:" << std::endl;
-				Cout << vm.GetCallStack().ToString() << std::endl;
-			}
-			else if (command == "cbs" || command == "codeblockstack")
-			{
-				Cout << "Code block stack:" << std::endl;
-				Cout << vm.GetCallStack().Top().GetCodeBlockStack().ToString() << std::endl;
-			}
-			else if (command == "cbc" || command == "codeblockcode")
-			{
-				geogen::runtime::CodeBlockStack& codeBlockStack = vm.GetCallStack().Top().GetCodeBlockStack();
-
-				unsigned codeBlockNumber = 0;
-				if (args != "")
-				{
-					int codeBlockNumber = atoi(args.c_str());
-				}
-
-				if (codeBlockNumber < codeBlockStack.Size())
-				{
-					Cout << "Code block stack entry " << codeBlockNumber << ":" << std::endl;
-					Cout << (*(codeBlockStack.RBegin() - codeBlockNumber))->GetCodeBlock().ToString() << std::endl;
-				}
-				else
-				{
-					Cout << "Incorrect code block stack entry number" << endl;
-				}
-			}
-			else if (command == "o" || command == "mm" || command == "managedobjects")
-			{
-				Cout << "Managed objects:" << std::endl;
-				Cout << vm.GetMemoryManager().ToString() << std::endl;
-			}
-			else
-			{
-				Cout << "Unknown command" << std::endl;
-			}
-		}
-
-		Cout << endl << "Next instruction: " << (currentInstruction->ToString()) << " on line " << currentInstruction->GetLocation().GetLine() << ", column " << currentInstruction->GetLocation().GetColumn() << ". " << endl << endl << "Command? ";
-        
-		getline<Char>(Cin, input);
-	}*/
-	
-	//std::cout << script->GetSymbolNameTable().ToString();	
 
 	return 0;
 }
