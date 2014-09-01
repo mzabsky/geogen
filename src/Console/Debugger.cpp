@@ -149,5 +149,5 @@ void Debugger::Run()
 		}
 	}
 
-	out << GG_STR("Debugger finished.") << endl << endl;
+	out << GG_STR("Debugger finished.") << endl;
 }
