@@ -9,7 +9,7 @@ namespace geogen
 	namespace renderer
 	{
 		/// A table used to temporarily store rendered maps.
-		class RenderedMapTable : public utils::OwningMap<genlib::HeightMap>
+		class RenderedMapTable : public utils::OwningMap<genlib::HeightMap>, public Serializable
 		{
 		public:
 			typedef std::map<String, genlib::HeightMap*>::iterator iterator;
@@ -21,6 +21,8 @@ namespace geogen
 
 			/// Removes all items from the table.
 			void Clear();
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

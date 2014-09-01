@@ -79,7 +79,7 @@ void RenderingSequenceMetadata::Serialize(IOStream& stream) const
 		//it->first->Serialize(stream);
 		stream << GG_STR(": bounds ");
 		this->renderingBounds[it->second]->Serialize(stream);
-		stream << GG_STR(",   objects to release ");
+		stream << GG_STR(", objects to release ");
 
 		for (vector<unsigned>::const_iterator it2 = this->objectsIndexesToRelease[it->second].begin(); it2 != this->objectsIndexesToRelease[it->second].end(); it2++)
 		{

@@ -37,7 +37,7 @@ namespace geogen
 		};
 
 		/// Renders a single RenderingSequence into a set of height maps.
-		class Renderer
+		class Renderer : public Serializable
 		{
 		private:
 			RenderingSequence const& renderingSequence;
@@ -122,6 +122,8 @@ namespace geogen
 			void Run();
 
 			double GetProgress() const;
+
+			virtual void Serialize(IOStream& stream) const;
 		};
 	}
 }

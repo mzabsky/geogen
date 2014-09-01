@@ -64,5 +64,6 @@
     <ClInclude Include="loader_commands\ParameterLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\RenderOriginLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\GenTilesLoaderCommand.hpp" />
+    <ClInclude Include="renderer_commands\DumpRendererCommand.hpp" />
   </ItemGroup>
 </Project>
