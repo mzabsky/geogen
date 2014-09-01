@@ -29,3 +29,11 @@ void RenderedMapTable::Clear()
 
 	this->table.clear();
 }
+
+void RenderedMapTable::Serialize(IOStream& stream) const
+{
+	for (RenderedMapTable::const_iterator it = this->Begin(); it != this->End(); it++)
+	{
+		stream << it->first << GG_STR(": ") << it->second->GetRectangle().ToString() << GG_STR(" at address 0x") << it->second << endl;
+	}
+}

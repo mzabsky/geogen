@@ -94,3 +94,24 @@ double Renderer::GetProgress() const
 {
 	return stepCounter * 100 / double(this->GetRenderingSequence().Size());
 }
+
+void Renderer::Serialize(IOStream& stream) const
+{
+	stream << "Status: " << status << endl;
+	stream << "StepCounter: " << stepCounter << endl;
+
+	stream << "RenderingSequence: " << endl;
+	this->renderingSequence.SerializeWithTabs(stream, 1);
+
+	stream << "ObjectTable: " << endl;
+	this->objectTable.SerializeWithTabs(stream, 1);
+
+	stream << "RenderingSequenceMetadata: " << endl;
+	this->renderingSequenceMetadata.SerializeWithTabs(stream, 1);
+
+	/*stream << "RenderingSequenceGraph: " << endl;
+	this->graph.SerializeWithTabs(stream, 1);*/
+
+	stream << "RenderedMapTable: " << endl;
+	this->renderedMapTable.SerializeWithTabs(stream, 1);
+}

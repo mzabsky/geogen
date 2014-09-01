@@ -4,28 +4,28 @@
 #include <fstream>
 
 
-#include "../RuntimeCommand.hpp"
-#include "../Debugger.hpp"
+#include "../RendererCommand.hpp"
+#include "../RendererDebugger.hpp"
 
 namespace geogen
 {
 	namespace console
 	{
-		namespace runtime_commands
+		namespace renderer_commands
 		{
-			class DumpRuntimeCommand : public RuntimeCommand
+			class DumpRendererCommand : public RendererCommand
 			{
 			public:
-				DumpRuntimeCommand()
+				DumpRendererCommand()
 				{
 					this->cues.push_back(GG_STR("dump"));
 				}
 
 				virtual String GetName() const { return GG_STR("Dump"); };
 
-				virtual String GetHelpString() const { return GG_STR("dump [file] - Dump current state of the virtual machine to a file (defaut = dump.txt)."); };
+				virtual String GetHelpString() const { return GG_STR("dump [file] - Dump current state of the renderer to a file (defaut = dump.txt)."); };
 
-				virtual void Run(Debugger* debugger, String arguments) const
+				virtual void Run(RendererDebugger* debugger, String arguments) const
 				{
 					if (arguments == GG_STR(""))
 					{
@@ -35,7 +35,7 @@ namespace geogen
 					String filename = debugger->GetOutputDirectory() + GG_STR("/") + arguments;
 
 					OFStream dumpStream(filename);
-					dumpStream << debugger->GetVirtualMachine()->ToString();
+					dumpStream << debugger->GetRenderer()->ToString();
 					dumpStream.flush();
 
 					if (dumpStream.fail())

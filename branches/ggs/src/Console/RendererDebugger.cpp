@@ -5,6 +5,7 @@
 #include "../GeoGen/utils/StringUtils.hpp"
 #include "ConsoleUtils.hpp"
 #include "renderer_commands/AutosaveRendererCommand.hpp"
+#include "renderer_commands/DumpRendererCommand.hpp"
 #include "renderer_commands/HelpRendererCommand.hpp"
 #include "renderer_commands/ObjectTableRendererCommand.hpp"
 #include "renderer_commands/QuitRendererCommand.hpp"
@@ -30,6 +31,7 @@ RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, re
 : renderer(sequence), in(in), out(out), outputDirectory(outputDirectory)
 {
 	this->commandTable.AddCommand(new AutosaveRendererCommand());
+	this->commandTable.AddCommand(new DumpRendererCommand());
 	this->commandTable.AddCommand(new HelpRendererCommand());
 	this->commandTable.AddCommand(new QuitRendererCommand());
 	this->commandTable.AddCommand(new ObjectTableRendererCommand());
