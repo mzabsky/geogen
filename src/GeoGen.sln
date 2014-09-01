@@ -5,6 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console", "Console\Console.vcxproj", "{EC6E449D-EDA8-411D-942F-F59BF305C5C4}"
 	ProjectSection(ProjectDependencies) = postProject
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F} = {80986C68-12DD-4FAB-9124-8859F2B94F5F}
 		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8} = {5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}
 	EndProjectSection
 EndProject
@@ -17,6 +18,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antlr3", "antlr3\antlr3.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen_Tests", "GeoGen_Tests\GeoGen_Tests.vcxproj", "{C7293881-2563-4A3D-A272-8B1492EA4180}"
 	ProjectSection(ProjectDependencies) = postProject
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F} = {80986C68-12DD-4FAB-9124-8859F2B94F5F}
 		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8} = {5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}
 	EndProjectSection
 EndProject

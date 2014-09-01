@@ -16,7 +16,8 @@ namespace geogen {
 		Point endingPoint;
 	public:
 		Rectangle() : position(Point()), size(Size2D()), endingPoint(Point()) {}
-		Rectangle(Point position, Size2D size) : position(position), size(size), endingPoint(position.GetX() + size.GetWidth(), position.GetY() + size.GetHeight()) {}
+		Rectangle(Point position, Size2D size) : 
+			position(position), size(size), endingPoint(Coordinate((long long)position.GetX() + (long long)size.GetWidth()), Coordinate((long long)position.GetY() + (long long)size.GetHeight())) {}
 
 		inline Rectangle Rectangle::operator+(const Point& other) const
 		{
