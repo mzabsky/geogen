@@ -181,7 +181,7 @@ namespace geogen
 					}
 
 					ScriptParameters scriptParameters = loader->CreateScriptParameters();
-					Rectangle mapRectangle(Point(0, 0), Size2D(scriptParameters.GetMapWidth(), scriptParameters.GetMapHeight()));
+					Rectangle mapRectangle(Point(scriptParameters.GetMapWidth() == MAP_SIZE_INFINITE ? COORDINATE_MIN : 0, scriptParameters.GetMapHeight() == MAP_SIZE_INFINITE ? COORDINATE_MIN : 0), Size2D(scriptParameters.GetMapWidth() == MAP_SIZE_INFINITE ? MAP_SIZE_MAX : scriptParameters.GetMapWidth(), scriptParameters.GetMapHeight() == MAP_SIZE_INFINITE ? MAP_SIZE_MAX : scriptParameters.GetMapHeight()));
 
 					bounds = Rectangle::Intersect(mapRectangle, bounds);
 
