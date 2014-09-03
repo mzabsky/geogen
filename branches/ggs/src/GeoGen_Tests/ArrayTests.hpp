@@ -352,6 +352,25 @@ public:
 		");
 	}
 
+	static void TestSortByValuesMultipleTypes()
+	{
+		// The types will be ordererd alphabetically
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[] = \"bbb\";\n\
+			a[] = {0, 2, 4};\n\
+			a[] = \"aaaa\";\n\
+			a[] = 12;\n\
+			\n\
+			a.SortByValues();\n\
+			\n\
+			a.GetValueByIndex(0)[1]; \n\
+			AssertEquals(12, a.GetValueByIndex(1)); \n\
+			AssertEquals(\"aaaa\", a.GetValueByIndex(2)); \n\
+			AssertEquals(\"bbb\", a.GetValueByIndex(3)); \n\
+		");
+	}
+
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
@@ -385,5 +404,6 @@ public:
 		ADD_TESTCASE(TestGetValueByIndexFailsWithTooHighIndex);
 		ADD_TESTCASE(TestSortByKeys);
 		ADD_TESTCASE(TestSortByValues);
+		ADD_TESTCASE(TestSortByValuesMultipleTypes);
 	}
 };

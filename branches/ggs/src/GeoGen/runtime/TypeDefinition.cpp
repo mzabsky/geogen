@@ -26,7 +26,12 @@ StaticObject* TypeDefinition::CreateStaticObject(VirtualMachine* vm) const
 
 bool TypeDefinition::InstanceLessThan(ManagedObject const* a, ManagedObject const* b) const
 {
-	return a < b;
+	if (a->GetType() != b->GetType())
+	{
+		return a->GetType()->GetName() < b->GetType()->GetName();
+	}
+	
+	return a->GetObjectId() < b->GetObjectId();
 }
 
 bool TypeDefinition::InstanceEqualsTo(ManagedObject const* a, ManagedObject const* b) const
