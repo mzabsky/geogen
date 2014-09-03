@@ -248,6 +248,78 @@ public:
 		");
 	}
 
+	static void TestGetKeyByIndex()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"a\"] = 11;\n\
+			a[\"b\"] = 12;\n\
+			a[\"b\"] = 13;\n\
+			\n\
+			AssertEquals(\"b\", a.GetKeyByIndex(1));\n\
+		");
+	}
+
+	static void TestGetKeyByIndexFailsWithNegativeIndex()
+	{
+		TEST_SCRIPT_FAILURE(ArrayIndexNotFoundException, "\n\
+			var a = Array.Empty();\n\
+			a[\"a\"] = 11;\n\
+			a[\"b\"] = 12;\n\
+			a[\"b\"] = 13;\n\
+			\n\
+			a.GetKeyByIndex(-5);\n\
+		");
+	}
+
+	static void TestGetKeyByIndexFailsWithTooHighIndex()
+	{
+		TEST_SCRIPT_FAILURE(ArrayIndexNotFoundException, "\n\
+			var a = Array.Empty();\n\
+			a[\"a\"] = 11;\n\
+			a[\"b\"] = 12;\n\
+			a[\"b\"] = 13;\n\
+			\n\
+			a.GetKeyByIndex(3);\n\
+		");
+	}
+
+	static void TestGetValueByIndex()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"a\"] = 11;\n\
+			a[\"b\"] = 12;\n\
+			a[\"c\"] = 13;\n\
+			\n\
+			AssertEquals(12, a.GetValueByIndex(1));\n\
+		");
+	}
+
+	static void TestGetValueByIndexFailsWithNegativeIndex()
+	{
+		TEST_SCRIPT_FAILURE(ArrayIndexNotFoundException, "\n\
+			var a = Array.Empty();\n\
+			a[\"a\"] = 11;\n\
+			a[\"b\"] = 12;\n\
+			a[\"c\"] = 13;\n\
+			\n\
+			a.GetValueByIndex(-5);\n\
+		");
+	}
+
+	static void TestGetValueByIndexFailsWithTooHighIndex()
+	{
+		TEST_SCRIPT_FAILURE(ArrayIndexNotFoundException, "\n\
+			var a = Array.Empty();\n\
+			a[\"a\"] = 11;\n\
+			a[\"b\"] = 12;\n\
+			a[\"b\"] = 13;\n\
+			\n\
+			a.GetValueByIndex(3);\n\
+		");
+	}
+
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
@@ -273,5 +345,11 @@ public:
 		ADD_TESTCASE(TestRemoveValueRemovesOnlyFirst);
 		ADD_TESTCASE(TestRemoveValueDoesNothingIfNotFound);
 		ADD_TESTCASE(TestIndexerPushBack);
+		ADD_TESTCASE(TestGetKeyByIndex);
+		ADD_TESTCASE(TestGetKeyByIndexFailsWithNegativeIndex);
+		ADD_TESTCASE(TestGetKeyByIndexFailsWithTooHighIndex);
+		ADD_TESTCASE(TestGetValueByIndex);
+		ADD_TESTCASE(TestGetValueByIndexFailsWithNegativeIndex);
+		ADD_TESTCASE(TestGetValueByIndexFailsWithTooHighIndex);
 	}
 };

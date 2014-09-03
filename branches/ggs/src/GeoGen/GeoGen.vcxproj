@@ -98,6 +98,9 @@
     <ClInclude Include="corelib\ArrayFromListFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayFrontBackFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayGetFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayGetKeyByIndexFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayGetValueByIndexFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayIndexNotFoundException.hpp" />
     <ClInclude Include="corelib\ArrayKeyNotFoundException.hpp" />
     <ClInclude Include="corelib\ArrayObject.hpp" />
     <ClInclude Include="corelib\ArrayPushBackFunctionDefinition.hpp" />
@@ -375,6 +378,8 @@
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
     <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayGetValueByIndexFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayRepeatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateObject.cpp" />

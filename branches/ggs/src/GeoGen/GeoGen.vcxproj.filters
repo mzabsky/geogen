@@ -313,6 +313,9 @@
     <ClInclude Include="corelib\HeightProfilePatternRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileNoiseFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileNoiseRenderingStep.hpp" />
+    <ClInclude Include="corelib\ArrayGetKeyByIndexFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayGetValueByIndexFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayIndexNotFoundException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -543,6 +546,8 @@
     <ClCompile Include="corelib\HeightProfilePatternRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileNoiseFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileNoiseRenderingStep.cpp" />
+    <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayGetValueByIndexFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
