@@ -43,7 +43,7 @@ namespace geogen
 			void RemoveRef(MemoryManager& vm);
 			inline int GetRefCount() { return this->refCount; }			
 
-			inline ObjectId GetObjectId() { return this->objectId; };
+			inline ObjectId GetObjectId() const { return this->objectId; };
 			inline void SetObjectId(ObjectId objectId) { this->objectId = objectId; };
 
 			virtual String GetStringValue() const = 0;
