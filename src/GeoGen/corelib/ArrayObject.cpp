@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "ArrayObject.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
@@ -239,7 +241,30 @@ void ArrayObject::SortByKeys(runtime::VirtualMachine* vm, CodeLocation location)
 
 void ArrayObject::SortByValues(runtime::VirtualMachine* vm, CodeLocation location)
 {
+	class Sorter
+	{
+	public:
+		VirtualMachine* vm;
+		ArrayObject* array;
+		bool operator() (ManagedObject* keyA, ManagedObject* keyB) 
+		{ 
+			ManagedObject* valueA = array->Get(this->vm, CodeLocation(0, 0), keyA);
+			ManagedObject* valueB = array->Get(this->vm, CodeLocation(0, 0), keyB);
+			return valueA->GetType()->InstanceLessThan(valueA, valueB);
+		}
+	};
+	
+	std::vector<ManagedObject*> working(this->list.begin(), this->list.end());
 
+	Sorter sorter;
+	sorter.vm = vm;
+	sorter.array = this;
+
+	sort(working.begin(), working.end(), sorter);
+	
+	this->list.clear();
+	
+	copy(working.begin(), working.end(), back_inserter(list));
 }
 
 String ArrayObject::GetStringValue() const

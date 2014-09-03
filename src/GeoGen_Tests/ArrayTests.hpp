@@ -335,6 +335,23 @@ public:
 			AssertEquals(11, a.GetValueByIndex(2)); \n\
 		");
 	}
+
+	static void TestSortByValues()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[\"c\"] = 11;\n\
+			a[\"a\"] = 13;\n\
+			a[\"b\"] = 12;\n\
+			\n\
+			a.SortByValues();\n\
+			\n\
+			AssertEquals(11, a.GetValueByIndex(0)); \n\
+			AssertEquals(12, a.GetValueByIndex(1)); \n\
+			AssertEquals(13, a.GetValueByIndex(2)); \n\
+		");
+	}
+
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
@@ -367,5 +384,6 @@ public:
 		ADD_TESTCASE(TestGetValueByIndexFailsWithNegativeIndex);
 		ADD_TESTCASE(TestGetValueByIndexFailsWithTooHighIndex);
 		ADD_TESTCASE(TestSortByKeys);
+		ADD_TESTCASE(TestSortByValues);
 	}
 };
