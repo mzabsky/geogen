@@ -4,6 +4,7 @@
 #include <list>
 
 #include "../runtime/ManagedObject.hpp"
+#include "../random/RandomSeed.hpp"
 
 namespace geogen
 {
@@ -75,6 +76,8 @@ namespace geogen
 
 			void SortByKeys(runtime::VirtualMachine* vm, CodeLocation location);
 			void SortByValues(runtime::VirtualMachine* vm, CodeLocation location);
+
+			void Shuffle(runtime::VirtualMachine* vm, CodeLocation location, random::RandomSeed randomSeed);
 
 			virtual String GetStringValue() const;
 		};

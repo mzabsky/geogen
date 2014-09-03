@@ -15,6 +15,7 @@
 #include "ArrayGetValueByIndexFunctionDefinition.hpp"
 #include "ArraySortByKeysFunctionDefinition.hpp"
 #include "ArraySortByValuesFunctionDefinition.hpp"
+#include "ArrayShuffleFunctionDefinition.hpp"
 #include "NumberTypeDefinition.hpp"
 
 using namespace std;
@@ -44,6 +45,7 @@ ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 	this->GetFunctionDefinitions().AddItem(new ArrayGetValueByIndexFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new ArraySortByKeysFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new ArraySortByValuesFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new ArrayShuffleFunctionDefinition(this));
 }
 
 
