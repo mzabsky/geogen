@@ -70,6 +70,9 @@ namespace geogen
 
 			inline unsigned Count() const { return this->hashmap.size(); };
 
+			ManagedObject* GetKeyByIndex(runtime::VirtualMachine* vm, CodeLocation location, int index);
+			ManagedObject* GetValueByIndex(runtime::VirtualMachine* vm, CodeLocation location, int index);
+
 			virtual String GetStringValue() const;
 		};
 	}

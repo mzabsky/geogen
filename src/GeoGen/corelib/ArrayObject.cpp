@@ -3,6 +3,7 @@
 #include "../InternalErrorException.hpp"
 #include "InvalidOperationOnEmptyArrayException.hpp"
 #include "ArrayKeyNotFoundException.hpp"
+#include "ArrayIndexNotFoundException.hpp"
 #include "NullKeyException.hpp"
 
 using namespace std;
@@ -208,6 +209,22 @@ void ArrayObject::RemoveValue(runtime::VirtualMachine* vm, CodeLocation location
 	}
 }
 
+ManagedObject* ArrayObject::GetKeyByIndex(runtime::VirtualMachine* vm, CodeLocation location, int index)
+{
+	if (index < 0 || (unsigned)index > this->Count())
+	{
+		throw ArrayIndexNotFoundException(location, index);
+	}
+
+	List::iterator it = list.begin();
+	advance(it, index);
+	return *it;
+}
+
+ManagedObject* ArrayObject::GetValueByIndex(runtime::VirtualMachine* vm, CodeLocation location, int index)
+{
+	return this->Get(vm, location, this->GetKeyByIndex(vm, location, index));
+}
 
 String ArrayObject::GetStringValue() const
 {
