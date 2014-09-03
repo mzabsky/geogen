@@ -73,6 +73,9 @@ namespace geogen
 			ManagedObject* GetKeyByIndex(runtime::VirtualMachine* vm, CodeLocation location, int index);
 			ManagedObject* GetValueByIndex(runtime::VirtualMachine* vm, CodeLocation location, int index);
 
+			void SortByKeys(runtime::VirtualMachine* vm, CodeLocation location);
+			void SortByValues(runtime::VirtualMachine* vm, CodeLocation location);
+
 			virtual String GetStringValue() const;
 		};
 	}

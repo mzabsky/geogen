@@ -226,6 +226,22 @@ ManagedObject* ArrayObject::GetValueByIndex(runtime::VirtualMachine* vm, CodeLoc
 	return this->Get(vm, location, this->GetKeyByIndex(vm, location, index));
 }
 
+void ArrayObject::SortByKeys(runtime::VirtualMachine* vm, CodeLocation location)
+{
+	this->list.clear();
+
+	// The hash map is intrinsically ordered by keys
+	for (HashMap::iterator it = this->hashmap.begin(); it != this->hashmap.end(); it++)
+	{
+		this->list.push_back(it->first);
+	}
+}
+
+void ArrayObject::SortByValues(runtime::VirtualMachine* vm, CodeLocation location)
+{
+
+}
+
 String ArrayObject::GetStringValue() const
 {
 	StringStream ss;
