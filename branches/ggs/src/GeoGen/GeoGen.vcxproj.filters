@@ -318,6 +318,7 @@
     <ClInclude Include="corelib\ArrayIndexNotFoundException.hpp" />
     <ClInclude Include="corelib\ArraySortByKeysFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySortByValuesFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayShuffleFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -552,6 +553,7 @@
     <ClCompile Include="corelib\ArrayGetValueByIndexFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySortByKeysFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySortByValuesFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

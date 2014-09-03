@@ -107,6 +107,7 @@
     <ClInclude Include="corelib\ArrayRemoveFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayRepeatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySetFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayShuffleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySortByKeysFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySortByValuesFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayTypeDefinition.hpp" />
@@ -383,6 +384,7 @@
     <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayGetValueByIndexFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayRepeatFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySortByKeysFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySortByValuesFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />

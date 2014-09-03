@@ -7,11 +7,13 @@
 #include "ArrayKeyNotFoundException.hpp"
 #include "ArrayIndexNotFoundException.hpp"
 #include "NullKeyException.hpp"
+#include "../random/RandomSequence.hpp"
 
 using namespace std;
 using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
+using namespace geogen::random;
 
 ArrayObject::~ArrayObject()
 {
@@ -263,8 +265,24 @@ void ArrayObject::SortByValues(runtime::VirtualMachine* vm, CodeLocation locatio
 	sort(working.begin(), working.end(), sorter);
 	
 	this->list.clear();
-	
 	copy(working.begin(), working.end(), back_inserter(list));
+}
+
+void ArrayObject::Shuffle(runtime::VirtualMachine* vm, CodeLocation location, random::RandomSeed randomSeed)
+{
+	RandomSequence sequence(randomSeed);
+
+	// Fisher-Yates shuffle
+	vector<ManagedObject*> randomOrder(this->list.begin(), this->list.end());
+
+	for (unsigned i = this->Count() - 1; i >= 0; i++)
+	{
+		unsigned j = sequence.NextUInt(0, this->Count() - 1);
+		swap(randomOrder[i], randomOrder[j]);
+	}
+
+	this->list.clear();
+	copy(randomOrder.begin(), randomOrder.end(), back_inserter(list));
 }
 
 String ArrayObject::GetStringValue() const
