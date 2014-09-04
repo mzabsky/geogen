@@ -177,6 +177,7 @@ namespace geogen
 					Rectangle bounds;
 					if (!this->TryGeteRectanglFromArgs(loader, arguments, bounds))
 					{
+						loader->GetOut() << std::endl << std::endl;
 						return;
 					}
 
