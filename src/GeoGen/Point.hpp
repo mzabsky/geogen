@@ -95,23 +95,23 @@ namespace geogen {
 		}
 	};
 
-	inline Coordinate NextMultipleOfInclusive(Coordinate coord, Coordinate multiplier)
+	inline Coordinate NextMultipleOfInclusive(Coordinate coord, unsigned multiplier)
 	{
 		return coord + multiplier - 1 - (coord - 1) % multiplier;
 	}
 
-	inline Coordinate NextMultipleOfExclusive(Coordinate coord, Coordinate multiplier)
+	inline Coordinate NextMultipleOfExclusive(Coordinate coord, unsigned multiplier)
 	{
 		return coord + multiplier - coord % multiplier;
 	}
 
-	inline Coordinate PreviousMultipleOfInclusive(Coordinate coord, Coordinate multiplier)
+	inline Coordinate PreviousMultipleOfInclusive(Coordinate coord, unsigned multiplier)
 	{
 		int remainder = coord % multiplier;
 		return coord - remainder;
 	}
 
-	inline Coordinate PreviousMultipleOfExclusive(Coordinate coord, Coordinate multiplier)
+	inline Coordinate PreviousMultipleOfExclusive(Coordinate coord, unsigned multiplier)
 	{
 		int remainder = coord % multiplier;
 		if (remainder == 0)

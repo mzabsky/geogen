@@ -356,7 +356,7 @@ void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 {
 	layers.push_back(NoiseLayer(256, HEIGHT_MAX / 2));
 
-	this->FillInterval(INTERVAL_MAX, 0);
+	this->FillInterval(INTERVAL_MAX, HEIGHT_MAX);
 
 	if (layers.size() == 0 || this->interval.GetLength() == 0)
 	{
@@ -375,12 +375,19 @@ void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 	Coordinate rightBufferCoordinate = NextMultipleOfInclusive(logicalInterval.GetEnd() - 1, initialWaveLength);
 	Height rightBuffer = randomSequence.GetInt(rightBufferCoordinate, -(int)initialAmplitude, +(int)initialAmplitude);
 
+	//cout << initialWaveLength << " seed ";
+
 	// Seed initial values
 	// TODO: GetPhysicalCoordinate UNSCALED???
 	for (Coordinate logicalX = NextMultipleOfInclusive(logicalInterval.GetStart(), initialWaveLength); logicalX < logicalInterval.GetEnd(); logicalX += initialWaveLength)
-	{
-		(*this)(this->GetPhysicalCoordinate(logicalX)) = randomSequence.GetInt(Point(logicalX, 0), -(int)initialAmplitude, +(int)initialAmplitude);
+	{		
+		(*this)(this->GetPhysicalCoordinate(logicalX)) = randomSequence.GetInt(Point(logicalX, 0), -(int)initialAmplitude, +(int)initialAmplitude);\
+		//cout << logicalX << "=" << (*this)(this->GetPhysicalCoordinate(logicalX)) << " ";
 	}
+
+	//cout << endl;
+	//cout << initialWaveLength << " leftbuffer" << leftBufferCoordinate << "=" << leftBuffer << endl;
+	//cout << initialWaveLength << " rightbuffer" << rightBufferCoordinate << "=" << rightBuffer << endl;
 
 	if (initialWaveLength == 1)
 	{
@@ -397,6 +404,8 @@ void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 
 		for (Coordinate logicalX = NextMultipleOfInclusive(logicalInterval.GetStart(), waveLength); logicalX < logicalInterval.GetEnd(); logicalX += waveLength)
 		{
+			if (logicalX % previousWaveLength == 0) continue;
+
 			Coordinate leftCoordinate = PreviousMultipleOfInclusive(logicalX, previousWaveLength);
 			Coordinate rightCoordinate = NextMultipleOfInclusive(logicalX, previousWaveLength);
 
@@ -407,17 +416,31 @@ void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 			Height interpolatedComponent = leftCoordinate != rightCoordinate ? Lerp(leftCoordinate, rightCoordinate, leftHeight, rightHeight, logicalX) : leftHeight;
 
 			(*this)(this->GetPhysicalCoordinate(logicalX)) = randomComponent + interpolatedComponent;
-		}
+		}		
 
 		leftBufferCoordinate = PreviousMultipleOfInclusive(logicalInterval.GetStart(), waveLength);
-		Height leftBufferRandomComponent = initialAmplitude > 0 ? randomSequence.GetInt(Point(leftBufferCoordinate, 0), -(int)initialAmplitude, +(int)initialAmplitude) : 0;
-		Height leftBufferInterpolatedComponent = leftBufferCoordinate != logicalInterval.GetStart() ? Lerp(0, 2, leftBuffer, (*this)(this->GetPhysicalCoordinate(leftBufferCoordinate + previousWaveLength)), 1) : leftBuffer;
-		leftBuffer = leftBufferRandomComponent + leftBufferInterpolatedComponent;
+		Coordinate leftBufferLeftCoordinate = PreviousMultipleOfInclusive(leftBufferCoordinate, previousWaveLength);
+		Coordinate leftBufferRightCoordinate = NextMultipleOfInclusive(leftBufferCoordinate, previousWaveLength);
+		Height leftBufferLeft = leftBuffer;
+		Height leftBufferRight = leftBufferLeftCoordinate != leftBufferRightCoordinate ? (leftBufferRightCoordinate < this->GetInterval().GetEnd() ? (*this)(this->GetPhysicalCoordinate(leftBufferRightCoordinate)) : rightBuffer) : leftBuffer;
+		Height leftBufferRandomComponent = initialAmplitude > 0 & leftBufferLeftCoordinate != leftBufferRightCoordinate ? randomSequence.GetInt(leftBufferCoordinate, -(int)initialAmplitude, +(int)initialAmplitude) : 0;
+		Height leftBufferInterpolatedComponent = leftBufferLeftCoordinate != leftBufferRightCoordinate ? Lerp(leftBufferLeftCoordinate, leftBufferRightCoordinate, leftBufferLeft, leftBufferRight, leftBufferCoordinate) : leftBuffer;
+		
+		rightBufferCoordinate = NextMultipleOfInclusive(logicalInterval.GetEnd() - 1, waveLength);
+		Coordinate rightBufferLeftCoordinate = PreviousMultipleOfInclusive(rightBufferCoordinate, previousWaveLength);
+		Coordinate rightBufferRightCoordinate = NextMultipleOfInclusive(rightBufferCoordinate, previousWaveLength);
+		Height rightBufferLeft = rightBufferLeftCoordinate != rightBufferRightCoordinate ? (rightBufferLeftCoordinate >= this->GetStart() ? (*this)(this->GetPhysicalCoordinate(rightBufferLeftCoordinate)) : leftBuffer) : rightBuffer;
+		Height rightBufferRight =  rightBuffer;
+		Height rightBufferRandomComponent = initialAmplitude > 0 && rightBufferLeftCoordinate != rightBufferRightCoordinate ? randomSequence.GetInt(rightBufferCoordinate, -(int)initialAmplitude, +(int)initialAmplitude) : 0;
+		Height rightBufferInterpolatedComponent = rightBufferLeftCoordinate != rightBufferRightCoordinate ? Lerp(rightBufferLeftCoordinate, rightBufferRightCoordinate, rightBufferLeft, rightBufferRight, rightBufferCoordinate) : rightBuffer;
 
-		rightBufferCoordinate = PreviousMultipleOfInclusive(logicalInterval.GetEnd() - 1, waveLength);
-		Height rightBufferRandomComponent = initialAmplitude > 0 ? randomSequence.GetInt(Point(rightBufferCoordinate, 0), -(int)initialAmplitude, +(int)initialAmplitude) : 0;
-		Height rightBufferInterpolatedComponent = rightBufferCoordinate != logicalInterval.GetStart() ? Lerp(0, 2, (*this)(this->GetPhysicalCoordinate(rightBufferCoordinate - previousWaveLength)), rightBuffer, 1) : rightBuffer;
+		leftBuffer = leftBufferRandomComponent + leftBufferInterpolatedComponent;
 		rightBuffer = rightBufferRandomComponent + rightBufferInterpolatedComponent;
+
+		//cout << endl;
+		//cout << waveLength << " leftbuffer" << leftBufferCoordinate << "=" << leftBuffer << endl;
+		//cout << waveLength << " rightbuffer" << rightBufferCoordinate << "=" << rightBuffer << endl;
+
 
 		randomSequence.Advance();
 

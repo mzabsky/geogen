@@ -36,7 +36,7 @@ ManagedObject* HeightProfileNoiseFunctionDefinition::CallNative(CodeLocation loc
 
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, returnObjectSlot, vector<NoiseLayer>(), 0);
+	RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, returnObjectSlot, vector<NoiseLayer>(), vm->GetArguments().GetRandomSeed());
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;
