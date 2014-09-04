@@ -75,6 +75,17 @@ namespace geogen {
 			return *this;
 		}
 
+		inline Interval Interval::operator/(const double other) const
+		{
+			return Interval(Coordinate(this->start / other), Size1D(this->length / other));
+		}
+
+		Interval& Interval::operator/=(const double other)
+		{
+			*this = *this * other;
+			return *this;
+		}
+
 		bool Contains(Interval other) const;
 		bool Contains(Coordinate x) const;
 
