@@ -109,7 +109,7 @@ void HeightMap::AddMasked(Height addend, HeightMap* mask)
 	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		Height maskHeight = (*mask)(x + maskOffset.GetX(), y + maskOffset.GetY());
+		Height maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
 		(*this)(x, y) += addend * Height(maskHeight / (double)HEIGHT_MAX);
 	}
 }
@@ -142,7 +142,7 @@ void HeightMap::AddMapMasked(HeightMap* addend, HeightMap* mask)
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		Height addendHeight = (*addend)(x + addendOffset.GetX(), y + addendOffset.GetY());
-		Height maskHeight = (*mask)(x + maskOffset.GetX(), y + maskOffset.GetY());
+		Height maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
 		(*this)(x, y) += addendHeight * Height(maskHeight / (double)HEIGHT_MAX);
 	}
 }
@@ -252,7 +252,7 @@ void HeightMap::Combine(HeightMap* other, HeightMap* mask)
 	{
 		Height thisHeight = (*this)(x, y);
 		Height otherHeight = (*other)(x + otherOffset.GetX(), y + otherOffset.GetY());
-		Height maskHeight = (*mask)(x + maskOffset.GetX(), y + maskOffset.GetY());
+		Height maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
 		double factor = maskHeight / (double)HEIGHT_MAX;
 		(*this)(x, y) += Height(thisHeight * factor) + Height(otherHeight * (1 - factor));
 	}
