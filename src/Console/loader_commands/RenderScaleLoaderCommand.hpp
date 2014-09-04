@@ -23,6 +23,7 @@ namespace geogen
 				{
 					this->cues.push_back(GG_STR("rsc"));
 					this->cues.push_back(GG_STR("rensc"));
+					this->cues.push_back(GG_STR("rscale"));
 					this->cues.push_back(GG_STR("renscale"));
 					this->cues.push_back(GG_STR("renderscale"));
 				}
