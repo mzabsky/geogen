@@ -33,11 +33,11 @@ void geogen::console::WriteImage(genlib::DataObject* object, renderer::RendererO
 
 		OFStream stream(filename);
 
-		stream << GG_STR("Coordinate,Height") << endl;
+		stream << GG_STR("Coordinate;Height") << endl;
 		
 		for (Coordinate x = 0; x < heightProfile->GetLength(); x++)
 		{
-			stream << (x + heightProfile->GetStart()) << GG_STR(",") << (*heightProfile)(x) << endl;
+			stream << (x + heightProfile->GetStart()) << GG_STR(";") << (*heightProfile)(x) << endl;
 		}
 
 		stream.flush();
