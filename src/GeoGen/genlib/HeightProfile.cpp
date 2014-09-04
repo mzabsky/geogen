@@ -106,7 +106,7 @@ void HeightProfile::AddMasked(Height addend, HeightProfile* mask)
 	Coordinate maskOffset = mask->GetInterval().GetStart() - this->interval.GetStart();
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
-		Height maskHeight = (*mask)(x + maskOffset);
+		Height maskHeight = max((*mask)(x + maskOffset), Height(0));
 		(*this)(x) += addend * Height(maskHeight / (double)HEIGHT_MAX);
 	}
 }
@@ -139,7 +139,7 @@ void HeightProfile::AddProfileMasked(HeightProfile* addend, HeightProfile* mask)
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
 		Height addendHeight = (*addend)(x + addendOffset);
-		Height maskHeight = (*mask)(x + maskOffset);
+		Height maskHeight = max((*mask)(x + maskOffset), Height(0));
 		(*this)(x) += addendHeight * Height(maskHeight / (double)HEIGHT_MAX);
 	}
 }
@@ -210,7 +210,7 @@ void HeightProfile::Combine(HeightProfile* other, HeightProfile* mask)
 	{
 		Height thisHeight = (*this)(x);
 		Height otherHeight = (*other)(x + otherOffset);
-		Height maskHeight = (*mask)(x + maskOffset);
+		Height maskHeight = max((*mask)(x + maskOffset), Height(0));
 		double factor = maskHeight / (double)HEIGHT_MAX;
 		(*this)(x) += Height(thisHeight * factor) + Height(otherHeight * (1 - factor));
 	}
