@@ -108,18 +108,21 @@ void RendererDebugger::Step()
 		String stepName = step->GetName();
 		std::replace(stepName.begin(), stepName.end(), '.', '-');
 
-		StringStream ss;
-		ss << this->GetOutputDirectory() << GG_STR("/step") << this->currentStepNumber << GG_STR("_") << stepName << (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
-
-		try
+		if (returnObject != NULL)
 		{
-			WriteImage(returnObject->GetPtr(), returnObject->GetObjectType(), ss.str());
+			StringStream ss;
+			ss << this->GetOutputDirectory() << GG_STR("/step") << this->currentStepNumber << GG_STR("_") << stepName << (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
 
-			this->GetOut() << GG_STR("Saved step result as \"") << ss.str() << ("\".") << std::endl;
-		}
-		catch (exception&)
-		{
-			this->GetOut() << GG_STR("Could not write \"") << ss.str() << ("\".") << std::endl;
+			try
+			{
+				WriteImage(returnObject->GetPtr(), returnObject->GetObjectType(), ss.str());
+
+				this->GetOut() << std::endl << GG_STR("Saved step result as \"") << ss.str() << ("\".") << std::endl;
+			}
+			catch (exception&)
+			{
+				this->GetOut() << std::endl << GG_STR("Could not write \"") << ss.str() << ("\".") << std::endl;
+			}
 		}
 	}
 
