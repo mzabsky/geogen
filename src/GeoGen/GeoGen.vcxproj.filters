@@ -577,5 +577,6 @@
       <Filter>compiler\generated</Filter>
     </None>
     <None Include="generate-geogen-hpp.linq" />
+    <None Include="generate-tiles-table.linq" />
   </ItemGroup>
 </Project>
