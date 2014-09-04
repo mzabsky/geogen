@@ -22,7 +22,7 @@ ManagedObject* ArrayShuffleFunctionDefinition::CallNative(CodeLocation location,
 
 	RandomSeed seed = arguments.size() > 0 ? (RandomSeed)NumberToInt(dynamic_cast<NumberObject*>(arguments[0])->GetValue()) : (RandomSeed)vm->GetCommonRandomSequence().NextUInt();
 
-	RandomSeed finalSeed = CombineSeeds(seed, CreateSeed(GG_STR("Array.Shuffle")));
+	RandomSeed finalSeed = CombineSeeds(vm->GetArguments().GetRandomSeed(), seed, CreateSeed(GG_STR("Array.Shuffle")));
 
 	ArrayObject* thisArray = dynamic_cast<ArrayObject*>(instance);
 
