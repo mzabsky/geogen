@@ -84,6 +84,12 @@ void Renderer::CalculateObjectLifetimes()
 			if (isObjectAlive[*it2])
 			{
 				currentStepObjectIndexesToRelease.push_back(*it2);
+
+				if (*it2 > 100)
+				{
+					throw exception();
+				}
+
 				isObjectAlive[*it2] = false;
 			}
 		}

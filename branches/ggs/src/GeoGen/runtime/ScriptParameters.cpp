@@ -27,6 +27,8 @@ ScriptParameters::ScriptParameters(ScriptParameters const& other)
 
 	this->randomSeed = other.randomSeed;
 
+	this->enabledMaps = other.enabledMaps;
+
 	for (const_iterator it = other.Begin(); it != other.End(); it++)
 	{
 		this->table[it->first] = it->second->Clone();
@@ -53,6 +55,8 @@ ScriptParameters& ScriptParameters::operator=(ScriptParameters const& other)
 
 	this->randomSeed = other.randomSeed;
 
+	this->enabledMaps = other.enabledMaps;
+
 	this->table.clear();
 
 	for (const_iterator it = other.Begin(); it != other.End(); it++)
@@ -64,7 +68,7 @@ ScriptParameters& ScriptParameters::operator=(ScriptParameters const& other)
 }
 
 void ScriptParameters::SetRenderScale(double renderScale)
-{
+{ 
 	this->renderScale = std::min(std::max(renderScale, RENDER_SCALE_MIN), RENDER_SCALE_MAX);
 }
 
