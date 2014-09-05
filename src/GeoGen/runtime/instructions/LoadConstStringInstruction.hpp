@@ -23,6 +23,8 @@ namespace geogen
 				virtual String GetInstructionName() const { return GG_STR("LoadConstString"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
+
+				virtual Instruction* Clone() const { return new LoadConstStringInstruction(this->GetLocation(), this->constString); };
 			};
 		}
 	}

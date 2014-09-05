@@ -57,6 +57,11 @@ void Debugger::ShowCodeContext() const
 	{//codeLines.at(max(currentInstruction->GetLocation().GetLine(), 0)
 		Instruction const* currentInstruction = this->GetCurrentInstruction();
 
+		if (this->GetVirtualMachine()->GetStatus() == VIRTUAL_MACHINE_STATUS_FINISHED)
+		{
+			return;
+		}
+
 		for (
 			int i = -(int)numberOfShownLines;
 			i < (int)numberOfShownLines;

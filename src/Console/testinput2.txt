@@ -1,2 +1,3 @@
-var noise = HeightProfile.Noise();
-yield HeightMap.Projection(noise, Direction.Vertical);
+var a = {5: 1};
+var i = 4;
+a[++i]++;

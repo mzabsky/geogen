@@ -12,12 +12,11 @@ namespace geogen
 		class CodeBlock : public Serializable
 		{
 		private:
-			std::vector<instructions::Instruction const*> instructions;
-			
-			CodeBlock(CodeBlock const& other) {};
-			CodeBlock& operator=(CodeBlock const&) {};
+			std::vector<instructions::Instruction const*> instructions;			
 		public:		
-			CodeBlock() {};			
+			CodeBlock() {};
+			CodeBlock(CodeBlock const& other);
+			CodeBlock& operator=(CodeBlock const&);
 			~CodeBlock();
 
 			typedef std::vector<instructions::Instruction const*>::const_iterator const_iterator;

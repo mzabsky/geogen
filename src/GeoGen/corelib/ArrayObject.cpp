@@ -61,6 +61,17 @@ ManagedObject* ArrayObject::Get(VirtualMachine* vm, CodeLocation location, Manag
 	return it->second;
 }
 
+ManagedObject* ArrayObject::GetActualKey(VirtualMachine* vm, CodeLocation location, ManagedObject* key)
+{
+	HashMap::iterator it = this->hashmap.find(key);
+	if (it == this->hashmap.end())
+	{
+		throw ArrayKeyNotFoundException(location, key->GetStringValue());
+	}
+
+	return it->first;
+}
+
 void ArrayObject::Set(VirtualMachine* vm, CodeLocation location, ManagedObject* key, ManagedObject* value)
 {
 	if (key == vm->GetNull())

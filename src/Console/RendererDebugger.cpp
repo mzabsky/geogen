@@ -47,15 +47,21 @@ RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, re
 
 void RendererDebugger::Run()
 {
-	out << std::endl << GG_STR("Starting renderer debugger. ") << std::endl;
+	if (this->renderer.GetRenderingSequence().Size() == 0)
+	{
+		out << std::endl << GG_STR("Rendering sequence is empty, skipping renderer.") << endl << endl;
+		return;
+	}
 
+	out << std::endl << GG_STR("Starting renderer debugger. ") << std::endl;
+	
 	this->GetRenderer()->CalculateMetadata();
 
 	out << std::endl << GG_STR("Calculated metadata. ") << std::endl << std::endl;
 
 	renderer::RenderingStep const* currentStep = this->renderer.GetNextRenderingStep();
 	out << GG_STR("Next step: \"") << (currentStep->ToString()) << GG_STR("\" on line ") << currentStep->GetLocation().GetLine() << GG_STR(", column ") << currentStep->GetLocation().GetColumn() << GG_STR(". ") << std::endl << std::endl;
-
+	
 	String input = "";
 	while (renderer.GetStatus() == RENDERER_STATUS_READY)
 	{

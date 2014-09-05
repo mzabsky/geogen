@@ -51,6 +51,7 @@ namespace geogen
 
 			void Set(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key, ManagedObject* value);
 			ManagedObject* Get(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key);
+			ManagedObject* GetActualKey(runtime::VirtualMachine* vm, CodeLocation location, ManagedObject* key);
 
 			ManagedObject* Front(runtime::VirtualMachine* vm, CodeLocation location);
 			ManagedObject* Back(runtime::VirtualMachine* vm, CodeLocation location);

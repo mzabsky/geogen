@@ -25,6 +25,8 @@ namespace geogen
 				virtual String GetInstructionName() const { return GG_STR("CallMember"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
+
+				virtual Instruction* Clone() const { return new CallMemberInstruction(this->GetLocation(), this->functionName, this->argumentCount); };
 			};
 		}
 	}

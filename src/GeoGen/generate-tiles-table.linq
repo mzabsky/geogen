@@ -30,7 +30,7 @@ builder.AppendLine(@"
 			<script type=""text/javascript"">
 				$( document ).ready(function() {
 					$('table').click(function () {
-						$('table').toggleClass('red')
+						$('table').toggleClass('red');
 					});
 				});
 			</script>

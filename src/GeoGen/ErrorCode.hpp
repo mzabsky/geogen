@@ -12,7 +12,7 @@ namespace geogen
 		GGE1303_InvalidContinue = 1303,
 		GGE1304_InvalidReturn = 1304,
 		GGE1306_FunctionAlreadyDefined = 1306,
-		GGE1307_InvalidLvalueExpression = 1307,
+		GGE1307_ReadOnlyExpressionWrite = 1307,
 		GGE1308_TypeAlreadyDefined = 1308,
 		GGE1309_EnumValueAlreadyDefined = 1309,
 		GGE1310_EnumValueNotInteger = 1310,

@@ -53,3 +53,11 @@ InstructionStepResult IfInstruction::Step(VirtualMachine* vm) const
 				
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }
+
+Instruction* IfInstruction::Clone() const
+{
+	IfInstruction* clone = new IfInstruction(this->GetLocation());
+	clone->ifBranchCodeBlock = CodeBlock(this->ifBranchCodeBlock);
+	clone->elseBranchCodeBlock = CodeBlock(this->elseBranchCodeBlock);
+	return clone;
+}

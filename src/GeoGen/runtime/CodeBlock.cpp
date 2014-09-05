@@ -7,6 +7,32 @@ using namespace geogen;
 using namespace runtime;
 using namespace std;
 
+CodeBlock::CodeBlock(CodeBlock const& other)
+{
+	for (std::vector<instructions::Instruction const*>::const_iterator it = other.instructions.begin(); it != other.instructions.end(); it++)
+	{
+		this->AddInstruction((*it)->Clone());
+	}
+}
+
+CodeBlock& CodeBlock::operator=(CodeBlock const& other)
+{
+	if (this != &other)
+	{
+		for (std::vector<instructions::Instruction const*>::iterator it = this->instructions.begin(); it != this->instructions.end(); it++)
+		{
+			delete *it;
+		}
+
+		for (std::vector<instructions::Instruction const*>::const_iterator it = other.instructions.begin(); it != other.instructions.end(); it++)
+		{
+			this->AddInstruction((*it)->Clone());
+		}
+	}
+
+	return *this;
+}
+
 CodeBlock::~CodeBlock() 
 {
 	for (std::vector<instructions::Instruction const*>::iterator it = this->instructions.begin(); it != this->instructions.end(); it++)

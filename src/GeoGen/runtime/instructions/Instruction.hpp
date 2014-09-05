@@ -37,6 +37,8 @@ namespace geogen
 				};
 
 				virtual String GetInstructionName() const = 0;
+
+				virtual Instruction* Clone() const = 0;
 			};
 		}
 	}
