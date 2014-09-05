@@ -62,6 +62,8 @@ namespace geogen
 			double renderScale = 1;
 
 			random::RandomSeed randomSeed;
+
+			std::vector<String> enabledMaps;
 		public:
 			typedef std::map<String, ScriptParameter const*>::const_iterator const_iterator;
 			typedef std::map<String, ScriptParameter*>::iterator iterator;
@@ -246,6 +248,9 @@ namespace geogen
 			/// Sets the random seed.
 			/// @param randomSeed The random seed.
 			inline void SetRandomSeed(random::RandomSeed randomSeed) { this->randomSeed = randomSeed; }
+
+			inline std::vector<String>& GetEnabledMaps() { return this->enabledMaps; }
+			inline std::vector<String> const& GetEnabledMaps() const { return this->enabledMaps; }
 
 			/// Resets all parameters to their default values.
 			void ResetToDefaults();
