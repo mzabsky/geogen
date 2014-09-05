@@ -327,6 +327,8 @@
     <ClInclude Include="runtime\ScopeVariableReferenceObject.hpp" />
     <ClInclude Include="corelib\ArrayGetRefFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ArrayItemReferenceObject.hpp" />
+    <ClInclude Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -568,6 +570,8 @@
     <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
     <ClCompile Include="corelib\ArrayGetRefFunctionDefinition.cpp" />
     <ClCompile Include="runtime\ArrayItemReferenceObject.cpp" />
+    <ClCompile Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

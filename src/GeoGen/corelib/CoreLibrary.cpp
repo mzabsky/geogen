@@ -8,6 +8,8 @@
 #include "DirectionTypeDefinition.hpp"
 #include "../runtime/ReferenceTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
+#include "ArithmeticAssignmentOperatorFunctionDefinition.hpp"
+#include "BitLogicAssignmentOperatorFunctionDefinition.hpp"
 #include "AssignmentOperatorFunctionDefinition.hpp"
 #include "RelationalOperatorFunctionDefinition.hpp"
 #include "EqualityOperatorFunctionDefinition.hpp"
@@ -76,6 +78,16 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(IncrementDecrementOperatorFunctionDefinition::Create(IncrementDecrementOperatorFunctionDefinition::PLUS_PLUS_PRE));
 	this->globalFunctionDefinitions.AddItem(IncrementDecrementOperatorFunctionDefinition::Create(IncrementDecrementOperatorFunctionDefinition::MINUS_MINUS_POST));
 	this->globalFunctionDefinitions.AddItem(IncrementDecrementOperatorFunctionDefinition::Create(IncrementDecrementOperatorFunctionDefinition::MINUS_MINUS_PRE));
+	this->globalFunctionDefinitions.AddItem(ArithmeticAssignmentOperatorFunctionDefinition::Create(ArithmeticAssignmentOperatorFunctionDefinition::MULTIPLICATION));
+	this->globalFunctionDefinitions.AddItem(ArithmeticAssignmentOperatorFunctionDefinition::Create(ArithmeticAssignmentOperatorFunctionDefinition::DIVISION));
+	this->globalFunctionDefinitions.AddItem(ArithmeticAssignmentOperatorFunctionDefinition::Create(ArithmeticAssignmentOperatorFunctionDefinition::MODULO));
+	this->globalFunctionDefinitions.AddItem(ArithmeticAssignmentOperatorFunctionDefinition::Create(ArithmeticAssignmentOperatorFunctionDefinition::ADDITION));
+	this->globalFunctionDefinitions.AddItem(ArithmeticAssignmentOperatorFunctionDefinition::Create(ArithmeticAssignmentOperatorFunctionDefinition::SUBTRACTION));
+	this->globalFunctionDefinitions.AddItem(ArithmeticAssignmentOperatorFunctionDefinition::Create(ArithmeticAssignmentOperatorFunctionDefinition::BIT_SHIFT_LEFT));
+	this->globalFunctionDefinitions.AddItem(ArithmeticAssignmentOperatorFunctionDefinition::Create(ArithmeticAssignmentOperatorFunctionDefinition::BIT_SHIFT_RIGHT));
+	this->globalFunctionDefinitions.AddItem(BitLogicAssignmentOperatorFunctionDefinition::Create(BitLogicAssignmentOperatorFunctionDefinition::AND));
+	this->globalFunctionDefinitions.AddItem(BitLogicAssignmentOperatorFunctionDefinition::Create(BitLogicAssignmentOperatorFunctionDefinition::OR));
+
 
 	// Math functions
 	this->globalFunctionDefinitions.AddItem(MathMinMaxFunctionDefinition::Create(MathMinMaxFunctionDefinition::MIN));
