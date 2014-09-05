@@ -39,6 +39,8 @@ namespace geogen
 			inline String GetOutputDirectory() { return this->outputDirectory; }
 
 			inline runtime::VirtualMachine* GetVirtualMachine() { return &this->vm; };
+			inline runtime::VirtualMachine const* GetVirtualMachine() const { return &this->vm; };
+
 			runtime::instructions::Instruction const* GetCurrentInstruction() const;
 			inline CommandTable& GetCommandTable() { return this->commandTable; };
 

@@ -39,3 +39,11 @@ yield HeightMap.Projection(slice, Direction.Horizontal) as "slice";
 main = HeightMap.Pattern(main, @[0.3, 0.3], @[0.3, 0.3]);
 
 yield main;
+
+/*
+
+
+var noise = HeightProfile.Noise();
+yield HeightMap.Projection(noise, Direction.Vertical);
+
+*/

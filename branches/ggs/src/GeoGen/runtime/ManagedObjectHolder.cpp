@@ -34,5 +34,8 @@ ManagedObjectHolder& ManagedObjectHolder::operator=(ManagedObjectHolder const& o
 
 ManagedObjectHolder::~ManagedObjectHolder()
 {
-	this->object->RemoveRef(vm->GetMemoryManager());
+	if (this->object != NULL)
+	{
+		this->object->RemoveRef(vm->GetMemoryManager());
+	}
 }

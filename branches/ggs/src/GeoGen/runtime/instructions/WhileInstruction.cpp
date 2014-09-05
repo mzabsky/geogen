@@ -5,24 +5,26 @@
 #include "..\CodeBlockStackEntry.hpp"
 #include "..\VirtualMachine.hpp"
 
-namespace geogen 
+using namespace geogen;
+using namespace runtime;
+using namespace instructions;
+		
+void WhileInstruction::Serialize(IOStream& stream) const
 {
-	namespace runtime
-	{
-		namespace instructions
-		{
-			void WhileInstruction::Serialize(IOStream& stream) const
-			{
-				stream << "While" << std::endl;
-				this->codeBlock.SerializeWithTabs(stream, 1);
-			}
+	stream << "While" << std::endl;
+	this->codeBlock.SerializeWithTabs(stream, 1);
+}
 
-			InstructionStepResult WhileInstruction::Step(VirtualMachine* vm) const
-			{
-				vm->GetCallStack().Top().GetCodeBlockStack().Push(this->GetLocation(), &vm->GetMemoryManager(), this->GetCodeBlock(), true);
+InstructionStepResult WhileInstruction::Step(VirtualMachine* vm) const
+{
+	vm->GetCallStack().Top().GetCodeBlockStack().Push(this->GetLocation(), &vm->GetMemoryManager(), this->GetCodeBlock(), true);
 
-				return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
-			}
-		}
-	}
+	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
+}
+
+Instruction* WhileInstruction::Clone() const
+{
+	WhileInstruction* clone = new WhileInstruction(this->GetLocation());
+	clone->codeBlock = CodeBlock(this->codeBlock);
+	return clone;
 }

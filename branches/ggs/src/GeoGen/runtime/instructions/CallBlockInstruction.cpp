@@ -32,3 +32,10 @@ InstructionStepResult CallBlockInstruction::Step(VirtualMachine* vm) const
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }
+
+Instruction* CallBlockInstruction::Clone() const
+{
+	CallBlockInstruction* clone = new CallBlockInstruction(this->GetLocation());
+	clone->codeBlock = CodeBlock(this->codeBlock);
+	return clone;
+}

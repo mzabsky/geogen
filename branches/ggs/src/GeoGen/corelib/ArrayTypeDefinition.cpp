@@ -6,6 +6,7 @@
 #include "ArrayPushBackFunctionDefinition.hpp"
 #include "ArrayFrontBackFunctionDefinition.hpp"
 #include "ArrayGetFunctionDefinition.hpp"
+#include "ArrayGetRefFunctionDefinition.hpp"
 #include "ArraySetFunctionDefinition.hpp"
 #include "ArrayContainsFunctionDefinition.hpp"
 #include "ArrayFromListFunctionDefinition.hpp"
@@ -33,6 +34,7 @@ ArrayTypeDefinition::ArrayTypeDefinition() : TypeDefinition(GG_STR("Array"))
 	this->GetFunctionDefinitions().AddItem(new ArrayCountFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new ArrayPushBackFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new ArrayGetFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new ArrayGetRefFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new ArraySetFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(ArrayFrontBackFunctionDefinition::Create(ArrayFrontBackFunctionDefinition::FRONT, this));
 	this->GetFunctionDefinitions().AddItem(ArrayFrontBackFunctionDefinition::Create(ArrayFrontBackFunctionDefinition::BACK, this));

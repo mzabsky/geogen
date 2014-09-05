@@ -6,10 +6,12 @@
 #include "PointTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
 #include "DirectionTypeDefinition.hpp"
+#include "../runtime/ReferenceTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "AssignmentOperatorFunctionDefinition.hpp"
 #include "RelationalOperatorFunctionDefinition.hpp"
 #include "EqualityOperatorFunctionDefinition.hpp"
+#include "IncrementDecrementOperatorFunctionDefinition.hpp"
 #include "BitLogicOperatorFunctionDefinition.hpp"
 #include "LogicalOperatorFunctionDefinition.hpp"
 #include "NegationOperatorFunctionDefinition.hpp"
@@ -41,6 +43,7 @@ CoreLibrary::CoreLibrary()
 	this->typeDefinitions.AddItem(new ArrayTypeDefinition());
 	this->typeDefinitions.AddItem(new CoordinateTypeDefinition());
 	this->typeDefinitions.AddItem(new PointTypeDefinition());
+	this->typeDefinitions.AddItem(new ReferenceTypeDefinition());
 
 	// Enums
 	this->typeDefinitions.AddItem(DirectionTypeDefinition::Create());
@@ -69,6 +72,10 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(LogicalOperatorFunctionDefinition::Create(LogicalOperatorFunctionDefinition::LOGICAL_AND));
 	this->globalFunctionDefinitions.AddItem(LogicalOperatorFunctionDefinition::Create(LogicalOperatorFunctionDefinition::LOGICAL_OR));
 	this->globalFunctionDefinitions.AddItem(new RelativeCoordinateOperatorFunctionDefinition());
+	this->globalFunctionDefinitions.AddItem(IncrementDecrementOperatorFunctionDefinition::Create(IncrementDecrementOperatorFunctionDefinition::PLUS_PLUS_POST));
+	this->globalFunctionDefinitions.AddItem(IncrementDecrementOperatorFunctionDefinition::Create(IncrementDecrementOperatorFunctionDefinition::PLUS_PLUS_PRE));
+	this->globalFunctionDefinitions.AddItem(IncrementDecrementOperatorFunctionDefinition::Create(IncrementDecrementOperatorFunctionDefinition::MINUS_MINUS_POST));
+	this->globalFunctionDefinitions.AddItem(IncrementDecrementOperatorFunctionDefinition::Create(IncrementDecrementOperatorFunctionDefinition::MINUS_MINUS_PRE));
 
 	// Math functions
 	this->globalFunctionDefinitions.AddItem(MathMinMaxFunctionDefinition::Create(MathMinMaxFunctionDefinition::MIN));

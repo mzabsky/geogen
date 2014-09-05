@@ -34,6 +34,7 @@ namespace geogen
 			virtual ~ManagedObject();
 
 			virtual bool IsStaticObject(){ return false; };
+			virtual bool IsReferenceObject(){ return false; };
 
 			inline TypeDefinition const* GetType() const { return this->type; };
 

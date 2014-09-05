@@ -8,6 +8,35 @@ using namespace std;
 using namespace geogen;
 using namespace geogen::runtime;
 
+bool FunctionDefinition::CheckArgument(VirtualMachine* vm, CodeLocation location, TypeDefinition const* expectedType, ManagedObject* actualArgument, ManagedObjectHolder& managedObjectHolder) const
+{
+	if (actualArgument->IsStaticObject())
+	{
+		ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
+
+		throw IncorrectTypeException(errorCode, location, expectedType->GetName(), GG_STR("Type"));
+	}
+
+	if (actualArgument->GetType() != expectedType)
+	{
+		if (expectedType->IsConvertibleFrom(vm, actualArgument->GetType()))
+		{
+			actualArgument = expectedType->Convert(vm, actualArgument);
+			
+			managedObjectHolder = ManagedObjectHolder(vm, actualArgument);
+			return true;
+		}
+		else
+		{
+			ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
+
+			throw IncorrectTypeException(errorCode, location, expectedType->GetName(), actualArgument->GetType()->GetName());
+		}
+	}
+
+	return false;
+}
+
 vector<ManagedObjectHolder> FunctionDefinition::CheckArguments(VirtualMachine* vm, CodeLocation location, vector<TypeDefinition const*> expectedTypes, vector<ManagedObject*>& actualArguments, int requiredArgumentCount) const
 {
 	// Check argument count first
@@ -23,26 +52,10 @@ vector<ManagedObjectHolder> FunctionDefinition::CheckArguments(VirtualMachine* v
 	vector<ManagedObjectHolder> holders;
 	for (vector<ManagedObject*>::size_type i = 0; i < actualArguments.size(); i++)
 	{
-		if (actualArguments[i]->IsStaticObject())
+		ManagedObjectHolder holder;
+		if (this->CheckArgument(vm, location, expectedTypes[i], actualArguments[i], holder))
 		{
-			ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
-
-			throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), GG_STR("Type"));
-		}
-
-		if (actualArguments[i]->GetType() != expectedTypes[i])
-		{
-			if (expectedTypes[i]->IsConvertibleFrom(vm, actualArguments[i]->GetType()))
-			{
-				actualArguments[i] = expectedTypes[i]->Convert(vm, actualArguments[i]);
-				holders.push_back(ManagedObjectHolder(vm, actualArguments[i]));
-			}
-			else 
-			{
-				ErrorCode errorCode = this->GetFunctionType() == FUNCTION_TYPE_FUNCTION ? GGE2101_IncorrectNativeFunctionArgumentType : GGE2102_IncorrectOperandType;
-
-				throw IncorrectTypeException(errorCode, location, expectedTypes[i]->GetName(), actualArguments[i]->GetType()->GetName());
-			}
+			holders.push_back(holder);
 		}
 	}
 

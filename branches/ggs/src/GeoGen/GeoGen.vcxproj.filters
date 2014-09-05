@@ -319,6 +319,14 @@
     <ClInclude Include="corelib\ArraySortByKeysFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArraySortByValuesFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayShuffleFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\instructions\LoadScopeReferenceInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\StoreReferenceInstruction.hpp" />
+    <ClInclude Include="compiler\ReadOnlyExpressionWriteException.hpp" />
+    <ClInclude Include="corelib\IncrementDecrementOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\ReferenceObject.hpp" />
+    <ClInclude Include="runtime\ScopeVariableReferenceObject.hpp" />
+    <ClInclude Include="corelib\ArrayGetRefFunctionDefinition.hpp" />
+    <ClInclude Include="runtime\ArrayItemReferenceObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -554,6 +562,12 @@
     <ClCompile Include="corelib\ArraySortByKeysFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySortByValuesFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\IncrementDecrementOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="runtime\ReferenceObject.cpp" />
+    <ClCompile Include="runtime\ScopeVariableReferenceObject.cpp" />
+    <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
+    <ClCompile Include="corelib\ArrayGetRefFunctionDefinition.cpp" />
+    <ClCompile Include="runtime\ArrayItemReferenceObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

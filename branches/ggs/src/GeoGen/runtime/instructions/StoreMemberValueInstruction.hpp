@@ -23,6 +23,8 @@ namespace geogen
 				virtual String GetInstructionName() const { return GG_STR("StoreMemberValue"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
+
+				virtual Instruction* Clone() const { return new StoreMemberValueInstruction(this->GetLocation(), this->variableName); };
 			};
 		}
 	}

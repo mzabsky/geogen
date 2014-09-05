@@ -24,6 +24,8 @@ namespace geogen
 				virtual String GetInstructionName() const { return GG_STR("While"); };
 
 				virtual InstructionStepResult Step(VirtualMachine* vm) const;
+
+				virtual Instruction* Clone() const;
 			};
 		}
 	}

@@ -89,6 +89,7 @@
     <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp" />
     <ClInclude Include="compiler\MetadataKeyValueCollectionExpectedException.hpp" />
     <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
+    <ClInclude Include="compiler\ReadOnlyExpressionWriteException.hpp" />
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
     <ClInclude Include="compiler\UndefinedMetadataIdentifierException.hpp" />
     <ClInclude Include="compiler\UnexpectedCharacterException.hpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="corelib\ArrayFrontBackFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayGetFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayGetKeyByIndexFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ArrayGetRefFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayGetValueByIndexFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayIndexNotFoundException.hpp" />
     <ClInclude Include="corelib\ArrayKeyNotFoundException.hpp" />
@@ -212,6 +214,7 @@
     <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileUnifyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileUnifyRenderingStep.hpp" />
+    <ClInclude Include="corelib\IncrementDecrementOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
@@ -288,6 +291,7 @@
     <ClInclude Include="renderer\RenderingStep.hpp" />
     <ClInclude Include="renderer\RenderingStep1D.hpp" />
     <ClInclude Include="renderer\RenderingStep2D.hpp" />
+    <ClInclude Include="runtime\ArrayItemReferenceObject.hpp" />
     <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
     <ClInclude Include="corelib\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CallStack.hpp" />
@@ -299,6 +303,8 @@
     <ClInclude Include="corelib\CoreLibrary.hpp" />
     <ClInclude Include="corelib\DivisionByZeroException.hpp" />
     <ClInclude Include="runtime\EnumScriptParameter.hpp" />
+    <ClInclude Include="runtime\instructions\LoadScopeReferenceInstruction.hpp" />
+    <ClInclude Include="runtime\instructions\StoreReferenceInstruction.hpp" />
     <ClInclude Include="runtime\ManagedObject.hpp" />
     <ClInclude Include="corelib\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />
@@ -351,11 +357,13 @@
     <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
+    <ClInclude Include="runtime\ReferenceObject.hpp" />
     <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
     <ClInclude Include="runtime\RendererObjectStub.hpp" />
     <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="ApiUsageException.hpp" />
+    <ClInclude Include="runtime\ScopeVariableReferenceObject.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptParameter.hpp" />
     <ClInclude Include="runtime\ScriptParameters.hpp" />
@@ -382,6 +390,7 @@
     <ClInclude Include="String.hpp" />
     <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ArrayGetRefFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayGetValueByIndexFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayRepeatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp" />
@@ -483,6 +492,7 @@
     <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileUnifyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileUnifyRenderingStep.cpp" />
+    <ClCompile Include="corelib\IncrementDecrementOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
     <ClCompile Include="corelib\DirectionTypeDefinition.cpp" />
@@ -519,7 +529,11 @@
     <ClCompile Include="renderer\RenderingStep2D.cpp" />
     <ClCompile Include="renderer\RendererObject.cpp" />
     <ClCompile Include="corelib\YieldRenderingStep.cpp" />
+    <ClCompile Include="runtime\ArrayItemReferenceObject.cpp" />
+    <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
     <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
+    <ClCompile Include="runtime\ReferenceObject.cpp" />
+    <ClCompile Include="runtime\ScopeVariableReferenceObject.cpp" />
     <ClCompile Include="String.cpp">
       <FileType>CppHeader</FileType>
     </ClCompile>
