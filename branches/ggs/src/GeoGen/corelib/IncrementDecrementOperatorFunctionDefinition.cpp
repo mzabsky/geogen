@@ -43,6 +43,8 @@ ManagedObject* IncrementDecrementOperatorFunctionDefinition::CallNative(CodeLoca
 	Number resultNumber;
 	Number returnNumber;
 
+	RuntimeMathCheckInit();
+
 	switch (op)
 	{
 	case PLUS_PLUS_PRE: resultNumber = number + 1; returnNumber = resultNumber; break;
@@ -51,6 +53,8 @@ ManagedObject* IncrementDecrementOperatorFunctionDefinition::CallNative(CodeLoca
 	case MINUS_MINUS_POST: resultNumber = number - 1; returnNumber = number; break;
 	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
+
+	RuntimeMathCheck(location);
 
 	reference->SetReferencedObject(location, vm, numberTypeDefinition->CreateInstance(vm, resultNumber));
 

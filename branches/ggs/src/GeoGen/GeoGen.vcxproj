@@ -93,6 +93,7 @@
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
     <ClInclude Include="compiler\UndefinedMetadataIdentifierException.hpp" />
     <ClInclude Include="compiler\UnexpectedCharacterException.hpp" />
+    <ClInclude Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayContainsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp" />
     <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="corelib\ArrayTypeDefinition.hpp" />
     <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\CoordinateFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\CoordinateObject.hpp" />
@@ -388,6 +390,7 @@
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
+    <ClCompile Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayGetRefFunctionDefinition.cpp" />
@@ -396,6 +399,7 @@
     <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySortByKeysFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArraySortByValuesFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateObject.cpp" />
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
