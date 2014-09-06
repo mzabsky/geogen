@@ -371,6 +371,38 @@ public:
 		");
 	}
 
+	static void TestArrayReferenceWithIncrement()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			a[5] = 2;\n\
+			AssertEquals(3, ++a[5]); \n\
+			AssertEquals(3, a[5]); \n\
+		");
+	}
+
+	static void TestArrayReferenceWithIncrementInSubscript()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			var i = 4;\n\
+			a[5] = 2;\n\
+			AssertEquals(2, a[++i]++); \n\
+			AssertEquals(3, a[5]); \n\
+		");
+	}
+
+	static void TestArrayReferenceWithDoubleIncrement()
+	{
+		TestScript("\n\
+			var a = Array.Empty();\n\
+			var i = 3;\n\
+			a[4] = 1;\n\
+			AssertEquals(6, a[i++] += ++i); \n\
+			AssertEquals(6, a[4]); \n\
+		");
+	}
+
 	ArrayTests() : TestFixtureBase("ArrayTests")
 	{
 		ADD_TESTCASE(TestCountEmpty);
@@ -405,5 +437,8 @@ public:
 		ADD_TESTCASE(TestSortByKeys);
 		ADD_TESTCASE(TestSortByValues);
 		ADD_TESTCASE(TestSortByValuesMultipleTypes);
+		ADD_TESTCASE(TestArrayReferenceWithIncrement);
+		ADD_TESTCASE(TestArrayReferenceWithIncrementInSubscript);
+		ADD_TESTCASE(TestArrayReferenceWithDoubleIncrement);
 	}
 };
