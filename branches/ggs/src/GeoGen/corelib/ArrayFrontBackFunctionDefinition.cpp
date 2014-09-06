@@ -12,7 +12,7 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 
 
-ArrayFrontBackFunctionDefinition* ArrayFrontBackFunctionDefinition::Create(Method method, TypeDefinition const* owningType)
+ArrayFrontBackFunctionDefinition* ArrayFrontBackFunctionDefinition::Create(Method method, runtime::TypeDefinition const* owningType)
 {
 	switch (method)
 	{
@@ -24,7 +24,7 @@ ArrayFrontBackFunctionDefinition* ArrayFrontBackFunctionDefinition::Create(Metho
 	}
 }
 
-ManagedObject* ArrayFrontBackFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* ArrayFrontBackFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	this->CheckArguments(location, 0, arguments);
 

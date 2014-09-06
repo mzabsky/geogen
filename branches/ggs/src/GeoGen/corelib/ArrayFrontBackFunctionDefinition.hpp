@@ -22,13 +22,13 @@ namespace geogen
 		private:
 			Method method;
 
-			ArrayFrontBackFunctionDefinition(String const& name, Method method, const TypeDefinition* owningType) : MemberNativeFunctionDefinition(name, owningType), method(method) {};
+			ArrayFrontBackFunctionDefinition(String const& name, Method method, runtime::TypeDefinition const* owningType) : MemberNativeFunctionDefinition(name, owningType), method(method) {};
 		public:
-			static ArrayFrontBackFunctionDefinition* Create(Method method, TypeDefinition const* owningType);
+			static ArrayFrontBackFunctionDefinition* Create(Method method, runtime::TypeDefinition const* owningType);
 
-			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
+			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 
-			virtual MethodType GetMethodType() const { return METHOD_TYPE_INSTANCE; };
+			virtual runtime::MethodType GetMethodType() const { return runtime::METHOD_TYPE_INSTANCE; };
 		};
 	}
 }

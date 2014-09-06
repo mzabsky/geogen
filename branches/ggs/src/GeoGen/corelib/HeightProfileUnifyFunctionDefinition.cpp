@@ -8,9 +8,9 @@
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::corelib;
-using namespace geogen::runtime;
-using namespace geogen::renderer;
+using namespace corelib;
+using namespace runtime;
+using namespace renderer;
 
 ManagedObject* HeightProfileUnifyFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
