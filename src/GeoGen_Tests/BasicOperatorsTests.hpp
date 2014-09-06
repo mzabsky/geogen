@@ -383,6 +383,42 @@ public:
 		");
 	}
 
+	static void TestPreIncrement()
+	{
+		TestScript("\
+			var a = 6;\n\
+			AssertEquals(7, ++a); \n\
+			AssertEquals(a, 7);\n\
+		");
+	}
+
+	static void TestPostIncrement()
+	{
+		TestScript("\
+			var a = 6;\n\
+			AssertEquals(6, a++); \n\
+			AssertEquals(a, 7);\n\
+		");
+	}
+
+	static void TestPreDecrement()
+	{
+		TestScript("\
+			var a = 6;\n\
+			AssertEquals(5, --a); \n\
+			AssertEquals(a, 5);\n\
+		");
+	}
+
+	static void TestPostDecrement()
+	{
+		TestScript("\
+			var a = 6;\n\
+			AssertEquals(6, a--); \n\
+			AssertEquals(a, 5);\n\
+		");
+	}
+
 	BasicOperatorsTests() : TestFixtureBase("BasicOperatorsTests")
 	{
 		ADD_TESTCASE(TestOperators);
@@ -403,5 +439,10 @@ public:
 		ADD_TESTCASE(TestBitOrAssignmentWithBoolsOperator);
 		ADD_TESTCASE(TestBitOrAssignmentWithNumbersOperator);
 		ADD_TESTCASE(TestBitOrAssignmentWithNumberAndBoolOperatorFails);
+
+		ADD_TESTCASE(TestPreIncrement);
+		ADD_TESTCASE(TestPostIncrement);
+		ADD_TESTCASE(TestPreDecrement);
+		ADD_TESTCASE(TestPostDecrement);
 	}
 };
