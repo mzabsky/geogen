@@ -8,7 +8,7 @@ using namespace std;
 using namespace geogen;
 using namespace geogen::runtime;
 
-bool FunctionDefinition::CheckArgument(VirtualMachine* vm, CodeLocation location, TypeDefinition const* expectedType, ManagedObject* actualArgument, ManagedObjectHolder& managedObjectHolder) const
+bool FunctionDefinition::CheckArgument(VirtualMachine* vm, CodeLocation location, TypeDefinition const* expectedType, ManagedObject*& actualArgument, ManagedObjectHolder& managedObjectHolder) const
 {
 	if (actualArgument->IsStaticObject())
 	{

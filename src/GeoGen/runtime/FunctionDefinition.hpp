@@ -35,7 +35,7 @@ namespace geogen
 
 			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const = 0;
 
-			bool CheckArgument(VirtualMachine* vm, CodeLocation location, TypeDefinition const* expectedType, ManagedObject* actualArgument, ManagedObjectHolder& managedObjectHolder) const;
+			bool CheckArgument(VirtualMachine* vm, CodeLocation location, TypeDefinition const* expectedType, ManagedObject*& actualArgument, ManagedObjectHolder& managedObjectHolder) const;
 
 			/// <summary>
 			/// Check a list of actual arguments against a list of expected parameters. If these don't match,
