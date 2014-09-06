@@ -65,5 +65,6 @@
     <ClInclude Include="loader_commands\RenderOriginLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\GenTilesLoaderCommand.hpp" />
     <ClInclude Include="renderer_commands\DumpRendererCommand.hpp" />
+    <ClInclude Include="VirtualMachineCallback.hpp" />
   </ItemGroup>
 </Project>
