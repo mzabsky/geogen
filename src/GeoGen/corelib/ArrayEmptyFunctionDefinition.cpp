@@ -10,7 +10,7 @@ using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
 
-ManagedObject* ArrayEmptyFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* ArrayEmptyFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	this->CheckArguments(location, 0, arguments);
 

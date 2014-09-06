@@ -100,44 +100,4 @@ namespace geogen {
 	};
 
 	const Rectangle RECTANGLE_MAX = Rectangle(Point(COORDINATE_MIN, COORDINATE_MIN), SIZE2D_MAX);
-
-
-	/*class RectangleIterator
-	{
-	private:
-		Point point;
-		Rectangle rect;
-		bool isEnd;
-
-		void Increase()
-		{
-			Point next = this->rect.NextPoint(this->point);
-
-			if (next.GetY() > this->rect.GetEndingPoint().GetY())
-			{
-				this->isEnd = true;
-			}
-		}
-	public:
-		typedef RectangleIterator self_type;
-		typedef Point value_type;
-		typedef Point& reference;
-		typedef Point* pointer;
-		typedef std::forward_iterator_tag bidirectional_iterator_tag;
-		typedef int difference_type;
-		RectangleIterator(Rectangle rect, Point point, bool isEnd) : rect(rect), point(point), isEnd(isEnd) { }
-		
-		self_type operator++() 
-		{ 
-			self_type i = *this; 
-			this->Increase();
-			return i; 
-		}
-
-		self_type operator++(int junk) { this->Increase(); return *this; }
-		reference operator*() { return point; }
-		pointer operator->() { return &point; }
-		bool operator==(const self_type& rhs) { return this->point == rhs.point; }
-		bool operator!=(const self_type& rhs) { return this->point != rhs.point; }		
-	};*/
 }

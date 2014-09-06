@@ -11,11 +11,11 @@ namespace geogen
 		class HeightMapGradientFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:
-			HeightMapGradientFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Gradient"), type) {};
+			HeightMapGradientFunctionDefinition(runtime::TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Gradient"), type) {};
 
-			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
+			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 
-			virtual MethodType GetMethodType() const { return METHOD_TYPE_STATIC; }
+			virtual runtime::MethodType GetMethodType() const { return runtime::METHOD_TYPE_STATIC; }
 		};
 	}
 }

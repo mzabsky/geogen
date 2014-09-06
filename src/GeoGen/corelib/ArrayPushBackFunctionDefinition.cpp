@@ -10,7 +10,7 @@ using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
 
-ManagedObject* ArrayPushBackFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* ArrayPushBackFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	this->CheckArguments(location, 1, arguments);
 

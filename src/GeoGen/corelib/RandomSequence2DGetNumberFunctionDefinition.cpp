@@ -10,9 +10,9 @@
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::corelib;
-using namespace geogen::runtime;
-using namespace geogen::random;
+using namespace corelib;
+using namespace runtime;
+using namespace random;
 
 ManagedObject* RandomSequence2DGetNumberFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {

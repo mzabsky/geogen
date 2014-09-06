@@ -11,11 +11,11 @@ namespace geogen
 		class HeightMapInvertFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:
-			HeightMapInvertFunctionDefinition(TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Invert"), type) {};
+			HeightMapInvertFunctionDefinition(runtime::TypeDefinition const* type) : MemberNativeFunctionDefinition(GG_STR("Invert"), type) {};
 
-			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
+			virtual runtime::ManagedObject* CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, std::vector<runtime::ManagedObject*> arguments) const;
 
-			virtual MethodType GetMethodType() const { return METHOD_TYPE_INSTANCE; }
+			virtual runtime::MethodType GetMethodType() const { return runtime::METHOD_TYPE_INSTANCE; }
 		};
 	}
 }

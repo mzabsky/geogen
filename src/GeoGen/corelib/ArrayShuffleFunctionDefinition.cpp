@@ -12,7 +12,7 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::random;
 
-ManagedObject* ArrayShuffleFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* ArrayShuffleFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 	vector<TypeDefinition const*> expectedTypes;

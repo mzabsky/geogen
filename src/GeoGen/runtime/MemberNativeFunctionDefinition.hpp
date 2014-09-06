@@ -5,9 +5,6 @@
 #include "FunctionDefinition.hpp"
 #include "../CodeLocation.hpp"
 
-using namespace std;
-using namespace geogen::runtime;
-
 namespace geogen
 {
 	namespace runtime
@@ -27,13 +24,13 @@ namespace geogen
 		private:
 			TypeDefinition const* owningTypeDefinition;
 		public:
-			MemberNativeFunctionDefinition(String const& name, TypeDefinition const* owningTypeDefinition) : FunctionDefinition(name), owningTypeDefinition(owningTypeDefinition){};
+			MemberNativeFunctionDefinition(String const& name, runtime::TypeDefinition const* owningTypeDefinition) : FunctionDefinition(name), owningTypeDefinition(owningTypeDefinition){};
 
 			virtual ManagedObject* CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, std::vector<ManagedObject*> arguments) const = 0;
 
 			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const;
 
-			virtual MethodType GetMethodType() const = 0;
+			virtual runtime::MethodType GetMethodType() const = 0;
 
 			inline TypeDefinition const* GetOwningTypeDefinition() const { return this->owningTypeDefinition; }
 

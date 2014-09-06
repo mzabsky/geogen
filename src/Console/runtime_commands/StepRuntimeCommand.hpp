@@ -28,7 +28,7 @@ namespace geogen
 				{
 					debugger->GetOut() << GG_STR("Step") << std::endl << std::endl;
 					
-					if (debugger->GetVirtualMachine()->GetStatus() == VIRTUAL_MACHINE_STATUS_FINISHED)
+					if (debugger->GetVirtualMachine()->GetStatus() == runtime::VIRTUAL_MACHINE_STATUS_FINISHED)
 					{
 						debugger->GetOut() << GG_STR("Virtual machine is finished. ") << std::endl << std::endl;
 					}
@@ -37,7 +37,7 @@ namespace geogen
 						debugger->GetVirtualMachine()->Step();
 						debugger->ShowCodeContext();
 
-						if (debugger->GetVirtualMachine()->GetStatus() == VIRTUAL_MACHINE_STATUS_FINISHED)
+						if (debugger->GetVirtualMachine()->GetStatus() == runtime::VIRTUAL_MACHINE_STATUS_FINISHED)
 						{
 							debugger->GetOut() << std::endl << GG_STR("Virtual machine finished. ") << std::endl << std::endl;
 						}

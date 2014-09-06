@@ -13,7 +13,7 @@
 #include "HeightOverflowException.hpp"
 #include "ArrayObject.hpp"
 #include "CoordinateObject.hpp"
-#include "UnknownRelativeCoordinateDirectionException.hpp";
+#include "UnknownRelativeCoordinateDirectionException.hpp"
 
 using namespace std;
 using namespace geogen;

@@ -11,7 +11,7 @@ using namespace geogen;
 using namespace corelib;
 using namespace runtime;
 
-ManagedObject* ArrayGetRefFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* ArrayGetRefFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	ReferenceTypeDefinition const* referenceTypeDefinition = dynamic_cast<ReferenceTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("<Reference>")));
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();

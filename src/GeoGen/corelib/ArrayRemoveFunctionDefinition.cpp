@@ -10,7 +10,7 @@ using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
 
-ArrayRemoveFunctionDefinition* ArrayRemoveFunctionDefinition::Create(Method method, TypeDefinition const* owningType)
+ArrayRemoveFunctionDefinition* ArrayRemoveFunctionDefinition::Create(Method method, runtime::TypeDefinition const* owningType)
 {
 	switch (method)
 	{
@@ -22,7 +22,7 @@ ArrayRemoveFunctionDefinition* ArrayRemoveFunctionDefinition::Create(Method meth
 	}
 }
 
-ManagedObject* ArrayRemoveFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* ArrayRemoveFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	this->CheckArguments(location, 1, arguments);
 

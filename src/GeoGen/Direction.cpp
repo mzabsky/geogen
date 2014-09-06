@@ -1,9 +1,9 @@
 #include "Direction.hpp"
 #include "InternalErrorException.hpp"
 
-geogen::String geogen::DirectionToString(Direction dimensions)
+geogen::String geogen::DirectionToString(Direction dimension)
 {
-	switch (dimensions)
+	switch (dimension)
 	{
 	case DIRECTION_HORIZONTAL: return GG_STR("Horizontal");
 	case DIRECTION_VERTICAL: return GG_STR("Vertical");

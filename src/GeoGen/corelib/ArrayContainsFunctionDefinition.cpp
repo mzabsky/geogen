@@ -12,7 +12,7 @@ using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
 
-ArrayContainsFunctionDefinition* ArrayContainsFunctionDefinition::Create(Method method, TypeDefinition const* owningType)
+ArrayContainsFunctionDefinition* ArrayContainsFunctionDefinition::Create(Method method, runtime::TypeDefinition const* owningType)
 {
 	switch (method)
 	{
@@ -24,7 +24,7 @@ ArrayContainsFunctionDefinition* ArrayContainsFunctionDefinition::Create(Method 
 	}
 }
 
-ManagedObject* ArrayContainsFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* ArrayContainsFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, runtime::ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	this->CheckArguments(location, 1, arguments);
 

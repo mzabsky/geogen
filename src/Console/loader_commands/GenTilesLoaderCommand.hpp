@@ -181,16 +181,16 @@ namespace geogen
 						return;
 					}
 
-					ScriptParameters scriptParameters = loader->CreateScriptParameters();
-					Rectangle mapRectangle(Point(scriptParameters.GetMapWidth() == MAP_SIZE_INFINITE ? COORDINATE_MIN : 0, scriptParameters.GetMapHeight() == MAP_SIZE_INFINITE ? COORDINATE_MIN : 0), Size2D(scriptParameters.GetMapWidth() == MAP_SIZE_INFINITE ? MAP_SIZE_MAX : scriptParameters.GetMapWidth(), scriptParameters.GetMapHeight() == MAP_SIZE_INFINITE ? MAP_SIZE_MAX : scriptParameters.GetMapHeight()));
+					runtime::ScriptParameters scriptParameters = loader->CreateScriptParameters();
+					Rectangle mapRectangle(Point(scriptParameters.GetMapWidth() == runtime::MAP_SIZE_INFINITE ? COORDINATE_MIN : 0, scriptParameters.GetMapHeight() == runtime::MAP_SIZE_INFINITE ? COORDINATE_MIN : 0), Size2D(scriptParameters.GetMapWidth() == runtime::MAP_SIZE_INFINITE ? runtime::MAP_SIZE_MAX : scriptParameters.GetMapWidth(), scriptParameters.GetMapHeight() == runtime::MAP_SIZE_INFINITE ? runtime::MAP_SIZE_MAX : scriptParameters.GetMapHeight()));
 
 					bounds = Rectangle::Intersect(mapRectangle, bounds);
 
 					clock_t totalStartTime = clock();
 
 					Size2D actualTileSize(
-						loader->GetRenderSize().GetWidth() == MAP_SIZE_AUTOMATIC ? RENDER_SIZE_DEFAULT : loader->GetRenderSize().GetWidth(),
-						loader->GetRenderSize().GetHeight() == MAP_SIZE_AUTOMATIC ? RENDER_SIZE_DEFAULT : loader->GetRenderSize().GetHeight());
+						loader->GetRenderSize().GetWidth() == runtime::MAP_SIZE_AUTOMATIC ? runtime::RENDER_SIZE_DEFAULT : loader->GetRenderSize().GetWidth(),
+						loader->GetRenderSize().GetHeight() == runtime::MAP_SIZE_AUTOMATIC ? runtime::RENDER_SIZE_DEFAULT : loader->GetRenderSize().GetHeight());
 
 					loader->GetOut() << GG_STR("Generating tiles in rectangle ") << bounds.ToString() << GG_STR(" with tile size ") << actualTileSize.ToString() << GG_STR(".") << std::endl << std::endl;
 
@@ -206,7 +206,7 @@ namespace geogen
 						Rectangle renderRectangle(currentOrigin, actualTileSize);
 						Rectangle actualRenderRectangle = Rectangle::Intersect(renderRectangle, bounds);
 
-						ScriptParameters scriptParameters = loader->CreateScriptParameters();
+						runtime::ScriptParameters scriptParameters = loader->CreateScriptParameters();
 						scriptParameters.SetRenderRectangle(actualRenderRectangle);
 						runtime::VirtualMachine vm(*loader->GetCompiledScript(), scriptParameters);
 						vm.Run();
