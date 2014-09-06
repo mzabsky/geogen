@@ -43,9 +43,10 @@ ManagedObject* ArithmeticAssignmentOperatorFunctionDefinition::CallNative(CodeLo
 	ReferenceObject* reference = dynamic_cast<ReferenceObject*>(arguments[0]);
 
 	ManagedObjectHolder referencedObjectHolder;
-	this->CheckArgument(vm, location, numberTypeDefinition, reference->GetReferencedObject(location, vm), referencedObjectHolder);
+	ManagedObject* referencedObject = reference->GetReferencedObject(location, vm);
+	this->CheckArgument(vm, location, numberTypeDefinition, referencedObject, referencedObjectHolder);
 
-	Number input = dynamic_cast<NumberObject*>(reference->GetReferencedObject(location, vm))->GetValue();
+	Number input = dynamic_cast<NumberObject*>(referencedObject)->GetValue();
 	Number argument = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
 
 	RuntimeMathCheckInit();

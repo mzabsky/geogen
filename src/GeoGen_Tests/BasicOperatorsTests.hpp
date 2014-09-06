@@ -267,11 +267,141 @@ public:
 		");
 	}
 
+	static void TestPlusAssignmentOperator()
+	{
+		TestScript("\
+			var a = 5;\n\
+			AssertEquals(9, a += 4); \n\
+			AssertEquals(a, 9);\n\
+		");
+	}
+
+	static void TestSubtractionAssignmentOperator()
+	{
+		TestScript("\
+			var a = 5;\n\
+			AssertEquals(1, a -= 4); \n\
+			AssertEquals(a, 1);\n\
+		");
+	}
+
+	static void TestMultiplicationAssignmentOperator()
+	{
+		TestScript("\
+			var a = 5;\n\
+			AssertEquals(20, a *= 4); \n\
+			AssertEquals(a, 20);\n\
+		");
+	}
+
+	static void TestDivisionAssignmentOperator()
+	{
+		TestScript("\
+			var a = 6;\n\
+			AssertEquals(1.5, a /= 4); \n\
+			AssertEquals(a, 1.5);\n\
+		");
+	}
+
+	static void TestModuloAssignmentOperator()
+	{
+		TestScript("\
+			var a = 5;\n\
+			AssertEquals(1, a %= 4); \n\
+			AssertEquals(a, 1);\n\
+		");
+	}
+
+	static void TestShiftLeftAssignmentOperator()
+	{
+		TestScript("\
+			var a = 5;\n\
+			AssertEquals(20, a <<= 2); \n\
+			AssertEquals(a, 20);\n\
+		");
+	}
+
+	static void TestShiftRightAssignmentOperator()
+	{
+		TestScript("\
+			var a = 20;\n\
+			AssertEquals(5, a >>= 2); \n\
+			AssertEquals(a, 5);\n\
+		");
+	}
+
+	static void TestBitAndAssignmentWithBoolsOperator()
+	{
+		TestScript("\
+			var a = true;\n\
+			AssertEquals(false, a &= false); \n\
+			AssertEquals(a, false);\n\
+		");
+	}
+
+	static void TestBitAndAssignmentWithNumbersOperator()
+	{
+		TestScript("\
+			var a = 6;\n\
+			AssertEquals(2, a &= 3); \n\
+			AssertEquals(a, 2);\n\
+		");
+	}
+
+	static void TestBitAndAssignmentWithNumberAndBoolOperatorFails()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "\
+			var a = 6;\n\
+			a &= true; \n\
+		");
+	}
+
+
+	static void TestBitOrAssignmentWithBoolsOperator()
+	{
+		TestScript("\
+			var a = false;\n\
+			AssertEquals(true, a |= true); \n\
+			AssertEquals(a, true);\n\
+		");
+	}
+
+	static void TestBitOrAssignmentWithNumbersOperator()
+	{
+		TestScript("\
+			var a = 6;\n\
+			AssertEquals(7, a |= 3); \n\
+			AssertEquals(a, 7);\n\
+		");
+	}
+
+	static void TestBitOrAssignmentWithNumberAndBoolOperatorFails()
+	{
+		TEST_SCRIPT_FAILURE(IncorrectTypeException, "\
+			var a = 6;\n\
+			a |= true; \n\
+		");
+	}
+
 	BasicOperatorsTests() : TestFixtureBase("BasicOperatorsTests")
 	{
 		ADD_TESTCASE(TestOperators);
-		//ADD_TESTCASE(TestOperatorFailures);
+	    ADD_TESTCASE(TestOperatorFailures);
 		ADD_TESTCASE(TestConditionalOperatorTrue);
 		ADD_TESTCASE(TestConditionalOperatorFalse);
+
+		ADD_TESTCASE(TestPlusAssignmentOperator);
+		ADD_TESTCASE(TestSubtractionAssignmentOperator);
+		ADD_TESTCASE(TestMultiplicationAssignmentOperator);
+		ADD_TESTCASE(TestDivisionAssignmentOperator);
+		ADD_TESTCASE(TestModuloAssignmentOperator);
+		ADD_TESTCASE(TestShiftLeftAssignmentOperator);
+		ADD_TESTCASE(TestShiftRightAssignmentOperator);
+		ADD_TESTCASE(TestBitAndAssignmentWithBoolsOperator);
+		ADD_TESTCASE(TestBitAndAssignmentWithNumbersOperator);
+		ADD_TESTCASE(TestBitAndAssignmentWithNumberAndBoolOperatorFails);
+		ADD_TESTCASE(TestBitOrAssignmentWithBoolsOperator);
+		ADD_TESTCASE(TestBitOrAssignmentWithNumbersOperator);
+		ADD_TESTCASE(TestBitOrAssignmentWithNumberAndBoolOperatorFails);
 	}
 };
