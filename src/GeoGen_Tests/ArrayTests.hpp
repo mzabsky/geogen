@@ -398,7 +398,7 @@ public:
 			var a = Array.Empty();\n\
 			var i = 3;\n\
 			a[4] = 1;\n\
-			AssertEquals(6, a[i++] += ++i); \n\
+			AssertEquals(6, a[++i] += ++i); \n\
 			AssertEquals(6, a[4]); \n\
 		");
 	}

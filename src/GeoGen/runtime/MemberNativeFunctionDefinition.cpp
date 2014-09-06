@@ -27,6 +27,8 @@ void MemberNativeFunctionDefinition::Call(CodeLocation location, VirtualMachine*
 		objectStack.Pop(vm);
 	}
 
+	reverse(arguments.begin(), arguments.end());
+
 	if (instance->GetType() != this->GetOwningTypeDefinition())
 	{
 		throw InternalErrorException(GG_STR("Method called on instance of incorrect type."));

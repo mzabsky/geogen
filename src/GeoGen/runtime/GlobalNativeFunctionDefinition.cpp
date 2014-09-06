@@ -31,6 +31,8 @@ void GlobalNativeFunctionDefinition::Call(CodeLocation location, VirtualMachine*
 		objectStack.Pop(vm);
 	}
 
+	reverse(arguments.begin(), arguments.end());
+
 	ManagedObject* returnValue = this->CallNative(location, vm, arguments);
 
 	callStack.Pop();
