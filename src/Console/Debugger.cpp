@@ -3,6 +3,7 @@
 #include "Debugger.hpp"
 #include "../GeoGen/utils/StringUtils.hpp"
 #include "ConsoleUtils.hpp"
+#include "VirtualMachineCallback.hpp"
 #include "runtime_commands/ArgumentsRuntimeCommand.hpp"
 #include "runtime_commands/CallStackRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockCodeRuntimeCommand.hpp"
@@ -33,6 +34,9 @@ const unsigned Debugger::NUMBER_OF_SHOWN_LINES_DEFAULT = 7;
 Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledScript const& code, runtime::ScriptParameters parameters, String outputDirectory)
 : vm(code, parameters), in(in), out(out), outputDirectory(outputDirectory)
 {
+	vm.SetCallbackData(&out);
+	vm.SetScriptMessageHandler(VirtualMachineCallback);
+
 	commandTable.AddCommand(new ArgumentsRuntimeCommand());
 	commandTable.AddCommand(new CallStackRuntimeCommand());
 	commandTable.AddCommand(new CodeBlockCodeRuntimeCommand());

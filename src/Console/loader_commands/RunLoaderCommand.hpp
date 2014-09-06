@@ -6,6 +6,7 @@
 
 #include "../LoaderCommand.hpp"
 #include "../Loader.hpp"
+#include "../VirtualMachineCallback.hpp"
 #include "../ConsoleUtils.hpp"
 #include "../../GeoGen/GeoGen.hpp"
 #include "../../GeoGen/utils/StringUtils.hpp"
@@ -43,6 +44,8 @@ namespace geogen
 					loader->GetOut() << "Runnning script." << std::endl;
 
 					runtime::VirtualMachine vm(*loader->GetCompiledScript(), loader->CreateScriptParameters());
+					vm.SetCallbackData(&loader->GetOut());
+					vm.SetScriptMessageHandler(VirtualMachineCallback);
 					vm.Run();
 					
 					loader->GetOut() << "Rendering." << std::endl;
