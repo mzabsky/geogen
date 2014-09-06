@@ -99,6 +99,20 @@ public:
 		");
 	}
 
+	static void TestArgumentOrder()
+	{
+		TestScript("\n\
+			function x(a, b, c){ \n\
+				AssertEquals(1, a);\n\
+				AssertEquals(2, b);\n\
+				AssertEquals(3, c);\n\
+			} \n\
+			var i = 1;\n\
+			x(i++, i++, i++);\n\
+			AssertEquals(4, i);\n\
+		");
+	}
+
 	FunctionTests() : TestFixtureBase("FunctionTests")
 	{
 		ADD_TESTCASE(TestCallFunction);
@@ -111,5 +125,6 @@ public:
 		ADD_TESTCASE(TestFunctionRedefinition);
 		ADD_TESTCASE(TestCallStackOverflow);
 		ADD_TESTCASE(TestCallScriptFunctionWithIncorrectNumberOfArguments);
+		ADD_TESTCASE(TestArgumentOrder);
 	}
 };

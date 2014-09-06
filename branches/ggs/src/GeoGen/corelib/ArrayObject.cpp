@@ -226,7 +226,7 @@ void ArrayObject::RemoveValue(runtime::VirtualMachine* vm, CodeLocation location
 
 ManagedObject* ArrayObject::GetKeyByIndex(runtime::VirtualMachine* vm, CodeLocation location, int index)
 {
-	if (index < 0 || (unsigned)index > this->Count())
+	if (index < 0 || (unsigned)index >= this->Count())
 	{
 		throw ArrayIndexNotFoundException(location, index);
 	}

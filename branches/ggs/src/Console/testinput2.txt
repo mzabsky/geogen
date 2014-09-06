@@ -1,2 +1,5 @@
-var a = true;
-a &=false;
+			function x(a, b, c){ 
+				Print("{0} {1} {2}", a, b, c);
+			}
+			var i = 1;
+			x(i++, i++, i++);

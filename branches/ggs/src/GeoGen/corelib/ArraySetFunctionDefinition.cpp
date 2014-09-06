@@ -20,8 +20,8 @@ ManagedObject* ArraySetFunctionDefinition::CallNative(CodeLocation location, run
 
 		ArrayObject* thisArray = dynamic_cast<ArrayObject*>(instance);
 
-		thisArray->Set(vm, location, arguments[0], arguments[1]);
-		return arguments[1];
+		thisArray->Set(vm, location, arguments[1], arguments[0]);
+		return arguments[0];
 	}
 	else {
 		// a[] = b form
