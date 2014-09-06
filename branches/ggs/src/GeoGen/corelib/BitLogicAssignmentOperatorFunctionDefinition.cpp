@@ -31,10 +31,10 @@ ManagedObject* BitLogicAssignmentOperatorFunctionDefinition::CallNative(CodeLoca
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 	BooleanTypeDefinition const* booleanTypeDefinition = vm->GetBooleanTypeDefinition();
 
-	bool returnsNumber = false;
-	if (arguments[1]->GetType() != booleanTypeDefinition)
+	bool returnsNumber = true;
+	if (arguments[1]->GetType() == booleanTypeDefinition)
 	{
-		returnsNumber == true;
+		returnsNumber = false;
 	}
 
 	vector<TypeDefinition const*> expectedTypes;
@@ -46,15 +46,11 @@ ManagedObject* BitLogicAssignmentOperatorFunctionDefinition::CallNative(CodeLoca
 	ReferenceObject* reference = dynamic_cast<ReferenceObject*>(arguments[0]);
 
 	ManagedObjectHolder referencedObjectHolder;
-	this->CheckArgument(vm, location, reference->GetReferencedObject(location, vm)->GetType() == booleanTypeDefinition ? (TypeDefinition const*)booleanTypeDefinition : (TypeDefinition const*)numberTypeDefinition, reference->GetReferencedObject(location, vm), referencedObjectHolder);
+	ManagedObject* referencedObject = reference->GetReferencedObject(location, vm);
+	this->CheckArgument(vm, location, returnsNumber ? (TypeDefinition const*)numberTypeDefinition : (TypeDefinition const*)booleanTypeDefinition, referencedObject, referencedObjectHolder);
 
-	if (reference->GetReferencedObject(location, vm)->GetType() != booleanTypeDefinition)
-	{
-		returnsNumber = false;
-	}
-
-	Number input = reference->GetReferencedObject(location, vm)->GetType() == booleanTypeDefinition ? (dynamic_cast<BooleanObject*>(reference->GetReferencedObject(location, vm))->GetValue() ? 1 : 0) : dynamic_cast<NumberObject*>(reference->GetReferencedObject(location, vm))->GetValue();
-	Number argument = arguments[1]->GetType() == booleanTypeDefinition ? (dynamic_cast<BooleanObject*>(arguments[1])->GetValue() ? 1 : 0) : dynamic_cast<NumberObject*>(arguments[1])->GetValue();
+	Number input = returnsNumber ? dynamic_cast<NumberObject*>(referencedObject)->GetValue() : (dynamic_cast<BooleanObject*>(referencedObject)->GetValue() ? 1 : 0);
+	Number argument = returnsNumber ? dynamic_cast<NumberObject*>(arguments[1])->GetValue() : (dynamic_cast<BooleanObject*>(arguments[1])->GetValue() ? 1 : 0);
 
 	RuntimeMathCheckInit();
 
