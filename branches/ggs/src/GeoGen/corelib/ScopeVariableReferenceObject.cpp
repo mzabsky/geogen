@@ -3,6 +3,7 @@
 using namespace std;
 using namespace geogen;
 using namespace runtime;
+using namespace corelib;
 
 ManagedObject* ScopeVariableReferenceObject::GetReferencedObject(CodeLocation location, VirtualMachine* vm)
 {

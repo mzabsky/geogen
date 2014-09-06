@@ -57,7 +57,6 @@
     <ClInclude Include="runtime\MetadataNumber.hpp" />
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
-    <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
@@ -173,7 +172,6 @@
     <ClInclude Include="renderer\RenderingStep1D.hpp" />
     <ClInclude Include="renderer\RenderingStep2D.hpp" />
     <ClInclude Include="genlib\DataObject.hpp" />
-    <ClInclude Include="runtime\RendererObjectStub.hpp" />
     <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
     <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
@@ -323,12 +321,14 @@
     <ClInclude Include="runtime\instructions\StoreReferenceInstruction.hpp" />
     <ClInclude Include="compiler\ReadOnlyExpressionWriteException.hpp" />
     <ClInclude Include="corelib\IncrementDecrementOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="runtime\ReferenceObject.hpp" />
-    <ClInclude Include="runtime\ScopeVariableReferenceObject.hpp" />
     <ClInclude Include="corelib\ArrayGetRefFunctionDefinition.hpp" />
-    <ClInclude Include="runtime\ArrayItemReferenceObject.hpp" />
     <ClInclude Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\ReferenceObject.hpp" />
+    <ClInclude Include="corelib\ReferenceTypeDefinition.hpp" />
+    <ClInclude Include="corelib\ScopeVariableReferenceObject.hpp" />
+    <ClInclude Include="corelib\ArrayItemReferenceObject.hpp" />
+    <ClInclude Include="runtime\RendererObjectStub.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -349,7 +349,6 @@
     <ClCompile Include="runtime\CodeBlock.cpp" />
     <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
     <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
-    <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\CompiledScript.cpp" />
     <ClCompile Include="runtime\TypeDefinition.cpp" />
     <ClCompile Include="runtime\CallStackEntry.cpp" />
@@ -565,13 +564,13 @@
     <ClCompile Include="corelib\ArraySortByValuesFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\IncrementDecrementOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="runtime\ReferenceObject.cpp" />
-    <ClCompile Include="runtime\ScopeVariableReferenceObject.cpp" />
     <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
     <ClCompile Include="corelib\ArrayGetRefFunctionDefinition.cpp" />
-    <ClCompile Include="runtime\ArrayItemReferenceObject.cpp" />
     <ClCompile Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\ReferenceTypeDefinition.cpp" />
+    <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp" />
+    <ClCompile Include="corelib\ArrayItemReferenceObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

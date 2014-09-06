@@ -1,8 +1,9 @@
 #include "ArrayItemReferenceObject.hpp"
-#include "../corelib/ArrayObject.hpp"
+#include "ArrayObject.hpp"
 
 using namespace std;
 using namespace geogen;
+using namespace corelib;
 using namespace runtime;
 
 ManagedObject* ArrayItemReferenceObject::GetReferencedObject(CodeLocation location, VirtualMachine* vm)

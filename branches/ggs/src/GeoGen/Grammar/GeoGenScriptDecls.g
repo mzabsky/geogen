@@ -74,29 +74,67 @@ scope BlockScope
        	    }*/
        	 }
 
-	void binaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, CodeBlock* e1, CodeBlock* e2, CodeBlock* returnCodeBlock)
+	void binaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, CodeBlock* e1, CodeBlock* e2, CodeBlock* e1ref, CodeBlock* e2ref, CodeBlock* returnCodeBlock)
 	{
 		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
 		
-		returnCodeBlock->MoveInstructionsFrom(*e2); 
-		delete e2;
-		
-	
 		returnCodeBlock->MoveInstructionsFrom(*e1); 
 		delete e1; 
+		if(e1ref != NULL) delete e1ref;
+		
+		returnCodeBlock->MoveInstructionsFrom(*e2); 
+		delete e2;
+		if(e2ref != NULL) delete e2ref;		
 		
 		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (Char*)operatorToken->getText(operatorToken)->chars, 2));
 	}
 	
-	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, string const& text, CodeBlock* e1, CodeBlock* returnCodeBlock)
+	void binaryRefOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, CodeBlock* e1, CodeBlock* e2, CodeBlock* e1ref, CodeBlock* e2ref, CodeBlock* returnCodeBlock)
+	{
+		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
+		
+		delete e1;
+		if(e1ref == NULL)
+		{
+			delete e1ref;
+			throw ReadOnlyExpressionWriteException(location);
+		}
+		returnCodeBlock->MoveInstructionsFrom(*e1ref); 
+		delete e1ref; 
+		
+		returnCodeBlock->MoveInstructionsFrom(*e2); 
+		delete e2;
+		if(e2ref != NULL) delete e2ref;
+
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (Char*)operatorToken->getText(operatorToken)->chars, 2));
+	}
+	
+	void unaryOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, string const& text, CodeBlock* e1, CodeBlock* e1ref, CodeBlock* returnCodeBlock)
 	{
 		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
 	
 		returnCodeBlock->MoveInstructionsFrom(*e1); 
 		delete e1; 		
+		if(e1ref != NULL) delete e1ref;		
 		
 		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, AnyStringToString(text), 1));
-	}    	     	 
+	}
+	
+	void unaryRefOperator(pGeoGenScriptDecls ctx, pANTLR3_BASE_TREE operatorToken, string const& text, CodeBlock* e1, CodeBlock* e1ref, CodeBlock* returnCodeBlock)
+	{
+		CodeLocation location(operatorToken->getLine(operatorToken), operatorToken->getCharPositionInLine(operatorToken));
+	
+		delete e1;
+		if(e1ref == NULL)
+		{
+			delete e1ref;
+			throw ReadOnlyExpressionWriteException(location);
+		}
+		returnCodeBlock->MoveInstructionsFrom(*e1ref); 
+		delete e1ref; 	
+		
+		returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, AnyStringToString(text), 1));
+	}     	     	 
 }
 
 
@@ -238,9 +276,9 @@ functionDeclaration
 	{
 
 	        
-	        for(unsigned i = 0; i < $formalParameters->count; i++)
+	        for(int i = $formalParameters->count - 1; i >= 0; i--)
 	        {
-			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[i].element;
+			pANTLR3_BASE_TREE tree = (pANTLR3_BASE_TREE)$formalParameters->elements[unsigned(i)].element;
 			CodeLocation parameterLocation(tree->getLine(tree), tree->getCharPositionInLine(tree));
 			//varDecls.AddItem(new ScriptVariableDefinition(String((char*)tree->getText(tree)->chars)));
 		        codeBlock.AddInstruction(new instructions::DeclareLocalValueInstruction(location, (Char*)tree->getText(tree)->chars));	
@@ -550,8 +588,8 @@ switchStatement: ^(SWITCH expression normalCase* defaultCase?);
 normalCase: ^(CASE label ^(BLOCK statement*));
 defaultCase: ^(DEFAULT ^(BLOCK statement*));
 
-expression returns [CodeBlock* returnCodeBlock]
-@init { $returnCodeBlock = new CodeBlock(); } 
+expression returns [CodeBlock* returnCodeBlock, CodeBlock* refCodeBlock]
+@init { $returnCodeBlock = new CodeBlock(); $refCodeBlock = NULL; } 
 :
 	^(OPERATOR_ASSIGN lvalueExpression rvalueExpression=expression)
 	{ 
@@ -559,63 +597,71 @@ expression returns [CodeBlock* returnCodeBlock]
 	
 		$returnCodeBlock->MoveInstructionsFrom(*$rvalueExpression.returnCodeBlock); 
 		delete $rvalueExpression.returnCodeBlock; 
+		if($rvalueExpression.refCodeBlock != NULL) delete $rvalueExpression.refCodeBlock; 
 		
 /*		$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, "=", 1));*/
 		$returnCodeBlock->MoveInstructionsFrom(*$lvalueExpression.returnCodeBlock); 
 		delete $lvalueExpression.returnCodeBlock; 
 	}
-	| ^(op=OPERATOR_ASSIGN_PLUS e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='-=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='*=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='/=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='%=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='<<=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='>>=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='&=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='|=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='is' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_ASSIGN_PLUS e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='-=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='*=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='/=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='%=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='<<=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='>>=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='&=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='|=' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='is' e1=expression e2=expression) { binaryRefOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
 	| conditionalOperatorExpression { $returnCodeBlock->MoveInstructionsFrom(*$conditionalOperatorExpression.returnCodeBlock); delete $conditionalOperatorExpression.returnCodeBlock;} 
-	| ^(op='||' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='&&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='^' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='|' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='==' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='!=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='<=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='>' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='>=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='<<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='>>' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='+' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='-' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='*' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='/' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op='%' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $returnCodeBlock);}
-	| ^(op=OPERATOR_INCREMENT_PRE e1=expression) { unaryOperator(ctx, $op, "++pre", $e1.returnCodeBlock, $returnCodeBlock);}	
-	| ^(op=OPERATOR_INCREMENT_POST e1=expression) { unaryOperator(ctx, $op, "++post", $e1.returnCodeBlock, $returnCodeBlock);}		
-	| ^(op=OPERATOR_DECREMENT_PRE e1=expression) { unaryOperator(ctx, $op, "--pre", $e1.returnCodeBlock, $returnCodeBlock);}	
-	| ^(op=OPERATOR_DECREMENT_POST e1=expression) { unaryOperator(ctx, $op, "--post", $e1.returnCodeBlock, $returnCodeBlock);}				
-	| ^(op=OPERATOR_PLUS_UN e1=expression) { unaryOperator(ctx, $op, "+un", $e1.returnCodeBlock, $returnCodeBlock);}				
-	| ^(op=OPERATOR_MINUS_UN e1=expression) { unaryOperator(ctx, $op, "-un", $e1.returnCodeBlock, $returnCodeBlock);}					
-	| ^(op=OPERATOR_NOT e1=expression) { unaryOperator(ctx, $op, "!", $e1.returnCodeBlock, $returnCodeBlock);}						
-	| ^(op=OPERATOR_RELATIVE e1=expression) { unaryOperator(ctx, $op, "@", $e1.returnCodeBlock, $returnCodeBlock);}							
+	| ^(op='||' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='&&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='^' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='&' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='|' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='==' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='!=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='<=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='>' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='>=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='<<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='>>' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='+' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='-' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='*' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='/' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op='%' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_INCREMENT_PRE e1=expression) { unaryRefOperator(ctx, $op, "++pre", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}	
+	| ^(op=OPERATOR_INCREMENT_POST e1=expression) { unaryRefOperator(ctx, $op, "++post", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}		
+	| ^(op=OPERATOR_DECREMENT_PRE e1=expression) { unaryRefOperator(ctx, $op, "--pre", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}	
+	| ^(op=OPERATOR_DECREMENT_POST e1=expression) { unaryRefOperator(ctx, $op, "--post", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}				
+	| ^(op=OPERATOR_PLUS_UN e1=expression) { unaryOperator(ctx, $op, "+un", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}				
+	| ^(op=OPERATOR_MINUS_UN e1=expression) { unaryOperator(ctx, $op, "-un", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}					
+	| ^(op=OPERATOR_NOT e1=expression) { unaryOperator(ctx, $op, "!", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}						
+	| ^(op=OPERATOR_RELATIVE e1=expression) { unaryOperator(ctx, $op, "@", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}							
 	| ^(OPERATOR_DOT e1=expression IDENTIFIER) 
 	{ 
 		CodeLocation location($OPERATOR_DOT.line, $OPERATOR_DOT.pos);
 	
 		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
 		delete $e1.returnCodeBlock; 
+		if($e1.refCodeBlock != NULL) delete $e1.refCodeBlock; 
 		
 		$returnCodeBlock->AddInstruction(new instructions::LoadMemberValueInstruction(location, (Char*)$IDENTIFIER.text->chars));
 	}
 	| callExpression { $returnCodeBlock->MoveInstructionsFrom(*$callExpression.returnCodeBlock); delete $callExpression.returnCodeBlock;} 
-	| indexAccessExpression { $returnCodeBlock->MoveInstructionsFrom(*$indexAccessExpression.returnCodeBlock); delete $indexAccessExpression.returnCodeBlock;} 
+	| indexAccessExpression 
+	{ 
+		$returnCodeBlock->MoveInstructionsFrom(*$indexAccessExpression.returnCodeBlock); delete $indexAccessExpression.returnCodeBlock;	
+		$refCodeBlock = $indexAccessExpression.refCodeBlock;
+	} 
 	| IDENTIFIER 
 	{ 
 		CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
 		$returnCodeBlock->AddInstruction(new instructions::LoadScopeValueInstruction(location, (Char*)$IDENTIFIER.text->chars)); 
+		$refCodeBlock = new CodeBlock();
+		$refCodeBlock->AddInstruction(new instructions::LoadScopeReferenceInstruction(location, (Char*)$IDENTIFIER.text->chars)); 
 	}
 	//collectionLiteral |
 	| TRUE_LIT
@@ -645,13 +691,14 @@ expression returns [CodeBlock* returnCodeBlock]
 coordinateExpression returns[CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
 :
-^(COORDINATE (expression { argumentCodeBlocks.push_back($expression.returnCodeBlock); } )*) 
+^(COORDINATE (expression { argumentCodeBlocks.push_back($expression.returnCodeBlock); if($expression.refCodeBlock != NULL) delete $expression.refCodeBlock; } )*) 
 {
 	CodeLocation location($COORDINATE.line, $COORDINATE.pos);
 		// The arguments are stored on the stack in reverse order.
-	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
+	for(int i = 0; i < argumentCodeBlocks.size(); i++)
 	{
-		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
+		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); 
+		delete argumentCodeBlocks[i]; 
 	}
 	
 	if(argumentCodeBlocks.size() < 1 || argumentCodeBlocks.size() > 2)
@@ -677,18 +724,23 @@ callExpression returns [CodeBlock* returnCodeBlock]
 {
 	CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
 
+	std::reverse(argumentCodeBlocks.begin(), argumentCodeBlocks.end());
+
 	// The arguments are stored on the stack in reverse order.
 	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
 	{
-		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
+		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); 
+		delete argumentCodeBlocks[i]; 
 	}
 
 	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (Char*)$IDENTIFIER.text->chars, argumentCodeBlocks.size()));
 }
 |	
-^('(' ^('.' e1=expression IDENTIFIER) (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
+^('(' ^('.' e1=expression IDENTIFIER) (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock);if($e2.refCodeBlock != NULL) delete $e2.refCodeBlock; } )*) 
 {
 	CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
+
+	std::reverse(argumentCodeBlocks.begin(), argumentCodeBlocks.end());
 
 	// The arguments are stored on the stack in reverse order.
 	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
@@ -696,28 +748,39 @@ callExpression returns [CodeBlock* returnCodeBlock]
 		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
 	}
 
-	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
+	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
+	delete $e1.returnCodeBlock; 
+	if($e1.refCodeBlock != NULL) delete $e1.refCodeBlock;
 	
 	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, (Char*)$IDENTIFIER.text->chars, argumentCodeBlocks.size()));
 }
 ;
 
-indexAccessExpression returns [CodeBlock* returnCodeBlock]
-@init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
+indexAccessExpression returns [CodeBlock* returnCodeBlock, CodeBlock* refCodeBlock]
+@init { $returnCodeBlock = new CodeBlock(); $refCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
 :
-^(LEFT_SQUARE_BRACKET e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
+^(LEFT_SQUARE_BRACKET e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); if($e2.refCodeBlock != NULL) delete $e2.refCodeBlock; } )*) 
 {
 	CodeLocation location($LEFT_SQUARE_BRACKET.line, $LEFT_SQUARE_BRACKET.pos);
 
 	// The arguments are stored on the stack in reverse order.
 	for(int i = argumentCodeBlocks.size() - 1; i >= 0; i--)
 	{
+		CodeBlock clone(*argumentCodeBlocks[i]);
+		$refCodeBlock->MoveInstructionsFrom(clone); 
+	
 		$returnCodeBlock->MoveInstructionsFrom(*argumentCodeBlocks[i]); delete argumentCodeBlocks[i]; 
 	}
 
-	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock; 
+	CodeBlock clone(*$e1.returnCodeBlock);
+	$refCodeBlock->MoveInstructionsFrom(clone); 
+	
+	$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
+	delete $e1.returnCodeBlock; 
+	if($e1.refCodeBlock != NULL) delete $e1.refCodeBlock;
 	
 	$returnCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("[]"), argumentCodeBlocks.size()));
+	$refCodeBlock->AddInstruction(new instructions::CallMemberInstruction(location, GG_STR("[]ref"), argumentCodeBlocks.size()));
 };
 
 conditionalOperatorExpression returns [CodeBlock* returnCodeBlock]
@@ -729,21 +792,24 @@ conditionalOperatorExpression returns [CodeBlock* returnCodeBlock]
 
 	$returnCodeBlock->MoveInstructionsFrom(*$conditionExpression.returnCodeBlock);
 	delete $conditionExpression.returnCodeBlock;
+	if($conditionExpression.refCodeBlock != NULL) delete $conditionExpression.refCodeBlock;
 
 	instructions::IfInstruction* ifInstruction = new instructions::IfInstruction(location);
 	
 	ifInstruction->GetIfBranchCodeBlock().MoveInstructionsFrom(*$ifExpression.returnCodeBlock);
 	delete $ifExpression.returnCodeBlock;
+	if($ifExpression.refCodeBlock != NULL) delete $ifExpression.refCodeBlock;
 
 	ifInstruction->GetElseBranchCodeBlock().MoveInstructionsFrom(*$elseExpression.returnCodeBlock);
 	delete $elseExpression.returnCodeBlock;
+	if($elseExpression.refCodeBlock != NULL) delete $elseExpression.refCodeBlock;
 	
 	$returnCodeBlock->AddInstruction(ifInstruction);
 };
 
 
 lvalueExpression returns [CodeBlock* returnCodeBlock]
-@init { $returnCodeBlock = new CodeBlock(); } 
+@init { $returnCodeBlock = new CodeBlock();} 
 :
 	IDENTIFIER 
 	{ 
@@ -756,6 +822,7 @@ lvalueExpression returns [CodeBlock* returnCodeBlock]
 	
 		$returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); 
 		delete $e1.returnCodeBlock; 
+		if($e1.refCodeBlock != NULL) delete $e1.refCodeBlock;
 		
 		$returnCodeBlock->AddInstruction(new instructions::StoreMemberValueInstruction(location, (Char*)$IDENTIFIER.text->chars));
 	}
@@ -768,7 +835,7 @@ lvalueExpression returns [CodeBlock* returnCodeBlock]
 lvalueIndexAccessExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
 : 
-^(LEFT_SQUARE_BRACKET e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); } )*) 
+^(LEFT_SQUARE_BRACKET e1=expression (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock); if($e2.refCodeBlock != NULL) delete $e2.refCodeBlock; } )*) 
 {
 	CodeLocation location($LEFT_SQUARE_BRACKET.line, $LEFT_SQUARE_BRACKET.pos);
 
@@ -872,7 +939,6 @@ collectionLiteralItem returns [CodeBlock* returnCodeBlock]
     
 	returnCodeBlock->MoveInstructionsFrom(*$e1.returnCodeBlock); delete $e1.returnCodeBlock;
 		
-    
 	if(!hasSecond)
 	{
 		//returnCodeBlock->AddInstruction(new instructions::LoadNullInstruction(location));

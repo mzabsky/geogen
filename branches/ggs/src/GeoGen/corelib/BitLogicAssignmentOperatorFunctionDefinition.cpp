@@ -2,8 +2,8 @@
 #include "../runtime/VirtualMachine.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../corelib/BooleanTypeDefinition.hpp"
-#include "../runtime/ReferenceTypeDefinition.hpp"
-#include "../runtime/ReferenceObject.hpp"
+#include "ReferenceTypeDefinition.hpp"
+#include "ReferenceObject.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "DivisionByZeroException.hpp"
 #include "../InternalErrorException.hpp"
@@ -12,8 +12,8 @@
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::corelib;
-using namespace geogen::runtime;
+using namespace corelib;
+using namespace runtime;
 
 BitLogicAssignmentOperatorFunctionDefinition* BitLogicAssignmentOperatorFunctionDefinition::Create(Operator op)
 {

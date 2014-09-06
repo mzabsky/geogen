@@ -4,7 +4,7 @@
 #include "ReferenceTypeDefinition.hpp"
 #include "ScopeVariableReferenceObject.hpp"
 #include "ArrayItemReferenceObject.hpp"
-#include "../corelib/ArrayObject.hpp"
+#include "ArrayObject.hpp"
 
 using namespace std;
 using namespace geogen;

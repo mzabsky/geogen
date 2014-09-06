@@ -3,13 +3,13 @@
 #include "ArrayTypeDefinition.hpp"
 #include "ArrayObject.hpp"
 #include "../runtime/ManagedObject.hpp"
-#include "../corelib/NumberTypeDefinition.hpp"
-#include "../runtime/ReferenceTypeDefinition.hpp"
+#include "NumberTypeDefinition.hpp"
+#include "ReferenceTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::corelib;
-using namespace geogen::runtime;
+using namespace corelib;
+using namespace runtime;
 
 ManagedObject* ArrayGetRefFunctionDefinition::CallNative(CodeLocation location, runtime::VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
