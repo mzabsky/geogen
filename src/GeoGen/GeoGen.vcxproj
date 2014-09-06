@@ -293,7 +293,7 @@
     <ClInclude Include="renderer\RenderingStep.hpp" />
     <ClInclude Include="renderer\RenderingStep1D.hpp" />
     <ClInclude Include="renderer\RenderingStep2D.hpp" />
-    <ClInclude Include="runtime\ArrayItemReferenceObject.hpp" />
+    <ClInclude Include="corelib\ArrayItemReferenceObject.hpp" />
     <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
     <ClInclude Include="corelib\BooleanTypeDefinition.hpp" />
     <ClInclude Include="runtime\CallStack.hpp" />
@@ -359,13 +359,13 @@
     <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
     <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
-    <ClInclude Include="runtime\ReferenceObject.hpp" />
-    <ClInclude Include="runtime\ReferenceTypeDefinition.hpp" />
+    <ClInclude Include="corelib\ReferenceObject.hpp" />
+    <ClInclude Include="corelib\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
     <ClInclude Include="runtime\RendererObjectStub.hpp" />
     <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="ApiUsageException.hpp" />
-    <ClInclude Include="runtime\ScopeVariableReferenceObject.hpp" />
+    <ClInclude Include="corelib\ScopeVariableReferenceObject.hpp" />
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptParameter.hpp" />
     <ClInclude Include="runtime\ScriptParameters.hpp" />
@@ -533,11 +533,10 @@
     <ClCompile Include="renderer\RenderingStep2D.cpp" />
     <ClCompile Include="renderer\RendererObject.cpp" />
     <ClCompile Include="corelib\YieldRenderingStep.cpp" />
-    <ClCompile Include="runtime\ArrayItemReferenceObject.cpp" />
+    <ClCompile Include="corelib\ArrayItemReferenceObject.cpp" />
     <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
     <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
-    <ClCompile Include="runtime\ReferenceObject.cpp" />
-    <ClCompile Include="runtime\ScopeVariableReferenceObject.cpp" />
+    <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp" />
     <ClCompile Include="String.cpp">
       <FileType>CppHeader</FileType>
     </ClCompile>
@@ -632,7 +631,7 @@
     <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberTypeDefinition.cpp" />
     <ClCompile Include="runtime\ObjectStack.cpp" />
-    <ClCompile Include="runtime\ReferenceTypeDefinition.cpp" />
+    <ClCompile Include="corelib\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="runtime\ScriptFunctionDefinition.cpp" />
     <ClCompile Include="runtime\instructions\StoreMemberValueInstruction.cpp" />
     <ClCompile Include="runtime\TypeDefinition.cpp" />

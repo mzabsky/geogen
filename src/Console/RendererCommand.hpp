@@ -17,4 +17,4 @@ namespace geogen
 			virtual void Run(RendererDebugger* debugger, String arguments) const = 0;
 		};
 	}
-}
+} 

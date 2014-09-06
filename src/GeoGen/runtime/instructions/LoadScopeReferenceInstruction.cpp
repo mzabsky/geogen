@@ -1,17 +1,18 @@
 #include "LoadScopeReferenceInstruction.hpp"
-#include "..\CodeBlockStackEntry.hpp"
-#include "..\VirtualMachine.hpp"
-#include "..\..\InternalErrorException.hpp"
-#include "..\ReferenceTypeDefinition.hpp"
-#include "..\UndefinedSymbolAccessException.hpp"
+#include "../VirtualMachine.hpp"
+#include "../../InternalErrorException.hpp"
+#include "../../corelib/ReferenceTypeDefinition.hpp"
+#include "../UndefinedSymbolAccessException.hpp"
 
 using namespace std;
-using namespace geogen::runtime;
-using namespace geogen::runtime::instructions;
+using namespace geogen;
+using namespace runtime;
+using namespace corelib;
+using namespace instructions;
 
 InstructionStepResult LoadScopeReferenceInstruction::Step(VirtualMachine* vm) const
 {
-	ReferenceTypeDefinition const* numberTypeDefinition = dynamic_cast<ReferenceTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("<Reference>")));
+	ReferenceTypeDefinition const* referenceTypeDefinition = dynamic_cast<ReferenceTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("<Reference>")));
 
 	VariableTableItem* variable = vm->FindVariable(this->variableName);
 	if (variable == NULL)
@@ -19,7 +20,7 @@ InstructionStepResult LoadScopeReferenceInstruction::Step(VirtualMachine* vm) co
 		throw UndefinedSymbolAccessException(GGE2202_UndefinedVariable, this->GetLocation(), this->variableName);
 	}
 
-	ManagedObject* object = numberTypeDefinition->CreateScopeReferenceInstance(vm, variable);
+	ManagedObject* object = referenceTypeDefinition->CreateScopeReferenceInstance(vm, variable);
 	vm->GetObjectStack().Push(this->GetLocation(), object);
 
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;

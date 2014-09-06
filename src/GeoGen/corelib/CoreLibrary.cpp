@@ -6,7 +6,7 @@
 #include "PointTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
 #include "DirectionTypeDefinition.hpp"
-#include "../runtime/ReferenceTypeDefinition.hpp"
+#include "ReferenceTypeDefinition.hpp"
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "ArithmeticAssignmentOperatorFunctionDefinition.hpp"
 #include "BitLogicAssignmentOperatorFunctionDefinition.hpp"

@@ -1,16 +1,16 @@
 #include "IncrementDecrementOperatorFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
-#include "../corelib/NumberTypeDefinition.hpp"
-#include "../runtime/ReferenceTypeDefinition.hpp"
-#include "../runtime/ReferenceObject.hpp"
+#include "NumberTypeDefinition.hpp"
+#include "ReferenceTypeDefinition.hpp"
+#include "ReferenceObject.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "DivisionByZeroException.hpp"
 #include "../InternalErrorException.hpp"
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::corelib;
-using namespace geogen::runtime;
+using namespace corelib;
+using namespace runtime;
 
 IncrementDecrementOperatorFunctionDefinition* IncrementDecrementOperatorFunctionDefinition::Create(Operator op)
 {
