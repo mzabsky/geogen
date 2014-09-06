@@ -56,8 +56,8 @@ ManagedObject* ArithmeticAssignmentOperatorFunctionDefinition::CallNative(CodeLo
 	switch (this->op)
 	{
 	case MULTIPLICATION: result = input * argument; break;
-	case DIVISION: result = input / argument; break;
-	case MODULO: result = int(input) % int(argument); break;
+	case DIVISION: if (argument == 0) throw DivisionByZeroException(location); result = input / argument; break;
+	case MODULO: if (argument == 0) throw DivisionByZeroException(location); result = int(input) % int(argument); break;
 	case ADDITION: result = input + argument; break;
 	case SUBTRACTION: result = input - argument; break;
 	case BIT_SHIFT_LEFT: result = int(input) << int(argument); break;

@@ -303,12 +303,28 @@ public:
 		");
 	}
 
+	static void TestDivisionByZeroAssignmentOperatorFails()
+	{
+		TEST_SCRIPT_FAILURE(DivisionByZeroException, "\
+			var a = 6;\n\
+			a /= 0;\n\
+		");
+	}
+
 	static void TestModuloAssignmentOperator()
 	{
 		TestScript("\
 			var a = 5;\n\
 			AssertEquals(1, a %= 4); \n\
 			AssertEquals(a, 1);\n\
+		");
+	}
+
+	static void TestModuloByZeroAssignmentOperatorFails()
+	{
+		TEST_SCRIPT_FAILURE(DivisionByZeroException, "\
+			var a = 6;\n\
+			a %= 0;\n\
 		");
 	}
 
@@ -430,7 +446,9 @@ public:
 		ADD_TESTCASE(TestSubtractionAssignmentOperator);
 		ADD_TESTCASE(TestMultiplicationAssignmentOperator);
 		ADD_TESTCASE(TestDivisionAssignmentOperator);
+		ADD_TESTCASE(TestDivisionByZeroAssignmentOperatorFails);
 		ADD_TESTCASE(TestModuloAssignmentOperator);
+		ADD_TESTCASE(TestModuloByZeroAssignmentOperatorFails);
 		ADD_TESTCASE(TestShiftLeftAssignmentOperator);
 		ADD_TESTCASE(TestShiftRightAssignmentOperator);
 		ADD_TESTCASE(TestBitAndAssignmentWithBoolsOperator);
