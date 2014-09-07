@@ -11,6 +11,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for functions Array.Front and Array.Back.
 		class ArrayFrontBackFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:

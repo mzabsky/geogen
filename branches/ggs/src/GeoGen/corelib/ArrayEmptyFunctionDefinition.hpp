@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for function Array.Empty.
 		class ArrayEmptyFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		private:

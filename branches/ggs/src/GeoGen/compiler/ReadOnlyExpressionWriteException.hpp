@@ -8,10 +8,14 @@ namespace geogen
 {
 	namespace compiler
 	{
+		/// Exception thrown when error geogen::GGE1307_ReadOnlyExpressionWrite occurs.
 		class ReadOnlyExpressionWriteException : public CompilerException
 		{
 		private:			
 		public:
+
+			/// Constructor.
+			/// @param location The location.
 			explicit ReadOnlyExpressionWriteException(CodeLocation location) :
 				CompilerException(GGE1307_ReadOnlyExpressionWrite, location)
 			{

@@ -11,6 +11,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for operators *, /, %, +, -, << and >>.
 		class ArithmeticAssignmentOperatorFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		public:

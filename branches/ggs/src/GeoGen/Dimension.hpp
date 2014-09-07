@@ -4,11 +4,17 @@
 
 namespace geogen
 {
+	/// Values that represent dimension.
 	enum Dimension
 	{
+		/// Width. 
 		DIMENSION_WIDTH,
+		/// Height. 
 		DIMENSION_HEIGHT
 	};
 
-	String DimensionToString(Dimension dimensions);
+	/// Converts Dimension to string.
+	/// @param dimensions The dimension.
+	/// @return The string.
+	String DimensionToString(Dimension direction);
 }

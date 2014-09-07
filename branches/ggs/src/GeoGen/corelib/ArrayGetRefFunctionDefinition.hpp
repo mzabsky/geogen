@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for operator Array[]ref.
 		class ArrayGetRefFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		private:

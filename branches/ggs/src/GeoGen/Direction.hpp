@@ -4,12 +4,18 @@
 
 namespace geogen
 {
+	/// Values that represent direction.
 	enum Direction
 	{
+		/// Horizontal. 
 		DIRECTION_HORIZONTAL,
+		/// Vertical.
 		DIRECTION_VERTICAL
 	};
 
+	/// Returns the other than the specified direction.
+	/// @param d The direction.
+	/// @return The other directions (vertical if horizontal, horizontal if vertical). Other values are returned unchanged.
 	inline Direction OtherDirection(Direction d)
 	{
 		switch (d)
@@ -23,5 +29,8 @@ namespace geogen
 		}
 	}
 
-	String DirectionToString(Direction dimensions);
+	/// Converts Direction to string.
+	/// @param direction The dimension.
+	/// @return The string.
+	String DirectionToString(Direction direction);
 }

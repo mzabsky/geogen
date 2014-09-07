@@ -7,14 +7,21 @@ namespace geogen
 {
 	namespace compiler
 	{
+		/// Exception thrown when error geogen::GGE1405_ReservedScriptParameterNameUsed occurs.
 		class ScriptParameterTypeNotSpecifiedException : public CompilerException
 		{
 		private:
 			String parameterName;
 		public:
+
+			/// Constructor.
+			/// @param location The location.
+			/// @param parameterName Name of the parameter.
 			ScriptParameterTypeNotSpecifiedException(CodeLocation location, String const& parameterName) :
 				CompilerException(GGE1405_ReservedScriptParameterNameUsed, location), parameterName(parameterName) {};
 
+			/// Gets parameter name.
+			/// @return The parameter name.
 			inline String GetParameterName() const { return this->parameterName; }
 
 			virtual String GetDetailMessage()

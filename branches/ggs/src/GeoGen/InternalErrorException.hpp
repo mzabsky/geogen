@@ -5,6 +5,7 @@
 
 namespace geogen
 {
+	/// Exception thrown when an unrecoverable internal error in GeoGen occurs. These should be reported as bugs (although an incorrect usage of the API might also be sometimes the cause).
 	class InternalErrorException : public GeoGenException
 	{
 	private:

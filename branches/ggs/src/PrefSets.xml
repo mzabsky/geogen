@@ -2,8 +2,8 @@
 <Prefs>
   <DocComment>
     <CommentStyle value="Doxygen" />
-    <Separator value="(No first line separator)" />
-    <SeparatorB value="(No last line separator)" />
+    <Separator value="(none)" />
+    <SeparatorB value="(none)" />
     <LineHeader2 value="/// " />
     <AlignBlockStartColumns value="false" />
     <LineHeader />
@@ -57,13 +57,40 @@
     <GroupTag value="Space" />
     <GroupNewline value="Nothing" />
     <GroupBody value="Nothing" />
-    <AlignBlockStartColumns value="true" />
+    <AlignBlockStartColumns value="false" />
     <AccessLevelsToComment value="all" />
     <AccessLevelsApplyToAllCmds value="false" />
     <DeleteIllegalBlock value="true" />
   </Format>
+  <Separators>
+    <FileType ext="htm,html,xhtml,xml,xsd,xslt,xaml,config,resx">
+      <Separator value="&lt;!--" />
+      <LineHeader2 value="(None)" />
+      <SeparatorB value="--&gt;" />
+    </FileType>
+    <FileType ext="sql">
+      <Separator value="/* " />
+      <LineHeader2 value=" * " />
+      <SeparatorB value=" */" />
+    </FileType>
+    <FileType ext="lua">
+      <Separator value="-----------------------------------------------------------------------------------------------" />
+      <LineHeader2 value="-- " />
+      <SeparatorB value="-----------------------------------------------------------------------------------------------" />
+    </FileType>
+    <FileType ext="pl,pm,ps1,psc1,psd1,psm1,py,pyc,pyo,rb,tcl">
+      <Separator value="###############################################################################################" />
+      <LineHeader2 value="# " />
+      <SeparatorB value="###############################################################################################" />
+    </FileType>
+    <FileType ext="bat,bas">
+      <Separator value="rem -------------------------------------------------------------------------------------------" />
+      <LineHeader2 value="rem " />
+      <SeparatorB value="rem -------------------------------------------------------------------------------------------" />
+    </FileType>
+  </Separators>
   <Misc>
-    <RulesPath value="C:\Users\Matěj\Desktop\GeoGen GGS\src" />
+    <RulesPath value="C:\Users\matej_000\Desktop\GeoGen GGS\src" />
     <UserName value="(Use login name)" />
     <MMAddDocComment value="true" />
     <MMDocThisScope value="true" />
@@ -93,12 +120,13 @@
     <CMAddAccessMethods value="false" />
     <CMImplementMethod value="false" />
     <CMOpenSourceOrHeader value="false" />
+    <EditXmlInNotepad />
   </Misc>
   <DocXml>
     <BlockFormatNew />
     <BlockFormatOld />
     <BlockFormatForGroup />
-    <SuppressAuthorDate value="true" />
+    <SuppressAuthorDate value="false" />
   </DocXml>
   <Variables>
     <StyleCop value="false" />
@@ -130,31 +158,4 @@
   <Columnise>
     <MinimiseWhitespace value="true" />
   </Columnise>
-  <Separators>
-    <FileType ext="htm,html,xhtml,xml,xsd,xslt,xaml,config,resx">
-      <Separator value="&lt;!--" />
-      <LineHeader2 value="(None)" />
-      <SeparatorB value="--&gt;" />
-    </FileType>
-    <FileType ext="sql">
-      <Separator value="/* " />
-      <LineHeader2 value=" * " />
-      <SeparatorB value=" */" />
-    </FileType>
-    <FileType ext="lua">
-      <Separator value="-----------------------------------------------------------------------------------------------" />
-      <LineHeader2 value="-- " />
-      <SeparatorB value="-----------------------------------------------------------------------------------------------" />
-    </FileType>
-    <FileType ext="pl,pm,ps1,psc1,psd1,psm1,py,pyc,pyo,rb,tcl">
-      <Separator value="###############################################################################################" />
-      <LineHeader2 value="# " />
-      <SeparatorB value="###############################################################################################" />
-    </FileType>
-    <FileType ext="bat,bas">
-      <Separator value="rem -------------------------------------------------------------------------------------------" />
-      <LineHeader2 value="rem " />
-      <SeparatorB value="rem -------------------------------------------------------------------------------------------" />
-    </FileType>
-  </Separators>
 </Prefs>

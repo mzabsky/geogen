@@ -7,6 +7,7 @@ namespace geogen
 {
 	namespace compiler
 	{
+		/// Exception thrown when error geogen::GGE1101_UnexpectedCharacter occurs.
 		class UnexpectedCharacterException : public CompilerException
 		{
 		private:

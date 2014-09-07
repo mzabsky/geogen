@@ -246,6 +246,7 @@
     <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp" />
     <ClInclude Include="corelib\SizeOverflowException.hpp" />
     <ClInclude Include="corelib\YieldRenderingStep.hpp" />
+    <ClInclude Include="Documentation.hpp" />
     <ClInclude Include="genlib\NoiseLayer.hpp" />
     <ClInclude Include="Direction.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />

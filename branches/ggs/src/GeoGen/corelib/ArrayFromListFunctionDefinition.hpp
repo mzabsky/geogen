@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for function Array.<FromList> (not available to scripts).
 		class ArrayFromListFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		private:

@@ -7,16 +7,23 @@ namespace geogen
 {
 	namespace compiler
 	{
+		/// Exception thrown when error geogen::GGE1102_InvalidEscapeSequence occurs.
 		class InvalidEscapeSequenceException : public CompilerException
 		{
 		private:
 			String sequence;
 		public:
+
+			/// Constructor.
+			/// @param location The location.
+			/// @param sequence The sequence.
 			explicit InvalidEscapeSequenceException(CodeLocation location, String const& sequence) :
-				CompilerException(GGE1101_InvalidEscapeSequence, location), sequence(sequence)
+				CompilerException(GGE1102_InvalidEscapeSequence, location), sequence(sequence)
 			{
 			};
 
+			/// Gets escape sequence.
+			/// @return The escape sequence.
 			inline String GetEscapeSequence() const
 			{
 				return this->sequence;
