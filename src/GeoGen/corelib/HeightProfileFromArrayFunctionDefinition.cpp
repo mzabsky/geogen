@@ -50,7 +50,8 @@ ManagedObject* HeightProfileFromArrayFunctionDefinition::CallNative(CodeLocation
 		Coordinate key;
 		if (it->first->GetType() == numberTypeDefinition)
 		{
-			key = dynamic_cast<NumberObject*>(it->first)->GetValue();
+			// Todo: range check
+			key = NumberToInt(dynamic_cast<NumberObject*>(it->first)->GetValue());
 		}
 		else if (it->first->GetType() == coordinateTypeDefinition)
 		{
