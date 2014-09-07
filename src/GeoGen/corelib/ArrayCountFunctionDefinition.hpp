@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for function Array.Count.
 		class ArrayCountFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		private:

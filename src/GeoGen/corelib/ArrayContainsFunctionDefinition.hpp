@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for function Array.Create.
 		class ArrayContainsFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		public:

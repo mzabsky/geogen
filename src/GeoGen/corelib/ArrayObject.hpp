@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Implementation of a reference to Array item script object.
 		class ArrayObject : public runtime::ManagedObject
 		{
 		public:

@@ -2,10 +2,14 @@
 
 namespace geogen
 {
+	/// Error codes produced by GeoGen.
 	enum ErrorCode
 	{
+		/// An unexpected character was encountered in the input. This usually means a severe syntax error.
 		GGE1101_UnexpectedCharacter = 1101,
-		GGE1101_InvalidEscapeSequence = 1102,
+		/// An invalid escape sequence was encountered in the input.
+		GGE1102_InvalidEscapeSequence = 1102,
+		/// The parser hes encountered an unexpected token. 
 		GGE1201_UnexpectedToken = 1201,
 		GGE1301_InvalidBreak = 1301,
 		GGE1302_MissingBreak = 1302,
@@ -23,6 +27,7 @@ namespace geogen
 		GGE1404_ScriptParameterTypeNotSpecified = 1404,
 		GGE1405_ReservedScriptParameterNameUsed = 1405,
 		GGE1406_IncorrectScriptParameterAttributeType = 1406,
+		/// Unknown script parameter restriction was used.
 		GGE1407_IncorrectScriptParameterValueRestriction = 1407,
 		GGE1408_WidthNotKeyValueCollection = 1408,
 		GGE1409_HeightNotKeyValueCollection = 1409,
@@ -65,9 +70,13 @@ namespace geogen
 		GGE2705_MaxLessThanMin = 2705,
 		GGE2706_IncorrectHeightProfileKeyType = 2706,
 		GGE2707_IncorrectHeightProfileHeightType = 2707,
+		/// API usage error - such as incorrect parameter or a method being called in incorrect context).
 		GGE3000_ApiUsageError = 3000,
+		/// An unrecoverable internal error in GeoGen occured. These should be reported as bugs (although an incorrect usage of the API might also be sometimes the cause).
 		GGE4000_InternalError = 4000,
+		/// An error in the intermediate code was detected (such as incorrect state of the stack).
 		GGE4001_IntermediateCodeError = 4001,
+		/// An error was triggered using the TriggerError function from a script.
 		GGE5000_UserError = 5000
 	};
 }

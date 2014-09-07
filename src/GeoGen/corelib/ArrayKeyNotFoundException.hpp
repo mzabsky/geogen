@@ -9,6 +9,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Exception thrown when error geogen::GGE2602_ArrayKeyNotFound occurs.
 		class ArrayKeyNotFoundException : public runtime::RuntimeException
 		{
 		private:

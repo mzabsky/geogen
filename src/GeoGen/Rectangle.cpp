@@ -133,24 +133,3 @@ bool Rectangle::Contains(Point point) const
 		this->position.GetX() + (Coordinate)this->size.GetWidth() >= point.GetX() &&
 		this->position.GetY() + (Coordinate)this->size.GetHeight() >= point.GetY();
 }
-
-Point Rectangle::NextPoint(Point point) const
-{
-	if (!this->Contains(point))
-	{
-		return this->position;
-	}
-
-	Coordinate x = point.GetX() + 1;
-	Coordinate y = point.GetY();
-
-	if (x > this->position.GetX() + (Coordinate)this->size.GetWidth())
-	{
-		y++;
-		x = this->position.GetX();
-	}
-
-	return Point(x, y);
-}
-
-

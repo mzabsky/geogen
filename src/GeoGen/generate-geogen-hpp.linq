@@ -18,7 +18,8 @@ void Main()
 {
 	Directory.SetCurrentDirectory (Path.GetDirectoryName (Util.CurrentQueryPath));
 
-	string str = "";
+	string str = "// Header file used for including GeoGen into other projects" + Environment.NewLine + Environment.NewLine + "// Machine generated file, do not edit.";
+  
 	foreach(var file in GetAllFiles("./", p => p.Extension == ".hpp" && p.Name != "GeoGen.hpp" && p.Name != "AntlrRaiiWrappers.hpp"))
 	{
 		str += "#include \"" + file + "\"" + Environment.NewLine;

@@ -10,6 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
+		/// Definition for function Array.GetValueByIndex.
 		class ArrayGetValueByIndexFunctionDefinition : public runtime::MemberNativeFunctionDefinition
 		{
 		private:

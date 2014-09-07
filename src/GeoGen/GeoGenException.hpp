@@ -7,11 +7,12 @@
 
 namespace geogen
 {
+	/// Base class for all exceptions thrown by GeoGen.
 	class GeoGenException : std::exception
 	{
 	private:
 		ErrorCode code;
-		std::string message; // This has to be narrow string, because std::exception uses narrow string in what method. 
+		std::string message; // This has to be narrow string, because std::exception uses narrow string in what() method. 
 	public:
 		explicit GeoGenException(ErrorCode code) : code(code)
 		{
@@ -26,11 +27,15 @@ namespace geogen
 			return this->message.c_str();
 		}
 
+		/// Gets an error code representing the error.
+		/// @return The error code.
 		ErrorCode GetErrorCode() const
 		{
 			return this->code;
 		}
 
+		/// Gets a detailed message of the exception.
+		/// @return The detail message.
 		virtual String GetDetailMessage() { return GG_STR(""); }
 	};
 }

@@ -12,9 +12,8 @@ namespace geogen
 		class MemoryManager;
 		class FunctionDefinition;
 
-		/// <summary>
-		/// Data structure containing all required information about function call stack. Each call <see>CallStackEntry</see> then contains a code block stack.
-		/// </summary>
+		/// Data structure containing all required information about function call stack. Each call
+		/// CallStackEntry then contains a code block stack.
 		class CallStack : public Serializable
 		{
 			std::deque<CallStackEntry*> stack;
@@ -25,14 +24,10 @@ namespace geogen
 		public:
 			static const unsigned SIZE_LIMIT;
 
-			/// <summary>
-			/// Initializes a new instance of the <see cref="CallStack"/> class.
-			/// </summary>
+			/// Initializes a new instance of the CallStack class.
 			CallStack() {};
 
-			/// <summary>
-			/// Destroys all <see>CallStackEntry</see> items owned by this instance.
-			/// </summary>
+			/// Destroys all CallStackEntry items owned by this instance.
 			~CallStack();
 
 			typedef std::deque<CallStackEntry*>::const_iterator const_iterator;
@@ -40,12 +35,24 @@ namespace geogen
 			typedef std::deque<CallStackEntry*>::const_reverse_iterator const_reverse_iterator;
 			typedef std::deque<CallStackEntry*>::reverse_iterator reverse_iterator;
 
-			/// <summary> Gets the topmost entry in the stack. </summary>
-			/// <returns> A reference to the topmost entry in the stack.</returns>
+			/// Gets the topmost entry in the stack.
+			/// @return A reference to the topmost entry in the stack.
 			CallStackEntry& Top();
+			
+			/// Gets the topmost entry in the stack.
+			/// @return A reference to the topmost entry in the stack.
 			CallStackEntry const& Top() const;
+
+			/// Removes the topmost object from the stack.
 			void Pop();
+
+			/// Pushes an object onto this stack.
+			/// @param location The code location.
+			/// @param functionDefinition The function definition.
 			void Push(CodeLocation location, FunctionDefinition const* functionDefinition);
+
+			/// Returns a value indicating whether this CallStack is empty.
+			/// @return true if empty, false if not.
 			inline bool IsEmpty() const { return this->stack.empty(); };
 
 			inline const_iterator Begin() const { return *(const_iterator*)(&this->stack.begin()); }

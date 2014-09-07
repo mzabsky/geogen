@@ -8,17 +8,27 @@
 #include "Serializable.hpp"
 
 namespace geogen {
+	/// A coordinate in a 1D space. May be positive and negative.
 	typedef int Coordinate;
 
+	/// The maximum coordinate.
 	const Coordinate COORDINATE_MAX = INT_MAX;
+
+	/// The minimum coordinate.
 	const Coordinate COORDINATE_MIN = INT_MIN;
 
+	/// A point in 2D space.
 	class Point : public Serializable
 	{
 	private:
 		Coordinate x, y;
 	public:
+		/// Default constructor.
 		Point() : x(0), y(0) {}
+
+		/// Constructor.
+		/// @param x The Coordinate to process.
+		/// @param y The Coordinate to process.
 		Point(Coordinate x, Coordinate y) : x(x), y(y) {}
 
 		inline Point Point::operator+(const Point& other) const 
@@ -76,14 +86,24 @@ namespace geogen {
 			return *this;
 		}
 
+		/// Gets the X coordinate.
+		/// @return The X coordinate.
 		inline Coordinate GetX() const { return this->x; }
+
+		/// Gets the Y coordinate.
+		/// @return The Y coordinate.
 		inline Coordinate GetY() const { return this->y; }
 
+		/// Calculates euclidean distance between this point and another point.
+		/// @param destination The other point.
+		/// @return The distance.
 		inline unsigned long long GetDistanceTo(Point destination) const
 		{
 			return (unsigned long long)sqrt((double)(((long long)destination.x - (long long)this->x) * ((long long)destination.x - (long long)this->x) + ((long long)destination.y - (long long)this->y) * ((long long)destination.y - (long long)this->y)));
 		}
 
+		/// Gets euclidean distance between this point and the origin (point [0,0]).
+		/// @return The distance.
 		inline unsigned long long GetDistanceFromOrigin() const
 		{
 			return (unsigned long long)sqrt((double)((long long)this->x * (long long)this->x + (long long)this->y * (long long)this->y));
@@ -95,22 +115,38 @@ namespace geogen {
 		}
 	};
 
+	/// Next coordinate that is a multiple of given number. If the coordinate is already a multiple of that number, the same coordinate will be returned.
+	/// @param coord The coordinate.
+	/// @param multiplier The multiplier.
+	/// @return A next multiple.
 	inline Coordinate NextMultipleOfInclusive(Coordinate coord, unsigned multiplier)
 	{
 		return coord + multiplier - 1 - (coord - 1) % multiplier;
 	}
 
+	/// Next coordinate that is a multiple of given number. If the coordinate is already a multiple of that number, the next multiple will be returned.
+	/// @param coord The coordinate.
+	/// @param multiplier The multiplier.
+	/// @return A next multiple.
 	inline Coordinate NextMultipleOfExclusive(Coordinate coord, unsigned multiplier)
 	{
 		return coord + multiplier - coord % multiplier;
 	}
 
+	/// Previous coordinate that is a multiple of given number. If the coordinate is already a multiple of that number, the same coordinate will be returned.
+	/// @param coord The coordinate.
+	/// @param multiplier The multiplier.
+	/// @return A previous multiple.
 	inline Coordinate PreviousMultipleOfInclusive(Coordinate coord, unsigned multiplier)
 	{
 		int remainder = coord % multiplier;
 		return coord - remainder;
 	}
 
+	/// Previous coordinate that is a multiple of given number. If the coordinate is already a multiple of that number, the previous multiple will be returned.
+	/// @param coord The coordinate.
+	/// @param multiplier The multiplier.
+	/// @return A previous multiple.
 	inline Coordinate PreviousMultipleOfExclusive(Coordinate coord, unsigned multiplier)
 	{
 		int remainder = coord % multiplier;
@@ -119,6 +155,10 @@ namespace geogen {
 		return coord - remainder;
 	}
 
+	/// Attempts to convert a point to a 2D size.
+	/// @param p The point to convert.
+	/// @param out The conversion result.
+	/// @return true if the conversion was successful, false otherwise.
 	static inline bool TryPointToSize(Point p, Size2D& out)
 	{
 		if (p.GetX() < 0 || p.GetY() < 0)

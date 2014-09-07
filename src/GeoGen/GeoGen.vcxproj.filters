@@ -329,6 +329,7 @@
     <ClInclude Include="corelib\ScopeVariableReferenceObject.hpp" />
     <ClInclude Include="corelib\ArrayItemReferenceObject.hpp" />
     <ClInclude Include="runtime\RendererObjectStub.hpp" />
+    <ClInclude Include="Documentation.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

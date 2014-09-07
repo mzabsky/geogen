@@ -7,6 +7,7 @@ namespace geogen
 {
 	namespace compiler
 	{
+		/// Exception thrown when error geogen::GGE1410_UndefinedMetadataIdentifier occurs.
 		class UndefinedMetadataIdentifierException : public CompilerException
 		{
 		private:
