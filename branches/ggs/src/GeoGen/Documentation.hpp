@@ -46,7 +46,7 @@ namespace geogen
 
 /// @mainpage
 /// This is documentation of GeoGen's public API.
-/// @section API usage
+/// @section api_usage API usage
 /// All public symbols are declared in the header GeoGen.hpp. 
 /// 
 /// A simple code snippet which uses a map script to generate a height map then looks like this:

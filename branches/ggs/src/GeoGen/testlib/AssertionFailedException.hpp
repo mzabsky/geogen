@@ -5,22 +5,25 @@
 
 namespace geogen
 {
-	class AssertionFailedException : public GeoGenException
+	namespace testlib
 	{
-	private:
-		CodeLocation location;
-		String expected;
-		String actual;
-	public:
-		explicit AssertionFailedException(CodeLocation location, String const& expected, String const& actual) :
-			GeoGenException((ErrorCode)9000), location(location), expected(expected), actual(actual) {};
-
-		virtual String GetDetailMessage()
+		class AssertionFailedException : public GeoGenException
 		{
-			StringStream ss;
-			ss << "Assertion failed: expected " << expected << ", got " << actual << " on line " << location.GetLine() << ", column " << location.GetColumn() << "."; 
+		private:
+			CodeLocation location;
+			String expected;
+			String actual;
+		public:
+			explicit AssertionFailedException(CodeLocation location, String const& expected, String const& actual) :
+				GeoGenException((ErrorCode)9000), location(location), expected(expected), actual(actual) {};
 
-			return ss.str();
-		}
-	};
+			virtual String GetDetailMessage()
+			{
+				StringStream ss;
+				ss << "Assertion failed: expected " << expected << ", got " << actual << " on line " << location.GetLine() << ", column " << location.GetColumn() << ".";
+
+				return ss.str();
+			}
+		};
+	}
 }
