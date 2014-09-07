@@ -39,7 +39,7 @@ namespace geogen
 		{
 			VIRTUAL_MACHINE_STEP_RESULT_RUNNING,
 			VIRTUAL_MACHINE_STEP_RESULT_FINISHED
-		};
+		};		
 
 		class VirtualMachine : public Serializable
 		{
@@ -77,7 +77,9 @@ namespace geogen
 
 			random::RandomSequence commonRandomSequence;
 		public:
-			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments);	
+			static const ScriptParameters SCRIPT_PARAMETERS_DEFAULT;
+
+			VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments = SCRIPT_PARAMETERS_DEFAULT);	
 			~VirtualMachine() {};
 
 			inline VirtualMachineStatus GetStatus() const { return this->status; }

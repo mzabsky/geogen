@@ -1,7 +1,12 @@
+/// @file GeoGen.hpp Header file used for including GeoGen into other projects.
+
+// Machine generated file, do not edit.
+
 #include "ApiUsageException.hpp"
 #include "CodeLocation.hpp"
 #include "Dimension.hpp"
 #include "Direction.hpp"
+#include "Documentation.hpp"
 #include "ErrorCode.hpp"
 #include "Generator.hpp"
 #include "GeoGenException.hpp"
@@ -18,9 +23,7 @@
 #include "compiler/IncorrectEnumScriptParameterTypeException.hpp"
 #include "compiler/IncorrectMapSizeNumericValueException.hpp"
 #include "compiler/IncorrectMetadataValueTypeException.hpp"
-#include "compiler/IncorrectParameterDefinitionException.hpp"
 #include "compiler/IncorrectScriptParameterAttributeTypeException.hpp"
-#include "compiler/IncorrectScriptParameterTypeException.hpp"
 #include "compiler/IncorrectScriptParameterValueRestrictionException.hpp"
 #include "compiler/InvalidEscapeSequenceException.hpp"
 #include "compiler/InvalidSymbolDefinitionException.hpp"
