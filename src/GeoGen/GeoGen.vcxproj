@@ -648,7 +648,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp">
       <FileType>Document</FileType>
     </ClCompile>
-    <None Include="generate-geogen-hpp.linq" />
     <None Include="generate-geogen-hpp.ps1" />
     <None Include="generate-tiles-table.linq" />
     <None Include="Grammar\GeoGenScript.g" />
