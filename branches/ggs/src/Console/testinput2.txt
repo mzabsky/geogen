@@ -41,7 +41,7 @@ main = HeightMap.Pattern(main, @[0.3, 0.3], @[0.3, 0.3]);
 yield main;
 
 
-yield main;
+//yield main;
 
 /*
 

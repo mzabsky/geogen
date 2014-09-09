@@ -11,8 +11,9 @@
 
 #include "Compiler.hpp"
 #include "AntlrRaiiWrappers.hpp"
-#include "..\corelib\ParametersTypeDefinition.hpp"
-#include "..\utils\StringUtils.hpp"
+#include "../corelib/ParametersTypeDefinition.hpp"
+#include "../utils/StringUtils.hpp"
+#include "MainMapNotSupportedByScriptException.hpp"
 
 
 using namespace std;
@@ -21,12 +22,14 @@ using namespace geogen::runtime;
 using namespace geogen::utils;
 //using namespace geogen_generated;
 
-Compiler::Compiler(){}
+Compiler::Compiler(CompilerConfiguration configuration) : configuration(configuration) {}
 
 CompiledScript* Compiler::CompileScript(String const& code) const
 {
 	auto_ptr<CompiledScript> script(new CompiledScript(code));
 	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());
+
+	script->SetCompilerConfiguration(this->configuration);
 
 #ifdef GEOGEN_WCHAR
 	AnlrInputStreamWrapper input((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_UTF16LE, code.length() * 2, (pANTLR3_UINT8)"");
@@ -90,6 +93,14 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 			{
 				delete parametersTypeDefinition;
 				throw InternalErrorException(GG_STR("Parameters object name conflict."));
+			}
+		}
+
+		if (this->configuration.MainMapIsMandatory)
+		{
+			if (find(script->GetSupportedMaps().begin(), script->GetSupportedMaps().end(), renderer::Renderer::MAP_NAME_MAIN) == script->GetSupportedMaps().end())
+			{
+				throw MainMapNotSupportedByScriptException(CodeLocation(walker.GetPtr()->lines.size(), 0));
 			}
 		}
 	}
