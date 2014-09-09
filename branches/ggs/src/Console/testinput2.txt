@@ -38,6 +38,7 @@ yield HeightMap.Projection(slice, Direction.Horizontal) as "slice";
 
 main = HeightMap.Pattern(main, @[0.3, 0.3], @[0.3, 0.3]);
 
+//if(false)
 yield main;
 
 

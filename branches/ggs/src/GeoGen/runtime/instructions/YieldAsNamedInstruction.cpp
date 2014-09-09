@@ -75,5 +75,7 @@ InstructionStepResult YieldAsNamedInstruction::Step(VirtualMachine* vm) const
 
 	yieldedValue->RemoveRef(vm->GetMemoryManager());
 
+	vm->GetGeneratedMaps().push_back(this->functionName);
+
 	return INSTRUCTION_STEP_RESULT_TYPE_NORMAL;
 }

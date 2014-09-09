@@ -76,6 +76,10 @@ namespace geogen
 			void* callbackData = NULL;
 
 			random::RandomSequence commonRandomSequence;
+
+			std::vector<String> generatedMaps;
+
+			void Finish();
 		public:
 			static const ScriptParameters SCRIPT_PARAMETERS_DEFAULT;
 
@@ -112,6 +116,9 @@ namespace geogen
 			void CallFunction(CodeLocation location, FunctionDefinition const* functionDefintion, ManagedObject* instance, unsigned numberOfArguments);
 
 			random::RandomSequence& GetCommonRandomSequence() { return this->commonRandomSequence; }
+
+			std::vector<String>& GetGeneratedMaps() { return this->generatedMaps; };
+			std::vector<String> const& GetGeneratedMaps() const { return this->generatedMaps; };
 
 			void Run();
 
