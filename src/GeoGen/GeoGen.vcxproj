@@ -313,6 +313,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="runtime\EnumScriptParameter.hpp" />
     <ClInclude Include="runtime\instructions\LoadScopeReferenceInstruction.hpp" />
     <ClInclude Include="runtime\instructions\StoreReferenceInstruction.hpp" />
+    <ClInclude Include="runtime\MainMapNotGeneratedException.hpp" />
     <ClInclude Include="runtime\ManagedObject.hpp" />
     <ClInclude Include="corelib\EnumTypeDefinition.hpp" />
     <ClInclude Include="runtime\IncorrectTypeException.hpp" />

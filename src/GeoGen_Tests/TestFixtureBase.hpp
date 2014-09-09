@@ -116,7 +116,10 @@ public:
 protected:
 	static auto_ptr<CompiledScript>  TestGetCompiledScript(String const& script)
 	{
-		Compiler compiler;
+		Configuration configuration;
+		configuration.MainMapIsMandatory = false;
+
+		Compiler compiler(configuration);
 		auto_ptr<CompiledScript> compiledScript = auto_ptr<CompiledScript>(compiler.CompileScript(script));
 		compiledScript->AddLibrary(&testLib);
 

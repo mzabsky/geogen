@@ -71,6 +71,7 @@ namespace geogen
 		GGE2705_MaxLessThanMin = 2705,
 		GGE2706_IncorrectHeightProfileKeyType = 2706,
 		GGE2707_IncorrectHeightProfileHeightType = 2707,
+		GGE2801_MainMapNotGenerated = 2801,
 		/// API usage error - such as incorrect parameter or a method being called in incorrect context).
 		GGE3000_ApiUsageError = 3000,
 		/// An unrecoverable internal error in GeoGen occured. These should be reported as bugs (although an incorrect usage of the API might also be sometimes the cause).

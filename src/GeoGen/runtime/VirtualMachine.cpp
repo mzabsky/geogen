@@ -6,13 +6,17 @@
 #include "../ApiUsageException.hpp"
 #include "../InternalErrorException.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
+#include "../renderer/Renderer.hpp"
 #include "VirtualMachineStatusGuard.hpp"
 #include "../CodeLocation.hpp"
 #include "UndefinedSymbolAccessException.hpp"
+#include "MainMapNotGeneratedException.hpp"
+#include "../utils/StringUtils.hpp"
 
 using namespace std;
 using namespace geogen;
-using namespace geogen::runtime;
+using namespace runtime;
+using namespace utils;
 
 const ScriptParameters VirtualMachine::SCRIPT_PARAMETERS_DEFAULT = ScriptParameters();
 
@@ -125,6 +129,9 @@ VirtualMachineStepResult VirtualMachine::Step()
 	else
 	{		
 		result = VIRTUAL_MACHINE_STEP_RESULT_FINISHED;
+
+		this->Finish();
+
 		statusGuard.SetGuardStatus(VIRTUAL_MACHINE_STATUS_FINISHED);
 	}
 
@@ -226,6 +233,17 @@ ManagedObject* VirtualMachine::GetStaticInstance(String const& typeName)
 	}
 
 	else return variableTableItem->GetValue();
+}
+
+void VirtualMachine::Finish()
+{
+	if (this->GetCompiledScript().GetConfiguration().MainMapIsMandatory)
+	{
+		if (find(this->GetGeneratedMaps().begin(), this->GetGeneratedMaps().end(), renderer::Renderer::MAP_NAME_MAIN) == this->GetGeneratedMaps().end())
+		{
+			throw MainMapNotGeneratedException(CodeLocation(StringToLines(this->GetCompiledScript().GetCode()).size(), 0));
+		}
+	}
 }
 
 void VirtualMachine::Serialize(IOStream& stream) const
