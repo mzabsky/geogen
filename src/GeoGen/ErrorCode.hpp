@@ -21,6 +21,7 @@ namespace geogen
 		GGE1309_EnumValueAlreadyDefined = 1309,
 		GGE1310_EnumValueNotInteger = 1310,
 		GGE1311_ReservedTypeNameUsed = 1311,
+		GGE1312_MainMapNotSupportedByScript = 1312,
 		GGE1401_MetadataKeyAlreadyDefined = 1401,
 		GGE1402_ScriptParametersNotKeyValueCollection = 1402,
 		GGE1403_ScriptParameterNotKeyValueCollection = 1403,
