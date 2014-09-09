@@ -1,8 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "../GeoGen/corelib/UnknownRelativeCoordinateDirectionException.hpp"
-#include "../GeoGen/corelib/RelativeCoordinateInInfiniteDimensionException.hpp"
 
 class CoordinateTests : public TestFixtureBase
 {

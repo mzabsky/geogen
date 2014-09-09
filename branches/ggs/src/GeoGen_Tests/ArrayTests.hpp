@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "..\GeoGen\corelib\ArrayKeyNotFoundException.hpp"
 
 class ArrayTests : public TestFixtureBase
 {

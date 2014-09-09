@@ -2,7 +2,7 @@
 #include <queue>
 
 #include "Loader.hpp"
-#include "../GeoGen/utils/StringUtils.hpp"
+#include <GeoGen/GeoGen.hpp>
 #include "ConsoleUtils.hpp"
 #include "ImageWriter.hpp"
 #include "loader_commands/DebugLoaderCommand.hpp"

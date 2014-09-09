@@ -4,7 +4,8 @@
 #include <map>
 #include <ctime>
 
-#include "../GeoGen/GeoGen.hpp"
+#include <GeoGen/GeoGen.hpp>
+
 namespace geogen
 {
 	namespace console

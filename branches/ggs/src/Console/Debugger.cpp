@@ -1,7 +1,7 @@
 #include <iomanip>
 
 #include "Debugger.hpp"
-#include "../GeoGen/utils/StringUtils.hpp"
+#include <GeoGen/GeoGen.hpp>
 #include "ConsoleUtils.hpp"
 #include "VirtualMachineCallback.hpp"
 #include "runtime_commands/ArgumentsRuntimeCommand.hpp"

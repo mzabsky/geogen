@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="Generator.hpp" />
-    <ClInclude Include="GeoGen.hpp" />
     <ClInclude Include="compiler\Compiler.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
@@ -596,5 +595,6 @@
     </None>
     <None Include="generate-geogen-hpp.linq" />
     <None Include="generate-tiles-table.linq" />
+    <None Include="generate-geogen-hpp.ps1" />
   </ItemGroup>
 </Project>

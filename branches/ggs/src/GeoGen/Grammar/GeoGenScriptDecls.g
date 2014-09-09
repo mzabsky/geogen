@@ -246,7 +246,7 @@ enumValues returns [map<String, int> returnEnumValues]
 			number = NumberToInt(number);
 		}
 		
-		nextAutoNumber = number + 1;
+		nextAutoNumber = NumberToInt(number) + 1;
 		
 		if(!returnEnumValues.insert(std::pair<String, int>(valueName, number)).second)
 		{		

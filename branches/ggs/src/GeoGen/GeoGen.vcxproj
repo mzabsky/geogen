@@ -60,6 +60,10 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>powershell -command "set-executionpolicy unrestricted" -Scope CurrentUser
+powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate-geogen-hpp.ps1' -ProjectDir:'$(ProjectDir)'</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -264,7 +268,6 @@
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
     <ClInclude Include="Generator.hpp" />
-    <ClInclude Include="GeoGen.hpp" />
     <ClInclude Include="GeoGenException.hpp" />
     <ClInclude Include="Grammar\output\GeoGenScriptDecls.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
@@ -646,6 +649,7 @@
       <FileType>Document</FileType>
     </ClCompile>
     <None Include="generate-geogen-hpp.linq" />
+    <None Include="generate-geogen-hpp.ps1" />
     <None Include="generate-tiles-table.linq" />
     <None Include="Grammar\GeoGenScript.g" />
     <None Include="Grammar\GeoGenScriptDecls.g" />

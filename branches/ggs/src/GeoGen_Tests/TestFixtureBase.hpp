@@ -2,10 +2,8 @@
 
 #include <map>
 
-#include "../GeoGen/GeoGen.hpp"
-#include "../GeoGen/testlib/TestLibrary.hpp"
+#include <GeoGen/GeoGen.hpp>
 #include "NoExceptionException.hpp"
-#include "..\GeoGen\testlib\AssertionFailedException.hpp"
 
 #include "../png++/png.hpp"
 

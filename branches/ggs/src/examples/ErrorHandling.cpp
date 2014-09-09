@@ -1,4 +1,4 @@
-#include "../GeoGen/GeoGen.hpp"
+#include <GeoGen/GeoGen.hpp>
 
 using namespace std;
 

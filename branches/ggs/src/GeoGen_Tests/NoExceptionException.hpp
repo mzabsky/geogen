@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../GeoGen/ErrorCode.hpp"
-#include "../GeoGen/GeoGenException.hpp"
+#include <GeoGen/GeoGen.hpp>
 
 class NoExceptionException : public geogen::GeoGenException
 {

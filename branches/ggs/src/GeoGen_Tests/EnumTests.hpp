@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "../GeoGen/corelib/InvalidEnumValueException.hpp"
 
 class EnumTests : public TestFixtureBase
 {

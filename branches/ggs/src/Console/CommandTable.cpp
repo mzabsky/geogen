@@ -1,6 +1,7 @@
 #include "CommandTable.hpp"
 #include "Command.hpp"
-#include "../GeoGen/InternalErrorException.hpp"
+
+#include <GeoGen/GeoGen.hpp>
 
 using namespace geogen;
 using namespace console;

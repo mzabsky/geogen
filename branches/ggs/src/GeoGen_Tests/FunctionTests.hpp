@@ -1,8 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "..\GeoGen\runtime\StackOverflowException.hpp"
-#include "..\GeoGen\runtime\NumberOfArgumentsException.hpp"
 
 class FunctionTests : public TestFixtureBase
 {
