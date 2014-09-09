@@ -2,7 +2,7 @@
 #include <time.h>
 
 #include "RendererDebugger.hpp"
-#include "../GeoGen/utils/StringUtils.hpp"
+#include <GeoGen/GeoGen.hpp>
 #include "ConsoleUtils.hpp"
 #include "renderer_commands/AutosaveRendererCommand.hpp"
 #include "renderer_commands/DumpRendererCommand.hpp"

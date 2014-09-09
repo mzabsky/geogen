@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "..\GeoGen\runtime\UserErrorException.hpp"
 
 class MessageTests : public TestFixtureBase
 {

@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Command.hpp"
-#include "../GeoGen/renderer/Renderer.hpp"
+#include <GeoGen/GeoGen.hpp>
 
 namespace geogen
 {

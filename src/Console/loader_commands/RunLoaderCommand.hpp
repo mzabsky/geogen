@@ -8,8 +8,7 @@
 #include "../Loader.hpp"
 #include "../VirtualMachineCallback.hpp"
 #include "../ConsoleUtils.hpp"
-#include "../../GeoGen/GeoGen.hpp"
-#include "../../GeoGen/utils/StringUtils.hpp"
+#include <GeoGen/GeoGen.hpp>
 
 namespace geogen
 {

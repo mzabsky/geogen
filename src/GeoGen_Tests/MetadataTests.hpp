@@ -1,13 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "..\GeoGen\runtime\VariableRedefinitionException.hpp"
-#include "..\GeoGen\runtime\BooleanScriptParameter.hpp"
-#include "..\GeoGen\runtime\NumberScriptParameter.hpp"
-#include "..\GeoGen\runtime\EnumScriptParameter.hpp"
-#include "..\GeoGen\compiler\IncorrectScriptParameterAttributeTypeException.hpp"
-#include "..\GeoGen\compiler\IncorrectMapSizeNumericValueException.hpp"
-#include "..\GeoGen\compiler\MinGreaterThanMaxSizeException.hpp"
 
 class MetadataTests : public TestFixtureBase
 {

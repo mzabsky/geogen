@@ -9,8 +9,7 @@
 #include "../Debugger.hpp"
 #include "../RendererDebugger.hpp"
 #include "../ConsoleUtils.hpp"
-#include "../../GeoGen/GeoGen.hpp"
-#include "../../GeoGen/utils/StringUtils.hpp"
+#include <GeoGen/GeoGen.hpp>
 
 namespace geogen
 {

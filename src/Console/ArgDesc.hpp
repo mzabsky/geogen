@@ -3,7 +3,7 @@
 #include <string>
 #include <wchar.h>
 
-#include "../GeoGen/String.hpp"
+#include <GeoGen/GeoGen.hpp>
 
 #pragma warning(disable:4996)
 

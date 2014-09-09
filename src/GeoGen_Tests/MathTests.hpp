@@ -1,10 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "..\GeoGen\runtime\NumberOfArgumentsException.hpp"
-#include "..\GeoGen\corelib\MathDefinitionRangeException.hpp"
-#include "..\GeoGen\runtime\NumberOverflowException.hpp"
-#include "..\GeoGen\runtime\NumberUnderflowException.hpp"
 
 class MathTests : public TestFixtureBase
 {

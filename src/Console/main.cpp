@@ -1,9 +1,7 @@
 #include <iomanip>
 #include <fstream>
 
-#include "../GeoGen/utils/StringUtils.hpp"
-#include "../GeoGen/GeoGen.hpp"
-#include "../GeoGen/compiler/Compiler.hpp"
+#include <GeoGen/GeoGen.hpp>
 
 #include "CommandTable.hpp"
 #include "Loader.hpp"

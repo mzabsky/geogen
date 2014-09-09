@@ -1,8 +1,6 @@
 #pragma once
 
 #include "TestFixtureBase.hpp"
-#include "..\GeoGen\runtime\IncorrectTypeException.hpp"
-#include "..\GeoGen\corelib\DivisionByZeroException.hpp"
 
 class BasicOperatorsTests : public TestFixtureBase
 {
