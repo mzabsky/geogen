@@ -22,14 +22,14 @@ using namespace geogen::runtime;
 using namespace geogen::utils;
 //using namespace geogen_generated;
 
-Compiler::Compiler(CompilerConfiguration configuration) : configuration(configuration) {}
+Compiler::Compiler(Configuration configuration) : configuration(configuration) {}
 
 CompiledScript* Compiler::CompileScript(String const& code) const
 {
 	auto_ptr<CompiledScript> script(new CompiledScript(code));
 	auto_ptr<CodeBlock> rootCodeBlock(new CodeBlock());
 
-	script->SetCompilerConfiguration(this->configuration);
+	script->SetConfiguration(this->configuration);
 
 #ifdef GEOGEN_WCHAR
 	AnlrInputStreamWrapper input((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_UTF16LE, code.length() * 2, (pANTLR3_UINT8)"");

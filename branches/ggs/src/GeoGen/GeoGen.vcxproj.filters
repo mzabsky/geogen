@@ -329,8 +329,8 @@
     <ClInclude Include="corelib\ArrayItemReferenceObject.hpp" />
     <ClInclude Include="runtime\RendererObjectStub.hpp" />
     <ClInclude Include="Documentation.hpp" />
-    <ClInclude Include="compiler\CompilerConfiguration.hpp" />
     <ClInclude Include="compiler\MainMapNotSupportedByScriptException.hpp" />
+    <ClInclude Include="Configuration.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -573,7 +573,7 @@
     <ClCompile Include="corelib\ReferenceTypeDefinition.cpp" />
     <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp" />
     <ClCompile Include="corelib\ArrayItemReferenceObject.cpp" />
-    <ClCompile Include="compiler\CompilerConfiguration.cpp" />
+    <ClCompile Include="Configuration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

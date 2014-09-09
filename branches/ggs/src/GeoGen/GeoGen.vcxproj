@@ -82,7 +82,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
     <ClInclude Include="compiler\Compiler.hpp" />
-    <ClInclude Include="compiler\CompilerConfiguration.hpp" />
+    <ClInclude Include="Configuration.hpp" />
     <ClInclude Include="compiler\CompilerException.hpp" />
     <ClInclude Include="compiler\IncorrectMapSizeNumericValueException.hpp" />
     <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp" />
@@ -396,7 +396,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="testlib\TestLibrary.hpp" />
     <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
-    <ClCompile Include="compiler\CompilerConfiguration.cpp" />
+    <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp" />

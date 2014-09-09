@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../compiler/CompilerConfiguration.hpp"
+#include "../Configuration.hpp"
 #include "../runtime/CompiledScript.hpp"
 
 namespace geogen 
@@ -17,14 +17,14 @@ namespace geogen
 		/// A script compiler based on ANTLR 3.
 		class Compiler
 		{
-			const CompilerConfiguration configuration;
+			const Configuration configuration;
 		private:
 			Compiler(const Compiler&); // Not copyable
 		public:
 
 			/// Default constructor.
-			/// @param configuration (Optional) Compiler configuration.
-			Compiler(CompilerConfiguration configuration = CompilerConfiguration()); 
+			/// @param configuration (Optional) Configuration. Default is used if not specified.
+			Compiler(Configuration configuration = Configuration()); 
 
 			/// Compiles script string into a runtime::CompiledString.
 			/// @param code The code.
@@ -33,7 +33,7 @@ namespace geogen
 
 			/// Gets the configuration of the compiler.
 			/// @return The configuration.
-			inline CompilerConfiguration const& GetConfiguration() const { return this->configuration; }
+			inline Configuration const& GetConfiguration() const { return this->configuration; }
 		};
 	}
 }

@@ -8,7 +8,7 @@
 #include "MetadataKeyValueCollection.hpp"
 #include "../corelib/CoreLibrary.hpp"
 #include "ScriptParameters.hpp"
-#include "../compiler/CompilerConfiguration.hpp"
+#include "../Configuration.hpp"
 
 namespace geogen 
 {
@@ -22,7 +22,7 @@ namespace geogen
 		class CompiledScript : public Serializable
 		{
 			private:	
-				compiler::CompilerConfiguration compilerConfiguration;
+				Configuration configuration;
 
 				SymbolDefinitionTable<VariableDefinition> globalVariableDefinitions;
 				SymbolDefinitionTable<FunctionDefinition> globalFunctionDefinitions;
@@ -44,8 +44,8 @@ namespace geogen
 				CompiledScript(String code);
 				~CompiledScript();
 
-				void SetCompilerConfiguration(compiler::CompilerConfiguration compilerConfiguration) { this->compilerConfiguration = compilerConfiguration; }
-				compiler::CompilerConfiguration const& GetCompilerConfiguration() const { return this->compilerConfiguration; }
+				void SetConfiguration(Configuration configuration) { this->configuration = configuration; }
+				Configuration const& GetConfiguration() const { return this->configuration; }
 
 				inline String GetCode() const { return this->code; }
 

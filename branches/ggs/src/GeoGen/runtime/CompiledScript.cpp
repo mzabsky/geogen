@@ -570,8 +570,8 @@ void CompiledScript::Serialize(IOStream& stream) const
 	stream << this->code << endl;
 	stream << GG_STR("===============================") << endl;
 
-	stream << GG_STR("CompilerConfiguration: ") << endl;
-	this->compilerConfiguration.SerializeWithTabs(stream, 1);
+	stream << GG_STR("Configuration: ") << endl;
+	this->configuration.SerializeWithTabs(stream, 1);
 
 	stream << GG_STR("TypeDefinitions: ") << endl;
 	this->GetTypeDefinitions().SerializeWithTabs(stream, 1);
