@@ -30,6 +30,8 @@ namespace geogen
 
 				MetadataKeyValueCollection metadata;
 
+				std::vector<String> supportedMaps;
+
 				corelib::CoreLibrary coreLibrary;
 
 				String code;
@@ -63,6 +65,9 @@ namespace geogen
 
 				bool AddGlobalFunctionDefinition(FunctionDefinition* functionDefintion);
 				bool AddTypeDefinition(TypeDefinition* typeDefinition);
+
+				std::vector<String>& GetSupportedMaps() { return this->supportedMaps; }
+				std::vector<String> const& GetSupportedMaps() const { return this->supportedMaps; }
 
 				void AddLibrary(Library const* library);
 
