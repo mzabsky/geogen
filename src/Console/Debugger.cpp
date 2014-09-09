@@ -18,6 +18,7 @@
 #include "runtime_commands/RunRuntimeCommand.hpp"
 #include "runtime_commands/StepRuntimeCommand.hpp"
 #include "runtime_commands/StopRuntimeCommand.hpp"
+#include "runtime_commands/SupportedMapsRuntimeCommand.hpp"
 
 using namespace geogen;
 using namespace compiler;
@@ -51,6 +52,7 @@ Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledS
 	commandTable.AddCommand(new RunRuntimeCommand());
 	commandTable.AddCommand(new StepRuntimeCommand());
 	commandTable.AddCommand(new StopRuntimeCommand());
+	commandTable.AddCommand(new SupportedMapsRuntimeCommand());
 }
 
 void Debugger::ShowCodeContext() const

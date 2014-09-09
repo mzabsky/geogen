@@ -66,5 +66,6 @@
     <ClInclude Include="loader_commands\GenTilesLoaderCommand.hpp" />
     <ClInclude Include="renderer_commands\DumpRendererCommand.hpp" />
     <ClInclude Include="VirtualMachineCallback.hpp" />
+    <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp" />
   </ItemGroup>
 </Project>
