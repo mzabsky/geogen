@@ -565,7 +565,6 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 
 void CompiledScript::Serialize(IOStream& stream) const
 {
-	//stream << GG_STR("{") << endl;
 	stream << GG_STR("Code: ") << endl;
 	stream << GG_STR("===============================") << endl;
 	stream << this->code << endl;
@@ -583,5 +582,9 @@ void CompiledScript::Serialize(IOStream& stream) const
 	stream << GG_STR("Metadata: ") << endl;
 	this->GetMetadata().SerializeWithTabs(stream, 1);
 
-	//stream << GG_STR("}") << endl;
+	stream << GG_STR("SupportedMaps: ") << endl;
+	for (vector<String>::const_iterator it = this->GetSupportedMaps().begin(); it != this->GetSupportedMaps().end(); it++)
+	{
+		stream << "\t" << *it << endl;
+	}
 }

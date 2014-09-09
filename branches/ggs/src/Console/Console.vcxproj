@@ -131,6 +131,7 @@
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="runtime_commands\StopRuntimeCommand.hpp" />
+    <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp" />
     <ClInclude Include="VirtualMachineCallback.hpp" />
   </ItemGroup>
   <ItemGroup>

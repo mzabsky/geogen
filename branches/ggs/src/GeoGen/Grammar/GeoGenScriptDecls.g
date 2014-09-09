@@ -479,13 +479,13 @@ yieldStatement returns [CodeBlock* returnCodeBlock]
 	$returnCodeBlock->MoveInstructionsFrom(*$expression.returnCodeBlock); 
 	delete $expression.returnCodeBlock; 
 	
-	if($STRING == NULL){
-		$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction(location, renderer::Renderer::MAP_NAME_MAIN));
-	}
-	else 
-	{
-		$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction(location, (Char*)$STRING.text->chars));	
-	}
+	
+	String mapName = $STRING == NULL ? renderer::Renderer::MAP_NAME_MAIN : (Char*)$STRING.text->chars;
+	
+	$returnCodeBlock->AddInstruction(new instructions::YieldAsNamedInstruction(location, mapName));
+	
+	vector<String>& supportedMaps = ctx->compiledScript->GetSupportedMaps();
+	if (find(supportedMaps.begin(), supportedMaps.end(), mapName) == ctx->compiledScript->GetSupportedMaps().end()) ctx->compiledScript->GetSupportedMaps().push_back(mapName);
 };
 
 returnStatement returns [CodeBlock* returnCodeBlock]
