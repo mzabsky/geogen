@@ -20,9 +20,11 @@ int main(int argc, char** argv){
 	ProgramArguments programArguments;
 	programArguments.seed = IntToString((int)time(0));
 
+	vector<String> positionalArguments;
+
 	// initialize argument support
 	ArgDesc args(argc, argv);
-	//args.SetPosArgsVector(_params.script_args);
+	args.SetPosArgsVector(positionalArguments);
 
 	args.AddStringArg(GG_STR('i'), GG_STR("input"), GG_STR("Input script to be executed."), GG_STR("FILE"), &programArguments.inputFile);
 	args.AddStringArg(GG_STR('o'), GG_STR("output"), GG_STR("Output file, the extension determines file type of the output (*.bmp for Windows Bitmap, *.shd for GeoGen Short Height Data and *.pgm for Portable Gray Map are allowed). Set to \"../temp/out.bmp\" by default."), GG_STR("FILE"), &programArguments.outputDirectory);
@@ -36,6 +38,21 @@ int main(int argc, char** argv){
 	{
 		args.PrintHelpString();
 		return 0;
+	}
+
+	for (vector<String>::iterator it = positionalArguments.begin(); it != positionalArguments.end(); it++)
+	{
+		unsigned separatorPosition = it->find('=');
+
+		if (separatorPosition == string::npos || separatorPosition == 0)
+		{
+			continue;
+		}
+
+		String name = it->substr(0, separatorPosition);
+		String value = it->substr(separatorPosition + 1, it->length());
+
+		programArguments.scriptArgumentsStrings[name] = value;
 	}
 
 	Loader loader(Cin, Cout, programArguments);
