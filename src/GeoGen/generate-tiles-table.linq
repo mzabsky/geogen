@@ -7,7 +7,7 @@ var prefix = "tile_";
 var suffix = "_main.png";
 
 var files = new DirectoryInfo(path).EnumerateFiles("*.png");
-var regex = new Regex("^" + prefix + "(?<x>[0-9]+)_(?<y>[0-9]+)" + suffix);
+var regex = new Regex("^" + prefix + "(?<x>-?[0-9]+)_(?<y>-?[0-9]+)" + suffix);
 
 var matches = files.Select(p => regex.Match(p.Name)).Where(p => p.Captures.Count > 0);
 
@@ -53,5 +53,3 @@ builder.AppendLine("</table></body></html>");
 
 File.WriteAllText("out.html", builder.ToString());
 Process.Start("out.html");
-
-
