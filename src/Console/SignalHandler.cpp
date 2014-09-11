@@ -20,9 +20,6 @@ bool geogen::console::HandleCtrlEvent(DWORD event)
 			return true;
 		}
 
-		//cin << "";
-		//cin.clear();
-		//cin.ignore();
 		abortFlag = true;
 		return true;
 	}
@@ -32,7 +29,14 @@ bool geogen::console::HandleCtrlEvent(DWORD event)
 #else
 void geogen::console::HandleIntSignal(int sig)
 {
+	if (ignoreNext)
+	{
+		ignoreNext = false;
+		return true;
+	}
+
 	abortFlag = true;
+	return true;
 }
 #endif
 
