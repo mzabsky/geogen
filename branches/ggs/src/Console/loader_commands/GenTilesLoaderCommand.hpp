@@ -150,6 +150,49 @@ namespace geogen
 
 					return false;
 				}
+				void RenderTile(Loader* loader, Point origin, Size2D size, Rectangle bounds) const
+				{
+					clock_t startTime = clock();
+
+					loader->GetOut() << GG_STR("Tile ") << origin.ToString() << GG_STR(": Runnning script.") << std::endl;
+
+					Rectangle renderRectangle(origin, size);
+					Rectangle actualRenderRectangle = Rectangle::Intersect(renderRectangle, bounds);
+
+					runtime::ScriptParameters scriptParameters = loader->CreateScriptParameters();
+					scriptParameters.SetRenderRectangle(actualRenderRectangle);
+					runtime::VirtualMachine vm(*loader->GetCompiledScript(), scriptParameters);
+					vm.Run();
+
+					loader->GetOut() << GG_STR("Tile ") << origin.ToString() << GG_STR(": Rendering.") << std::endl;
+
+					renderer::Renderer renderer(vm.GetRenderingSequence());
+					renderer.CalculateMetadata();
+
+					loader->GetOut() << GG_STR("0% ");
+
+					int i = 0;
+					while (renderer.GetStatus() == geogen::renderer::RENDERER_STATUS_READY)
+					{
+						renderer.Step();
+
+						loader->GetOut() << round(renderer.GetProgress() * 10) / 10 << GG_STR("% ");
+
+						i++;
+					}
+
+					loader->GetOut() << std::endl;
+
+					loader->GetOut() << GG_STR("Tile ") << origin.ToString() << GG_STR(": Saving maps.") << std::endl;
+
+					StringStream tileNameStream;
+					tileNameStream << GG_STR("tile_") << origin.GetX() << GG_STR("_") << origin.GetY() << GG_STR("_");
+					loader->SaveRenderedMaps(renderer.GetRenderedMapTable(), tileNameStream.str());
+
+					double seconds = (double)(clock() - startTime) / (double)CLOCKS_PER_SEC;
+
+					loader->GetOut() << GG_STR("Tile ") << origin.ToString() << GG_STR(": Finished in ") << seconds << GG_STR(" seconds.") << std::endl << std::endl;
+				}
 			public:
 				GenTilesLoaderCommand()
 				{
@@ -178,12 +221,15 @@ namespace geogen
 					{
 						loader->GetOut() << std::endl << std::endl;
 						return;
-					}
+					}					
 
 					runtime::ScriptParameters scriptParameters = loader->CreateScriptParameters();
-					Rectangle mapRectangle(Point(scriptParameters.GetMapWidth() == runtime::MAP_SIZE_INFINITE ? COORDINATE_MIN : 0, scriptParameters.GetMapHeight() == runtime::MAP_SIZE_INFINITE ? COORDINATE_MIN : 0), Size2D(scriptParameters.GetMapWidth() == runtime::MAP_SIZE_INFINITE ? runtime::MAP_SIZE_MAX : scriptParameters.GetMapWidth(), scriptParameters.GetMapHeight() == runtime::MAP_SIZE_INFINITE ? runtime::MAP_SIZE_MAX : scriptParameters.GetMapHeight()));
+					Rectangle mapRectangle(Point(scriptParameters.IsMapInfinite(DIRECTION_HORIZONTAL) ? COORDINATE_MIN : 0, scriptParameters.IsMapInfinite(DIRECTION_VERTICAL) ? COORDINATE_MIN : 0), Size2D(scriptParameters.IsMapInfinite(DIRECTION_HORIZONTAL) ? runtime::MAP_SIZE_MAX : scriptParameters.GetMapWidth(), scriptParameters.IsMapInfinite(DIRECTION_VERTICAL) ? runtime::MAP_SIZE_MAX : scriptParameters.GetMapHeight()));
 
 					bounds = Rectangle::Intersect(mapRectangle, bounds);
+
+					bool boundsInfiniteHorizontal = bounds.GetSize().GetWidth() == runtime::MAP_SIZE_MAX;
+					bool boundsInfiniteVertical = bounds.GetSize().GetHeight() == runtime::MAP_SIZE_MAX;
 
 					clock_t totalStartTime = clock();
 
@@ -193,52 +239,78 @@ namespace geogen
 
 					loader->GetOut() << GG_STR("Generating tiles in rectangle ") << bounds.ToString() << GG_STR(" with tile size ") << actualTileSize.ToString() << GG_STR(".") << std::endl << std::endl;
 
-					for (Coordinate y = bounds.GetPosition().GetY(); y < bounds.GetEndingPoint().GetY(); y += actualTileSize.GetHeight())
-					for (Coordinate x = bounds.GetPosition().GetX(); x < bounds.GetEndingPoint().GetX(); x += actualTileSize.GetWidth())
+
+					if (boundsInfiniteHorizontal && boundsInfiniteVertical)
 					{
-						Point currentOrigin(x, y);
+						Coordinate spiralTop = 0;
+						Coordinate spiralBottom = 0;
+						Coordinate spiralLeft = 0;
+						Coordinate spiralRight = 0;
 
-						clock_t startTime = clock();
+						Coordinate currentChangeX = 1;
+						Coordinate currentChangeY = 0;
 
-						loader->GetOut() << GG_STR("Tile ") << currentOrigin.ToString() << GG_STR(": Runnning script.") << std::endl;
+						Coordinate currentX = 0;
+						Coordinate currentY = 0;
 
-						Rectangle renderRectangle(currentOrigin, actualTileSize);
-						Rectangle actualRenderRectangle = Rectangle::Intersect(renderRectangle, bounds);
-
-						runtime::ScriptParameters scriptParameters = loader->CreateScriptParameters();
-						scriptParameters.SetRenderRectangle(actualRenderRectangle);
-						runtime::VirtualMachine vm(*loader->GetCompiledScript(), scriptParameters);
-						vm.Run();
-
-						loader->GetOut() << GG_STR("Tile ") << currentOrigin.ToString() << GG_STR(": Rendering.") << std::endl;
-
-						renderer::Renderer renderer(vm.GetRenderingSequence());
-						renderer.CalculateMetadata();
-
-						loader->GetOut() << GG_STR("0% ");
-
-						int i = 0;
-						while (renderer.GetStatus() == geogen::renderer::RENDERER_STATUS_READY)
+						while (true)
 						{
-							renderer.Step();
+							if (currentX > spiralRight)
+							{
+								currentChangeX = 0;
+								currentChangeY = +1;
+								spiralRight++;
+							}
+							else if (currentX < spiralLeft)
+							{
+								currentChangeX = 0;
+								currentChangeY = -1;
+								spiralLeft--;
+							}
+							else if (currentY > spiralTop)
+							{
+								currentChangeX = -1;
+								currentChangeY = 0;
+								spiralTop++;
+							}
+							else if (currentY < spiralBottom)
+							{
+								currentChangeX = +1;
+								currentChangeY = 0;
+								spiralBottom--;
+							}
 
-							loader->GetOut() << round(renderer.GetProgress() * 10) / 10 << GG_STR("% ");
+							this->RenderTile(loader, Point(currentX * actualTileSize.GetWidth(), currentY * actualTileSize.GetHeight()), actualTileSize, bounds);
 
-							i++;
+							currentX += currentChangeX;
+							currentY += currentChangeY;
 						}
-
-						loader->GetOut() << std::endl;
-
-						loader->GetOut() << GG_STR("Tile ") << currentOrigin.ToString() << GG_STR(": Saving maps.") << std::endl;
-
-						StringStream tileNameStream;
-						tileNameStream << GG_STR("tile_") << x << GG_STR("_") << y << GG_STR("_");
-						loader->SaveRenderedMaps(renderer.GetRenderedMapTable(), tileNameStream.str());
-
-						double seconds = (double)(clock() - startTime) / (double)CLOCKS_PER_SEC;
-
-						loader->GetOut() << GG_STR("Tile ") << currentOrigin.ToString() << GG_STR(": Finished in ") << seconds << GG_STR(" seconds.") << std::endl << std::endl;
 					}
+					else if (boundsInfiniteHorizontal)
+					{						
+						for (Coordinate x = 0;; x = x <= 0 ? -x + actualTileSize.GetWidth() : -x)
+						for (Coordinate y = bounds.GetPosition().GetY(); y < bounds.GetEndingPoint().GetY(); y += actualTileSize.GetHeight())
+						{
+							this->RenderTile(loader, Point(x, y), actualTileSize, bounds);
+						}
+					}
+					else if (boundsInfiniteVertical)
+					{
+						for (Coordinate y = 0;; y = y <= 0 ? -y + actualTileSize.GetHeight() : -y)
+						for (Coordinate x = bounds.GetPosition().GetX(); x < bounds.GetEndingPoint().GetX(); x += actualTileSize.GetWidth())
+						{
+							this->RenderTile(loader, Point(x, y), actualTileSize, bounds);
+						}
+					}
+					else
+					{
+						for (Coordinate y = bounds.GetPosition().GetY(); y < bounds.GetEndingPoint().GetY(); y += actualTileSize.GetHeight())
+						for (Coordinate x = bounds.GetPosition().GetX(); x < bounds.GetEndingPoint().GetX(); x += actualTileSize.GetWidth())
+						{
+							this->RenderTile(loader, Point(x, y), actualTileSize, bounds);
+						}
+					}
+
 
 					double seconds = (double)(clock() - totalStartTime) / (double)CLOCKS_PER_SEC; 
 					loader->GetOut() << GG_STR("Batch finished in ") << seconds << GG_STR(" seconds.") << std::endl << std::endl;

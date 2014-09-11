@@ -59,6 +59,14 @@ namespace geogen
 	/// @return The converted Height.
 	Height NumberToHeight(Number n);
 
+	/// Returns sign of a numeric value.
+	/// @tparam T Numeric type.
+	/// @param val The value.
+	/// @return -1 if the value was less than 0, 0 if it was 0 and 1 if it was greater than 0.
+	template <typename T> int Sign(T val) {
+		return (T(0) < val) - (val < T(0));
+	}
+
 	/// Starts a zone of checked floating point math.
 	void RuntimeMathCheckInit();
 	
