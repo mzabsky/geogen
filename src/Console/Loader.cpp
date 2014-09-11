@@ -130,13 +130,31 @@ void Loader::Run()
 				{
 					out << GG_STR("Do you wish to save dump file? (y/n, default = n) ");
 					String saveDumpResponse;
-					getline(Cin, saveDumpResponse);
+					if (!getline(Cin, saveDumpResponse))
+					{
+						cin.clear();
+						IgnoreNextSignal();
+						out << GG_STR("Discarded dump file.") << std::endl << std::endl;
+						this->SetDump(GG_STR(""));
+						continue;
+					}
+
+					cin.clear();
 
 					if (saveDumpResponse == GG_STR("y") || saveDumpResponse == GG_STR("Y") || saveDumpResponse == GG_STR("yes"))
 					{
 						out << GG_STR("Dump file name (default = dump.txt): ");
 						String dumpFileName;
-						getline(Cin, dumpFileName);
+						if (!getline(Cin, dumpFileName))
+						{
+							cin.clear();
+							IgnoreNextSignal();
+							out << GG_STR("Discarded dump file.") << std::endl << std::endl;
+							this->SetDump(GG_STR(""));
+							continue;
+						}
+
+						cin.clear();
 
 						if (dumpFileName == GG_STR(""))
 						{
