@@ -4,6 +4,7 @@
 #include <GeoGen/GeoGen.hpp>
 #include "ConsoleUtils.hpp"
 #include "VirtualMachineCallback.hpp"
+#include "SignalHandler.hpp"
 #include "runtime_commands/ArgumentsRuntimeCommand.hpp"
 #include "runtime_commands/CallStackRuntimeCommand.hpp"
 #include "runtime_commands/CodeBlockCodeRuntimeCommand.hpp"
@@ -133,7 +134,15 @@ void Debugger::Run()
 	{
 		out << GG_STR("DEBUGGER>> ");
 
-		getline<Char>(in, input);
+		if (!getline<Char>(in, input))
+		{
+			IgnoreNextSignal();
+			cout << std::endl;
+			this->Abort();
+		}
+
+		in.clear();
+		//in.ignore(10000, '\n');
 
 		size_t separatorPosition = input.find(" ");
 		string commandCue = input.substr(0, separatorPosition);
@@ -143,14 +152,21 @@ void Debugger::Run()
 			args = input.substr(separatorPosition + 1);
 		}
 
-		Command const* command = this->commandTable.GetCommand(commandCue);
-		if (command == NULL)
+		if (GetAndClearAbortFlag() || this->aborted)
 		{
-			out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
+			this->Abort();
 		}
-		else
+		else 
 		{
-			dynamic_cast<RuntimeCommand const*>(command)->Run(this, args);
+			Command const* command = this->commandTable.GetCommand(commandCue);
+			if (command == NULL)
+			{
+				out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
+			}
+			else
+			{
+				dynamic_cast<RuntimeCommand const*>(command)->Run(this, args);
+			}
 		}
 
 		if (this->aborted)

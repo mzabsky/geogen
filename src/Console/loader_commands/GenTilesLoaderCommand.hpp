@@ -6,6 +6,7 @@
 #include "../LoaderCommand.hpp"
 #include "../Loader.hpp"
 #include "../ConsoleUtils.hpp"
+#include "../SignalHandler.hpp"
 #include <GeoGen/GeoGen.hpp>
 
 namespace geogen
@@ -150,7 +151,7 @@ namespace geogen
 
 					return false;
 				}
-				void RenderTile(Loader* loader, Point origin, Size2D size, Rectangle bounds) const
+				bool RenderTile(Loader* loader, Point origin, Size2D size, Rectangle bounds) const
 				{
 					clock_t startTime = clock();
 
@@ -162,7 +163,17 @@ namespace geogen
 					runtime::ScriptParameters scriptParameters = loader->CreateScriptParameters();
 					scriptParameters.SetRenderRectangle(actualRenderRectangle);
 					runtime::VirtualMachine vm(*loader->GetCompiledScript(), scriptParameters);
-					vm.Run();
+
+					while (vm.GetStatus() == geogen::runtime::VIRTUAL_MACHINE_STATUS_READY)
+					{
+						if (GetAndClearAbortFlag())
+						{
+							loader->GetOut() << GG_STR("Aborted.") << std::endl;
+							return false;
+						}
+
+						vm.Step();
+					}
 
 					loader->GetOut() << GG_STR("Tile ") << origin.ToString() << GG_STR(": Rendering.") << std::endl;
 
@@ -174,6 +185,12 @@ namespace geogen
 					int i = 0;
 					while (renderer.GetStatus() == geogen::renderer::RENDERER_STATUS_READY)
 					{
+						if (GetAndClearAbortFlag()) 
+						{
+							loader->GetOut() << std::endl << GG_STR("Aborted.") << std::endl;
+							return false;
+						}
+
 						renderer.Step();
 
 						loader->GetOut() << round(renderer.GetProgress() * 10) / 10 << GG_STR("% ");
@@ -187,11 +204,13 @@ namespace geogen
 
 					StringStream tileNameStream;
 					tileNameStream << GG_STR("tile_") << origin.GetX() << GG_STR("_") << origin.GetY() << GG_STR("_");
-					loader->SaveRenderedMaps(renderer.GetRenderedMapTable(), tileNameStream.str());
+					if (!loader->SaveRenderedMaps(renderer.GetRenderedMapTable(), tileNameStream.str())) return false;
 
 					double seconds = (double)(clock() - startTime) / (double)CLOCKS_PER_SEC;
 
 					loader->GetOut() << GG_STR("Tile ") << origin.ToString() << GG_STR(": Finished in ") << seconds << GG_STR(" seconds.") << std::endl << std::endl;
+
+					return true;
 				}
 			public:
 				GenTilesLoaderCommand()
@@ -280,7 +299,7 @@ namespace geogen
 								spiralBottom--;
 							}
 
-							this->RenderTile(loader, Point(currentX * actualTileSize.GetWidth(), currentY * actualTileSize.GetHeight()), actualTileSize, bounds);
+							if(!this->RenderTile(loader, Point(currentX * actualTileSize.GetWidth(), currentY * actualTileSize.GetHeight()), actualTileSize, bounds)) return;
 
 							currentX += currentChangeX;
 							currentY += currentChangeY;
@@ -291,7 +310,7 @@ namespace geogen
 						for (Coordinate x = 0;; x = x <= 0 ? -x + actualTileSize.GetWidth() : -x)
 						for (Coordinate y = bounds.GetPosition().GetY(); y < bounds.GetEndingPoint().GetY(); y += actualTileSize.GetHeight())
 						{
-							this->RenderTile(loader, Point(x, y), actualTileSize, bounds);
+							if (!this->RenderTile(loader, Point(x, y), actualTileSize, bounds)) return;
 						}
 					}
 					else if (boundsInfiniteVertical)
@@ -299,7 +318,7 @@ namespace geogen
 						for (Coordinate y = 0;; y = y <= 0 ? -y + actualTileSize.GetHeight() : -y)
 						for (Coordinate x = bounds.GetPosition().GetX(); x < bounds.GetEndingPoint().GetX(); x += actualTileSize.GetWidth())
 						{
-							this->RenderTile(loader, Point(x, y), actualTileSize, bounds);
+							if (!this->RenderTile(loader, Point(x, y), actualTileSize, bounds)) return;
 						}
 					}
 					else
@@ -307,7 +326,7 @@ namespace geogen
 						for (Coordinate y = bounds.GetPosition().GetY(); y < bounds.GetEndingPoint().GetY(); y += actualTileSize.GetHeight())
 						for (Coordinate x = bounds.GetPosition().GetX(); x < bounds.GetEndingPoint().GetX(); x += actualTileSize.GetWidth())
 						{
-							this->RenderTile(loader, Point(x, y), actualTileSize, bounds);
+							if(!this->RenderTile(loader, Point(x, y), actualTileSize, bounds)) return;
 						}
 					}
 
