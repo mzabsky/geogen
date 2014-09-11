@@ -4,6 +4,7 @@
 #include "Loader.hpp"
 #include <GeoGen/GeoGen.hpp>
 #include "ConsoleUtils.hpp"
+#include "SignalHandler.hpp"
 #include "ImageWriter.hpp"
 #include "loader_commands/DebugLoaderCommand.hpp"
 #include "loader_commands/GenTilesLoaderCommand.hpp"
@@ -70,7 +71,7 @@ void Loader::Run()
 	if (this->isInteractive)
 	{
 		out << GG_STR("Welcome to GeoGen interactive console.") << endl << endl;
-		out << GG_STR("Enter \"?\" to list commands available in current context.") << endl << endl;
+		out << GG_STR("Enter \"?\" to list commands available in current context. ") << std::endl << GG_STR("Press CTRL+C to abort most running operations.") << endl << endl;
 	}
 
 	String input = "";
@@ -84,7 +85,13 @@ void Loader::Run()
 			}
 
 			out << GG_STR("LOADER>> ");
-			getline<Char>(in, input);
+			if (!getline<Char>(in, input)){
+				IgnoreNextSignal();
+				out << std::endl;
+				return; 
+			}
+
+			in.clear();
 		}
 		else
 		{
@@ -103,6 +110,8 @@ void Loader::Run()
 		Command const* command = this->commandTable.GetCommand(commandCue);
 		if (command == NULL)
 		{
+			//if (GetAndClearAbortFlag()) return;
+
 			out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
 		}
 		else
@@ -161,10 +170,16 @@ void Loader::Run()
 	}
 }
 
-void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String prefix)
+bool Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String prefix)
 {
 	for (RenderedMapTable::iterator it = renderedMaps.Begin(); it != renderedMaps.End(); it++)
 	{
+		if (GetAndClearAbortFlag())
+		{
+			out << GG_STR("Aborted.") << endl << endl;
+			return false;
+		}
+
 		stringstream ss;
 		ss << this->outputDirectory << GG_STR("/") << prefix << StringToAscii(it->first) << GG_STR(".png");
 
@@ -176,7 +191,7 @@ void Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String p
 		catch (exception&)
 		{
 			success = false;
-			out << GG_STR("Could not save \"") << ss.str() << "\"." << endl;
+			out << GG_STR("Could not save \"") << ss.str() << GG_STR("\".") << endl;
 		}
 
 		if (success)

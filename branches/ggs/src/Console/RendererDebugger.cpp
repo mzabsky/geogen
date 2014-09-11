@@ -4,6 +4,7 @@
 #include "RendererDebugger.hpp"
 #include <GeoGen/GeoGen.hpp>
 #include "ConsoleUtils.hpp"
+#include "SignalHandler.hpp"
 #include "renderer_commands/AutosaveRendererCommand.hpp"
 #include "renderer_commands/DumpRendererCommand.hpp"
 #include "renderer_commands/HelpRendererCommand.hpp"
@@ -67,7 +68,14 @@ void RendererDebugger::Run()
 	{
 		out << GG_STR("RENDERER>> ");
 
-		getline<Char>(in, input);
+		if (!getline<Char>(in, input))
+		{
+			IgnoreNextSignal();
+			cout << endl;
+			this->Abort(); 
+		}
+
+		cin.clear();
 
 		size_t separatorPosition = input.find(" ");
 		string commandCue = input.substr(0, separatorPosition);
@@ -77,14 +85,21 @@ void RendererDebugger::Run()
 			args = input.substr(separatorPosition + 1);
 		}
 
-		Command const* command = this->commandTable.GetCommand(commandCue);
-		if (command == NULL)
+		if (GetAndClearAbortFlag() || this->aborted)
 		{
-			out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
+			this->Abort();
 		}
 		else
 		{
-			dynamic_cast<RendererCommand const*>(command)->Run(this, args);
+			Command const* command = this->commandTable.GetCommand(commandCue);
+			if (command == NULL)
+			{
+				out << GG_STR("Unknown command. Enter \"?\" to print list of commands available in current context.") << endl << endl;
+			}
+			else
+			{
+				dynamic_cast<RendererCommand const*>(command)->Run(this, args);
+			}
 		}
 
 		if (this->aborted)

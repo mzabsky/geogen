@@ -87,7 +87,7 @@ namespace geogen
 			geogen::runtime::ScriptParameters CreateScriptParameters();
 
 			void Run();
-			void SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String prefix = GG_STR(""));
+			bool SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String prefix = GG_STR(""));
 
 			void PrintScriptParameterWarning(String name, String value, String type);
 		};

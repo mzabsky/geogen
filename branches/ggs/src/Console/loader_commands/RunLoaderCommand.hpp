@@ -6,6 +6,7 @@
 
 #include "../LoaderCommand.hpp"
 #include "../Loader.hpp"
+#include "../SignalHandler.hpp"
 #include "../VirtualMachineCallback.hpp"
 #include "../ConsoleUtils.hpp"
 #include <GeoGen/GeoGen.hpp>
@@ -45,7 +46,16 @@ namespace geogen
 					runtime::VirtualMachine vm(*loader->GetCompiledScript(), loader->CreateScriptParameters());
 					vm.SetCallbackData(&loader->GetOut());
 					vm.SetScriptMessageHandler(VirtualMachineCallback);
-					vm.Run();
+					while (vm.GetStatus() == runtime::VIRTUAL_MACHINE_STATUS_READY)
+					{
+						if (GetAndClearAbortFlag())
+						{
+							loader->GetOut() << std::endl << GG_STR("Aborted.") << std::endl;
+							return;
+						}
+
+						vm.Run();
+					}
 					
 					loader->GetOut() << "Rendering." << std::endl;
 
@@ -57,6 +67,12 @@ namespace geogen
 					int i = 0;
 					while (renderer.GetStatus() == geogen::renderer::RENDERER_STATUS_READY)
 					{
+						if (GetAndClearAbortFlag())
+						{
+							loader->GetOut() << std::endl << GG_STR("Aborted.") << std::endl;
+							return;
+						}
+
 						renderer.Step();
 
 						loader->GetOut() << round(renderer.GetProgress()*10)/10 << "% ";
@@ -68,7 +84,7 @@ namespace geogen
 
 					loader->GetOut() << "Saving maps." << std::endl;
 
-					loader->SaveRenderedMaps(renderer.GetRenderedMapTable());
+					if (!loader->SaveRenderedMaps(renderer.GetRenderedMapTable())) return;
 
 					double seconds = (double)(clock() - startTime) / (double)CLOCKS_PER_SEC;
 

@@ -7,6 +7,7 @@
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="RendererDebugger.cpp" />
     <ClCompile Include="ImageWriter.cpp" />
+    <ClCompile Include="SignalHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="testinput2.txt" />
@@ -67,5 +68,6 @@
     <ClInclude Include="renderer_commands\DumpRendererCommand.hpp" />
     <ClInclude Include="VirtualMachineCallback.hpp" />
     <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp" />
+    <ClInclude Include="SignalHandler.hpp" />
   </ItemGroup>
 </Project>

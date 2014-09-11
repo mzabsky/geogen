@@ -79,6 +79,7 @@
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="RendererDebugger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SignalHandler.cpp" />
     <ClInclude Include="ArgDesc.hpp" />
     <ClInclude Include="Loader.hpp" />
     <ClInclude Include="LoaderCommand.hpp" />
@@ -132,6 +133,7 @@
     </ClInclude>
     <ClInclude Include="runtime_commands\StopRuntimeCommand.hpp" />
     <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp" />
+    <ClInclude Include="SignalHandler.hpp" />
     <ClInclude Include="VirtualMachineCallback.hpp" />
   </ItemGroup>
   <ItemGroup>

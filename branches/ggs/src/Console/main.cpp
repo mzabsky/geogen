@@ -9,6 +9,8 @@
 #include "ProgramArguments.hpp"
 #include "ArgDesc.hpp"
 
+#include "SignalHandler.hpp"
+
 using namespace geogen;
 using namespace console;
 using namespace compiler;
@@ -54,6 +56,8 @@ int main(int argc, char** argv){
 
 		programArguments.scriptArgumentsStrings[name] = value;
 	}
+
+	InitializeSignalHandler();
 
 	Loader loader(Cin, Cout, programArguments);
 	loader.Run();
