@@ -6,5 +6,6 @@
     <ClCompile Include="RenderProgress.cpp" />
     <ClCompile Include="MultipleTiles.cpp" />
     <ClCompile Include="ErrorHandling.cpp" />
+    <ClCompile Include="AdvancedScriptParameters.cpp" />
   </ItemGroup>
 </Project>

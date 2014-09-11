@@ -31,7 +31,7 @@ void Example_MultipleTiles()
 		// The render region is specified using script parameters.
 		geogen::runtime::ScriptParameters parameters = compiledScript->CreateScriptParameters();
 
-		// Set extents of the map area (because the map is finite).
+		// Set extents of the map area (because the map is finite, this is not necessary/possible for infinite maps).
 		parameters.SetMapWidth(2000);
 		parameters.SetMapHeight(2000);
 

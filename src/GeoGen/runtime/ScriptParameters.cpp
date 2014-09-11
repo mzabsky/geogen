@@ -2,6 +2,7 @@
 
 #include "ScriptParameter.hpp"
 #include "ScriptParameters.hpp"
+#include "../ApiUsageException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -92,6 +93,19 @@ void ScriptParameters::SetMapHeight(unsigned height)
 	}
 
 	this->mapHeight = min(this->maxMapHeight, height);
+}
+
+bool ScriptParameters::IsMapInfinite(Direction direction) const
+{
+	switch (direction)
+	{
+	case DIRECTION_HORIZONTAL:
+		return this->GetMaxMapWidth() == MAP_SIZE_INFINITE;
+	case DIRECTION_VERTICAL:
+		return this->GetMaxMapHeight() == MAP_SIZE_INFINITE;
+	default:
+		throw ApiUsageException("Invalid direction.");
+	}
 }
 
 void ScriptParameters::ResetToDefaults()

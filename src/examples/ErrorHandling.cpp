@@ -22,7 +22,7 @@ void Example_ErrorHandling()
 		return;
 	}
 
-	// All simulation exceptions extend geogen::runtime::RuntimeExceptions.
+	// All simulation exceptions extend geogen::runtime::RuntimeException.
 	geogen::runtime::VirtualMachine vm(*compiledScript);
 	try
 	{

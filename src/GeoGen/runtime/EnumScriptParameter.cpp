@@ -67,6 +67,17 @@ void EnumScriptParameter::SetValue(int value)
 	}
 }
 
+void EnumScriptParameter::SetValue(String value)
+{
+	if (this->GetEnumType()->IsValueStringDefined(value))
+	{
+		this->value = this->GetEnumType()->GetValueDefinitions().find(value)->second;
+	}
+	else {
+		this->value = this->GetEnumType()->GetDefaultValueInt();
+	}
+}
+
 ScriptParameter* EnumScriptParameter::Clone() const
 {
 	return new EnumScriptParameter(*this);
