@@ -72,6 +72,7 @@
     <ClCompile Include="MultipleTiles.cpp" />
     <ClCompile Include="RenderProgress.cpp" />
     <ClCompile Include="ScriptParameters.cpp" />
+    <ClCompile Include="TextMessages.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

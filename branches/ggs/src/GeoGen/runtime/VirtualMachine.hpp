@@ -102,6 +102,7 @@ namespace geogen
 			inline ScriptMessageHandler GetScriptMessageHandler() const { return this->scriptMessageHandler; };
 			inline void SetScriptMessageHandler(ScriptMessageHandler scriptMessageHandler) { this->scriptMessageHandler = scriptMessageHandler; };
 			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
+			static void EmptyScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 
 			inline ObjectStack& GetObjectStack() { return this->objectStack; };
 			inline ObjectStack const& GetObjectStack() const { return this->objectStack; };

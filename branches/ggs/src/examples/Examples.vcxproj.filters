@@ -7,5 +7,6 @@
     <ClCompile Include="MultipleTiles.cpp" />
     <ClCompile Include="ErrorHandling.cpp" />
     <ClCompile Include="AdvancedScriptParameters.cpp" />
+    <ClCompile Include="TextMessages.cpp" />
   </ItemGroup>
 </Project>
