@@ -49,6 +49,7 @@ namespace geogen
 /// @example ScriptParameters.cpp
 /// @example AdvancedScriptParameters.cpp
 /// @example RenderProgress.cpp
+/// @example TextMessages.cpp
 /// @example MultipleTiles.cpp
 
 
@@ -61,6 +62,7 @@ namespace geogen
 /// @li @link tutorial_error_handling Handling compilation and runtime errors @endlink
 /// @li @link tutorial_script_parameters Setting script parameters @endlink
 /// @li @link tutorial_render_progress Displaying render progress @endlink
+/// @li @link tutorial_text_messages Handling text messages from scripts @endlink
 /// @li @link tutorial_multiple_tiles Rendering multiple tiles of a single map @endlink
 
 /// @page tutorials Tutorials
@@ -70,6 +72,7 @@ namespace geogen
 /// @li @link tutorial_error_handling Handling compilation and runtime errors @endlink
 /// @li @link tutorial_script_parameters Setting script parameters @endlink
 /// @li @link tutorial_render_progress Displaying render progress @endlink
+/// @li @link tutorial_text_messages Handling text messages from scripts @endlink
 /// @li @link tutorial_multiple_tiles Rendering multiple tiles of a single map @endlink
 
 /// @page tutorial_basic_usage Basic usage
@@ -111,6 +114,23 @@ namespace geogen
 /// 
 /// @snippet RenderProgress.cpp Body
 /// @link RenderProgress.cpp Full code @endlink
+
+/// @page tutorial_text_messages Handling text messages from scripts
+/// This tutorial demonstrates how to handle text messages produced by the map scripts (using the Print function).
+/// 
+/// Text messages are handled using a callback of type geogen::runtime::VirtualMachine::ScriptMessageHandler. A simple implementation, which just prints the message to standard output:
+/// @snippet TextMessages.cpp Callback
+/// @link TextMessages.cpp Full code @endlink
+/// 	  
+/// The handler is then assigned to a geogen::runtime::VirtualMachine using geogen::runtime::VirtualMachine::SetScriptMessageHandler:
+/// @snippet TextMessages.cpp Body
+/// @link TextMessages.cpp Full code @endlink
+/// 	 
+/// If no custom text message handler is specified, geogen::runtime::VirtualMachine::DefaultScriptMessageHandler, which prints the message on standard output, is used. A geogen::runtime::VirtualMachine::EmptyScriptMessageHandler, which discards the message instead, is also provided.
+///  
+/// In addition to the ready-to-print formatted text, the unformatted text with the collection of formatting arguments is also provided. This can for example be used to replace the unformatted message with its localized variant and then splice the formatting arguments into it using geogen::FormatString.
+///  
+/// If you need to pass any data to the callback, you can assign any data pointer to the VM using geogen::runtime::VirtualMachine::SetCallbackData and then retrieve in the callback using geogen::runtime::VirtualMachine::GetCallbackData.
 
 /// @page tutorial_multiple_tiles Rendering multiple tiles of a single map
 /// This tutorial demonstrates how to cut a single map into multiple tiles.
