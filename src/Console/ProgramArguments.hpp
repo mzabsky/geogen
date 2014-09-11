@@ -18,7 +18,7 @@ namespace geogen
 			String inputFile = GG_STR("");
 			String outputDirectory = GG_STR("./");
 			String seed = GG_STR("");
-			std::vector<String> scriptArgumentsStrings;
+			std::map<String, String> scriptArgumentsStrings;
 		};
 	}
 }
