@@ -44,31 +44,81 @@ namespace geogen
 	}
 }
 
-/// @mainpage
-/// This is documentation of GeoGen's public API.
-/// @section api_usage API usage
-/// All public symbols are declared in the header GeoGen.hpp. 
-/// 
-/// A simple code snippet which uses a map script to generate a height map then looks like this:
-/// @snippet BasicUsage.cpp Body
-/// Further reading:
-///	@li @link ErrorHandling.cpp Handling compilation and runtime errors @endlink
-///	@li @link ScriptParameters.cpp Setting script parameters @endlink
-/// @li @link RenderProgress.cpp Displaying render progress @endlink
-///	@li @link MultipleTiles.cpp Rendering multiple tiles of a single map @endlink
-
-/// @example BasicUsage.cpp
-/// This example demonstrates the simplest usage scenario.
-
+/// @example BasicUsage.cpp 
 /// @example ErrorHandling.cpp
-/// This example demonstrates how handle compilation and runtime errors. All error cause an @link geogen::GeoGenException exception @endlink to be thrown and can be handled using the usual try-catch statements.
-
 /// @example ScriptParameters.cpp
-/// This example demonstrates how to access any parameters declared by the script.
-
+/// @example AdvancedScriptParameters.cpp
 /// @example RenderProgress.cpp
-/// This example demonstrates how display render progress to the user.
-
 /// @example MultipleTiles.cpp
-/// This example demonstrates how slice a map into multiple tiles.
+
+
+/// @mainpage
+/// This is documentation of GeoGen's public C++ API. Basic knowledge of map script writing is assumed.
+/// @section api_usage Getting started
+/// The @link tutorial_basic_usage basic usage tutorial@endlink demonstrates how to include GeoGen in your project and how to generate first map using a map script.
+/// 
+/// Further tutorials:
+/// @li @link tutorial_error_handling Handling compilation and runtime errors @endlink
+/// @li @link tutorial_script_parameters Setting script parameters @endlink
+/// @li @link tutorial_render_progress Displaying render progress @endlink
+/// @li @link tutorial_multiple_tiles Rendering multiple tiles of a single map @endlink
+
+/// @page tutorials Tutorials
+/// This page contains a list of tutorials on GeoGen API usage.
+///
+/// @li @link tutorial_basic_usage Basic usage @endlink
+/// @li @link tutorial_error_handling Handling compilation and runtime errors @endlink
+/// @li @link tutorial_script_parameters Setting script parameters @endlink
+/// @li @link tutorial_render_progress Displaying render progress @endlink
+/// @li @link tutorial_multiple_tiles Rendering multiple tiles of a single map @endlink
+
+/// @page tutorial_basic_usage Basic usage
+/// This tutorial demonstrates how to get started with GeoGen.
+/// 
+/// First, directory GeoGen/include has to be added to your include paths. This line of code will then give you access to all of GeoGen's public symbols:
+/// @snippet BasicUsage.cpp Include
+/// 		 
+/// Following code sample demonstrates how to use the generator to render a map using a map script:
+/// @snippet BasicUsage.cpp Body
+/// @link BasicUsage.cpp Full code @endlink
+
+/// @page tutorial_error_handling Handling compilation and runtime errors
+/// This tutorial demonstrates how to handle compilation and runtime errors. 
+/// All errors cause an @link geogen::GeoGenException exception @endlink to be thrown and can be handled using the usual try - catch statements. Generally, the geogen::compiler::Compiler throws exceptions that are subclasses of geogen::compiler::CompilerException with @link geogen::ErrorCode error codes @endlink 1xxx and the geogen::runtime::VirtualMachine throws exceptions that are subclasses of geogen::runtime::RuntimeException with @link geogen::ErrorCode error codes @endlink 2xxx. Additionally, more generic exceptions such as geogen::InternalErrorException and geogen::ApiUsageException may be thrown by almost any call, indicating severe error in the generator itself or in the hosting application.
+/// @snippet ErrorHandling.cpp Body
+/// @link BasicUsage.cpp Full code @endlink
+/// 	 
+/// If an exception is thrown during runtime of the geogen::runtime::VirtualMachine the machine will enter @link geogen::runtime::VIRTUAL_MACHINE_STATUS_FAULTED faulted state@endlink which will block any further execution calls such as geogen::runtime::VirtualMachine::Run and geogen::runtime::VirtualMachine::Step. Information gathering calls such as geogen::runtime::VirtualMachine::GetObjectStack will still work though.
+
+/// @page tutorial_script_parameters Setting script parameters
+/// This tutorial demonstrates how to access and set any parameters declared by the script.
+/// 
+/// Following code sets map dimensions and a single map parameter:
+/// @snippet ScriptParameters.cpp Body
+/// @link ScriptParameters.cpp Full code @endlink
+/// 	 
+/// Each parameter can be of one of three types: geogen::runtime::BooleanScriptParameter, geogen::runtime::NumberScriptParameter and geogen::runtime::EnumScriptParameter.
+/// The actual type can be determined by calling @link geogen::runtime::ScriptParameter::GetType GetType@endlink on the base class.
+///  
+/// Next code sample is a bit more complex, iterating over all available script parameters and setting their value interactively using standard input.
+/// @snippet AdvancedScriptParameters.cpp Body
+/// @link AdvancedScriptParameters.cpp Full code @endlink
+/// 
+/// The SetValue method of each of the parameter types performs input validations and attempts to make the value valid if possible (such as number value greater than the maximum will be reduced to the maximum). It that attempt fails, default value is used.
+
+/// @page tutorial_render_progress Displaying render progress
+/// This tutorial demonstrates how to display render progress to the user in real-time.
+/// 
+/// @snippet RenderProgress.cpp Body
+/// @link RenderProgress.cpp Full code @endlink
+
+/// @page tutorial_multiple_tiles Rendering multiple tiles of a single map
+/// This tutorial demonstrates how to cut a single map into multiple tiles.
+/// 
+/// @snippet MultipleTiles.cpp Body
+/// @link MultipleTiles.cpp Full code @endlink
+/// 	 
+/// Whether a map is infinite can be determined by calling geogen::runtime::ScriptParameters::IsMapInfinite.
+
+
 

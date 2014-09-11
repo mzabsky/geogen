@@ -252,6 +252,11 @@ namespace geogen
 			inline std::vector<String>& GetEnabledMaps() { return this->enabledMaps; }
 			inline std::vector<String> const& GetEnabledMaps() const { return this->enabledMaps; }
 
+			/// Determines whether the map is infinite in given direction.
+			/// @param direction The direction.
+			/// @return true if the map is infinite in given direction, false otherwise.
+			bool IsMapInfinite(Direction direction) const;
+
 			/// Resets all parameters to their default values.
 			void ResetToDefaults();
 

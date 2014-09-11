@@ -66,6 +66,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AdvancedScriptParameters.cpp" />
     <ClCompile Include="BasicUsage.cpp" />
     <ClCompile Include="ErrorHandling.cpp" />
     <ClCompile Include="MultipleTiles.cpp" />

@@ -1,4 +1,6 @@
+/// [Include]
 #include <GeoGen/GeoGen.hpp>
+/// [Include]
 
 using namespace std;
 

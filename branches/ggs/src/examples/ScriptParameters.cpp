@@ -24,8 +24,7 @@ void Example_ScriptParameters()
 	parameters.SetRenderHeight(2000);
 	parameters.SetRenderHeight(1000);
 	
-	// Each parameter can be of one of three types: geogen::runtime::BoolanScriptParameter, geogen::runtime::NumberScriptParameter and geogen::runtime::EnumScriptParameter.
-	// The actual type can be determined by calling GetType on the base class.
+	// Set the value of the parameter (we are assuming that the parameter exists and that it is of type Number).
 	dynamic_cast<geogen::runtime::NumberScriptParameter*>(parameters.GetItem("ExampleParameter"))->SetValue(333);
 
 	// Now pass the adjusted parameters to the VM.

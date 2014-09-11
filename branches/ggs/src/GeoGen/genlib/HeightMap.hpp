@@ -15,6 +15,7 @@ namespace geogen
 	{
 		class HeightProfile;
 
+		/// A height map.
 		class HeightMap : public DataObject
 		{
 		private:
@@ -98,6 +99,10 @@ namespace geogen
 			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
 			//void NormalMap();
 			//void Outline();
+
+			/// Projections.
+			/// @param [in,out] profile If non-null, the profile.
+			/// @param direction The direction.
 			void Projection(HeightProfile* profile, Direction direction);
 			void RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight);
 			//void Pattern(Rectangle repeatRectangle);

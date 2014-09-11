@@ -31,6 +31,7 @@ namespace geogen
 			inline int GetValue() const { return this->value; }
 			
 			void SetValue(int value);
+			void SetValue(String value);
 
 			virtual bool EqualsTo(ScriptParameter const* other) const;
 			virtual void ResetToDefault() { this->value = this->defaultValue; };

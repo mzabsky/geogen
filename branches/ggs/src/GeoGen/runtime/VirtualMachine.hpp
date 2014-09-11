@@ -28,10 +28,16 @@ namespace geogen
 		class ManagedObject;
 		class VariableTableItem;
 
+		/// Statuses of the VirtualMachine.
 		enum VirtualMachineStatus
 		{
+			/// The VM is ready to execute.
 			VIRTUAL_MACHINE_STATUS_READY,
+
+			/// Execution of the virtual machine was finished successfully, no further execution is possible.
 			VIRTUAL_MACHINE_STATUS_FINISHED,
+
+			/// Execution of the virtual machine was terminated prematurely with an error, no further execution is possible.
 			VIRTUAL_MACHINE_STATUS_FAULTED
 		};
 
