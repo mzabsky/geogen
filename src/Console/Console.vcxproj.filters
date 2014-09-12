@@ -69,5 +69,6 @@
     <ClInclude Include="VirtualMachineCallback.hpp" />
     <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp" />
     <ClInclude Include="SignalHandler.hpp" />
+    <ClInclude Include="loader_commands\CodeLoaderCommand.hpp" />
   </ItemGroup>
 </Project>
