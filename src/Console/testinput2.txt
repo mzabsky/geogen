@@ -3,4 +3,4 @@
 //var noise = HeightProfile.Noise();
 //yield HeightMap.Projection(noise, Direction.Vertical);
 
-yield HeightMap.Noise();
+yield HeightMap.Noise({64: 1, 1: 0.1});
