@@ -236,6 +236,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\MaxLessThanMinException.hpp" />
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
     <ClInclude Include="corelib\NullKeyException.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
@@ -253,7 +254,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\SizeOverflowException.hpp" />
     <ClInclude Include="corelib\YieldRenderingStep.hpp" />
     <ClInclude Include="Documentation.hpp" />
-    <ClInclude Include="genlib\NoiseLayer.hpp" />
     <ClInclude Include="Direction.hpp" />
     <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp" />
@@ -524,6 +524,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
     <ClCompile Include="genlib\HeightProfile.cpp" />
+    <ClCompile Include="genlib\NoiseLayersFactory.cpp" />
     <ClCompile Include="random\mtrand\MTRand.cpp" />
     <ClCompile Include="random\RandomSeed.cpp" />
     <ClCompile Include="random\RandomSequence.cpp" />

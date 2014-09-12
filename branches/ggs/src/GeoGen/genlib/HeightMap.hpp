@@ -1,12 +1,13 @@
  #pragma once
 
 #include <vector>
+#include <map>
 
 #include "../Number.hpp"
 #include "../Rectangle.hpp"
 #include "DataObject.hpp"
 #include "../Direction.hpp"
-#include "NoiseLayer.hpp"
+#include "NoiseLayersFactory.hpp"
 #include "../random/RandomSeed.hpp"
 #include "../InternalErrorException.hpp"
 
@@ -111,7 +112,7 @@ namespace geogen
 			void Move(Point offset);
 			void Multiply(Height factor);
 			void MultiplyMap(HeightMap* factor);
-			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
+			void Noise(NoiseLayers const& layers, random::RandomSeed seed);
 			//void NormalMap();
 			//void Outline();
 

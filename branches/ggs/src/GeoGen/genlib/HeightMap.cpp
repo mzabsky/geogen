@@ -541,7 +541,7 @@ void HeightMap::Shift(HeightProfile* profile, Size1D maximumDistance, Direction 
 	this->heightData = newData;
 }
 
-void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
+void HeightMap::Noise(NoiseLayers const& layers, RandomSeed seed)
 {
 	this->FillRectangle(RECTANGLE_MAX, 0);
 
@@ -549,26 +549,51 @@ void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 
-	Size1D waveLength = 256;
-	Size1D scaledWaveLength = 256;// this->GetScaledSize(waveLength);
-	FOR_EACH_IN_RECT(x, y, operationRect)
+	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
 	{
-		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+		Size1D waveLength = it->first;
+		Size1D physicalWaveLength = this->GetScaledSize(waveLength);
+		Height amplitude = abs(it->second);
 
-		Coordinate leftCoordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(x, DIRECTION_HORIZONTAL), scaledWaveLength);
-		Coordinate rightCoordinate = NextMultipleOfInclusive(this->GetLogicalCoordinate(x, DIRECTION_HORIZONTAL), scaledWaveLength);
-		Coordinate topCoordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(y, DIRECTION_VERTICAL), scaledWaveLength);
-		Coordinate bottomCoordinate = NextMultipleOfInclusive(this->GetLogicalCoordinate(y, DIRECTION_VERTICAL), scaledWaveLength);
+		if (physicalWaveLength == 1)
+		{
+			// For wave length 1 no interpolation is necessary.
 
-		Height topLeftHeight = (Height)randomSequence.GetInt(Point(leftCoordinate, topCoordinate), HEIGHT_MIN, HEIGHT_MAX);
-		Height topRightHeight = (Height)randomSequence.GetInt(Point(rightCoordinate, topCoordinate), HEIGHT_MIN, HEIGHT_MAX);
-		Height bottomLeftHeight = (Height)randomSequence.GetInt(Point(leftCoordinate, bottomCoordinate), HEIGHT_MIN, HEIGHT_MAX);
-		Height bottomRightHeight = (Height)randomSequence.GetInt(Point(rightCoordinate, bottomCoordinate), HEIGHT_MIN, HEIGHT_MAX);
+			FOR_EACH_IN_RECT(x, y, operationRect)
+			{
+				Point logicalPoint = this->GetLogicalPoint(Point(x, y));
 
-		Height top = leftCoordinate == rightCoordinate ? topLeftHeight : Lerp(leftCoordinate, rightCoordinate, topLeftHeight, topRightHeight, logicalPoint.GetX());
-		Height bottom = leftCoordinate == rightCoordinate ? bottomLeftHeight : Lerp(leftCoordinate, rightCoordinate, bottomLeftHeight, bottomRightHeight, logicalPoint.GetX());
+				(*this)(x, y) += (Height)randomSequence.GetInt(logicalPoint, -amplitude, +amplitude);
+			}
+		}
+		else if (physicalWaveLength > 1)
+		{
+			FOR_EACH_IN_RECT(x, y, operationRect)
+			{
+				Point logicalPoint = this->GetLogicalPoint(Point(x, y));
 
-		(*this)(x, y) = topCoordinate == bottomCoordinate ? top : Lerp(topCoordinate, bottomCoordinate, top, bottom, logicalPoint.GetY());
+				Coordinate leftCoordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(x, DIRECTION_HORIZONTAL), waveLength);
+				Coordinate rightCoordinate = NextMultipleOfInclusive(this->GetLogicalCoordinate(x, DIRECTION_HORIZONTAL), waveLength);
+				Coordinate topCoordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(y, DIRECTION_VERTICAL), waveLength);
+				Coordinate bottomCoordinate = NextMultipleOfInclusive(this->GetLogicalCoordinate(y, DIRECTION_VERTICAL), waveLength);
+
+				Height topLeftHeight = (Height)randomSequence.GetInt(Point(leftCoordinate, topCoordinate), -amplitude, +amplitude);
+				Height topRightHeight = (Height)randomSequence.GetInt(Point(rightCoordinate, topCoordinate), -amplitude, +amplitude);
+				Height bottomLeftHeight = (Height)randomSequence.GetInt(Point(leftCoordinate, bottomCoordinate), -amplitude, +amplitude);
+				Height bottomRightHeight = (Height)randomSequence.GetInt(Point(rightCoordinate, bottomCoordinate), -amplitude, +amplitude);
+
+				Height top = leftCoordinate == rightCoordinate ? topLeftHeight : Lerp(leftCoordinate, rightCoordinate, topLeftHeight, topRightHeight, logicalPoint.GetX());
+				Height bottom = leftCoordinate == rightCoordinate ? bottomLeftHeight : Lerp(leftCoordinate, rightCoordinate, bottomLeftHeight, bottomRightHeight, logicalPoint.GetX());
+
+				(*this)(x, y) += topCoordinate == bottomCoordinate ? top : Lerp(topCoordinate, bottomCoordinate, top, bottom, logicalPoint.GetY());
+			}
+
+
+		}
+
+		// Don't bother with too short wave lengths
+
+		randomSequence.Advance();
 	}
 }
 

@@ -6,7 +6,7 @@
 #include "../Interval.hpp"
 #include "../Number.hpp"
 #include "DataObject.hpp"
-#include "NoiseLayer.hpp"
+#include "NoiseLayersFactory.hpp"
 #include "../random/RandomSeed.hpp"
 
 namespace geogen
@@ -203,7 +203,7 @@ namespace geogen
 			/// Fills the map with random noise.
 			/// @param layers The noise layers.
 			/// @param seed The random seed.
-			void Noise(std::vector<NoiseLayer> layers, random::RandomSeed seed);
+			void Noise(NoiseLayers const& layers, random::RandomSeed seed);
 
 			/// Creates a height profile filled with an interval of pattern repeated indefinitely in both directions. 
 			/// @param pattern The pattern profile.

@@ -1,7 +1,6 @@
 #include "HeightProfile.hpp"
 #include "../random/RandomSequence2D.hpp"
 #include "../ApiUsageException.hpp"
-#include "NoiseLayer.hpp"
 #include "HeightMap.hpp"
 
 using namespace geogen;
@@ -352,9 +351,9 @@ void HeightProfile::MultiplyProfile(HeightProfile* factor)
 	}
 }
 
-void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
+void HeightProfile::Noise(NoiseLayers const& layers, RandomSeed seed)
 {
-	layers.push_back(NoiseLayer(256, HEIGHT_MAX / 2));
+	//layers.push_back(NoiseLayer(256, HEIGHT_MAX / 2));
 
 	this->FillInterval(INTERVAL_MAX, HEIGHT_MAX);
 
@@ -367,8 +366,8 @@ void HeightProfile::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 
 	Interval logicalInterval = this->interval / this->scale;
 
-	unsigned initialWaveLength = layers[0].GetWaveLength();
-	unsigned initialAmplitude = layers[0].GetAmplitude();
+	unsigned initialWaveLength = 0;// layers[0];
+	unsigned initialAmplitude = 0;// layers[0];
 
 	Coordinate leftBufferCoordinate = PreviousMultipleOfInclusive(logicalInterval.GetStart(), initialWaveLength);
 	Height leftBuffer = randomSequence.GetInt(leftBufferCoordinate, -(int)initialAmplitude, +(int)initialAmplitude);

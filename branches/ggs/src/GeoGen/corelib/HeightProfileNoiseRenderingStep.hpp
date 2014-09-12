@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Number.hpp"
-#include "../genlib/NoiseLayer.hpp"
+#include "../genlib/NoiseLayersFactory.hpp"
 #include "../random/RandomSeed.hpp"
 #include "../renderer/RenderingStep1D.hpp"
 
@@ -12,10 +12,10 @@ namespace geogen
 		class HeightProfileNoiseRenderingStep : public renderer::RenderingStep1D
 		{
 		private:
-			std::vector<genlib::NoiseLayer> noiseLayers;
+			genlib::NoiseLayers noiseLayers;
 			random::RandomSeed randomSeed;
 		public:
-			HeightProfileNoiseRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, std::vector<genlib::NoiseLayer> noiseLayers, random::RandomSeed randomSeed)
+			HeightProfileNoiseRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, genlib::NoiseLayers noiseLayers, random::RandomSeed randomSeed)
 				: RenderingStep1D(location, argumentSlots, returnSlot), noiseLayers(noiseLayers), randomSeed(randomSeed) {};
 
 			virtual String GetName() const { return GG_STR("HeightProfile.Noise"); };
