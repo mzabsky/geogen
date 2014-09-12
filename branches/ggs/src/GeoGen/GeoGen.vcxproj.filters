@@ -332,6 +332,8 @@
     <ClInclude Include="Configuration.hpp" />
     <ClInclude Include="runtime\MainMapNotGeneratedException.hpp" />
     <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
+    <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp" />
+    <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />

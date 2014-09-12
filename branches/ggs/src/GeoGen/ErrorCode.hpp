@@ -71,6 +71,11 @@ namespace geogen
 		GGE2705_MaxLessThanMin = 2705,
 		GGE2706_IncorrectHeightProfileKeyType = 2706,
 		GGE2707_IncorrectHeightProfileHeightType = 2707,
+		GGE2708_IncorrectNoiseLayerWaveLengthType = 2708,
+		GGE2709_IncorrectNoiseLayerAmplitudeType = 2709,
+		GGE2710_NonpositiveNoiseLayerWaveLength = 2710,
+		GGE2711_NonpositiveNoiseLayerAmplitude = 2711,
+
 		GGE2801_MainMapNotGenerated = 2801,
 		/// API usage error - such as incorrect parameter or a method being called in incorrect context).
 		GGE3000_ApiUsageError = 3000,

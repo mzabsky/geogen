@@ -236,6 +236,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\MaxLessThanMinException.hpp" />
     <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp" />
+    <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
     <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
     <ClInclude Include="corelib\NullKeyException.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
