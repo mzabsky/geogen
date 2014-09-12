@@ -6,6 +6,7 @@
 #include "ConsoleUtils.hpp"
 #include "SignalHandler.hpp"
 #include "ImageWriter.hpp"
+#include "loader_commands/CodeLoaderCommand.hpp"
 #include "loader_commands/DebugLoaderCommand.hpp"
 #include "loader_commands/GenTilesLoaderCommand.hpp"
 #include "loader_commands/HelpLoaderCommand.hpp"
@@ -34,6 +35,7 @@ using namespace instructions;
 Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments programArguments)
 : currentFile(programArguments.inputFile), outputDirectory(programArguments.outputDirectory), debug(debug), in(in), out(out), randomSeed(programArguments.seed), renderOrigin(0, 0), renderSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), mapSize(MAP_SIZE_AUTOMATIC, MAP_SIZE_AUTOMATIC), renderScale(1), isInteractive(!programArguments.isNonInteractive), parameterValues(programArguments.scriptArgumentsStrings)
 {
+	this->commandTable.AddCommand(new CodeLoaderCommand());
 	this->commandTable.AddCommand(new DebugLoaderCommand());
 	this->commandTable.AddCommand(new GenTilesLoaderCommand());
 	this->commandTable.AddCommand(new HelpLoaderCommand());
@@ -123,7 +125,7 @@ void Loader::Run()
 			catch (GeoGenException& e)
 			{
 				HighlightRed();
-				out << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl;
+				out << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl << endl;
 				Unhighlight();
 
 				if (this->GetDump() != GG_STR("") && this->isInteractive)
