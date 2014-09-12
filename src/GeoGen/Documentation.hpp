@@ -130,11 +130,10 @@ namespace geogen
 ///  
 /// In addition to the ready-to-print formatted text, the unformatted text with the collection of formatting arguments is also provided. This can for example be used to replace the unformatted message with its localized variant and then splice the formatting arguments into it using geogen::FormatString.
 ///  
-/// If you need to pass any data to the callback, you can assign any data pointer to the VM using geogen::runtime::VirtualMachine::SetCallbackData and then retrieve in the callback using geogen::runtime::VirtualMachine::GetCallbackData.
+/// If you need to pass any data to the callback, you can assign any data pointer to the VM using geogen::runtime::VirtualMachine::SetCallbackData and then retrieve it in the callback using geogen::runtime::VirtualMachine::GetCallbackData.
 
 /// @page tutorial_multiple_tiles Rendering multiple tiles of a single map
 /// This tutorial demonstrates how to cut a single map into multiple tiles.
-/// 
 /// @snippet MultipleTiles.cpp Body
 /// @link MultipleTiles.cpp Full code @endlink
 /// 	 

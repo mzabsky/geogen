@@ -224,11 +224,21 @@ public:
 		");
 	}
 
+	static void TestAddHeightsIsSaturated()
+	{
+		ASSERT_EQUALS(Height, HEIGHT_MAX, AddHeights(20000, 20000));
+		ASSERT_EQUALS(Height, HEIGHT_MIN, AddHeights(-20000, -20000));
+		ASSERT_EQUALS(Height, 20001, AddHeights(20000, 1));
+		ASSERT_EQUALS(Height, -20001, AddHeights(-20000, -1));
+		ASSERT_EQUALS(Height, 19999, AddHeights(20000, -1));
+		ASSERT_EQUALS(Height, -19999, AddHeights(-20000, 1));
+	}
+
 	MathTests() : TestFixtureBase("MathTests")
 	{
 		ADD_TESTCASE(TestOverflow);
 		ADD_TESTCASE(TestUnderflow);
-		/*ADD_TESTCASE(TestMin);
+		ADD_TESTCASE(TestMin);
 		ADD_TESTCASE(TestMinTooFewArgs);
 		ADD_TESTCASE(TestMax);
 		ADD_TESTCASE(TestSin);
@@ -249,6 +259,7 @@ public:
 		ADD_TESTCASE(TestRound);
 		ADD_TESTCASE(TestCeil);
 		ADD_TESTCASE(TestFloor);
-		ADD_TESTCASE(TestAbs);*/
+		ADD_TESTCASE(TestAbs);
+		ADD_TESTCASE(TestAddHeightsIsSaturated);
 	}
 };

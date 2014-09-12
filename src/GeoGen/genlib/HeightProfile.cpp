@@ -90,7 +90,7 @@ void HeightProfile::Add(Height addend)
 
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
-		(*this)(x) += addend;
+		(*this)(x) = AddHeights((*this)(x), addend);
 	}
 }
 
@@ -107,7 +107,7 @@ void HeightProfile::AddMasked(Height addend, HeightProfile* mask)
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
 		Height maskHeight = max((*mask)(x + maskOffset), Height(0));
-		(*this)(x) += addend * Height(maskHeight / (double)HEIGHT_MAX);
+		(*this)(x) = AddHeights((*this)(x), addend * Height(maskHeight / (double)HEIGHT_MAX));
 	}
 }
 
@@ -119,7 +119,7 @@ void HeightProfile::AddProfile(HeightProfile* addend)
 	Coordinate offset = this->interval.GetStart() - intersection.GetStart();
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
-		(*this)(x) += (*addend)(x + offset);
+		(*this)(x) = AddHeights((*this)(x), (*addend)(x + offset));
 	}
 }
 
@@ -140,7 +140,7 @@ void HeightProfile::AddProfileMasked(HeightProfile* addend, HeightProfile* mask)
 	{
 		Height addendHeight = (*addend)(x + addendOffset);
 		Height maskHeight = max((*mask)(x + maskOffset), Height(0));
-		(*this)(x) += addendHeight * Height(maskHeight / (double)HEIGHT_MAX);
+		(*this)(x) = AddHeights((*this)(x), addendHeight * Height(maskHeight / (double)HEIGHT_MAX));
 	}
 }
 
