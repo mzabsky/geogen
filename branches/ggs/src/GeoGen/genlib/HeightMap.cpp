@@ -547,93 +547,29 @@ void HeightMap::Noise(std::vector<NoiseLayer> layers, RandomSeed seed)
 
 	RandomSequence2D randomSequence(seed);
 
-	Size1D horizontalBufferSize = this->rectangle.GetSize().GetWidth() + 4;
-	Size1D verticalBufferSize = this->rectangle.GetSize().GetHeight();
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 
-	vector<Height> topBorderBuffer(horizontalBufferSize * 2, 0);
-	vector<Height> bottomBorderBuffer(horizontalBufferSize * 2, 0);
-	vector<Height> leftBorderBuffer(verticalBufferSize * 2, 0);
-	vector<Height> rightBorderBuffer(verticalBufferSize * 2, 0);
-
-	unsigned maxLevel = 5;
-	unsigned initialWaveLength = 1 << maxLevel;
-
-	Point topBorderBufferOrigin(
-		PreviousMultipleOfExclusive(this->rectangle.GetPosition().GetX(), initialWaveLength) - initialWaveLength,
-		PreviousMultipleOfExclusive(this->rectangle.GetPosition().GetY(), initialWaveLength) - initialWaveLength);
-
-	Point bottomBorderBufferOrigin(
-		PreviousMultipleOfExclusive(this->rectangle.GetPosition().GetX(), initialWaveLength) - initialWaveLength,
-		NextMultipleOfInclusive(this->rectangle.GetPosition().GetY(), initialWaveLength) + initialWaveLength);
-
-	Point leftBorderBufferOrigin(
-		PreviousMultipleOfExclusive(this->rectangle.GetPosition().GetX(), initialWaveLength) - initialWaveLength,
-		NextMultipleOfInclusive(this->rectangle.GetPosition().GetY(), initialWaveLength));
-
-	Point rightBorderBufferOrigin(
-		NextMultipleOfExclusive(this->rectangle.GetPosition().GetX(), initialWaveLength),
-		NextMultipleOfInclusive(this->rectangle.GetPosition().GetY(), initialWaveLength));
-
-	for (Coordinate logicalY = NextMultipleOfInclusive(this->rectangle.GetPosition().GetY(), initialWaveLength); logicalY < this->rectangle.GetEndingPoint().GetY(); logicalY += initialWaveLength)
+	Size1D waveLength = 256;
+	Size1D scaledWaveLength = 256;// this->GetScaledSize(waveLength);
+	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		for (Coordinate logicalX = NextMultipleOfInclusive(this->rectangle.GetPosition().GetX(), initialWaveLength); logicalX < this->rectangle.GetEndingPoint().GetX(); logicalX += initialWaveLength)
-		{
-			Point logicalPoint(logicalX, logicalY);
-			(*this)(this->GetPhysicalPoint(logicalPoint)) = randomSequence.GetHeight(logicalPoint);
-		}
+		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+
+		Coordinate leftCoordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(x, DIRECTION_HORIZONTAL), scaledWaveLength);
+		Coordinate rightCoordinate = NextMultipleOfInclusive(this->GetLogicalCoordinate(x, DIRECTION_HORIZONTAL), scaledWaveLength);
+		Coordinate topCoordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(y, DIRECTION_VERTICAL), scaledWaveLength);
+		Coordinate bottomCoordinate = NextMultipleOfInclusive(this->GetLogicalCoordinate(y, DIRECTION_VERTICAL), scaledWaveLength);
+
+		Height topLeftHeight = (Height)randomSequence.GetInt(Point(leftCoordinate, topCoordinate), HEIGHT_MIN, HEIGHT_MAX);
+		Height topRightHeight = (Height)randomSequence.GetInt(Point(rightCoordinate, topCoordinate), HEIGHT_MIN, HEIGHT_MAX);
+		Height bottomLeftHeight = (Height)randomSequence.GetInt(Point(leftCoordinate, bottomCoordinate), HEIGHT_MIN, HEIGHT_MAX);
+		Height bottomRightHeight = (Height)randomSequence.GetInt(Point(rightCoordinate, bottomCoordinate), HEIGHT_MIN, HEIGHT_MAX);
+
+		Height top = leftCoordinate == rightCoordinate ? topLeftHeight : Lerp(leftCoordinate, rightCoordinate, topLeftHeight, topRightHeight, logicalPoint.GetX());
+		Height bottom = leftCoordinate == rightCoordinate ? bottomLeftHeight : Lerp(leftCoordinate, rightCoordinate, bottomLeftHeight, bottomRightHeight, logicalPoint.GetX());
+
+		(*this)(x, y) = topCoordinate == bottomCoordinate ? top : Lerp(topCoordinate, bottomCoordinate, top, bottom, logicalPoint.GetY());
 	}
-
-	// Initialize the horizontal buffers
-	for (unsigned bufferY = 0; bufferY < 2; bufferY++)
-	{
-		for (unsigned bufferX = 0; bufferX < horizontalBufferSize; bufferX++)
-		{
-			Point topLogicalPoint = topBorderBufferOrigin + Point(bufferX * initialWaveLength, bufferY * initialWaveLength);
-			(*this)(this->GetPhysicalPoint(topLogicalPoint)) = randomSequence.GetHeight(topLogicalPoint);
-
-			Point bottomLogicalPoint = bottomBorderBufferOrigin + Point(bufferX * initialWaveLength, bufferY * initialWaveLength);
-			(*this)(this->GetPhysicalPoint(bottomLogicalPoint)) = randomSequence.GetHeight(bottomLogicalPoint);
-		}
-	}
-
-	// Initialize the vertical buffers
-	for (unsigned bufferY = 0; bufferY < verticalBufferSize; bufferY++)
-	{
-		for (unsigned bufferX = 0; bufferX < 2; bufferX++)
-		{
-			Point leftLogicalPoint = topBorderBufferOrigin + Point(bufferX * initialWaveLength, bufferY * initialWaveLength);
-			(*this)(this->GetPhysicalPoint(leftLogicalPoint)) = randomSequence.GetHeight(leftLogicalPoint);
-
-			Point rightLogicalPoint = bottomBorderBufferOrigin + Point(bufferX * initialWaveLength, bufferY * initialWaveLength);
-			(*this)(this->GetPhysicalPoint(rightLogicalPoint)) = randomSequence.GetHeight(rightLogicalPoint);
-		}
-	}
-
-	for (unsigned level = maxLevel; level >= 0; level--)
-	{
-		unsigned waveLength = 1 << level;
-		unsigned amplitude = 1 << level;
-
-		// The square step - put a randomly generated point into center of each square.
-		Point bottomBufferEndingPoint = bottomBorderBufferOrigin + Point(horizontalBufferSize * waveLength, 2 * waveLength);
-		for (Coordinate logicalY = topBorderBufferOrigin.GetY(); logicalY <= bottomBufferEndingPoint.GetX(); logicalY += waveLength)
-		{
-			for (Coordinate logicalX = topBorderBufferOrigin.GetX(); logicalX <= bottomBufferEndingPoint.GetX(); logicalX += waveLength)
-			{
-
-			}
-		}
-	}
-
-	FOR_EACH_IN_RECT(logicalX, logicalY, this->rectangle)
-	{
-		Point logicalPoint(logicalX, logicalY);
-		Point physicalPoint = this->GetPhysicalPointUnscaled(logicalPoint);
-
-		(*this)(physicalPoint) = randomSequence.GetHeight(logicalPoint);
-	}
-
-	
 }
 
 void HeightMap::Unify(HeightMap* other)

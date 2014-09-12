@@ -8,6 +8,7 @@
 #include "../Direction.hpp"
 #include "NoiseLayer.hpp"
 #include "../random/RandomSeed.hpp"
+#include "../InternalErrorException.hpp"
 
 namespace geogen
 {
@@ -75,6 +76,20 @@ namespace geogen
 			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle * this->scale - this->rectangle.GetPosition(); }
 			inline Point GetPhysicalPointUnscaled(Point logicalPoint) const { return logicalPoint - this->rectangle.GetPosition(); }
 			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }			
+			inline Point GetLogicalPoint(Point physicalPoint) const { return (physicalPoint + this->rectangle.GetPosition()) / this->scale; }
+			inline Coordinate GetLogicalCoordinate(Coordinate physicalCoordinate, Direction direction) const 
+			{ 
+				switch (direction)
+				{
+				case DIRECTION_HORIZONTAL:
+					return (physicalCoordinate + this->rectangle.GetPosition().GetX()) / this->scale;
+				case DIRECTION_VERTICAL:
+					return (physicalCoordinate + this->rectangle.GetPosition().GetY()) / this->scale;
+				default:
+					throw InternalErrorException(GG_STR("Invalid direction."));
+				}
+				
+			}
 			inline Size1D GetScaledSize(Size1D size) const { return Size1D(size * this->scale); }
 			
 			void Abs();

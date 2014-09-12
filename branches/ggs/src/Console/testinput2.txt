@@ -1,5 +1,6 @@
-metadata {Height: Finite}
-1/0;
+//metadata {Height: Finite}
 
-var noise = HeightProfile.Noise();
-yield HeightMap.Projection(noise, Direction.Vertical);
+//var noise = HeightProfile.Noise();
+//yield HeightMap.Projection(noise, Direction.Vertical);
+
+yield HeightMap.Noise();
