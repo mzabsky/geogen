@@ -220,7 +220,6 @@
     <ClInclude Include="random\Hash.hpp" />
     <ClInclude Include="random\mtrand\MTRand.hpp" />
     <ClInclude Include="random\RandomSequence2D.hpp" />
-    <ClInclude Include="genlib\NoiseLayer.hpp" />
     <ClInclude Include="corelib\HeightMapNoiseFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapNoiseRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapAbsFunctionDefinition.hpp" />
@@ -332,6 +331,7 @@
     <ClInclude Include="compiler\MainMapNotSupportedByScriptException.hpp" />
     <ClInclude Include="Configuration.hpp" />
     <ClInclude Include="runtime\MainMapNotGeneratedException.hpp" />
+    <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -575,6 +575,7 @@
     <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp" />
     <ClCompile Include="corelib\ArrayItemReferenceObject.cpp" />
     <ClCompile Include="Configuration.cpp" />
+    <ClCompile Include="genlib\NoiseLayersFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

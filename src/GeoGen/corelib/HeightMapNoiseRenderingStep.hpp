@@ -1,9 +1,11 @@
 #pragma once
 
+#include <map>
+
 #include "../Number.hpp"
 #include "../renderer/RenderingStep2D.hpp"
 #include "../random/RandomSeed.hpp"
-#include "../genlib/NoiseLayer.hpp"
+#include "../genlib/NoiseLayersFactory.hpp"
 
 namespace geogen
 {
@@ -12,10 +14,10 @@ namespace geogen
 		class HeightMapNoiseRenderingStep : public renderer::RenderingStep2D
 		{
 		private:
-			std::vector<genlib::NoiseLayer> layers;
+			genlib::NoiseLayers layers;
 			random::RandomSeed seed;
 		public:
-			HeightMapNoiseRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, std::vector<genlib::NoiseLayer> layers, random::RandomSeed seed)
+			HeightMapNoiseRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, genlib::NoiseLayers const& layers, random::RandomSeed seed)
 				: RenderingStep2D(location, argumentSlots, returnSlot), layers(layers), seed(seed) {};
 
 			virtual String GetName() const { return GG_STR("HeightMap.Noise"); };

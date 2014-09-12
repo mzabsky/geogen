@@ -3,7 +3,7 @@
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "../InternalErrorException.hpp"
-#include "..\runtime\IncorrectTypeException.hpp"
+#include "../runtime/IncorrectTypeException.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
 #include "HeightProfileNoiseRenderingStep.hpp"
@@ -36,7 +36,7 @@ ManagedObject* HeightProfileNoiseFunctionDefinition::CallNative(CodeLocation loc
 
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, returnObjectSlot, vector<NoiseLayer>(), vm->GetArguments().GetRandomSeed());
+	RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, returnObjectSlot, NoiseLayersFactory::CreateDefaultLayers(), vm->GetArguments().GetRandomSeed());
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;
