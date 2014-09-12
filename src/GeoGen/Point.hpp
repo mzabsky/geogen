@@ -86,6 +86,17 @@ namespace geogen {
 			return *this;
 		}
 
+		inline Point Point::operator/(const double other) const
+		{
+			return Point((Size1D)(this->x / other), (Size1D)(this->y / other));
+		}
+
+		Point& Point::operator/=(const double other)
+		{
+			*this = *this / other;
+			return *this;
+		}
+
 		/// Gets the X coordinate.
 		/// @return The X coordinate.
 		inline Coordinate GetX() const { return this->x; }
