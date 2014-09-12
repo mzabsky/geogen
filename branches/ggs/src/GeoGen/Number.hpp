@@ -86,6 +86,29 @@ namespace geogen
 		return Height(fromHeight + (toHeight - fromHeight) * (point - fromCoord) / (toCoord - fromCoord));
 	}
 
+	/// Adds two heights together in saturation arithmetic (the result will be clamped to range <geogen::HEIGHT_MIN, geogen::HEIGHT_MAX>).
+	/// @param x Height 1.
+	/// @param y Height 2.
+	/// @return A height.
+	/// @see http://en.wikipedia.org/wiki/Saturation_arithmetic Saturation arithmetic in Wikipedia
+	static inline Height AddHeights(Height x, Height y) {
+		// http://stackoverflow.com/questions/17580118/signed-saturated-add-of-64-bit-ints
+
+		// Determine the lower or upper bound of the result
+		Height ret = (x < 0) ? HEIGHT_MIN : HEIGHT_MAX;
+
+		// This is always well defined:
+		// If x < 0 this adds a positive value to HEIGHT_MIN
+		// If x > 0 this subtracts a positive value from HEIGHT_MAX
+		Height comp = ret - x;
+
+		// The condition is equivalent to:
+		// ((x < 0) && (y > comp)) || ((x >=0) && (y <= comp))
+		if ((x < 0) == (y > comp)) ret = x + y;
+
+		return ret;
+	}
+
 	/// Rounds a number to the next integer away from zero.
 	/// @param x The number.
 	/// @return The rounded number.
