@@ -30,16 +30,16 @@ namespace geogen
 			~CodeBlockStack();
 
 			/// A constant iterator.
-			typedef std::deque<CallStackEntry*>::const_iterator const_iterator;
+			typedef std::deque<CodeBlockStackEntry*>::const_iterator const_iterator;
 
 			/// An iterator.
-			typedef std::deque<CallStackEntry*>::iterator iterator;
+			typedef std::deque<CodeBlockStackEntry*>::iterator iterator;
 
 			/// A constant reverse iterator.
-			typedef std::deque<CallStackEntry*>::const_reverse_iterator const_reverse_iterator;
+			typedef std::deque<CodeBlockStackEntry*>::const_reverse_iterator const_reverse_iterator;
 
 			/// An reverse iterator.
-			typedef std::deque<CallStackEntry*>::reverse_iterator reverse_iterator;
+			typedef std::deque<CodeBlockStackEntry*>::reverse_iterator reverse_iterator;
 
 			/// Gets the topmost entry in the stack. Throws an exception if the stack is empty.
 			/// @return A reference to the topmost entry in the stack.
@@ -54,7 +54,9 @@ namespace geogen
 
 			/// Pushes an code block entry onto this stack.
 			/// @param location The code location.
-			/// @param functionDefinition The function definition.
+			/// @param memoryManager The memory manager.
+			/// @param codeBlock The code block.
+			/// @param isLooping true if the code block is to be executed in a loop.
 			void Push(CodeLocation location, MemoryManager* memoryManager, CodeBlock const& codeBlock, bool isLooping);
 
 			/// Gets number of items on the stack.
