@@ -238,6 +238,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp" />
     <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
+    <ClInclude Include="corelib\ParseNoiseInput.hpp" />
     <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
     <ClInclude Include="corelib\NullKeyException.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
@@ -513,6 +514,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\UnknownRelativeCoordinateDirectionException.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="corelib\ParseNoiseInput.cpp" />
     <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\PointObject.cpp" />
     <ClCompile Include="corelib\PointTypeDefinition.cpp" />
