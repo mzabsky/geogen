@@ -1,13 +1,10 @@
 #include "HeightProfileNoiseFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
-#include "../runtime/ManagedObject.hpp"
-#include "../runtime/NumberOfArgumentsException.hpp"
-#include "../InternalErrorException.hpp"
-#include "../runtime/IncorrectTypeException.hpp"
-#include "NumberTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
+#include "ArrayTypeDefinition.hpp"
+#include "../runtime/ManagedObject.hpp"
 #include "HeightProfileNoiseRenderingStep.hpp"
-#include "HeightOverflowException.hpp"
+#include "ParseNoiseInput.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -18,25 +15,20 @@ using namespace geogen::genlib;
 
 ManagedObject* HeightProfileNoiseFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
-	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
+	ArrayTypeDefinition const* arrayTypeDefinition = dynamic_cast<ArrayTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Array")));
 
 	vector<TypeDefinition const*> expectedTypes;
-	//expectedTypes.push_back(numberTypeDefinition);
+	expectedTypes.push_back(arrayTypeDefinition);
 
-	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 0);
 
-	/*Number numberHeight = arguments.size() > 0 ? ((NumberObject*)arguments[0])->GetValue() : 0;
-	Height height;
-	if (!TryNumberToHeight(numberHeight, height))
-	{
-		throw HeightOverflowException(location);
-	}*/
+	NoiseLayers layers = ParseNoiseInput(vm, location, arguments);
 
 	ManagedObject* returnObject = dynamic_cast<HeightProfileTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
 
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, returnObjectSlot, NoiseLayersFactory::CreateDefaultLayers(), vm->GetArguments().GetRandomSeed());
+	RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, returnObjectSlot, layers, vm->GetArguments().GetRandomSeed());
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;

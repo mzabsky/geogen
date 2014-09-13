@@ -334,6 +334,7 @@
     <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
     <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp" />
     <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
+    <ClInclude Include="corelib\ParseNoiseInput.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -578,6 +579,7 @@
     <ClCompile Include="corelib\ArrayItemReferenceObject.cpp" />
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="genlib\NoiseLayersFactory.cpp" />
+    <ClCompile Include="corelib\ParseNoiseInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
