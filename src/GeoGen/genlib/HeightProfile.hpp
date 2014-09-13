@@ -108,12 +108,17 @@ namespace geogen
 			/// Gets a coordinate projected onto the physical data array without applying scaling on it.
 			/// @param logicalInterval The logical coordinate to project.
 			/// @return The projected coordinate.
-			inline Coordinate GetPhysicalCoordinateUnscaled(Coordinate logicalPoint) const { return logicalPoint - this->interval.GetStart(); }
+			inline Coordinate GetPhysicalCoordinateUnscaled(Coordinate logicalInterval) const { return logicalInterval - this->interval.GetStart(); }
 			
 			/// Gets a coordinate projected onto the physical data array with applying scaling on it.
 			/// @param logicalInterval The logical coordinate to project.
 			/// @return The projected coordinate.
-			inline Coordinate GetPhysicalCoordinate(Coordinate logicalPoint) const { return Coordinate(logicalPoint * this->scale - this->interval.GetStart()); }
+			inline Coordinate GetPhysicalCoordinate(Coordinate logicalInterval) const { return Coordinate(logicalInterval * this->scale - this->interval.GetStart()); }
+
+			/// Gets a coordinate projected from physical data array to logical coordinate space, reversing scaling.
+			/// @param logicalInterval The physical coordinate to project.
+			/// @return The projected coordinate.
+			inline Coordinate GetLogicalCoordinate(Coordinate physicalCoordinate) const { return (physicalCoordinate + this->interval.GetStart()) / this->scale; }
 
 			/// Gets size scaled by the scaling factor of the profile.
 			/// @param size The size to scale.
