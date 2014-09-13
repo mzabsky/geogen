@@ -9,12 +9,13 @@ namespace geogen
 {
 	namespace runtime
 	{
+		/// KeyValueCollection node in a metadata tree.
 		class MetadataKeyValueCollection : public MetadataValue, public utils::OwningMap<MetadataValue>
 		{
 		private:
 		public:
 			typedef std::map<String, MetadataValue const*>::const_iterator const_iterator;
-			typedef std::map<String, MetadataValue*>::iterator iterator;
+			//typedef std::map<String, MetadataValue*>::iterator iterator;
 
 			MetadataKeyValueCollection(CodeLocation location) : MetadataValue(location) {}
 

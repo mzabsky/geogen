@@ -4,8 +4,8 @@
 
 #include "SymbolDefinitionTable.hpp"
 
-#include "VariableDefinition.hpp"
-#include "FunctionDefinition.hpp"
+#include "VariableDefinition.hpp" // Necessary to properly compile the owning map.
+#include "FunctionDefinition.hpp" // Necessary to properly compile the owning map.
 
 namespace geogen 
 {

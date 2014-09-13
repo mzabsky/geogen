@@ -1,7 +1,9 @@
 #include "CodeBlockStack.hpp"
 #include "CodeBlockStackEntry.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "StackOverflowException.hpp"
+#include "MemoryManager.hpp"
 
 using namespace geogen;
 using namespace geogen::runtime;

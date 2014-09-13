@@ -6,6 +6,7 @@
 #include "VariableDefinition.hpp"
 #include "TypeDefinition.hpp"
 #include "..\InternalErrorException.hpp"
+#include "VirtualMachine.hpp"
 
 using namespace std;
 using namespace geogen;

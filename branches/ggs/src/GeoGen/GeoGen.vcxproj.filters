@@ -335,6 +335,8 @@
     <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp" />
     <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
     <ClInclude Include="corelib\ParseNoiseInput.hpp" />
+    <ClInclude Include="corelib\HeightMapDistanceMapFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapDistanceMapRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -580,6 +582,8 @@
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="genlib\NoiseLayersFactory.cpp" />
     <ClCompile Include="corelib\ParseNoiseInput.cpp" />
+    <ClCompile Include="corelib\HeightMapDistanceMapFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapDistanceMapRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

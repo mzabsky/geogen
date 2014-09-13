@@ -3,6 +3,7 @@
 #include "..\InternalErrorException.hpp"
 #include "..\CodeLocation.hpp"
 #include "StackOverflowException.hpp"
+#include "VirtualMachine.hpp"
 
 using namespace geogen;
 using namespace geogen::runtime;

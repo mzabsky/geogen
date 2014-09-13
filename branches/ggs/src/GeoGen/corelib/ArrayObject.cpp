@@ -3,6 +3,7 @@
 #include "ArrayObject.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "InvalidOperationOnEmptyArrayException.hpp"
 #include "ArrayKeyNotFoundException.hpp"
 #include "ArrayIndexNotFoundException.hpp"

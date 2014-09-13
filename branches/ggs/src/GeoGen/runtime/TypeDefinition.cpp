@@ -2,6 +2,7 @@
 #include "TypeDefinition.hpp"
 #include "ManagedObject.hpp"
 #include "StaticObject.hpp"
+#include "VirtualMachine.hpp"
 
 using namespace std;
 using namespace geogen;

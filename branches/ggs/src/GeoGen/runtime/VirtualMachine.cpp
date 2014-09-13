@@ -8,6 +8,7 @@
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../renderer/Renderer.hpp"
 #include "VirtualMachineStatusGuard.hpp"
+#include "CodeBlockStackEntry.hpp"
 #include "../CodeLocation.hpp"
 #include "UndefinedSymbolAccessException.hpp"
 #include "MainMapNotGeneratedException.hpp"

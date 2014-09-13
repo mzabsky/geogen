@@ -1,11 +1,11 @@
 #pragma once
 
+#include <vector>
+
 #include "../CodeLocation.hpp"
 #include "../String.hpp"
 
 #include "ManagedObjectHolder.hpp"
-
-#include <vector>
 
 namespace geogen 
 {

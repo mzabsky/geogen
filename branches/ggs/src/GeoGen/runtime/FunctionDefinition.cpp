@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "FunctionDefinition.hpp"
 #include "IncorrectTypeException.hpp"
 #include "NumberOfArgumentsException.hpp"

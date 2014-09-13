@@ -3,11 +3,8 @@
 #include <map>
 #include <stack>
 
-//#include "ManagedObject.hpp"
 #include "CodeBlock.hpp"
-#include "FunctionDefinition.hpp"
 #include "VariableTable.hpp"
-#include "instructions/Instruction.hpp"
 #include "../Serializable.hpp"
 #include "../CodeLocation.hpp"
 

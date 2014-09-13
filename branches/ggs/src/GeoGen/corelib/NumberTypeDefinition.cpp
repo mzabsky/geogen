@@ -3,6 +3,7 @@
 #include "../Number.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/StaticObject.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "NumberFromEnumFunctionDefinition.hpp"
 #include "NumberFromCoordinateFunctionDefinition.hpp"
 

@@ -1,6 +1,7 @@
 #include "..\InternalErrorException.hpp"
 #include "VariableDefinition.hpp"
 #include "ManagedObject.hpp"
+#include "VirtualMachine.hpp"
 
 using namespace geogen;
 using namespace runtime;

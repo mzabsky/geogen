@@ -4,15 +4,17 @@
 
 #include "../String.hpp"
 #include "../CodeLocation.hpp"
-#include "VirtualMachine.hpp"
 #include "MemoryManager.hpp"
 #include "ObjectId.hpp"
+#include "VariableTable.hpp"
+#include "TypeDefinition.hpp"
 
 namespace geogen 
 {
 	namespace runtime 
 	{
 		class TypeDefinition;
+		class VirtualMachine;
 
 		class ManagedObject : public Serializable
 		{

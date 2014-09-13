@@ -2,6 +2,7 @@
 
 #include <deque>
 
+#include "../CodeLocation.hpp"
 #include "CodeBlock.hpp"
 
 namespace geogen

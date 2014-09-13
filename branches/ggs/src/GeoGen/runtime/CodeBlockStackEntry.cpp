@@ -1,4 +1,5 @@
 #include "CodeBlockStackEntry.hpp"
+#include "instructions/Instruction.hpp"
 #include "../InternalErrorException.hpp"
 
 using namespace geogen;

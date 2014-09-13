@@ -282,6 +282,17 @@ void HeightMap::CropHeights(Height min, Height max, Height replace)
 	}
 }
 
+void HeightMap::DistanceMap(Size1D distance, Direction direction)
+{
+
+}
+
+void HeightMap::DistanceMap(Size1D distance)
+{
+	this->DistanceMap(distance, DIRECTION_HORIZONTAL);
+	this->DistanceMap(distance, DIRECTION_VERTICAL);
+}
+
 void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 {
 	Rectangle operationRect = Rectangle::Intersect(this->GetPhysicalRectangleUnscaled(this->rectangle), this->GetPhysicalRectangle(fillRectangle));
