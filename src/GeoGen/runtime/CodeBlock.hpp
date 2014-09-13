@@ -2,13 +2,18 @@
 
 #include <vector>
 
-#include "instructions/Instruction.hpp"
 #include "../Serializable.hpp"
 
 namespace geogen 
 {
 	namespace runtime
 	{
+		namespace instructions
+		{
+			class Instruction;
+		}
+
+
 		/// A linear sequence of instruction.
 		class CodeBlock : public Serializable
 		{

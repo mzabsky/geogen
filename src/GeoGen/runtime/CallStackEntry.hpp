@@ -6,10 +6,7 @@
 
 #include "../Serializable.hpp"
 #include "CodeBlock.hpp"
-#include "CodeBlockStackEntry.hpp" 
-#include "FunctionDefinition.hpp"
-//#include "ManagedObject.hpp"
-#include "instructions/Instruction.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "CodeBlockStack.hpp"
 
 namespace geogen
@@ -18,6 +15,7 @@ namespace geogen
 	{
 		class ManagedObject;
 		class VirtualMachine;
+		class FunctionDefinition;
 
 		/// Result of a call to CallStackEntry::Step.
 		enum CallStackEntryStepResult

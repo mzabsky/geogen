@@ -1,7 +1,6 @@
 #pragma once
 
 #include "RuntimeException.hpp"
-#include "SymbolDefinitionException.hpp"
 
 namespace geogen
 {

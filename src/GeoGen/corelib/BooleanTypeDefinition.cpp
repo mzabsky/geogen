@@ -2,6 +2,7 @@
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/StaticObject.hpp"
+#include "../runtime/VirtualMachine.hpp"
 
 using namespace geogen;
 using namespace corelib;

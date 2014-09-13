@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "../InternalErrorException.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "ReferenceTypeDefinition.hpp"
 #include "ScopeVariableReferenceObject.hpp"
 #include "ArrayItemReferenceObject.hpp"

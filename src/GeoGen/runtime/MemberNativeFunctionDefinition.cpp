@@ -1,6 +1,7 @@
 #include "MemberNativeFunctionDefinition.hpp"
 #include "ManagedObject.hpp"
 #include "..\InternalErrorException.hpp"
+#include "VirtualMachine.hpp"
 
 using namespace std;
 using namespace geogen;

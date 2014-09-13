@@ -1,6 +1,7 @@
 #include "ArrayTypeDefinition.hpp"
 #include "ArrayObject.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "ArrayCountFunctionDefinition.hpp"
 #include "ArrayEmptyFunctionDefinition.hpp"
 #include "ArrayPushBackFunctionDefinition.hpp"

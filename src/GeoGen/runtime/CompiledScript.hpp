@@ -4,7 +4,6 @@
 
 #include "../String.hpp"
 #include "CodeBlock.hpp"
-#include "MetadataValue.hpp"
 #include "MetadataKeyValueCollection.hpp"
 #include "../corelib/CoreLibrary.hpp"
 #include "ScriptParameters.hpp"

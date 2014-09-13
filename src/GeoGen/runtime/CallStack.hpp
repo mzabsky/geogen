@@ -1,6 +1,7 @@
 #pragma once
 
 #include <deque>
+
 #include "../CodeLocation.hpp"
 #include "../Serializable.hpp"
 

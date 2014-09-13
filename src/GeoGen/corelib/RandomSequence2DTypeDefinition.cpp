@@ -3,6 +3,7 @@
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/StaticObject.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "RandomSequence2DObject.hpp"
 #include "RandomSequence2DCreateFunctionDefinition.hpp"
 #include "RandomSequence2DAdvanceFunctionDefinition.hpp"

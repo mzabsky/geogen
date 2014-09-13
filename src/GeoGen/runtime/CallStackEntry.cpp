@@ -3,6 +3,7 @@
 #include "..\InternalErrorException.hpp"
 #include "VirtualMachine.hpp"
 #include "ScriptFunctionDefinition.hpp"
+#include "CodeBlockStackEntry.hpp"
 
 using namespace geogen;
 using namespace geogen::runtime;

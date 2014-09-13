@@ -2,6 +2,7 @@
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/StaticObject.hpp"
+#include "../runtime/VirtualMachine.hpp"
 #include "CoordinateObject.hpp"
 #include "CoordinateFromNumberFunctionDefinition.hpp"
 #include "../runtime/TypeDefinition.hpp"

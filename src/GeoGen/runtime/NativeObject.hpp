@@ -6,7 +6,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		template<class T>
+		/*template<class T>
 		class NativeObject : public ManagedObject
 		{
 		private:
@@ -16,6 +16,6 @@ namespace geogen
 			virtual ~NativeObject() { delete value; };
 
 			inline T* GetValue() const { return this->value; }
-		};
+		};*/
 	}
 }

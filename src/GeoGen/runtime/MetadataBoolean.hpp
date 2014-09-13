@@ -6,13 +6,20 @@ namespace geogen
 {
 	namespace runtime 
 	{
+		/// Boolean node in a metadata tree.
 		class MetadataBoolean : public MetadataValue
 		{
 		private:
 			bool value;
 		public:
+
+			/// Constructor.
+			/// @param location The code location.
+			/// @param value Value of the node.
 			MetadataBoolean(CodeLocation location, bool value) : MetadataValue(location), value(value) {};
 
+			/// Gets the value.
+			/// @return Value of the node.
 			bool GetValue() const { return this->value; }
 
 			virtual MetadataType GetType() const { return METADATA_TYPE_BOOLEAN; };
