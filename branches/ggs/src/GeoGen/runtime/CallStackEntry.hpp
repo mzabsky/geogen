@@ -19,12 +19,14 @@ namespace geogen
 		class ManagedObject;
 		class VirtualMachine;
 
+		/// Result of a call to CallStackEntry::Step.
 		enum CallStackEntryStepResult
 		{
 			CALL_STACK_ENTRY_STEP_RESULT_RUNNING,
 			CALL_STACK_ENTRY_STEP_RESULT_FINISHED
 		};
 
+		/// A call stack frame.
 		class CallStackEntry : public Serializable
 		{
 		private:
@@ -37,26 +39,41 @@ namespace geogen
 			CallStackEntry& operator=(CallStackEntry const& other) {};
 		public:
 
+			/// Constructor.
+			/// @param location The code location.
+			/// @param functionDefinition Definition of the called function.
 			CallStackEntry(CodeLocation location, FunctionDefinition const* functionDefinition) : callLocation(location), functionDefinition(functionDefinition) {};
+
+			/// Destructor.
 			~CallStackEntry() {};
 
+			/// Gets code location from which the function call originated.
+			/// @return The call location.
 			inline CodeLocation GetCallLocation() const { return this->callLocation; };
+
+			/// Gets code block stack.
+			/// @return The code block stack.
 			inline CodeBlockStack& GetCodeBlockStack() { return this->codeBlockStack; };
+
+			/// Gets code block stack.
+			/// @return The code block stack.
 			inline CodeBlockStack const& GetCodeBlockStack() const { return this->codeBlockStack; };
 
+			/// Gets definition of the called function.
+			/// @return The function definition.
 			inline FunctionDefinition const* GetFunctionDefinition() const { return this->functionDefinition; }
 
+			/// Adds a code block on top of the code block stack.
+			/// @param location The call location.
+			/// @param vm The virtual machine.
+			/// @param codeBlock The called code block.
+			/// @param isLooping True if the code block is to be called in a loop.
 			void CallCodeBlock(CodeLocation location, VirtualMachine* vm, CodeBlock const& codeBlock, bool isLooping);
 
+			/// Advances execution of the frame by one step.
+			/// @param vm The virtual machine.
+			/// @return step result.
 			CallStackEntryStepResult Step(VirtualMachine* vm);
-
-			//typedef std::vector<instructions::Instruction const*>::const_iterator const_iterator;
-
-			//void AddInstruction(instructions::Instruction const* instruction);
-			//void MoveInstructionsFrom(CodeBlock& another);
-
-			//inline const_iterator Begin() const { return this->instructions.begin(); }
-			//inline const_iterator End() const { return this->instructions.end(); }
 
 			virtual void Serialize(IOStream& stream) const;
 		};
