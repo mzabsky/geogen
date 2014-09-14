@@ -1,9 +1,10 @@
 #include <GeoGen/GeoGen.hpp>
 
 using namespace std;
+using namespace geogen;
 
 /// [Callback]
-void MyMessageHandler(geogen::runtime::VirtualMachine* virtualMachine, geogen::CodeLocation location, string const& formattedMessage, string const& unformattedMessage, vector<string> arguments)
+void MyMessageHandler(runtime::VirtualMachine* virtualMachine, CodeLocation location, string const& formattedMessage, string const& unformattedMessage, vector<string> arguments)
 {
 	cout << "SCRIPT MESSAGE: " << formattedMessage << std::endl;
 };
@@ -14,21 +15,21 @@ void Example_TextMessages()
 	/// [Body]
 	string code = "Print(\"Lorem ipsum {0}\", 5);yield HeightMap.Flat(1 / 0);";
 
-	geogen::compiler::Compiler compiler;
+	compiler::Compiler compiler;
 
-	geogen::runtime::CompiledScript* compiledScript = compiledScript = compiler.CompileScript(code);	
+	runtime::CompiledScript* compiledScript = compiledScript = compiler.CompileScript(code);	
 
-	geogen::runtime::VirtualMachine vm(*compiledScript);
+	runtime::VirtualMachine vm(*compiledScript);
 	
 	// Before executing any code, assign the text message handler.
 	vm.SetScriptMessageHandler(MyMessageHandler);
 
 	vm.Run();
 
-	geogen::renderer::Renderer renderer(vm.GetRenderingSequence());
+	renderer::Renderer renderer(vm.GetRenderingSequence());
 	renderer.Run();
 
-	geogen::genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(geogen::renderer::Renderer::MAP_NAME_MAIN);
+	genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(renderer::Renderer::MAP_NAME_MAIN);
 
 	cout << "Finished!" << endl;
 	/// [Body]
