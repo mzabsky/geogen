@@ -8,6 +8,7 @@ namespace geogen
 {
 	namespace runtime
 	{
+		/// Exception thrown when error geogen::GGE4001_IntermediateCodeError occurs.
 		class IntermediateCodeException : public GeoGenException
 		{
 		private:

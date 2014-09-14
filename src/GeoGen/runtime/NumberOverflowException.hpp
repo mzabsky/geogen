@@ -6,6 +6,7 @@ namespace geogen
 {
 	namespace runtime
 	{
+		/// Exception thrown when error geogen::GGE2302_NumberOverflow occurs.
 		class NumberOverflowException : public RuntimeException
 		{
 		private:

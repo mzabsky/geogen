@@ -65,7 +65,10 @@ namespace geogen
 
 			std::vector<String> enabledMaps;
 		public:
+			/// A constant iterator.
 			typedef std::map<String, ScriptParameter const*>::const_iterator const_iterator;
+
+			/// An iterator.
 			typedef std::map<String, ScriptParameter*>::iterator iterator;
 
 			/// Initializes a new instance of the ScriptParameters class.
@@ -249,6 +252,8 @@ namespace geogen
 			/// @param randomSeed The random seed.
 			inline void SetRandomSeed(random::RandomSeed randomSeed) { this->randomSeed = randomSeed; }
 
+			/// Gets a reference to a list of maps that are requested by the .
+			/// @return The enabled maps.
 			inline std::vector<String>& GetEnabledMaps() { return this->enabledMaps; }
 			inline std::vector<String> const& GetEnabledMaps() const { return this->enabledMaps; }
 

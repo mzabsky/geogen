@@ -6,10 +6,10 @@ namespace geogen
 {
 	namespace runtime
 	{
-		/// Stub representing an renderer::RendererObject during execution of an
-		/// runtime::VirtualMachine. This object doesn't carry any value on its own, it is uniquely
+		/// Stub representing an geogen::renderer::RendererObject during execution of an
+		/// VirtualMachine. This object doesn't carry any value on its own, it is uniquely
 		/// defined by its address. This address can then be converted into an renderer object slot
-		/// number using the renderer::RendererObjectSlotTable.
+		/// number using the geogen::renderer::RendererObjectSlotTable.
 		class RendererObjectStub : public ManagedObject
 		{
 		public:

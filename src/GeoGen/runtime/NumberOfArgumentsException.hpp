@@ -6,6 +6,7 @@ namespace geogen
 {
 	namespace runtime
 	{
+		/// Exception thrown when error geogen::GGE2103_IncorrectNumberOfArguments occurs.
 		class NumberOfArgumentsException : public RuntimeException
 		{
 		private:

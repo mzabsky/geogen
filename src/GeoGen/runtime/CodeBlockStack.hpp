@@ -50,7 +50,7 @@ namespace geogen
 			/// @return A reference to the topmost entry in the stack.
 			CodeBlockStackEntry const& Top() const;
 
-			/// Removes the topmost object from the stack. Throws an exception if the stack is empty.
+			/// Removes the topmost entry from the stack. Throws an exception if the stack is empty.
 			void Pop();
 
 			/// Pushes an code block entry onto this stack.
