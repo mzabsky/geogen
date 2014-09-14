@@ -1,6 +1,7 @@
 #include <GeoGen/GeoGen.hpp>
 
 using namespace std;
+using namespace geogen;
 
 void Example_RenderProgress()
 {
@@ -11,24 +12,24 @@ void Example_RenderProgress()
 		a.Add(b); \n\
 		yield a;";
 
-	geogen::compiler::Compiler compiler;
-	geogen::runtime::CompiledScript* compiledScript = compiler.CompileScript(code);
+	compiler::Compiler compiler;
+	runtime::CompiledScript* compiledScript = compiler.CompileScript(code);
 
-	geogen::runtime::VirtualMachine vm(*compiledScript);
+	runtime::VirtualMachine vm(*compiledScript);
 
 	vm.Run();
 
-	geogen::renderer::Renderer renderer(vm.GetRenderingSequence());
+	renderer::Renderer renderer(vm.GetRenderingSequence());
 
 	// Instead of Run, the sequence is executed step by step.
-	while (renderer.GetStatus() == geogen::renderer::RENDERER_STATUS_READY)
+	while (renderer.GetStatus() == renderer::RENDERER_STATUS_READY)
 	{
 		renderer.Step();
 
 		cout << "Progress: " << renderer.GetProgress() << "%" << std::endl;
 	}
 	
-	geogen::genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(geogen::renderer::Renderer::MAP_NAME_MAIN);
+	genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(renderer::Renderer::MAP_NAME_MAIN);
 
 	cout << "Finished!" << std::endl;
 	/// [Body]

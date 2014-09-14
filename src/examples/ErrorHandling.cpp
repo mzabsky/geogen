@@ -1,6 +1,7 @@
 #include <GeoGen/GeoGen.hpp>
 
 using namespace std;
+using namespace geogen;
 
 void Example_ErrorHandling()
 {
@@ -8,36 +9,36 @@ void Example_ErrorHandling()
 	string code = "yield HeightMap.Flat(1 / 0)";
 
 	// Create instance of the compiler.
-	geogen::compiler::Compiler compiler;
+	compiler::Compiler compiler;
 
-	// All compilation exceptions extend geogen::compiler::CompilerException.
-	geogen::runtime::CompiledScript* compiledScript;
+	// All compilation exceptions extend compiler::CompilerException.
+	runtime::CompiledScript* compiledScript;
 	try
 	{
 		compiledScript = compiler.CompileScript(code);
 	}
-	catch (geogen::compiler::CompilerException& ex)
+	catch (compiler::CompilerException& ex)
 	{
 		cout << "Error GGE" << ex.GetErrorCode() << ": " << ex.GetDetailMessage() << endl;
 		return;
 	}
 
-	// All simulation exceptions extend geogen::runtime::RuntimeException.
-	geogen::runtime::VirtualMachine vm(*compiledScript);
+	// All simulation exceptions extend runtime::RuntimeException.
+	runtime::VirtualMachine vm(*compiledScript);
 	try
 	{
 		vm.Run();
 	}
-	catch (geogen::runtime::RuntimeException& ex)
+	catch (runtime::RuntimeException& ex)
 	{
 		cout << "Error GGE" << ex.GetErrorCode() << ": " << ex.GetDetailMessage() << endl;
 		return;
 	}
 
-	geogen::renderer::Renderer renderer(vm.GetRenderingSequence());
+	renderer::Renderer renderer(vm.GetRenderingSequence());
 	renderer.Run();
 
-	geogen::genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(geogen::renderer::Renderer::MAP_NAME_MAIN);
+	genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(renderer::Renderer::MAP_NAME_MAIN);
 
 	cout << "Finished!" << endl;
 	/// [Body]
