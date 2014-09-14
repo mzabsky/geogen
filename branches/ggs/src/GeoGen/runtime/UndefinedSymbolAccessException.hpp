@@ -7,9 +7,15 @@ namespace geogen
 {
 	namespace runtime
 	{
+		/// Exception thrown when error geogen::GGE2201_UndefinedFunction, geogen::GGE2202_UndefinedVariable and geogen::GGE2203_UndefinedMemberVariable occurs.
 		class UndefinedSymbolAccessException : public SymbolDefinitionException
 		{
 		public:
+
+			/// Constructor.
+			/// @param code The error code.
+			/// @param location The code location.
+			/// @param symbolName Name of the symbol.
 			UndefinedSymbolAccessException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				SymbolDefinitionException(code, location, symbolName) {};
 

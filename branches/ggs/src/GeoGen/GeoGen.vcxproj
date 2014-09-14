@@ -332,7 +332,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="runtime\MemberNativeFunctionDefinition.hpp" />
     <ClInclude Include="runtime\MemoryManager.hpp" />
     <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp" />
-    <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\NullReferenceException.hpp" />
     <ClInclude Include="corelib\NullTypeDefinition.hpp" />
     <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
@@ -342,7 +341,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="runtime\NumberUnderflowException.hpp" />
     <ClInclude Include="runtime\ObjectId.hpp" />
     <ClInclude Include="runtime\ObjectStack.hpp" />
-    <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
     <ClInclude Include="runtime\FunctionDefinition.hpp" />
     <ClInclude Include="runtime\instructions\BreakInstruction.hpp" />
     <ClInclude Include="runtime\instructions\CallGlobalInstruction.hpp" />

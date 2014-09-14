@@ -56,8 +56,6 @@
     <ClInclude Include="runtime\MetadataNumber.hpp" />
     <ClInclude Include="runtime\MetadataString.hpp" />
     <ClInclude Include="runtime\MetadataValue.hpp" />
-    <ClInclude Include="runtime\ObjectTypeDefinition.hpp" />
-    <ClInclude Include="runtime\NativeObject.hpp" />
     <ClInclude Include="runtime\PrimitiveObject.hpp" />
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="runtime\instructions\LoadScopeValueInstruction.hpp" />

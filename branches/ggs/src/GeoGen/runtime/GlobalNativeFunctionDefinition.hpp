@@ -13,9 +13,13 @@ namespace geogen
 		class ManagedObject;
 		class TypeDefinition;
 
+		/// Base class for global function definitions bound to a native function.
 		class GlobalNativeFunctionDefinition : public FunctionDefinition
 		{
 		public:
+
+			/// Constructor.
+			/// @param name The function name.
 			GlobalNativeFunctionDefinition(String const& name) : FunctionDefinition(name) {};
 
 			virtual void Call(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, unsigned numberOfArguments) const;

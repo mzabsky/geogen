@@ -6,6 +6,7 @@ namespace geogen
 {
 	namespace runtime
 	{
+		/// Exception thrown when error geogen::GGE2106_NullReference occurs.
 		class NullReferenceException : public RuntimeException
 		{
 		public:

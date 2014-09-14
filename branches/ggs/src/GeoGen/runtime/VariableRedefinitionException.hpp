@@ -7,6 +7,7 @@ namespace geogen
 {
 	namespace runtime
 	{
+		/// Exception thrown when error geogen::GGE2204_VariableAlreadyDefined occurs.
 		class VariableRedefinitionException : public SymbolDefinitionException
 		{
 		public:
