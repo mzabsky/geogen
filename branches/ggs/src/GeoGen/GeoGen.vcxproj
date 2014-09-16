@@ -178,6 +178,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapShiftFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapShiftRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapTransformFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapTransformRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapTypeDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapUnifyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapUnifyRenderingStep.hpp" />
@@ -241,6 +243,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp" />
     <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
     <ClInclude Include="corelib\ParseNoiseInput.hpp" />
+    <ClInclude Include="corelib\InvalidTransformationMatrixException.hpp" />
     <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
     <ClInclude Include="corelib\NullKeyException.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
@@ -270,6 +273,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="genlib\HeightMap.hpp" />
     <ClInclude Include="genlib\HeightProfile.hpp" />
     <ClInclude Include="genlib\DataObject.hpp" />
+    <ClInclude Include="genlib\TransformationMatrix.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
@@ -461,6 +465,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapShiftFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapShiftRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapTransformFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapTransformRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapUnifyFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapUnifyRenderingStep.cpp" />

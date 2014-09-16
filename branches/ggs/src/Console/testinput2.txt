@@ -1,6 +1,9 @@
 //metadata {Height: Finite}
 
-//var noise = HeightProfile.Noise();
-//yield HeightMap.Projection(noise, Direction.Vertical);
+var noise = HeightProfile.Noise();
+var projection = HeightMap.Projection(noise, Direction.Vertical);
 
-yield HeightMap.Noise({64: 1, 1: 0.1});
+var angle = DegToRad(20);
+yield projection.Transform(Cos(angle), -Sin(angle), Sin(angle), Cos(angle));
+
+//yield HeightMap.Noise({64: 1, 1: 0.1});
