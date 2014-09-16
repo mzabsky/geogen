@@ -176,6 +176,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightMapPatternRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapRescaleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapRotateFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapShearFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapShiftFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapShiftRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapTransformFunctionDefinition.hpp" />
@@ -463,6 +465,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightMapPatternRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapRotateFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapShearFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapShiftFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapShiftRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapTransformFunctionDefinition.cpp" />
