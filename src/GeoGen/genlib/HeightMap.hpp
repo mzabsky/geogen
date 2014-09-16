@@ -8,6 +8,7 @@
 #include "DataObject.hpp"
 #include "../Direction.hpp"
 #include "NoiseLayersFactory.hpp"
+#include "TransformationMatrix.hpp"
 #include "../random/RandomSeed.hpp"
 #include "../InternalErrorException.hpp"
 
@@ -76,7 +77,34 @@ namespace geogen
 			inline Rectangle GetPhysicalRectangleUnscaled(Rectangle logicalRectangle) const { return logicalRectangle - this->rectangle.GetPosition(); }
 			inline Rectangle GetPhysicalRectangle(Rectangle logicalRectangle) const { return logicalRectangle * this->scale - this->rectangle.GetPosition(); }
 			inline Point GetPhysicalPointUnscaled(Point logicalPoint) const { return logicalPoint - this->rectangle.GetPosition(); }
-			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }			
+			inline Point GetPhysicalPoint(Point logicalPoint) const { return logicalPoint * this->scale - this->rectangle.GetPosition(); }
+
+			inline Coordinate GetPhysicalCoordinate(Coordinate logicalCoordinate, Direction direction) const 
+			{ 
+				switch (direction)
+				{
+				case DIRECTION_HORIZONTAL:
+					return logicalCoordinate * this->scale - this->rectangle.GetPosition().GetX();
+				case DIRECTION_VERTICAL:
+					return logicalCoordinate * this->scale - this->rectangle.GetPosition().GetY();
+				default:
+					throw InternalErrorException(GG_STR("Invalid direction."));
+				}
+			}
+
+			inline double GetPhysicalCoordinate(double logicalCoordinate, Direction direction) const
+			{
+				switch (direction)
+				{
+				case DIRECTION_HORIZONTAL:
+					return logicalCoordinate * this->scale - this->rectangle.GetPosition().GetX();
+				case DIRECTION_VERTICAL:
+					return logicalCoordinate * this->scale - this->rectangle.GetPosition().GetY();
+				default:
+					throw InternalErrorException(GG_STR("Invalid direction."));
+				}
+			}
+
 			inline Point GetLogicalPoint(Point physicalPoint) const { return (physicalPoint + this->rectangle.GetPosition()) / this->scale; }
 			inline Coordinate GetLogicalCoordinate(Coordinate physicalCoordinate, Direction direction) const 
 			{ 
@@ -91,6 +119,20 @@ namespace geogen
 				}
 				
 			}
+
+			inline double GetLogicalCoordinate(double physicalCoordinate, Direction direction) const
+			{
+				switch (direction)
+				{
+				case DIRECTION_HORIZONTAL:
+					return (physicalCoordinate + this->rectangle.GetPosition().GetX()) / this->scale;
+				case DIRECTION_VERTICAL:
+					return (physicalCoordinate + this->rectangle.GetPosition().GetY()) / this->scale;
+				default:
+					throw InternalErrorException(GG_STR("Invalid direction."));
+				}
+			}
+
 			inline Size1D GetScaledSize(Size1D size) const { return Size1D(size * this->scale); }
 			
 			void Abs();
@@ -130,6 +172,7 @@ namespace geogen
 			//void SelectHeights(Height min, Height max);
 			//void SlopeMap();
 			//void Shift(HeightProfile* profile, Size1D maxDistance);
+			void Transform(TransformationMatrix const& matrix, Rectangle transformedRectangle);
 			//void TransformValues(HeightProfile* function, Height min, Height max);
 			void Unify(HeightMap* other);
 

@@ -335,6 +335,10 @@
     <ClInclude Include="corelib\ParseNoiseInput.hpp" />
     <ClInclude Include="corelib\HeightMapDistanceMapFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapDistanceMapRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapTransformFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapTransformRenderingStep.hpp" />
+    <ClInclude Include="corelib\InvalidTransformationMatrixException.hpp" />
+    <ClInclude Include="genlib\TransformationMatrix.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -582,6 +586,8 @@
     <ClCompile Include="corelib\ParseNoiseInput.cpp" />
     <ClCompile Include="corelib\HeightMapDistanceMapFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapDistanceMapRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapTransformFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapTransformRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

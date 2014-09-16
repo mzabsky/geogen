@@ -608,6 +608,29 @@ void HeightMap::Noise(NoiseLayers const& layers, RandomSeed seed)
 	}
 }
 
+void HeightMap::Transform(TransformationMatrix const& matrix, Rectangle transformedRectangle)
+{
+	TransformationMatrix invertedMatrix = TransformationMatrix::Inverse(matrix);
+
+	auto_ptr<HeightMap> oldThis = auto_ptr<HeightMap>(new HeightMap(*this));
+
+	this->rectangle = transformedRectangle;
+	delete[] heightData;
+	this->heightData = new Height[transformedRectangle.GetSize().GetTotalLength()];
+
+	this->FillRectangle(RECTANGLE_MAX, 0);
+
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(transformedRectangle);
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+		double xx = oldThis->GetPhysicalCoordinate(invertedMatrix.GetTransformedX(logicalPoint), DIRECTION_HORIZONTAL);
+		double yy = oldThis->GetPhysicalCoordinate(invertedMatrix.GetTransformedY(logicalPoint), DIRECTION_VERTICAL);
+		double interpolated = (*oldThis)(xx, yy);
+		(*this)(x, y) = (*oldThis)(xx, yy);
+	}
+}
+
 void HeightMap::Unify(HeightMap* other)
 {
 	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
