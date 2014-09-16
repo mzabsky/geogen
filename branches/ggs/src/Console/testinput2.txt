@@ -3,7 +3,7 @@
 var noise = HeightProfile.Noise();
 var projection = HeightMap.Projection(noise, Direction.Vertical);
 
-var angle = DegToRad(20);
-yield projection.Transform(Cos(angle), -Sin(angle), Sin(angle), Cos(angle));
+//var angle = DegToRad(40);
+yield projection.Shear(-3, Direction.Horizontal);
 
 //yield HeightMap.Noise({64: 1, 1: 0.1});

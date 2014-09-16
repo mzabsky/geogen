@@ -339,6 +339,8 @@
     <ClInclude Include="corelib\HeightMapTransformRenderingStep.hpp" />
     <ClInclude Include="corelib\InvalidTransformationMatrixException.hpp" />
     <ClInclude Include="genlib\TransformationMatrix.hpp" />
+    <ClInclude Include="corelib\HeightMapRotateFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapShearFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generator.cpp" />
@@ -588,6 +590,8 @@
     <ClCompile Include="corelib\HeightMapDistanceMapRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapTransformFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapTransformRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapRotateFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapShearFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
