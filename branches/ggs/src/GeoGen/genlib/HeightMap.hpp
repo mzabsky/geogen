@@ -59,7 +59,7 @@ namespace geogen
 			{
 				Coordinate leftCoord = Coordinate(floor(x));
 				Coordinate rightCoord = Coordinate(ceil(x));
-				Coordinate topCoord = Coordinate(floor(x));
+				Coordinate topCoord = Coordinate(floor(y));
 				Coordinate bottomCoord = Coordinate(ceil(y));
 				
 				// TODO: Optimize.
