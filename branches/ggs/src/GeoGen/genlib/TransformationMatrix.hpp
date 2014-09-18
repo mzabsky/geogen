@@ -75,7 +75,7 @@ namespace geogen
 
 				return Rectangle(
 					Point(left, top),
-					Size2D(right - left, bottom - top));
+					Size2D(right - left + 1, bottom - top + 1));
 			}
 
 			/// Determines whether the matrix is invertible (has ).

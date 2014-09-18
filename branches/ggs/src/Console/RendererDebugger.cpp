@@ -132,7 +132,17 @@ void RendererDebugger::Step()
 		if (returnObject != NULL)
 		{
 			StringStream ss;
-			ss << this->GetOutputDirectory() << GG_STR("/step") << this->currentStepNumber << GG_STR("_") << stepName << (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
+			ss << this->GetOutputDirectory() << GG_STR("/step") << this->currentStepNumber << GG_STR("_") << stepName;
+			
+			if (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP)
+			{
+				Point position = dynamic_cast<genlib::HeightMap*>(returnObject->GetPtr())->GetRectangle().GetPosition();
+				ss << GG_STR("_") << position.GetX() << GG_STR("_") << position.GetY() << GG_STR(".png");
+			}
+			else 
+			{
+				ss << GG_STR("_") << dynamic_cast<genlib::HeightProfile*>(returnObject->GetPtr())->GetStart() << GG_STR(".csv");
+			}
 
 			try
 			{
