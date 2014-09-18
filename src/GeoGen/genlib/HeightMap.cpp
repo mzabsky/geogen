@@ -381,7 +381,7 @@ void HeightMap::Multiply(Height factor)
 
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		(*this)(x, y) = Height((*this)(x, y) * factor);
+		(*this)(x, y) = Height((*this)(x, y) * actualFactor);
 	}
 }
 
