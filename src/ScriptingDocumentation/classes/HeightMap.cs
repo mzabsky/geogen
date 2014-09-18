@@ -1,4 +1,5 @@
 /// Declares the height map class.
+/// @ingroup standard_library
 class HeightMap
 {
 public:

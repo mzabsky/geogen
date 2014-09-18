@@ -3,22 +3,23 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>	
-	<tab type="user" visible="yes" title="Tutorials" url="@ref tutorials"/>
-  <tab type="user" visible="yes" title="Language reference" url="@ref language_reference"/>
+	  <tab type="user" visible="yes" title="Tutorials" url="@ref tutorials"/>
+    <tab type="user" visible="yes" title="Language reference" url="@ref language_reference"/>
+    <tab type="user" visible="yes" title="Standard library" url="@ref standard_library"/>
     <tab type="user" visible="yes" title="Basic concepts" url="@ref concepts"/> 
     <tab type="pages" visible="no" title="" intro=""/>
     <tab type="modules" visible="no" title="" intro=""/>
-    <tab type="namespaces" visible="yes" title="">
+    <tab type="namespaces" visible="no" title="">
       <tab type="namespacelist" visible="yes" title="" intro=""/>
       <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="classes" visible="yes" title="">
-      <tab type="classlist" visible="yes" title="" intro=""/>
-      <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/> 
-      <tab type="hierarchy" visible="yes" title="" intro=""/>
-      <tab type="classmembers" visible="yes" title="" intro=""/>
+    <tab type="classes" visible="no" title="">
+      <tab type="classlist" visible="no" title="" intro=""/>
+      <tab type="classindex" visible="no" title=""/> 
+      <tab type="hierarchy" visible="no" title="" intro=""/>
+      <tab type="classmembers" visible="no" title="" intro=""/>
     </tab>
-    <tab type="files" visible="yes" title="">
+    <tab type="files" visible="no" title="">
       <tab type="filelist" visible="yes" title="" intro=""/>
       <tab type="globals" visible="yes" title="" intro=""/>
     </tab> 
@@ -38,8 +39,8 @@
       <interfaces title=""/>
       <publicslots title=""/>
       <signals title=""/>
-      <publicmethods title=""/>
-      <publicstaticmethods title=""/>
+      <publicstaticmethods title="Contructors"/>
+      <publicmethods title="Member Functions"/>
       <publicattributes title=""/>
       <publicstaticattributes title=""/>
       <protectedtypes title=""/>
@@ -79,9 +80,9 @@
       <properties title=""/>
       <events title=""/>
     </memberdef>
-    <allmemberslink visible="yes"/>
+    <allmemberslink visible="no"/>
     <usedfiles visible="$SHOW_USED_FILES"/>
-    <authorsection visible="yes"/>
+    <authorsection visible="no"/>
   </class>
 
   <!-- Layout definition for a namespace page -->
@@ -152,7 +153,7 @@
       <typedefs title=""/>
       <enums title=""/>
       <enumvalues title=""/>
-      <functions title=""/>
+      <functions title="Global Functions"/>
       <variables title=""/>
       <signals title=""/>
       <publicslots title=""/>

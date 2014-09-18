@@ -17,6 +17,15 @@
     <None Include="classes\Number.cs" />
     <None Include="classes\Boolean.cs" />
     <None Include="Doxyfile" />
+    <None Include="pages\Variables.cs" />
+    <None Include="pages\Functions.cs" />
+    <None Include="pages\ControlStructures.cs" />
+    <None Include="pages\EnumTypes.cs" />
+    <None Include="classes\Array.cs" />
+    <None Include="classes\GlobalFunctions.cs" />
+    <None Include="classes\Coordinate.cs" />
+    <None Include="classes\Point.cs" />
+    <None Include="classes\RandomSequence2D.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />

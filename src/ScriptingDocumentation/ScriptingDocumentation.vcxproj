@@ -64,18 +64,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="classes\Array.cs" />
     <None Include="classes\Boolean.cs" />
+    <None Include="classes\Coordinate.cs" />
+    <None Include="classes\GlobalFunctions.cs" />
     <None Include="classes\HeightMap.cs">
       <FileType>CppHeader</FileType>
     </None>
     <None Include="classes\Number.cs" />
+    <None Include="classes\Point.cs" />
+    <None Include="classes\RandomSequence2D.cs" />
     <None Include="Doxyfile" />
     <None Include="pages\BasicSyntax.cs" />
+    <None Include="pages\ControlStructures.cs" />
+    <None Include="pages\EnumTypes.cs" />
+    <None Include="pages\Functions.cs" />
     <None Include="pages\LanguageReference.cs" />
     <None Include="pages\Metadata.cs" />
     <None Include="pages\Operators.cs" />
     <None Include="pages\ScriptStructure.cs" />
     <None Include="pages\TypeSystem.cs" />
+    <None Include="pages\Variables.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MainPage.cs" />

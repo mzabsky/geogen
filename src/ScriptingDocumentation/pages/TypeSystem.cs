@@ -13,7 +13,7 @@
 /// @section implicit_conversions Implicit conversions
 /// Only a single implicit conversion is supported: Number to Coordinate. A Number can therefore be used anywhere where a Coordinate can be used.
 /// 
-/// @section null Null
+/// @section null null
 /// Null represents "no value". Passing the null into a type-checked native function or using it as an operand to most operators will result in a runtime error being generated.
 /// 
 /// Variables declared without being assigned a value have a null value. Null can also be assigned to any writable variable to effectively unset its value.
