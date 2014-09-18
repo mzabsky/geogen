@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{dfad310d-6132-48e3-b028-61313b279db1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MainPage.cs" />
+    <None Include="classes\HeightMap.cs" />
+    <None Include="pages\LanguageReference.cs" />
+    <None Include="pages\BasicSyntax.cs" />
+    <None Include="pages\ScriptStructure.cs" />
+    <None Include="pages\TypeSystem.cs" />
+    <None Include="pages\Metadata.cs" />
+    <None Include="pages\Operators.cs" />
+    <None Include="classes\Number.cs" />
+    <None Include="classes\Boolean.cs" />
+    <None Include="Doxyfile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="DoxygenLayout.xml" />
+  </ItemGroup>
+</Project>
