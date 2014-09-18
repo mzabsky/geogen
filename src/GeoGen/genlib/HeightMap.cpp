@@ -624,8 +624,10 @@ void HeightMap::Transform(TransformationMatrix const& matrix, Rectangle transfor
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
-		double sourceX = oldThis->GetPhysicalCoordinate(invertedMatrix.GetTransformedX(logicalPoint), DIRECTION_HORIZONTAL);
-		double sourceY = oldThis->GetPhysicalCoordinate(invertedMatrix.GetTransformedY(logicalPoint), DIRECTION_VERTICAL);
+		double transformedX = invertedMatrix.GetTransformedX(logicalPoint);
+		double transformedY = invertedMatrix.GetTransformedY(logicalPoint);
+		double sourceX = oldThis->GetPhysicalCoordinate(transformedX, DIRECTION_HORIZONTAL);
+		double sourceY = oldThis->GetPhysicalCoordinate(transformedY, DIRECTION_VERTICAL);
 		(*this)(x, y) = (*oldThis)(sourceX, sourceY);
 	}
 }

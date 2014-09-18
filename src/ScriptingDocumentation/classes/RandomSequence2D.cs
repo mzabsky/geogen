@@ -1,12 +1,12 @@
-/// Random sequence that can generate coordinate-based random number.
+/// Random sequence that can generate coordinate-based random numbers.
 class RandomSequence2D
 {
 private:
 public:
 
-    /// Creates a point from a pair of coordinates.
+    /// Creates a new 2D random sequence.
     /// @param x The X coordinate.
     /// @param y The Y coordinate.
     /// @return The point.
-    static RandomSequence2D Create(Coordinate x, Coordinate y);
+    static RandomSequence2D Create(Number randomSeed);
 };

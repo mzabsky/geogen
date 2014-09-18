@@ -22,10 +22,10 @@
     <None Include="pages\ControlStructures.cs" />
     <None Include="pages\EnumTypes.cs" />
     <None Include="classes\Array.cs" />
-    <None Include="classes\GlobalFunctions.cs" />
     <None Include="classes\Coordinate.cs" />
     <None Include="classes\Point.cs" />
     <None Include="classes\RandomSequence2D.cs" />
+    <None Include="classes\StandardLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />

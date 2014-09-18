@@ -67,7 +67,7 @@
     <None Include="classes\Array.cs" />
     <None Include="classes\Boolean.cs" />
     <None Include="classes\Coordinate.cs" />
-    <None Include="classes\GlobalFunctions.cs" />
+    <None Include="classes\StandardLibrary.cs" />
     <None Include="classes\HeightMap.cs">
       <FileType>CppHeader</FileType>
     </None>
