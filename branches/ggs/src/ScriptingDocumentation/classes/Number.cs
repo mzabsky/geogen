@@ -8,11 +8,20 @@
 /// var a = 5.68;
 /// var b = 3 + b;
 /// @endcode
+/// @ingroup standard_library
 class Number
 {
 private:
-
-    /// This fake method is here, because doxygen doesn't like classes without members.
-    void FakeMethod();
 public:
+
+    /// Converts @a coordinate to a number. If the @a coordinate is relative, @a direction has to be specified. If @a coordinate is absolute, @a direction will be ignored.
+    /// @param coordinate The coordinate.
+    /// @param direction (optional) The direction.
+    /// @return Numeric value of @a coordinate. If @a coordinate was relative, it will be converted to an absolute coordinate.
+    static Number FromCoordinate(Coordinate coordinate, Direction direction);
+
+    /// Converts an @a enumValue to its corresponding numeric value. @a Enum can be any @link enum_types enumeration type@endlink.
+    /// @param enumValue The enum value.
+    /// @return Numeric value of @a enumValue.
+    static Number FromEnum(Enum enumValue);
 };

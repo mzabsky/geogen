@@ -8,6 +8,7 @@
 /// var a = true;
 /// var b = false | a;
 /// @endcode
+/// @ingroup standard_library
 class Boolean
 {
 private:
