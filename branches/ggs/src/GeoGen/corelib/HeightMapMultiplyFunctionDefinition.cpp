@@ -47,7 +47,7 @@ ManagedObject* HeightMapMultiplyFunctionDefinition::CallNative(CodeLocation loca
 		}
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
-		RenderingStep* renderingStep = new HeightMapMultiplyRenderingStep(location, argumentSlots, returnObjectSlot, numberHeight);
+		RenderingStep* renderingStep = new HeightMapMultiplyRenderingStep(location, argumentSlots, returnObjectSlot, height);
 		vm->GetRenderingSequence().AddStep(renderingStep);
 	}
 	else
