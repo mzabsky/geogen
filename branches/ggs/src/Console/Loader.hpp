@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <map>
+#include <queue>
 
 #include <GeoGen/GeoGen.hpp>
 #include "CommandTable.hpp"
@@ -36,6 +37,8 @@ namespace geogen
 			String randomSeed;
 
 			std::map<String, String> parameterValues;
+
+			std::queue<String> commandQueue;
 		public:
 			Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments parameters);
 			~Loader() { if (compiledScript != NULL) delete compiledScript; };
@@ -83,6 +86,8 @@ namespace geogen
 			inline std::map<String, String>& GetParameterValues() { return this->parameterValues; }
 
 			inline bool IsInteractive()const { return this->isInteractive; }
+
+			inline std::queue<String>& GetCommandQueue() { return this->commandQueue; }
 
 			geogen::runtime::ScriptParameters CreateScriptParameters();
 
