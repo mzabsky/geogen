@@ -34,6 +34,7 @@ namespace geogen
 					{
 						if (GetAndClearAbortFlag())
 						{
+							debugger->Abort();
 							debugger->GetOut() << GG_STR("Aborted.") << std::endl;
 							return;
 						}
