@@ -118,7 +118,7 @@ namespace geogen
 			/// Gets a coordinate projected from physical data array to logical coordinate space, reversing scaling.
 			/// @param logicalInterval The physical coordinate to project.
 			/// @return The projected coordinate.
-			inline Coordinate GetLogicalCoordinate(Coordinate physicalCoordinate) const { return (physicalCoordinate + this->interval.GetStart()) / this->scale; }
+			inline Coordinate GetLogicalCoordinate(Coordinate physicalCoordinate) const { return Coordinate((physicalCoordinate + this->interval.GetStart()) / this->scale); }
 
 			/// Gets size scaled by the scaling factor of the profile.
 			/// @param size The size to scale.

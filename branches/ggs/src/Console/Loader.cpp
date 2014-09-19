@@ -227,6 +227,8 @@ bool Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String p
 	renderedMaps.Clear();
 
 	out << endl;
+
+	return true;
 }
 
 ScriptParameters Loader::CreateScriptParameters()

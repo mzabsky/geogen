@@ -16,7 +16,7 @@ Coordinate CoordinateObject::GetAbsoluteCoordinate(runtime::VirtualMachine* vm, 
 {
 	if (!this->IsRelative())
 	{
-		return this->GetValue();
+		return (Coordinate)this->GetValue();
 	}
 
 	Size1D mapSize;
