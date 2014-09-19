@@ -70,5 +70,6 @@
     <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp" />
     <ClInclude Include="SignalHandler.hpp" />
     <ClInclude Include="loader_commands\CodeLoaderCommand.hpp" />
+    <ClInclude Include="loader_commands\ReloadAndRunLoaderCommand.hpp" />
   </ItemGroup>
 </Project>

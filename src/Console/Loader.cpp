@@ -16,6 +16,7 @@
 #include "loader_commands/QuitLoaderCommand.hpp"
 #include "loader_commands/RandomSeedLoaderCommand.hpp"
 #include "loader_commands/ReloadLoaderCommand.hpp"
+#include "loader_commands/ReloadAndRunLoaderCommand.hpp"
 #include "loader_commands/RenderOriginLoaderCommand.hpp"
 #include "loader_commands/RenderScaleLoaderCommand.hpp"
 #include "loader_commands/RenderSizeLoaderCommand.hpp"
@@ -45,6 +46,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 	this->commandTable.AddCommand(new QuitLoaderCommand());
 	this->commandTable.AddCommand(new RandomSeedLoaderCommand());
 	this->commandTable.AddCommand(new ReloadLoaderCommand());
+	this->commandTable.AddCommand(new ReloadAndRunLoaderCommand());
 	this->commandTable.AddCommand(new RenderOriginLoaderCommand());
 	this->commandTable.AddCommand(new RenderScaleLoaderCommand());
 	this->commandTable.AddCommand(new RenderSizeLoaderCommand());
@@ -53,7 +55,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 
 void Loader::Run()
 {	
-	queue<String> commandQueue;
+	queue<String>& commandQueue = this->GetCommandQueue();
 
 	if (this->currentFile != GG_STR(""))
 	{
@@ -124,6 +126,9 @@ void Loader::Run()
 			}
 			catch (GeoGenException& e)
 			{
+				// Empty the command queue (the commands likely depended on the current command succeeding)
+				while (!commandQueue.empty()) commandQueue.pop();
+
 				HighlightRed();
 				out << "Error GGE" << e.GetErrorCode() << ": " << e.GetDetailMessage() << endl << endl;
 				Unhighlight();
