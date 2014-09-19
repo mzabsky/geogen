@@ -110,28 +110,20 @@ public:
 
 	static void TestXRelativePointCreateDirectionNotSpecifiedFails()
 	{
-		ScriptParameters params;
-		params.SetMapWidth(1000);
-		params.SetMapHeight(2000);
-
 		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateDirectionException, "\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(500, Number.FromCoordinate([@[0.5], [200]].X));\n\
-		", params);
+		");
 	}
 
 	static void TestYRelativePointCreateDirectionNotSpecifiedFails()
 	{
-		ScriptParameters params;
-		params.SetMapWidth(1000);
-		params.SetMapHeight(2000);
-
 		TEST_SCRIPT_FAILURE(UnknownRelativeCoordinateDirectionException, "\n\
 			metadata { Width: { Max: 1000, Default: 1000 }, Height: { Max: 2000, Default: 2000 } }\n\
 			\n\
 			AssertEquals(400, Number.FromCoordinate([[300], @[0.2]].Y));\n\
-		", params);
+		");
 	}
 
 	static void TestRelativePointCreateInBothInfiniteDimensionsFails()
