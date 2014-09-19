@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>geogend</TargetName>
-    <OutDir>$(SolutionDir)/../bin/</OutDir>
+    <OutDir>$(SolutionDir)../lib/</OutDir>
     <IncludePath>$(SolutionDir)/antlr3cpp;$(SolutionDir)/libfi/include;$(SolutionDir)/antlr3;$(SolutionDir)/Cpp-FixedPoint/src/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -56,7 +56,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <OutputFile>$(SolutionDir)/../bin/geogend.lib</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
