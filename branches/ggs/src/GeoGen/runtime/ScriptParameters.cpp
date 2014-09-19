@@ -118,20 +118,20 @@ void ScriptParameters::ResetToDefaults()
 
 void ScriptParameters::Serialize(IOStream& stream) const
 {
-	stream << "MapWidth: " << this->mapWidth << endl;
-	stream << "DefaultMapWidth: " << this->defaultMapWidth << endl;
-	stream << "MinMapWidth: " << this->minMapWidth << endl;
-	stream << "MaxMapWidth: " << this->maxMapWidth << endl;
+	stream << "MapWidth: " << this->mapWidth << GG_STR(" (") << this->GetMapWidth() << GG_STR(")") << endl;
+	stream << "DefaultMapWidth: " << this->defaultMapWidth << GG_STR(" (") << this->GetDefaultMapWidth() << GG_STR(")") << endl;
+	stream << "MinMapWidth: " << this->minMapWidth << GG_STR(" (") << this->GetMinMapWidth() << GG_STR(")") << endl;
+	stream << "MaxMapWidth: " << this->maxMapWidth << GG_STR(" (") << this->GetMaxMapWidth() << GG_STR(")") << endl;
 	
-	stream << "MapHeight: " << this->mapHeight << endl;
-	stream << "DefaultMapHeight: " << this->defaultMapHeight << endl;
-	stream << "MinMapHeight: " << this->minMapHeight << endl;
-	stream << "MaxMapHeight: " << this->maxMapHeight << endl;
+	stream << "MapHeight: " << this->mapHeight << GG_STR(" (") << this->GetMapHeight() << GG_STR(")") << endl;
+	stream << "DefaultMapHeight: " << this->defaultMapHeight << GG_STR(" (") << this->GetDefaultMapHeight() << GG_STR(")") << endl;
+	stream << "MinMapHeight: " << this->minMapHeight << GG_STR(" (") << this->GetMinMapHeight() << GG_STR(")") << endl;
+	stream << "MaxMapHeight: " << this->maxMapHeight << GG_STR(" (") << this->GetMaxMapHeight() << GG_STR(")") << endl;
 	
 	stream << "RenderOriginX: " << this->renderOriginX << endl;
 	stream << "RenderOriginY: " << this->renderOriginY << endl;
-	stream << "RenderWidth: " << this->renderWidth << endl;
-	stream << "RenderHeight: " << this->renderHeight << endl;
+	stream << "RenderWidth: " << this->renderWidth << GG_STR(" (") << this->GetRenderWidth() << GG_STR(")") << endl;
+	stream << "RenderHeight: " << this->renderHeight << GG_STR(" (") << this->GetRenderHeight() << GG_STR(")") << endl;
 
 	stream << "RenderScale: " << this->renderScale << endl;
 	stream << "RandomSeed: " << this->randomSeed << endl;

@@ -370,7 +370,7 @@ void HeightMap::Invert()
 void HeightMap::Move(Point offset)
 {
     // TODO: range check
-	this->rectangle += offset;
+	this->rectangle += offset * this->scale;
 }
 
 void HeightMap::Multiply(Height factor)

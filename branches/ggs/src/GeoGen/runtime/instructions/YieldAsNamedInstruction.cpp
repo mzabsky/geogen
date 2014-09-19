@@ -42,7 +42,7 @@ InstructionStepResult YieldAsNamedInstruction::Step(VirtualMachine* vm) const
 		if (vm->GetArguments().GetMaxMapWidth() != MAP_SIZE_INFINITE)
 		{
 			renderOriginX = max(renderOriginX, 0);
-			renderWidth = min(Size1D(vm->GetArguments().GetMapWidth() * vm->GetArguments().GetRenderScale()) - renderOriginX, renderWidth);
+			renderWidth = min(Size1D(vm->GetArguments().GetMapWidth()/* * vm->GetArguments().GetRenderScale()*/) - renderOriginX, renderWidth);
 		}
 
 		Coordinate renderOriginY = vm->GetArguments().GetRenderOriginY();
@@ -62,7 +62,7 @@ InstructionStepResult YieldAsNamedInstruction::Step(VirtualMachine* vm) const
 		if (vm->GetArguments().GetMaxMapHeight() != MAP_SIZE_INFINITE)
 		{
 			renderOriginY = max(renderOriginY, 0);
-			renderHeight = min(Size1D(vm->GetArguments().GetMapHeight() * vm->GetArguments().GetRenderScale()) - renderOriginY, renderHeight);
+			renderHeight = min(Size1D(vm->GetArguments().GetMapHeight() /** vm->GetArguments().GetRenderScale()*/) - renderOriginY, renderHeight);
 		}
 
 		//Rectangle mapRectangle = Rectangle(Point(0, 0), Size2D(vm->GetArguments().GetMapWidth(), vm->GetArguments().GetMapHeight()));
