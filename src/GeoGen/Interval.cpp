@@ -1,4 +1,5 @@
 #include "Interval.hpp"
+#include "InternalErrorException.hpp"
 
 using namespace geogen;
 
@@ -67,6 +68,10 @@ Interval Interval::FromRectangle(Rectangle rect, Direction direction)
 	else if (direction == DIRECTION_VERTICAL)
 	{
 		return Interval(rect.GetPosition().GetY(), rect.GetSize().GetHeight());
+	}
+	else
+	{
+		throw InternalErrorException(GG_STR("Invalid direction."));
 	}
 }
 

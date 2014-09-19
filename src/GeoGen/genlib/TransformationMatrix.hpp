@@ -68,10 +68,10 @@ namespace geogen
 				double transformedBottomRightX = this->GetTransformedX(rectangle.GetEndingPoint());
 				double transformedBottomRightY = this->GetTransformedY(rectangle.GetEndingPoint());
 
-				Coordinate left = RoundAway((std::min)(transformedTopLeftX, (std::min)(transformedTopRightX, (std::min)(transformedBottomLeftX, transformedBottomRightX))));
-				Coordinate right = RoundAway((std::max)(transformedTopLeftX, (std::max)(transformedTopRightX, (std::max)(transformedBottomLeftX, transformedBottomRightX))));
-				Coordinate top = RoundAway((std::min)(transformedTopLeftY, (std::min)(transformedTopRightY, (std::min)(transformedBottomLeftY, transformedBottomRightY))));
-				Coordinate bottom = RoundAway((std::max)(transformedTopLeftY, (std::max)(transformedTopRightY, (std::max)(transformedBottomLeftY, transformedBottomRightY))));
+				Coordinate left = (Coordinate)RoundAway((std::min)(transformedTopLeftX, (std::min)(transformedTopRightX, (std::min)(transformedBottomLeftX, transformedBottomRightX))));
+				Coordinate right = (Coordinate)RoundAway((std::max)(transformedTopLeftX, (std::max)(transformedTopRightX, (std::max)(transformedBottomLeftX, transformedBottomRightX))));
+				Coordinate top = (Coordinate)RoundAway((std::min)(transformedTopLeftY, (std::min)(transformedTopRightY, (std::min)(transformedBottomLeftY, transformedBottomRightY))));
+				Coordinate bottom = (Coordinate)RoundAway((std::max)(transformedTopLeftY, (std::max)(transformedTopRightY, (std::max)(transformedBottomLeftY, transformedBottomRightY))));
 
 				return Rectangle(
 					Point(left, top),

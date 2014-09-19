@@ -84,9 +84,9 @@ namespace geogen
 				switch (direction)
 				{
 				case DIRECTION_HORIZONTAL:
-					return logicalCoordinate * this->scale - this->rectangle.GetPosition().GetX();
+					return Coordinate(logicalCoordinate * this->scale) - this->rectangle.GetPosition().GetX();
 				case DIRECTION_VERTICAL:
-					return logicalCoordinate * this->scale - this->rectangle.GetPosition().GetY();
+					return Coordinate(logicalCoordinate * this->scale) - this->rectangle.GetPosition().GetY();
 				default:
 					throw InternalErrorException(GG_STR("Invalid direction."));
 				}
@@ -111,9 +111,9 @@ namespace geogen
 				switch (direction)
 				{
 				case DIRECTION_HORIZONTAL:
-					return (physicalCoordinate + this->rectangle.GetPosition().GetX()) / this->scale;
+					return Coordinate((physicalCoordinate + this->rectangle.GetPosition().GetX()) / this->scale);
 				case DIRECTION_VERTICAL:
-					return (physicalCoordinate + this->rectangle.GetPosition().GetY()) / this->scale;
+					return Coordinate((physicalCoordinate + this->rectangle.GetPosition().GetY()) / this->scale);
 				default:
 					throw InternalErrorException(GG_STR("Invalid direction."));
 				}
