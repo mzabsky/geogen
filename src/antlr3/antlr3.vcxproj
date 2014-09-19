@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)\..\bin\</OutDir>
+    <OutDir>$(SolutionDir)../lib/</OutDir>
     <TargetName>antlr3d</TargetName>
     <IncludePath>.;$(IncludePath)</IncludePath>
   </PropertyGroup>
