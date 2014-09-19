@@ -44,6 +44,11 @@
     <LibraryPath>$(SolutionDir)\lpng1612\projects\visualc71\Win32_LIB_Debug;$(SolutionDir)/../lib/;$(SolutionDir)\zlib128\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)\png++;$(SolutionDir)\zlib-1.2.8;$(SolutionDir)\lpng1612;$(SolutionDir)\..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)\png++;$(SolutionDir)\zlib-1.2.8;$(SolutionDir)\lpng1612;$(SolutionDir)\..\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\lpng1612\projects\visualc71\Win32_LIB_Release;$(SolutionDir)../lib/;$(SolutionDir)\zlib128\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)../bin/</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -65,11 +70,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>geogen.lib;antlr3c.lib;libpng.lib;zdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
