@@ -19,7 +19,7 @@ void HeightProfileMoveRenderingStep::Step(Renderer* renderer) const
 void HeightProfileMoveRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
 	dynamic_cast<RenderingBounds1D*>(argumentBounds[0])->CombineInterval(
-		this->GetRenderingBounds(renderer) - this->offset);
+		this->GetRenderingBounds(renderer) - Coordinate(this->offset * renderer->GetRenderingSequence().GetRenderScale()));
 }
 
 void HeightProfileMoveRenderingStep::SerializeArguments(IOStream& stream) const

@@ -324,7 +324,7 @@ void HeightProfile::Invert()
 void HeightProfile::Move(Coordinate offset)
 {
 	// TODO: range check
-	this->interval += offset;
+	this->interval += Coordinate(offset * this->scale);
 }
 
 void HeightProfile::Multiply(Height factor)
