@@ -50,7 +50,7 @@ namespace geogen
 					{
 						if (GetAndClearAbortFlag())
 						{
-							loader->GetOut() << std::endl << GG_STR("Aborted.") << std::endl;
+							loader->GetOut() << std::endl << GG_STR("Aborted.") << std::endl << std::endl;
 							return;
 						}
 
@@ -69,7 +69,7 @@ namespace geogen
 					{
 						if (GetAndClearAbortFlag())
 						{
-							loader->GetOut() << std::endl << GG_STR("Aborted.") << std::endl;
+							loader->GetOut() << std::endl << GG_STR("Aborted.") << std::endl << std::endl;
 							return;
 						}
 
