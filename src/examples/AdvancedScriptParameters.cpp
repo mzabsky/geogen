@@ -3,7 +3,7 @@
 using namespace std;
 using namespace geogen;
 
-void Example_ScriptParameters()
+void Example_AdvancedScriptParameters()
 {
 	string code = "\n\
 		metadata \n\
@@ -29,63 +29,67 @@ void Example_ScriptParameters()
 		switch (it->second->GetType())
 		{
 		case runtime::SCRIPT_PARAMETER_TYPE_BOOLEAN:
-			runtime::BooleanScriptParameter* booleanParameter = dynamic_cast<runtime::BooleanScriptParameter*>(it->second);
-			
-			cout << it->first << " (0/1): ";
-
-			bool booleanValue;
-			cin >> booleanValue;
-
-			cout << endl;
-
-			booleanParameter->SetValue(booleanValue);
-			break;
-		case runtime::SCRIPT_PARAMETER_TYPE_NUMBER:
-			runtime::NumberScriptParameter* numberParameter = dynamic_cast<runtime::NumberScriptParameter*>(it->second);
-
-			cout << it->first << " (" << numberParameter->GetMin() << " - " << numberParameter->GetMax() << "): ";
-
-			double numberValue;
-			cin >> numberValue;
-
-			cout << endl;
-
-			numberParameter->SetValue(numberValue);
-			break;
-		case runtime::SCRIPT_PARAMETER_TYPE_ENUM:
-			runtime::EnumScriptParameter* enumParameter = dynamic_cast<runtime::EnumScriptParameter*>(it->second);
-
-			cout << it->first << " (" << endl; 
-
-			// Print list of possible values. The list of possible string values an enum can hold can be obtained from its enum type.
-			for (
-				corelib::EnumTypeDefinition::ValueDefinitions::const_iterator it2 = enumParameter->GetEnumType()->GetValueDefinitions().begin();
-				it2 != enumParameter->GetEnumType()->GetValueDefinitions().end();
-				it2++
-			)
 			{
-				// it2 is a pair of a string value and the corresponding integer value.
+				runtime::BooleanScriptParameter* booleanParameter = dynamic_cast<runtime::BooleanScriptParameter*>(it->second);
 
-				cout << it->first << ", ";
+				cout << it->first << " (0/1): ";
+
+				bool booleanValue;
+				cin >> booleanValue;
+
+				cout << endl;
+
+				booleanParameter->SetValue(booleanValue);
+				break;
 			}
+		case runtime::SCRIPT_PARAMETER_TYPE_NUMBER:
+			{
+				runtime::NumberScriptParameter* numberParameter = dynamic_cast<runtime::NumberScriptParameter*>(it->second);
 
-			cout << "): ";
+				cout << it->first << " (" << numberParameter->GetMin() << " - " << numberParameter->GetMax() << "): ";
 
-			string stringValue;
-			cin >> stringValue;
-			enumParameter->SetValue(stringValue);
-			
-			cout << endl;
+				double numberValue;
+				cin >> numberValue;
 
-			break;
+				cout << endl;
+
+				numberParameter->SetValue(numberValue);
+				break;
+			}
+		case runtime::SCRIPT_PARAMETER_TYPE_ENUM:
+			{
+				runtime::EnumScriptParameter* enumParameter = dynamic_cast<runtime::EnumScriptParameter*>(it->second);
+
+				cout << it->first << " (" << endl;
+
+				// Print list of possible values. The list of possible string values an enum can hold can be obtained from its enum type.
+				for (
+					corelib::EnumTypeDefinition::ValueDefinitions::const_iterator it2 = enumParameter->GetEnumType()->GetValueDefinitions().begin();
+					it2 != enumParameter->GetEnumType()->GetValueDefinitions().end();
+				it2++
+					)
+				{
+					// it2 is a pair of a string value and the corresponding integer value.
+
+					cout << it->first << ", ";
+				}
+
+				cout << "): ";
+
+				string stringValue;
+				cin >> stringValue;
+				enumParameter->SetValue(stringValue);
+
+				cout << endl;
+
+				break;
+			}
 		}
 	}
 
-	runtime::VirtualMachine vm(*compiledScript, parameters);
-	/// [Body]
-
 	// Now pass the adjusted parameters to the VM.
 	runtime::VirtualMachine vm(*compiledScript, parameters);
+	/// [Body]
 
 	vm.Run();
 
