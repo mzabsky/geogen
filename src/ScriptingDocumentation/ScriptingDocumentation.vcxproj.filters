@@ -27,6 +27,7 @@
     <None Include="classes\RandomSequence2D.cs" />
     <None Include="classes\StandardLibrary.cs" />
     <None Include="pages\Yield.cs" />
+    <None Include="classes\String.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />

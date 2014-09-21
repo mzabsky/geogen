@@ -74,6 +74,7 @@
     <None Include="classes\Number.cs" />
     <None Include="classes\Point.cs" />
     <None Include="classes\RandomSequence2D.cs" />
+    <None Include="classes\String.cs" />
     <None Include="Doxyfile" />
     <None Include="pages\BasicSyntax.cs" />
     <None Include="pages\ControlStructures.cs" />
