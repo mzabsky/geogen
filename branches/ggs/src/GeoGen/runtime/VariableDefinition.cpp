@@ -10,7 +10,7 @@ using namespace std;
 
 void VariableDefinition::Initialize(VirtualMachine* vm) const
 {
-	ManagedObject* defaultValue = this->CreateDefaultValue();
+	ManagedObject* defaultValue = this->CreateDefaultValue(vm);
 
 	if (defaultValue != NULL)
 	{

@@ -392,7 +392,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
     <ClInclude Include="runtime\ScriptParameter.hpp" />
     <ClInclude Include="runtime\ScriptParameters.hpp" />
-    <ClInclude Include="runtime\ScriptVariableDefinition.hpp" />
     <ClInclude Include="runtime\StackOverflowException.hpp" />
     <ClInclude Include="runtime\StaticObject.hpp" />
     <ClInclude Include="runtime\SymbolDefinitionException.hpp" />

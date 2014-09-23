@@ -7,6 +7,7 @@ namespace geogen
 {
 	namespace testlib
 	{
+		/// Definition of AssertEquals.
 		class AssertEqualsFunctionDefinition : public runtime::GlobalNativeFunctionDefinition
 		{
 		private:

@@ -10,6 +10,9 @@ namespace geogen
 {
 	namespace runtime 
 	{		
+		/// Table containing symbol definitions, indexed by name. Has owning and non-owning mode.
+		/// @tparam TSymbolBase Type of the base symbol class.
+		/// @tparam TOwning True if the table is to own the contained pointers exclusively, false otherwise.
 		template<class TSymbolBase, bool TOwning = false>
 		class SymbolDefinitionTable : public Serializable
 		{
@@ -23,28 +26,6 @@ namespace geogen
 			SymbolDefinitionTable() {}
 
 			typedef typename std::map<String, TSymbolBase const*>::const_iterator const_iterator;
-			//typedef std::map<String, TSymbolBase*>::iterator iterator;
-
-			/*void MoveItemsFrom(SymbolDefinitionTable<TSymbolBase>& another)
-			{
-				for (std::map<String, TSymbolBase*>::iterator it = another.table.begin(); it != another.table.end(); it++)
-				{
-					this->AddItem(it->second);
-				}
-
-				another.table.clear();
-			}*/
-
-			/*inline TSymbolBase* GetItem(String symbolName)
-			{
-				std::map<String, TSymbolBase*>::iterator item = this->table.find(symbolName);
-				
-				if(item == this->table.end()){
-					return NULL;
-				}
-
-				return (*item).second;
-			};*/
 
 			inline TSymbolBase const* GetItem(String const& symbolName) const
 			{

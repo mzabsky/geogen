@@ -24,7 +24,7 @@ namespace geogen
 			CALL_STACK_ENTRY_STEP_RESULT_FINISHED
 		};
 
-		/// A call stack frame.
+		/// Call stack frame.
 		class CallStackEntry : public Serializable
 		{
 		private:

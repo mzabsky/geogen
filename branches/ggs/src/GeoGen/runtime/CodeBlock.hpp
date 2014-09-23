@@ -14,7 +14,7 @@ namespace geogen
 		}
 
 
-		/// A linear sequence of instruction.
+		/// Linear sequence of instructions.
 		class CodeBlock : public Serializable
 		{
 		private:

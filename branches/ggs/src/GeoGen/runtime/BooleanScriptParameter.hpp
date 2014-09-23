@@ -6,7 +6,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		/// A script parameter of type Boolean.
+		/// Script parameter of type Boolean.
 		class BooleanScriptParameter : public ScriptParameter
 		{
 		private:
@@ -27,7 +27,7 @@ namespace geogen
 
 			/// Assignment operator.
 			/// @param other The other.
-			/// @return A copy of this BooleanScriptParameter.
+			/// @return This instance.
 			BooleanScriptParameter& operator=(BooleanScriptParameter const&);
 
 			virtual ScriptParameterType GetType() const { return SCRIPT_PARAMETER_TYPE_BOOLEAN; };
