@@ -370,89 +370,80 @@ void HeightProfile::Noise(NoiseLayers const& layers, RandomSeed seed)
 {
 	this->FillInterval(INTERVAL_MAX, 0);
 
+	unsigned i = 0;
+	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
+	{
+		this->NoiseLayer(it->first, it->second, seed, i);
+		i++;
+	}
+}
+
+void HeightProfile::NoiseLayer(Size1D waveLength, Height amplitude, random::RandomSeed seed, unsigned seedStep)
+{
 	RandomSequence2D randomSequence(seed);
+	for (unsigned i = 0; i < seedStep; i++)
+	{
+		randomSequence.Advance();
+	}
 
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
 
-	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
+	Size1D physicalWaveLength = this->GetScaledSize(waveLength);
+
+	if (physicalWaveLength == 1)
 	{
-		Size1D waveLength = it->first;
-		Size1D physicalWaveLength = this->GetScaledSize(waveLength);
-		Height amplitude = abs(it->second);
+		// For wave length 1 no interpolation is necessary.
 
-		if (physicalWaveLength == 1)
+		FOR_EACH_IN_INTERVAL(x, operationInterval)
 		{
-			// For wave length 1 no interpolation is necessary.
+			Coordinate logicalCoordinate = this->GetLogicalCoordinate(x);
 
-			FOR_EACH_IN_INTERVAL(x, operationInterval)
+			(*this)(x) += (Height)randomSequence.GetInt(logicalCoordinate, -amplitude, +amplitude);
+		}
+	}
+	else if (physicalWaveLength > 1)
+	{
+		FOR_EACH_IN_INTERVAL(x, operationInterval)
+		{
+			Coordinate logicalCoordinate = this->GetLogicalCoordinate(x);
+
+			if (logicalCoordinate % waveLength == 0)
 			{
-				Coordinate logicalCoordinate = this->GetLogicalCoordinate(x);
-
+				// Grid point has been hit, no interpolation is necessary
 				(*this)(x) += (Height)randomSequence.GetInt(logicalCoordinate, -amplitude, +amplitude);
 			}
-		}
-		else if (physicalWaveLength > 1)
-		{
-			FOR_EACH_IN_INTERVAL(x, operationInterval)
+			else
 			{
-				Coordinate logicalCoordinate = this->GetLogicalCoordinate(x);
-
-				if (logicalCoordinate % waveLength == 0)
-				{
-					// Grid point has been hit, no interpolation is necessary
-					(*this)(x) += (Height)randomSequence.GetInt(logicalCoordinate, -amplitude, +amplitude);
-				}
-				else
-				{
-					// Interpolate
+				// Interpolate
 					
-					// We know the grid point is not being hit, use whichever of the Inclusive/Exclusive functions is faster.
-					Coordinate coordinate1 = PreviousMultipleOfInclusive(logicalCoordinate, waveLength);
-					Coordinate coordinate0 = PreviousMultipleOfExclusive(coordinate1, waveLength);
-					Coordinate coordinate2 = NextMultipleOfExclusive(logicalCoordinate, waveLength);
-					Coordinate coordinate3 = NextMultipleOfExclusive(coordinate2, waveLength);
+				// We know the grid point is not being hit, use whichever of the Inclusive/Exclusive functions is faster.
+				Coordinate coordinate1 = PreviousMultipleOfInclusive(logicalCoordinate, waveLength);
+				Coordinate coordinate0 = PreviousMultipleOfExclusive(coordinate1, waveLength);
+				Coordinate coordinate2 = NextMultipleOfExclusive(logicalCoordinate, waveLength);
+				Coordinate coordinate3 = NextMultipleOfExclusive(coordinate2, waveLength);
 
-					double height0 = randomSequence.GetInt(coordinate0, -amplitude, +amplitude);
-					double height1 = randomSequence.GetInt(coordinate1, -amplitude, +amplitude);
-					double height2 = randomSequence.GetInt(coordinate2, -amplitude, +amplitude);
-					double height3 = randomSequence.GetInt(coordinate3, -amplitude, +amplitude);
+				double height0 = randomSequence.GetInt(coordinate0, -amplitude, +amplitude);
+				double height1 = randomSequence.GetInt(coordinate1, -amplitude, +amplitude);
+				double height2 = randomSequence.GetInt(coordinate2, -amplitude, +amplitude);
+				double height3 = randomSequence.GetInt(coordinate3, -amplitude, +amplitude);
 
-					// Coefficients for the bicubic polynomial
-					double a0 = (height3 - height2) - (height0 - height1);
-					double a1 = (height0 - height1) - a0;
-					double a2 = height2 - height0;
-					double a3 = height1;
+				// Coefficients for the bicubic polynomial
+				double a0 = (height3 - height2) - (height0 - height1);
+				double a1 = (height0 - height1) - a0;
+				double a2 = height2 - height0;
+				double a3 = height1;
 
-					double remainder = (logicalCoordinate - coordinate1) / (double)waveLength;
+				double remainder = (logicalCoordinate - coordinate1) / (double)waveLength;
 
-					// Calculate value of the cubic polynomial.
-					double result = a0 * remainder * remainder * remainder + a1 * remainder * remainder + a2 * remainder + a3;
+				// Calculate value of the cubic polynomial.
+				double result = a0 * remainder * remainder * remainder + a1 * remainder * remainder + a2 * remainder + a3;
 
-					/*if (result > HEIGHT_MAX || result < HEIGHT_MIN)
-					{
-						throw InternalErrorException("Overfglow");
-					}*/
-
-					(*this)(x) = (Height)std::max(min(result + (*this)(x), (double)HEIGHT_MAX), (double)HEIGHT_MIN);
-				}
-
-				/*Coordiante coordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(x), waveLength);
-
-				Coordinate leftCoordinate = PreviousMultipleOfInclusive(this->GetLogicalCoordinate(x), waveLength);
-				Coordinate rightCoordinate = NextMultipleOfInclusive(this->GetLogicalCoordinate(x), waveLength);
-
-				Height leftHeight = (Height)randomSequence.GetInt(leftCoordinate, -amplitude, +amplitude);
-				Height rightHeight = (Height)randomSequence.GetInt(rightCoordinate, -amplitude, +amplitude);
-
-				(*this)(x) += leftCoordinate == rightCoordinate ? leftHeight : Lerp(leftCoordinate, rightCoordinate, leftHeight, rightHeight, logicalCoordinate);
-				*/
+				(*this)(x) = (Height)std::max(min(result + (*this)(x), (double)HEIGHT_MAX), (double)HEIGHT_MIN);
 			}
 		}
-
-		// Don't bother with too short wave lengths
-
-		randomSequence.Advance();
 	}
+
+	// Don't bother with too short wave lengths
 }
 
 void HeightProfile::Pattern(HeightProfile* pattern, Interval repeatInterval)

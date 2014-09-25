@@ -3,6 +3,7 @@
 #include "HeightProfileTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
 #include "../runtime/ManagedObject.hpp"
+#include "HeightProfileFlatRenderingStep.hpp"
 #include "HeightProfileNoiseRenderingStep.hpp"
 #include "ParseNoiseInput.hpp"
 
@@ -26,10 +27,22 @@ ManagedObject* HeightProfileNoiseFunctionDefinition::CallNative(CodeLocation loc
 
 	ManagedObject* returnObject = dynamic_cast<HeightProfileTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
 
+	// First create an empty height map
+	unsigned objectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
+	RenderingStep* flatRenderingStep = new HeightProfileFlatRenderingStep(location, vector<unsigned>(), objectSlot, 0);
+	vm->GetRenderingSequence().AddStep(flatRenderingStep);
+
+	// Then generate the noise layer by layer
 	vector<unsigned> argumentSlots;
-	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, returnObjectSlot, layers, vm->GetArguments().GetRandomSeed());
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	argumentSlots.push_back(objectSlot);
+
+	unsigned i = 0;
+	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
+	{
+		RenderingStep* renderingStep = new HeightProfileNoiseRenderingStep(location, argumentSlots, objectSlot, it->first, it->second, 0, i);
+		vm->GetRenderingSequence().AddStep(renderingStep);
+		i++;
+	}
 
 	return returnObject;
 }
