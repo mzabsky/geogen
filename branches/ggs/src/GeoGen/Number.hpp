@@ -9,13 +9,13 @@
 
 namespace geogen
 {
-	/// A number. 
+	/// Numeric type corresponding to script numbers. 
 	typedef double Number;
 
-	/// A height in range HEIGHT_MIN, HEIGHT_MAX.
+	/// Height in range HEIGHT_MIN, HEIGHT_MAX.
 	typedef short Height;
 
-	/// A scale ratio.
+	/// Scale ratio.
 	typedef double Scale;
 
 	/// The minimum height.

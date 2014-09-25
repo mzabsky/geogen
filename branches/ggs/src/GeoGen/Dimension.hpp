@@ -17,4 +17,4 @@ namespace geogen
 	/// @param dimensions The dimension.
 	/// @return The string.
 	String DimensionToString(Dimension direction);
-}
+} 
