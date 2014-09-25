@@ -270,6 +270,19 @@ void HeightMap::ConvexityMap(Size1D radius)
 	this->AddMap(&unsmoothed);
 }
 
+void HeightMap::Crop(Rectangle fillRectangle, Height height)
+{
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		if (!rectangle.Contains(this->GetLogicalPoint(Point(x, y))))
+		{
+			(*this)(x, y) = height;
+		}
+	}
+}
+
 void HeightMap::CropHeights(Height min, Height max, Height replace)
 {
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
@@ -499,6 +512,30 @@ void HeightMap::Rescale(Scale horizontalScale, Scale verticalScale)
 	delete[] this->heightData;
 	this->heightData = newData;
 	this->rectangle = newRectangle;
+}
+
+void HeightMap::Resize(Rectangle rectangle, Height height)
+{
+	HeightMap old(*this);
+
+	delete[] this->heightData;
+
+	this->heightData = new Height[rectangle.GetSize().GetTotalLength()];
+	this->rectangle = rectangle;
+
+	Rectangle operationRectangle = this->GetPhysicalRectangleUnscaled(this->rectangle);
+	Point offset = this->rectangle.GetPosition() - old.GetRectangle().GetPosition();
+	FOR_EACH_IN_RECT(x, y, operationRectangle)
+	{
+		if (old.GetRectangle().Contains(this->GetLogicalPoint(Point(x, y))))
+		{
+			(*this)(x, y) = old(Point(x, y) + offset);
+		}
+		else
+		{
+			(*this)(x, y) = height;
+		}
+	}
 }
 
 void HeightMap::Shift(HeightProfile* profile, Size1D maximumDistance, Direction direction)

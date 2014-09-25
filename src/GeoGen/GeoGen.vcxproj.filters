@@ -339,6 +339,10 @@
     <ClInclude Include="genlib\TransformationMatrix.hpp" />
     <ClInclude Include="corelib\HeightMapRotateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapShearFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapCropFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapCropRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileCropFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileCropRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp">
@@ -589,6 +593,10 @@
     <ClCompile Include="corelib\HeightMapTransformRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapRotateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapShearFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapCropFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapCropRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileCropFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileCropRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

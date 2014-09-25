@@ -153,8 +153,10 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightMapCombineRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapConvexityMapFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapConvexityMapRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapCropFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapCropHeightsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapCropHeightsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapCropRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapDistanceMapFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapDistanceMapRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFillFunctionDefinition.hpp" />
@@ -204,8 +206,10 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightProfileClampHeightsRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileCombineFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileCombineRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileCropFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileCropHeightsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileCropHeightsRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileCropRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFillFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFillIntervalFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFillIntervalRenderingStep.hpp" />
@@ -440,8 +444,10 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightMapCombineRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapConvexityMapFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapConvexityMapRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapCropFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapCropHeightsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapCropHeightsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapCropRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapDistanceMapFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapDistanceMapRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFillFunctionDefinition.cpp" />
@@ -490,8 +496,10 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightProfileClampHeightsRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileCombineFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileCombineRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileCropFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileCropHeightsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileCropHeightsRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileCropRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileFillFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFillIntervalFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFillIntervalRenderingStep.cpp" />

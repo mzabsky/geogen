@@ -17,6 +17,7 @@ ManagedObject* HeightProfileInvertFunctionDefinition::CallNative(CodeLocation lo
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	vector<unsigned> argumentSlots;
+	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightProfileInvertRenderingStep(location, argumentSlots, returnObjectSlot);
 	vm->GetRenderingSequence().AddStep(renderingStep);

@@ -6,6 +6,7 @@
 #include "HeightProfileBlurFunctionDefinition.hpp"
 #include "HeightProfileClampHeightsFunctionDefinition.hpp"
 #include "HeightProfileCombineFunctionDefinition.hpp"
+#include "HeightProfileCropFunctionDefinition.hpp"
 #include "HeightProfileCropHeightsFunctionDefinition.hpp"
 #include "HeightProfileFillFunctionDefinition.hpp"
 #include "HeightProfileFillIntervalFunctionDefinition.hpp"
@@ -35,6 +36,7 @@ HeightProfileTypeDefinition::HeightProfileTypeDefinition() : RendererTypeDefinit
 	this->GetFunctionDefinitions().AddItem(new HeightProfileBlurFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileClampHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileCombineFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightProfileCropFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileCropHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileFillFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileFillIntervalFunctionDefinition(this));
