@@ -31,11 +31,17 @@ namespace geogen {
 		/// @param y The Coordinate to process.
 		Point(Coordinate x, Coordinate y) : x(x), y(y) {}
 
+		/// Adds both components of the two points together separately.
+		/// @param other The other point.
+		/// @return The result.
 		inline Point Point::operator+(const Point& other) const 
 		{
 			return Point(this->x + other.x, this->y + other.y);
 		}
 
+		/// Adds both components of the two points together separately.
+		/// @param other The other point.
+		/// @return The result.
 		Point& Point::operator+=(const Point& other)
 		{
 			*this = *this + other;

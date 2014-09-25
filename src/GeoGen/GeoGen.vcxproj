@@ -287,7 +287,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
     <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
-    <ClInclude Include="Generator.hpp" />
     <ClInclude Include="GeoGenException.hpp" />
     <ClInclude Include="Grammar\output\GeoGenScriptDecls.h" />
     <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
@@ -621,7 +620,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\RelationalOperatorFunctionDefinition.cpp" />
     <ClCompile Include="corelib\UnaryArithmeticOperatorFunctionDefinition.cpp" />
     <ClCompile Include="Number.cpp" />
-    <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
