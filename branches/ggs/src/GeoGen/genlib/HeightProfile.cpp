@@ -217,6 +217,19 @@ void HeightProfile::Combine(HeightProfile* other, HeightProfile* mask)
 	}
 }
 
+void HeightProfile::Crop(Interval interval, Height height)
+{
+	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
+
+	FOR_EACH_IN_INTERVAL(x, operationInterval)
+	{
+		if (!interval.Contains(this->GetLogicalCoordinate(x)))
+		{
+			(*this)(x) = height;
+		}
+	}
+}
+
 void HeightProfile::CropHeights(Height min, Height max, Height replace)
 {
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
@@ -481,6 +494,29 @@ void HeightProfile::Rescale(Scale scale)
 	this->interval = newInterval;
 }
 
+void HeightProfile::Resize(Interval interval, Height height)
+{
+	HeightProfile old(*this);
+
+	delete[] this->heightData;
+
+	this->heightData = new Height[interval.GetLength()];
+	this->interval = interval;
+
+	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
+	Coordinate offset = this->interval.GetStart() - old.GetStart();
+	FOR_EACH_IN_INTERVAL(x, operationInterval)
+	{
+		if (old.GetInterval().Contains(this->GetLogicalCoordinate(x)))
+		{
+			(*this)(x) = old(x + offset);
+		}
+		else
+		{
+			(*this)(x) = height;
+		}
+	}
+}
 
 void HeightProfile::Slice(HeightMap* heightMap, Direction direction, Coordinate coordinate)
 {

@@ -161,6 +161,11 @@ namespace geogen
 			/// @param mask The mask.
 			void Combine(HeightProfile* other, HeightProfile* mask);
 
+			/// Replaces pixels outside of @a interval with @a height.
+			/// @param interval The interval.
+			/// @param height The height.
+			void Crop(Interval interval, Height height);
+
 			/// Replaces heights greater than max or lesser than min with replace (or 0 if not provided).
 			/// @param min The minimum.
 			/// @param max The maximum.
@@ -218,6 +223,12 @@ namespace geogen
 			/// Scales the entire height profile up (if the scale is greater than 1) or down (if the scale is less than 1) by given scale. Scale must be greater than 0.
 			/// @param scale The scale.
 			void Rescale(Scale scale);
+
+			/// Changes size of physical data array to logical @a interval. Any newly created pixels will
+			/// have @a height.
+			/// @param interval The interval.
+			/// @param height The height of newly created pixels.
+			void Resize(Interval interval, Height height);
 
 			/// Creates a height profile from a 1 pixel wide slice of the height map located at coordinate in direction.
 			/// @param heightMap The height map.

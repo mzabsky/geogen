@@ -145,6 +145,7 @@ namespace geogen
 			void ClampHeights(Height min, Height max);
 			void Combine(HeightMap* other, HeightMap* mask);
 			void ConvexityMap(Size1D radius);
+			void Crop(Rectangle fillRectangle, Height height);
 			void CropHeights(Height min, Height max, Height replace);
 			void DistanceMap(Size1D distance, Direction direction);
 			void DistanceMap(Size1D distance);
@@ -168,6 +169,7 @@ namespace geogen
 			//void Pattern(Rectangle repeatRectangle);
 			void Pattern(HeightMap* pattern, Rectangle repeatRectangle);
 			void Rescale(Scale horizontalScale, Scale verticalScale);
+			void Resize(Rectangle rectangle, Height height);
 			void Shift(HeightProfile* profile, Size1D maximumDistance, Direction direction);
 			//void SelectHeights(Height min, Height max);
 			//void SlopeMap();

@@ -7,6 +7,7 @@
 #include "HeightMapBlurFunctionDefinition.hpp"
 #include "HeightMapClampHeightsFunctionDefinition.hpp"
 #include "HeightMapCombineFunctionDefinition.hpp"
+#include "HeightMapCropFunctionDefinition.hpp"
 #include "HeightMapCropHeightsFunctionDefinition.hpp"
 #include "HeightMapFillFunctionDefinition.hpp"
 #include "HeightMapFillRectangleFunctionDefinition.hpp"
@@ -43,6 +44,7 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetFunctionDefinitions().AddItem(new HeightMapBlurFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapClampHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapCombineFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapCropFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapCropHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapFillFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapFillRectangleFunctionDefinition(this));
