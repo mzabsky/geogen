@@ -594,100 +594,107 @@ void HeightMap::Noise(NoiseLayers const& layers, RandomSeed seed)
 {
 	this->FillRectangle(RECTANGLE_MAX, 0);
 
+	unsigned i = 0;
+	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
+	{		
+		this->NoiseLayer(it->first, it->second, seed, i);
+		i++;
+	}
+}
+
+void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed, unsigned seedStep)
+{
 	RandomSequence2D randomSequence(seed);
+	for (unsigned i = 0; i < seedStep; i++)
+	{
+		randomSequence.Advance();
+	}
 
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 
-	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
+	Size1D physicalWaveLength = this->GetScaledSize(waveLength);
+
+	if (physicalWaveLength == 1)
 	{
-		Size1D waveLength = it->first;
-		Size1D physicalWaveLength = this->GetScaledSize(waveLength);
-		Height amplitude = abs(it->second);
+		// For wave length 1 no interpolation is necessary.
 
-		if (physicalWaveLength == 1)
+		FOR_EACH_IN_RECT(x, y, operationRect)
 		{
-			// For wave length 1 no interpolation is necessary.
+			Point logicalPoint = this->GetLogicalPoint(Point(x, y));
 
-			FOR_EACH_IN_RECT(x, y, operationRect)
-			{
-				Point logicalPoint = this->GetLogicalPoint(Point(x, y));
-
-				(*this)(x, y) += (Height)randomSequence.GetInt(logicalPoint, -amplitude, +amplitude);
-			}
+			(*this)(x, y) += (Height)randomSequence.GetInt(logicalPoint, -amplitude, +amplitude);
 		}
-		else if (physicalWaveLength > 1)
+	}
+	else if (physicalWaveLength > 1)
+	{
+		FOR_EACH_IN_RECT(x, y, operationRect)
 		{
-			FOR_EACH_IN_RECT(x, y, operationRect)
-			{
-				Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+			Point logicalPoint = this->GetLogicalPoint(Point(x, y));
 
-				Coordinate coordinateX1 = PreviousMultipleOfInclusive(logicalPoint.GetX(), waveLength);
-				Coordinate coordinateX0 = PreviousMultipleOfExclusive(coordinateX1, waveLength);
-				Coordinate coordinateX2 = NextMultipleOfExclusive(logicalPoint.GetX(), waveLength);
-				Coordinate coordinateX3 = NextMultipleOfExclusive(coordinateX2, waveLength);
+			Coordinate coordinateX1 = PreviousMultipleOfInclusive(logicalPoint.GetX(), waveLength);
+			Coordinate coordinateX0 = PreviousMultipleOfExclusive(coordinateX1, waveLength);
+			Coordinate coordinateX2 = NextMultipleOfExclusive(logicalPoint.GetX(), waveLength);
+			Coordinate coordinateX3 = NextMultipleOfExclusive(coordinateX2, waveLength);
 
-				Coordinate coordinateY1 = PreviousMultipleOfInclusive(logicalPoint.GetY(), waveLength);
-				Coordinate coordinateY0 = PreviousMultipleOfExclusive(coordinateY1, waveLength);
-				Coordinate coordinateY2 = NextMultipleOfExclusive(logicalPoint.GetY(), waveLength);
-				Coordinate coordinateY3 = NextMultipleOfExclusive(coordinateY2, waveLength);
+			Coordinate coordinateY1 = PreviousMultipleOfInclusive(logicalPoint.GetY(), waveLength);
+			Coordinate coordinateY0 = PreviousMultipleOfExclusive(coordinateY1, waveLength);
+			Coordinate coordinateY2 = NextMultipleOfExclusive(logicalPoint.GetY(), waveLength);
+			Coordinate coordinateY3 = NextMultipleOfExclusive(coordinateY2, waveLength);
 
-				double height00 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY0), -amplitude, +amplitude);
-				double height10 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY0), -amplitude, +amplitude);
-				double height20 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY0), -amplitude, +amplitude);
-				double height30 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY0), -amplitude, +amplitude);
-				double height01 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY1), -amplitude, +amplitude);
-				double height11 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY1), -amplitude, +amplitude);
-				double height21 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY1), -amplitude, +amplitude);
-				double height31 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY1), -amplitude, +amplitude);
-				double height02 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY2), -amplitude, +amplitude);
-				double height12 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY2), -amplitude, +amplitude);
-				double height22 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY2), -amplitude, +amplitude);
-				double height32 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY2), -amplitude, +amplitude);
-				double height03 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY3), -amplitude, +amplitude);
-				double height13 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY3), -amplitude, +amplitude);
-				double height23 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY3), -amplitude, +amplitude);
-				double height33 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY3), -amplitude, +amplitude);
+			double height00 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY0), -amplitude, +amplitude);
+			double height10 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY0), -amplitude, +amplitude);
+			double height20 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY0), -amplitude, +amplitude);
+			double height30 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY0), -amplitude, +amplitude);
+			double height01 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY1), -amplitude, +amplitude);
+			double height11 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY1), -amplitude, +amplitude);
+			double height21 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY1), -amplitude, +amplitude);
+			double height31 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY1), -amplitude, +amplitude);
+			double height02 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY2), -amplitude, +amplitude);
+			double height12 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY2), -amplitude, +amplitude);
+			double height22 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY2), -amplitude, +amplitude);
+			double height32 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY2), -amplitude, +amplitude);
+			double height03 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY3), -amplitude, +amplitude);
+			double height13 = (Height)randomSequence.GetInt(Point(coordinateX1, coordinateY3), -amplitude, +amplitude);
+			double height23 = (Height)randomSequence.GetInt(Point(coordinateX2, coordinateY3), -amplitude, +amplitude);
+			double height33 = (Height)randomSequence.GetInt(Point(coordinateX3, coordinateY3), -amplitude, +amplitude);
 
-				// Prepare coefficients for the bicubic polynomial.
-				// TODO: These need to be recalculated only when the grid cell changes
-				double a00 = height11;
-				double a01 = -.5*height10 + .5*height12;
-				double a02 = height10 - 2.5*height11 + 2 * height12 - .5*height13;
-				double a03 = -.5*height10 + 1.5*height11 - 1.5*height12 + .5*height13;
-				double a10 = -.5*height01 + .5*height21;
-				double a11 = .25*height00 - .25*height02 - .25*height20 + .25*height22;
-				double a12 = -.5*height00 + 1.25*height01 - height02 + .25*height03 + .5*height20 - 1.25*height21 + height22 - .25*height23;
-				double a13 = .25*height00 - .75*height01 + .75*height02 - .25*height03 - .25*height20 + .75*height21 - .75*height22 + .25*height23;
-				double a20 = height01 - 2.5*height11 + 2 * height21 - .5*height31;
-				double a21 = -.5*height00 + .5*height02 + 1.25*height10 - 1.25*height12 - height20 + height22 + .25*height30 - .25*height32;
-				double a22 = height00 - 2.5*height01 + 2 * height02 - .5*height03 - 2.5*height10 + 6.25*height11 - 5 * height12 + 1.25*height13 + 2 * height20 - 5 * height21 + 4 * height22 - height23 - .5*height30 + 1.25*height31 - height32 + .25*height33;
-				double a23 = -.5*height00 + 1.5*height01 - 1.5*height02 + .5*height03 + 1.25*height10 - 3.75*height11 + 3.75*height12 - 1.25*height13 - height20 + 3 * height21 - 3 * height22 + height23 + .25*height30 - .75*height31 + .75*height32 - .25*height33;
-				double a30 = -.5*height01 + 1.5*height11 - 1.5*height21 + .5*height31;
-				double a31 = .25*height00 - .25*height02 - .75*height10 + .75*height12 + .75*height20 - .75*height22 - .25*height30 + .25*height32;
-				double a32 = -.5*height00 + 1.25*height01 - height02 + .25*height03 + 1.5*height10 - 3.75*height11 + 3 * height12 - .75*height13 - 1.5*height20 + 3.75*height21 - 3 * height22 + .75*height23 + .5*height30 - 1.25*height31 + height32 - .25*height33;
-				double a33 = .25*height00 - .75*height01 + .75*height02 - .25*height03 - .75*height10 + 2.25*height11 - 2.25*height12 + .75*height13 + .75*height20 - 2.25*height21 + 2.25*height22 - .75*height23 - .25*height30 + .75*height31 - .75*height32 + .25*height33;
+			// Prepare coefficients for the bicubic polynomial.
+			// TODO: These need to be recalculated only when the grid cell changes
+			double a00 = height11;
+			double a01 = -.5*height10 + .5*height12;
+			double a02 = height10 - 2.5*height11 + 2 * height12 - .5*height13;
+			double a03 = -.5*height10 + 1.5*height11 - 1.5*height12 + .5*height13;
+			double a10 = -.5*height01 + .5*height21;
+			double a11 = .25*height00 - .25*height02 - .25*height20 + .25*height22;
+			double a12 = -.5*height00 + 1.25*height01 - height02 + .25*height03 + .5*height20 - 1.25*height21 + height22 - .25*height23;
+			double a13 = .25*height00 - .75*height01 + .75*height02 - .25*height03 - .25*height20 + .75*height21 - .75*height22 + .25*height23;
+			double a20 = height01 - 2.5*height11 + 2 * height21 - .5*height31;
+			double a21 = -.5*height00 + .5*height02 + 1.25*height10 - 1.25*height12 - height20 + height22 + .25*height30 - .25*height32;
+			double a22 = height00 - 2.5*height01 + 2 * height02 - .5*height03 - 2.5*height10 + 6.25*height11 - 5 * height12 + 1.25*height13 + 2 * height20 - 5 * height21 + 4 * height22 - height23 - .5*height30 + 1.25*height31 - height32 + .25*height33;
+			double a23 = -.5*height00 + 1.5*height01 - 1.5*height02 + .5*height03 + 1.25*height10 - 3.75*height11 + 3.75*height12 - 1.25*height13 - height20 + 3 * height21 - 3 * height22 + height23 + .25*height30 - .75*height31 + .75*height32 - .25*height33;
+			double a30 = -.5*height01 + 1.5*height11 - 1.5*height21 + .5*height31;
+			double a31 = .25*height00 - .25*height02 - .75*height10 + .75*height12 + .75*height20 - .75*height22 - .25*height30 + .25*height32;
+			double a32 = -.5*height00 + 1.25*height01 - height02 + .25*height03 + 1.5*height10 - 3.75*height11 + 3 * height12 - .75*height13 - 1.5*height20 + 3.75*height21 - 3 * height22 + .75*height23 + .5*height30 - 1.25*height31 + height32 - .25*height33;
+			double a33 = .25*height00 - .75*height01 + .75*height02 - .25*height03 - .75*height10 + 2.25*height11 - 2.25*height12 + .75*height13 + .75*height20 - 2.25*height21 + 2.25*height22 - .75*height23 - .25*height30 + .75*height31 - .75*height32 + .25*height33;
 
-				double remainderX = (logicalPoint.GetX() - coordinateX1) / (double)waveLength;
-				double remainderY = (logicalPoint.GetY() - coordinateY1) / (double)waveLength;
+			double remainderX = (logicalPoint.GetX() - coordinateX1) / (double)waveLength;
+			double remainderY = (logicalPoint.GetY() - coordinateY1) / (double)waveLength;
 
-				// Calculate value of the bicubic polynomial.
-				double remainderX2 = remainderX * remainderX;
-				double remainderX3 = remainderX2 * remainderX;
-				double remainderY2 = remainderY * remainderY;
-				double remainderY3 = remainderY2 * remainderY;
+			// Calculate value of the bicubic polynomial.
+			double remainderX2 = remainderX * remainderX;
+			double remainderX3 = remainderX2 * remainderX;
+			double remainderY2 = remainderY * remainderY;
+			double remainderY3 = remainderY2 * remainderY;
 
-				double result = (a00 + a01 * remainderY + a02 * remainderY2 + a03 * remainderY3) +
-					(a10 + a11 * remainderY + a12 * remainderY2 + a13 * remainderY3) * remainderX +
-					(a20 + a21 * remainderY + a22 * remainderY2 + a23 * remainderY3) * remainderX2 +
-					(a30 + a31 * remainderY + a32 * remainderY2 + a33 * remainderY3) * remainderX3;
+			double result = (a00 + a01 * remainderY + a02 * remainderY2 + a03 * remainderY3) +
+				(a10 + a11 * remainderY + a12 * remainderY2 + a13 * remainderY3) * remainderX +
+				(a20 + a21 * remainderY + a22 * remainderY2 + a23 * remainderY3) * remainderX2 +
+				(a30 + a31 * remainderY + a32 * remainderY2 + a33 * remainderY3) * remainderX3;
 
-				(*this)(x, y) = (Height)std::max(min(result + (*this)(x, y), (double)HEIGHT_MAX), (double)HEIGHT_MIN);
-			}
+			(*this)(x, y) = (Height)std::max(min(result + (*this)(x, y), (double)HEIGHT_MAX), (double)HEIGHT_MIN);
 		}
 
 		// Don't bother with too short wave lengths
-
-		randomSequence.Advance();
 	}
 }
 

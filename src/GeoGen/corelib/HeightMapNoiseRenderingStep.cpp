@@ -12,15 +12,11 @@ using namespace genlib;
 
 void HeightMapNoiseRenderingStep::Step(Renderer* renderer) const
 {
-	HeightMap* profile = new HeightMap(dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetRectangle(), 0, renderer->GetRenderingSequence().GetRenderScale());
-	profile->Noise(this->layers, this->seed);
-	
-	RendererObject* object = new RendererObject(RENDERER_OBJECT_TYPE_HEIGHT_MAP, profile);
-
-	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
+	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
+	self->NoiseLayer(this->waveLength, this->amplitude, this->seed, this->seedStep);
 }
 
 void HeightMapNoiseRenderingStep::SerializeArguments(IOStream& stream) const
 {
-	stream << "layers";
+	stream << waveLength << GG_STR(", ") << amplitude << GG_STR(", ") << this->seed << GG_STR(", ") << this->seedStep;
 }
