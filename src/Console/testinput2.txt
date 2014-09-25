@@ -1,2 +1,4 @@
-var profile = HeightProfile.Noise();
-yield HeightMap.Projection(profile, Direction.Vertical);
+//var profile = HeightProfile.Noise();
+//yield HeightMap.Projection(profile, Direction.Vertical);
+
+yield HeightMap.Noise({256: 1}); 
