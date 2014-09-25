@@ -4,6 +4,7 @@
 #include "../genlib/NoiseLayersFactory.hpp"
 #include "HeightMapTypeDefinition.hpp"
 #include "ArrayTypeDefinition.hpp"
+#include "HeightMapFlatRenderingStep.hpp"
 #include "HeightMapNoiseRenderingStep.hpp"
 #include "ParseNoiseInput.hpp"
 
@@ -27,11 +28,23 @@ ManagedObject* HeightMapNoiseFunctionDefinition::CallNative(CodeLocation locatio
 	NoiseLayers layers = ParseNoiseInput(vm, location, arguments);
 
 	ManagedObject* returnObject = dynamic_cast<HeightMapTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
-
-	vector<unsigned> argumentSlots;
-	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, returnObjectSlot, layers, 0);
+	
+	// First create an empty height map
+	unsigned objectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
+	RenderingStep* renderingStep = new HeightMapFlatRenderingStep(location, vector<unsigned>(), objectSlot, 0);
 	vm->GetRenderingSequence().AddStep(renderingStep);
+
+	// Then generate the noise layer by layer
+	vector<unsigned> argumentSlots;
+	argumentSlots.push_back(objectSlot);
+
+	unsigned i = 0;
+	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
+	{
+		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, objectSlot, it->first, it->second, 0, i);
+		vm->GetRenderingSequence().AddStep(renderingStep);
+		i++;
+	}
 
 	return returnObject;
 }

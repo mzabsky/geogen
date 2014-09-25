@@ -6,4 +6,6 @@ profile.Crop(200, 500);
 
 yield HeightMap.Projection(profile, Direction.Vertical);*/
 
-yield HeightMap.Noise().Crop([200, 200], [600, 200], 1);
+yield HeightMap.Noise();
+		vector<unsigned> argumentSlots;
+		argumentSlots.push_back(objectSlot);
