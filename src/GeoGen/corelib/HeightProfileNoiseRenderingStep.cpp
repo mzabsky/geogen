@@ -12,15 +12,11 @@ using namespace genlib;
 
 void HeightProfileNoiseRenderingStep::Step(Renderer* renderer) const
 {
-	HeightProfile* profile = new HeightProfile(dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetInterval(), 0, renderer->GetRenderingSequence().GetRenderScale());
-	profile->Noise(this->noiseLayers, this->randomSeed);
-
-	RendererObject* object = new RendererObject(RENDERER_OBJECT_TYPE_HEIGHT_PROFILE, profile);
-
-	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
+	HeightProfile* self = dynamic_cast<HeightProfile*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
+	self->NoiseLayer(this->waveLength, this->amplitude, this->seed, this->seedStep);
 }
 
 void HeightProfileNoiseRenderingStep::SerializeArguments(IOStream& stream) const
 {
-	stream << GG_STR("layers") << GG_STR(", ") << this->randomSeed;
+	stream << waveLength << GG_STR(", ") << amplitude << GG_STR(", ") << this->seed << GG_STR(", ") << this->seedStep;
 }

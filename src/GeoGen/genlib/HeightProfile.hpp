@@ -215,6 +215,13 @@ namespace geogen
 			/// @param seed The random seed.
 			void Noise(NoiseLayers const& layers, random::RandomSeed seed);
 
+			/// Adds a single layer of random noise to the map.
+			/// @param waveLength The wave length.
+			/// @param amplitude The amplitude.
+			/// @param seed The random seed.
+			/// @param seedStep Number of the seed step.
+			void NoiseLayer(Size1D waveLength, Height amplitude, random::RandomSeed seed, unsigned seedStep);
+
 			/// Creates a height profile filled with an interval of pattern repeated indefinitely in both directions. 
 			/// @param pattern The pattern profile.
 			/// @param repeatInterval The repeat interval.
