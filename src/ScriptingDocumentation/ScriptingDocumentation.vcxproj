@@ -87,6 +87,9 @@
     <None Include="pages\TypeSystem.cs" />
     <None Include="pages\Variables.cs" />
     <None Include="pages\Yield.cs" />
+    <None Include="tutorials\CombiningMaps.cs" />
+    <None Include="tutorials\FirstScript.cs" />
+    <None Include="tutorials\Tutorials.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MainPage.cs" />
