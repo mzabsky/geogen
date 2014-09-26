@@ -28,6 +28,9 @@
     <None Include="classes\StandardLibrary.cs" />
     <None Include="pages\Yield.cs" />
     <None Include="classes\String.cs" />
+    <None Include="tutorials\FirstScript.cs" />
+    <None Include="tutorials\Tutorials.cs" />
+    <None Include="tutorials\CombiningMaps.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />
