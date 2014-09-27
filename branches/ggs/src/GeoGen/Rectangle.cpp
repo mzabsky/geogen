@@ -130,6 +130,6 @@ bool Rectangle::Contains(Point point) const
 	return
 		this->position.GetX() <= point.GetX() &&
 		this->position.GetY() <= point.GetY() &&
-		this->position.GetX() + (Coordinate)this->size.GetWidth() >= point.GetX() &&
-		this->position.GetY() + (Coordinate)this->size.GetHeight() >= point.GetY();
+		this->position.GetX() + (Coordinate)this->size.GetWidth() > point.GetX() &&
+		this->position.GetY() + (Coordinate)this->size.GetHeight() > point.GetY();
 }

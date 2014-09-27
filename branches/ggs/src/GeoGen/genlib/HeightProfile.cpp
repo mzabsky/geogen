@@ -155,10 +155,10 @@ void HeightProfile::Blur(Size1D radius)
 
 	// Prefill the window with value of the left edge + n leftmost values (where n is kernel size).
 	Size1D windowSize = scaledRadius * 2 + 1;
-	long long windowValue = (*this)(0) * scaledRadius;
+	long long windowValue = (long long)(*this)(0) * scaledRadius;
 
 	for (unsigned x = 0; x < scaledRadius; x++) {
-		windowValue += (*this)(Coordinate(x));
+		windowValue += (long long)(*this)(Coordinate(x));
 	}
 
 	/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
@@ -166,13 +166,13 @@ void HeightProfile::Blur(Size1D radius)
 	for (unsigned x = 0; x < this->GetLength(); x++) {
 		// If the window is approaching right border, use the rightmost value as fill.
 		if (x < scaledRadius) {
-			windowValue += (*this)(Coordinate(x + scaledRadius)) - (*this)(0);
+			windowValue += (long long)(*this)(Coordinate(x + scaledRadius)) - (long long)(*this)(0);
 		}
 		else if (x + scaledRadius < this->GetLength()) {
-			windowValue += (*this)(Coordinate(x + scaledRadius)) - (*this)(Coordinate(x - scaledRadius));
+			windowValue += (long long)(*this)(Coordinate(x + scaledRadius)) - (long long)(*this)(Coordinate(x - scaledRadius));
 		}
 		else {
-			windowValue += (*this)(Coordinate(this->GetLength() - 1)) - (*this)(Coordinate(x - scaledRadius));
+			windowValue += (long long)(*this)(Coordinate(this->GetLength() - 1)) - (long long)(*this)(Coordinate(x - scaledRadius));
 		}
 
 		// Set the value of current tile to arithmetic average of window tiles.
