@@ -597,6 +597,7 @@
     <ClCompile Include="corelib\HeightMapCropRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileCropFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileCropRenderingStep.cpp" />
+    <ClCompile Include="renderer\RenderingGraphNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

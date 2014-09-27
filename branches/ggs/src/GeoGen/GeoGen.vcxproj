@@ -564,6 +564,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />
     <ClCompile Include="renderer\RendererObjectTable.cpp" />
     <ClCompile Include="renderer\RenderingGraph.cpp" />
+    <ClCompile Include="renderer\RenderingGraphNode.cpp" />
     <ClCompile Include="renderer\RenderingSequence.cpp" />
     <ClCompile Include="renderer\RenderingSequenceMetadata.cpp" />
     <ClCompile Include="renderer\RenderingStep.cpp" />
