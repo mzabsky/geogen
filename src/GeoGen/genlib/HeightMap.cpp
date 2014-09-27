@@ -332,18 +332,17 @@ void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Hei
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		long long currentOffsetX = x - (long long)source.GetX();
-		long long currentOffsetY = y - (long long)source.GetX();
+		long long currentOffsetY = y - (long long)source.GetY();
 
 		// Get the point on the gradient vector (vector going through both source and destination point) to which is the current point closest.
-		Point cross(
-			Coordinate((gradientOffsetX * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / (gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY)),
-			Coordinate((gradientOffsetY * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / (gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY)));
+		double crossX = (gradientOffsetX * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / double(gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY);
+		double crossY = (gradientOffsetY * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / double(gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY);
 
 		// Calculate the distance from the "from" point to the intersection with gradient vector.
-		double distance = double(cross.GetDistanceFromOrigin());
+		double distance = sqrt(crossX * crossX + crossY * crossY);
 
 		// Distance from  the intersection point to the destination point.
-		double reverseDistance = double(cross.GetDistanceTo(gradientOffset)); // TODO: Subtract from total distance?
+		double reverseDistance = sqrt((crossX - gradientOffsetX) * (crossX - gradientOffsetX) + (crossY - gradientOffsetY) * (crossY - gradientOffsetY));
 			
 		// Apply it to the array data.
 		if (distance <= maxDistance && reverseDistance <= maxDistance) {
@@ -455,12 +454,12 @@ void HeightMap::Projection(HeightProfile* profile, Direction direction)
 void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, Height toHeight)
 {
 	Point physicalCenter = this->GetPhysicalPoint(point);
-	Size1D scaledRadius = this->GetScaledSize(radius);
+	double scaledRadius = this->GetScaledSize(radius);
 
 	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 	FOR_EACH_IN_RECT(x, y, physicalRect)
 	{
-		unsigned long long distance = physicalCenter.GetDistanceTo(Point(x, y));
+		double distance = physicalCenter.GetDistanceTo(Point(x, y));
 
 		if (distance > scaledRadius)
 		{
@@ -468,7 +467,7 @@ void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, He
 		}
 		else
 		{
-			(*this)(x, y) = fromHeight + (Height)(((long long)toHeight - (long long)fromHeight) * (long long)distance / (long long)scaledRadius);
+			(*this)(x, y) = fromHeight + (Height)(((long long)toHeight - (long long)fromHeight) * distance / scaledRadius);
 		}
 	}
 }

@@ -114,16 +114,16 @@ namespace geogen {
 		/// Calculates euclidean distance between this point and another point.
 		/// @param destination The other point.
 		/// @return The distance.
-		inline unsigned long long GetDistanceTo(Point destination) const
+		inline double GetDistanceTo(Point destination) const
 		{
-			return (unsigned long long)sqrt((double)(((long long)destination.x - (long long)this->x) * ((long long)destination.x - (long long)this->x) + ((long long)destination.y - (long long)this->y) * ((long long)destination.y - (long long)this->y)));
+			return sqrt((double)(((long long)destination.x - (long long)this->x) * ((long long)destination.x - (long long)this->x) + ((long long)destination.y - (long long)this->y) * ((long long)destination.y - (long long)this->y)));
 		}
 
 		/// Gets euclidean distance between this point and the origin (point [0,0]).
 		/// @return The distance.
-		inline unsigned long long GetDistanceFromOrigin() const
+		inline double GetDistanceFromOrigin() const
 		{
-			return (unsigned long long)sqrt((double)((long long)this->x * (long long)this->x + (long long)this->y * (long long)this->y));
+			return sqrt((double)((long long)this->x * (long long)this->x + (long long)this->y * (long long)this->y));
 		}
 
 		void Serialize(IOStream& stream) const
