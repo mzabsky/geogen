@@ -35,4 +35,7 @@
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\documents\visual studio 2013\Projects\PreviewRenderer\PreviewRenderer\bin\Debug\out.png" />
+  </ItemGroup>
 </Project>
