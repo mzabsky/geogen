@@ -307,6 +307,33 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap Intersect(HeightMap other);
 
+    /// Flips sign of each height in the map.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// // Transforms absolute value noise into ridges
+    /// yield HeightMap.Noise().Abs().Invert().Add(1);
+    /// @endcode
+    /// 
+    /// @image html std_2d_invert.png
+    /// @return The height map itself (for call chaining).
+    HeightMap Invert();
+
+    /// Moves the height map by offset.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Noise({256:1});
+    /// var copy = HeightMap.Clone(main).Move([150, 100]);
+    /// yield main.Unify(copy);
+    /// @endcode
+    /// 
+    /// @image html std_2d_move.png.
+    ///        
+    /// @param offset The offset. The map is moved by both of the @a offset's component coordinates in the respective direction.
+    /// @return The height map itself (for call chaining).
+    HeightMap Move(Point offset);
+
     /// Sets each pixel in the to the greater of the two corresponding heights in the current map and the other map.
     /// 
     /// Example:

@@ -403,7 +403,8 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		(*this)(x, y) = Height((*this)(x, y) * ((*factor)(x + offset.GetX(), y + offset.GetY()) / (double)HEIGHT_MAX));
+		double currentFactor = ((*factor)(x + offset.GetX(), y + offset.GetY()) / (double)HEIGHT_MAX);
+		(*this)(x, y) = Height((*this)(x, y) * currentFactor);
 	}
 }
 
