@@ -1,3 +1,3 @@
-var main = HeightMap.RadialGradient([500, 500], 450, 1, -1);
-main.Unify(HeightMap.Gradient([0, 0], [0, 1000], -1, 1));
-yield main.Blur(50);
+var main = HeightMap.Gradient([200, 200], [800, 200], 0, 1);
+var other = HeightMap.Gradient([200, 200], [200, 800], 0, 1);
+yield main.Intersect(other);

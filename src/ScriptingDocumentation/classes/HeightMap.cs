@@ -56,7 +56,7 @@ public:
     /// @return The height map.
 	static HeightMap Gradient(Point sourcePoint, Point destinationPoint, Number sourceHeight, Number destinationHeight);
 
-    /// Creates a height map filled with random [http://freespace.virgin.net/hugo.elias/models/m_perlin.htm](perlin noise).
+    /// Creates a height map filled with random perlin noise.
     /// 
     /// The layer definitions are an array of pairs `wave length: amplitude`. Wave length and amplitude must be greater than 0. Example:
     /// 
@@ -83,7 +83,9 @@ public:
     /// Which produces noise like this:    
     /// @image html std_2d_noise_standard.png  
     /// 
-    /// TODO: Overshoot.
+    /// TODO: Overshoots.
+    /// 
+    /// @see [Perlin noise](http://freespace.virgin.net/hugo.elias/models/m_perlin.htm)
     /// 
     /// @param layerDefinitions (Optional) Array defining layers of the noise. If not provided, a default array is used..
     /// @param seed (Optional) Random seed. If not provided, 0 is used. This seed is always combined with the main script seed provided in script arguments to the script.
@@ -184,14 +186,139 @@ public:
     /// @return A HeightMap.
 	HeightMap Add(Number/HeightMap addend, HeightMap mask);
 
-    /// Replaces height in each pixel with its absolute value (makes negative heights positive).
+    /// Blurs the height map with box blur algorithm with kernel of given radius.
     /// 
     /// Example:
     /// @code{.cs}
-    /// yield HeightMap.Noise().Abs();
+    /// var main = HeightMap.RadialGradient([500, 500], 450, 1, -1);
+    /// main.Unify(HeightMap.Gradient([0, 0], [1000, 0], -1, 1));
+    /// yield main.Blur(50);
     /// @endcode
     /// 
-    /// @image html std_2d_abs.png
+    /// @image html std_2d_blur.png
+    ///        
+    /// @see [Box blur on Wikipedia](http://en.wikipedia.org/wiki/Box_blur)
+    /// @param radius The blur kernel size.
     /// @return The height map itself (for call chaining).
     HeightMap Blur(Number radius);
+
+    /// Replaces heights greater than @a max with @a max and less than @a min with @a min.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().ClampHeights(-0.3, 0.3);
+    /// @endcode
+    /// 
+    /// @image html std_2d_clampheights.png.
+    ///        
+    /// @param min The minimum height.
+    /// @param max The maximum height.
+    /// @return The height map itself (for call chaining).
+    HeightMap ClampHeights(Number min, Number max);
+
+    /// Replaces heights in each pixel with a height blended from that height and corresponding height from another height map. The blending will be done according to the height in the mask - 1 will mean 100% of the current height map's height will be used, 0 will mean 100% of the height from the other height map will be used. Any heights in between will cause the two heights to be blended linearly. Heights less than 0 from the mask are considered to be 0.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var roughNoise = HeightMap.Noise();
+    /// var smoothNoise = HeightMap.Noise({256: 0.9}, 1); // Use different seed.
+    /// var mask = HeightMap.Gradient([300, 0], [700, 0], 0, 1).Blur(20); // Blur to remove hard edges on ends of the gradient
+    /// yield roughNoise.Combine(smoothNoise, mask);
+    /// @endcode
+    /// 
+    /// @image html std_2d_combine.png.
+    ///        
+    /// @param other The other map.
+    /// @param mask The mask.
+    /// @return The height map itself (for call chaining).
+    HeightMap Combine(HeightMap other, HeightMap mask);
+
+    /// Replaces all heights outside of an rectangle with @a replace.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.RadialGradient([500, 500], 400, 1, 0).Crop([350, 250], [300, 500]);
+    /// @endcode
+    /// 
+    /// @image html std_2d_crop.png.
+    /// @param rectanglePosition The position of top left corner of the rectangle.
+    /// @param rectangleSize Size of the rectangle (@link Point.X X@endlink is its width and @link
+    /// Point.Y Y@endlink is its height).
+    /// @param replace (Optional) The replacement height. 0 is used if not provided.
+    /// @return The height map.
+    HeightMap Crop(Point rectanglePosition, Pont rectangleSize, Number replace);
+
+    /// Replaces heights greater than @a max or less than @a min with @a replace.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().ClampHeights(-0.3, 0.3);
+    /// @endcode
+    /// 
+    /// @image html std_2d_cropheights.png.
+    ///        
+    /// @param min The minimum height.
+    /// @param max The maximum height.
+    /// @param replace (Optional) The replacement height. 0 is used if not provided.
+    /// @return The height map itself (for call chaining).
+    HeightMap CropHeights(Number min, Number max, Number replace);
+
+    /// Replaces each pixel with @a height.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().Fill(0.5);
+    /// @endcode
+    /// 
+    /// @image html std_2d_fill.png.
+    ///        
+    /// @param height The height.
+    /// @return The height map itself (for call chaining).
+    HeightMap Fill(Number height);
+
+    /// Replaces each pixel in a rectangle with @a height.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().FillRectangle([200, 200], [400, 600], 0.5);
+    /// @endcode
+    /// 
+    /// @image html std_2d_fillrectangle.png.
+    ///        
+    /// @param rectanglePosition The position of top left corner of the rectangle.
+    /// @param rectangleSize Size of the rectangle (@link Point.X X@endlink is its width and @link
+    /// Point.Y Y@endlink is its height).
+    /// @param height The height.
+    /// @return The height map itself (for call chaining).
+    HeightMap FillRectangle(Point rectanglePosition, Point rectangleSize, Number height);
+
+    /// Sets each pixel in the to the less of the two corresponding heights in the current map and the other map.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Gradient([0, 0], [1000, 0], 0, 1);
+    /// var other = HeightMap.Gradient([0, 0], [0, 1000], 0, 1);
+    /// yield main.Intersect(other);
+    /// @endcode
+    /// 
+    /// @image html std_2d_intersect.png.
+    ///        
+    /// @param other The other map.
+    /// @return The height map itself (for call chaining).
+    HeightMap Intersect(HeightMap other);
+
+    /// Sets each pixel in the to the greater of the two corresponding heights in the current map and the other map.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Gradient([0, 0], [1000, 0], 0, 1);
+    /// var other = HeightMap.Gradient([0, 0], [0, 1000], 0, 1);
+    /// yield main.Unify(other);
+    /// @endcode
+    /// 
+    /// @image html std_2d_unify.png.
+    ///        
+    /// @param other The other map.
+    /// @return The height map itself (for call chaining).
+    HeightMap Unify(HeightMap other);
 };

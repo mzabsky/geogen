@@ -166,10 +166,10 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 		for (Coordinate y = 0; y < (Coordinate)this->GetHeight(); y++) {
 			// Prefill the window with value of the left edge + n leftmost values (where n is kernel size).
 			Size1D window_size = scaledRadius * 2 + 1;
-			long long window_value = (*this)(0, y) * scaledRadius;
+			long long window_value = (long long)(*this)(0, y) * scaledRadius;
 
 			for (long long x = 0; x < scaledRadius; x++) {
-				window_value += (*this)(x, y);
+				window_value += (long long)(*this)(x, y);
 			}
 
 			/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
@@ -177,17 +177,17 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 			for (Coordinate x = 0; x < this->GetWidth(); x++) {
 				// If the window is approaching right border, use the rightmost value as fill.
 				if (x < scaledRadius) {
-					window_value += (*this)(x + scaledRadius, y) - (*this)(0, y);
+					window_value += (long long)(*this)(x + scaledRadius, y) - (long long)(*this)(0, y);
 				}
 				else if (x + scaledRadius < this->GetWidth()) {
-					window_value += (*this)(x + scaledRadius, y) - (*this)(x - scaledRadius, y);
+					window_value += (long long)(*this)(x + scaledRadius, y) - (long long)(*this)(x - scaledRadius, y);
 				}
 				else {
-					window_value += (*this)(this->GetWidth() - 1, y) - (*this)(x - scaledRadius, y);
+					window_value += (long long)(*this)(this->GetWidth() - 1, y) - (long long)(*this)(x - scaledRadius, y);
 				}
 
 				// Set the value of current tile to arithmetic average of window tiles.
-				new_data[x + this->GetWidth() * y] = window_value / window_size;
+				new_data[x + this->GetWidth() * y] = Height(window_value / window_size);
 			}
 		}
 	}
@@ -195,10 +195,10 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 		for (Coordinate x = 0; x < this->GetHeight(); x++) {
 			// Prefill the window with value of the left edge + n topmost values (where n is radius).
 			Size1D window_size = scaledRadius * 2 + 1;
-			long long window_value = (*this)(x, 0) * scaledRadius;
+			long long window_value = (long long)(*this)(x, 0) * scaledRadius;
 
 			for (Size1D y = 0; y < scaledRadius; y++) {
-				window_value += (*this)(x, y);
+				window_value += (long long)(*this)(x, y);
 			}
 
 			/* In every step shift the window one tile to the bottom  (= subtract its topmost cell and add
@@ -206,17 +206,17 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 			for (Coordinate y = 0; y < this->GetHeight(); y++) {
 				// If the window is approaching right border, use the rightmost value as fill.
 				if (y < scaledRadius) {
-					window_value += (*this)(x, y + scaledRadius) - (*this)(x, 0);
+					window_value += (long long)(*this)(x, y + scaledRadius) - (long long)(*this)(x, 0);
 				}
 				else if (y + scaledRadius < this->GetHeight()) {
-					window_value += (*this)(x, y + scaledRadius) - (*this)(x, y - scaledRadius);
+					window_value += (long long)(*this)(x, y + scaledRadius) - (long long)(*this)(x, y - scaledRadius);
 				}
 				else {
-					window_value += (*this)(x, this->GetHeight() - 1) - (*this)(x, y - scaledRadius);
+					window_value += (long long)(*this)(x, this->GetHeight() - 1) - (long long)(*this)(x, y - scaledRadius);
 				}
 
 				// Set the value of current tile to arithmetic average of window tiles. 
-				new_data[x + this->GetWidth() * y] = window_value / window_size;
+				new_data[x + this->GetWidth() * y] = Height(window_value / window_size);
 			}
 		}
 	}
@@ -238,24 +238,19 @@ void HeightMap::ClampHeights(Height min, Height max)
 
 void HeightMap::Combine(HeightMap* other, HeightMap* mask)
 {
-	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
-
-	if (!mask->rectangle.Contains(intersection))
-	{
-		throw ApiUsageException(GG_STR("Mask is too small."));
-	}
+	Rectangle intersection = Rectangle::Intersect(Rectangle::Intersect(this->rectangle, other->rectangle), mask->rectangle);
 
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
 	Point otherOffset = this->rectangle.GetPosition() - intersection.GetPosition();
-	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point maskOffset = this->rectangle.GetPosition() - mask->GetRectangle().GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		Height thisHeight = (*this)(x, y);
 		Height otherHeight = (*other)(x + otherOffset.GetX(), y + otherOffset.GetY());
 		Height maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
 		double factor = maskHeight / (double)HEIGHT_MAX;
-		(*this)(x, y) += Height(thisHeight * factor) + Height(otherHeight * (1 - factor));
+		(*this)(x, y) = Height(thisHeight * factor) + Height(otherHeight * (1 - factor));
 	}
 }
 
