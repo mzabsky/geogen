@@ -10,56 +10,43 @@ using namespace renderer;
 
 RenderingGraph::RenderingGraph(RenderingSequence const& renderingSequence) : renderingSequence(renderingSequence)
 {
-	multimap<unsigned, RenderingGraphNode*> openNodes;
+	map<unsigned, vector<RenderingGraphNode*>> openNodes;
 	for (RenderingSequence::const_reverse_iterator it = renderingSequence.RBegin(); it != renderingSequence.REnd(); it++)
 	{
 		RenderingStep const* step = *it;
 		this->nodes.insert(pair<RenderingStep const*, RenderingGraphNode>(step, RenderingGraphNode(step)));
 		RenderingGraphNode* node = &this->nodes[step];
 
-		if (openNodes.count(step->GetReturnSlot()) == 0)
+		cout << endl << "processing " << (*it)->ToString() << endl;
+
+		if (openNodes.find(step->GetReturnSlot()) == openNodes.end())
 		{		
+			cout << "not in open nodes, adding this " << endl;
+
 			this->entryNodes.push_back(node);
 		}
 		else
 		{
-			pair<multimap<unsigned, RenderingGraphNode*>::iterator, multimap<unsigned, RenderingGraphNode*>::iterator> foundRange = openNodes.equal_range(step->GetReturnSlot());
-			for (multimap<unsigned, RenderingGraphNode*>::iterator it2 = foundRange.first; it2 != foundRange.second; it2++)
+			cout << "found in open nodes" << endl;
+
+			vector<RenderingGraphNode*> foundRange = openNodes.find(step->GetReturnSlot())->second;
+			for (vector<RenderingGraphNode*>::iterator it2 = foundRange.begin(); it2 != foundRange.end(); it2++)
 			{
-				node->AddEdge(it2->second);
+				cout << "adding edge to " << (*it2)->GetStep()->ToString() << endl;
+
+				node->AddEdge(*it2);
 				//it2->second->AddEdge(node);
 			}
 
-			openNodes.erase(foundRange.first, foundRange.second);
-		}
-
-		for (vector<unsigned>::const_iterator it2 = step->GetArgumentSlots().begin(); it2 != step->GetArgumentSlots().end(); it2++)
-		{
-			openNodes.insert(pair<unsigned, RenderingGraphNode*>(*it2, node));
-		}
-		/*
-		if (openNodes.count(step->GetReturnSlot()) == 0)
-		{
 			openNodes.erase(step->GetReturnSlot());
-			this->entryNodes.push_back(node);
 		}
-		else 
-		{
-			pair<multimap<unsigned, RenderingGraphNode*>::iterator, multimap<unsigned, RenderingGraphNode*>::iterator> foundRange = openNodes.equal_range(step->GetReturnSlot());
-			for (multimap<unsigned, RenderingGraphNode*>::iterator it2 = foundRange.first; it2 != foundRange.second; it2++)
-			{
-				it2->second->AddEdge(node);
-			}
-
-			openNodes.erase(foundRange.first, foundRange.second);
-		}
-
-		openNodes.insert(pair<unsigned, RenderingGraphNode*>(step->GetReturnSlot(), node));
 
 		for (vector<unsigned>::const_iterator it2 = step->GetArgumentSlots().begin(); it2 != step->GetArgumentSlots().end(); it2++)
 		{
-			openNodes.insert(pair<unsigned, RenderingGraphNode*>(*it2, node));
-		}*/
+			cout << "adding argument to open nodes  " << (*it2) << endl;
+
+			openNodes[*it2].push_back(node);
+		}
 	}
 
 	if (openNodes.size() > 0)

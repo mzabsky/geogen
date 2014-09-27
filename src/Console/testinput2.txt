@@ -1,17 +1,4 @@
-var template = HeightMap.RadialGradient([0, 0], 300, 1, 0);
-
-var main = HeightMap.Flat();
-
-var cone = HeightMap.Clone(template).Move([200, 500]);
-main.Unify(cone);
-
-cone = HeightMap.Clone(template).Rescale(0.80).Multiply(0.80).Move([400, 500]);
-main.Unify(cone);
-
-cone = HeightMap.Clone(template).Rescale(0.60).Multiply(0.60).Move([600, 500]);
-main.Unify(cone);
-
-cone = HeightMap.Clone(template).Rescale(0.40).Multiply(0.40).Move([800, 500]);
-main.Unify(cone);
-
+var main = HeightMap.Gradient([200, 0], [800, 0], 0, 1);
+var profile = HeightProfile.Noise();
+main.Shift(profile, 200, Direction.Vertical);
 yield main;

@@ -24,7 +24,7 @@ namespace geogen
 
 			/// Initializes a new instance of the RenderingStepNode class.
 			/// @param step The rendering step.
-			RenderingGraphNode(RenderingStep const* step) : step(step) {}
+			RenderingGraphNode(RenderingStep const* step);
 
 			/// Copy constructor.
 			/// @param other The other instance.
@@ -41,7 +41,7 @@ namespace geogen
 
 			/// Adds a forward edge to this node and a reverse edge to the target node.
 			/// @param target The taget node.
-			inline void AddEdge(RenderingGraphNode* target) { this->edges.push_back(target); target->backEdges.push_back(this); }
+			void AddEdge(RenderingGraphNode* target);
 			
 			inline const_iterator ForwardBegin() const { return *(const_iterator*)(&this->edges.begin()); }
 			inline const_iterator ForwardEnd() const { return *(const_iterator*)(&this->edges.end()); }
