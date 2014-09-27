@@ -724,7 +724,7 @@ void HeightMap::Unify(HeightMap* other)
 	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
+	Point offset = this->rectangle.GetPosition() - other->GetRectangle().GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = max((*other)(x + offset.GetX(), y + offset.GetY()), (*this)(x, y));
