@@ -15,5 +15,5 @@ void HeightMapMultiplyMapRenderingStep::Step(Renderer* renderer) const
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 	HeightMap* factor = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[1])->GetPtr());
 
-	self->AddMap(factor);
+	self->MultiplyMap(factor);
 }
