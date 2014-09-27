@@ -13,6 +13,5 @@ using namespace genlib;
 void HeightMapInvertRenderingStep::Step(Renderer* renderer) const
 {
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
-	HeightMap* other = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[1])->GetPtr());
 	self->Invert();
 }
