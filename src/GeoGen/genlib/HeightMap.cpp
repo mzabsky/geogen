@@ -110,8 +110,8 @@ void HeightMap::AddMasked(Height addend, HeightMap* mask)
 	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		Height maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
-		(*this)(x, y) = AddHeights((*this)(x, y), addend * Height(maskHeight / (double)HEIGHT_MAX));
+		double maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
+		(*this)(x, y) = AddHeights((*this)(x, y), Height(addend * maskHeight / (double)HEIGHT_MAX));
 	}
 }
 
@@ -143,8 +143,8 @@ void HeightMap::AddMapMasked(HeightMap* addend, HeightMap* mask)
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		Height addendHeight = (*addend)(x + addendOffset.GetX(), y + addendOffset.GetY());
-		Height maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
-		(*this)(x, y) = AddHeights((*this)(x, y), addendHeight * Height(maskHeight / (double)HEIGHT_MAX));
+		double maskHeight = max((*mask)(x + maskOffset.GetX(), y + maskOffset.GetY()), Height(0));
+		(*this)(x, y) = AddHeights((*this)(x, y), Height(addendHeight * maskHeight / (double)HEIGHT_MAX));
 	}
 }
 
@@ -331,8 +331,10 @@ void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Hei
 
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		long long currentOffsetX = x - (long long)source.GetX();
-		long long currentOffsetY = y - (long long)source.GetY();
+		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+
+		long long currentOffsetX = logicalPoint.GetX() - (long long)source.GetX();
+		long long currentOffsetY = logicalPoint.GetY() - (long long)source.GetY();
 
 		// Get the point on the gradient vector (vector going through both source and destination point) to which is the current point closest.
 		double crossX = (gradientOffsetX * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / double(gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY);

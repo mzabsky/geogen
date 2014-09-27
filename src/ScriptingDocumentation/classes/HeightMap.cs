@@ -169,8 +169,29 @@ public:
     /// 
     /// @image html std_2d_add_map.png
     /// 
+    /// Example with map addend and a mask:    
+    /// @code{.cs}
+    /// var main = HeightMap.RadialGradient([500, 500], 450, -0.5, 0.75);
+    /// var noise = HeightMap.Noise();
+    /// var mask = HeightMap.Clone(main).ClampHeights(0.1, 1); 
+    /// yield main.Add(noise, mask); // Less of the noise will be added in the center, where there are lower heights in the mask
+    /// @endcode
+    /// 
+    /// @image html std_2d_add_map_mask.png
+    /// 
     /// @param addend The addend.
     /// @param mask (Optional) The mask.
     /// @return A HeightMap.
 	HeightMap Add(Number/HeightMap addend, HeightMap mask);
+
+    /// Replaces height in each pixel with its absolute value (makes negative heights positive).
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().Abs();
+    /// @endcode
+    /// 
+    /// @image html std_2d_abs.png
+    /// @return The height map itself (for call chaining).
+    HeightMap Blur(Number radius);
 };

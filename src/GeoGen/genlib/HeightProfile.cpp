@@ -107,8 +107,8 @@ void HeightProfile::AddMasked(Height addend, HeightProfile* mask)
 	Coordinate maskOffset = mask->GetInterval().GetStart() - this->interval.GetStart();
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
-		Height maskHeight = max((*mask)(x + maskOffset), Height(0));
-		(*this)(x) = AddHeights((*this)(x), addend * Height(maskHeight / (double)HEIGHT_MAX));
+		double maskHeight = max((*mask)(x + maskOffset), Height(0));
+		(*this)(x) = AddHeights((*this)(x), Height(addend * maskHeight / (double)HEIGHT_MAX));
 	}
 }
 
@@ -140,8 +140,8 @@ void HeightProfile::AddProfileMasked(HeightProfile* addend, HeightProfile* mask)
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
 		Height addendHeight = (*addend)(x + addendOffset);
-		Height maskHeight = max((*mask)(x + maskOffset), Height(0));
-		(*this)(x) = AddHeights((*this)(x), addendHeight * Height(maskHeight / (double)HEIGHT_MAX));
+		double maskHeight = max((*mask)(x + maskOffset), Height(0));
+		(*this)(x) = AddHeights((*this)(x), Height(addendHeight * maskHeight / (double)HEIGHT_MAX));
 	}
 }
 
@@ -298,16 +298,18 @@ void HeightProfile::Gradient(Coordinate source, Coordinate destination, Height f
 
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
-		if (x >= start && x <= end)
+		Coordinate logicalX = this->GetLogicalCoordinate(x);
+
+		if (logicalX >= start && logicalX <= end)
 		{
-			Height lerp = Lerp(start, end, fromHeight, toHeight, x/*start + ((x - start) / double(gradientLength))*/);
-			(*this)(x) = Lerp(start, end, fromHeight, toHeight, x/*start + ((x - start) / double(gradientLength))*/);
+			Height lerp = Lerp(start, end, fromHeight, toHeight, logicalX/*start + ((x - start) / double(gradientLength))*/);
+			(*this)(x) = Lerp(start, end, fromHeight, toHeight, logicalX/*start + ((x - start) / double(gradientLength))*/);
 		}
-		else if (fillOutside && x < start)
+		else if (fillOutside && logicalX < start)
 		{
 			(*this)(x) = fromHeight;
 		}
-		else if (fillOutside && x > end)
+		else if (fillOutside && logicalX > end)
 		{
 			(*this)(x) = toHeight;
 		}
