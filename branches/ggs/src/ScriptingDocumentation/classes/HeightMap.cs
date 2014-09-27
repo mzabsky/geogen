@@ -334,6 +334,29 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap Move(Point offset);
 
+    /// Multiplies the height in each pixel by a number or a corresponding pixel from another height map. 
+    /// 
+    /// Example with a numeric factor:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().Multiply(0.2);
+    /// @endcode
+    ///       
+    /// @image html std_2d_multiply_number.png
+    ///         
+    /// Example with map factor:
+    /// @code{.cs}
+    /// var main = HeightMap.Noise();
+    /// var multiplier = HeightMap.RadialGradient([500, 500], 400, 1, 0.2);
+    /// yield main.Multiply(multiplier);
+    /// @endcode
+    /// 
+    /// @image html std_2d_multiply_map.png
+    /// 
+    /// @param factor The factor.
+    /// @return A HeightMap.
+	HeightMap Multiply(Number/HeightMap factor);
+
+
     /// Sets each pixel in the to the greater of the two corresponding heights in the current map and the other map.
     /// 
     /// Example:

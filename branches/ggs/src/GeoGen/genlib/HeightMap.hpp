@@ -57,6 +57,10 @@ namespace geogen
 
 			inline Height HeightMap::operator() (double x, double y)
 			{
+				// Rudimentary protection against some floating point math errors
+				if (floor(x) + 0.00005 > x) x = floor(x);
+				if (floor(y) + 0.00005 > y) y = floor(y);
+
 				Coordinate leftCoord = Coordinate(floor(x));
 				Coordinate rightCoord = Coordinate(ceil(x));
 				Coordinate topCoord = Coordinate(floor(y));
