@@ -265,6 +265,21 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap CropHeights(Number min, Number max, Number replace);
 
+    /// Replaces heights greater than @a max or less than @a min with @a replace.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().ClampHeights(-0.3, 0.3);
+    /// @endcode
+    /// 
+    /// @image html std_2d_cropheights.png.
+    ///        
+    /// @param min The minimum height.
+    /// @param max The maximum height.
+    /// @param replace (Optional) The replacement height. 0 is used if not provided.
+    /// @return The height map itself (for call chaining).
+    HeightMap Distort(Number maximumDistance, Number perturbationSize);
+
     /// Replaces each pixel with @a height.
     /// 
     /// Example:
@@ -358,6 +373,120 @@ public:
     /// @return A HeightMap.
 	HeightMap Multiply(Number/HeightMap factor);
 
+    /// Enlarges (with scale &gt; 1) or shrinks (with scale &lt; 1) the entire map. The scaling
+    /// transformation has origin at [0, 0]. Uses linear interpolation.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// // Create the template cone at [0, 0], otherwise its position would be scaled along with its size
+    /// var template = HeightMap.RadialGradient([0, 0], 300, 1, 0);
+    /// 
+    /// var main = HeightMap.Flat();
+    /// 
+    /// var cone = HeightMap.Clone(template).Move([200, 500]);
+    /// main.Unify(cone);
+    /// 
+    /// cone = HeightMap.Clone(template).Rescale(0.80).Multiply(0.80).Move([400, 500]);
+    /// main.Unify(cone);
+    /// 
+    /// cone = HeightMap.Clone(template).Rescale(0.60).Multiply(0.60).Move([600, 500]);
+    /// main.Unify(cone);
+    /// 
+    /// cone = HeightMap.Clone(template).Rescale(0.40).Multiply(0.40).Move([800, 500]);
+    /// main.Unify(cone);
+    /// 
+    /// yield main;
+    /// @endcode
+    /// 
+    /// @image html std_2d_rescale.png
+    ///        
+    /// @param horizontalScale The horizontal scale ratio. Must be greater than 0.
+    /// @param verticalScale (Optional) The vertical scale ratio. If not provided, it will be the same as @a horizontalScale. Must be greater than 0.
+    /// @return The height map itself (for call chaining).
+    HeightMap Rescale(Number horizontalScale, Number verticalScale);
+
+    /// Rotates the height map by @a angle in radians clockwise. The rotation origin is at [0, 0].
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Flat();
+    ///
+    /// // Make the rectangle centered at [0, 0], because that point is the rotation origin.
+    /// main.FillRectangle([-300, -100], [600, 200], 1);
+    /// main.Rotate(DegToRad(45));
+    /// main.Move([500, 500]);
+    /// yield main;
+    /// @endcode
+    /// 
+    /// @image html std_2d_rotate.png
+    ///        
+    /// @param angle The angle in radians.
+    /// @return The height map itself (for call chaining).
+    HeightMap Rotate(Number angle);
+
+    /// Shears the height map by @a shearFactor in @a direction.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Flat();
+    /// main.FillRectangle([200, 400], [600, 200], 1);
+    /// main.Shear(0.4, Direction.Vertical);
+    /// yield main;
+    /// 
+    /// @endcode
+    /// 
+    /// @image html std_2d_shear.png
+    ///        
+    /// @see [Shear mapping on Wikipedia](http://en.wikipedia.org/wiki/Shear_mapping)
+    ///        
+    /// @param shearFactor The shear factor.
+    /// @param direction The direction.
+    /// @return The height map itself (for call chaining).
+    HeightMap Shear(Number shearFactor, Direction direction);
+
+    /// Shifts each row (if @a direction is vertical) or column (if @a direction is horizontal) by
+    /// distance determined by the corresponding height in the profile (1 in profile means the pixels
+    /// will be shifted by @a maximumDistance, -1 means the pixels will be shifted by -@a
+    /// maximumDistance).
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Gradient([200, 0], [800, 0], 0, 1);
+    /// var profile = HeightProfile.Noise({256: 0.7, 168: 0.3 });
+    /// main.Shift(profile, 300, Direction.Horizontal);
+    /// yield main;
+    /// @endcode
+    /// 
+    /// @image html std_2d_shift.png
+    ///        
+    /// @param profile The shift profile.
+    /// @param maximumDistance The maximum shift distance.
+    /// @param direction The direction.
+    /// @return The height map itself (for call chaining).
+    HeightMap Shift(HeightProfile profile, Number maximumDistance, Direction direction);
+
+    /// Applies a linear transformation on the height map - each pixel pixel's position vector will
+    /// be be multiplied by the transformation matrix composed from cells @a a11, @a a12, @a a21 and
+    /// @a a22. The transformation matrix must be invertible.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Flat();
+    /// main.FillRectangle([-300, -100], [600, 200], 1);
+    /// 
+    /// // The matrix combine 45 degree rotation, 0.4 horizontal shear and 0.5 vertical shear.
+    /// main.Transform(1.06066, 0.989949, -0.207183, 0.717005);
+    /// main.Move([500, 500]);
+    /// yield main;
+    /// @endcode
+    /// 
+    /// @image html std_2d_transform.png.
+    /// @param a11 The top-left cell of the transformation matrix.
+    /// @param a12 The top-right cell of the transformation matrix.
+    /// @param a21 The bottom-left cell of the transformation matrix.
+    /// @param a22 The bottom-right cell of the transformation matrix.
+    /// @return The height map itself (for call chaining).
+    HeightMap Transform(Number a11, Number a12, Number a21, Number a22);
 
     /// Sets each pixel in the to the greater of the two corresponding heights in the current map and the other map.
     /// 

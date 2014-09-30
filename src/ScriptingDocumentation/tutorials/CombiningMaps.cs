@@ -3,7 +3,8 @@
 ///
 /// One of the most common ways co create complex maps in GeoGen is to compose them from two basic layers: a programatically defined shape layer and randomized noise layer. These two layers can be simply added together for the desired result. In this example, we will create a map with a single island on it:
 /// 
-/// TODO: Image
+/// @image html tut_combining_2.png
+/// @image html tut_combining_1.png
 /// 
 /// The shape layer contains a single cone created with @link HeightMap.RadialGradient radial gradient@endlink @link HeightMap.Blur blurred@endlink to avoid any hard edges or spikes. 
 /// 
