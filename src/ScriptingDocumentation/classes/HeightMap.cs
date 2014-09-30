@@ -1,4 +1,6 @@
 /// Two-dimensional height map.
+/// X coordinates go from left (negative) to right (positive) in the horizontal direction and Y coordinates go from top (negative) to bottom (positive) in the vertical direction.
+/// 
 /// @ingroup standard_library
 class HeightMap
 {
@@ -183,7 +185,7 @@ public:
     /// 
     /// @param addend The addend.
     /// @param mask (Optional) The mask.
-    /// @return A HeightMap.
+    /// @return The height map itself (for call chaining).
 	HeightMap Add(Number/HeightMap addend, HeightMap mask);
 
     /// Blurs the height map with box blur algorithm with kernel of given radius.
