@@ -1,4 +1,1 @@
-var main = HeightMap.Gradient([200, 0], [800, 0], 0, 1);
-var profile = HeightProfile.Noise();
-main.Shift(profile, 200, Direction.Vertical);
-yield main;
+﻿var asdsaěščěšč;

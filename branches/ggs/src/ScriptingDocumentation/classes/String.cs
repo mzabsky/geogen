@@ -7,6 +7,8 @@
 /// var str = "Hello world!";
 /// @endcode
 /// @ingroup standard_library
+
+
 class String
 {
 private:

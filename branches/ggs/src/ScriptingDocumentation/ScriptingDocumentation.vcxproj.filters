@@ -31,7 +31,8 @@
     <None Include="tutorials\FirstScript.cs" />
     <None Include="tutorials\Tutorials.cs" />
     <None Include="tutorials\CombiningMaps.cs" />
-    <None Include="classes\HeightProfile.cs" />
+    <None Include="tutorials\HeightMaps.cs" />
+    <None Include="tutorials\ErrorCodes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />
