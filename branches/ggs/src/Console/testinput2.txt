@@ -1,6 +1,5 @@
-//var profile = HeightProfile.Noise({256:1});
-var main = HeightMap.Noise({256:1});//Projection(profile, Direction.Vertical);
+var profile = HeightProfile.Noise();
+var main = HeightMap.Projection(profile, Direction.Vertical);
 main.Rotate(DegToRad(30));
-yield main as "BeforeDistort";
 main.Distort(20, 64);
 yield main;
