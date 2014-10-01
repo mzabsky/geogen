@@ -343,6 +343,8 @@
     <ClInclude Include="corelib\HeightMapCropRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileCropFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileCropRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapDistortFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapDistortRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp">
@@ -598,6 +600,8 @@
     <ClCompile Include="corelib\HeightProfileCropFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileCropRenderingStep.cpp" />
     <ClCompile Include="renderer\RenderingGraphNode.cpp" />
+    <ClCompile Include="corelib\HeightMapDistortFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapDistortRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

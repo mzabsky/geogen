@@ -12,7 +12,7 @@ namespace geogen
 		/// The parser hes encountered an unexpected token. 
 		GGE1201_UnexpectedToken = 1201,
 		GGE1301_InvalidBreak = 1301,
-		GGE1302_MissingBreak = 1302,
+		//GGE1302_MissingBreak = 1302,
 		GGE1303_InvalidContinue = 1303,
 		GGE1304_InvalidReturn = 1304,
 		GGE1306_FunctionAlreadyDefined = 1306,

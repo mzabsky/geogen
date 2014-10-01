@@ -89,7 +89,7 @@
     <None Include="pages\Variables.cs" />
     <None Include="pages\Yield.cs" />
     <None Include="tutorials\CombiningMaps.cs" />
-    <None Include="tutorials\ErrorCodes.cs" />
+    <None Include="ErrorCodes.cs" />
     <None Include="tutorials\FirstScript.cs" />
     <None Include="tutorials\HeightMaps.cs" />
     <None Include="tutorials\Tutorials.cs" />

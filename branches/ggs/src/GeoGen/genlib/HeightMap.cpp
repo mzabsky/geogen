@@ -302,6 +302,28 @@ void HeightMap::DistanceMap(Size1D distance)
 	this->DistanceMap(distance, DIRECTION_VERTICAL);
 }
 
+void HeightMap::Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalDistortionMap, Size1D maxDistance)
+{
+	Rectangle contraction = Rectangle::Contract(this->rectangle, maxDistance);
+	Rectangle logicalRect = Rectangle::Intersect(contraction, Rectangle::Intersect(verticalDistortionMap->rectangle, horizontalDistortionMap->rectangle));
+	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(logicalRect);
+
+	HeightMap copy(*this);
+
+	Point horizontalOffset = this->rectangle.GetPosition() - horizontalDistortionMap->GetRectangle().GetPosition();
+	Point verticalOffset = this->rectangle.GetPosition() - verticalDistortionMap->GetRectangle().GetPosition();
+	FOR_EACH_IN_RECT(x, y, physicalRect)
+	{		
+		Height horizontalDistortionMapHeight = (*horizontalDistortionMap)(x + horizontalOffset.GetX(), y + horizontalOffset.GetY());
+		double sourceOffsetX = horizontalDistortionMapHeight * (double)maxDistance / (double)HEIGHT_MAX;
+
+		Height verticalDistortionMapHeight = (*horizontalDistortionMap)(x + verticalOffset.GetX(), y + verticalOffset.GetY());
+		double sourceOffsetY = verticalDistortionMapHeight * (double)maxDistance / (double)HEIGHT_MAX;
+
+		(*this)(x, y) = copy(x + sourceOffsetX, y + sourceOffsetY);
+	}
+}
+
 void HeightMap::FillRectangle(Rectangle fillRectangle, Height height)
 {
 	Rectangle operationRect = Rectangle::Intersect(this->GetPhysicalRectangleUnscaled(this->rectangle), this->GetPhysicalRectangle(fillRectangle));
@@ -360,7 +382,7 @@ void HeightMap::Intersect(HeightMap* other)
 	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point offset = this->rectangle.GetPosition() - intersection.GetPosition();
+	Point offset = this->rectangle.GetPosition() - other->GetRectangle().GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		(*this)(x, y) = min((*other)(x + offset.GetX(), y + offset.GetY()), (*this)(x, y));
