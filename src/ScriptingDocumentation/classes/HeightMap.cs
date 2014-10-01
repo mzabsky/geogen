@@ -265,20 +265,24 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap CropHeights(Number min, Number max, Number replace);
 
-    /// Replaces heights greater than @a max or less than @a min with @a replace.
+    /// Distorts the map with random perturbations.
     /// 
     /// Example:
     /// @code{.cs}
-    /// yield HeightMap.Noise().ClampHeights(-0.3, 0.3);
+    /// var profile = HeightProfile.Noise();
+    /// var main = HeightMap.Projection(profile, Direction.Vertical);
+    /// main.Rotate(DegToRad(30));
+    /// main.Distort(20, 64);
+    /// yield main;
     /// @endcode
     /// 
-    /// @image html std_2d_cropheights.png.
+    /// @image html std_2d_distort.png.
     ///        
-    /// @param min The minimum height.
-    /// @param max The maximum height.
-    /// @param replace (Optional) The replacement height. 0 is used if not provided.
+    /// @param perturbationSize Wave length of the perturbation distance.
+    /// @param maximumDistance Maximum distance by which a pixel can be moved.
+    /// @param seed (Optional) Random seed. If not provided, 0 is used. This seed is always combined with the main script seed provided in script arguments to the script.
     /// @return The height map itself (for call chaining).
-    HeightMap Distort(Number maximumDistance, Number perturbationSize);
+    HeightMap Distort(Number perturbationSize, Number maximumDistance, Number seed);
 
     /// Replaces each pixel with @a height.
     /// 
