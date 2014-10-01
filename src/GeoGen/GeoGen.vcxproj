@@ -332,6 +332,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\CoreLibrary.hpp" />
     <ClInclude Include="corelib\DivisionByZeroException.hpp" />
     <ClInclude Include="runtime\EnumScriptParameter.hpp" />
+    <ClInclude Include="corelib\HeightMapDistortFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapDistortRenderingStep.hpp" />
     <ClInclude Include="runtime\instructions\LoadScopeReferenceInstruction.hpp" />
     <ClInclude Include="runtime\instructions\StoreReferenceInstruction.hpp" />
     <ClInclude Include="runtime\MainMapNotGeneratedException.hpp" />
@@ -573,6 +575,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="renderer\RendererObject.cpp" />
     <ClCompile Include="corelib\YieldRenderingStep.cpp" />
     <ClCompile Include="corelib\ArrayItemReferenceObject.cpp" />
+    <ClCompile Include="corelib\HeightMapDistortFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapDistortRenderingStep.cpp" />
     <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
     <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
     <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp" />

@@ -153,7 +153,7 @@ namespace geogen
 			void CropHeights(Height min, Height max, Height replace);
 			void DistanceMap(Size1D distance, Direction direction);
 			void DistanceMap(Size1D distance);
-			//void Distort(HeightMap* distortionMap, Size1D maxDistance);
+			void Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalDistortionMap, Size1D maxDistance);
 			void FillRectangle(Rectangle fillRectangle, Height height);
 			void Gradient(Point source, Point destination, Height fromHeight, Height toHeight);
 			void Intersect(HeightMap* other);

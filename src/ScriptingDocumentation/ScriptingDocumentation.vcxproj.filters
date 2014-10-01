@@ -32,12 +32,47 @@
     <None Include="tutorials\Tutorials.cs" />
     <None Include="tutorials\CombiningMaps.cs" />
     <None Include="tutorials\HeightMaps.cs" />
-    <None Include="tutorials\ErrorCodes.cs" />
+    <None Include="classes\HeightProfile.cs" />
+    <None Include="ErrorCodes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\documents\visual studio 2013\Projects\PreviewRenderer\PreviewRenderer\bin\Debug\out.png" />
+    <Image Include="images\std_2d_abs.png" />
+    <Image Include="images\std_2d_add_map.png" />
+    <Image Include="images\std_2d_add_map_mask.png" />
+    <Image Include="images\std_2d_add_number.png" />
+    <Image Include="images\std_2d_blur.png" />
+    <Image Include="images\std_2d_clampheights.png" />
+    <Image Include="images\std_2d_clone.png" />
+    <Image Include="images\std_2d_combine.png" />
+    <Image Include="images\std_2d_crop.png" />
+    <Image Include="images\std_2d_cropheights.png" />
+    <Image Include="images\std_2d_fill.png" />
+    <Image Include="images\std_2d_fillrectangle.png" />
+    <Image Include="images\std_2d_gradient.png" />
+    <Image Include="images\std_2d_intersect.png" />
+    <Image Include="images\std_2d_invert.png" />
+    <Image Include="images\std_2d_move.png" />
+    <Image Include="images\std_2d_multiply_map.png" />
+    <Image Include="images\std_2d_multiply_number.png" />
+    <Image Include="images\std_2d_noise_custom.png" />
+    <Image Include="images\std_2d_noise_standard.png" />
+    <Image Include="images\std_2d_pattern.png" />
+    <Image Include="images\std_2d_projection.png" />
+    <Image Include="images\std_2d_radial_gradient.png" />
+    <Image Include="images\std_2d_rescale.png" />
+    <Image Include="images\std_2d_rotate.png" />
+    <Image Include="images\std_2d_shear.png" />
+    <Image Include="images\std_2d_shift.png" />
+    <Image Include="images\std_2d_transform.png" />
+    <Image Include="images\std_2d_unify.png" />
+    <Image Include="images\tut_combining_1.png" />
+    <Image Include="images\tut_combining_2.png" />
+    <Image Include="images\tut_geneva.png" />
+    <Image Include="images\tut_introduction.png" />
+    <Image Include="images\tut_world.png" />
   </ItemGroup>
 </Project>
