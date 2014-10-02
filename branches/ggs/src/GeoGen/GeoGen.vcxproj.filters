@@ -348,6 +348,8 @@
     <ClInclude Include="corelib\HeightMapFlipFunctionDefinition.hpp" />
     <ClInclude Include="corelib\CreateNoiseLayersFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlipRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlipFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp">
@@ -607,6 +609,8 @@
     <ClCompile Include="corelib\HeightMapDistortRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFlipFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CreateNoiseLayersFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlipRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlipFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">

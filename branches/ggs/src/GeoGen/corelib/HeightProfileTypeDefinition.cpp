@@ -10,6 +10,7 @@
 #include "HeightProfileCropHeightsFunctionDefinition.hpp"
 #include "HeightProfileFillFunctionDefinition.hpp"
 #include "HeightProfileFillIntervalFunctionDefinition.hpp"
+#include "HeightProfileFlipFunctionDefinition.hpp"
 #include "HeightProfileIntersectFunctionDefinition.hpp"
 #include "HeightProfileInvertFunctionDefinition.hpp"
 #include "HeightProfileMoveFunctionDefinition.hpp"
@@ -40,6 +41,7 @@ HeightProfileTypeDefinition::HeightProfileTypeDefinition() : RendererTypeDefinit
 	this->GetFunctionDefinitions().AddItem(new HeightProfileCropHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileFillFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileFillIntervalFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightProfileFlipFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileIntersectFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileInvertFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightProfileMoveFunctionDefinition(this));

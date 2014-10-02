@@ -179,6 +179,9 @@ namespace geogen
 			/// @param height The height.
 			void FillInterval(Interval fillInterval, Height height);
 
+			/// Flips the entire map around coordinate 0. 
+			void Flip();
+
 			/// Initializes this profile from array with key points.
 			/// @param heights The key points.
 			void FromArray(std::map<Coordinate, Height> const& heights);

@@ -249,7 +249,7 @@ public:
     /// 
     /// Example:
     /// @code{.cs}
-    /// yield HeightProfile.Noise().FillInterval([200, 200], [400, 600], 0.5);
+    /// yield HeightProfile.Noise().FillInterval(200, 400, 0.5);
     /// @endcode
     /// 
     /// @image html std_2d_fillrectangle.png.
@@ -259,6 +259,16 @@ public:
     /// @param height The height.
     /// @return The height profile itself (for call chaining).
     HeightProfile FillInterval(Interval intervalStart, Interval intervalLength, Number height);
+
+    /// Flips the profile around coordinate 0.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Projection(HeightProfile.Noise().Flip(), Direction.Vertical);
+    /// @endcode
+    ///        
+    /// @return The height profile itself (for call chaining).
+    HeightProfile Fill();
 
     /// Sets each pixel in the to the less of the two corresponding heights in the current profile and the other profile.
     /// 
