@@ -17,22 +17,22 @@ RenderingGraph::RenderingGraph(RenderingSequence const& renderingSequence) : ren
 		this->nodes.insert(pair<RenderingStep const*, RenderingGraphNode>(step, RenderingGraphNode(step)));
 		RenderingGraphNode* node = &this->nodes[step];
 
-		cout << endl << "processing " << (*it)->ToString() << endl;
+		//cout << endl << "processing " << (*it)->ToString() << endl;
 
 		if (openNodes.find(step->GetReturnSlot()) == openNodes.end())
 		{		
-			cout << "not in open nodes, adding this " << endl;
+			//cout << "not in open nodes, adding this " << endl;
 
 			this->entryNodes.push_back(node);
 		}
 		else
 		{
-			cout << "found in open nodes" << endl;
+			//cout << "found in open nodes" << endl;
 
 			vector<RenderingGraphNode*> foundRange = openNodes.find(step->GetReturnSlot())->second;
 			for (vector<RenderingGraphNode*>::iterator it2 = foundRange.begin(); it2 != foundRange.end(); it2++)
 			{
-				cout << "adding edge to " << (*it2)->GetStep()->ToString() << endl;
+				//cout << "adding edge to " << (*it2)->GetStep()->ToString() << endl;
 
 				node->AddEdge(*it2);
 				//it2->second->AddEdge(node);
@@ -43,7 +43,7 @@ RenderingGraph::RenderingGraph(RenderingSequence const& renderingSequence) : ren
 
 		for (vector<unsigned>::const_iterator it2 = step->GetArgumentSlots().begin(); it2 != step->GetArgumentSlots().end(); it2++)
 		{
-			cout << "adding argument to open nodes  " << (*it2) << endl;
+			//cout << "adding argument to open nodes  " << (*it2) << endl;
 
 			openNodes[*it2].push_back(node);
 		}
