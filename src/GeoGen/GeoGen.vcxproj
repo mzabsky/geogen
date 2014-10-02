@@ -217,6 +217,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightProfileFillIntervalRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlipFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightProfileFlipRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFromArrayFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightProfileFromArrayRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileGradientFunctionDefinition.hpp" />
@@ -515,6 +517,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\InvalidEnumValueException.hpp">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="corelib\HeightProfileFlipFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightProfileFlipRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileFromArrayFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFromArrayRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileGradientFunctionDefinition.cpp" />

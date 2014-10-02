@@ -1,2 +1,1 @@
-﻿var a = CreateNoiseLayers(32, 500, 0.75);
-yield HeightMap.Noise(a);
+﻿yield HeightMap.Projection(HeightProfile.Noise().Flip(), Direction.Vertical);

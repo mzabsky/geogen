@@ -252,6 +252,19 @@ void HeightProfile::FillInterval(Interval fillInterval, Height height)
 	}
 }
 
+void HeightProfile::Flip()
+{
+	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
+
+	HeightProfile old(*this);
+
+	this->interval = Interval(-this->interval.GetStart() - this->interval.GetLength(), this->interval.GetLength());
+	FOR_EACH_IN_INTERVAL(x, operationInterval)
+	{
+		(*this)(x) = old(Coordinate(this->interval.GetLength() - x - 1));
+	}
+}
+
 void HeightProfile::FromArray(std::map<Coordinate, Height> const& heights)
 {
 	if (heights.size() == 0)
