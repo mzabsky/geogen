@@ -14,6 +14,8 @@ using namespace geogen;
 using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::renderer;
+using namespace geogen::random;
+
 
 ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
@@ -22,14 +24,18 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(numberTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
+	expectedTypes.push_back(numberTypeDefinition);
+
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 2);
 
 	// TODO: size check
 	Size1D maxDistance = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 	Size1D perturbanceSize = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
 
-	// TODO: Seed
+	RandomSeed argumentSeed = arguments.size() > 2 ? (RandomSeed)dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0;
+	RandomSeed compositeSeed = CombineSeeds(argumentSeed, vm->GetArguments().GetRandomSeed(), CreateSeed(GG_STR("HeightMap.Distort")));
 
-	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
+	// TODO: Seed;
 
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 
@@ -50,7 +56,7 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 	{
 		vector<unsigned> argumentSlots;
 		argumentSlots.push_back(horizontalNoiseSlot);
-		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, horizontalNoiseSlot, perturbanceSize, HEIGHT_MAX, 0, 0);
+		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, horizontalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 0);
 		vm->GetRenderingSequence().AddStep(renderingStep);
 	}
 
@@ -65,7 +71,7 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 	{
 		vector<unsigned> argumentSlots;
 		argumentSlots.push_back(verticalNoiseSlot);
-		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, verticalNoiseSlot, perturbanceSize, HEIGHT_MAX, 1, 0);
+		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, verticalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 1);
 		vm->GetRenderingSequence().AddStep(renderingStep);
 	}
 
