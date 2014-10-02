@@ -164,6 +164,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightMapFillRectangleRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapFlipFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapGradientFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapGradientRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapIntersectFunctionDefinition.hpp" />
@@ -457,6 +458,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightMapFillRectangleRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapFlipFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapGradientRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapIntersectFunctionDefinition.cpp" />
