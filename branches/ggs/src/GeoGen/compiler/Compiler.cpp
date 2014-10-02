@@ -34,7 +34,7 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 #ifdef GEOGEN_WCHAR
 	AnlrInputStreamWrapper input((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_UTF16LE, code.length() * 2, (pANTLR3_UINT8)"");
 #else
-	AnlrInputStreamWrapper input((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_8BIT, code.length(), (pANTLR3_UINT8)"");
+	AnlrInputStreamWrapper input((pANTLR3_UINT8)code.c_str(), ANTLR3_ENC_UTF8, code.length(), (pANTLR3_UINT8)"");
 #endif
 
 	AntlrLexerWrapper lex(input);	
