@@ -313,6 +313,27 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap FillRectangle(Point rectanglePosition, Point rectangleSize, Number height);
 
+    /// Flips the map horizontally of vertically. The transformation origin is [0, 0].
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// // Create the main ridge around row 0, because flip origin is [0, 0]
+    /// var main = HeightMap.Gradient([0, -300], [0, 300], 0, 1);
+    /// var profile = HeightProfile.Noise({64: 0.9 });
+    /// main.Shift(profile, 150, Direction.Vertical);
+    ///
+    /// var flipped = HeightMap.Clone(main).Flip(Direction.Vertical);
+    /// main.Intersect(flipped);
+    /// main.Move([0,0500]);
+    /// yield main;
+    /// @endcode
+    /// 
+    /// @image html std_2d_flip.png
+    /// 
+    /// @param direction The direction.
+    /// @return The height map itself (for call chaining).
+    HeightMap Flip(Direction direction);
+
     /// Sets each pixel in the to the less of the two corresponding heights in the current map and the other map.
     /// 
     /// Example:

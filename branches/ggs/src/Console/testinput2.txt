@@ -1,3 +1,9 @@
-﻿var a = "2ŠČŘŘ";
+﻿var main = HeightMap.Gradient([0, -300], [0, 300], 0, 1);
+var profile = HeightProfile.Noise({64: 0.9 });
+main.Shift(profile, 150, Direction.Vertical);
 
-yield HeightMap.Flat();
+var flipped = HeightMap.Clone(main).Flip(Direction.Vertical);
+main.Intersect(flipped);
+main.Move([0,0500]);
+
+yield main;
