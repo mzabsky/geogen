@@ -135,6 +135,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\CoordinateObject.hpp" />
     <ClInclude Include="corelib\CoordinateOverflowException.hpp" />
     <ClInclude Include="corelib\CoordinateTypeDefinition.hpp" />
+    <ClInclude Include="corelib\CreateNoiseLayersFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
     <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
     <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
@@ -243,6 +244,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\IncrementDecrementOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
+    <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
@@ -432,6 +434,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\CoordinateObject.cpp" />
     <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
+    <ClCompile Include="corelib\CreateNoiseLayersFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapAbsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapAbsRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapAddFunctionDefinition.cpp" />
