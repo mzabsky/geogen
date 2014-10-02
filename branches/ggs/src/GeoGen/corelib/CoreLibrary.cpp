@@ -31,6 +31,7 @@
 #include "HeightProfileTypeDefinition.hpp"
 #include "RandomFunctionDefinition.hpp"
 #include "RandomSequence2DTypeDefinition.hpp"
+#include "CreateNoiseLayersFunctionDefinition.hpp"
 
 using namespace geogen::corelib;
 using namespace geogen::runtime;
@@ -109,6 +110,8 @@ CoreLibrary::CoreLibrary()
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::FLOOR));
 	this->globalFunctionDefinitions.AddItem(MathRoundFunctionDefinition::Create(MathRoundFunctionDefinition::ABS));
 
+	this->globalFunctionDefinitions.AddItem(new CreateNoiseLayersFunctionDefinition());
+
 	// Randomness
 	this->globalFunctionDefinitions.AddItem(new RandomFunctionDefinition());
 	this->typeDefinitions.AddItem(new RandomSequence2DTypeDefinition());
@@ -119,5 +122,5 @@ CoreLibrary::CoreLibrary()
 
 	// Generator types
 	this->typeDefinitions.AddItem(new HeightProfileTypeDefinition());
-	this->typeDefinitions.AddItem(new HeightMapTypeDefinition());
+	this->typeDefinitions.AddItem(new HeightMapTypeDefinition());	
 }
