@@ -29,8 +29,8 @@ void HeightMapShiftRenderingStep::UpdateRenderingBounds(Renderer* renderer, std:
 
 	dynamic_cast<RenderingBounds1D*>(argumentBounds[1])->CombineInterval(
 		Interval(
-		this->direction == DIRECTION_HORIZONTAL ? thisRect.GetPosition().GetX() : thisRect.GetPosition().GetY(),
-		this->direction == DIRECTION_HORIZONTAL ? thisRect.GetSize().GetWidth() : thisRect.GetSize().GetHeight()));
+		this->direction == DIRECTION_HORIZONTAL ? thisRect.GetPosition().GetY() : thisRect.GetPosition().GetX(),
+		this->direction == DIRECTION_HORIZONTAL ? thisRect.GetSize().GetHeight() : thisRect.GetSize().GetWidth()));
 }
 
 void HeightMapShiftRenderingStep::SerializeArguments(IOStream& stream) const
