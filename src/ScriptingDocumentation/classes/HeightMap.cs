@@ -25,6 +25,16 @@ public:
     /// Creates a map representing convexity of local areas (with @a radius) in another height map.
     /// Positive heights in the convexity map indicate convex areas and negative heights indicate
     /// concave areas.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Noise();
+    /// yield HeightMap.ConvexityMap(main, 50) as "ConvexityMap";
+    /// yield main;
+    /// @endcode
+    ///         
+    /// @image html std_2d_convexitymap.png
+    /// 	   
     /// @param heightMap The height map.
     /// @param radius The radius. Must be greater than 0.
     /// @return The convexity map.
