@@ -14,14 +14,16 @@ using namespace geogen::renderer;
 
 ManagedObject* HeightMapConvexityMapFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
+	HeightMapTypeDefinition const* heightMapTypeDefinition = dynamic_cast<HeightMapTypeDefinition const*>(instance->GetType());
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
 	vector<TypeDefinition const*> expectedTypes;
+	expectedTypes.push_back(heightMapTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
-	Number numberRadius = ((NumberObject*)arguments[0])->GetValue();
+	Number numberRadius = ((NumberObject*)arguments[1])->GetValue();
 	Size1D radius;
 	if (!TryNumberToSize(numberRadius, radius))
 	{

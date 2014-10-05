@@ -12,7 +12,9 @@ using namespace genlib;
 
 void HeightMapConvexityMapRenderingStep::Step(Renderer* renderer) const
 {
-	HeightMap* map = new HeightMap(dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetRectangle(), 0, renderer->GetRenderingSequence().GetRenderScale());
+	HeightMap* other = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
+
+	HeightMap* map = new HeightMap(*other);
 	map->ConvexityMap(this->radius);
 	RendererObject* object = new RendererObject(RENDERER_OBJECT_TYPE_HEIGHT_MAP, map);
 
