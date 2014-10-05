@@ -31,6 +31,7 @@ ManagedObject* HeightMapConvexityMapFunctionDefinition::CallNative(CodeLocation 
 	ManagedObject* returnObject = dynamic_cast<HeightMapTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
 
 	vector<unsigned> argumentSlots;
+	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightMapConvexityMapRenderingStep(location, argumentSlots, returnObjectSlot, radius);
 	vm->GetRenderingSequence().AddStep(renderingStep);

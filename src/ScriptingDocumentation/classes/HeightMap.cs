@@ -30,10 +30,21 @@ public:
     /// @return The convexity map.
 	static HeightMap ConvexityMap(HeightMap heightMap, Number radius);
 
-    /// Creates a map representing euclidean distance of each pixel to the closest pixel height 0 or less. The distance is capped at @a maximumDistance.
+    /// Creates a map representing euclidean distance of each pixel of a height map to the closest pixel with height 0 or less. 
+    /// 
+    /// The distance is capped at @a maximumDistance. Each pixel will have height proportional to its distance to the closest pixel with height 0 or less. Pixels with distance @a maximumDistance or greater will have height 1.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var noise = HeightMap.Noise(CreateNoiseLayers(64, 256));
+    /// yield HeightMap.DistanceMap(noise, 250);
+    /// @endcode
+    ///         
+    /// @image html std_2d_distancemap.png
+    /// 
     /// @param heightMap The height map.
     /// @param maximumDistance The maximum distance considered. Must be greater than 0.
-    /// @return The convexity map.
+    /// @return The distance map.
 	static HeightMap DistanceMap(HeightMap heightMap, Number maximumDistance);
     
 	/// Creates a height map with constant @a height.

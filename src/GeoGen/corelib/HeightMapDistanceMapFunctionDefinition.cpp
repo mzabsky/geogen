@@ -3,8 +3,8 @@
 #include "../runtime/ManagedObject.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "HeightMapTypeDefinition.hpp"
-#include "HeightMapFlatRenderingStep.hpp"
-#include "HeightOverflowException.hpp"
+#include "HeightMapDistanceMapRenderingStep.hpp"
+#include "SizeOverflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -21,20 +21,21 @@ ManagedObject* HeightMapDistanceMapFunctionDefinition::CallNative(CodeLocation l
 	expectedTypes.push_back(heightMapTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
 
-	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 0);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
-	Number numberHeight = arguments.size() > 0 ? ((NumberObject*)arguments[0])->GetValue() : 0;
-	Height height;
-	if (!TryNumberToHeight(numberHeight, height))
+	Number numberDistance = ((NumberObject*)arguments[1])->GetValue();
+	Size1D distance;
+	if (!TryNumberToSize(numberDistance, distance))
 	{
-		throw HeightOverflowException(location);
+		throw SizeOverflowException(location);
 	}
 
 	ManagedObject* returnObject = heightMapTypeDefinition->CreateInstance(vm);
 
 	vector<unsigned> argumentSlots;
+	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightMapFlatRenderingStep(location, argumentSlots, returnObjectSlot, height);
+	RenderingStep* renderingStep = new HeightMapDistanceMapRenderingStep(location, argumentSlots, returnObjectSlot, distance);
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;

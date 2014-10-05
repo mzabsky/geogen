@@ -293,13 +293,200 @@ void HeightMap::CropHeights(Height min, Height max, Height replace)
 
 void HeightMap::DistanceMap(Size1D distance, Direction direction)
 {
+	HeightMap old(*this);
 
+	double* heights = new double[this->GetRectangle().GetSize().GetTotalLength()];
+	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
+	{
+		heights[i] = this->heightData[i];
+	}
+
+
+	if (direction == DIRECTION_HORIZONTAL)
+	{
+		for (unsigned y = 0; y < this->GetHeight(); y++)
+		{
+			unsigned n = this->GetWidth();
+
+			//float *d = new float[n];
+			int *v = new int[n];
+			float *z = new float[n + 1];
+			int k = 0;
+			v[0] = 0;
+			z[0] = HEIGHT_MIN;
+			z[1] = HEIGHT_MAX;
+			for (int q = 1; q <= n - 1; q++) {
+				float s = (((double)old(q, y) + Square(q)) - ((double)old(v[k], y) + Square(v[k]))) / double(2 * q - 2 * v[k]);
+				while (s <= z[k]) {
+					k--;
+					s = (((double)old(q, y) + Square(q)) - ((double)old(v[k], y) + Square(v[k]))) / double(2 * q - 2 * v[k]);
+				}
+				k++;
+				v[k] = q;
+				z[k] = s;
+				z[k + 1] = HEIGHT_MAX;
+			}
+
+			k = 0;
+			for (int q = 0; q <= n - 1; q++) {
+				while (z[k + 1] < q)
+					k++;
+
+				//cout << sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) << endl;
+
+				(*this)(q, y) = sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) * double(HEIGHT_MAX) / double(distance);
+			}
+
+			delete[] v;
+			delete[] z;
+			//return d;
+		}
+	}
+	else if (direction == DIRECTION_VERTICAL)
+	{
+		for (unsigned x = 0; x < this->GetWidth(); x++)
+		{
+			unsigned n = this->GetHeight();
+
+			//float *d = new float[n];
+			int *v = new int[n];
+			float *z = new float[n + 1];
+			int k = 0;
+			v[0] = 0;
+			z[0] = HEIGHT_MIN;
+			z[1] = HEIGHT_MAX;
+			for (int q = 1; q <= n - 1; q++) {
+				float s = (((double)old(x, q) + Square(q)) - ((double)old(x, v[k]) + Square(v[k]))) / double(2 * q - 2 * v[k]);
+				while (s <= z[k]) {
+					k--;
+					s = (((double)old(x, q) + Square(q)) - ((double)old(x, v[k]) + Square(v[k]))) / double(2 * q - 2 * v[k]);
+				}
+				k++;
+				v[k] = q;
+				z[k] = s;
+				z[k + 1] = HEIGHT_MAX;
+			}
+
+			k = 0;
+			for (int q = 0; q <= n - 1; q++) {
+				while (z[k + 1] < q)
+					k++;
+				(*this)(x, q) = sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(x, v[k])))) * double(HEIGHT_MAX) / double(distance);
+			}
+
+			delete[] v;
+			delete[] z;
+			//return d;
+		}
+	}
 }
 
-void HeightMap::DistanceMap(Size1D distance)
+void HeightMap::DistanceMap(Size1D maximumDistance)
 {
-	this->DistanceMap(distance, DIRECTION_HORIZONTAL);
-	this->DistanceMap(distance, DIRECTION_VERTICAL);
+	double* heights = new double[this->GetRectangle().GetSize().GetTotalLength()];
+	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
+	{
+		heights[i] = this->heightData[i] <= 0 ? 0 : Square(maximumDistance);
+	}
+
+
+	// Horizontal
+	for (unsigned y = 0; y < this->GetHeight(); y++)
+	{
+		unsigned n = this->GetWidth();
+
+		float *d = new float[n];
+		int *v = new int[n];
+		float *z = new float[n + 1];
+		int k = 0;
+		v[0] = 0;
+		z[0] = INT_MIN;
+		z[1] = INT_MAX;
+		for (int q = 1; q <= n - 1; q++) {
+			float s = double((heights[q + y * this->GetHeight()] + Square(q)) - double(heights[v[k] + y * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
+			while (s <= z[k]) {
+				k--;
+				s = double((heights[q + y * this->GetHeight()] + Square(q)) - double(heights[v[k] + y * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
+			}
+			k++;
+			v[k] = q;
+			z[k] = s;
+			z[k + 1] = INT_MAX;
+		}
+
+		k = 0;
+		for (int q = 0; q <= n - 1; q++) {
+			while (z[k + 1] < q)
+				k++;
+
+			//cout << sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) << endl;
+
+			double value = double(Square(q - v[k]) + heights[v[k] + y * this->GetHeight()]);
+			d[q] = double(Square(q - v[k]) + heights[v[k] + y * this->GetHeight()]) /** double(HEIGHT_MAX) / double(distance)*/;
+		}
+
+		delete[] v;
+		delete[] z;
+
+		for (unsigned q = 0; q < n; q++)
+		{
+			heights[q + y * this->GetHeight()] = d[q];
+		}
+		delete[] d;
+	}
+
+
+	// Vertical
+	for (unsigned x = 0; x < this->GetWidth(); x++)
+	{
+		unsigned n = this->GetHeight();
+
+		float *d = new float[n];
+		int *v = new int[n];
+		float *z = new float[n + 1];
+		int k = 0;
+		v[0] = 0;
+		z[0] = INT_MIN;
+		z[1] = INT_MAX;
+		for (int q = 1; q <= n - 1; q++) {
+			float s = double((heights[x + q * this->GetHeight()] + Square(q)) - double(heights[x + v[k] * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
+			while (s <= z[k]) {
+				k--;
+				s = double((heights[x + q * this->GetHeight()] + Square(q)) - double(heights[x + v[k] * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
+			}
+			k++;
+			v[k] = q;
+			z[k] = s;
+			z[k + 1] = INT_MAX;
+		}
+
+		k = 0;
+		for (int q = 0; q <= n - 1; q++) {
+			while (z[k + 1] < q)
+				k++;
+
+			//cout << sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) << endl;
+
+			double value = double(Square(q - v[k]) + heights[x + v[k] * this->GetHeight()]);
+			d[q] = double(Square(q - v[k]) + heights[x + v[k] * this->GetHeight()]) /** double(HEIGHT_MAX) / double(distance)*/;
+		}
+
+		delete[] v;
+		delete[] z;
+
+		for (unsigned q = 0; q < n; q++)
+		{
+			heights[x + q * this->GetHeight()] = d[q];
+		}
+		delete[] d;
+	}
+	
+	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
+	{
+		this->heightData[i] = sqrt(heights[i]) * double(HEIGHT_MAX) / double(maximumDistance);
+	}
+
+	delete[] heights;
 }
 
 void HeightMap::Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalDistortionMap, Size1D maxDistance)
