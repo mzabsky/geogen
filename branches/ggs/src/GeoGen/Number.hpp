@@ -67,6 +67,14 @@ namespace geogen
 		return (T(0) < val) - (val < T(0));
 	}
 
+	/// Returns @v squared.
+	/// @tparam T Numeric type.
+	/// @param val The value.
+	/// @return The squared value.
+	template <typename T> T Square(T val) {
+		return val * val;
+	}
+
 	/// Starts a zone of checked floating point math.
 	void RuntimeMathCheckInit();
 	

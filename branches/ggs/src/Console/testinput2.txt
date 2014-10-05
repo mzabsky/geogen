@@ -1,1 +1,3 @@
-﻿yield HeightMap.Projection(HeightProfile.Noise().Flip(), Direction.Vertical);
+﻿var noise = HeightMap.Noise(CreateNoiseLayers(64, 256));
+yield HeightMap.Clone(noise).CropHeights(0, 1, 1) as "Noise";
+yield HeightMap.DistanceMap(noise, 250);
