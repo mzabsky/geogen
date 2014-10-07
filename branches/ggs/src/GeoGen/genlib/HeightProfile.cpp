@@ -357,15 +357,13 @@ void HeightProfile::Move(Coordinate offset)
 	this->interval += Coordinate(offset * this->scale);
 }
 
-void HeightProfile::Multiply(Height factor)
+void HeightProfile::Multiply(double factor)
 {
-	double actualFactor = factor / (double)HEIGHT_MAX;
-
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
 
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
-		(*this)(x) = Height((*this)(x) * factor);
+		(*this)(x) = (Height)min((double)HEIGHT_MAX, max((double)HEIGHT_MIN, (*this)(x) * factor));
 	}
 }
 
