@@ -28,16 +28,16 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 2);
 
-	Number numberMaxDistance = ((NumberObject*)arguments[0])->GetValue();
-	Size1D maxDistance;
-	if (!TryNumberToSize(numberMaxDistance, maxDistance))
+	Number numberPerturbanceSize = ((NumberObject*)arguments[0])->GetValue();
+	Size1D perturbanceSize;
+	if (!TryNumberToSize(numberPerturbanceSize, perturbanceSize))
 	{
 		throw SizeOverflowException(location);
 	}
 
-	Number numberPerturbanceSize = ((NumberObject*)arguments[1])->GetValue();
-	Size1D perturbanceSize;
-	if (!TryNumberToSize(numberPerturbanceSize, perturbanceSize))
+	Number numberMaxDistance = ((NumberObject*)arguments[1])->GetValue();
+	Size1D maxDistance;
+	if (!TryNumberToSize(numberMaxDistance, maxDistance))
 	{
 		throw SizeOverflowException(location);
 	}
