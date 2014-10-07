@@ -35,8 +35,8 @@ ManagedObject* HeightProfileCropFunctionDefinition::CallNative(CodeLocation loca
 		throw UnknownRelativeCoordinateDirectionException(location);
 	}
 
-	Coordinate start = startObject->GetValue();
-	Coordinate length = lengthObject->GetValue();
+	Coordinate start = (Coordinate)startObject->GetValue();
+	Coordinate length = (Coordinate)lengthObject->GetValue();
 
 
 	Number numberHeight = arguments.size() > 2 ? ((NumberObject*)arguments[2])->GetValue() : 0;
