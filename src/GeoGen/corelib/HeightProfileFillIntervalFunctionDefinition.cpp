@@ -7,6 +7,7 @@
 #include "CoordinateTypeDefinition.hpp"
 #include "CoordinateObject.hpp"
 #include "HeightOverflowException.hpp"
+#include "SizeOverflowException.hpp"
 #include "UnknownRelativeCoordinateDirectionException.hpp"
 
 using namespace std;
@@ -36,7 +37,6 @@ ManagedObject* HeightProfileFillIntervalFunctionDefinition::CallNative(CodeLocat
 	}
 
 	Coordinate start = (Coordinate)startObject->GetValue();
-	Coordinate length = (Coordinate)lengthObject->GetValue();
 
 
 	Number numberHeight = ((NumberObject*)arguments[2])->GetValue();
@@ -44,6 +44,13 @@ ManagedObject* HeightProfileFillIntervalFunctionDefinition::CallNative(CodeLocat
 	if (!TryNumberToHeight(numberHeight, height))
 	{
 		throw HeightOverflowException(location);
+	}
+
+	Number numberLength = lengthObject->GetValue();
+	Size1D length;
+	if (!TryNumberToSize(numberLength, length))
+	{
+		throw SizeOverflowException(location);
 	}
 
 	vector<unsigned> argumentSlots;

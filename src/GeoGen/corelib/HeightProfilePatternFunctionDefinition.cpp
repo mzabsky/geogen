@@ -9,6 +9,7 @@
 #include "CoordinateObject.hpp"
 #include "HeightProfilePatternRenderingStep.hpp"
 #include "UnknownRelativeCoordinateDirectionException.hpp"
+#include "SizeOverflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -37,7 +38,13 @@ ManagedObject* HeightProfilePatternFunctionDefinition::CallNative(CodeLocation l
 	}
 
 	Coordinate start = NumberToInt(startObject->GetValue());
-	Size1D length = NumberToInt(lengthObject->GetValue());
+
+	Number numberLength = lengthObject->GetValue();
+	Size1D length;
+	if (!TryNumberToSize(numberLength, length))
+	{
+		throw SizeOverflowException(location);
+	}
 
 	ManagedObject* returnObject = dynamic_cast<HeightProfileTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
 
