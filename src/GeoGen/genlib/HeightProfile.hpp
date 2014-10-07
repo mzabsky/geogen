@@ -205,9 +205,9 @@ namespace geogen
 			/// @param offset The offset.
 			void Move(Coordinate offset);
 
-			/// Multiplies the height in each pixel by a value corresponding to factor from <-1, 1> range. 
+			/// Multiplies the height in each pixel by a factor. 
 			/// @param factor The factor.
-			void Multiply(Height factor);
+			void Multiply(double factor);
 
 			/// Multiplies the height in each pixel by a corresponding pixel from another height profile (mapped to range <-1, 1>). 
 			/// @param [in,out] factor If non-null, the factor.

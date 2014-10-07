@@ -10,9 +10,9 @@ namespace geogen
 		class HeightProfileMultiplyRenderingStep : public renderer::RenderingStep1D
 		{
 		private:
-			Height factor;
+			double factor;
 		public:
-			HeightProfileMultiplyRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Height factor)
+			HeightProfileMultiplyRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, double factor)
 				: RenderingStep1D(location, argumentSlots, returnSlot), factor(factor) {};
 
 			virtual String GetName() const { return GG_STR("HeightProfile.Multiply"); };
