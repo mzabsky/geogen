@@ -19,7 +19,7 @@ ManagedObject* ArrayFromListFunctionDefinition::CallNative(CodeLocation location
 	ArrayTypeDefinition const* arrayTypeDefinition = dynamic_cast<ArrayTypeDefinition const*>(instance->GetType());
 	ArrayObject* returnObject = dynamic_cast<ArrayObject*>(arrayTypeDefinition->CreateInstance(vm));
 
-	for (int i = 0; i < arguments.size() / 2; i++)
+	for (unsigned i = 0; i < arguments.size() / 2; i++)
 	{
 		ManagedObject* key = arguments[unsigned(i * 2 + 1)];
 		ManagedObject* value = arguments[unsigned(i * 2)];
