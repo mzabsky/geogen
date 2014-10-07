@@ -174,12 +174,12 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 
 			/* In every step shift the window one tile to the right  (= subtract its leftmost cell and add
 			value of rightmost + 1). i represents position of the central cell of the window. */
-			for (Coordinate x = 0; x < this->GetWidth(); x++) {
+			for (Coordinate x = 0; x < (Coordinate)this->GetWidth(); x++) {
 				// If the window is approaching right border, use the rightmost value as fill.
-				if (x < scaledRadius) {
+				if (x < (Coordinate)scaledRadius) {
 					window_value += (long long)(*this)(x + scaledRadius, y) - (long long)(*this)(0, y);
 				}
-				else if (x + scaledRadius < this->GetWidth()) {
+				else if (x + scaledRadius < (Coordinate)this->GetWidth()) {
 					window_value += (long long)(*this)(x + scaledRadius, y) - (long long)(*this)(x - scaledRadius, y);
 				}
 				else {
@@ -192,20 +192,20 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 		}
 	}
 	else {
-		for (Coordinate x = 0; x < this->GetHeight(); x++) {
+		for (Coordinate x = 0; x < (Coordinate)this->GetHeight(); x++) {
 			// Prefill the window with value of the left edge + n topmost values (where n is radius).
 			Size1D window_size = scaledRadius * 2 + 1;
 			long long window_value = (long long)(*this)(x, 0) * scaledRadius;
 
-			for (Size1D y = 0; y < scaledRadius; y++) {
+			for (Size1D y = 0; y < (Coordinate)scaledRadius; y++) {
 				window_value += (long long)(*this)(x, y);
 			}
 
 			/* In every step shift the window one tile to the bottom  (= subtract its topmost cell and add
 			value of bottommost + 1). i represents position of the central cell of the window. */
-			for (Coordinate y = 0; y < this->GetHeight(); y++) {
+			for (Coordinate y = 0; y < (Coordinate)this->GetHeight(); y++) {
 				// If the window is approaching right border, use the rightmost value as fill.
-				if (y < scaledRadius) {
+				if (y < (Coordinate)scaledRadius) {
 					window_value += (long long)(*this)(x, y + scaledRadius) - (long long)(*this)(x, 0);
 				}
 				else if (y + scaledRadius < this->GetHeight()) {
@@ -291,119 +291,29 @@ void HeightMap::CropHeights(Height min, Height max, Height replace)
 	}
 }
 
-void HeightMap::DistanceMap(Size1D distance, Direction direction)
-{
-	HeightMap old(*this);
-
-	double* heights = new double[this->GetRectangle().GetSize().GetTotalLength()];
-	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
-	{
-		heights[i] = this->heightData[i];
-	}
-
-
-	if (direction == DIRECTION_HORIZONTAL)
-	{
-		for (unsigned y = 0; y < this->GetHeight(); y++)
-		{
-			unsigned n = this->GetWidth();
-
-			//float *d = new float[n];
-			int *v = new int[n];
-			float *z = new float[n + 1];
-			int k = 0;
-			v[0] = 0;
-			z[0] = HEIGHT_MIN;
-			z[1] = HEIGHT_MAX;
-			for (int q = 1; q <= n - 1; q++) {
-				float s = (((double)old(q, y) + Square(q)) - ((double)old(v[k], y) + Square(v[k]))) / double(2 * q - 2 * v[k]);
-				while (s <= z[k]) {
-					k--;
-					s = (((double)old(q, y) + Square(q)) - ((double)old(v[k], y) + Square(v[k]))) / double(2 * q - 2 * v[k]);
-				}
-				k++;
-				v[k] = q;
-				z[k] = s;
-				z[k + 1] = HEIGHT_MAX;
-			}
-
-			k = 0;
-			for (int q = 0; q <= n - 1; q++) {
-				while (z[k + 1] < q)
-					k++;
-
-				//cout << sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) << endl;
-
-				(*this)(q, y) = sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) * double(HEIGHT_MAX) / double(distance);
-			}
-
-			delete[] v;
-			delete[] z;
-			//return d;
-		}
-	}
-	else if (direction == DIRECTION_VERTICAL)
-	{
-		for (unsigned x = 0; x < this->GetWidth(); x++)
-		{
-			unsigned n = this->GetHeight();
-
-			//float *d = new float[n];
-			int *v = new int[n];
-			float *z = new float[n + 1];
-			int k = 0;
-			v[0] = 0;
-			z[0] = HEIGHT_MIN;
-			z[1] = HEIGHT_MAX;
-			for (int q = 1; q <= n - 1; q++) {
-				float s = (((double)old(x, q) + Square(q)) - ((double)old(x, v[k]) + Square(v[k]))) / double(2 * q - 2 * v[k]);
-				while (s <= z[k]) {
-					k--;
-					s = (((double)old(x, q) + Square(q)) - ((double)old(x, v[k]) + Square(v[k]))) / double(2 * q - 2 * v[k]);
-				}
-				k++;
-				v[k] = q;
-				z[k] = s;
-				z[k + 1] = HEIGHT_MAX;
-			}
-
-			k = 0;
-			for (int q = 0; q <= n - 1; q++) {
-				while (z[k + 1] < q)
-					k++;
-				(*this)(x, q) = sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(x, v[k])))) * double(HEIGHT_MAX) / double(distance);
-			}
-
-			delete[] v;
-			delete[] z;
-			//return d;
-		}
-	}
-}
-
 void HeightMap::DistanceMap(Size1D maximumDistance)
 {
+	// Higher than integer precision is required for intermediate results
 	double* heights = new double[this->GetRectangle().GetSize().GetTotalLength()];
 	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
 	{
 		heights[i] = this->heightData[i] <= 0 ? 0 : Square(maximumDistance);
 	}
 
-
 	// Horizontal
 	for (unsigned y = 0; y < this->GetHeight(); y++)
 	{
 		unsigned n = this->GetWidth();
 
-		float *d = new float[n];
+		double *d = new double[n];
 		int *v = new int[n];
-		float *z = new float[n + 1];
+		double *z = new double[n + 1];
 		int k = 0;
 		v[0] = 0;
 		z[0] = INT_MIN;
 		z[1] = INT_MAX;
-		for (int q = 1; q <= n - 1; q++) {
-			float s = double((heights[q + y * this->GetHeight()] + Square(q)) - double(heights[v[k] + y * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
+		for (unsigned q = 1; q <= n - 1; q++) {
+			double s = double((heights[q + y * this->GetHeight()] + Square(q)) - double(heights[v[k] + y * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
 			while (s <= z[k]) {
 				k--;
 				s = double((heights[q + y * this->GetHeight()] + Square(q)) - double(heights[v[k] + y * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
@@ -415,7 +325,7 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 		}
 
 		k = 0;
-		for (int q = 0; q <= n - 1; q++) {
+		for (unsigned q = 0; q <= n - 1; q++) {
 			while (z[k + 1] < q)
 				k++;
 
@@ -441,15 +351,15 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 	{
 		unsigned n = this->GetHeight();
 
-		float *d = new float[n];
+		double *d = new double[n];
 		int *v = new int[n];
-		float *z = new float[n + 1];
+		double *z = new double[n + 1];
 		int k = 0;
 		v[0] = 0;
 		z[0] = INT_MIN;
 		z[1] = INT_MAX;
-		for (int q = 1; q <= n - 1; q++) {
-			float s = double((heights[x + q * this->GetHeight()] + Square(q)) - double(heights[x + v[k] * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
+		for (unsigned q = 1; q <= n - 1; q++) {
+			double s = double((heights[x + q * this->GetHeight()] + Square(q)) - double(heights[x + v[k] * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
 			while (s <= z[k]) {
 				k--;
 				s = double((heights[x + q * this->GetHeight()] + Square(q)) - double(heights[x + v[k] * this->GetHeight()] + Square(v[k]))) / double(2 * q - 2 * v[k]);
@@ -461,7 +371,7 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 		}
 
 		k = 0;
-		for (int q = 0; q <= n - 1; q++) {
+		for (unsigned q = 0; q <= n - 1; q++) {
 			while (z[k + 1] < q)
 				k++;
 
@@ -483,7 +393,7 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 	
 	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
 	{
-		this->heightData[i] = sqrt(heights[i]) * double(HEIGHT_MAX) / double(maximumDistance);
+		this->heightData[i] = Height(sqrt(heights[i]) * double(HEIGHT_MAX) / double(maximumDistance));
 	}
 
 	delete[] heights;
@@ -526,7 +436,7 @@ void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Hei
 	long long gradientOffsetX = destination.GetX() - (long long)source.GetX();
 	long long gradientOffsetY = destination.GetY() - (long long)source.GetY();
 
-	Point gradientOffset(gradientOffsetX, gradientOffsetY);
+	Point gradientOffset((Coordinate)gradientOffsetX, (Coordinate)gradientOffsetY);
 
 	// Width of the gradient strip.
 	double maxDistance = source.GetDistanceTo(destination);//  sqrt((double)(abs(gradientOffsetX) * abs(gradientOffsetX) + abs(gradientOffsetY) * abs(gradientOffsetY)));
@@ -553,7 +463,7 @@ void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Hei
 		// Apply it to the array data.
 		if (distance <= maxDistance && reverseDistance <= maxDistance) {
 			// TODO: lerp uses only coordinate, not long long
-			(*this)(x, y) = Lerp(0, maxDistance, fromHeight, toHeight, distance);
+			(*this)(x, y) = Lerp(0, (Coordinate)maxDistance, fromHeight, toHeight, distance);
 		}
 		else if (reverseDistance < distance) {
 			(*this)(x, y) = toHeight;
