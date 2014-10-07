@@ -61,7 +61,6 @@ ManagedObject* HeightProfileFromArrayFunctionDefinition::CallNative(CodeLocation
 				throw UnknownRelativeCoordinateDirectionException(location);
 			}
 
-			// TODO: Range check?
 			key = coordinateObject->GetAbsoluteCoordinate(vm, location, direction);
 		}
 		else IncorrectTypeException(GGE2706_IncorrectHeightProfileKeyType, location, GG_STR("Number"), it->second->GetType()->GetName());

@@ -20,13 +20,13 @@ ManagedObject* HeightMapBlurFunctionDefinition::CallNative(CodeLocation location
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(numberTypeDefinition);
 
-	// TODO: size check
 	Number numberRadius = ((NumberObject*)arguments[0])->GetValue();
 	Size1D radius;
 	if (!TryNumberToSize(numberRadius, radius))
 	{
 		throw SizeOverflowException(location);
 	}
+
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	vector<unsigned> argumentSlots;
