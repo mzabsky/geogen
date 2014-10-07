@@ -146,7 +146,6 @@
     <ClInclude Include="compiler\IncorrectMapSizeNumericValueException.hpp" />
     <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
     <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp" />
-    <ClInclude Include="Dimension.hpp" />
     <ClInclude Include="renderer\RenderingSequence.hpp" />
     <ClInclude Include="renderer\Renderer.hpp" />
     <ClInclude Include="Point.hpp" />
@@ -446,7 +445,6 @@
     <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp" />
     <ClCompile Include="corelib\MessageFunctionDefinition.cpp" />
-    <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="runtime\EnumScriptParameter.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />
