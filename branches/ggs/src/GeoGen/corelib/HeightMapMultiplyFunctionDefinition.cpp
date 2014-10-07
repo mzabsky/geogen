@@ -20,15 +20,15 @@ ManagedObject* HeightMapMultiplyFunctionDefinition::CallNative(CodeLocation loca
 
 	vector<TypeDefinition const*> expectedTypes;
 
-	bool isHeightMode;
+	bool isNumberMode;
 	if (arguments.size() > 0 && arguments[0]->GetType() == this->GetOwningTypeDefinition())
 	{
-		isHeightMode = false;
+		isNumberMode = false;
 		expectedTypes.push_back(this->GetOwningTypeDefinition());
 	}
 	else
 	{
-		isHeightMode = true;
+		isNumberMode = true;
 		expectedTypes.push_back(numberTypeDefinition);
 	}
 
@@ -37,17 +37,12 @@ ManagedObject* HeightMapMultiplyFunctionDefinition::CallNative(CodeLocation loca
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 
-	if (isHeightMode)
+	if (isNumberMode)
 	{
-		Number numberHeight = ((NumberObject*)arguments[0])->GetValue();
-		Height height;
-		if (!TryNumberToHeight(numberHeight, height))
-		{
-			throw HeightOverflowException(location);
-		}
+		Number number = ((NumberObject*)arguments[0])->GetValue();
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
-		RenderingStep* renderingStep = new HeightMapMultiplyRenderingStep(location, argumentSlots, returnObjectSlot, height);
+		RenderingStep* renderingStep = new HeightMapMultiplyRenderingStep(location, argumentSlots, returnObjectSlot, number);
 		vm->GetRenderingSequence().AddStep(renderingStep);
 	}
 	else

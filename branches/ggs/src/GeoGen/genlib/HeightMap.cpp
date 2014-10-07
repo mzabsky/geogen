@@ -592,15 +592,13 @@ void HeightMap::Move(Point offset)
 	this->rectangle += offset * this->scale;
 }
 
-void HeightMap::Multiply(Height factor)
+void HeightMap::Multiply(double factor)
 {
-	double actualFactor = factor / (double)HEIGHT_MAX;
-
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		(*this)(x, y) = Height((*this)(x, y) * actualFactor);
+		(*this)(x, y) = (Height)min((double)HEIGHT_MAX, max((double)HEIGHT_MIN, (*this)(x, y) * factor));
 	}
 }
 
