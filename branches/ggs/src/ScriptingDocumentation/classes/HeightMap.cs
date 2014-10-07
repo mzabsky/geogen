@@ -446,8 +446,8 @@ public:
     /// 
     /// @image html std_2d_rescale.png
     ///        
-    /// @param horizontalScale The horizontal scale ratio. Must be greater than 0.
-    /// @param verticalScale (Optional) The vertical scale ratio. If not provided, it will be the same as @a horizontalScale. Must be greater than 0.
+    /// @param horizontalScale The horizontal scale ratio. Must be greater than 0.1 and less than 10.
+    /// @param verticalScale (Optional) The vertical scale ratio. If not provided, it will be the same as @a horizontalScale. Must be greater than 0.1 and less than 10.
     /// @return The height map itself (for call chaining).
     HeightMap Rescale(Number horizontalScale, Number verticalScale);
 

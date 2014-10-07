@@ -350,6 +350,7 @@
     <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
     <ClInclude Include="corelib\HeightProfileFlipRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFlipFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\InvalidScaleException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp">

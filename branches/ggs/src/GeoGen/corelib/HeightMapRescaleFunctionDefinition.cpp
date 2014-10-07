@@ -4,6 +4,7 @@
 #include "HeightMapTypeDefinition.hpp"
 #include "HeightMapFlatRenderingStep.hpp"
 #include "HeightOverflowException.hpp"
+#include "InvalidScaleException.hpp"
 #include "HeightMapRescaleRenderingStep.hpp"
 #include "NumberTypeDefinition.hpp"
 
@@ -23,8 +24,19 @@ ManagedObject* HeightMapRescaleFunctionDefinition::CallNative(CodeLocation locat
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 1);
 
-	Number horizontalScale = ((NumberObject*)arguments[0])->GetValue();
-	Number verticalScale = arguments.size() > 1 ? ((NumberObject*)arguments[1])->GetValue() : horizontalScale;
+	Number numberHorizontalScale = ((NumberObject*)arguments[0])->GetValue();
+	Scale horizontalScale;
+	if (!TryNumberToScale(numberHorizontalScale, horizontalScale))
+	{
+		throw InvalidScaleException(location);
+	}
+
+	Number numberVerticalScale = arguments.size() > 1 ? ((NumberObject*)arguments[1])->GetValue() : numberHorizontalScale;
+	Scale verticalScale;
+	if (!TryNumberToScale(numberVerticalScale, verticalScale))
+	{
+		throw InvalidScaleException(location);
+	}
 
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
