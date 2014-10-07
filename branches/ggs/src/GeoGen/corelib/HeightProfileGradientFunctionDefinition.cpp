@@ -38,8 +38,8 @@ ManagedObject* HeightProfileGradientFunctionDefinition::CallNative(CodeLocation 
 		throw UnknownRelativeCoordinateDirectionException(location);
 	}
 
-	Coordinate source = sourceObject->GetValue();
-	Coordinate destination = destinationObject->GetValue();
+	Coordinate source = (Coordinate)sourceObject->GetValue();
+	Coordinate destination = (Coordinate)destinationObject->GetValue();
 
 	Number numberFromHeight = ((NumberObject*)arguments[2])->GetValue();
 	Height fromHeight;

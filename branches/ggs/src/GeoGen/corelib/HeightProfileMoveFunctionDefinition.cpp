@@ -32,7 +32,7 @@ ManagedObject* HeightProfileMoveFunctionDefinition::CallNative(CodeLocation loca
 		throw UnknownRelativeCoordinateDirectionException(location);
 	}
 
-	Coordinate offset = offsetObject->GetValue();
+	Coordinate offset = (Coordinate)offsetObject->GetValue();
 
 
 	vector<unsigned> argumentSlots;

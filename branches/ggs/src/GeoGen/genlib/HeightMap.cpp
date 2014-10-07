@@ -168,7 +168,7 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 			Size1D window_size = scaledRadius * 2 + 1;
 			long long window_value = (long long)(*this)(0, y) * scaledRadius;
 
-			for (long long x = 0; x < scaledRadius; x++) {
+			for (Coordinate x = 0; x < (Coordinate)scaledRadius; x++) {
 				window_value += (long long)(*this)(x, y);
 			}
 
@@ -529,7 +529,7 @@ void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Hei
 	Point gradientOffset(gradientOffsetX, gradientOffsetY);
 
 	// Width of the gradient strip.
-	unsigned long long maxDistance = source.GetDistanceTo(destination);//  sqrt((double)(abs(gradientOffsetX) * abs(gradientOffsetX) + abs(gradientOffsetY) * abs(gradientOffsetY)));
+	double maxDistance = source.GetDistanceTo(destination);//  sqrt((double)(abs(gradientOffsetX) * abs(gradientOffsetX) + abs(gradientOffsetY) * abs(gradientOffsetY)));
 
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
 

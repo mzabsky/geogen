@@ -3,7 +3,7 @@
 #include "../runtime/ManagedObject.hpp"
 #include "HeightMapTypeDefinition.hpp"
 #include "HeightMapFlatRenderingStep.hpp"
-#include "HeightOverflowException.hpp"
+#include "SizeOverflowException.hpp"
 #include "HeightMapDistortRenderingStep.hpp"
 #include "HeightMapFlatRenderingStep.hpp"
 #include "HeightMapNoiseRenderingStep.hpp"
@@ -28,14 +28,22 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 2);
 
-	// TODO: size check
-	Size1D maxDistance = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
-	Size1D perturbanceSize = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
+	Number numberMaxDistance = ((NumberObject*)arguments[0])->GetValue();
+	Size1D maxDistance;
+	if (!TryNumberToSize(numberMaxDistance, maxDistance))
+	{
+		throw SizeOverflowException(location);
+	}
+
+	Number numberPerturbanceSize = ((NumberObject*)arguments[1])->GetValue();
+	Size1D perturbanceSize;
+	if (!TryNumberToSize(numberPerturbanceSize, perturbanceSize))
+	{
+		throw SizeOverflowException(location);
+	}
 
 	RandomSeed argumentSeed = arguments.size() > 2 ? (RandomSeed)dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0;
 	RandomSeed compositeSeed = CombineSeeds(argumentSeed, vm->GetArguments().GetRandomSeed(), CreateSeed(GG_STR("HeightMap.Distort")));
-
-	// TODO: Seed;
 
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 

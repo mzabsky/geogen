@@ -24,7 +24,7 @@ void HeightMapRescaleRenderingStep::UpdateRenderingBounds(Renderer* renderer, st
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
 		Rectangle(
 			Point(Height(thisRect.GetPosition().GetX() / this->horizontalScale), Height(thisRect.GetPosition().GetY() / this->verticalScale)),
-			Size2D(RoundAway(thisRect.GetSize().GetWidth() / this->horizontalScale), RoundAway(thisRect.GetSize().GetHeight() / this->verticalScale))));
+			Size2D((Size1D)RoundAway(thisRect.GetSize().GetWidth() / this->horizontalScale), (Size1D)RoundAway(thisRect.GetSize().GetHeight() / this->verticalScale))));
 }
 
 void HeightMapRescaleRenderingStep::SerializeArguments(IOStream& stream) const

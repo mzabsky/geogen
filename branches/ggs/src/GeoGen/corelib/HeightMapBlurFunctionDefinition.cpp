@@ -3,7 +3,7 @@
 #include "../runtime/ManagedObject.hpp"
 #include "HeightMapTypeDefinition.hpp"
 #include "HeightMapFlatRenderingStep.hpp"
-#include "HeightOverflowException.hpp"
+#include "SizeOverflowException.hpp"
 #include "HeightMapBlurRenderingStep.hpp"
 #include "NumberTypeDefinition.hpp"
 
@@ -21,14 +21,18 @@ ManagedObject* HeightMapBlurFunctionDefinition::CallNative(CodeLocation location
 	expectedTypes.push_back(numberTypeDefinition);
 
 	// TODO: size check
-	Size1D kernelSize = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
-
+	Number numberRadius = ((NumberObject*)arguments[0])->GetValue();
+	Size1D radius;
+	if (!TryNumberToSize(numberRadius, radius))
+	{
+		throw SizeOverflowException(location);
+	}
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
-	RenderingStep* renderingStep = new HeightMapBlurRenderingStep(location, argumentSlots, returnObjectSlot, kernelSize);
+	RenderingStep* renderingStep = new HeightMapBlurRenderingStep(location, argumentSlots, returnObjectSlot, radius);
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return instance;
