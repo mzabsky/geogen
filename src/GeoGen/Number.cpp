@@ -44,6 +44,18 @@ bool geogen::TryNumberToHeight(Number n, Height& out)
 	}
 }
 
+bool geogen::TryNumberToScale(Number n, Scale& out)
+{
+	if (n > 10 || n < 0.1)
+	{
+		return false;
+	}
+	else {
+		out = n;
+		return true;
+	}
+}
+
 bool geogen::TryNumberToSize(Number n, Size1D& out)
 {
 	if (n < 0)

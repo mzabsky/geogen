@@ -77,6 +77,7 @@ namespace geogen
 		GGE2711_NonpositiveNoiseLayerAmplitude = 2711,
 		GGE2712_InvalidTransformationMatrix = 2712,
 		GGE2713_InvalidPersistence = 2713,
+		GGE2714_InvalidScale = 2714,
 
 		GGE2801_MainMapNotGenerated = 2801,
 		/// API usage error - such as incorrect parameter or a method being called in incorrect context).

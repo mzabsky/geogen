@@ -48,6 +48,12 @@ namespace geogen
 	/// @return true if the conversion was successful, false otherwise.
 	bool TryNumberToHeight(Number n, Height& out);
 
+	/// Attempts to convert a Number to a Scale. The number is expected to be in range <0.1, 10>.
+	/// @param n The Number to convert.
+	/// @param out The conversion result.
+	/// @return true if the conversion was successful, false otherwise.
+	bool TryNumberToScale(Number n, Scale& out);
+
 	/// Attempts to convert a Number to Size1D. The number is expected to be in range SIZE_MIN, SIZE_MAX.
 	/// @param n The Number to convert.
 	/// @param out The conversion result.
@@ -58,7 +64,6 @@ namespace geogen
 	/// @param n The Number to convert.
 	/// @return The converted Height.
 	Height NumberToHeight(Number n);
-
 	/// Returns sign of a numeric value.
 	/// @tparam T Numeric type.
 	/// @param val The value.

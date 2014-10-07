@@ -247,6 +247,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
+    <ClInclude Include="corelib\InvalidScaleException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />

@@ -5,6 +5,7 @@
 #include "HeightProfileRescaleRenderingStep.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "../renderer/RenderingBounds1D.hpp"
+#include "InvalidScaleException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -21,7 +22,12 @@ ManagedObject* HeightProfileRescaleFunctionDefinition::CallNative(CodeLocation l
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
-	Scale scale = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
+	Number numberScale = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
+	Scale scale;
+	if (!TryNumberToScale(numberScale, scale))
+	{
+		throw InvalidScaleException(location);
+	}
 
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
