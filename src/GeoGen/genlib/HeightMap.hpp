@@ -159,7 +159,7 @@ namespace geogen
 			void Intersect(HeightMap* other);
 			void Invert();
 			void Move(Point offset);
-			void Multiply(Height factor);
+			void Multiply(double factor);
 			void MultiplyMap(HeightMap* factor);
 			void Noise(NoiseLayers const& layers, random::RandomSeed seed);
 			void NoiseLayer(Size1D waveLength, Height amplitude, random::RandomSeed seed, unsigned seedStep);
