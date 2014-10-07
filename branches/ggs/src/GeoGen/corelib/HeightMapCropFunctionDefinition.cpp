@@ -7,6 +7,7 @@
 #include "PointObject.hpp"
 #include "HeightMapFlatRenderingStep.hpp"
 #include "HeightOverflowException.hpp"
+#include "SizeOverflowException.hpp"
 #include "HeightMapCropRenderingStep.hpp"
 
 using namespace std;
@@ -29,7 +30,11 @@ ManagedObject* HeightMapCropFunctionDefinition::CallNative(CodeLocation location
 
 	Point fromPoint = dynamic_cast<PointObject*>(arguments[0])->GetAbsolutePoint(vm, location);
 	Point sizePoint = dynamic_cast<PointObject*>(arguments[1])->GetAbsolutePoint(vm, location);
-	Size2D size = Size2D(sizePoint.GetX(), sizePoint.GetY());
+	Size2D size;
+	if (!TryPointToSize(sizePoint, size))
+	{
+		throw SizeOverflowException(location);
+	}
 
 	Number heightNumber = arguments.size() > 2 ? dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0;
 	Height height;

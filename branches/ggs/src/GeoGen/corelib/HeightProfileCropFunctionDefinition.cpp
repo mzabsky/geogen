@@ -7,6 +7,7 @@
 #include "CoordinateTypeDefinition.hpp"
 #include "CoordinateObject.hpp"
 #include "HeightOverflowException.hpp"
+#include "SizeOverflowException.hpp"
 #include "UnknownRelativeCoordinateDirectionException.hpp"
 
 using namespace std;
@@ -36,8 +37,13 @@ ManagedObject* HeightProfileCropFunctionDefinition::CallNative(CodeLocation loca
 	}
 
 	Coordinate start = (Coordinate)startObject->GetValue();
-	Coordinate length = (Coordinate)lengthObject->GetValue();
 
+	Number numberLength = lengthObject->GetValue();
+	Size1D length;
+	if (!TryNumberToSize(numberLength, length))
+	{
+		throw SizeOverflowException(location);
+	}
 
 	Number numberHeight = arguments.size() > 2 ? ((NumberObject*)arguments[2])->GetValue() : 0;
 	Height height;

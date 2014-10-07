@@ -7,6 +7,7 @@
 #include "HeightMapTypeDefinition.hpp"
 #include "HeightMapRadialGradientRenderingStep.hpp"
 #include "HeightOverflowException.hpp"
+#include "SizeOverflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -32,7 +33,11 @@ ManagedObject* HeightMapRadialGradientFunctionDefinition::CallNative(CodeLocatio
 	Number numberFromHeight = ((NumberObject*)arguments[2])->GetValue();
 	Number numberToHeight = ((NumberObject*)arguments[3])->GetValue();
 	
-	Height radius = NumberToInt(numberRadius);
+	Size1D radius;
+	if (!TryNumberToSize(numberRadius, radius))
+	{
+		throw SizeOverflowException(location);
+	}
 
 	Height fromHeight;
 	if (!TryNumberToHeight(numberFromHeight, fromHeight))
