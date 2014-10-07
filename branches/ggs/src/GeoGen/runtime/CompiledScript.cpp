@@ -194,7 +194,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 
 			if (minMapWidth > maxMapWidth)
 			{
-				throw compiler::MinGreaterThanMaxSizeException(widthSection->GetItem(GG_STR("Min"))->GetLocation(), DIMENSION_WIDTH);
+				throw compiler::MinGreaterThanMaxSizeException(widthSection->GetItem(GG_STR("Min"))->GetLocation(), DIRECTION_HORIZONTAL);
 			}
 		}
 		else
@@ -294,7 +294,7 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 
 			if (minMapHeight > maxMapHeight)
 			{
-				throw compiler::MinGreaterThanMaxSizeException(heightSection->GetItem(GG_STR("Min"))->GetLocation(), DIMENSION_HEIGHT);
+				throw compiler::MinGreaterThanMaxSizeException(heightSection->GetItem(GG_STR("Min"))->GetLocation(), DIRECTION_VERTICAL);
 			}
 		}
 		else
