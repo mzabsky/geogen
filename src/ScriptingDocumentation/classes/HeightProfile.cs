@@ -334,6 +334,12 @@ public:
     /// @return A HeightProfile.
 	HeightProfile Multiply(Number/HeightProfile factor);
 
+    /// Enlarges (with scale &gt; 1) or shrinks (with scale &lt; 1) the entire profile. The scaling
+    /// transformation has origin at coordiante 0. Uses linear interpolation.
+    /// 
+    /// @param scale The scale ratio. Must be greater than 0.1 and less than 10.
+    /// @return The height profile itself (for call chaining).
+    HeightMap Rescale(Number horizontalScale, Number verticalScale);
 
     /// Sets each pixel in the to the greater of the two corresponding heights in the current profile and the other profile.
     /// 
