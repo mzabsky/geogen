@@ -1,7 +1,7 @@
-/// @page tutorial_first_script Tutorial: First script
-/// This tutorial shows how to write your first simple GeoGen map script.
+/// @page tutorial_console Tutorial: Using the command line interface
+/// This tutorial shows how to run GeoGen from the command line.
 ///
-/// Each map script must generate at least one map: the height map itself. Therefore the simplest possible script generates a single flat and empty height map:
+/// The `geogen` executable is located in the `bin` directory in the GeoGen's main directory. Starting this program will enter the interactive console and wait for a command.
 ///
 /// @code{.cs}
 /// yield HeightMap.Flat();

@@ -1,3 +1,15 @@
-﻿var noise = HeightMap.Noise();
-yield HeightMap.ConvexityMap(noise, 20) as "ConvexityMap";
-yield noise;
+﻿var main = HeightMap.Flat(1);
+
+// Draw the star from lines
+var angleStep = 360 / 16;
+for(var angle = 0; angle < 360; angle += angleStep)
+{
+	var point = [
+		500 + Cos(DegToRad(angle)) * 390,
+		500 + Sin(DegToRad(angle)) * 390];
+
+	main.DrawLine([500, 500], point, 0);
+}
+
+// Stroke the star
+yield HeightMap.DistanceMap(main, 100);

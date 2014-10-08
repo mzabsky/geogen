@@ -34,6 +34,7 @@
     <None Include="tutorials\HeightMaps.cs" />
     <None Include="classes\HeightProfile.cs" />
     <None Include="ErrorCodes.cs" />
+    <None Include="tutorials\Console.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />
@@ -72,7 +73,11 @@
     <Image Include="images\tut_combining_1.png" />
     <Image Include="images\tut_combining_2.png" />
     <Image Include="images\tut_geneva.png" />
-    <Image Include="images\tut_introduction.png" />
     <Image Include="images\tut_world.png" />
+    <Image Include="images\std_2d_convexitymap.png" />
+    <Image Include="images\std_2d_distancemap.png" />
+    <Image Include="images\std_2d_distort.png" />
+    <Image Include="images\std_2d_flip.png" />
+    <Image Include="images\tut_introduction.png" />
   </ItemGroup>
 </Project>

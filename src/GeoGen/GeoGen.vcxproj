@@ -160,6 +160,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightMapCropRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapDistanceMapFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapDistanceMapRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapDrawLineFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapDrawLineRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFillFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFillRectangleFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFillRectangleRenderingStep.hpp" />
@@ -458,6 +460,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightMapCropRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapDistanceMapFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapDistanceMapRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapDrawLineFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapDrawLineRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFillFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFillRectangleFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFillRectangleRenderingStep.cpp" />

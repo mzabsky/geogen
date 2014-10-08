@@ -349,7 +349,12 @@
     <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
     <ClInclude Include="corelib\HeightProfileFlipRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightProfileFlipFunctionDefinition.hpp" />
+<<<<<<< .mine
+    <ClInclude Include="corelib\HeightMapDrawLineFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapDrawLineRenderingStep.hpp" />
+=======
     <ClInclude Include="corelib\InvalidScaleException.hpp" />
+>>>>>>> .r1686
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp">
@@ -610,6 +615,8 @@
     <ClCompile Include="corelib\CreateNoiseLayersFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlipRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileFlipFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapDrawLineFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapDrawLineRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="compiler">
