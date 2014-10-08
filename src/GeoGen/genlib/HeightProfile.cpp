@@ -313,16 +313,16 @@ void HeightProfile::Gradient(Coordinate source, Coordinate destination, Height f
 	{
 		Coordinate logicalX = this->GetLogicalCoordinate(x);
 
-		if (logicalX >= start && logicalX <= end)
+		if (x >= start && x <= end)
 		{
-			Height lerp = Lerp(start, end, fromHeight, toHeight, logicalX/*start + ((x - start) / double(gradientLength))*/);
-			(*this)(x) = Lerp(start, end, fromHeight, toHeight, logicalX/*start + ((x - start) / double(gradientLength))*/);
+			Height lerp = Lerp(start, end, fromHeight, toHeight, x/*start + ((x - start) / double(gradientLength))*/);
+			(*this)(x) = Lerp(start, end, fromHeight, toHeight, x/*start + ((x - start) / double(gradientLength))*/);
 		}
-		else if (fillOutside && logicalX < start)
+		else if (fillOutside && x < start)
 		{
 			(*this)(x) = fromHeight;
 		}
-		else if (fillOutside && logicalX > end)
+		else if (fillOutside && x > end)
 		{
 			(*this)(x) = toHeight;
 		}
