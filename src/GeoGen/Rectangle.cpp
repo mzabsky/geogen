@@ -111,7 +111,7 @@ Rectangle Rectangle::Contract(Rectangle a, Size1D size, Direction direction)
 	}
 	else if (direction == DIRECTION_VERTICAL)
 	{
-		return Rectangle(a.GetPosition() + Point(0, size), Size2D(a.GetSize().GetHeight(), a.GetSize().GetHeight() > 2 * size ? a.GetSize().GetHeight() - 2 * size : 0));
+		return Rectangle(a.GetPosition() + Point(0, size), Size2D(a.GetSize().GetWidth(), a.GetSize().GetHeight() > 2 * size ? a.GetSize().GetHeight() - 2 * size : 0));
 	}
 	else throw ApiUsageException(GG_STR("Invalid direction."));
 }
