@@ -90,6 +90,7 @@
     <None Include="pages\Yield.cs" />
     <None Include="tutorials\CombiningMaps.cs" />
     <None Include="ErrorCodes.cs" />
+    <None Include="tutorials\Console.cs" />
     <None Include="tutorials\FirstScript.cs" />
     <None Include="tutorials\HeightMaps.cs" />
     <None Include="tutorials\Tutorials.cs" />
@@ -110,10 +111,14 @@
     <Image Include="images\std_2d_clampheights.png" />
     <Image Include="images\std_2d_clone.png" />
     <Image Include="images\std_2d_combine.png" />
+    <Image Include="images\std_2d_convexitymap.png" />
     <Image Include="images\std_2d_crop.png" />
     <Image Include="images\std_2d_cropheights.png" />
+    <Image Include="images\std_2d_distancemap.png" />
+    <Image Include="images\std_2d_distort.png" />
     <Image Include="images\std_2d_fill.png" />
     <Image Include="images\std_2d_fillrectangle.png" />
+    <Image Include="images\std_2d_flip.png" />
     <Image Include="images\std_2d_gradient.png" />
     <Image Include="images\std_2d_intersect.png" />
     <Image Include="images\std_2d_invert.png" />

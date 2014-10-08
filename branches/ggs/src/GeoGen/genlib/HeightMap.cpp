@@ -139,7 +139,7 @@ void HeightMap::AddMapMasked(HeightMap* addend, HeightMap* mask)
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
 	Point addendOffset = this->rectangle.GetPosition() - intersection.GetPosition();
-	Point maskOffset = mask->GetRectangle().GetPosition() - this->rectangle.GetPosition();
+	Point maskOffset = this->rectangle.GetPosition() - mask->GetRectangle().GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
 		Height addendHeight = (*addend)(x + addendOffset.GetX(), y + addendOffset.GetY());
@@ -192,7 +192,7 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 		}
 	}
 	else {
-		for (Coordinate x = 0; x < (Coordinate)this->GetHeight(); x++) {
+		for (Coordinate x = 0; x < (Coordinate)this->GetWidth(); x++) {
 			// Prefill the window with value of the left edge + n topmost values (where n is radius).
 			Size1D window_size = scaledRadius * 2 + 1;
 			long long window_value = (long long)(*this)(x, 0) * scaledRadius;
@@ -293,6 +293,8 @@ void HeightMap::CropHeights(Height min, Height max, Height replace)
 
 void HeightMap::DistanceMap(Size1D maximumDistance)
 {
+	// Implementation from http://cs.brown.edu/~pff/dt/
+
 	// Higher than integer precision is required for intermediate results
 	double* heights = new double[this->GetRectangle().GetSize().GetTotalLength()];
 	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
@@ -418,6 +420,56 @@ void HeightMap::Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalD
 		double sourceOffsetY = verticalDistortionMapHeight * (double)maxDistance / (double)HEIGHT_MAX;
 
 		(*this)(x, y) = copy(x + sourceOffsetX, y + sourceOffsetY);
+	}
+}
+
+void HeightMap::DrawLine(Point start, Point end, Height height)
+{
+	// DDA algorithm (http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))
+	Point actualStart = this->GetPhysicalPoint(start.GetX() <= end.GetX() ? start : end);
+	Point actualEnd = this->GetPhysicalPoint(start.GetX() <= end.GetX() ? end : start);
+
+
+	double currentY = actualStart.GetY();
+	double currentX = actualStart.GetX();
+
+	if (abs(actualEnd.GetX() - actualStart.GetX()) >= abs(actualEnd.GetY() - actualStart.GetY()))
+	{
+		double deltaY = double(actualEnd.GetY() - actualStart.GetY()) / double(actualEnd.GetX() - actualStart.GetX());
+
+		(*this)(actualStart.GetX(), actualEnd.GetY()) = height;
+
+		while (currentX < actualEnd.GetX())
+		{
+			currentX += 1;
+			currentY += deltaY;
+			(*this)(Coordinate(currentX), Coordinate(currentY)) = height;
+		}
+	}
+	else
+	{
+		double deltaX = double(actualEnd.GetX() - actualStart.GetX()) / double(actualEnd.GetY() - actualStart.GetY());
+
+		(*this)(actualStart.GetX(), actualEnd.GetY()) = height;
+
+		if (actualStart.GetY() < actualEnd.GetY())
+		{
+			while (currentY < actualEnd.GetY())
+			{
+				currentX += deltaX;
+				currentY += 1;
+				(*this)(Coordinate(currentX), Coordinate(currentY)) = height;
+			}
+		}
+		else
+		{
+			while (currentY > actualEnd.GetY())
+			{
+				currentX -= deltaX;
+				currentY -= 1;
+				(*this)(Coordinate(currentX), Coordinate(currentY)) = height;
+			}
+		}
 	}
 }
 

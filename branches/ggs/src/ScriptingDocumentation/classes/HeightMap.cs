@@ -52,6 +52,8 @@ public:
     ///         
     /// @image html std_2d_distancemap.png
     /// 
+    /// @see [Distance transform on Wikipedia](http://en.wikipedia.org/wiki/Distance_transform)
+    /// 
     /// @param heightMap The height map.
     /// @param maximumDistance The maximum distance considered. Must be greater than 0.
     /// @return The distance map.
@@ -304,6 +306,35 @@ public:
     /// @param seed (Optional) Random seed. If not provided, 0 is used. This seed is always combined with the main script seed provided in script arguments to the script.
     /// @return The height map itself (for call chaining).
     HeightMap Distort(Number perturbationSize, Number maximumDistance, Number seed);
+
+    /// Draws a 1 pixel wide line from @a start to @a end.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Flat(1);
+    /// 
+    /// // Draw the star from lines
+    /// var angleStep = 360 / 16;
+    /// for(var angle = 0; angle < 360; angle += angleStep)
+    /// {
+    ///     var point = [
+    ///         500 + Cos(DegToRad(angle)) * 390,
+    ///         500 + Sin(DegToRad(angle)) * 390];
+    /// 
+    ///     main.DrawLine([500, 500], point, 0);
+    /// }
+    /// 
+    /// // Stroke the star
+    /// yield HeightMap.DistanceMap(main, 100);
+    /// @endcode
+    /// 
+    /// @image html std_2d_drawline.png.
+    ///        
+    /// @param start One of the ending points.
+    /// @param end The other ending point.
+    /// @param height The height.
+    /// @return The height map itself (for call chaining).
+    HeightMap DrawLine(Point start, Point end, Number height);
 
     /// Replaces each pixel with @a height.
     /// 

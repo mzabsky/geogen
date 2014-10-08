@@ -154,6 +154,7 @@ namespace geogen
 			void DistanceMap(Size1D distance, Direction direction);
 			void DistanceMap(Size1D distance);
 			void Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalDistortionMap, Size1D maxDistance);
+			void DrawLine(Point start, Point end, Height height);
 			void FillRectangle(Rectangle fillRectangle, Height height);
 			void Gradient(Point source, Point destination, Height fromHeight, Height toHeight);
 			void Intersect(HeightMap* other);
