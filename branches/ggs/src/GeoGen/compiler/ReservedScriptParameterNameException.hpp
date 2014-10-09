@@ -18,7 +18,7 @@ namespace geogen
 			/// @param location The location.
 			/// @param parameterName Name of the parameter.
 			ReservedScriptParameterNameException(CodeLocation location, String const& parameterName) :
-				CompilerException(GGE1404_ScriptParameterTypeNotSpecified, location), parameterName(parameterName) {};
+				CompilerException(GGE1405_ReservedScriptParameterNameUsed, location), parameterName(parameterName) {};
 
 			/// Gets parameter name.
 			/// @return The parameter name.
