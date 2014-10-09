@@ -237,8 +237,8 @@ ScriptParameters Loader::CreateScriptParameters()
 
 	params.SetRenderOriginX(this->GetRenderOrigin().GetX());
 	params.SetRenderOriginY(this->GetRenderOrigin().GetY());
-	params.SetRenderHeight(this->GetRenderSize().GetWidth());
-	params.SetRenderWidth(this->GetRenderSize().GetHeight());
+	params.SetRenderWidth(this->GetRenderSize().GetWidth());
+	params.SetRenderHeight(this->GetRenderSize().GetHeight());
 	params.SetMapWidth(this->GetMapSize().GetWidth());
 	params.SetMapHeight(this->GetMapSize().GetHeight());
 	params.SetRenderScale(this->GetRenderScale());
