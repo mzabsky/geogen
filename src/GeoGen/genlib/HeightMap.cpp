@@ -242,7 +242,7 @@ void HeightMap::Combine(HeightMap* other, HeightMap* mask)
 
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(intersection);
 
-	Point otherOffset = this->rectangle.GetPosition() - intersection.GetPosition();
+	Point otherOffset = this->rectangle.GetPosition() - other->GetRectangle().GetPosition();
 	Point maskOffset = this->rectangle.GetPosition() - mask->GetRectangle().GetPosition();
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
