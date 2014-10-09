@@ -206,7 +206,7 @@ bool Loader::SaveRenderedMaps(renderer::RenderedMapTable& renderedMaps, String p
 		}
 
 		stringstream ss;
-		ss << this->outputDirectory << GG_STR("/") << prefix << StringToAscii(it->first) << GG_STR(".png");
+		ss << this->outputDirectory << GG_STR("/") << prefix << StringToAscii(it->first);
 
 		bool success = true;
 		try

@@ -105,6 +105,7 @@
     <ClInclude Include="loader_commands\RenderOriginLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\RenderScaleLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
+    <ClInclude Include="Overlay.hpp" />
     <ClInclude Include="renderer_commands\AutosaveRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\DumpRendererCommand.hpp" />
     <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />

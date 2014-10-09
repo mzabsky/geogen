@@ -60,7 +60,7 @@ namespace geogen
 					else 
 					{
 						StringStream filenameStream;
-						filenameStream << GG_STR("object") << number << (object->GetObjectType() == renderer::RENDERER_OBJECT_TYPE_HEIGHT_MAP ? GG_STR(".png") : GG_STR(".csv"));
+						filenameStream << GG_STR("object") << number;
 						filename = filenameStream.str();
 					}
 
