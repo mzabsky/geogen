@@ -206,7 +206,7 @@ void HeightProfile::Combine(HeightProfile* other, HeightProfile* mask)
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(intersection);
 
 	Coordinate otherOffset = this->interval.GetStart() - intersection.GetStart();
-	Coordinate maskOffset = mask->GetInterval().GetStart() - this->interval.GetStart();
+	Coordinate maskOffset = this->interval.GetStart() - mask->GetInterval().GetStart();
 	FOR_EACH_IN_INTERVAL(x, operationInterval)
 	{
 		Height thisHeight = (*this)(x);
