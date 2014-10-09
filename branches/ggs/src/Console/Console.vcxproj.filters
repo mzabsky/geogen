@@ -71,5 +71,6 @@
     <ClInclude Include="SignalHandler.hpp" />
     <ClInclude Include="loader_commands\CodeLoaderCommand.hpp" />
     <ClInclude Include="loader_commands\ReloadAndRunLoaderCommand.hpp" />
+    <ClInclude Include="Overlay.hpp" />
   </ItemGroup>
 </Project>

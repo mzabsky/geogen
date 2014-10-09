@@ -137,11 +137,11 @@ void RendererDebugger::Step()
 			if (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP)
 			{
 				Point position = dynamic_cast<genlib::HeightMap*>(returnObject->GetPtr())->GetRectangle().GetPosition();
-				ss << GG_STR("_") << position.GetX() << GG_STR("_") << position.GetY() << GG_STR(".png");
+				ss << GG_STR("_") << position.GetX() << GG_STR("_") << position.GetY();
 			}
 			else 
 			{
-				ss << GG_STR("_") << dynamic_cast<genlib::HeightProfile*>(returnObject->GetPtr())->GetStart() << GG_STR(".csv");
+				ss << GG_STR("_") << dynamic_cast<genlib::HeightProfile*>(returnObject->GetPtr())->GetStart();
 			}
 
 			try
