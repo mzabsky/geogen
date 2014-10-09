@@ -79,5 +79,6 @@
     <Image Include="images\std_2d_distort.png" />
     <Image Include="images\std_2d_flip.png" />
     <Image Include="images\tut_introduction.png" />
+    <Image Include="images\std_2d_drawline.png" />
   </ItemGroup>
 </Project>

@@ -116,6 +116,7 @@
     <Image Include="images\std_2d_cropheights.png" />
     <Image Include="images\std_2d_distancemap.png" />
     <Image Include="images\std_2d_distort.png" />
+    <Image Include="images\std_2d_drawline.png" />
     <Image Include="images\std_2d_fill.png" />
     <Image Include="images\std_2d_fillrectangle.png" />
     <Image Include="images\std_2d_flip.png" />
