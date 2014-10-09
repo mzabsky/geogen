@@ -1,0 +1,58 @@
+metadata
+{
+	Height: Finite,
+	Width: Infinite
+}
+
+var bankShiftNoiseLayers = CreateNoiseLayers(1, 512);
+
+var topBankProfile = HeightProfile.FromArray({
+	@0.05: 1, 
+	@0.15: -1
+}, Direction.Vertical);
+
+var topBank = HeightMap.Projection(topBankProfile, Direction.Horizontal)
+	.Shift(HeightProfile.Noise(bankShiftNoiseLayers, 1), 150, Direction.Vertical);
+
+var bottomBankProfile = HeightProfile.FromArray({
+	@0.85: -1, 
+	@0.95: 1
+}, Direction.Vertical);
+
+var bottomBank = HeightMap.Projection(bottomBankProfile, Direction.Horizontal)
+	.Shift(HeightProfile.Noise(bankShiftNoiseLayers, 2), 150, Direction.Vertical);
+	
+var banks = topBank
+	.Unify(bottomBank)
+	.Blur(100);
+	
+yield banks as "TopBnk";
+
+var profile = HeightProfile.FromArray({
+	@0.95: 0.001,
+	@0.515: 0,
+	@0.5: -0.6,
+	@0.485: 0,
+	@0.05: 0.001
+}, Direction.Vertical);
+
+var main = 
+	HeightMap.Projection(profile, Direction.Horizontal)
+		.Shift(HeightProfile.Noise({350: 1}, 3), 100, Direction.Vertical)
+		.Blur(50);
+
+var noise1 = HeightMap.Noise(CreateNoiseLayers(1, 64), 4).Abs();
+var noise2 = HeightMap.Noise(CreateNoiseLayers(1, 64), 5).Abs();
+
+var canalNoise = noise1
+	.Intersect(noise2)
+	.Multiply(0.25)
+	.Add(-0.015);
+
+main.Add(canalNoise);
+
+main.Add(HeightMap.Noise().Multiply(0.5).Add(0.25), banks);
+
+//yield canalNoise;
+
+yield main;
