@@ -10,7 +10,7 @@ public:
     /// 
     /// Example:
     /// @code{.cs}
-    /// var main = HeightProfile.RadialGradient([400, 500], 500, 1, 0);
+    /// var main = HeightProfile.Gradient(200, 600, 1, 0);
     /// var copy = HeightProfile.Clone(main);
     /// copy.Move([200, 0]);
     /// yield main.Unify(copy);
@@ -25,30 +25,31 @@ public:
 	/// @return The height profile.
 	static HeightProfile Flat(Number height);
 
-    /// Creates a linear height gradient going from @a sourceHeight at @a sourcePoint to @a 
-    /// destinationHeight at @a destinationPoint. Pixels outside of the gradient strip are filled with height of source or destination, whichever is closer.
+    /// Creates a linear height gradient going from @a sourceHeight at @a source to @a 
+    /// destinationHeight at @a destination. Pixels outside of the gradient strip are filled with height of source or destination, whichever is closer.
     /// 
     /// Example:
     /// @code{.cs}
-    /// yield HeightProfile.Gradient(200, 700, -1, 1);
+    /// var profile = HeightProfile.Gradient(200, 700, -1, 1);
+    /// yield HeightMap.Projection(profike, Direction.Vertical);
     /// @endcode
-    ///         
-    /// @image html std_2d_gradient.png
     /// 
-    /// @param sourcePoint The source point.
-    /// @param destinationPoint The destination point.
+    /// @param sourceCoordinate The source coordinate.
+    /// @param destinationCoordinate The destination coordinate.
     /// @param sourceHeight Height at the source.
     /// @param destinationHeight Height at the destination.
     /// @return The height profile.
-	static HeightProfile Gradient(Coordinate sourcePoint, Coordinate destinationPoint, Number sourceHeight, Number destinationHeight);
+	static HeightProfile Gradient(Coordinate source, Coordinate destination, Number sourceHeight, Number destinationHeight);
 
     /// Creates a height profile filled with random perlin noise.
     /// 
     /// The layer definitions are an array of pairs `wave length: amplitude`. Wave length and amplitude must be greater than 0. Example:
     /// 
     /// @code{.cs}
-    /// yield HeightProfile.Noise({1: 0.1, 8: 0.3, 512: 0.6 });
+    /// var profile = HeightProfile.Noise({1: 0.1, 8: 0.3, 512: 0.6 });
+    /// yield HeightMap.Projection(profile, Direction.Vertical);
     /// @endcode
+    /// 
     /// @image html std_1d_noise_custom.png    
     /// 
     /// The default value for @a layerDefinitions parameter is:
@@ -83,7 +84,8 @@ public:
     /// Example:
     /// @code{.cs}
     /// var pattern = HeightProfile.RadialGradient([100, 100], 200, 1, -1);
-    /// yield HeightProfile.Pattern(pattern, [0, 0], [200, 200]);
+    /// var profile = HeightProfile.Pattern(pattern, [0, 0], [200, 200]);
+    /// yield HeightMap.Projection(profile, Direction.Vertical);
     /// @endcode
     /// 
     /// @image html std_1d_pattern.png
