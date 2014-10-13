@@ -15,15 +15,8 @@
 /// 
 /// Main disadvantage is that height maps are restricted to representing a single height in each point and cannot be used to represent terrain features such as caves and overhangs. More sophisticated representation such as [polygon mesh](http://en.wikipedia.org/wiki/Polygon_mesh) or [voxel array](http://en.wikipedia.org/wiki/Voxel) is required to store these. Another disadvantage is the lack of any metadata describing context of the map (such as scale as mentioned above).
 /// 
-/// GeoGen is capable of generating height maps representing regions ranging from small local terrain features to entire continents, the scale of the map depends solely on author of the map scrip.ttw
+/// GeoGen is capable of generating height maps representing regions ranging from small local terrain features to entire continents, the scale of the map depends solely on author of the map script.
 /// 
 //// @image html tut_introduction.png
 /// 
 /// 
-/// 
-/// 
-/// 
-/// 
-/// 
-/// 
-// /
