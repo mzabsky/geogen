@@ -5,6 +5,7 @@
 
 #include "../Number.hpp"
 #include "../Rectangle.hpp"
+#include "../Interval.hpp"
 #include "DataObject.hpp"
 #include "../Direction.hpp"
 #include "NoiseLayersFactory.hpp"
@@ -181,7 +182,7 @@ namespace geogen
 			//void SlopeMap();
 			//void Shift(HeightProfile* profile, Size1D maxDistance);
 			void Transform(TransformationMatrix const& matrix, Rectangle transformedRectangle);
-			//void TransformValues(HeightProfile* function, Height min, Height max);
+			void TransformHeighs(HeightProfile* function, Interval interval, Height min, Height max);
 			void Unify(HeightMap* other);
 
 			// transforms

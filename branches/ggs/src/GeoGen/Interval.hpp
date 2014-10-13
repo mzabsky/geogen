@@ -22,6 +22,15 @@ namespace geogen {
 		/// @param length The length.
 		Interval(Coordinate start, Size1D length) : start(start), length(length), end(start + length) {}
 
+		/// Creates an interval from a starting coordinate and an ending coordinate.
+		/// @param start The starting coordinate.
+		/// @param end The ending coordinate.
+		/// @return An interval.
+		static inline Interval FromCoordinates(Coordinate start, Coordinate end) 
+		{
+			return Interval(start, Size1D((long long)end - (long long)start));
+		}
+
 		/// Gets the starting coordinate.
 		/// @return The starting coordinate.
 		inline Coordinate GetStart() const { return this->start; }

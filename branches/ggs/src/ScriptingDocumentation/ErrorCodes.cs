@@ -15,6 +15,10 @@
 /// @li @ref gge1310
 /// @li @ref gge1311
 /// @li @ref gge1312
+/// @li @ref gge1401
+/// @li @ref gge1402
+/// @li @ref gge1403
+/// @li @ref gge1405
 
 
 /// @page gge1101 GGE1101
@@ -200,6 +204,48 @@
 /// @code{.cs}
 /// yield HeightMap.Flat() as "SomeName"; // GGE1312 if this is the only yield in the script
 /// @endcode
+
+/// @page gge1402 GGE1402
+/// The `Parameters` node of @link metadata script metadata@endlink was not key-value collection node. 
+/// 
+/// @code{.cs}
+/// metadata
+/// {
+///     Parameters: 5 // GGE1402
+/// }
+/// @endcode
+
+/// @page gge1403 GGE1403
+/// Node of @link metadata script metadata@endlink node representing a single script parameter was not key-value collection node. 
+/// 
+/// @code{.cs}
+/// metadata
+/// {
+///     Parameters: 
+///     {
+///         Smoothness: "Hello world!" // GGE1403
+///     }
+/// }
+/// @endcode
+
+/// @page gge1405 GGE1405
+/// Script parameter defined in @link metadata script metadata@endlink used name reserved by the language.
+/// 
+/// Currently, the reserved script parameter names are :
+/// @verbatim Width, Height, RenderOriginX, RenderOriginY, RenderWidth, RenderHeight @endverbatim
+/// 
+/// Map width and height can be limited using the dedicated @link map_size `Width` and `Height` nodes@endlink.
+/// 
+/// @code{.cs}
+/// metadata
+/// {
+///     Parameters: 
+///     {
+///         Height: { Min: 100, Max: 200 } // GGE1405
+///     }
+/// }
+/// @endcode
+
 
 
 

@@ -25,7 +25,7 @@ namespace geogen
 		GGE1401_MetadataKeyAlreadyDefined = 1401,
 		GGE1402_ScriptParametersNotKeyValueCollection = 1402,
 		GGE1403_ScriptParameterNotKeyValueCollection = 1403,
-		GGE1404_ScriptParameterTypeNotSpecified = 1404,
+		//GGE1404_ScriptParameterTypeNotSpecified = 1404,
 		GGE1405_ReservedScriptParameterNameUsed = 1405,
 		GGE1406_IncorrectScriptParameterAttributeType = 1406,
 		/// Unknown script parameter restriction was used.

@@ -565,6 +565,25 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap Transform(Number a11, Number a12, Number a21, Number a22);
 
+    /// Maps the height in each pixel from the height map to another height, using a height profile as a transformation function. Height @a minHeight will map to height in @a profile at coordinate @a starting coordinate and height @a maxHeight will map to height at coordinate @a endingCordinate. Any heights in between will map to height at appropriate coordinate in between.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.RadialGradient([500, 500], 800, 1, 0);
+    /// main.TransformHeights(HeightProfile.Noise({64: 0.9}), 0, 1000);
+    /// yield main;
+    /// @endcode
+    /// 
+    /// @image html std_2d_transformheights.png.
+    ///        
+    /// @param profile The transformation profile.
+    /// @param startingCoordinate (Optional) Starting coordinate of the interval of the transformation function used for mapping. If not provided, 0 is used.
+    /// @param endingCoordinate (Optional) Ending coordinate of the interval of the transformation function used for mapping. If not provided, 1000 is used.
+    /// @param minHeight (Optional) Minimum height affected by the transformation. If not provided, 0 is used.
+    /// @param maxHeight (Optional) Maximum height affected by the transformation. If not provided, 1 is used.
+    /// @return The height map itself (for call chaining).
+    HeightMap TransformHeights(HeightProfile profile, Coordinate startingCoordinate, Coordinate endingCoordinate, Number minHeight, Number maxHeight);
+
     /// Sets each pixel in the to the greater of the two corresponding heights in the current map and the other map.
     /// 
     /// Example:

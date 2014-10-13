@@ -80,7 +80,7 @@ namespace geogen
 				Coordinate rightCoord = Coordinate(ceil(x));
 				Height left = (*this)(leftCoord);
 				Height right = (*this)(rightCoord);
-				return Lerp(leftCoord, rightCoord, left, right, x);
+				return left == right ? left : Lerp(leftCoord, rightCoord, left, right, x);
 			}
 
 			/// Gets the starting coordinate.
