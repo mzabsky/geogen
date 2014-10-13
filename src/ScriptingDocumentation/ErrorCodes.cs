@@ -1,5 +1,7 @@
 ﻿/// @page error_codes Error codes
 /// 
+/// This page contains a list of all error codes produced by GeoGen. 
+/// 
 /// @li @ref gge1101
 /// @li @ref gge1102
 /// @li @ref gge1201
