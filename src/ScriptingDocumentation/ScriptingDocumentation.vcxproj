@@ -139,6 +139,10 @@
     <Image Include="images\std_2d_unify.png" />
     <Image Include="images\tut_combining_1.png" />
     <Image Include="images\tut_combining_2.png" />
+    <Image Include="images\tut_console_debugger.png" />
+    <Image Include="images\tut_console_empty.png" />
+    <Image Include="images\tut_console_renderer.png" />
+    <Image Include="images\tut_console_run.png" />
     <Image Include="images\tut_geneva.png" />
     <Image Include="images\tut_introduction.png" />
     <Image Include="images\tut_world.png" />

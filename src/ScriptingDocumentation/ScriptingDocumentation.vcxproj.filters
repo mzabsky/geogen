@@ -80,5 +80,9 @@
     <Image Include="images\std_2d_flip.png" />
     <Image Include="images\tut_introduction.png" />
     <Image Include="images\std_2d_drawline.png" />
+    <Image Include="images\tut_console_debugger.png" />
+    <Image Include="images\tut_console_empty.png" />
+    <Image Include="images\tut_console_renderer.png" />
+    <Image Include="images\tut_console_run.png" />
   </ItemGroup>
 </Project>

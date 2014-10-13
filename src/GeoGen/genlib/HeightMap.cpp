@@ -888,6 +888,30 @@ void HeightMap::Transform(TransformationMatrix const& matrix, Rectangle transfor
 	}
 }
 
+void HeightMap::TransformHeighs(HeightProfile* function, Interval interval, Height min, Height max)
+{
+	Rectangle operationRectangle = this->GetPhysicalRectangleUnscaled(this->rectangle);
+	FOR_EACH_IN_RECT(x, y, operationRectangle)
+	{
+		Height oldHeight = (*this)(x, y);
+		if (oldHeight >= min && oldHeight <= max)
+		{
+			double functionFraction = (long long(oldHeight) - long long(min)) / double(long long(max) - long long(min));
+			double functionCoordinate = interval.GetStart() + functionFraction * double(interval.GetLength() - 1);
+
+			Height functionHeight = (*function)(functionCoordinate);
+
+			if (oldHeight == HEIGHT_MAX)
+			{
+				cout << "AA";
+			}
+
+
+			(*this)(x, y) = (*function)(functionCoordinate);
+		}
+	}
+}
+
 void HeightMap::Unify(HeightMap* other)
 {
 	Rectangle intersection = Rectangle::Intersect(this->rectangle, other->rectangle);

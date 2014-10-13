@@ -7,7 +7,7 @@ namespace geogen
 {
 	namespace compiler
 	{
-		/// Exception thrown when error geogen::GGE1404_ScriptParameterTypeNotSpecified occurs.
+		/// Exception thrown when error geogen::GGE1405_ReservedScriptParameterNameUsed occurs.
 		class ReservedScriptParameterNameException : public CompilerException
 		{
 		private:

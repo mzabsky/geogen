@@ -1,15 +1,3 @@
-﻿var main = HeightMap.Flat(1);
-
-// Draw the star from lines
-var angleStep = 360 / 16;
-for(var angle = 0; angle < 360; angle += angleStep)
-{
-	var point = [
-		500 + Cos(DegToRad(angle)) * 390,
-		500 + Sin(DegToRad(angle)) * 390];
-
-	main.DrawLine([500, 500], point, 0);
-}
-
-// Stroke the star
-yield HeightMap.DistanceMap(main, 100);
+﻿var main = HeightMap.RadialGradient([500, 500], 800, 1, 0);
+main.TransformHeights(HeightProfile.Noise({64: 0.9}), 0, 1000);
+yield main;
