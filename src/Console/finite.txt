@@ -1,6 +1,6 @@
 metadata
 {
-	Width: { Max: 10000 },
+	Width: { Max: 99999999999999999999999 },
 	Height: { Max: 10000 }
 }
 

@@ -1,5 +1,7 @@
 /// Double precision floating point number as specified by the [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point) standard. This class is used to represent both integers and non-integers - there is no dedicated integer type. 
 /// 
+/// The range of allowed numbers is -1.7*10<sup>308</sup> to 1.7*10<sup>308</sup>.
+/// 
 /// Number supports @link operators all operators@endlink expected from a numeric type in a programming language. If operation would result in an non-number value (NaN/infinity) a runtime error will be triggered instead.
 /// 
 /// Number object can be created using a literal:
