@@ -570,7 +570,7 @@
 /// @page gge2308 GGE2308
 /// A number or a result of a numeric operation was too small to represent with Number.
 /// 
-/// Number is a doube precision floating point number as specified by the [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point) standard. Therefore the smallest representable numbers are -1.7*10<sup>-308</sup> and 1.7*10<sup>-308</sup>) (special number such as NaN are not allowed by GeoGen).
+/// Number is a doube precision floating point number as specified by the [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point) standard. Therefore the smallest representable numbers are -1.7*10<sup>-308</sup> and 1.7*10<sup>-308</sup> (special number such as NaN are not allowed by GeoGen).
 /// 
 /// @code{.cs}
 /// var a = 1 /  
