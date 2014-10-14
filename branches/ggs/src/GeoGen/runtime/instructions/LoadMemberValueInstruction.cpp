@@ -22,7 +22,7 @@ InstructionStepResult LoadMemberValueInstruction::Step(VirtualMachine* vm) const
 	VariableTableItem* variableTableItem = instance->GetMemberVariableTable().GetVariable(this->variableName);
 	if (variableTableItem == NULL)
 	{
-		throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, this->GetLocation(), this->variableName);
+		throw UndefinedSymbolAccessException(GGE2202_UndefinedVariable, this->GetLocation(), this->variableName);
 	}	
 
 	ManagedObject* memberObject = variableTableItem->GetValue();

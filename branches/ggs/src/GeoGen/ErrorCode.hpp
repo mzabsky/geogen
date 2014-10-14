@@ -40,7 +40,7 @@ namespace geogen
 		GGE2102_IncorrectOperandType = 2102,
 		GGE2103_IncorrectNumberOfArguments = 2103,
 		GGE2104_IncorrectConditionResultType = 2104,
-		GGE2105_IncorrectCoordinateComponentType = 2105,
+		//GGE2105_IncorrectCoordinateComponentType = 2105,
 		GGE2106_NullReference = 2106,
 		GGE2107_IncorrectYieldType = 2107,
 		GGE2108_ReadOnlyWrite = 2108,
