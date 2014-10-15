@@ -302,7 +302,7 @@
 /// @page gge1406 GGE1406
 /// An attribute of a script parameter defined in @link metadata script metadata@endlink was a node of a different type than expected.
 /// 
-/// Expected types of all parameter definition subnodes see @link sript_parameters Script parmeters @endlink section.
+/// Expected types of all parameter definition subnodes see @link script_parameters Script parmeters @endlink section.
 /// 
 /// @code{.cs}
 /// metadata
@@ -847,7 +847,7 @@
 /// @page gge2801 GGE2801
 /// The script finished without @link yield yielding@endlink the main height map.
 /// 
-/// If the script doesn't contain the main map yield at all, error @ref GGE1312 is generated during compilation. This error is usually caused by the main yield being hidden in a conditional block such as @link if `if`.
+/// If the script doesn't contain the main map yield at all, error @ref gge1312 is generated during compilation. This error is usually caused by the main yield being hidden in a conditional block such as @link if `if`@endlink.
 /// 
 /// @code{.cs}
 /// if(Random(0, 2) > 1)
