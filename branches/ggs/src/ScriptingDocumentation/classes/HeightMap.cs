@@ -132,7 +132,7 @@ public:
     /// @param firstRectanglePoint First point defining the pattern rectangle.
     /// @param secondRectanglePoint Second point defining the pattern rectangle.
     /// @return The height map.
-    static HeightMap Pattern(Point firstRectanglePoint, Point secondRectanglePoint, Point rectangleSize);
+    static HeightMap Pattern(HeightMap pattern, Point firstRectanglePoint, Point secondRectanglePoint);
 
     /// Creates a height map with a @a profile projected along @a direction.
     /// 
