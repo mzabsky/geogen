@@ -92,9 +92,9 @@ public:
     /// 
     /// @param pattern The height profile from which the pattern is copied.
     /// @param intervalStart The position of start of the interval.
-    /// @param intervalLength Length of the interval.
+    /// @param intervalEnd The position of end of the interval.
     /// @return The height profile.
-    static HeightProfile Pattern(HeightProfile pattern, Interval intervalStart, Interval intervalLength);
+    static HeightProfile Pattern(HeightProfile pattern, Coordinate intervalStart, Coordinate intervalEnd);
 
     /// Creates a height profile from a single row (if @a direction is horizontal) or column (if @a direction is vertical) of pixels of an height map.
     /// 
@@ -214,10 +214,10 @@ public:
     /// @image html std_2d_crop.png.
     /// 
     /// @param intervalStart The position of start of the interval.
-    /// @param intervalLength Length of the interval.
+    /// @param intervalEnd The position of end of the interval.
     /// @param replace (Optional) The replacement height. 0 is used if not provided.
     /// @return The height profile.
-    HeightProfile Crop(Interval intervalStart, Interval intervalLength, Number replace);
+    HeightProfile Crop(Coordinate intervalStart, Coordinate intervalEnd, Number replace);
 
     /// Replaces heights greater than @a max or less than @a min with @a replace.
     /// 
@@ -257,10 +257,10 @@ public:
     /// @image html std_2d_fillrectangle.png.
     /// 
     /// @param intervalStart The position of start of the interval.
-    /// @param intervalLength Length of the interval.
+    /// @param intervalEnd The position of end of the interval.
     /// @param height The height.
     /// @return The height profile itself (for call chaining).
-    HeightProfile FillInterval(Interval intervalStart, Interval intervalLength, Number height);
+    HeightProfile FillInterval(Coordinate intervalStart, Coordiante intervalEnd, Number height);
 
     /// Flips the profile around coordinate 0.
     /// 

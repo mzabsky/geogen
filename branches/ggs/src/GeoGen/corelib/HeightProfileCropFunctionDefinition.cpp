@@ -29,21 +29,15 @@ ManagedObject* HeightProfileCropFunctionDefinition::CallNative(CodeLocation loca
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 2);
 
 	CoordinateObject* startObject = dynamic_cast<CoordinateObject*>(arguments[0]);
-	CoordinateObject* lengthObject = dynamic_cast<CoordinateObject*>(arguments[1]);
+	CoordinateObject* endObject = dynamic_cast<CoordinateObject*>(arguments[1]);
 
-	if (startObject->IsRelative() || lengthObject->IsRelative())
+	if (startObject->IsRelative() || endObject->IsRelative())
 	{
 		throw UnknownRelativeCoordinateDirectionException(location);
 	}
 
 	Coordinate start = (Coordinate)startObject->GetValue();
-
-	Number numberLength = lengthObject->GetValue();
-	Size1D length;
-	if (!TryNumberToSize(numberLength, length))
-	{
-		throw SizeOverflowException(location);
-	}
+	Coordinate end = (Coordinate)endObject->GetValue();
 
 	Number numberHeight = arguments.size() > 2 ? ((NumberObject*)arguments[2])->GetValue() : 0;
 	Height height;
@@ -55,7 +49,7 @@ ManagedObject* HeightProfileCropFunctionDefinition::CallNative(CodeLocation loca
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
-	RenderingStep* renderingStep = new HeightProfileCropRenderingStep(location, argumentSlots, returnObjectSlot, Interval(start, length), height);
+	RenderingStep* renderingStep = new HeightProfileCropRenderingStep(location, argumentSlots, returnObjectSlot, Interval::FromCoordinates(start, end), height);
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return instance;

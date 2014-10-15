@@ -64,11 +64,6 @@ ManagedObject* HeightMapTransformHeightsFunctionDefinition::CallNative(CodeLocat
 		throw MaxLessThanMinException(location);
 	}
 
-	if (intervalStart > intervalEnd)
-	{
-		std::swap(intervalStart, intervalEnd);
-	}
-
 	vector<unsigned> argumentSlots;	
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));

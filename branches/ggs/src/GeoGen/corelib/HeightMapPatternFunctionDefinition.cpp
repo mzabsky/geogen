@@ -26,20 +26,14 @@ ManagedObject* HeightMapPatternFunctionDefinition::CallNative(CodeLocation locat
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	Point origin = dynamic_cast<PointObject*>(arguments[1])->GetAbsolutePoint(vm, location);
-	Point sizePoint = dynamic_cast<PointObject*>(arguments[2])->GetAbsolutePoint(vm, location);
-
-	Size2D size;
-	if (!TryPointToSize(sizePoint, size))
-	{
-		throw SizeOverflowException(location);
-	}
+	Point toPoint = dynamic_cast<PointObject*>(arguments[2])->GetAbsolutePoint(vm, location);
 
 	ManagedObject* returnObject = dynamic_cast<HeightMapTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
 
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightMapPatternRenderingStep(location, argumentSlots, returnObjectSlot, Rectangle(origin, size));
+	RenderingStep* renderingStep = new HeightMapPatternRenderingStep(location, argumentSlots, returnObjectSlot, Rectangle(origin, toPoint));
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;

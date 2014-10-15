@@ -22,8 +22,13 @@ namespace geogen {
 		/// Constructor.
 		/// @param position The position.
 		/// @param size The size.
-		Rectangle(Point position, Size2D size) : 
+		Rectangle(Point position, Size2D size) :
 			position(position), size(size), endingPoint(Coordinate((long long)position.GetX() + (long long)size.GetWidth()), Coordinate((long long)position.GetY() + (long long)size.GetHeight())) {}
+
+		/// Constructor.
+		/// @param firstPoint One point.
+		/// @param secondPoint Second point.
+		Rectangle(Point firstPoint, Point secondPoint);
 
 		/// Moves the entire rectangle by an offset.
 		/// @param other The offset.

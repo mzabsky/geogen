@@ -30,28 +30,22 @@ ManagedObject* HeightProfilePatternFunctionDefinition::CallNative(CodeLocation l
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
 	CoordinateObject* startObject = dynamic_cast<CoordinateObject*>(arguments[1]);
-	CoordinateObject* lengthObject = dynamic_cast<CoordinateObject*>(arguments[2]);
+	CoordinateObject* endObject = dynamic_cast<CoordinateObject*>(arguments[2]);
 
-	if (startObject->IsRelative() || lengthObject->IsRelative())
+	if (startObject->IsRelative() || endObject->IsRelative())
 	{
 		throw UnknownRelativeCoordinateDirectionException(location);
 	}
 
 	Coordinate start = NumberToInt(startObject->GetValue());
-
-	Number numberLength = lengthObject->GetValue();
-	Size1D length;
-	if (!TryNumberToSize(numberLength, length))
-	{
-		throw SizeOverflowException(location);
-	}
+	Coordinate end = NumberToInt(endObject->GetValue());
 
 	ManagedObject* returnObject = dynamic_cast<HeightProfileTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
 
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
-	RenderingStep* renderingStep = new HeightProfilePatternRenderingStep(location, argumentSlots, returnObjectSlot, Interval(start, length));
+	RenderingStep* renderingStep = new HeightProfilePatternRenderingStep(location, argumentSlots, returnObjectSlot, Interval::FromCoordinates(start, end));
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return returnObject;
