@@ -699,7 +699,7 @@
 /// @endcode
 
 /// @page gge2703 GGE2703
-/// The script attempted to use relative coordinate in context to which dimension of the map the coordinate is relative to.
+/// The script attempted to use @link Coordinate relative coordinate@endlink in context to which dimension of the map the coordinate is relative to.
 /// 
 /// This means that relative coordinates can't be used with most functions of HeightProfile and some functions for HeightMap, like radius of HeightMap.RadialGradient. Relative coordinates can be converted to absolute coordinates using Number.FromCoordinate (which has an optional argument that specified direction of the coordinate). Point doesn't suffer from this issue, because each of the component coordinates has its direction well defined. HeightProfile.FromArray has a special optional argument only used to determine direction of any relative coordinates in the initialization array.
 /// 
@@ -711,7 +711,7 @@
 /// @endcode
 
 /// @page gge2704 GGE2704
-/// The script attempted to use relative coordinate in dimension in which the map is infinite.
+/// The script attempted to use @link Coordinate relative coordinate@endlink in dimension in which the map is infinite.
 /// 
 /// Relative coordinates can't be used in dimensions in which the map is infinite because there is no reference size to evaluate the coordinate against.
 /// 

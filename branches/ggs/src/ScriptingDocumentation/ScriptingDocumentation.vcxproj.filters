@@ -35,6 +35,7 @@
     <None Include="classes\HeightProfile.cs" />
     <None Include="ErrorCodes.cs" />
     <None Include="tutorials\Console.cs" />
+    <None Include="classes\Direction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />

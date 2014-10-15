@@ -1,5 +1,7 @@
 /// A coordinate in 1-dimensional space.
 /// 
+/// Standard digital graphics coordinate system is used - horizontal coordinates go from left to right, vertical coordinates got from top to bottom.
+/// 
 /// A coordinate can be either absolute or relative:
 /// - @b Absolute coordinate is specific coordinate in 1D space - for example 500.  
 /// - @b Relative coordinate is a proportion of the map size in one of its dimensions. For example, a relative coordinate 0.5 will evaluate to 500 on a 2000x1000 map in its vertical dimension. The dimension must be supplied when a relative coordinate is being evaluated, otherwise a runtime error will be triggered.
