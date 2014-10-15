@@ -129,11 +129,10 @@ public:
     /// @image html std_2d_pattern.png
     /// 
     /// @param pattern The height map from which the pattern is copied.
-    /// @param rectanglePosition The position of top left corner of the rectangle.
-    /// @param rectangleSize Size of the rectangle (@link Point.X X@endlink is its width and @link
-    /// Point.Y Y@endlink is its height).
+    /// @param firstRectanglePoint First point defining the pattern rectangle.
+    /// @param secondRectanglePoint Second point defining the pattern rectangle.
     /// @return The height map.
-    static HeightMap Pattern(HeightMap pattern, Point rectanglePosition, Point rectangleSize);
+    static HeightMap Pattern(Point firstRectanglePoint, Point secondRectanglePoint, Point rectangleSize);
 
     /// Creates a height map with a @a profile projected along @a direction.
     /// 
@@ -262,16 +261,15 @@ public:
     /// 
     /// Example:
     /// @code{.cs}
-    /// yield HeightMap.RadialGradient([500, 500], 400, 1, 0).Crop([350, 250], [300, 500]);
+    /// yield HeightMap.RadialGradient([500, 500], 400, 1, 0).Crop([350, 250], [650, 750]);
     /// @endcode
     /// 
     /// @image html std_2d_crop.png.
-    /// @param rectanglePosition The position of top left corner of the rectangle.
-    /// @param rectangleSize Size of the rectangle (@link Point.X X@endlink is its width and @link
-    /// Point.Y Y@endlink is its height).
+    /// @param firstRectanglePoint First point defining the rectangle.
+    /// @param secondRectanglePoint Second point defining the rectangle.
     /// @param replace (Optional) The replacement height. 0 is used if not provided.
     /// @return The height map.
-    HeightMap Crop(Point rectanglePosition, Pont rectangleSize, Number replace);
+    HeightMap Crop(Point firstRectanglePoint, Point secondRectanglePoint, Number replace);
 
     /// Replaces heights greater than @a max or less than @a min with @a replace.
     /// 
@@ -353,17 +351,16 @@ public:
     /// 
     /// Example:
     /// @code{.cs}
-    /// yield HeightMap.Noise().FillRectangle([200, 200], [400, 600], 0.5);
+    /// yield HeightMap.Noise().FillRectangle([200, 200], [600, 800], 0.5);
     /// @endcode
     /// 
     /// @image html std_2d_fillrectangle.png.
     ///        
-    /// @param rectanglePosition The position of top left corner of the rectangle.
-    /// @param rectangleSize Size of the rectangle (@link Point.X X@endlink is its width and @link
-    /// Point.Y Y@endlink is its height).
+    /// @param firstRectanglePoint First point defining the rectangle.
+    /// @param secondRectanglePoint Second point defining the rectangle.
     /// @param height The height.
     /// @return The height map itself (for call chaining).
-    HeightMap FillRectangle(Point rectanglePosition, Point rectangleSize, Number height);
+    HeightMap FillRectangle(Point firstRectanglePoint, Point secondRectanglePoint, Number height);
 
     /// Flips the map horizontally of vertically. The transformation origin is [0, 0].
     /// 

@@ -1,8 +1,19 @@
+#include <algorithm>
+
 #include "Rectangle.hpp"
 #include "Size.hpp"
 #include "ApiUsageException.hpp"
 
 using namespace geogen;
+using namespace std;
+
+Rectangle::Rectangle(Point firstPoint, Point secondPoint) 
+{
+	Rectangle combined = Rectangle::Combine(
+			Rectangle(firstPoint, Size2D()),
+			Rectangle(secondPoint, Size2D()));
+	*this = combined;
+}
 
 Rectangle Rectangle::Combine(Rectangle a, Rectangle b)
 {
@@ -11,11 +22,11 @@ Rectangle Rectangle::Combine(Rectangle a, Rectangle b)
 
 	return Rectangle(
 		Point(
-			std::min(a.GetPosition().GetX(), b.GetPosition().GetX()),
-			std::min(a.GetPosition().GetY(), b.GetPosition().GetY())),
+			min(a.GetPosition().GetX(), b.GetPosition().GetX()),
+			min(a.GetPosition().GetY(), b.GetPosition().GetY())),
 		Size2D(
-			Size1D(std::max((long long)a.GetEndingPoint().GetX(), (long long)b.GetEndingPoint().GetX()) - std::min((long long)a.GetPosition().GetX(), (long long)b.GetPosition().GetX())),
-			Size1D(std::max((long long)a.GetEndingPoint().GetY(), (long long)b.GetEndingPoint().GetY()) - std::min((long long)a.GetPosition().GetY(), (long long)b.GetPosition().GetY())))
+			Size1D(max((long long)a.GetEndingPoint().GetX(), (long long)b.GetEndingPoint().GetX()) - min((long long)a.GetPosition().GetX(), (long long)b.GetPosition().GetX())),
+			Size1D(max((long long)a.GetEndingPoint().GetY(), (long long)b.GetEndingPoint().GetY()) - min((long long)a.GetPosition().GetY(), (long long)b.GetPosition().GetY())))
 		);
 
 	Coordinate returnRectX = a.GetPosition().GetX();
@@ -68,11 +79,11 @@ Rectangle Rectangle::Intersect(Rectangle a, Rectangle b)
 {
 	return Rectangle(
 		Point(
-			std::max(a.GetPosition().GetX(), b.GetPosition().GetX()),
-			std::max(a.GetPosition().GetY(), b.GetPosition().GetY())),
+			max(a.GetPosition().GetX(), b.GetPosition().GetX()),
+			max(a.GetPosition().GetY(), b.GetPosition().GetY())),
 		Size2D(
-			Size1D(std::max((long long)0, std::min((long long)a.GetEndingPoint().GetX(), (long long)b.GetEndingPoint().GetX()) - std::max((long long)a.GetPosition().GetX(), (long long)b.GetPosition().GetX()))),
-			Size1D(std::max((long long)0, std::min((long long)a.GetEndingPoint().GetY(), (long long)b.GetEndingPoint().GetY()) - std::max((long long)a.GetPosition().GetY(), (long long)b.GetPosition().GetY()))))
+			Size1D(max((long long)0, min((long long)a.GetEndingPoint().GetX(), (long long)b.GetEndingPoint().GetX()) - max((long long)a.GetPosition().GetX(), (long long)b.GetPosition().GetX()))),
+			Size1D(max((long long)0, min((long long)a.GetEndingPoint().GetY(), (long long)b.GetEndingPoint().GetY()) - max((long long)a.GetPosition().GetY(), (long long)b.GetPosition().GetY()))))
 		);
 }
 
