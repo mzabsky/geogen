@@ -156,8 +156,8 @@ Number Abs(Number x);
 /// Print("The temperature is {0}° of {1}.", 35, "Celsius"); // Will print "The temperature is 35° of Celsius."
 /// @endcode
 /// @param message The message.
-/// @param arg1 The first argument.
-/// @param arg2 The second argument.
+/// @param arg1 (Optional) The first argument.
+/// @param arg2 (Optional) The second argument.
 Print(String message, Object arg1, Object arg2, ...);
 
 /// Terminates execution of the script with a text @a message. If any arguments are provided, any formatting marks in @a message will
@@ -166,8 +166,8 @@ Print(String message, Object arg1, Object arg2, ...);
 /// TriggerError("The number of islands must be an even number, was {0}.", Parameters.NumberOfIslands); // Will trigger error GGE5000 "The number of islands must be an even number, was 5."
 /// @endcode
 /// @param message The message.
-/// @param arg1 The first argument.
-/// @param arg2 The second argument.
+/// @param arg1 (Optional) The first argument.
+/// @param arg2 (Optional) The second argument.
 TriggerError(String message, Object arg1, Object arg2, ...);
 
 /// Returns a random number from specified range.
@@ -177,8 +177,8 @@ TriggerError(String message, Object arg1, Object arg2, ...);
 /// a = Random(0, 10); // a will be ~8.1993
 /// a = Random(0, 10); // a will be ~3.1698
 /// @endcode
-/// @param min The lower bound of the range, inclusive. If not specified, 0 is used.
-/// @param max The higher bound of the range, inclusive. If not specified, 1 is used. If @a min is specified, this must be specified too. Must be greater than @a min.
+/// @param min (Optional) The lower bound of the range, inclusive. If not specified, 0 is used.
+/// @param max (Optional) The higher bound of the range, inclusive. If not specified, 1 is used. If @a min is specified, this must be specified too. Must be greater than @a min.
 /// @return Random number.
 Number Random(Number min, Number max);
 
