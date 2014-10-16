@@ -1,2 +1,8 @@
-﻿var main = HeightMap.Noise();/*HeightMap.RadialGradient([500, 500], 480, 1, -1);*/
-yield main.Multiply(1.45).Glaciate(1, false);
+﻿var array = {
+    600: 1,
+    400: -1,
+    200: 0.5
+};
+
+var profile = HeightProfile.FromArray(array);
+yield HeightMap.Projection(profile, Direction.Vertical);

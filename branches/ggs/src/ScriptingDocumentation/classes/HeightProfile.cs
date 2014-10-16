@@ -8,15 +8,15 @@ public:
 
     /// Creates a deep copy of another height profile.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var main = HeightProfile.Gradient(200, 600, 1, 0);
     /// var copy = HeightProfile.Clone(main);
     /// copy.Move([200, 0]);
     /// yield main.Unify(copy);
-    /// @endcode
+    /// @endcode*/
     /// 
-	/// @param heightMap (Optional) The map to copy.
+	/// @param heightProfile (Optional) The profile to copy.
 	/// @return The height profile.
 	static HeightProfile Clone(HeightProfile heightProfile);
     
@@ -25,28 +25,51 @@ public:
 	/// @return The height profile.
 	static HeightProfile Flat(Number height);
 
-    /// Creates a linear height gradient going from @a sourceHeight at @a source to @a 
-    /// destinationHeight at @a destination. Pixels outside of the gradient strip are filled with height of source or destination, whichever is closer.
+    /// Creates a profile from an array of pairs coordinate-height. In each pair, the key has to be a Coordinate (or be @link implicit_conversions convertible@endlink to it) and height must be a Number. The array doesn't have to be in any particular order.
+    /// 
+    /// Heights between the array entries will be interpolated using the linear [interpolation algorithm](http://en.wikipedia.org/wiki/Linear_interpolation). Any pixels before the least coordinate in the array will be filled with that height (and any pixels beyond the greatest coordinate will also be filled with that's entry's height).
     /// 
     /// Example:
     /// @code{.cs}
+    /// var array = {
+    ///    600: 1,
+    ///    400: -1,
+    ///    200: 0.5
+    /// };
+    ///
+    /// var profile = HeightProfile.FromArray(array);
+    /// yield HeightMap.Projection(profile, Direction.Vertical);
+    /// @endcode
+    ///         
+    /// @image html std_1d_fromarray.png
+    ///            
+    /// @param array The array.
+    /// @param direction (Optional) Direction in which @link Coordinate relative coordinates@endlink are resolved. Doesn't affect anything if no relative coordinates are used. 
+    /// @return The height profile.
+	static HeightProfile FromArray(Array array, Direction direction);
+
+    /// Creates a linear height gradient going from @a sourceHeight at @a source to @a 
+    /// destinationHeight at @a destination. Pixels outside of the gradient strip are filled with height of source or destination, whichever is closer.
+    /// 
+    /*/// Example:
+    /// @code{.cs}
     /// var profile = HeightProfile.Gradient(200, 700, -1, 1);
     /// yield HeightMap.Projection(profike, Direction.Vertical);
-    /// @endcode
+    /// @endcode*/
     /// 
     /// @param sourceCoordinate The source coordinate.
     /// @param destinationCoordinate The destination coordinate.
     /// @param sourceHeight Height at the source.
     /// @param destinationHeight Height at the destination.
     /// @return The height profile.
-	static HeightProfile Gradient(Coordinate source, Coordinate destination, Number sourceHeight, Number destinationHeight);
+	static HeightProfile Gradient(Coordinate sourceCoordinate, Coordinate destinationCoordinate, Number sourceHeight, Number destinationHeight);
 
     /// Creates a height profile filled with random perlin noise.
     /// 
     /// The layer definitions are an array of pairs `wave length: amplitude`. Wave length and amplitude must be greater than 0. Example:
     /// 
     /// @code{.cs}
-    /// var profile = HeightProfile.Noise({1: 0.1, 8: 0.3, 512: 0.6 });
+    /// var profile = HeightProfile.Noise({256: 1});
     /// yield HeightMap.Projection(profile, Direction.Vertical);
     /// @endcode
     /// 
@@ -81,14 +104,14 @@ public:
 
     /// Creates a height profile with an interval of @a pattern repeating infinitely in both directions. The repeating pattern will start at coordinate 0.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var pattern = HeightProfile.RadialGradient([100, 100], 200, 1, -1);
     /// var profile = HeightProfile.Pattern(pattern, [0, 0], [200, 200]);
     /// yield HeightMap.Projection(profile, Direction.Vertical);
     /// @endcode
     /// 
-    /// @image html std_1d_pattern.png
+    /// @image html std_1d_pattern.png*/
     /// 
     /// @param pattern The height profile from which the pattern is copied.
     /// @param intervalStart The position of start of the interval.
@@ -98,28 +121,29 @@ public:
 
     /// Creates a height profile from a single row (if @a direction is horizontal) or column (if @a direction is vertical) of pixels of an height map.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var profile = HeightMap.Noise();
     /// yield HeightProfile.Projection(profile, Direction.Vertical);
     /// @endcode
     /// 
-    /// @image html std_1d_slice.png
+    /// @image html std_1d_slice.png*/
     /// 
-    /// @param profile The height profile.
-    /// @param coordinate Coordiante of the row/column.
+    /// @param heightMap The height map to create the slice from.
+    /// @param coordinate Coordinate of the row/column.
     /// @param direction The projection direction.
     /// @return The height profile.
 	static HeightProfile Slice(HeightMap heightMap, Number coordinate, Direction direction);
     
     /// Replaces height in each pixel with its absolute value (makes negative heights positive).
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// yield HeightProfile.Noise().Abs();
     /// @endcode
     /// 
-    /// @image html std_1d_abs.png
+    /// @image html std_1d_abs.png*/
+    ///        
     /// @return The height profile itself (for call chaining).
     HeightProfile Abs();
 
@@ -127,7 +151,7 @@ public:
     /// profile. If @a mask is provided, the addition in each pixel will be modulated by the mask.
     /// Heights less than 0 from the mask are considered to be 0.
     /// 
-    /// Example with a numeric addend without a mask (forcing the heights at the tip of the cone to overflow):
+    /*/// Example with a numeric addend without a mask (forcing the heights at the tip of the cone to overflow):
     /// @code{.cs}
     /// yield HeightProfile.RadialGradient([500, 500], 400, 1, -1).Add(0.5);
     /// @endcode
@@ -150,7 +174,7 @@ public:
     /// yield main.Add(noise, mask); // Less of the noise will be added in the center, where there are lower heights in the mask
     /// @endcode
     /// 
-    /// @image html std_2d_add_map_mask.png
+    /// @image html std_2d_add_map_mask.png*/
     /// 
     /// @param addend The addend.
     /// @param mask (Optional) The mask.
@@ -159,14 +183,14 @@ public:
 
     /// Blurs the height profile with box blur algorithm with kernel of given radius.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var main = HeightProfile.RadialGradient([500, 500], 450, 1, -1);
     /// main.Unify(HeightProfile.Gradient([0, 0], [1000, 0], -1, 1));
     /// yield main.Blur(50);
     /// @endcode
     /// 
-    /// @image html std_2d_blur.png
+    /// @image html std_2d_blur.png*/
     ///        
     /// @see [Box blur on Wikipedia](http://en.wikipedia.org/wiki/Box_blur)
     /// @param radius The blur kernel size.
@@ -175,12 +199,12 @@ public:
 
     /// Replaces heights greater than @a max with @a max and less than @a min with @a min.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// yield HeightProfile.Noise().ClampHeights(-0.3, 0.3);
     /// @endcode
     /// 
-    /// @image html std_2d_clampheights.png.
+    /// @image html std_2d_clampheights.png*/
     ///        
     /// @param min The minimum height.
     /// @param max The maximum height.
@@ -189,7 +213,7 @@ public:
 
     /// Replaces heights in each pixel with a height blended from that height and corresponding height from another height profile. The blending will be done according to the height in the mask - 1 will mean 100% of the current height profile's height will be used, 0 will mean 100% of the height from the other height profile will be used. Any heights in between will cause the two heights to be blended linearly. Heights less than 0 from the mask are considered to be 0.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var roughNoise = HeightProfile.Noise();
     /// var smoothNoise = HeightProfile.Noise({256: 0.9}, 1); // Use different seed.
@@ -197,7 +221,7 @@ public:
     /// yield roughNoise.Combine(smoothNoise, mask);
     /// @endcode
     /// 
-    /// @image html std_1d_combine.png.
+    /// @image html std_1d_combine.png*/
     ///        
     /// @param other The other profile.
     /// @param mask The mask.
@@ -206,12 +230,12 @@ public:
 
     /// Replaces all heights outside of an interval with @a replace.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// yield HeightProfile.RadialGradient([500, 500], 400, 1, 0).Crop([350, 250], [300, 500]);
     /// @endcode
     /// 
-    /// @image html std_2d_crop.png.
+    /// @image html std_2d_crop.png*/
     /// 
     /// @param intervalStart The position of start of the interval.
     /// @param intervalEnd The position of end of the interval.
@@ -221,12 +245,12 @@ public:
 
     /// Replaces heights greater than @a max or less than @a min with @a replace.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// yield HeightProfile.Noise().ClampHeights(-0.3, 0.3);
     /// @endcode
     /// 
-    /// @image html std_2d_cropheights.png.
+    /// @image html std_2d_cropheights.png.*/
     ///        
     /// @param min The minimum height.
     /// @param max The maximum height.
@@ -236,12 +260,12 @@ public:
 
     /// Replaces each pixel with @a height.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// yield HeightProfile.Noise().Fill(0.5);
     /// @endcode
     /// 
-    /// @image html std_2d_fill.png.
+    /// @image html std_2d_fill.png.*/
     ///        
     /// @param height The height.
     /// @return The height profile itself (for call chaining).
@@ -249,12 +273,12 @@ public:
 
     /// Replaces each pixel in an interval with @a height.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// yield HeightProfile.Noise().FillInterval(200, 400, 0.5);
     /// @endcode
     /// 
-    /// @image html std_2d_fillrectangle.png.
+    /// @image html std_2d_fillrectangle.png.*/
     /// 
     /// @param intervalStart The position of start of the interval.
     /// @param intervalEnd The position of end of the interval.
@@ -264,24 +288,24 @@ public:
 
     /// Flips the profile around coordinate 0.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// yield HeightMap.Projection(HeightProfile.Noise().Flip(), Direction.Vertical);
-    /// @endcode
+    /// @endcode*/
     ///        
     /// @return The height profile itself (for call chaining).
     HeightProfile Fill();
 
     /// Sets each pixel in the to the less of the two corresponding heights in the current profile and the other profile.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var main = HeightProfile.Gradient([0, 0], [1000, 0], 0, 1);
     /// var other = HeightProfile.Gradient([0, 0], [0, 1000], 0, 1);
     /// yield main.Intersect(other);
     /// @endcode
     /// 
-    /// @image html std_2d_intersect.png.
+    /// @image html std_2d_intersect.png.*/
     ///        
     /// @param other The other map.
     /// @return The height profile itself (for call chaining).
@@ -289,26 +313,27 @@ public:
 
     /// Flips sign of each height in the profile.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// // Transforms absolute value noise into ridges
     /// yield HeightProfile.Noise().Abs().Invert().Add(1);
     /// @endcode
     /// 
-    /// @image html std_2d_invert.png
+    /// @image html std_2d_invert.png*/
+    ///        
     /// @return The height profile itself (for call chaining).
     HeightProfile Invert();
 
     /// Moves the height profile by offset.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var main = HeightProfile.Noise({256:1});
     /// var copy = HeightProfile.Clone(main).Move([150, 100]);
     /// yield main.Unify(copy);
     /// @endcode
     /// 
-    /// @image html std_2d_move.png.
+    /// @image html std_2d_move.png.*/
     ///        
     /// @param offset The offset. The map is @a offset to the right.
     /// @return The height profile itself (for call chaining).
@@ -316,7 +341,7 @@ public:
 
     /// Multiplies the height in each pixel by a number or a corresponding pixel from another height profile. 
     /// 
-    /// Example with a numeric factor:
+    /*/// Example with a numeric factor:
     /// @code{.cs}
     /// yield HeightProfile.Noise().Multiply(0.2);
     /// @endcode
@@ -330,7 +355,7 @@ public:
     /// yield main.Multiply(multiplier);
     /// @endcode
     /// 
-    /// @image html std_2d_multiply_map.png
+    /// @image html std_2d_multiply_map.png*/
     /// 
     /// @param factor The factor.
     /// @return A HeightProfile.
@@ -341,18 +366,18 @@ public:
     /// 
     /// @param scale The scale ratio. Must be greater than 0.1 and less than 10.
     /// @return The height profile itself (for call chaining).
-    HeightMap Rescale(Number horizontalScale, Number verticalScale);
+    HeightMap Rescale(Number scale);
 
     /// Sets each pixel in the to the greater of the two corresponding heights in the current profile and the other profile.
     /// 
-    /// Example:
+    /*/// Example:
     /// @code{.cs}
     /// var main = HeightProfile.Gradient([0, 0], [1000, 0], 0, 1);
     /// var other = HeightProfile.Gradient([0, 0], [0, 1000], 0, 1);
     /// yield main.Unify(other);
     /// @endcode
     /// 
-    /// @image html std_2d_unify.png.
+    /// @image html std_2d_unify.png.*/
     ///        
     /// @param other The other profile.
     /// @return The height profile itself (for call chaining).
