@@ -1,6 +1,6 @@
 /// @mainpage Getting started
 /// 
-/// This is a full reference of GeoGen Script and its standard library.
+/// This is a full reference of GeoGen Script and its standard library. <br />
 /// 
 /// GeoGen Script is the language used to write map scripts for GeoGen. It is high level dynamically typed procedural programming language.
 /// 
