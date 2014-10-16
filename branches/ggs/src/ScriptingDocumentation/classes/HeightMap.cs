@@ -383,6 +383,25 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap Flip(Direction direction);
 
+    /// Exaggerates lower altitudes, making valley bases wider and peaks sharper.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.Noise();
+    /// yield main.Multiply(1.45).Glaciate(0.25, true);
+    /// @endcode
+    /// 
+    /// @image html std_2d_glaciate_25.png
+    ///        
+    /// The same height map with @a strength 1 and @a includeNegative set to `false`.
+    ///
+    /// @image html std_2d_glaciate_100.png
+    ///        
+    /// @param strength Strength of the effect. Must be greater than or equal to 0 and less than or equal to 1.
+    /// @param includeNegative True if the effect is to be applied on negative heights. If false, negative heights will be ignored. The effect is mirrored on negative heights.
+    /// @return The height map itself (for call chaining).
+    HeightMap Glaciate(Number strength, bool includeNegative);
+
     /// Sets each pixel in the to the less of the two corresponding heights in the current map and the other map.
     /// 
     /// Example:

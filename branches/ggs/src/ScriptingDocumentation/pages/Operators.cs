@@ -8,10 +8,10 @@
 /// &nbsp;     |       |      | ()  | Function call          | Object, Object...  | Object
 /// Unary      | 2     | RTL  | ++  | Increment (postfix and prefix) | Number     | Number
 /// &nbsp;     |       |      | --  | Decrement (postfix and prefix) | Number     | Number
-/// &nbsp;     |       |      | !   | Negation               | Number/Boolean     | Number/Boolean
+/// &nbsp;     |       |      | !   | Negation               | @ref Number/@ref Boolean     | @ref Number/@ref Boolean
 /// &nbsp;     |       |      | +   | Unary plus             | Number             | Number
 /// &nbsp;     |       |      | -   | Unary minus            | Number             | Number
-/// &nbsp;     |       |      | @   | Relative coordinate/point | Number/Coordinate/Point | Point/Coordinate
+/// &nbsp;     |       |      | @   | Relative coordinate/point | @ref Number/@ref Coordinate/@ref Point | @ref Point/@ref Coordinate
 /// Multiplicative | 3 | LTR  | *   | Multiplication         | Number, Number     | Number
 /// &nbsp;     |       |      | /   | Division               | Number, Number     | Number
 /// &nbsp;     |       |      | %   | Modulo (integer remainder) | Number, Number | Number
@@ -25,9 +25,9 @@
 /// &nbsp;     |       |      | >=  | Greater than or equal to | Number, Number   | Boolean
 /// Equality   | 7     |      | ==  | Equal to               | Object/@ref null, Object/@ref null | Boolean
 /// &nbsp;     |       |      | !=  | Not equal to           | Object/@ref null, Object/@ref null | Boolean
-/// Bit and    | 8     |      | &   | Bit and                | Number/Boolean, Number/Boolean | Number/Boolean
-/// Bit xor    | 9     |      | ^   |Bit xor (exclusive or)  | Number/Boolean, Number/Boolean | Number/Boolean
-/// Bit or     | 10    |      | \|  |Bit or (inclusive or)   | Number/Boolean, Number/Boolean | Number/Boolean
+/// Bit and    | 8     |      | &   | Bit and                | @ref Number/@ref Boolean, @ref Number/@ref Boolean | @ref Number/@ref Boolean
+/// Bit xor    | 9     |      | ^   |Bit xor (exclusive or)  | @ref Number/@ref Boolean, @ref Number/@ref Boolean | @ref Number/@ref Boolean
+/// Bit or     | 10    |      | \|  |Bit or (inclusive or)   | @ref Number/@ref Boolean, @ref Number/@ref Boolean | @ref Number/@ref Boolean
 /// Logical and | 11   |      | &&  | Logical and            | Boolean, Boolean   | Boolean
 /// Logical or | 12    |      | \|\| | Logical or            | Boolean, Boolean   | Boolean
 /// Conditional | 13   |      | ?:  | Conditional ternary    | Boolean, Object/@ref null, Object/@ref null | Object/@ref null
@@ -39,9 +39,9 @@
 /// &nbsp;     |       |      | %=  | Modulo assignment      | Number, Number      | Number
 /// &nbsp;     |       |      | <<= | Bit shift left assignment | Number, Number   | Number
 /// &nbsp;     |       |      | >>= | Bit shift right assignment | Number, Number  | Number
-/// &nbsp;     |       |      | &=  | Bit and assignment     | Number/Boolean, Number/Boolean | Number/Boolean
-/// &nbsp;     |       |      | ^=  | Bit xor assignment     | Number/Boolean, Number/Boolean | Number/Boolean
-/// &nbsp;     |       |      | \|= | Bit or assignent       | Number/Boolean, Number/Boolean | Number/Boolean
+/// &nbsp;     |       |      | &=  | Bit and assignment     | @ref Number/@ref Boolean, @ref Number/@ref Boolean | @ref Number/@ref Boolean
+/// &nbsp;     |       |      | ^=  | Bit xor assignment     | @ref Number/@ref Boolean, @ref Number/@ref Boolean | @ref Number/@ref Boolean
+/// &nbsp;     |       |      | \|= | Bit or assignent       | @ref Number/@ref Boolean, @ref Number/@ref Boolean | @ref Number/@ref Boolean
 /// Comma      | 15    | LTR  | ,   | Argument list          |                      | &nbsp;
 /// 
 /// Operators %, <<, >>, %=, <<= and >>= treat the second argument as an integer (rounding down).

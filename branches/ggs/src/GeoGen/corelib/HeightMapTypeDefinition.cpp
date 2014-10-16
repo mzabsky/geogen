@@ -14,6 +14,7 @@
 #include "HeightMapFillFunctionDefinition.hpp"
 #include "HeightMapFillRectangleFunctionDefinition.hpp"
 #include "HeightMapFlipFunctionDefinition.hpp"
+#include "HeightMapGlaciateFunctionDefinition.hpp"
 #include "HeightMapIntersectFunctionDefinition.hpp"
 #include "HeightMapInvertFunctionDefinition.hpp"
 #include "HeightMapMoveFunctionDefinition.hpp"
@@ -55,6 +56,7 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetFunctionDefinitions().AddItem(new HeightMapFillFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapFillRectangleFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapFlipFunctionDefinition(this));
+	this->GetFunctionDefinitions().AddItem(new HeightMapGlaciateFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapIntersectFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapInvertFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapMoveFunctionDefinition(this));

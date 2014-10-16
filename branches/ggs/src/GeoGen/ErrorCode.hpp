@@ -78,6 +78,7 @@ namespace geogen
 		GGE2712_InvalidTransformationMatrix = 2712,
 		GGE2713_InvalidPersistence = 2713,
 		GGE2714_InvalidScale = 2714,
+		GGE2715_InvalidStrength = 2715,
 
 		GGE2801_MainMapNotGenerated = 2801,
 		/// API usage error - such as incorrect parameter or a method being called in incorrect context).
