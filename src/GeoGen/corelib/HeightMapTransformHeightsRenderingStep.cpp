@@ -17,7 +17,7 @@ void HeightMapTransformHeightsRenderingStep::Step(Renderer* renderer) const
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 	HeightProfile* profile = dynamic_cast<HeightProfile*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[1])->GetPtr());
 
-	self->TransformHeighs(profile, this->interval, this->minHeight, this->maxHeight);
+	self->TransformHeights(profile, this->interval, this->minHeight, this->maxHeight);
 }
 
 void HeightMapTransformHeightsRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const

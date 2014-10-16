@@ -182,10 +182,8 @@ namespace geogen
 			//void SlopeMap();
 			//void Shift(HeightProfile* profile, Size1D maxDistance);
 			void Transform(TransformationMatrix const& matrix, Rectangle transformedRectangle);
-			void TransformHeighs(HeightProfile* function, Interval interval, Height min, Height max);
+			void TransformHeights(HeightProfile* function, Interval interval, Height min, Height max);
 			void Unify(HeightMap* other);
-
-			// transforms
 		};
 	}	
 }

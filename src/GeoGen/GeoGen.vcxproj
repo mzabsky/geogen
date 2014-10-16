@@ -168,6 +168,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapFlipFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapGlaciateFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapGlaciateRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapGradientFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapGradientRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapIntersectFunctionDefinition.hpp" />
@@ -252,6 +254,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
     <ClInclude Include="corelib\InvalidScaleException.hpp" />
+    <ClInclude Include="corelib\InvalidStrengthException.hpp" />
     <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
     <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
@@ -267,6 +270,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
     <ClInclude Include="corelib\ParseNoiseInput.hpp" />
     <ClInclude Include="corelib\InvalidTransformationMatrixException.hpp" />
+    <ClInclude Include="genlib\CommonProfileFactory.hpp" />
     <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
     <ClInclude Include="corelib\NullKeyException.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
@@ -470,6 +474,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapFlipFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapGlaciateFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapGlaciateRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapGradientFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapGradientRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapIntersectFunctionDefinition.cpp" />
@@ -567,6 +573,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\RandomSequence2DCreateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RandomSequence2DTypeDefinition.cpp" />
+    <ClCompile Include="genlib\CommonProfileFactory.cpp" />
     <ClCompile Include="genlib\HeightMap.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />

@@ -255,6 +255,9 @@
     <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapTransformHeightsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapTransformHeightsRenderingStep.cpp" />
+    <ClCompile Include="genlib\CommonProfileFactory.cpp" />
+    <ClCompile Include="corelib\HeightMapGlaciateFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapGlaciateRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
@@ -600,6 +603,10 @@
     <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
     <ClInclude Include="corelib\HeightMapTransformHeightsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapTransformHeightsRenderingStep.hpp" />
+    <ClInclude Include="genlib\CommonProfileFactory.hpp" />
+    <ClInclude Include="corelib\HeightMapGlaciateFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapGlaciateRenderingStep.hpp" />
+    <ClInclude Include="corelib\InvalidStrengthException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />

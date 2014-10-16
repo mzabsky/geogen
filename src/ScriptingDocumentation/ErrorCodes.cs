@@ -805,7 +805,7 @@
 /// @endcode
 
 /// @page gge2711 GGE2711
-/// A wave length-amplitude pair with a non-positiveamplitude (value) was passed to HeightProfile.Noise or HeightMap.Noise.
+/// A wave length-amplitude pair with a non-positive amplitude (value) was passed to HeightProfile.Noise or HeightMap.Noise.
 /// 
 /// @code{.cs}
 /// var map = HeightMap.Noise({
