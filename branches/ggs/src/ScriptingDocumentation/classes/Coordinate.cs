@@ -1,4 +1,4 @@
-/// A coordinate in 1-dimensional space.
+/// Coordinate in one-dimensional space.
 /// 
 /// Standard digital graphics coordinate system is used - horizontal coordinates go from left to right, vertical coordinates got from top to bottom.
 /// 

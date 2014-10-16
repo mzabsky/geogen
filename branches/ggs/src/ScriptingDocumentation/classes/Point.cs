@@ -1,4 +1,4 @@
-/// A point in 2-dimensional space.
+/// Point in two-dimensional space.
 /// 
 /// A point is composed from two @link Coordinate Coordinates@endlink. These coordinates can be independently either absolute or relative. The @ operator can be used on a point to make both of the contained coordinates relative:
 ///  
