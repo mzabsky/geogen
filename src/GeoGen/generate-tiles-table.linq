@@ -1,8 +1,9 @@
 <Query Kind="Statements" />
 
-Directory.SetCurrentDirectory (Path.GetDirectoryName (Util.CurrentQueryPath));
+var cd = (Path.GetDirectoryName (Util.CurrentQueryPath) + "\\..\\..\\bin\\").Dump();
+Directory.SetCurrentDirectory (cd);
 
-var path = "../../out/";
+var path = "../bin/";
 var prefix = "tile_";
 var suffix = "_main.png";
 

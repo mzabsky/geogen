@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)../bin/</OutDir>
-    <TargetName>geogen</TargetName>
+    <TargetName>geogend</TargetName>
     <LibraryPath>$(SolutionDir)\lpng1612\projects\visualc71\Win32_LIB_Debug;$(SolutionDir)/../lib/;$(SolutionDir)\zlib128\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)\png++;$(SolutionDir)\zlib-1.2.8;$(SolutionDir)\lpng1612;$(SolutionDir)\..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -48,6 +48,7 @@
     <IncludePath>$(SolutionDir)\png++;$(SolutionDir)\zlib-1.2.8;$(SolutionDir)\lpng1612;$(SolutionDir)\..\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lpng1612\projects\visualc71\Win32_LIB_Release;$(SolutionDir)../lib/;$(SolutionDir)\zlib128\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)../bin/</OutDir>
+    <TargetName>geogen</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

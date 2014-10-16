@@ -36,6 +36,10 @@
     <None Include="ErrorCodes.cs" />
     <None Include="tutorials\Console.cs" />
     <None Include="classes\Direction.cs" />
+    <None Include="examples\Examples.cs" />
+    <None Include="examples\Marshlands.cs" />
+    <None Include="examples\Tepui.cs" />
+    <None Include="examples\Ouroboros.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />
@@ -85,5 +89,20 @@
     <Image Include="images\tut_console_empty.png" />
     <Image Include="images\tut_console_renderer.png" />
     <Image Include="images\tut_console_run.png" />
+    <Image Include="images\examples_marshlands.png" />
+    <Image Include="images\examples_marshlands_banks.png" />
+    <Image Include="images\examples_marshlands_marsh.png" />
+    <Image Include="images\examples_marshlands_ridges.png" />
+    <Image Include="images\examples_ouroboros.png" />
+    <Image Include="images\examples_tepui.png" />
+    <Image Include="images\examples_tepui_highland.png" />
+    <Image Include="images\examples_tepui_lowland.png" />
+    <Image Include="images\examples_tepui_mask.png" />
+    <Image Include="images\std_1d_fromarray.png" />
+    <Image Include="images\std_1d_noise_custom.png" />
+    <Image Include="images\std_1d_noise_standard.png" />
+    <Image Include="images\std_2d_glaciate_25.png" />
+    <Image Include="images\std_2d_glaciate_100.png" />
+    <Image Include="images\std_2d_transformheights.png" />
   </ItemGroup>
 </Project>

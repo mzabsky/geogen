@@ -1,5 +1,5 @@
 /// @page language_reference Language reference
-/// Language ref paghe
+/// This page contains links to all pages describing the language itself and its features.
 ///  @li @link script_structure Script structure @endlink
 ///  @li @link type_system Type system @endlink
 ///  @li @link basic_syntax Basic syntax @endlink - keywords, statements, literals, identifiers, comments etc.

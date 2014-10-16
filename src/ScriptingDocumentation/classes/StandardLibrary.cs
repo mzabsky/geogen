@@ -8,6 +8,16 @@
 /// @param n1 The first number.
 /// @param n2 The second number.
 /// @return The minimum number.
+Array CreateNoiseLayers(Number n1, Number n2, ...);
+
+
+/// Returns the least of any number of numbers.
+/// @code{.cs}
+/// var a = Min(5, 6.16, -1.35, 69, 0.0036); // a will be -1.35
+/// @endcode
+/// @param n1 The first number.
+/// @param n2 The second number.
+/// @return The minimum number.
 Number Min(Number n1, Number n2, ...);
 
 /// Returns the greatest of any number of numbers.

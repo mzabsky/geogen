@@ -78,6 +78,8 @@
 /// This error is usually caused by a character that is not supported by the parser in any context:
 /// @code{.cs}
 /// var variablě = 5; // GGE1101 caused by the "ě"
+/// 
+/// It can also be caused by a newline missing at the end of the script.
 /// @endcode
 
 /// @page gge1102 GGE1102
