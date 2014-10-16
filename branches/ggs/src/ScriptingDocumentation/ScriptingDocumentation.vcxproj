@@ -78,6 +78,10 @@
     <None Include="classes\RandomSequence2D.cs" />
     <None Include="classes\String.cs" />
     <None Include="Doxyfile" />
+    <None Include="examples\Examples.cs" />
+    <None Include="examples\Marshlands.cs" />
+    <None Include="examples\Ouroboros.cs" />
+    <None Include="examples\Tepui.cs" />
     <None Include="pages\BasicSyntax.cs" />
     <None Include="pages\ControlStructures.cs" />
     <None Include="pages\EnumTypes.cs" />
@@ -104,6 +108,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\documents\visual studio 2013\Projects\PreviewRenderer\PreviewRenderer\bin\Debug\out.png" />
+    <Image Include="images\examples_marshlands.png" />
+    <Image Include="images\examples_marshlands_banks.png" />
+    <Image Include="images\examples_marshlands_marsh.png" />
+    <Image Include="images\examples_marshlands_ridges.png" />
+    <Image Include="images\examples_ouroboros.png" />
+    <Image Include="images\examples_tepui.png" />
+    <Image Include="images\examples_tepui_highland.png" />
+    <Image Include="images\examples_tepui_lowland.png" />
+    <Image Include="images\examples_tepui_mask.png" />
+    <Image Include="images\std_1d_fromarray.png" />
+    <Image Include="images\std_1d_noise_custom.png" />
+    <Image Include="images\std_1d_noise_standard.png" />
     <Image Include="images\std_2d_abs.png" />
     <Image Include="images\std_2d_add_map.png" />
     <Image Include="images\std_2d_add_map_mask.png" />
@@ -121,6 +137,8 @@
     <Image Include="images\std_2d_fill.png" />
     <Image Include="images\std_2d_fillrectangle.png" />
     <Image Include="images\std_2d_flip.png" />
+    <Image Include="images\std_2d_glaciate_100.png" />
+    <Image Include="images\std_2d_glaciate_25.png" />
     <Image Include="images\std_2d_gradient.png" />
     <Image Include="images\std_2d_intersect.png" />
     <Image Include="images\std_2d_invert.png" />
@@ -137,6 +155,7 @@
     <Image Include="images\std_2d_shear.png" />
     <Image Include="images\std_2d_shift.png" />
     <Image Include="images\std_2d_transform.png" />
+    <Image Include="images\std_2d_transformheights.png" />
     <Image Include="images\std_2d_unify.png" />
     <Image Include="images\tut_combining_1.png" />
     <Image Include="images\tut_combining_2.png" />
