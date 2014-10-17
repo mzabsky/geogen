@@ -1,14 +1,37 @@
 /// @defgroup standard_library Standard library
 /// @{
 
-/// Returns the least of any number of numbers.
+/// Creates an array of noise layer configurations for HeightMap.Noise and HeightProfile.Noise.
+/// 
+/// The default version called without any arguments creates the same noise as @ref HeightMap.Noise/@ref HeightProfile.Noise called without any arguments:
 /// @code{.cs}
-/// var a = Min(5, 6.16, -1.35, 69, 0.0036); // a will be -1.35
-/// @endcode
-/// @param n1 The first number.
-/// @param n2 The second number.
-/// @return The minimum number.
-Array CreateNoiseLayers(Number n1, Number n2, ...);
+/// yield HeightMap.Noise(CreateNoiseParameters(), 2); // This is useful if you want to provide a custom seed
+/// @endcode.
+/// @image html std_createnoiselayers_default.png        
+///  
+/// When called with a single argument, that parameter is used as @a maximumWaveLength, with @a minimumWaveLength of 1 and @a persistence of 0.5.
+/// @code{.cs}
+/// yield HeightMap.Noise(CreateNoiseParameters(64), 2); // This is useful if you want to provide a custom seed
+/// @endcode.
+/// @image html std_createnoiselayers_64.png        
+///        
+/// Calling the function with 2 arguments still uses the @a persistence of 0.5.
+/// @code{.cs}
+/// yield HeightMap.Noise(CreateNoiseParameters(32, 256), 2);
+/// @endcode.
+/// @image html std_createnoiselayers_32_256.png    
+/// 
+/// The third parameter specifies @a persistence, determining how chaotic the resulting noise will be.
+/// @code{.cs}
+/// yield HeightMap.Noise(CreateNoiseParameters(1, 512, 0.2), 2);
+/// @endcode.
+/// @image html std_createnoiselayers_1_512_20.png    
+///          
+/// @param minimumWaveLength (Optional) The minimum wave length. Used as @a maximumWaveLength if it is not specified. Default value is 1.
+/// @param maximumWaveLength (Optional) The maximum wave length. If neither @a minimumWaveLength and @a maximumWaveLength is specified, 256 is used.
+/// @param persistence (Optional) The persistence. 0.5 is used if not specified. Must be greater than or equal to 0.1 and less than or equal to 0.9. Lower @a persistence produces more noisy and chaotic results.
+/// @return The noise layer array.
+Array CreateNoiseLayers(Number minimumWaveLength, Number maximumWaveLength, Number persistence);
 
 
 /// Returns the least of any number of numbers.

@@ -112,7 +112,7 @@ public:
     /// 
     /// @see [Perlin noise](http://freespace.virgin.net/hugo.elias/models/m_perlin.htm)
     /// 
-    /// @param layerDefinitions (Optional) Array defining layers of the noise. If not provided, a default array is used..
+    /// @param layerDefinitions (Optional) Array defining layers of the noise. If not provided, a default array is used. This array can be created using CreateNoiseLayers.
     /// @param seed (Optional) Random seed. If not provided, 0 is used. This seed is always combined with the main script seed provided in script arguments to the script.
     /// @return The height map.
     static HeightMap Noise(Array layerDefinitions, Number seed);
