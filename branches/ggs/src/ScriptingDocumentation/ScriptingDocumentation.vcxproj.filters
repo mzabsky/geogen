@@ -40,6 +40,7 @@
     <None Include="examples\Marshlands.cs" />
     <None Include="examples\Tepui.cs" />
     <None Include="examples\Ouroboros.cs" />
+    <None Include="examples\DuneSea.cs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />

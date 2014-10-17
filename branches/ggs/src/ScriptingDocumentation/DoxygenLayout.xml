@@ -7,8 +7,8 @@
     <tab type="user" visible="yes" title="Language reference" url="@ref language_reference"/>
     <tab type="user" visible="yes" title="Standard library" url="@ref standard_library"/>
     <!--<tab type="user" visible="yes" title="Basic concepts" url="@ref concepts"/>-->
-    <tab type="user" visible="yes" title="Error codes" url="@ref error_codes"/>
     <tab type="user" visible="yes" title="Example scripts" url="@ref examples_page"/>
+    <tab type="user" visible="yes" title="Error codes" url="@ref error_codes"/>
     <tab type="pages" visible="no" title="" intro=""/>
     <tab type="modules" visible="no" title="" intro=""/>
     <tab type="namespaces" visible="no" title="">
