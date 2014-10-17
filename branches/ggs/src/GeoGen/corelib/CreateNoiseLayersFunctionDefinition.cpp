@@ -28,12 +28,30 @@ ManagedObject* CreateNoiseLayersFunctionDefinition::CallNative(CodeLocation loca
 	expectedParameters.push_back(numberTypeDefinition);
 	//expectedParameters.push_back(numberTypeDefinition);
 
-	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameters, arguments, 2);
+	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedParameters, arguments, 0);
 
-	Size1D minimumFeatureSize = (Size1D)NumberToInt(dynamic_cast<NumberObject*>(arguments[0])->GetValue());
-	Size1D maximumFeatureSize = (Size1D)NumberToInt(dynamic_cast<NumberObject*>(arguments[1])->GetValue());
-	double persistence = arguments.size() > 2 ? dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0.50;
-
+	Size1D minimumFeatureSize;
+	Size1D maximumFeatureSize;
+	double persistence;
+	if (arguments.size() == 0)
+	{
+		minimumFeatureSize = 1;
+		maximumFeatureSize = 256;
+		persistence = 0.5;
+	}
+	else if (arguments.size() == 1)
+	{
+		minimumFeatureSize = 1;
+		maximumFeatureSize = (Size1D)NumberToInt(dynamic_cast<NumberObject*>(arguments[0])->GetValue());
+		persistence = 0.5;
+	}
+	else 
+	{
+		minimumFeatureSize = (Size1D)NumberToInt(dynamic_cast<NumberObject*>(arguments[0])->GetValue());
+		maximumFeatureSize = (Size1D)NumberToInt(dynamic_cast<NumberObject*>(arguments[1])->GetValue());
+		persistence = arguments.size() > 2 ? dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0.50;
+	}
+	
 	if (minimumFeatureSize > maximumFeatureSize)
 	{
 		throw MaxLessThanMinException(location);
@@ -52,7 +70,7 @@ ManagedObject* CreateNoiseLayersFunctionDefinition::CallNative(CodeLocation loca
 		layers[currentWaveLength] = currentAmplitude;
 
 		currentWaveLength /= 2;
-		currentAmplitude *= persistence;
+		currentAmplitude *= 1 - persistence;
 	}
 
 	Number sum = 0;

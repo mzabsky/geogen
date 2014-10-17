@@ -109,6 +109,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\documents\visual studio 2013\Projects\PreviewRenderer\PreviewRenderer\bin\Debug\out.png" />
+    <Image Include="images\examples_dunesea.png" />
+    <Image Include="images\examples_dunesea_noise.png" />
     <Image Include="images\examples_marshlands.png" />
     <Image Include="images\examples_marshlands_banks.png" />
     <Image Include="images\examples_marshlands_marsh.png" />
@@ -158,6 +160,10 @@
     <Image Include="images\std_2d_transform.png" />
     <Image Include="images\std_2d_transformheights.png" />
     <Image Include="images\std_2d_unify.png" />
+    <Image Include="images\std_createnoiselayers_1_512_20.png" />
+    <Image Include="images\std_createnoiselayers_32_256.png" />
+    <Image Include="images\std_createnoiselayers_64.png" />
+    <Image Include="images\std_createnoiselayers_default.png" />
     <Image Include="images\tut_combining_1.png" />
     <Image Include="images\tut_combining_2.png" />
     <Image Include="images\tut_console_debugger.png" />
