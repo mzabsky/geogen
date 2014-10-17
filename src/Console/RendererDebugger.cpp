@@ -132,7 +132,7 @@ void RendererDebugger::Step()
 		if (returnObject != NULL)
 		{
 			StringStream ss;
-			ss << this->GetOutputDirectory() << GG_STR("/step") << this->currentStepNumber << GG_STR("_") << stepName;
+			ss << this->GetOutputDirectory() << GG_STR("/step") << this->currentStepNumber << GG_STR("_object") << step->GetReturnSlot() << GG_STR("_") << stepName;
 			
 			if (returnObject->GetObjectType() == RENDERER_OBJECT_TYPE_HEIGHT_MAP)
 			{

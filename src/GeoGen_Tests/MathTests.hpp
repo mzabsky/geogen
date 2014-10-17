@@ -234,6 +234,38 @@ public:
 		ASSERT_EQUALS(Height, -19999, AddHeights(-20000, 1));
 	}
 
+	static void TestNextMultipleOfInclusive()
+	{
+		ASSERT_EQUALS(Coordinate, 200, NextMultipleOfInclusive(200, 100));
+		ASSERT_EQUALS(Coordinate, 200, NextMultipleOfInclusive(128, 100));
+		ASSERT_EQUALS(Coordinate, -100, NextMultipleOfInclusive(-128, 100));
+		ASSERT_EQUALS(Coordinate, -200, NextMultipleOfInclusive(-200, 100));
+	}
+
+	static void TestNextMultipleOfExclusive()
+	{
+		ASSERT_EQUALS(Coordinate, 300, NextMultipleOfExclusive(200, 100));
+		ASSERT_EQUALS(Coordinate, 200, NextMultipleOfExclusive(128, 100));
+		ASSERT_EQUALS(Coordinate, -100, NextMultipleOfExclusive(-128, 100));
+		ASSERT_EQUALS(Coordinate, -100, NextMultipleOfExclusive(-200, 100));
+	}
+
+	static void TestPreviousMultipleOfInclusive()
+	{
+		ASSERT_EQUALS(Coordinate, 200, PreviousMultipleOfInclusive(200, 100));
+		ASSERT_EQUALS(Coordinate, 100, PreviousMultipleOfInclusive(128, 100));
+		ASSERT_EQUALS(Coordinate, -200, PreviousMultipleOfInclusive(-128, 100));
+		ASSERT_EQUALS(Coordinate, -200, PreviousMultipleOfInclusive(-200, 100));
+	}
+
+	static void TestPreviousMultipleOfExclusive()
+	{
+		ASSERT_EQUALS(Coordinate, 300, PreviousMultipleOfExclusive(400, 100));
+		ASSERT_EQUALS(Coordinate, 200, PreviousMultipleOfExclusive(228, 100));
+		ASSERT_EQUALS(Coordinate, -200, PreviousMultipleOfExclusive(-128, 100));
+		ASSERT_EQUALS(Coordinate, -300, PreviousMultipleOfExclusive(-200, 100));
+	}
+
 	MathTests() : TestFixtureBase("MathTests")
 	{
 		ADD_TESTCASE(TestOverflow);
@@ -261,5 +293,9 @@ public:
 		ADD_TESTCASE(TestFloor);
 		ADD_TESTCASE(TestAbs);
 		ADD_TESTCASE(TestAddHeightsIsSaturated);
+		ADD_TESTCASE(TestNextMultipleOfInclusive);
+		ADD_TESTCASE(TestNextMultipleOfExclusive);
+		ADD_TESTCASE(TestPreviousMultipleOfInclusive);
+		ADD_TESTCASE(TestPreviousMultipleOfExclusive);
 	}
 };

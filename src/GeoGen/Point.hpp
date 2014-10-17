@@ -138,7 +138,15 @@ namespace geogen {
 	/// @return A next multiple.
 	inline Coordinate NextMultipleOfInclusive(Coordinate coord, unsigned multiplier)
 	{
-		return coord + multiplier - 1 - (coord - 1) % multiplier;
+		if (coord < 0)
+		{
+			int remainder = abs(coord) % multiplier;
+			return -Coordinate(abs(coord) - remainder);
+		}
+		else
+		{
+			return coord + multiplier - 1 - (coord - 1) % multiplier;
+		}
 	}
 
 	/// Next coordinate that is a multiple of given number. If the coordinate is already a multiple of that number, the next multiple will be returned.
@@ -147,7 +155,17 @@ namespace geogen {
 	/// @return A next multiple.
 	inline Coordinate NextMultipleOfExclusive(Coordinate coord, unsigned multiplier)
 	{
-		return coord + multiplier - coord % multiplier;
+		if (coord < 0)
+		{
+			int remainder = abs(coord) % multiplier;
+			if (remainder == 0)
+				return -Coordinate(abs(coord) - multiplier);
+			return -(abs(coord) - remainder);			
+		}
+		else
+		{
+			return coord + multiplier - coord % multiplier;
+		}
 	}
 
 	/// Previous coordinate that is a multiple of given number. If the coordinate is already a multiple of that number, the same coordinate will be returned.
@@ -156,8 +174,15 @@ namespace geogen {
 	/// @return A previous multiple.
 	inline Coordinate PreviousMultipleOfInclusive(Coordinate coord, unsigned multiplier)
 	{
-		int remainder = coord % multiplier;
-		return coord - remainder;
+		if (coord < 0)
+		{
+			return -Coordinate(abs(coord) + multiplier - 1 - (abs(coord) - 1) % multiplier);
+		}
+		else
+		{
+			int remainder = coord % multiplier;
+			return coord - remainder;
+		}
 	}
 
 	/// Previous coordinate that is a multiple of given number. If the coordinate is already a multiple of that number, the previous multiple will be returned.
@@ -166,10 +191,17 @@ namespace geogen {
 	/// @return A previous multiple.
 	inline Coordinate PreviousMultipleOfExclusive(Coordinate coord, unsigned multiplier)
 	{
-		int remainder = coord % multiplier;
-		if (remainder == 0)
-			return coord - multiplier;
-		return coord - remainder;
+		if (coord < 0)
+		{
+			return -Coordinate(abs(coord) + multiplier - abs(coord) % multiplier);
+		}
+		else
+		{
+			int remainder = coord % multiplier;
+			if (remainder == 0)
+				return coord - multiplier;
+			return coord - remainder;
+		}
 	}
 
 	/// Attempts to convert a point to a 2D size.

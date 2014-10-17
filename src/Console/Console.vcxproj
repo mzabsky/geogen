@@ -60,7 +60,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <OutputFile>$(SolutionDir)/../bin/geogen.exe</OutputFile>
+      <OutputFile>$(SolutionDir)/../bin/geogend.exe</OutputFile>
       <AdditionalDependencies>geogend.lib;antlr3d.lib;libpngd.lib;zdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
