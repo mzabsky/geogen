@@ -64,6 +64,7 @@ namespace geogen
 	/// @param n The Number to convert.
 	/// @return The converted Height.
 	Height NumberToHeight(Number n);
+
 	/// Returns sign of a numeric value.
 	/// @tparam T Numeric type.
 	/// @param val The value.

@@ -1,8 +1,9 @@
-﻿var array = {
-    600: 1,
-    400: -1,
-    200: 0.5
-};
+﻿var main = HeightMap.Noise({128: 0.9}, 1);
+//main.Intersect(HeightMap.Clone(main).Move([0, 50]));
+main.Intersect(HeightMap.Noise({100: 0.9}, 2).Rotate(DegToRad(20)));
+//main.Intersect(HeightMap.Noise({150: 0.9}, 3).Rotate(DegToRad(40)));
+//main.Combine(HeightMap.Noise({256: 1}, 4), HeightMap.Clone(main).ClampHeights(0, 0.3).Blur(30));
+main.Multiply(0.5);
+main.Add(0.5);
 
-var profile = HeightProfile.FromArray(array);
-yield HeightMap.Projection(profile, Direction.Vertical);
+yield main;

@@ -710,7 +710,9 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
       <FileType>Document</FileType>
     </ClCompile>
     <None Include="generate-geogen-hpp.ps1" />
-    <None Include="generate-tiles-table.linq" />
+    <None Include="generate-tiles-table.linq">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Grammar\GeoGenScript.g" />
     <None Include="Grammar\GeoGenScriptDecls.g" />
     <None Include="Grammar\output\GeoGenScript.tokens" />
