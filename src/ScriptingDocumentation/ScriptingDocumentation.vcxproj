@@ -78,6 +78,7 @@
     <None Include="classes\RandomSequence2D.cs" />
     <None Include="classes\String.cs" />
     <None Include="Doxyfile" />
+    <None Include="examples\DuneSea.cs" />
     <None Include="examples\Examples.cs" />
     <None Include="examples\Marshlands.cs" />
     <None Include="examples\Ouroboros.cs" />
