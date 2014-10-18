@@ -1,0 +1,20 @@
+/// [Metadata]
+metadata
+{
+	Name: "Dune sea",
+	Description: "Infinite desert of dunes.",
+	Author: "Matěj Zábský"
+}
+/// [Metadata]
+
+/// [Body]
+var main = HeightMap.Noise({100: 0.9}, 1);
+var baseNoise = HeightMap.Clone(main);
+
+main.Intersect(HeightMap.Noise({50: 0.9}, 2))
+	.Combine(HeightMap.Noise({128: 0.9}, 3), baseNoise)
+	.Multiply(0.45)
+	.Add(0.5);
+
+yield main;
+/// [Body]

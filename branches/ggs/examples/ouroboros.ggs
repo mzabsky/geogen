@@ -1,47 +1,58 @@
 metadata
 {
 	Width: Finite,
-	Height: Finite
+	Height: Finite,
+	Name: "Ouroboros",
+	Description: "Right of exactly identical islands.",
+	Author: "Matěj Zábský",
+	Parameters:
+	{
+		NumberOfIslands: { Default: 5, Min: 3, Max: 10, Restriction: Integers }
+	}
 }
 
-//var main = HeightMap.Flat();
-//main.Rotate(DegToRad(212));
+var noise = HeightMap.Noise();
 
-/*var main = HeightMap.RadialGradient(@[0.5, 0.5], 200, 1, 0);
-main = HeightMap.Clone(main);
-main.Move(@[0.25,0.25]);
-*/
+var template = HeightMap.RadialGradient([0,0], Parameters.MapWidth * 0.1, 0.8, -0.5)
+	.Rescale(3, 1)
+	.Blur(20)
+	.Add(noise);
 
-var numberOfIslands = 5;
+var templateMask = HeightMap.RadialGradient([0,0], Parameters.MapWidth * 0.2, 1, 0)
+	.Rescale(3, 1)
+	.Multiply(2)
+	.Rescale(1.4 - Parameters.NumberOfIslands / 8)
+	.Blur(50);
+	
+var main = HeightMap.Flat(-0.1);
 
-var noise = HeightMap.Noise().Multiply(0.6);
-yield noise as "noise";
-
-var template = HeightMap.RadialGradient([0,0], Parameters.MapWidth * 0.1, 0.5, -0.5);
-template.Rescale(3, 1);
-template.Add(noise);
-//template.Move(@[0.5, 0.2]);
-
-var main = HeightMap.Flat(-1);
-
-//main = HeightMap.Clone(template);
-
-//main.Rotate(DegToRad(212));
-
-var angleStep = 360 / numberOfIslands;
+var angleStep = 360 / Parameters.NumberOfIslands;
 for(var angle = 0; angle < 360; angle += angleStep)
 {
 	var offset = [
 		Parameters.MapWidth / 2 + Cos(DegToRad(angle)) * Parameters.MapWidth * 0.35,
 		Parameters.MapHeight / 2 + Sin(DegToRad(angle)) * Parameters.MapHeight * 0.35];
 
-	Print("{0} {1}", angle, offset);
+	//Print("{0} {1}", angle, offset);
 
-	var clone = HeightMap.Clone(template);
-	clone.Rotate(DegToRad(angle + 90));
-	clone.Move(offset);	
-
-	main.Unify(clone);
+	var clone = HeightMap.Clone(template)
+		.Rotate(DegToRad(angle + 90))
+		.Move(offset);		
+	
+	var maskClone = HeightMap.Clone(templateMask)
+		.Rotate(DegToRad(angle + 90))
+		.Move(offset);
+	
+	main.Add(clone, maskClone);
 }
+
+var noiseMask = HeightMap.Clone(main)
+	.CropHeights(-1, -0.3, 0)
+	.Invert()
+	.Blur(20);
+
+yield noiseMask as "inversemask";
+
+main.Add(noise.Multiply(0.5).Add(0.5), noiseMask);
 
 yield main;

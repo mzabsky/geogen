@@ -1,29 +1,38 @@
+/// [Metadata]
 metadata
 {
 	Width: Finite,
-	Height: Finite
+	Height: Finite,
+	Name: "Tepui",
+	Description: "Mountain with extremely steep mountainsides and almost flat top.",
+	Author: "Matěj Zábský"
 }
+/// [Metadata]
 
+/// [Lowland]	
+var lowland = HeightMap.RadialGradient(@[0.5, 0.5], 440, 1, 0)
+	.Blur(50)
+	.Add(HeightMap.Noise(CreateNoiseLayers(1, 256), 2).Multiply(0.2))
+	.Add(0.2);
+/// [Lowland]	
+
+/// [Highland]		
+var highland = HeightMap.Noise(CreateNoiseLayers(1, 256), 3)
+	.Multiply(0.1)
+	.Add(0.9);
+/// [Highland]	
+
+/// [Mask]		
 var mask = HeightMap.RadialGradient(@[0.5, 0.5], 400, 1, 0)
 	.Blur(50)
 	.Add(HeightMap.Noise().Multiply(0.3))
 	.Add(0.4)
 	.CropHeights(0.7, 1, 0)
 	.CropHeights(0, 0.7, 1)
-	.Blur(5)
-	/*.Distort(16, 16)*/;
-	
-var lowland = HeightMap.RadialGradient(@[0.5, 0.5], 440, 1, 0)
-	.Blur(50)
-	//.Multiply(2.5)
-	.Add(HeightMap.Noise(CreateNoiseLayers(1, 256), 2).Multiply(0.2))
-	//.Multiply(0.3)
-	.Add(0.2);
-	
-var highland = HeightMap.Noise(CreateNoiseLayers(1, 256), 3)
-	.Multiply(0.1)
-	.Add(0.9);
-	
-var main = highland.Combine(lowland, mask);
-	
+	.Blur(5);
+/// [Mask]	
+
+/// [Combination]	
+var main = highland.Combine(lowland, mask);	
 yield main;
+/// [Combination]	
