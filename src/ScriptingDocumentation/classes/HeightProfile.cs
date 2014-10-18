@@ -250,7 +250,7 @@ public:
     /// yield HeightProfile.Noise().ClampHeights(-0.3, 0.3);
     /// @endcode
     /// 
-    /// @image html std_2d_cropheights.png.*/
+    /// @image html std_2d_cropheights.png*/
     ///        
     /// @param min The minimum height.
     /// @param max The maximum height.
@@ -265,7 +265,7 @@ public:
     /// yield HeightProfile.Noise().Fill(0.5);
     /// @endcode
     /// 
-    /// @image html std_2d_fill.png.*/
+    /// @image html std_2d_fill.png*/
     ///        
     /// @param height The height.
     /// @return The height profile itself (for call chaining).
@@ -278,7 +278,7 @@ public:
     /// yield HeightProfile.Noise().FillInterval(200, 400, 0.5);
     /// @endcode
     /// 
-    /// @image html std_2d_fillrectangle.png.*/
+    /// @image html std_2d_fillrectangle.png*/
     /// 
     /// @param intervalStart The position of start of the interval.
     /// @param intervalEnd The position of end of the interval.
@@ -305,7 +305,7 @@ public:
     /// yield main.Intersect(other);
     /// @endcode
     /// 
-    /// @image html std_2d_intersect.png.*/
+    /// @image html std_2d_intersect.png*/
     ///        
     /// @param other The other map.
     /// @return The height profile itself (for call chaining).
@@ -333,7 +333,7 @@ public:
     /// yield main.Unify(copy);
     /// @endcode
     /// 
-    /// @image html std_2d_move.png.*/
+    /// @image html std_2d_move.png*/
     ///        
     /// @param offset The offset. The map is @a offset to the right.
     /// @return The height profile itself (for call chaining).
@@ -377,7 +377,7 @@ public:
     /// yield main.Unify(other);
     /// @endcode
     /// 
-    /// @image html std_2d_unify.png.*/
+    /// @image html std_2d_unify.png*/
     ///        
     /// @param other The other profile.
     /// @return The height profile itself (for call chaining).
