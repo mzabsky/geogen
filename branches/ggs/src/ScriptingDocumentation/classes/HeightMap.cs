@@ -233,7 +233,7 @@ public:
     /// yield HeightMap.Noise().ClampHeights(-0.3, 0.3);
     /// @endcode
     /// 
-    /// @image html std_2d_clampheights.png.
+    /// @image html std_2d_clampheights.png
     ///        
     /// @param min The minimum height.
     /// @param max The maximum height.
@@ -250,7 +250,7 @@ public:
     /// yield roughNoise.Combine(smoothNoise, mask);
     /// @endcode
     /// 
-    /// @image html std_2d_combine.png.
+    /// @image html std_2d_combine.png
     ///        
     /// @param other The other map.
     /// @param mask The mask.
@@ -264,7 +264,7 @@ public:
     /// yield HeightMap.RadialGradient([500, 500], 400, 1, 0).Crop([350, 250], [650, 750]);
     /// @endcode
     /// 
-    /// @image html std_2d_crop.png.
+    /// @image html std_2d_crop.png
     /// @param firstRectanglePoint First point defining the rectangle.
     /// @param secondRectanglePoint Second point defining the rectangle.
     /// @param replace (Optional) The replacement height. 0 is used if not provided.
@@ -278,7 +278,7 @@ public:
     /// yield HeightMap.Noise().ClampHeights(-0.3, 0.3);
     /// @endcode
     /// 
-    /// @image html std_2d_cropheights.png.
+    /// @image html std_2d_cropheights.png
     ///        
     /// @param min The minimum height.
     /// @param max The maximum height.
@@ -297,7 +297,7 @@ public:
     /// yield main;
     /// @endcode
     /// 
-    /// @image html std_2d_distort.png.
+    /// @image html std_2d_distort.png
     ///        
     /// @param perturbationSize Wave length of the perturbation distance.
     /// @param maximumDistance Maximum distance by which a pixel can be moved.
@@ -326,7 +326,7 @@ public:
     /// yield HeightMap.DistanceMap(main, 100);
     /// @endcode
     /// 
-    /// @image html std_2d_drawline.png.
+    /// @image html std_2d_drawline.png
     ///        
     /// @param start One of the ending points.
     /// @param end The other ending point.
@@ -341,7 +341,7 @@ public:
     /// yield HeightMap.Noise().Fill(0.5);
     /// @endcode
     /// 
-    /// @image html std_2d_fill.png.
+    /// @image html std_2d_fill.png
     ///        
     /// @param height The height.
     /// @return The height map itself (for call chaining).
@@ -354,7 +354,7 @@ public:
     /// yield HeightMap.Noise().FillRectangle([200, 200], [600, 800], 0.5);
     /// @endcode
     /// 
-    /// @image html std_2d_fillrectangle.png.
+    /// @image html std_2d_fillrectangle.png
     ///        
     /// @param firstRectanglePoint First point defining the rectangle.
     /// @param secondRectanglePoint Second point defining the rectangle.
@@ -411,7 +411,7 @@ public:
     /// yield main.Intersect(other);
     /// @endcode
     /// 
-    /// @image html std_2d_intersect.png.
+    /// @image html std_2d_intersect.png
     ///        
     /// @param other The other map.
     /// @return The height map itself (for call chaining).
@@ -438,7 +438,7 @@ public:
     /// yield main.Unify(copy);
     /// @endcode
     /// 
-    /// @image html std_2d_move.png.
+    /// @image html std_2d_move.png
     ///        
     /// @param offset The offset. The map is moved by both of the @a offset's component coordinates in the respective direction.
     /// @return The height map itself (for call chaining).
@@ -573,7 +573,7 @@ public:
     /// yield main;
     /// @endcode
     /// 
-    /// @image html std_2d_transform.png.
+    /// @image html std_2d_transform.png
     /// @param a11 The top-left cell of the transformation matrix.
     /// @param a12 The top-right cell of the transformation matrix.
     /// @param a21 The bottom-left cell of the transformation matrix.
@@ -590,7 +590,7 @@ public:
     /// yield main;
     /// @endcode
     /// 
-    /// @image html std_2d_transformheights.png.
+    /// @image html std_2d_transformheights.png
     ///        
     /// @param profile The transformation profile.
     /// @param startingCoordinate (Optional) Starting coordinate of the interval of the transformation function used for mapping. If not provided, 0 is used.
@@ -609,7 +609,7 @@ public:
     /// yield main.Unify(other);
     /// @endcode
     /// 
-    /// @image html std_2d_unify.png.
+    /// @image html std_2d_unify.png
     ///        
     /// @param other The other map.
     /// @return The height map itself (for call chaining).
