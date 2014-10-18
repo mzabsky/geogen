@@ -105,5 +105,11 @@
     <Image Include="images\std_2d_glaciate_25.png" />
     <Image Include="images\std_2d_glaciate_100.png" />
     <Image Include="images\std_2d_transformheights.png" />
+    <Image Include="images\examples_dunesea.png" />
+    <Image Include="images\examples_dunesea_noise.png" />
+    <Image Include="images\std_createnoiselayers_1_512_20.png" />
+    <Image Include="images\std_createnoiselayers_32_256.png" />
+    <Image Include="images\std_createnoiselayers_64.png" />
+    <Image Include="images\std_createnoiselayers_default.png" />
   </ItemGroup>
 </Project>

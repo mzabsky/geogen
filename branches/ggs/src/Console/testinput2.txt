@@ -1,9 +1,20 @@
-﻿var main = HeightMap.Noise({128: 0.9}, 1);
-//main.Intersect(HeightMap.Clone(main).Move([0, 50]));
-main.Intersect(HeightMap.Noise({100: 0.9}, 2).Rotate(DegToRad(20)));
-//main.Intersect(HeightMap.Noise({150: 0.9}, 3).Rotate(DegToRad(40)));
-//main.Combine(HeightMap.Noise({256: 1}, 4), HeightMap.Clone(main).ClampHeights(0, 0.3).Blur(30));
-main.Multiply(0.5);
-main.Add(0.5);
+﻿var base = HeightMap.DistanceMap(HeightMap.Noise(CreateNoiseLayers(1, 256, 0.2), 2), 250);
 
-yield main;
+//yield HeightMap.Clone(base).CropHeights(0.1, 1, 0).CropHeights(0, 0.2, 1) as "AA";
+
+base.Combine(HeightMap.Clone(base).Blur(30), HeightMap.Clone(base).CropHeights(0.1, 1, 0).CropHeights(0, 0.1, 1).Blur(10));
+
+
+var clone = HeightMap.Clone(base)
+	.Invert()
+	.Add(1)
+	.CropHeights(0.5, 1, 0.2)
+	.Blur(15);
+
+base.Add(HeightMap.Noise().Multiply(0.5), clone).Multiply(1.2);
+
+base.Add(HeightMap.Noise(CreateNoiseLayers(256, 4096)).Multiply(0.3));
+
+base.Glaciate(0.2, true);
+
+yield base;

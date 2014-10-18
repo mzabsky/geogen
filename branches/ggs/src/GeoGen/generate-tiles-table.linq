@@ -1,11 +1,10 @@
 <Query Kind="Statements" />
 
-var cd = (Path.GetDirectoryName (Util.CurrentQueryPath) + "\\..\\..\\bin\\").Dump();
-Directory.SetCurrentDirectory (cd);
+Directory.SetCurrentDirectory (Path.GetDirectoryName (Util.CurrentQueryPath));
 
-var path = "../bin/";
+var path = "../../out/";
 var prefix = "tile_";
-var suffix = "_main.png";
+var suffix = "_main_colored.png";
 
 var files = new DirectoryInfo(path).EnumerateFiles("*.png");
 var regex = new Regex("^" + prefix + "(?<x>-?[0-9]+)_(?<y>-?[0-9]+)" + suffix);
