@@ -5,25 +5,25 @@
 /// 
 /// The default version called without any arguments creates the same noise as @ref HeightMap.Noise/@ref HeightProfile.Noise called without any arguments:
 /// @code{.cs}
-/// yield HeightMap.Noise(CreateNoiseParameters(), 2); // This is useful if you want to provide a custom seed
+/// yield HeightMap.Noise(CreateNoiseLayers(), 2); // This is useful if you want to provide a custom seed
 /// @endcode.
 /// @image html std_createnoiselayers_default.png        
 ///  
 /// When called with a single argument, that parameter is used as @a maximumWaveLength, with @a minimumWaveLength of 1 and @a persistence of 0.5.
 /// @code{.cs}
-/// yield HeightMap.Noise(CreateNoiseParameters(64), 2); // This is useful if you want to provide a custom seed
+/// yield HeightMap.Noise(CreateNoiseLayers(64), 2); // This is useful if you want to provide a custom seed
 /// @endcode.
 /// @image html std_createnoiselayers_64.png        
 ///        
 /// Calling the function with 2 arguments still uses the @a persistence of 0.5.
 /// @code{.cs}
-/// yield HeightMap.Noise(CreateNoiseParameters(32, 256), 2);
+/// yield HeightMap.Noise(CreateNoiseLayers(32, 256), 2);
 /// @endcode.
 /// @image html std_createnoiselayers_32_256.png    
 /// 
 /// The third parameter specifies @a persistence, determining how chaotic the resulting noise will be.
 /// @code{.cs}
-/// yield HeightMap.Noise(CreateNoiseParameters(1, 512, 0.2), 2);
+/// yield HeightMap.Noise(CreateNoiseLayers(1, 512, 0.2), 2);
 /// @endcode.
 /// @image html std_createnoiselayers_1_512_20.png    
 ///          

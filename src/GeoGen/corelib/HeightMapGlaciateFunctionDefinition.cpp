@@ -26,7 +26,7 @@ ManagedObject* HeightMapGlaciateFunctionDefinition::CallNative(CodeLocation loca
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 0);
 
-	Number strength = arguments.size() > 0 ? dynamic_cast<NumberObject*>(arguments[0])->GetValue() : 2;
+	Number strength = arguments.size() > 0 ? dynamic_cast<NumberObject*>(arguments[0])->GetValue() : 0.2;
 
 	if (strength < 0 || strength > 1)
 	{
