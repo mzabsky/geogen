@@ -33,7 +33,7 @@ HeightMap::HeightMap(HeightMap const& other)
 	this->rectangle = other.rectangle;
 	this->scale = other.scale;
 
-	this->heightData = new Height[this->rectangle.GetSize().GetTotalLength()];
+	this->heightData = new Height[this->rectangle.GetSize().GetTotalLength()]; 
 	memcpy(this->heightData, other.heightData, sizeof(Height) * this->rectangle.GetSize().GetTotalLength());
 }
 
@@ -284,9 +284,10 @@ void HeightMap::CropHeights(Height min, Height max, Height replace)
 
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		if ((*this)(x, y) > max || (*this)(x, y) < min)
+		Height& height = (*this)(x, y);
+		if (height > max || height < min)
 		{
-			(*this)(x, y) = replace;
+			height = replace;
 		}
 	}
 }
@@ -428,18 +429,66 @@ void HeightMap::DrawLine(Point start, Point end, Height height)
 	// DDA algorithm (http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))
 	Point actualStart = this->GetPhysicalPoint(start.GetX() <= end.GetX() ? start : end);
 	Point actualEnd = this->GetPhysicalPoint(start.GetX() <= end.GetX() ? end : start);
-
+	  
+	double endX = actualEnd.GetX();  
+	double endY = actualEnd.GetY();
 
 	double currentY = actualStart.GetY();
 	double currentX = actualStart.GetX();
 
-	if (abs(actualEnd.GetX() - actualStart.GetX()) >= abs(actualEnd.GetY() - actualStart.GetY()))
+	if (currentX < 0)
+	{
+		currentY += (endY - currentY) / ((endX - currentX) / -currentX);
+		currentX = 0;
+	}
+
+	if (currentY < 0)
+	{
+		currentX += (endX - currentX) / ((endY - currentY) / -currentY);
+		currentY = 0;
+	}
+
+	if (endY < 0)
+	{
+		endX += (endX - currentX) * ((endY - currentY) / (endY - this->GetHeight() - 1));
+		endY = 0;
+	}
+
+	if (endX >= this->GetWidth()) 
+	{
+		//endY += (endY - currentY) / ((endX - currentX) / -currentX);
+		endX = this->GetWidth() - 1;		
+	}
+
+	if (endY >= this->GetHeight()) endY = this->GetHeight() - 1;
+
+
+	/*if (currentX >= this->GetWidth()) currentX = this->GetWidth() - 1;*/
+	if (currentY >= this->GetHeight())
+	{
+		currentX += (endX - currentX) * ((currentY - this->GetHeight() - 1) / (currentY - endY));
+		currentY = this->GetHeight() - 1;
+	}
+
+	double startX = currentX;
+	double startY = currentY;
+
+	if (startX < 0 || startX >= this->GetWidth() ||
+		startY < 0 || startY >= this->GetHeight() ||
+		endX < 0 || endX >= this->GetWidth() ||
+		endY < 0 || endY >= this->GetHeight())
+	{
+		return;
+	}
+
+	if (abs(endX - currentX) >= abs(endY - currentY))
 	{
 		double deltaY = double(actualEnd.GetY() - actualStart.GetY()) / double(actualEnd.GetX() - actualStart.GetX());
 
-		(*this)(actualStart.GetX(), actualEnd.GetY()) = height;
+		//(*this)(actualStart.GetX(), actualEnd.GetY()) = height;
+		(*this)(Coordinate(currentX), Coordinate(currentY)) = height;
 
-		while (currentX < actualEnd.GetX())
+		while (currentX < endX)
 		{
 			currentX += 1;
 			currentY += deltaY;
@@ -450,11 +499,12 @@ void HeightMap::DrawLine(Point start, Point end, Height height)
 	{
 		double deltaX = double(actualEnd.GetX() - actualStart.GetX()) / double(actualEnd.GetY() - actualStart.GetY());
 
-		(*this)(actualStart.GetX(), actualEnd.GetY()) = height;
+		//(*this)(actualStart.GetX(), actualEnd.GetY()) = height;
+		(*this)(Coordinate(currentX), Coordinate(currentY)) = height;
 
-		if (actualStart.GetY() < actualEnd.GetY())
+		if (currentY < endY)
 		{
-			while (currentY < actualEnd.GetY())
+			while (currentY < endY)
 			{
 				currentX += deltaX;
 				currentY += 1;
@@ -463,7 +513,7 @@ void HeightMap::DrawLine(Point start, Point end, Height height)
 		}
 		else
 		{
-			while (currentY > actualEnd.GetY())
+			while (currentY > endY)
 			{
 				currentX -= deltaX;
 				currentY -= 1;
