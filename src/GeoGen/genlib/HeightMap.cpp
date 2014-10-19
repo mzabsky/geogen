@@ -417,7 +417,7 @@ void HeightMap::Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalD
 		Height horizontalDistortionMapHeight = (*horizontalDistortionMap)(x + horizontalOffset.GetX(), y + horizontalOffset.GetY());
 		double sourceOffsetX = horizontalDistortionMapHeight * (double)maxDistance / (double)HEIGHT_MAX;
 
-		Height verticalDistortionMapHeight = (*horizontalDistortionMap)(x + verticalOffset.GetX(), y + verticalOffset.GetY());
+		Height verticalDistortionMapHeight = (*verticalDistortionMap)(x + verticalOffset.GetX(), y + verticalOffset.GetY());
 		double sourceOffsetY = verticalDistortionMapHeight * (double)maxDistance / (double)HEIGHT_MAX;
 
 		(*this)(x, y) = copy(x + sourceOffsetX, y + sourceOffsetY);
