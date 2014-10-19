@@ -1,20 +1,15 @@
-﻿var base = HeightMap.DistanceMap(HeightMap.Noise(CreateNoiseLayers(1, 256, 0.2), 2), 250);
+﻿var main = HeightMap.Flat(1);
 
-//yield HeightMap.Clone(base).CropHeights(0.1, 1, 0).CropHeights(0, 0.2, 1) as "AA";
+// Draw the star from lines
+var angleStep = 360 / 16;
+for(var angle = 0; angle < 360; angle += angleStep)
+{
+    var point = [
+        500 + Cos(DegToRad(angle)) * 1000,
+        500 + Sin(DegToRad(angle)) * 1000];
 
-base.Combine(HeightMap.Clone(base).Blur(30), HeightMap.Clone(base).CropHeights(0.1, 1, 0).CropHeights(0, 0.1, 1).Blur(10));
+    main.DrawLine([500, 500], point, 0);
+}
 
-
-var clone = HeightMap.Clone(base)
-	.Invert()
-	.Add(1)
-	.CropHeights(0.5, 1, 0.2)
-	.Blur(15);
-
-base.Add(HeightMap.Noise().Multiply(0.5), clone).Multiply(1.2);
-
-base.Add(HeightMap.Noise(CreateNoiseLayers(256, 4096)).Multiply(0.3));
-
-base.Glaciate(0.2, true);
-
-yield base;
+// Stroke the star
+yield HeightMap.DistanceMap(main, 100);
