@@ -30,21 +30,31 @@ ManagedObject* HeightMapStratifyFunctionDefinition::CallNative(CodeLocation loca
 
 	int numberOfStrata = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
-
-
-	Number strength = arguments.size() > 0 ? dynamic_cast<NumberObject*>(arguments[0])->GetValue() : 0.2;
-
-	if (strength < 0 || strength > 1)
+	if (numberOfStrata < 2 || numberOfStrata > 50)
 	{
 		throw InvalidStrengthException(location);
 	}
 
-	bool includeNegative = arguments.size() > 1 ? dynamic_cast<BooleanObject*>(arguments[1])->GetValue() : false;
+	Number steepness = arguments.size() > 1 ? dynamic_cast<NumberObject*>(arguments[1])->GetValue() : 0.2;
+
+	if (steepness < 0 || steepness > 1)
+	{
+		throw InvalidStrengthException(location);
+	}
+
+	Number smoothness = arguments.size() > 2 ? dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0.2;
+
+	if (smoothness < 0 || smoothness > 1)
+	{
+		throw InvalidStrengthException(location);
+	}
+
+	bool includeNegative = arguments.size() > 3 ? dynamic_cast<BooleanObject*>(arguments[3])->GetValue() : false;
 
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
-	RenderingStep* renderingStep = new HeightMapStratifyRenderingStep(location, argumentSlots, returnObjectSlot, 5, 0.5, strength, includeNegative);
+	RenderingStep* renderingStep = new HeightMapStratifyRenderingStep(location, argumentSlots, returnObjectSlot, numberOfStrata, steepness, smoothness, includeNegative);
 	vm->GetRenderingSequence().AddStep(renderingStep);
 
 	return instance;
