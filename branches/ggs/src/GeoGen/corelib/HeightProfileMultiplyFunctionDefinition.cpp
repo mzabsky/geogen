@@ -43,7 +43,7 @@ ManagedObject* HeightProfileMultiplyFunctionDefinition::CallNative(CodeLocation 
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 		RenderingStep* renderingStep = new HeightProfileMultiplyRenderingStep(location, argumentSlots, returnObjectSlot, number);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 	else
 	{
@@ -51,7 +51,7 @@ ManagedObject* HeightProfileMultiplyFunctionDefinition::CallNative(CodeLocation 
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 		RenderingStep* renderingStep = new HeightProfileMultiplyProfileRenderingStep(location, argumentSlots, returnObjectSlot);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	return instance;

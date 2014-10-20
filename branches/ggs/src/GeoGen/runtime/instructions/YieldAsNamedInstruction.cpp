@@ -70,7 +70,7 @@ InstructionStepResult YieldAsNamedInstruction::Step(VirtualMachine* vm) const
 		//Rectangle actualRenderRectangle = Rectangle::Intersect(mapRectangle, renderRectangle);
 
 		RenderingStep* renderingStep = new YieldRenderingStep(this->GetLocation(), argumentSlots, returnObjectSlot, this->functionName, renderRectangle);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(this->GetLocation(), renderingStep);
 	}
 
 	yieldedValue->RemoveRef(vm->GetMemoryManager());

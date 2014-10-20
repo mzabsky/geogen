@@ -35,7 +35,7 @@ ManagedObject* HeightProfileFillFunctionDefinition::CallNative(CodeLocation loca
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightProfileFillIntervalRenderingStep(location, argumentSlots, returnObjectSlot, INTERVAL_MAX, height);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

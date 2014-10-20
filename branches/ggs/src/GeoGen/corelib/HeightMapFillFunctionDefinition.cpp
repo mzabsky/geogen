@@ -33,7 +33,7 @@ ManagedObject* HeightMapFillFunctionDefinition::CallNative(CodeLocation location
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapFillRectangleRenderingStep(location, argumentSlots, returnObjectSlot, RECTANGLE_MAX, height);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

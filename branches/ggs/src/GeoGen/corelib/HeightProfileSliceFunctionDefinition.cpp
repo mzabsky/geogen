@@ -43,7 +43,7 @@ ManagedObject* HeightProfileSliceFunctionDefinition::CallNative(CodeLocation loc
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightProfileSliceRenderingStep(location, argumentSlots, returnObjectSlot, direction, coordinate);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return returnObject;
 }

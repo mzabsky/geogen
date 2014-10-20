@@ -83,7 +83,7 @@ ManagedObject* HeightProfileFromArrayFunctionDefinition::CallNative(CodeLocation
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightProfileFromArrayRenderingStep(location, argumentSlots, returnObjectSlot, heights);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return returnObject;
 }

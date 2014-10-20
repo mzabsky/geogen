@@ -38,7 +38,7 @@ ManagedObject* HeightMapNoiseFunctionDefinition::CallNative(CodeLocation locatio
 	// First create an empty height map
 	unsigned objectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightMapFlatRenderingStep(location, vector<unsigned>(), objectSlot, 0);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	// Then generate the noise layer by layer
 	vector<unsigned> argumentSlots;
@@ -48,7 +48,7 @@ ManagedObject* HeightMapNoiseFunctionDefinition::CallNative(CodeLocation locatio
 	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
 	{
 		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, objectSlot, it->first, it->second, compositeSeed, i);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 		i++;
 	}
 

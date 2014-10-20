@@ -5,6 +5,8 @@
 using namespace geogen;
 using namespace renderer;
 
+const unsigned RenderingSequence::SIZE_LIMIT = 1000;
+
 RenderingSequence::~RenderingSequence()
 {
 	for (iterator it = this->steps.begin(); it != this->steps.end(); it++)
@@ -13,8 +15,13 @@ RenderingSequence::~RenderingSequence()
 	}
 }
 
-void RenderingSequence::AddStep(RenderingStep* step)
+bool RenderingSequence::AddStep(RenderingStep* step)
 {
+	if (this->Size() >= SIZE_LIMIT)
+	{
+		return false;
+	}
+
 	// Validate that the sequence does not reference slots that weren't used yet.
 	for (unsigned i = 0; i < step->GetArgumentSlots().size(); i++)
 	{
@@ -35,6 +42,8 @@ void RenderingSequence::AddStep(RenderingStep* step)
 	}
 
 	this->steps.push_back(step);
+
+	return true;
 }
 
 void RenderingSequence::Serialize(IOStream& stream) const

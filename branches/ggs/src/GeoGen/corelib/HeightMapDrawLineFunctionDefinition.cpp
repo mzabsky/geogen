@@ -41,7 +41,7 @@ ManagedObject* HeightMapDrawLineFunctionDefinition::CallNative(CodeLocation loca
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapDrawLineRenderingStep(location, argumentSlots, returnObjectSlot, start, end, height);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

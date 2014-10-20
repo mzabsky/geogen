@@ -29,7 +29,7 @@ ManagedObject* HeightMapMoveFunctionDefinition::CallNative(CodeLocation location
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapMoveRenderingStep(location, argumentSlots, returnObjectSlot, offset);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

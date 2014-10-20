@@ -404,6 +404,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\ReferenceTypeDefinition.hpp" />
     <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
     <ClInclude Include="runtime\RendererObjectStub.hpp" />
+    <ClInclude Include="runtime\RenderingSequenceTooLongException.hpp" />
     <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="ApiUsageException.hpp" />
     <ClInclude Include="corelib\ScopeVariableReferenceObject.hpp" />

@@ -60,7 +60,7 @@ ManagedObject* HeightProfileGradientFunctionDefinition::CallNative(CodeLocation 
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightProfileGradientRenderingStep(location, argumentSlots, returnObjectSlot, source, destination, fromHeight, toHeight);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return returnObject;
 }

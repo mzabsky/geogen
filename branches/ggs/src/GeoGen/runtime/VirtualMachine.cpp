@@ -13,11 +13,14 @@
 #include "UndefinedSymbolAccessException.hpp"
 #include "MainMapNotGeneratedException.hpp"
 #include "../utils/StringUtils.hpp"
+#include "RenderingSequenceTooLongException.hpp"
+#include "../renderer/RenderingStep.hpp"
 
 using namespace std;
 using namespace geogen;
 using namespace runtime;
 using namespace utils;
+using namespace renderer;
 
 const ScriptParameters VirtualMachine::SCRIPT_PARAMETERS_DEFAULT = ScriptParameters();
 
@@ -248,6 +251,14 @@ void VirtualMachine::Finish()
 		{
 			throw MainMapNotGeneratedException(CodeLocation(StringToLines(this->GetCompiledScript().GetCode()).size(), 0));
 		}
+	}
+}
+
+void VirtualMachine::AddRenderingStep(CodeLocation location, RenderingStep* renderingStep)
+{
+	if (!this->GetRenderingSequence().AddStep(renderingStep))
+	{
+		throw RenderingSequenceTooLongException(location);
 	}
 }
 
