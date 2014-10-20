@@ -25,7 +25,7 @@ ManagedObject* HeightMapUnifyFunctionDefinition::CallNative(CodeLocation locatio
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapUnifyRenderingStep(location, argumentSlots, returnObjectSlot);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

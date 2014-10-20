@@ -47,7 +47,7 @@ ManagedObject* HeightMapClampHeightsFunctionDefinition::CallNative(CodeLocation 
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapClampHeightsRenderingStep(location, argumentSlots, returnObjectSlot, min, max);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

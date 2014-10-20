@@ -69,7 +69,7 @@ ManagedObject* HeightMapTransformHeightsFunctionDefinition::CallNative(CodeLocat
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapTransformHeightsRenderingStep(location, argumentSlots, returnObjectSlot, Interval::FromCoordinates(intervalStart, intervalEnd), minHeight, maxHeight);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

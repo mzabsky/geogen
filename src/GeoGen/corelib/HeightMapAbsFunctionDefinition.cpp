@@ -22,7 +22,7 @@ ManagedObject* HeightMapAbsFunctionDefinition::CallNative(CodeLocation location,
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapAbsRenderingStep(location, argumentSlots, returnObjectSlot);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

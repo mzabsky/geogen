@@ -60,6 +60,7 @@ namespace geogen
 		GGE2501_CallStackOverflow = 2501,
 		GGE2502_CodeBlockStackOverflow = 2502,
 		GGE2503_ObjectStackOverflow = 2503,
+		GGE2504_RenderingSequenceTooLong = 2504,
 		GGE2601_InvalidOperationOnEmptyArray = 2601,
 		GGE2602_ArrayKeyNotFound = 2602,
 		GGE2603_ArrayNullKey = 2603,

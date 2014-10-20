@@ -39,7 +39,7 @@ ManagedObject* HeightProfileClampHeightsFunctionDefinition::CallNative(CodeLocat
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightProfileClampHeightsRenderingStep(location, argumentSlots, returnObjectSlot, minHeight, maxHeight);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

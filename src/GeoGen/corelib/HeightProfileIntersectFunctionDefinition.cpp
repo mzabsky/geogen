@@ -24,7 +24,7 @@ ManagedObject* HeightProfileIntersectFunctionDefinition::CallNative(CodeLocation
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightProfileIntersectRenderingStep(location, argumentSlots, returnObjectSlot);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

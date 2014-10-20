@@ -32,7 +32,7 @@ ManagedObject* HeightProfileRescaleFunctionDefinition::CallNative(CodeLocation l
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightProfileRescaleRenderingStep(location, argumentSlots, returnObjectSlot, scale);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

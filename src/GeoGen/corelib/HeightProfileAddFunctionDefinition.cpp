@@ -57,7 +57,7 @@ ManagedObject* HeightProfileAddFunctionDefinition::CallNative(CodeLocation locat
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 		RenderingStep* renderingStep = new HeightProfileAddRenderingStep(location, argumentSlots, returnObjectSlot, height);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 	else
 	{
@@ -70,7 +70,7 @@ ManagedObject* HeightProfileAddFunctionDefinition::CallNative(CodeLocation locat
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 		RenderingStep* renderingStep = new HeightProfileAddProfileRenderingStep(location, argumentSlots, returnObjectSlot);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	return instance;

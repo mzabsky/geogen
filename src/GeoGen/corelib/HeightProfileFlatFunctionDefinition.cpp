@@ -36,7 +36,7 @@ ManagedObject* HeightProfileFlatFunctionDefinition::CallNative(CodeLocation loca
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightProfileFlatRenderingStep(location, argumentSlots, returnObjectSlot, height);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return returnObject;
 } 

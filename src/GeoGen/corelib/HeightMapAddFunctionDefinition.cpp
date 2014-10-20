@@ -57,7 +57,7 @@ ManagedObject* HeightMapAddFunctionDefinition::CallNative(CodeLocation location,
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 		RenderingStep* renderingStep = new HeightMapAddRenderingStep(location, argumentSlots, returnObjectSlot, height);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 	else 
     {
@@ -70,7 +70,7 @@ ManagedObject* HeightMapAddFunctionDefinition::CallNative(CodeLocation location,
 
 		unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 		RenderingStep* renderingStep = new HeightMapAddMapRenderingStep(location, argumentSlots, returnObjectSlot);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	return instance;

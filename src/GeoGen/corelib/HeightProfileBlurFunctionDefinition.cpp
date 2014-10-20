@@ -31,7 +31,7 @@ ManagedObject* HeightProfileBlurFunctionDefinition::CallNative(CodeLocation loca
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightProfileBlurRenderingStep(location, argumentSlots, returnObjectSlot, radius);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

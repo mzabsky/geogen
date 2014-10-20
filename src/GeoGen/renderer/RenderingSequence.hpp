@@ -21,6 +21,9 @@ namespace geogen
 			RenderingSequence(RenderingSequence const&) {};
 			RenderingSequence& operator=(RenderingSequence const&) {};
 		public:
+			/// Maximum number of steps allowed to be in the sequence.
+			static const unsigned SIZE_LIMIT;
+
 			typedef std::vector<RenderingStep const*>::const_iterator const_iterator;
 			typedef std::vector<RenderingStep*>::iterator iterator;
 			typedef std::vector<RenderingStep const*>::const_reverse_iterator const_reverse_iterator;
@@ -43,7 +46,7 @@ namespace geogen
 
 			inline unsigned Size() const { return this->steps.size(); }
 
-			void AddStep(RenderingStep* step);
+			bool AddStep(RenderingStep* step);
 
 			inline unsigned GetRequiredObjectTableSize() const { return this->objectTableSize; };
 

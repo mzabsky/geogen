@@ -56,7 +56,7 @@ ManagedObject* HeightMapRadialGradientFunctionDefinition::CallNative(CodeLocatio
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightMapRadialGradientRenderingStep(location, argumentSlots, returnObjectSlot, point, radius, fromHeight, toHeight);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return returnObject;
 }

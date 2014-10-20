@@ -47,6 +47,7 @@
 /// @li @ref gge2501
 /// @li @ref gge2502
 /// @li @ref gge2503
+/// @li @ref gge2504
 /// @li @ref gge2601
 /// @li @ref gge2602
 /// @li @ref gge2603
@@ -636,6 +637,26 @@
 /// Object stack became too large while executing the script.
 /// 
 /// This error is caused by excessively complex expressions. Maximum object stack size is 10000.
+
+/// @page gge2504 GGE2504
+/// Rendering sequence became too long while executing the script.
+/// 
+/// This error is caused by calling too many rendering functions (most functions of HeightMap and HeightProfile). Maximum rendering sequence length is 10000. Note that some functions calls such as HeightMap.Noise and HeightMap.Distort result in multiple rendering sequence steps.
+/// 
+/// Most often, this error is caused by calling a rendering function in a loop:
+/// 
+/// @code{.cs}
+/// var map = HeightMap.Flat();
+/// for (Number y = 0; y < Parameters.MapHeight; y++)
+/// {
+///     for (Number x = 0; x < Parameters.MapWidth; x++)
+///     {
+///         map.FillRectangle([x, y], [x, y], Random(-1, 1)); // GGE2504, if the map happens to have more than 10000 pixels total
+///     }
+/// }
+/// @endcode
+/// 
+/// Drawing individual pixels with the script is never a good idea, use appropriate functions instead.
 
 /// @page gge2601 GGE2601
 /// An operation required non-empty was called on an empty array.

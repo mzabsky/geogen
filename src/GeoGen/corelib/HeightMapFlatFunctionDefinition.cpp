@@ -33,7 +33,7 @@ ManagedObject* HeightMapFlatFunctionDefinition::CallNative(CodeLocation location
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightMapFlatRenderingStep(location, argumentSlots, returnObjectSlot, height);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return returnObject;
 }

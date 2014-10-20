@@ -47,7 +47,7 @@ ManagedObject* HeightProfileCropHeightsFunctionDefinition::CallNative(CodeLocati
 	vector<unsigned> argumentSlots;
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightProfileCropHeightsRenderingStep(location, argumentSlots, returnObjectSlot, minHeight, maxHeight, replace);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

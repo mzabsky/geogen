@@ -42,7 +42,7 @@ ManagedObject* HeightMapCropFunctionDefinition::CallNative(CodeLocation location
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapCropRenderingStep(location, argumentSlots, returnObjectSlot, Rectangle(fromPoint, toPoint), height);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

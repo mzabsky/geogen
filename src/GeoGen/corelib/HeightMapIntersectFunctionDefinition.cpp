@@ -25,7 +25,7 @@ ManagedObject* HeightMapIntersectFunctionDefinition::CallNative(CodeLocation loc
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapIntersectRenderingStep(location, argumentSlots, returnObjectSlot);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

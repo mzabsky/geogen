@@ -57,7 +57,7 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 	{		
 		vector<unsigned> argumentSlots;
 		RenderingStep* renderingStep = new HeightMapFlatRenderingStep(location, argumentSlots, horizontalNoiseSlot, 0);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	// Horizontal map noise
@@ -65,14 +65,14 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 		vector<unsigned> argumentSlots;
 		argumentSlots.push_back(horizontalNoiseSlot);
 		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, horizontalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 0);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	// Create flat vertical map
 	{
 		vector<unsigned> argumentSlots;
 		RenderingStep* renderingStep = new HeightMapFlatRenderingStep(location, argumentSlots, verticalNoiseSlot, 0);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	// Vertical map noise
@@ -80,7 +80,7 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 		vector<unsigned> argumentSlots;
 		argumentSlots.push_back(verticalNoiseSlot);
 		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, verticalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 1);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	// Distort call 
@@ -90,7 +90,7 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 		argumentSlots.push_back(horizontalNoiseSlot);
 		argumentSlots.push_back(verticalNoiseSlot);
 		RenderingStep* renderingStep = new HeightMapDistortRenderingStep(location, argumentSlots, returnObjectSlot, maxDistance);
-		vm->GetRenderingSequence().AddStep(renderingStep);
+		vm->AddRenderingStep(location, renderingStep);
 	}
 
 	return instance;

@@ -46,7 +46,7 @@ ManagedObject* HeightProfilePatternFunctionDefinition::CallNative(CodeLocation l
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightProfilePatternRenderingStep(location, argumentSlots, returnObjectSlot, Interval::FromCoordinates(start, end));
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return returnObject;
 }

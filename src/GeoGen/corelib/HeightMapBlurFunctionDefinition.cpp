@@ -33,7 +33,7 @@ ManagedObject* HeightMapBlurFunctionDefinition::CallNative(CodeLocation location
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	unsigned returnObjectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance);
 	RenderingStep* renderingStep = new HeightMapBlurRenderingStep(location, argumentSlots, returnObjectSlot, radius);
-	vm->GetRenderingSequence().AddStep(renderingStep);
+	vm->AddRenderingStep(location, renderingStep);
 
 	return instance;
 }

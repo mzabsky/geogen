@@ -23,6 +23,11 @@ namespace geogen
 		class NumberTypeDefinition;
 	}
 
+	namespace renderer
+	{
+		class RenderingStep;
+	}
+
 	namespace runtime
 	{
 		class ManagedObject;
@@ -244,6 +249,11 @@ namespace geogen
 			/// Sets the callback data pointer. 
 			/// @param callbackData The callback data pointer. The VM does not assume ownership of this pointer.
 			inline void SetCallbackData(void* callbackData) { this->callbackData = callbackData; }
+
+			/// Adds a step to the rendering sequence. Throws overflow exception if too large.
+			/// @param location The code location.
+			/// @param renderingStep The rendering step.
+			void AddRenderingStep(CodeLocation location, renderer::RenderingStep* renderingStep);
 
 			virtual void Serialize(IOStream& stream) const;
 		};
