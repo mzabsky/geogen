@@ -258,6 +258,8 @@
     <ClCompile Include="genlib\CommonProfileFactory.cpp" />
     <ClCompile Include="corelib\HeightMapGlaciateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapGlaciateRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapStratifyFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapStratifyRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
@@ -607,6 +609,9 @@
     <ClInclude Include="corelib\HeightMapGlaciateFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapGlaciateRenderingStep.hpp" />
     <ClInclude Include="corelib\InvalidStrengthException.hpp" />
+    <ClInclude Include="runtime\RenderingSequenceTooLongException.hpp" />
+    <ClInclude Include="corelib\HeightMapStratifyFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapStratifyRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
