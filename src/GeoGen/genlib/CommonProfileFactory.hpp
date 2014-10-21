@@ -17,6 +17,7 @@ namespace geogen
 			CommonProfileFactory(){};
 		public:
 			static HeightProfile CreateGlaciationProfile(Size1D size, double strength);
+			static HeightProfile CreateStratificationProfile(Size1D size, unsigned numberOfStrata, double steepness, double smoothness);
 
 			static HeightProfile CreateMirroredProfile(HeightProfile& profile);
 		};

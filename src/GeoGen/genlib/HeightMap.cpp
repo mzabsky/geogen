@@ -156,6 +156,10 @@ void HeightMap::Blur(Size1D radius)
 
 void HeightMap::Blur(Size1D radius, Direction direction)
 {
+	if (radius == 0)
+	{
+		return;
+	}
 
 	// Allocate the new array.
 	Height* new_data = new Height[this->rectangle.GetSize().GetTotalLength()];

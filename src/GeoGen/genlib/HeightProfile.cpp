@@ -147,6 +147,10 @@ void HeightProfile::AddProfileMasked(HeightProfile* addend, HeightProfile* mask)
 
 void HeightProfile::Blur(Size1D radius)
 {
+	if (radius == 0)
+	{
+		return;
+	}
 
 	// Allocate the new array.
 	Height* newData = new Height[this->interval.GetLength()];
@@ -305,6 +309,12 @@ void HeightProfile::Gradient(Coordinate source, Coordinate destination, Height f
 	Coordinate end = this->GetPhysicalCoordinate(max(source, destination));
 	Height startHeight = source == start ? fromHeight : toHeight;
 	Height endHeight = source == end ? fromHeight : toHeight;
+
+	if (source == destination && this->interval.Contains(source))
+	{
+		(*this)(this->GetPhysicalCoordinate(start)) = fromHeight;
+		return;
+	}
 
 	Size1D gradientLength = abs(destination - source);
 	Interval operationInterval = this->GetPhysicalIntervalUnscaled(this->interval);
