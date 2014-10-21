@@ -558,6 +558,22 @@ public:
     /// @return The height map itself (for call chaining).
     HeightMap Shift(HeightProfile profile, Number maximumDistance, Direction direction);
 
+    /// Distributes the heights among a specified number of strata, creating a terraced terrain.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// yield HeightMap.Noise().Stratify(12, 0.5, 0.5, true);
+    /// @endcode
+    /// 
+    /// @image html std_2d_stratify.png
+    ///        
+    /// @param numberOfStrata Number of strata.
+    /// @param steepness (Optional) Steepness of the cliffs. Must be greater than or equal to 0 and less than or equal to 1. Greater value means the cliffs are closer to vertical and the flat surfaces are flatter. 0.5 is used if not specified.
+    /// @param smoothness (Optional) Smoothness of edges of the cliffs. Must be greater than or equal to 0 and less than or equal to 1. 0.5 is used if not specified.
+    /// @param includeNegative (Optional) True if the effect is to be applied on negative heights. If false, negative heights will be ignored. @c true is used if not specified.
+    /// @return The height map itself (for call chaining).
+    HeightMap Stratify(Number numberOfStrata, Number steepness, Number smoothness, Boolean includeNegative);
+
     /// Applies a linear transformation on the height map - each pixel pixel's position vector will
     /// be be multiplied by the transformation matrix composed from cells @a a11, @a a12, @a a21 and
     /// @a a22. The transformation matrix must be invertible.
