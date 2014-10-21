@@ -23,5 +23,5 @@ void HeightMapGlaciateRenderingStep::Step(Renderer* renderer) const
 		profile = CommonProfileFactory::CreateMirroredProfile(profile);
 	}
 
-	self->TransformHeights(&profile, Interval(0, profile.GetLength()), this->includeNegative ? HEIGHT_MIN : 0, HEIGHT_MAX);
+	self->TransformHeights(&profile, Interval(0, profile.GetLength()), this->includeNegative ? HEIGHT_MIN : 1, HEIGHT_MAX);
 }
