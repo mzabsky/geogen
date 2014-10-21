@@ -16,12 +16,12 @@ void HeightMapStratifyRenderingStep::Step(Renderer* renderer) const
 {
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
 
-	HeightProfile profile = CommonProfileFactory::CreateGlaciationProfile(HEIGHT_MAX, this->smoothness);
+	HeightProfile profile = CommonProfileFactory::CreateStratificationProfile(HEIGHT_MAX, this->numberOfStrata, this->steepness, this->smoothness);
 
-	if (this->includeNegative)
+	if (!this->includeNegative)
 	{
-		profile = CommonProfileFactory::CreateMirroredProfile(profile);
+		profile.ClampHeights(1, HEIGHT_MAX);
 	}
 
-	self->TransformHeights(&profile, Interval(0, profile.GetLength()), this->includeNegative ? HEIGHT_MIN : 0, HEIGHT_MAX);
+	self->TransformHeights(&profile, Interval(0, profile.GetLength()), this->includeNegative ? HEIGHT_MIN : 1, HEIGHT_MAX);
 }
