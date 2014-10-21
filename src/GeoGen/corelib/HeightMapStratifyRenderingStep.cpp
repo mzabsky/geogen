@@ -18,7 +18,12 @@ void HeightMapStratifyRenderingStep::Step(Renderer* renderer) const
 
 	HeightProfile profile = CommonProfileFactory::CreateStratificationProfile(HEIGHT_MAX, this->numberOfStrata, this->steepness, this->smoothness);
 
-	if (!this->includeNegative)
+	if (this->includeNegative)	
+	{
+		profile.Add(HEIGHT_MIN / 2);
+		profile.Multiply(2);
+	}
+	else
 	{
 		profile.ClampHeights(1, HEIGHT_MAX);
 	}
