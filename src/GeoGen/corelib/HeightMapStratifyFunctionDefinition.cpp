@@ -35,14 +35,14 @@ ManagedObject* HeightMapStratifyFunctionDefinition::CallNative(CodeLocation loca
 		throw InvalidStrengthException(location);
 	}
 
-	Number steepness = arguments.size() > 1 ? dynamic_cast<NumberObject*>(arguments[1])->GetValue() : 0.2;
+	Number steepness = arguments.size() > 1 ? dynamic_cast<NumberObject*>(arguments[1])->GetValue() : 0.5;
 
 	if (steepness < 0 || steepness > 1)
 	{
 		throw InvalidStrengthException(location);
 	}
 
-	Number smoothness = arguments.size() > 2 ? dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0.2;
+	Number smoothness = arguments.size() > 2 ? dynamic_cast<NumberObject*>(arguments[2])->GetValue() : 0.5;
 
 	if (smoothness < 0 || smoothness > 1)
 	{
