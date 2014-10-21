@@ -40,20 +40,24 @@ void geogen::console::WriteImage(genlib::DataObject* object, renderer::RendererO
 					unsigned overlayIndex;
 					if (height == 0)
 					{
-						overlayIndex = 255;
+						overlayIndex = 256;
 					}
 					else if (height > 0)
 					{
-						overlayIndex = 255 + height / 128;
+						overlayIndex = 256 + height / 128;
 
-						if (overlayIndex == 255) overlayIndex == 256;
+						if (overlayIndex == 256) overlayIndex == 256;
 					}
 					else
 					{
-						overlayIndex = 255 + height / 128;
+						overlayIndex = 256 + height / 128;
 					}
 
-					coloredImage[y][x] = png::rgb_pixel(overlay[overlayIndex][0], overlay[overlayIndex][1], overlay[overlayIndex][2]);
+					char r = overlay[overlayIndex][0];
+					char g = overlay[overlayIndex][1];
+					char b = overlay[overlayIndex][2];
+
+					coloredImage[y][x] = png::rgb_pixel(r, g, b);
 				}
 			}	
 
