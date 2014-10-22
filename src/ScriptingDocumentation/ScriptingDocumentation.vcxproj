@@ -108,7 +108,6 @@
     <Xml Include="DoxygenLayout.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\documents\visual studio 2013\Projects\PreviewRenderer\PreviewRenderer\bin\Debug\out.png" />
     <Image Include="images\examples_dunesea.png" />
     <Image Include="images\examples_dunesea_noise.png" />
     <Image Include="images\examples_marshlands.png" />
