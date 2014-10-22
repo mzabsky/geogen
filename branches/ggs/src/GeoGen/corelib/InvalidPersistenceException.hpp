@@ -19,7 +19,7 @@ namespace geogen
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Persistence was invalid on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ". The peristence must be greater than or equal to 0.10 an less than or equal to 0.9.";
+				ss << "Persistence was invalid on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ". The peristence must be greater than or equal to 0.10 and less than or equal to 0.9.";
 				return ss.str();
 			}
 		};

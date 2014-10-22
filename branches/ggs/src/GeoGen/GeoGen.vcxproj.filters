@@ -612,6 +612,7 @@
     <ClInclude Include="runtime\RenderingSequenceTooLongException.hpp" />
     <ClInclude Include="corelib\HeightMapStratifyFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapStratifyRenderingStep.hpp" />
+    <ClInclude Include="corelib\InvalidNumberOfStrataException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
