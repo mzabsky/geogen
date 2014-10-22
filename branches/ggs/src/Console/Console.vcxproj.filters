@@ -18,59 +18,154 @@
     <ClInclude Include="RuntimeCommand.hpp" />
     <ClInclude Include="Command.hpp" />
     <ClInclude Include="CommandTable.hpp" />
-    <ClInclude Include="runtime_commands\StepRuntimeCommand.hpp" />
     <ClInclude Include="Debugger.hpp" />
-    <ClInclude Include="runtime_commands\HelpRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\ObjectStackRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\ReadVariableRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\ManagedObjectsRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\RenderingSequenceRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\RunRuntimeCommand.hpp" />
     <ClInclude Include="ConsoleUtils.hpp" />
-    <ClInclude Include="runtime_commands\DumpRuntimeCommand.hpp" />
     <ClInclude Include="ArgDesc.hpp" />
     <ClInclude Include="Loader.hpp" />
     <ClInclude Include="ProgramArguments.hpp" />
     <ClInclude Include="LoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\LoadLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\DebugLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\HelpLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\QuitLoaderCommand.hpp" />
-    <ClInclude Include="runtime_commands\QuitRuntimeCommand.hpp" />
-    <ClInclude Include="runtime_commands\StopRuntimeCommand.hpp" />
-    <ClInclude Include="loader_commands\RunLoaderCommand.hpp" />
     <ClInclude Include="RendererDebugger.hpp" />
     <ClInclude Include="RendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\HelpRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\QuitRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\RenderingSequenceRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\RunRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\StepRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\StopRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\SaveRendererCommand.hpp" />
     <ClInclude Include="ImageWriter.hpp" />
-    <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\ReloadLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\MapSizeLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\RenderScaleLoaderCommand.hpp" />
-    <ClInclude Include="runtime_commands\ArgumentsRuntimeCommand.hpp" />
-    <ClInclude Include="loader_commands\RandomSeedLoaderCommand.hpp" />
-    <ClInclude Include="renderer_commands\AutosaveRendererCommand.hpp" />
-    <ClInclude Include="renderer_commands\RenderingSequenceGraphRendererCommand.hpp" />
-    <ClInclude Include="loader_commands\ParameterLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\RenderOriginLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\GenTilesLoaderCommand.hpp" />
-    <ClInclude Include="renderer_commands\DumpRendererCommand.hpp" />
     <ClInclude Include="VirtualMachineCallback.hpp" />
-    <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp" />
     <ClInclude Include="SignalHandler.hpp" />
-    <ClInclude Include="loader_commands\CodeLoaderCommand.hpp" />
-    <ClInclude Include="loader_commands\ReloadAndRunLoaderCommand.hpp" />
     <ClInclude Include="Overlay.hpp" />
+    <ClInclude Include="runtime_commands\ArgumentsRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\CallStackRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\CodeBlockCodeRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\CodeBlockStackRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\DumpRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\HelpRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\ObjectStackRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\ReadVariableRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\StepRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\StopRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\RunRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\StopRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\StepRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\SaveRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\RunRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\RenderingSequenceRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\RenderingSequenceGraphRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\ObjectTableRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\HelpRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\DumpRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\AutosaveRendererCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\SupportedMapsRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\RenderingSequenceRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\QuitRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\RunLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\RenderSizeLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\RenderScaleLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\RenderOriginLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\ReloadLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\ReloadAndRunLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\RandomSeedLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\QuitLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\ParameterLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\MapSizeLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\LoadLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\HelpLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\GenTilesLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\DebugLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="loader_commands\CodeLoaderCommand.hpp">
+      <Filter>loader_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime_commands\ManagedObjectsRuntimeCommand.hpp">
+      <Filter>runtime_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\RenderingSequenceMetadataRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_commands\QuitRendererCommand.hpp">
+      <Filter>renderer_commands</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="runtime_commands">
+      <UniqueIdentifier>{d8135592-d70b-41fd-abc9-72dab0506c86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer_commands">
+      <UniqueIdentifier>{fe596137-9222-4c94-94f9-9137f5c99c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loader_commands">
+      <UniqueIdentifier>{a9ef07dd-6ea2-486d-8b23-0ddd61bc1a50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

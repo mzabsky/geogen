@@ -1,115 +1,318 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="NewFilter1">
+    <Filter Include="classes">
       <UniqueIdentifier>{dfad310d-6132-48e3-b028-61313b279db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pages">
+      <UniqueIdentifier>{ad55b381-8495-4374-a05a-f9f89a5c2129}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tutorials">
+      <UniqueIdentifier>{667678d7-9ef8-41ba-ae5e-b4caf6f35e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples">
+      <UniqueIdentifier>{eb3d085e-5be9-4dfa-9036-22878121cb5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="images">
+      <UniqueIdentifier>{60462b9b-47c7-49dd-8afd-d2d5395e3eb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="MainPage.cs" />
-    <None Include="classes\HeightMap.cs" />
-    <None Include="pages\LanguageReference.cs" />
-    <None Include="pages\BasicSyntax.cs" />
-    <None Include="pages\ScriptStructure.cs" />
-    <None Include="pages\TypeSystem.cs" />
-    <None Include="pages\Metadata.cs" />
-    <None Include="pages\Operators.cs" />
-    <None Include="classes\Number.cs" />
-    <None Include="classes\Boolean.cs" />
     <None Include="Doxyfile" />
-    <None Include="pages\Variables.cs" />
-    <None Include="pages\Functions.cs" />
-    <None Include="pages\ControlStructures.cs" />
-    <None Include="pages\EnumTypes.cs" />
-    <None Include="classes\Array.cs" />
-    <None Include="classes\Coordinate.cs" />
-    <None Include="classes\Point.cs" />
-    <None Include="classes\RandomSequence2D.cs" />
-    <None Include="classes\StandardLibrary.cs" />
-    <None Include="pages\Yield.cs" />
-    <None Include="classes\String.cs" />
-    <None Include="tutorials\FirstScript.cs" />
-    <None Include="tutorials\Tutorials.cs" />
-    <None Include="tutorials\CombiningMaps.cs" />
-    <None Include="tutorials\HeightMaps.cs" />
-    <None Include="classes\HeightProfile.cs" />
     <None Include="ErrorCodes.cs" />
-    <None Include="tutorials\Console.cs" />
-    <None Include="classes\Direction.cs" />
-    <None Include="examples\Examples.cs" />
-    <None Include="examples\Marshlands.cs" />
-    <None Include="examples\Tepui.cs" />
-    <None Include="examples\Ouroboros.cs" />
-    <None Include="examples\DuneSea.cs" />
+    <None Include="classes\Array.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\Boolean.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\Coordinate.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\HeightMap.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\HeightProfile.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\Number.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\Point.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\String.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\RandomSequence2D.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="pages\BasicSyntax.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\ControlStructures.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\EnumTypes.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\Functions.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\LanguageReference.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\Operators.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\ScriptStructure.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\TypeSystem.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\Variables.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="pages\Yield.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="tutorials\Console.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="tutorials\CombiningMaps.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="tutorials\FirstScript.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="tutorials\HeightMaps.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="tutorials\Tutorials.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="examples\Examples.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="examples\Marshlands.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="examples\Ouroboros.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="examples\Tepui.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="examples\DuneSea.cs">
+      <Filter>tutorials</Filter>
+    </None>
+    <None Include="pages\Metadata.cs">
+      <Filter>pages</Filter>
+    </None>
+    <None Include="classes\StandardLibrary.cs">
+      <Filter>classes</Filter>
+    </None>
+    <None Include="classes\Direction.cs">
+      <Filter>classes</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="DoxygenLayout.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\documents\visual studio 2013\Projects\PreviewRenderer\PreviewRenderer\bin\Debug\out.png" />
-    <Image Include="images\std_2d_abs.png" />
-    <Image Include="images\std_2d_add_map.png" />
-    <Image Include="images\std_2d_add_map_mask.png" />
-    <Image Include="images\std_2d_add_number.png" />
-    <Image Include="images\std_2d_blur.png" />
-    <Image Include="images\std_2d_clampheights.png" />
-    <Image Include="images\std_2d_clone.png" />
-    <Image Include="images\std_2d_combine.png" />
-    <Image Include="images\std_2d_crop.png" />
-    <Image Include="images\std_2d_cropheights.png" />
-    <Image Include="images\std_2d_fill.png" />
-    <Image Include="images\std_2d_fillrectangle.png" />
-    <Image Include="images\std_2d_gradient.png" />
-    <Image Include="images\std_2d_intersect.png" />
-    <Image Include="images\std_2d_invert.png" />
-    <Image Include="images\std_2d_move.png" />
-    <Image Include="images\std_2d_multiply_map.png" />
-    <Image Include="images\std_2d_multiply_number.png" />
-    <Image Include="images\std_2d_noise_custom.png" />
-    <Image Include="images\std_2d_noise_standard.png" />
-    <Image Include="images\std_2d_pattern.png" />
-    <Image Include="images\std_2d_projection.png" />
-    <Image Include="images\std_2d_radial_gradient.png" />
-    <Image Include="images\std_2d_rescale.png" />
-    <Image Include="images\std_2d_rotate.png" />
-    <Image Include="images\std_2d_shear.png" />
-    <Image Include="images\std_2d_shift.png" />
-    <Image Include="images\std_2d_transform.png" />
-    <Image Include="images\std_2d_unify.png" />
-    <Image Include="images\tut_combining_1.png" />
-    <Image Include="images\tut_combining_2.png" />
-    <Image Include="images\tut_geneva.png" />
-    <Image Include="images\tut_world.png" />
-    <Image Include="images\std_2d_convexitymap.png" />
-    <Image Include="images\std_2d_distancemap.png" />
-    <Image Include="images\std_2d_distort.png" />
-    <Image Include="images\std_2d_flip.png" />
-    <Image Include="images\tut_introduction.png" />
-    <Image Include="images\std_2d_drawline.png" />
-    <Image Include="images\tut_console_debugger.png" />
-    <Image Include="images\tut_console_empty.png" />
-    <Image Include="images\tut_console_renderer.png" />
-    <Image Include="images\tut_console_run.png" />
-    <Image Include="images\examples_marshlands.png" />
-    <Image Include="images\examples_marshlands_banks.png" />
-    <Image Include="images\examples_marshlands_marsh.png" />
-    <Image Include="images\examples_marshlands_ridges.png" />
-    <Image Include="images\examples_ouroboros.png" />
-    <Image Include="images\examples_tepui.png" />
-    <Image Include="images\examples_tepui_highland.png" />
-    <Image Include="images\examples_tepui_lowland.png" />
-    <Image Include="images\examples_tepui_mask.png" />
-    <Image Include="images\std_1d_fromarray.png" />
-    <Image Include="images\std_1d_noise_custom.png" />
-    <Image Include="images\std_1d_noise_standard.png" />
-    <Image Include="images\std_2d_glaciate_25.png" />
-    <Image Include="images\std_2d_glaciate_100.png" />
-    <Image Include="images\std_2d_transformheights.png" />
-    <Image Include="images\examples_dunesea.png" />
-    <Image Include="images\examples_dunesea_noise.png" />
-    <Image Include="images\std_createnoiselayers_1_512_20.png" />
-    <Image Include="images\std_createnoiselayers_32_256.png" />
-    <Image Include="images\std_createnoiselayers_64.png" />
-    <Image Include="images\std_createnoiselayers_default.png" />
+    <Image Include="images\examples_dunesea.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_dunesea_noise.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_marshlands.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_marshlands_banks.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_marshlands_marsh.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_marshlands_ridges.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_ouroboros.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_tepui.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_tepui_highland.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_tepui_lowland.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\examples_tepui_mask.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_1d_fromarray.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_1d_noise_custom.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_1d_noise_standard.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_abs.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_add_map.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_add_map_mask.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_add_number.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_blur.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_clampheights.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_clone.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_combine.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_convexitymap.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_crop.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_cropheights.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_distancemap.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_distort.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_drawline.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_fill.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_fillrectangle.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_flip.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_glaciate_25.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_glaciate_100.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_gradient.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_intersect.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_invert.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_move.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_multiply_map.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_multiply_number.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_noise_custom.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_noise_standard.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_pattern.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_projection.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_radial_gradient.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_rescale.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_rotate.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_shear.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_shift.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_transform.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_transformheights.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_2d_unify.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_createnoiselayers_1_512_20.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_createnoiselayers_32_256.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_createnoiselayers_64.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\std_createnoiselayers_default.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_world.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_combining_1.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_combining_2.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_console_debugger.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_console_empty.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_console_renderer.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_console_run.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_geneva.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tut_introduction.png">
+      <Filter>images</Filter>
+    </Image>
   </ItemGroup>
 </Project>

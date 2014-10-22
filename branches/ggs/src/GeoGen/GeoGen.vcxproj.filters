@@ -2,625 +2,1841 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Configuration.cpp" />
-    <ClCompile Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayGetRefFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayGetValueByIndexFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayRepeatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArraySortByKeysFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArraySortByValuesFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\CoordinateObject.cpp" />
-    <ClCompile Include="corelib\CoordinateTypeDefinition.cpp" />
-    <ClCompile Include="corelib\CreateNoiseLayersFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapAbsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapAbsRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapAddFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapAddMapRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapBlurFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapBlurRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapClampHeightsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapClampHeightsRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapCloneFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapCloneRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapCombineFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapCombineRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapConvexityMapFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapConvexityMapRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapCropFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapCropHeightsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapCropHeightsRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapCropRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapDistanceMapFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapDistanceMapRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapDrawLineFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapDrawLineRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapFillFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapFillRectangleFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapFillRectangleRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapFlipFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapGradientFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapGradientRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapIntersectFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapIntersectRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapInvertFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapInvertRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapMoveFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapMoveRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapMultiplyFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapMultiplyMapRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapMultiplyRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapNoiseFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapNoiseRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapProjectionFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapProjectionRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapRadialGradientRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapPatternFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapPatternRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapRescaleFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapRotateFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapShearFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapShiftFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapShiftRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapTransformFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapTransformRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapTypeDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapUnifyFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapUnifyRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileAbsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileAbsRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileAddFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileAddProfileRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileAddRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileBlurFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileBlurRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileClampHeightsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileClampHeightsRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileCombineFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileCombineRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileCropFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileCropHeightsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileCropHeightsRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileCropRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileFillFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileFillIntervalFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileFillIntervalRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileFlipFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileFlipRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileFromArrayFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileFromArrayRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileGradientFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileGradientRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileIntersectFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileIntersectRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileInvertFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileInvertRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileMoveFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileMoveRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileMultiplyFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileMultiplyProfileRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileMultiplyRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileNoiseFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileNoiseRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfilePatternFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfilePatternRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileRescaleFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileRescaleRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileSliceFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileSliceRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileUnifyFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightProfileUnifyRenderingStep.cpp" />
-    <ClCompile Include="corelib\IncrementDecrementOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\DirectionTypeDefinition.cpp" />
-    <ClCompile Include="corelib\ParseNoiseInput.cpp" />
-    <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\PointObject.cpp" />
-    <ClCompile Include="corelib\PointTypeDefinition.cpp" />
-    <ClCompile Include="corelib\RandomFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\RandomSequence2DAdvanceFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\RandomSequence2DCreateFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\RandomSequence2DTypeDefinition.cpp" />
-    <ClCompile Include="genlib\HeightMap.cpp" />
     <ClCompile Include="Direction.cpp" />
-    <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\RendererTypeDefinition.cpp" />
-    <ClCompile Include="genlib\HeightProfile.cpp" />
-    <ClCompile Include="genlib\NoiseLayersFactory.cpp" />
-    <ClCompile Include="random\mtrand\MTRand.cpp" />
-    <ClCompile Include="random\RandomSeed.cpp" />
-    <ClCompile Include="random\RandomSequence.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Interval.cpp" />
-    <ClCompile Include="renderer\RenderedMapTable.cpp" />
-    <ClCompile Include="renderer\Renderer.cpp" />
-    <ClCompile Include="renderer\RendererObjectSlotTable.cpp" />
-    <ClCompile Include="renderer\RendererObjectTable.cpp" />
-    <ClCompile Include="renderer\RenderingGraph.cpp" />
-    <ClCompile Include="renderer\RenderingGraphNode.cpp" />
-    <ClCompile Include="renderer\RenderingSequence.cpp" />
-    <ClCompile Include="renderer\RenderingSequenceMetadata.cpp" />
-    <ClCompile Include="renderer\RenderingStep.cpp" />
-    <ClCompile Include="renderer\RenderingStep1D.cpp" />
-    <ClCompile Include="renderer\RenderingStep2D.cpp" />
-    <ClCompile Include="renderer\RendererObject.cpp" />
-    <ClCompile Include="corelib\YieldRenderingStep.cpp" />
-    <ClCompile Include="corelib\ArrayItemReferenceObject.cpp" />
-    <ClCompile Include="corelib\HeightMapDistortFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapDistortRenderingStep.cpp" />
-    <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
-    <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
-    <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp" />
     <ClCompile Include="String.cpp" />
-    <ClCompile Include="compiler\Compiler.cpp" />
-    <ClCompile Include="corelib\ArrayContainsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayCountFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayEmptyFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayFrontBackFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayGetFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayObject.cpp" />
-    <ClCompile Include="corelib\ArrayPushBackFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayRemoveFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\ArrayTypeDefinition.cpp" />
-    <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\MathAtan2FunctionDefinition.cpp" />
-    <ClCompile Include="corelib\MathLogPowFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\MessageFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\StringTypeDefinition.cpp" />
-    <ClCompile Include="runtime\BooleanScriptParameter.cpp" />
-    <ClCompile Include="runtime\EnumScriptParameter.cpp" />
-    <ClCompile Include="runtime\FunctionDefinition.cpp" />
-    <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp" />
-    <ClCompile Include="runtime\MetadataKeyValueCollection.cpp" />
-    <ClCompile Include="runtime\MetadataValue.cpp" />
-    <ClCompile Include="runtime\MemberNativeFunctionDefinition.cpp" />
-    <ClCompile Include="runtime\NumberScriptParameter.cpp" />
-    <ClCompile Include="runtime\ObjectId.cpp" />
-    <ClCompile Include="corelib\ParametersTypeDefinition.cpp" />
-    <ClCompile Include="runtime\ScriptParameters.cpp" />
-    <ClCompile Include="runtime\VariableTableItem.cpp" />
-    <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp" />
-    <ClCompile Include="testlib\TestLibrary.cpp" />
-    <ClCompile Include="utils\StringUtils.cpp" />
-    <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\BitLogicOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\EqualityOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\LogicalOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\NegationOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\RelationalOperatorFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\UnaryArithmeticOperatorFunctionDefinition.cpp" />
     <ClCompile Include="Number.cpp" />
-    <ClCompile Include="Grammar\output\GeoGenScriptDecls.c" />
-    <ClCompile Include="Grammar\output\GeoGenScriptLexer.c" />
-    <ClCompile Include="Grammar\output\GeoGenScriptParser.c" />
-    <ClCompile Include="corelib\BooleanTypeDefinition.cpp" />
-    <ClCompile Include="runtime\CallStack.cpp" />
-    <ClCompile Include="runtime\CallStackEntry.cpp" />
-    <ClCompile Include="runtime\CodeBlock.cpp" />
-    <ClCompile Include="runtime\CodeBlockStack.cpp" />
-    <ClCompile Include="runtime\CodeBlockStackEntry.cpp" />
-    <ClCompile Include="runtime\CompiledScript.cpp" />
-    <ClCompile Include="corelib\CoreLibrary.cpp" />
-    <ClCompile Include="runtime\ManagedObject.cpp" />
-    <ClCompile Include="corelib\EnumTypeDefinition.cpp" />
-    <ClCompile Include="runtime\instructions\BreakInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\CallGlobalInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\CallMemberInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\ContinueInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\DeclareGlobalValueInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\DeclareLocalValueInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\IfInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\LoadConstBooleanInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\LoadConstNumberInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\LoadConstStringInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\LoadMemberValueInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\LoadNullInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\LoadScopeValueInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\PopInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\WhileInstruction.cpp" />
-    <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp" />
-    <ClCompile Include="runtime\MemoryManager.cpp" />
-    <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\NumberTypeDefinition.cpp" />
-    <ClCompile Include="runtime\ObjectStack.cpp" />
-    <ClCompile Include="corelib\ReferenceTypeDefinition.cpp" />
-    <ClCompile Include="runtime\ScriptFunctionDefinition.cpp" />
-    <ClCompile Include="runtime\instructions\StoreMemberValueInstruction.cpp" />
-    <ClCompile Include="runtime\TypeDefinition.cpp" />
-    <ClCompile Include="runtime\VariableDefinition.cpp" />
-    <ClCompile Include="runtime\VariableTable.cpp" />
-    <ClCompile Include="runtime\VirtualMachine.cpp" />
     <ClCompile Include="Serializable.cpp" />
-    <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapTransformHeightsFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapTransformHeightsRenderingStep.cpp" />
-    <ClCompile Include="genlib\CommonProfileFactory.cpp" />
-    <ClCompile Include="corelib\HeightMapGlaciateFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapGlaciateRenderingStep.cpp" />
-    <ClCompile Include="corelib\HeightMapStratifyFunctionDefinition.cpp" />
-    <ClCompile Include="corelib\HeightMapStratifyRenderingStep.cpp" />
+    <ClCompile Include="corelib\ArrayContainsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayCountFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayEmptyFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayFromListFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayFrontBackFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayGetFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayGetKeyByIndexFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayGetRefFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayGetValueByIndexFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayItemReferenceObject.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayObject.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayPushBackFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayRemoveFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayRepeatFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArraySetFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayShuffleFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArraySortByKeysFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArraySortByValuesFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArrayTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="testlib\AssertEqualsFunctionDefinition.cpp">
+      <Filter>testlib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\AssignmentOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\BinaryArithmeticOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\BitLogicOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\BooleanScriptParameter.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\BooleanTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\CallBlockInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\CallGlobalInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\CallMemberInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\BreakInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\CallStack.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\CallStackEntry.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\CodeBlock.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\CodeBlockStack.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\CodeBlockStackEntry.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\CoordinateObject.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\CoordinateTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\CoreLibrary.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\CreateNoiseLayersFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapAbsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapAbsRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapAddFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapAddMapRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapBlurFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapBlurRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapClampHeightsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapClampHeightsRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCloneFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCloneRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCombineFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCombineRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapConvexityMapFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapConvexityMapRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCropFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCropHeightsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCropHeightsRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapCropRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapDistanceMapFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapDistanceMapRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapDistortFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapDistortRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapDrawLineFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapDrawLineRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapFillFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapFillRectangleFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapFillRectangleRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapFlatFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapFlatRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapFlipFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapGlaciateFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapGlaciateRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapGradientFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapGradientRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapIntersectFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapIntersectRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapInvertFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapInvertRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapMoveFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapMoveRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapMultiplyFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapMultiplyMapRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapMultiplyRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapNoiseFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapNoiseRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapPatternFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapPatternRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapProjectionFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapProjectionRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapRadialGradientFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapRadialGradientRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapRescaleFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapRescaleRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapRotateFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapShearFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapShiftFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapShiftRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapStratifyFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapStratifyRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapTransformFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapTransformHeightsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapTransformHeightsRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapTransformRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapUnifyFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightMapUnifyRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="genlib\HeightMap.cpp">
+      <Filter>genlib</Filter>
+    </ClCompile>
+    <ClCompile Include="genlib\HeightProfile.cpp">
+      <Filter>genlib</Filter>
+    </ClCompile>
+    <ClCompile Include="genlib\CommonProfileFactory.cpp">
+      <Filter>genlib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\CompiledScript.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Compiler.cpp">
+      <Filter>compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\ContinueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\DeclareGlobalValueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\DeclareLocalValueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\CoordinateFromNumberFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\DirectionTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\EqualityOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\EnumTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\EnumScriptParameter.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\FunctionDefinition.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
+      <Filter>compiler\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammar\output\GeoGenScriptLexer.c">
+      <Filter>compiler\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
+      <Filter>compiler\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\GlobalNativeFunctionDefinition.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileAbsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileAbsRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileAddFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileAddProfileRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileAddRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileBlurFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileBlurRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileClampHeightsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileClampHeightsRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileCombineFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileCombineRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileCropFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileCropHeightsFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileCropHeightsRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileCropRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFillFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFillIntervalFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFillIntervalRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFlipFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFlipRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFromArrayFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileFromArrayRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileGradientFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileGradientRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileIntersectFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileIntersectRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileInvertFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileInvertRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileMoveFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileMoveRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileMultiplyFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileMultiplyProfileRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileMultiplyRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileNoiseFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileNoiseRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfilePatternFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfilePatternRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileRescaleFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileRescaleRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileSliceFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileSliceRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileUnifyFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\HeightProfileUnifyRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\IncrementDecrementOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\IndexerWriteFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\LoadConstBooleanInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\LoadConstNumberInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\LoadConstStringInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\LoadMemberValueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\LoadNullInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\LoadScopeValueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\IfInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\ManagedObject.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\ManagedObjectHolder.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\LogicalOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\MathAtan2FunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\MathLogPowFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\MathMinMaxFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\MathRoundFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\MathSqrtFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\MathTrigonometricFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\MemberNativeFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\MemoryManager.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\MetadataKeyValueCollection.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\MetadataValue.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="genlib\NoiseLayersFactory.cpp">
+      <Filter>genlib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\NegationOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="random\mtrand\MTRand.cpp">
+      <Filter>random\mtrand</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\MessageFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\ObjectStack.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\ObjectId.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\NumberScriptParameter.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="random\RandomSeed.cpp">
+      <Filter>random</Filter>
+    </ClCompile>
+    <ClCompile Include="random\RandomSequence.cpp">
+      <Filter>random</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RandomFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RandomSequence2DAdvanceFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RandomSequence2DCreateFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RandomSequence2DTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ParametersTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ParseNoiseInput.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\PointObject.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\PointTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\NumberTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RelationalOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ReferenceTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\PopInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderedMapTable.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\Renderer.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RendererObject.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RendererObjectSlotTable.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RendererObjectTable.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderingGraph.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderingGraphNode.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderingSequence.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderingSequenceMetadata.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderingStep.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderingStep1D.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\RenderingStep2D.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\VirtualMachine.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\VariableTableItem.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\VariableTable.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\VariableDefinition.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\TypeDefinition.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\ScriptFunctionDefinition.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\ScriptParameters.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\YieldRenderingStep.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\UnaryArithmeticOperatorFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\StringTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\YieldAsNamedInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\WhileInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\StoreScopeValueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\StoreMemberValueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\instructions\StoreGlobalValueInstruction.cpp">
+      <Filter>runtime\instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="corelib\RendererTypeDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
+    <ClCompile Include="testlib\TestLibrary.cpp">
+      <Filter>testlib</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\StringUtils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
-    <ClInclude Include="compiler\Compiler.hpp" />
     <ClInclude Include="Configuration.hpp" />
-    <ClInclude Include="compiler\CompilerException.hpp" />
-    <ClInclude Include="compiler\IncorrectMapSizeNumericValueException.hpp" />
-    <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp" />
-    <ClInclude Include="compiler\IncorrectScriptParameterAttributeTypeException.hpp" />
-    <ClInclude Include="compiler\IncorrectScriptParameterTypeException.hpp" />
-    <ClInclude Include="compiler\IncorrectScriptParameterValueRestrictionException.hpp" />
-    <ClInclude Include="compiler\InvalidEscapeSequenceException.hpp" />
-    <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
-    <ClInclude Include="compiler\MainMapNotSupportedByScriptException.hpp" />
-    <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp" />
-    <ClInclude Include="compiler\MetadataKeyValueCollectionExpectedException.hpp" />
-    <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
-    <ClInclude Include="compiler\ReadOnlyExpressionWriteException.hpp" />
-    <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
-    <ClInclude Include="compiler\UndefinedMetadataIdentifierException.hpp" />
-    <ClInclude Include="compiler\UnexpectedCharacterException.hpp" />
-    <ClInclude Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayContainsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayFromListFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayFrontBackFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayGetFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayGetKeyByIndexFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayGetRefFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayGetValueByIndexFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayIndexNotFoundException.hpp" />
-    <ClInclude Include="corelib\ArrayKeyNotFoundException.hpp" />
-    <ClInclude Include="corelib\ArrayObject.hpp" />
-    <ClInclude Include="corelib\ArrayPushBackFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayRemoveFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayRepeatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArraySetFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayShuffleFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArraySortByKeysFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArraySortByValuesFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\ArrayTypeDefinition.hpp" />
-    <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\CoordinateFromNumberFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\CoordinateObject.hpp" />
-    <ClInclude Include="corelib\CoordinateOverflowException.hpp" />
-    <ClInclude Include="corelib\CoordinateTypeDefinition.hpp" />
-    <ClInclude Include="corelib\CreateNoiseLayersFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp" />
-    <ClInclude Include="corelib\HeightMapAbsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapAbsRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapAddFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapAddMapRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapBlurFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapBlurRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapClampHeightsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapClampHeightsRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapCloneFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapCloneRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapCombineFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapCombineRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapConvexityMapFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapConvexityMapRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapCropFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapCropHeightsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapCropHeightsRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapCropRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapDistanceMapFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapDistanceMapRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapDrawLineFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapDrawLineRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapFillFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapFillRectangleFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapFillRectangleRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapFlipFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapGradientFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapGradientRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapIntersectFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapIntersectRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapInvertFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapInvertRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapMoveFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapMoveRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapMultiplyFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapMultiplyMapRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapMultiplyRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapNoiseFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapNoiseRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapProjectionFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapProjectionRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapRadialGradientRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapPatternFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapPatternRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapRescaleFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapRotateFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapShearFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapShiftFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapShiftRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapTransformFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapTransformRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightMapTypeDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapUnifyFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapUnifyRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightOverflowException.hpp" />
-    <ClInclude Include="corelib\HeightProfileAbsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileAbsRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileAddFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileAddProfileRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileAddRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileBlurFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileBlurRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileClampHeightsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileClampHeightsRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileCombineFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileCombineRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileCropFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileCropHeightsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileCropHeightsRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileCropRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileFillFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileFillIntervalFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileFillIntervalRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileFlipFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileFlipRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileFromArrayFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileFromArrayRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileGradientFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileGradientRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileIntersectFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileIntersectRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileInvertFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileInvertRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileMoveFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileMoveRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileMultiplyFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileMultiplyProfileRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileMultiplyRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileNoiseFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileNoiseRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfilePatternFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfilePatternRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileRescaleFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileRescaleRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileSliceFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileSliceRenderingStep.hpp" />
-    <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileUnifyFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightProfileUnifyRenderingStep.hpp" />
-    <ClInclude Include="corelib\IncrementDecrementOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
-    <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
-    <ClInclude Include="corelib\InvalidScaleException.hpp" />
-    <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp" />
-    <ClInclude Include="corelib\MathDefinitionRangeException.hpp" />
-    <ClInclude Include="corelib\MathLogPowFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\MathMinMaxFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\MathRoundFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\MaxLessThanMinException.hpp" />
-    <ClInclude Include="corelib\MessageFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp" />
-    <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp" />
-    <ClInclude Include="corelib\ParseNoiseInput.hpp" />
-    <ClInclude Include="corelib\InvalidTransformationMatrixException.hpp" />
-    <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
-    <ClInclude Include="corelib\NullKeyException.hpp" />
-    <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\DirectionTypeDefinition.hpp" />
-    <ClInclude Include="corelib\PointCreateFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\PointObject.hpp" />
-    <ClInclude Include="corelib\PointTypeDefinition.hpp" />
-    <ClInclude Include="corelib\RandomFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\RandomSequence2DAdvanceFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\RandomSequence2DCreateFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\RandomSequence2DGetNumberFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\RandomSequence2DObject.hpp" />
-    <ClInclude Include="corelib\RandomSequence2DTypeDefinition.hpp" />
-    <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp" />
-    <ClInclude Include="corelib\SizeOverflowException.hpp" />
-    <ClInclude Include="corelib\YieldRenderingStep.hpp" />
     <ClInclude Include="Documentation.hpp" />
     <ClInclude Include="Direction.hpp" />
-    <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\RendererTypeDefinition.hpp" />
-    <ClInclude Include="corelib\StringFormatException.hpp" />
-    <ClInclude Include="corelib\StringTypeDefinition.hpp" />
-    <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp" />
-    <ClInclude Include="genlib\HeightMap.hpp" />
-    <ClInclude Include="genlib\HeightProfile.hpp" />
-    <ClInclude Include="genlib\DataObject.hpp" />
-    <ClInclude Include="genlib\TransformationMatrix.hpp" />
     <ClInclude Include="InternalErrorException.hpp" />
-    <ClInclude Include="compiler\SymbolRedefinitionException.hpp" />
-    <ClInclude Include="compiler\UnexpectedTokenException.hpp" />
     <ClInclude Include="ErrorCode.hpp" />
     <ClInclude Include="GeoGenException.hpp" />
-    <ClInclude Include="Grammar\output\GeoGenScriptDecls.h" />
-    <ClInclude Include="Grammar\output\GeoGenScriptLexer.h" />
-    <ClInclude Include="Grammar\output\GeoGenScriptParser.h" />
     <ClInclude Include="Number.hpp" />
     <ClInclude Include="Point.hpp" />
-    <ClInclude Include="random\Hash.hpp" />
-    <ClInclude Include="random\mtrand\MTRand.hpp" />
-    <ClInclude Include="random\RandomSeed.hpp" />
-    <ClInclude Include="random\RandomSequence.hpp" />
-    <ClInclude Include="random\RandomSequence2D.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="Interval.hpp" />
-    <ClInclude Include="renderer\RenderedMap.hpp" />
-    <ClInclude Include="renderer\RenderedMapTable.hpp" />
-    <ClInclude Include="renderer\Renderer.hpp" />
-    <ClInclude Include="renderer\RendererObject.hpp" />
-    <ClInclude Include="renderer\RendererObjectTable.hpp" />
-    <ClInclude Include="renderer\RenderingBounds.hpp" />
-    <ClInclude Include="renderer\RenderingBounds1D.hpp" />
-    <ClInclude Include="renderer\RenderingBounds2D.hpp" />
-    <ClInclude Include="renderer\RenderingGraph.hpp" />
-    <ClInclude Include="renderer\RenderingGraphNode.hpp" />
-    <ClInclude Include="renderer\RenderingSequence.hpp" />
-    <ClInclude Include="renderer\RendererObjectSlotTable.hpp" />
-    <ClInclude Include="renderer\RenderingSequenceMetadata.hpp" />
-    <ClInclude Include="renderer\RenderingStep.hpp" />
-    <ClInclude Include="renderer\RenderingStep1D.hpp" />
-    <ClInclude Include="renderer\RenderingStep2D.hpp" />
-    <ClInclude Include="corelib\ArrayItemReferenceObject.hpp" />
-    <ClInclude Include="runtime\BooleanScriptParameter.hpp" />
-    <ClInclude Include="corelib\BooleanTypeDefinition.hpp" />
-    <ClInclude Include="runtime\CallStack.hpp" />
-    <ClInclude Include="runtime\CallStackEntry.hpp" />
-    <ClInclude Include="runtime\CodeBlock.hpp" />
-    <ClInclude Include="runtime\CodeBlockStack.hpp" />
-    <ClInclude Include="runtime\CodeBlockStackEntry.hpp" />
-    <ClInclude Include="runtime\CompiledScript.hpp" />
-    <ClInclude Include="corelib\CoreLibrary.hpp" />
-    <ClInclude Include="corelib\DivisionByZeroException.hpp" />
-    <ClInclude Include="runtime\EnumScriptParameter.hpp" />
-    <ClInclude Include="corelib\HeightMapDistortFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapDistortRenderingStep.hpp" />
-    <ClInclude Include="runtime\instructions\LoadScopeReferenceInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\StoreReferenceInstruction.hpp" />
-    <ClInclude Include="runtime\MainMapNotGeneratedException.hpp" />
-    <ClInclude Include="runtime\ManagedObject.hpp" />
-    <ClInclude Include="corelib\EnumTypeDefinition.hpp" />
-    <ClInclude Include="runtime\IncorrectTypeException.hpp" />
-    <ClInclude Include="runtime\instructions\CallBlockInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\DeclareGlobalValueInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\DeclareLocalValueInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp" />
-    <ClInclude Include="runtime\IntermediateCodeException.hpp" />
-    <ClInclude Include="runtime\Library.hpp" />
-    <ClInclude Include="runtime\ManagedObjectHolder.hpp" />
-    <ClInclude Include="runtime\MemberNativeFunctionDefinition.hpp" />
-    <ClInclude Include="runtime\MemoryManager.hpp" />
-    <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp" />
-    <ClInclude Include="runtime\NullReferenceException.hpp" />
-    <ClInclude Include="corelib\NullTypeDefinition.hpp" />
-    <ClInclude Include="runtime\NumberOfArgumentsException.hpp" />
-    <ClInclude Include="runtime\NumberOverflowException.hpp" />
-    <ClInclude Include="runtime\NumberScriptParameter.hpp" />
-    <ClInclude Include="corelib\NumberTypeDefinition.hpp" />
-    <ClInclude Include="runtime\NumberUnderflowException.hpp" />
-    <ClInclude Include="runtime\ObjectId.hpp" />
-    <ClInclude Include="runtime\ObjectStack.hpp" />
-    <ClInclude Include="runtime\FunctionDefinition.hpp" />
-    <ClInclude Include="runtime\instructions\BreakInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\CallGlobalInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\CallMemberInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\ContinueInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\IfInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\Instruction.hpp" />
-    <ClInclude Include="runtime\instructions\LoadConstBooleanInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\LoadConstNumberInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\LoadConstStringInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\LoadScopeValueInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\LoadMemberValueInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\LoadNullInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\PopInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\StoreScopeValueInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\StoreMemberValueInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\WhileInstruction.hpp" />
-    <ClInclude Include="runtime\instructions\YieldAsNamedInstruction.hpp" />
-    <ClInclude Include="runtime\MetadataBoolean.hpp" />
-    <ClInclude Include="runtime\MetadataIdentifier.hpp" />
-    <ClInclude Include="runtime\MetadataKeyValueCollection.hpp" />
-    <ClInclude Include="runtime\MetadataNumber.hpp" />
-    <ClInclude Include="runtime\MetadataList.hpp" />
-    <ClInclude Include="runtime\MetadataString.hpp" />
-    <ClInclude Include="runtime\MetadataValue.hpp" />
-    <ClInclude Include="corelib\ParametersTypeDefinition.hpp" />
-    <ClInclude Include="runtime\PrimitiveObject.hpp" />
-    <ClInclude Include="runtime\ReadOnlyWriteException.hpp" />
-    <ClInclude Include="corelib\ReferenceObject.hpp" />
-    <ClInclude Include="corelib\ReferenceTypeDefinition.hpp" />
-    <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp" />
-    <ClInclude Include="runtime\RendererObjectStub.hpp" />
-    <ClInclude Include="runtime\RuntimeException.hpp" />
     <ClInclude Include="ApiUsageException.hpp" />
-    <ClInclude Include="corelib\ScopeVariableReferenceObject.hpp" />
-    <ClInclude Include="runtime\ScriptFunctionDefinition.hpp" />
-    <ClInclude Include="runtime\ScriptParameter.hpp" />
-    <ClInclude Include="runtime\ScriptParameters.hpp" />
-    <ClInclude Include="runtime\StackOverflowException.hpp" />
-    <ClInclude Include="runtime\StaticObject.hpp" />
-    <ClInclude Include="runtime\SymbolDefinitionException.hpp" />
-    <ClInclude Include="runtime\SymbolDefinitionTable.hpp" />
-    <ClInclude Include="runtime\TypeDefinition.hpp" />
-    <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp" />
-    <ClInclude Include="runtime\UserErrorException.hpp" />
-    <ClInclude Include="runtime\VariableDefinition.hpp" />
-    <ClInclude Include="runtime\VariableRedefinitionException.hpp" />
-    <ClInclude Include="runtime\VariableTable.hpp" />
-    <ClInclude Include="runtime\VariableTableItem.hpp" />
-    <ClInclude Include="runtime\VirtualMachine.hpp" />
-    <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp" />
     <ClInclude Include="Serializable.hpp" />
     <ClInclude Include="Size.hpp" />
-    <ClInclude Include="testlib\AssertEqualsFunctionDefinition.hpp" />
-    <ClInclude Include="testlib\AssertionFailedException.hpp" />
-    <ClInclude Include="testlib\TestLibrary.hpp" />
-    <ClInclude Include="utils\OwningMap.hpp" />
     <ClInclude Include="String.hpp" />
-    <ClInclude Include="corelib\InvalidEnumValueException.hpp" />
-    <ClInclude Include="corelib\UnknownRelativeCoordinateDirectionException.hpp" />
-    <ClInclude Include="utils\StringUtils.hpp" />
-    <ClInclude Include="compiler\AntlrRaiiWrappers.hpp" />
-    <ClInclude Include="corelib\HeightMapTransformHeightsFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapTransformHeightsRenderingStep.hpp" />
-    <ClInclude Include="genlib\CommonProfileFactory.hpp" />
-    <ClInclude Include="corelib\HeightMapGlaciateFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapGlaciateRenderingStep.hpp" />
-    <ClInclude Include="corelib\InvalidStrengthException.hpp" />
-    <ClInclude Include="runtime\RenderingSequenceTooLongException.hpp" />
-    <ClInclude Include="corelib\HeightMapStratifyFunctionDefinition.hpp" />
-    <ClInclude Include="corelib\HeightMapStratifyRenderingStep.hpp" />
-    <ClInclude Include="corelib\InvalidNumberOfStrataException.hpp" />
+    <ClInclude Include="compiler\AntlrRaiiWrappers.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArithmeticAssignmentOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayContainsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayCountFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayEmptyFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayFromListFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayFrontBackFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayGetFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayGetKeyByIndexFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayGetRefFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayGetValueByIndexFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayIndexNotFoundException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayItemReferenceObject.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayKeyNotFoundException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayObject.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayPushBackFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayRemoveFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayRepeatFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArraySetFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayShuffleFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArraySortByKeysFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArraySortByValuesFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ArrayTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="testlib\AssertEqualsFunctionDefinition.hpp">
+      <Filter>testlib</Filter>
+    </ClInclude>
+    <ClInclude Include="testlib\AssertionFailedException.hpp">
+      <Filter>testlib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\AssignmentOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\BinaryArithmeticOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\BitLogicAssignmentOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\BooleanScriptParameter.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\BooleanTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\CallBlockInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\CallGlobalInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\CallMemberInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\BreakInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\CallStack.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\CallStackEntry.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\CodeBlock.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\CodeBlockStack.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\CodeBlockStackEntry.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\CoordinateObject.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\CoordinateOverflowException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\CoordinateTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\CoreLibrary.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\CreateNoiseLayersFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapAbsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapAbsRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapAddFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapAddMapRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapBlurFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapBlurRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapClampHeightsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapClampHeightsRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCloneFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCloneRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCombineFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCombineRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapConvexityMapFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapConvexityMapRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCropFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCropHeightsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCropHeightsRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapCropRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapDistanceMapFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapDistanceMapRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapDistortFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapDistortRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapDrawLineFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapDrawLineRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapFillFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapFillRectangleFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapFillRectangleRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapFlatFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapFlatRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapFlipFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapGlaciateFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapGlaciateRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapGradientFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapGradientRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapIntersectFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapIntersectRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapInvertFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapInvertRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapMoveFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapMoveRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapMultiplyFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapMultiplyMapRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapMultiplyRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapNoiseFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapNoiseRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapPatternFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapPatternRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapProjectionFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapProjectionRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapRadialGradientFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapRadialGradientRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapRescaleFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapRescaleRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapRotateFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapShearFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapShiftFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapShiftRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapStratifyFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapStratifyRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapTransformFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapTransformHeightsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapTransformHeightsRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapTransformRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapUnifyFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightMapUnifyRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightOverflowException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="genlib\HeightProfile.hpp">
+      <Filter>genlib</Filter>
+    </ClInclude>
+    <ClInclude Include="genlib\HeightMap.hpp">
+      <Filter>genlib</Filter>
+    </ClInclude>
+    <ClInclude Include="genlib\CommonProfileFactory.hpp">
+      <Filter>genlib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\CompiledScript.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Compiler.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\CompilerException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\ContinueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\DeclareGlobalValueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\DeclareLocalValueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="genlib\DataObject.hpp">
+      <Filter>genlib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\CoordinateFromNumberFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\DirectionTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\EnumFromNumberFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\DivisionByZeroException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\EqualityOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\EnumTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\EnumScriptParameter.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\FunctionDefinition.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammar\output\GeoGenScriptDecls.h">
+      <Filter>compiler\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammar\output\GeoGenScriptLexer.h">
+      <Filter>compiler\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammar\output\GeoGenScriptParser.h">
+      <Filter>compiler\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\GlobalNativeFunctionDefinition.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileUnifyRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileAbsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileAbsRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileAddFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileAddProfileRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileAddRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileBlurFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileBlurRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileClampHeightsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileClampHeightsRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileCombineFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileCombineRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileCropFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileCropHeightsFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileCropHeightsRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileCropRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFillFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFillIntervalFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFillIntervalRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFlatFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFlatRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFlipFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFlipRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFromArrayFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileFromArrayRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileGradientFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileGradientRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileIntersectFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileIntersectRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileInvertFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileInvertRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileMoveFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileMoveRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileMultiplyFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileMultiplyProfileRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileMultiplyRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileNoiseFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileNoiseRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfilePatternFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfilePatternRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileRescaleFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileRescaleRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileSliceFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileSliceRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\HeightProfileUnifyFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\IncorrectEnumScriptParameterTypeException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\IncorrectScriptParameterAttributeTypeException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\IncorrectScriptParameterValueRestrictionException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\IncorrectMapSizeNumericValueException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\IncorrectTypeException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\IncrementDecrementOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\InvalidNumberOfStrataException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\InvalidPersistenceException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\InvalidScaleException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\InvalidStrengthException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\InvalidTransformationMatrixException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\LoadScopeValueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\LoadConstBooleanInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\LoadConstNumberInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\LoadConstStringInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\LoadMemberValueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\LoadNullInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\LoadScopeReferenceInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\IfInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\IntermediateCodeException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\InvalidEnumValueException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\InvalidEscapeSequenceException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MainMapNotGeneratedException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\MainMapNotSupportedByScriptException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ManagedObject.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ManagedObjectHolder.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\Instruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\LogicalOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MathAtan2FunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MathDefinitionRangeException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MathLogPowFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MathMinMaxFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MathRoundFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MathSqrtFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MathTrigonometricFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MaxLessThanMinException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MemberNativeFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MemoryManager.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MetadataBoolean.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MetadataIdentifier.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MetadataKeyValueCollection.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MetadataList.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MetadataNumber.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MetadataString.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\MetadataValue.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="genlib\NoiseLayersFactory.hpp">
+      <Filter>genlib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NegationOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NonpositiveNoiseLayerAmplitudeException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NonpositiveNoiseLayerWaveLengthException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NullKeyException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NumberFromEnumFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="random\mtrand\MTRand.hpp">
+      <Filter>random\mtrand</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\MessageFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\NumberOverflowException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\NullReferenceException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\Library.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\NumberOfArgumentsException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\NumberUnderflowException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ObjectStack.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ObjectId.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\NumberScriptParameter.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="random\Hash.hpp">
+      <Filter>random</Filter>
+    </ClInclude>
+    <ClInclude Include="random\RandomSeed.hpp">
+      <Filter>random</Filter>
+    </ClInclude>
+    <ClInclude Include="random\RandomSequence.hpp">
+      <Filter>random</Filter>
+    </ClInclude>
+    <ClInclude Include="random\RandomSequence2D.hpp">
+      <Filter>random</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\PrimitiveObject.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RandomFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RandomSequence2DAdvanceFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RandomSequence2DCreateFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RandomSequence2DGetNumberFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RandomSequence2DObject.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RandomSequence2DTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\PointCreateFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ParametersTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ParseNoiseInput.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\PointObject.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\PointTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NullTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\NumberTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RelationalOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RelativeCoordinateInInfiniteDimensionException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RelativeCoordinateOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\ReadOnlyExpressionWriteException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ReadOnlyWriteException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ReferenceObject.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ReferenceTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\PopInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderedMap.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderedMapTable.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\Renderer.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RendererObject.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RendererObjectSlotTable.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RendererObjectTable.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingBounds.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingBounds1D.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingBounds2D.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingGraph.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingGraphNode.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingSequence.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingSequenceMetadata.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingStep.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingStep1D.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\RenderingStep2D.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\VirtualMachineStatusGuard.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\VirtualMachine.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\VariableTableItem.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\VariableTable.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\VariableRedefinitionException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\VariableDefinition.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\UndefinedSymbolAccessException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\TypeDefinition.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\RendererObjectStub.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\ReservedScriptParameterNameException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ScriptFunctionDefinition.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ScriptParameters.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\ScriptParameter.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\StackOverflowException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\StaticObject.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\YieldRenderingStep.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\UnaryArithmeticOperatorFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\UnknownRelativeCoordinateDirectionException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\StringTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\ScopeVariableReferenceObject.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\YieldAsNamedInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\WhileInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\StoreScopeValueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\StoreMemberValueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\StoreReferenceInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\SizeOverflowException.hpp">
+      <Filter>runtime\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\RendererTypeDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="testlib\TestLibrary.hpp">
+      <Filter>testlib</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\SymbolDefinitionTable.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\RenderingSequenceTooLongException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="genlib\TransformationMatrix.hpp">
+      <Filter>genlib</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\UnexpectedTokenException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\UnexpectedCharacterException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\UndefinedMetadataIdentifierException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\SymbolRedefinitionException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\SymbolDefinitionException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\StringUtils.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\UserErrorException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\OwningMap.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\RuntimeException.hpp">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\StringFormatException.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
     <None Include="generate-tiles-table.linq" />
-    <None Include="Grammar\GeoGenScript.g" />
-    <None Include="Grammar\GeoGenScriptDecls.g" />
-    <None Include="Grammar\output\GeoGenScript.tokens" />
-    <None Include="Grammar\output\GeoGenScriptDecls.tokens" />
     <None Include="Grammar\test.ggs" />
+    <None Include="Grammar\output\GeoGenScriptDecls.tokens">
+      <Filter>compiler\generated</Filter>
+    </None>
+    <None Include="Grammar\output\GeoGenScript.tokens">
+      <Filter>compiler\generated</Filter>
+    </None>
+    <None Include="Grammar\GeoGenScriptDecls.g">
+      <Filter>compiler\grammars</Filter>
+    </None>
+    <None Include="Grammar\GeoGenScript.g">
+      <Filter>compiler\grammars</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="compiler">
+      <UniqueIdentifier>{859aaafe-d0b9-48e8-b2e3-2e860f503925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime">
+      <UniqueIdentifier>{01709d4d-8091-4a27-86e2-252767323d8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="testlib">
+      <UniqueIdentifier>{76ab3bb3-ccb6-4f40-ace5-ef926212e0ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime\instructions">
+      <UniqueIdentifier>{0f3b63ba-2e8e-4321-90d7-2890973999a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="genlib">
+      <UniqueIdentifier>{a8f88e4c-467b-40d6-89c6-0970c877f2b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="compiler\generated">
+      <UniqueIdentifier>{22764599-ee1a-4f5b-81a2-386b4b21ac31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="compiler\grammars">
+      <UniqueIdentifier>{8051a22d-ef41-46aa-9b05-3780ce7ff0ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="random">
+      <UniqueIdentifier>{5b18a66a-a381-4d6d-92a7-c1e460b1ede0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="random\mtrand">
+      <UniqueIdentifier>{f364a4b0-5a83-4660-95fb-cb6d96386784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer">
+      <UniqueIdentifier>{66fc8364-519e-42b8-9d33-cae05f998bcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="corelib">
+      <UniqueIdentifier>{ff117455-63bd-42c1-aff9-5cbd9fb9627b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{7c8ba2ac-9e84-4a7f-86c6-58f913f7387d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

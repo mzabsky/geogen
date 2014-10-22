@@ -94,13 +94,11 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="compiler\IncorrectMapSizeNumericValueException.hpp" />
     <ClInclude Include="compiler\IncorrectMetadataValueTypeException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterAttributeTypeException.hpp" />
-    <ClInclude Include="compiler\IncorrectScriptParameterTypeException.hpp" />
     <ClInclude Include="compiler\IncorrectScriptParameterValueRestrictionException.hpp" />
     <ClInclude Include="compiler\InvalidEscapeSequenceException.hpp" />
     <ClInclude Include="compiler\InvalidSymbolDefinitionException.hpp" />
     <ClInclude Include="compiler\MainMapNotSupportedByScriptException.hpp" />
     <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp" />
-    <ClInclude Include="compiler\MetadataKeyValueCollectionExpectedException.hpp" />
     <ClInclude Include="compiler\MinGreaterThanMaxSizeException.hpp" />
     <ClInclude Include="compiler\ReadOnlyExpressionWriteException.hpp" />
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp" />
