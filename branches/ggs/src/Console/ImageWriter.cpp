@@ -46,7 +46,10 @@ void geogen::console::WriteImage(genlib::DataObject* object, renderer::RendererO
 					{
 						overlayIndex = 256 + height / 128;
 
-						if (overlayIndex == 256) overlayIndex == 256;
+						if (overlayIndex == 256) 
+						{
+							overlayIndex = 257;
+						}
 					}
 					else
 					{
