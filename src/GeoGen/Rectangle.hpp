@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
 
 #include "Point.hpp"
 #include "Size.hpp"
@@ -23,7 +24,7 @@ namespace geogen {
 		/// @param position The position.
 		/// @param size The size.
 		Rectangle(Point position, Size2D size) :
-			position(position), size(size), endingPoint(Coordinate((long long)position.GetX() + (long long)size.GetWidth()), Coordinate((long long)position.GetY() + (long long)size.GetHeight())) {}
+			position(position), size(size), endingPoint(Coordinate((std::min)((long long)COORDINATE_MAX, (long long)position.GetX() + (long long)size.GetWidth())), Coordinate((std::min)((long long)COORDINATE_MAX, (long long)position.GetY() + (long long)size.GetHeight()))) {}
 
 		/// Constructor.
 		/// @param firstPoint One point.
