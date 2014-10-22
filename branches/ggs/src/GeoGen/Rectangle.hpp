@@ -26,7 +26,7 @@ namespace geogen {
 		Rectangle(Point position, Size2D size) :
 			position(position), size(size), endingPoint(Coordinate((std::min)((long long)COORDINATE_MAX, (long long)position.GetX() + (long long)size.GetWidth())), Coordinate((std::min)((long long)COORDINATE_MAX, (long long)position.GetY() + (long long)size.GetHeight()))) {}
 
-		/// Constructor.
+		/// Constructor. Minimum rectangle containing both the points.
 		/// @param firstPoint One point.
 		/// @param secondPoint Second point.
 		Rectangle(Point firstPoint, Point secondPoint);

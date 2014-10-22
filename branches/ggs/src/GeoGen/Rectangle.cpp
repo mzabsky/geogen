@@ -10,8 +10,8 @@ using namespace std;
 Rectangle::Rectangle(Point firstPoint, Point secondPoint) 
 {
 	Rectangle combined = Rectangle::Combine(
-			Rectangle(firstPoint, Size2D()),
-			Rectangle(secondPoint, Size2D()));
+			Rectangle(firstPoint, Size2D(1, 1)),
+			Rectangle(secondPoint, Size2D(1, 1)));
 	*this = combined;
 }
 
