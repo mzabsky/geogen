@@ -567,7 +567,7 @@ public:
     /// 
     /// @image html std_2d_stratify.png
     ///        
-    /// @param numberOfStrata Number of strata.
+    /// @param numberOfStrata Number of strata. Must be greater than or equal to 1 and less than or equal to 100.
     /// @param steepness (Optional) Steepness of the cliffs. Must be greater than or equal to 0 and less than or equal to 1. Greater value means the cliffs are closer to vertical and the flat surfaces are flatter. 0.5 is used if not specified.
     /// @param smoothness (Optional) Smoothness of edges of the cliffs. Must be greater than or equal to 0 and less than or equal to 1. 0.5 is used if not specified.
     /// @param includeNegative (Optional) True if the effect is to be applied on negative heights. If false, negative heights will be ignored. @c true is used if not specified.

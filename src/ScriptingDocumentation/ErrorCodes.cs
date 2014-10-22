@@ -66,6 +66,8 @@
 /// @li @ref gge2712
 /// @li @ref gge2713
 /// @li @ref gge2714
+/// @li @ref gge2715
+/// @li @ref gge2716
 /// @li @ref gge2801
 /// @li @ref gge3000
 /// @li @ref gge4000
@@ -866,6 +868,23 @@
 /// var map = HeightMap.Noise();
 /// map.Rescale(0.05); // GGE2714
 /// @endcode
+
+/// @page gge2715 GGE2715
+/// A strength number passed to function like HeightMap.Glaciate was ouside of the supported range (0 to 1).
+/// 
+/// @code{.cs}
+/// var map = HeightMap.Noise();
+/// map.Glaciate(-0.1); // GGE2715
+/// @endcode
+
+/// @page gge2716 GGE2717
+/// Number of strata passed to function like HeightMap.Stratify was ouside of the supported range (1 to 100).
+/// 
+/// @code{.cs}
+/// var map = HeightMap.Noise();
+/// map.Stratify(0); // GGE2717
+/// @endcode
+
 
 /// @page gge2801 GGE2801
 /// The script finished without @link yield yielding@endlink the main height map.

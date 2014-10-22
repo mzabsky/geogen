@@ -8,6 +8,7 @@
 #include "BooleanTypeDefinition.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "InvalidStrengthException.hpp"
+#include "InvalidNumberOfStrataException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -30,9 +31,9 @@ ManagedObject* HeightMapStratifyFunctionDefinition::CallNative(CodeLocation loca
 
 	int numberOfStrata = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
-	if (numberOfStrata < 2 || numberOfStrata > 50)
+	if (numberOfStrata < 1 || numberOfStrata > 100)
 	{
-		throw InvalidStrengthException(location);
+		throw InvalidNumberOfStrataException(location);
 	}
 
 	Number steepness = arguments.size() > 1 ? dynamic_cast<NumberObject*>(arguments[1])->GetValue() : 0.5;

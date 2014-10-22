@@ -253,6 +253,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightProfileUnifyRenderingStep.hpp" />
     <ClInclude Include="corelib\IncrementDecrementOperatorFunctionDefinition.hpp" />
     <ClInclude Include="corelib\IndexerWriteFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\InvalidNumberOfStrataException.hpp" />
     <ClInclude Include="corelib\InvalidOperationOnEmptyArrayException.hpp" />
     <ClInclude Include="corelib\InvalidPersistenceException.hpp" />
     <ClInclude Include="corelib\InvalidScaleException.hpp" />
