@@ -532,9 +532,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightProfileFillIntervalRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlatRenderingStep.cpp" />
-    <ClInclude Include="corelib\InvalidEnumValueException.hpp">
-      <FileType>CppCode</FileType>
-    </ClInclude>
+    <ClInclude Include="corelib\InvalidEnumValueException.hpp" />
     <ClCompile Include="corelib\HeightProfileFlipFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightProfileFlipRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightProfileFromArrayFunctionDefinition.cpp" />
@@ -565,9 +563,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\NumberFromCoordinateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\NumberFromEnumFunctionDefinition.cpp" />
     <ClCompile Include="corelib\DirectionTypeDefinition.cpp" />
-    <ClInclude Include="corelib\UnknownRelativeCoordinateDirectionException.hpp">
-      <FileType>CppCode</FileType>
-    </ClInclude>
+    <ClInclude Include="corelib\UnknownRelativeCoordinateDirectionException.hpp" />
     <ClCompile Include="corelib\ParseNoiseInput.cpp" />
     <ClCompile Include="corelib\PointCreateFunctionDefinition.cpp" />
     <ClCompile Include="corelib\PointObject.cpp" />
@@ -608,12 +604,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="runtime\instructions\LoadScopeReferenceInstruction.cpp" />
     <ClCompile Include="runtime\ManagedObjectHolder.cpp" />
     <ClCompile Include="corelib\ScopeVariableReferenceObject.cpp" />
-    <ClCompile Include="String.cpp">
-      <FileType>CppHeader</FileType>
-    </ClCompile>
+    <ClCompile Include="String.cpp" />
     <ClInclude Include="utils\StringUtils.hpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="compiler\Compiler.cpp" />
     <ClCompile Include="corelib\ArrayContainsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\ArrayCountFunctionDefinition.cpp" />
@@ -661,13 +653,13 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\UnaryArithmeticOperatorFunctionDefinition.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Grammar\output\GeoGenScriptDecls.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="Grammar\output\GeoGenScriptLexer.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="Grammar\output\GeoGenScriptParser.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="corelib\BooleanTypeDefinition.cpp" />
     <ClCompile Include="runtime\CallStack.cpp" />
@@ -708,11 +700,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="runtime\VariableTable.cpp" />
     <ClCompile Include="runtime\VirtualMachine.cpp" />
     <ClCompile Include="Serializable.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp">
-      <FileType>Document</FileType>
-    </ClCompile>
+    <ClCompile Include="corelib\EnumFromNumberFunctionDefinition.cpp" />
     <None Include="generate-geogen-hpp.ps1" />
     <None Include="generate-tiles-table.linq">
       <SubType>Designer</SubType>
