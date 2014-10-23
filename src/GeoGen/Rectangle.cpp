@@ -17,8 +17,8 @@ Rectangle::Rectangle(Point firstPoint, Point secondPoint)
 
 Rectangle Rectangle::Combine(Rectangle a, Rectangle b)
 {
-	//if (a.GetSize().GetTotalLength() == 0) return b;
-	//if (b.GetSize().GetTotalLength() == 0) return a;
+	if (a.GetSize().GetTotalLength() == 0) return b;
+	if (b.GetSize().GetTotalLength() == 0) return a;
 
 	return Rectangle(
 		Point(
