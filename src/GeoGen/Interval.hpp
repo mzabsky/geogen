@@ -28,7 +28,7 @@ namespace geogen {
 		/// @return An interval.
 		static inline Interval FromCoordinates(Coordinate start, Coordinate end) 
 		{
-			return Combine(Interval(start, 0), Interval(end, 0));
+			return Combine(Interval(start, 1), Interval(end, 1));
 		}
 
 		/// Gets the starting coordinate.
