@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <algorithm>
 
 #include "HeightMap.hpp"
@@ -428,63 +428,134 @@ void HeightMap::Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalD
 	}
 }
 
+
+enum DrawLine_OutCode
+{
+	DRAWLINE_INSIDE = 0,
+	DRAWLINE_TOP = 1 << 1,
+	DRAWLINE_BOTTOM = 1 << 2,
+	DRAWLINE_LEFT = 1 << 3,
+	DRAWLINE_RIGHT = 1 << 4,
+};
+
+static inline DrawLine_OutCode DrawLine_ComputeOutCode(double x, double y, Rectangle rectangle)
+{
+	unsigned code = DRAWLINE_INSIDE;
+
+	if (x < rectangle.GetPosition().GetX())
+	{
+		code |= DRAWLINE_LEFT;
+	}
+	else if (x >= rectangle.GetEndingPoint().GetX())
+	{
+		code |= DRAWLINE_RIGHT;
+	}
+
+	if (y < rectangle.GetPosition().GetY())
+	{
+		code |= DRAWLINE_TOP;
+	}
+	else if (y >= rectangle.GetEndingPoint().GetY())
+	{
+		code |= DRAWLINE_BOTTOM;
+	}
+
+	return (DrawLine_OutCode)code;
+}
+
 void HeightMap::DrawLine(Point start, Point end, Height height)
 {
-	// DDA algorithm (http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+	
 	Point actualStart = this->GetPhysicalPoint(start.GetX() <= end.GetX() ? start : end);
 	Point actualEnd = this->GetPhysicalPoint(start.GetX() <= end.GetX() ? end : start);
 	  
 	double endX = actualEnd.GetX();  
 	double endY = actualEnd.GetY();
 
-	double currentY = actualStart.GetY();
-	double currentX = actualStart.GetX();
+	double startY = actualStart.GetY();
+	double startX = actualStart.GetX();
 
-	if (currentX < 0)
+	cout << "BEFORE [" << startX << ", " << startY << "] -> [" << endX << ", " << endY << "]" << endl;	
+
+	// Cohen-Sutherland line clipping algorithm (http://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm)
+	bool accept = false;
+
+	DrawLine_OutCode outCodeStart = DrawLine_ComputeOutCode(startX, startY, operationRect);
+	DrawLine_OutCode outCodeEnd = DrawLine_ComputeOutCode(endX, endY, operationRect);
+
+	while (true)
 	{
-		currentY += (endY - currentY) / ((endX - currentX) / -currentX);
-		currentX = 0;
+		if ((outCodeStart | outCodeEnd) == DRAWLINE_INSIDE)
+		{
+			// Both points are inside, trivially accept
+			accept = true;
+			break;
+		}
+		else if ((outCodeStart & outCodeEnd) != DRAWLINE_INSIDE)
+		{
+			// Both points are outside, on the same side, trivially reject
+			accept = false;
+			break;
+		}
+		else
+		{
+			// The line may intersect the visible area, crop one of the two ends to try to fit it inside and try again.
+
+			// Determine which line end to clip.
+			DrawLine_OutCode outCodeOut = outCodeStart ? outCodeStart : outCodeEnd;
+
+			// Determine an intersection point.
+			double intersectionX, intersectionY;
+
+			if (outCodeOut & DRAWLINE_BOTTOM) {           
+				// Point is above the clip rectangle.
+				intersectionX = startX + (endX - startX) * (operationRect.GetSize().GetHeight() - 1 - startY) / (endY - startY);
+				intersectionY = operationRect.GetSize().GetHeight() - 1;
+			}
+			else if (outCodeOut & DRAWLINE_TOP) { 
+				// Point is below the clip rectangle.
+				intersectionX = startX + (endX - startX) * (0 - startY) / (endY - startY);
+				intersectionY = 0;
+			}
+			else if (outCodeOut & DRAWLINE_RIGHT) {  
+				// Point is to the right of clip rectangle.
+				intersectionY = startY + (endY - startY) * (operationRect.GetSize().GetWidth() - 1 - startX) / (endX - startX);
+				intersectionX = operationRect.GetSize().GetWidth() - 1;
+			}
+			else if (outCodeOut & DRAWLINE_LEFT) {   
+				// Point is to the left of clip rectangle.
+				intersectionY = startY + (endY - startY) * (0 - startX) / (endX - startX);
+				intersectionX = 0;
+			}
+
+			if (outCodeOut == outCodeStart)
+			{
+				startX = intersectionX;
+				startY = intersectionY;
+				outCodeStart = DrawLine_ComputeOutCode(startX, startY, operationRect);
+			}
+			else
+			{
+				endX = intersectionX;
+				endY = intersectionY;
+				outCodeEnd = DrawLine_ComputeOutCode(endX, endY, operationRect);
+			}
+		}
 	}
 
-	if (currentY < 0)
+	cout << "AFTER [" << startX << ", " << startY << "] -> [" << endX << ", " << endY << "]" << endl;
+
+	if (!accept)
 	{
-		currentX += (endX - currentX) / ((endY - currentY) / -currentY);
-		currentY = 0;
-	}
-
-	if (endY < 0)
-	{
-		endX += (endX - currentX) * ((endY - currentY) / (endY - this->GetHeight() - 1));
-		endY = 0;
-	}
-
-	if (endX >= this->GetWidth()) 
-	{
-		//endY += (endY - currentY) / ((endX - currentX) / -currentX);
-		endX = this->GetWidth() - 1;		
-	}
-
-	if (endY >= this->GetHeight()) endY = this->GetHeight() - 1;
-
-
-	/*if (currentX >= this->GetWidth()) currentX = this->GetWidth() - 1;*/
-	if (currentY >= this->GetHeight())
-	{
-		currentX += (endX - currentX) * ((currentY - this->GetHeight() - 1) / (currentY - endY));
-		currentY = this->GetHeight() - 1;
-	}
-
-	double startX = currentX;
-	double startY = currentY;
-
-	if (startX < 0 || startX >= this->GetWidth() ||
-		startY < 0 || startY >= this->GetHeight() ||
-		endX < 0 || endX >= this->GetWidth() ||
-		endY < 0 || endY >= this->GetHeight())
-	{
+		cout << "REJECT" << endl;
 		return;
 	}
 
+	double currentX = startX;
+	double currentY = startY;
+
+	// DDA line drawing algorithm (http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))
 	if (abs(endX - currentX) >= abs(endY - currentY))
 	{
 		double deltaY = double(actualEnd.GetY() - actualStart.GetY()) / double(actualEnd.GetX() - actualStart.GetX());
