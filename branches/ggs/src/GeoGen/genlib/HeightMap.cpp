@@ -476,8 +476,6 @@ void HeightMap::DrawLine(Point start, Point end, Height height)
 	double startY = actualStart.GetY();
 	double startX = actualStart.GetX();
 
-	cout << "BEFORE [" << startX << ", " << startY << "] -> [" << endX << ", " << endY << "]" << endl;	
-
 	// Cohen-Sutherland line clipping algorithm (http://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm)
 	bool accept = false;
 
@@ -544,11 +542,8 @@ void HeightMap::DrawLine(Point start, Point end, Height height)
 		}
 	}
 
-	cout << "AFTER [" << startX << ", " << startY << "] -> [" << endX << ", " << endY << "]" << endl;
-
 	if (!accept)
 	{
-		cout << "REJECT" << endl;
 		return;
 	}
 
