@@ -79,12 +79,16 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_empty=NULL;_XKEYCHECK_H;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
