@@ -12,9 +12,9 @@ var clone = HeightMap.Clone(base)
 	.Blur(15);
 
 base.Add(HeightMap.Noise().Multiply(0.5), clone).Multiply(1.2);
-
+base.Glaciate(0.2, true);
 base.Add(HeightMap.Noise(CreateNoiseLayers(256, 4096)).Multiply(0.3));
 
-base.Glaciate(0.2, true);
+
 
 yield base;
