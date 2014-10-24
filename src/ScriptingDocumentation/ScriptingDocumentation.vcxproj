@@ -64,6 +64,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="../../examples\conflux.ggs" />
+	<None Include="../../examples\continents.ggs" />
+	<None Include="../../examples\ouroboros.ggs" />
+	<None Include="../../examples\marshlands.ggs" />
+	<None Include="../../examples\tepui.ggs" />
+	<None Include="../../examples\dunesea.ggs" />
+	
     <None Include="classes\Array.cs" />
     <None Include="classes\Boolean.cs" />
     <None Include="classes\Coordinate.cs" />
@@ -78,6 +85,7 @@
     <None Include="classes\RandomSequence2D.cs" />
     <None Include="classes\String.cs" />
     <None Include="Doxyfile" />
+    <None Include="examples\Conflux.cs" />
     <None Include="examples\DuneSea.cs" />
     <None Include="examples\Examples.cs" />
     <None Include="examples\Marshlands.cs" />

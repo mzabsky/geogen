@@ -157,6 +157,15 @@ public:
     /// @endcode
     /// 
     /// @image html std_2d_radial_gradient.png
+    /// 	   
+    /// RadialGradient can be combined with Multiply to create a cone with flat top:
+    ///
+    /// @code{.cs}
+    /// yield HeightMap.RadialGradient([500, 500], 250, 1, -1).Multiply(3);
+    /// @endcode
+    /// 
+    /// @image html std_2d_radialgradient_cone.png
+    /// 	   
     /// @param center The source point.
     /// @param radius The radius. Must not be negative.
     /// @param centerHeight Height at the source.

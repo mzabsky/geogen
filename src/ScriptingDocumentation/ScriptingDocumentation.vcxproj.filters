@@ -93,21 +93,6 @@
     <None Include="tutorials\Tutorials.cs">
       <Filter>tutorials</Filter>
     </None>
-    <None Include="examples\Examples.cs">
-      <Filter>tutorials</Filter>
-    </None>
-    <None Include="examples\Marshlands.cs">
-      <Filter>tutorials</Filter>
-    </None>
-    <None Include="examples\Ouroboros.cs">
-      <Filter>tutorials</Filter>
-    </None>
-    <None Include="examples\Tepui.cs">
-      <Filter>tutorials</Filter>
-    </None>
-    <None Include="examples\DuneSea.cs">
-      <Filter>tutorials</Filter>
-    </None>
     <None Include="pages\Metadata.cs">
       <Filter>pages</Filter>
     </None>
@@ -116,6 +101,42 @@
     </None>
     <None Include="classes\Direction.cs">
       <Filter>classes</Filter>
+    </None>
+    <None Include="../../examples\conflux.ggs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="examples\Conflux.cs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="examples\DuneSea.cs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="examples\Ouroboros.cs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="examples\Marshlands.cs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="examples\Tepui.cs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="examples\Examples.cs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="../../examples\dunesea.ggs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="../../examples\marshlands.ggs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="../../examples\ouroboros.ggs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="../../examples\tepui.ggs">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="../../examples\continents.ggs">
+      <Filter>examples</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

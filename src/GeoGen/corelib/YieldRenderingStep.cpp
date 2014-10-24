@@ -15,7 +15,7 @@ using namespace genlib;
 void YieldRenderingStep::Step(renderer::Renderer* renderer) const
 {
 	HeightMap* internalData = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
-	HeightMap* copiedData = new HeightMap(*internalData, dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetRectangle());
+	HeightMap* copiedData = new HeightMap(*internalData, this->rect);
 
 	if (!renderer->GetRenderedMapTable().AddItem(this->name, copiedData))
 	{

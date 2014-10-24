@@ -6,25 +6,22 @@
 /// 
 /// The map is finite in both the horizontal and vertical directions.
 /// 
-/// @snippet tepui.ggs Metadata
+/// @snippet ouroboros.ggs Metadata
 ///          
-/// The lowland and the highland (the mountaintop) are built separately. The lowland is medium-range noise with a cone-shaped peak in the middle (do that the terrain eases a bit into the cliffs). The height overflow in the center doesn't matter, it will be replaced by the tepui itself.
+/// First step is to create a template of a single island, which will be then copied several times to create the ring of islands. This template is centered at coordinate `[0, 0]`, because it will have to be rotated later and rotation is always centered at [0, 0].
 /// 
-/// @snippet tepui.ggs Lowland
-/// @image html examples_tepui_lowland.png
+/// @snippet ouroboros.ggs Template
+/// @image html examples_ouroboros_template.png
 /// 
-/// The highland is a low-range noise offset to the high altitude of the mountaintop.
+/// To create each island on the ring, the template is copied, rotated to be tangent to the circle, moved to its spot and then unified into the main map.
 /// 
-/// @snippet tepui.ggs Highland
-/// @image html examples_tepui_highland.png
+/// @snippet ouroboros.ggs Copies
+/// @image html examples_ouroboros_copies.png
 ///          
-/// The mask is build similarly to the lowland, except it is turned to a monochrome image and then blurred a bit to make the cliffs somewhat less sharp. Note that each of the layers uses a noise with a different seed, so that different noise is generated each time.
+/// The last step is to fill in the remaining flat areas with some generic noise. To do this, a mask that is an inverse of the map itself is used (so more of the noise is used where the heights in the map are the least). The same noise is used as the one which was used for the template. There is no reason not to.
 /// 
-/// @snippet tepui.ggs Mask
-/// @image html examples_tepui_mask.png
-/// 
-/// The lowland and the highland are then combined together using the mask.
-/// @snippet tepui.ggs Combination
+/// @snippet ouroboros.ggs Mask
+/// @image html examples_ouroboros_mask.png
 ///          
-/// @link tepui.ggs Full code @endlink
+/// @link ouroboros.ggs Full code @endlink
 
