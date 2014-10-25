@@ -1,0 +1,60 @@
+/// [Metadata]
+metadata
+{
+	Width: Finite,
+	Height: Finite,
+	Name: "Ouroboros",
+	Description: "Ring of exactly identical islands.",
+	Author: "Matěj Zábský",
+	Parameters:
+	{
+		NumberOfIslands: { Default: 5, Min: 2, Max: 10, Restriction: Integers }
+	}
+}
+/// [Metadata]
+
+/// [Template]
+var noise = HeightMap.Noise(CreateNoiseLayers(32)).Multiply(0.5).Add(0.5).Multiply(0.8);
+
+var templateMask = HeightMap.RadialGradient([0,0], Parameters.MapWidth * (0.14 - Parameters.NumberOfIslands * 0.01), 1, 0)
+	.Rescale(3, 1)
+	.Multiply(5)
+	.Blur(50);
+
+var template = HeightMap.RadialGradient([0,0], Parameters.MapWidth * (0.14 - Parameters.NumberOfIslands * 0.01), 1, -1)
+	.Multiply(3)
+	.Multiply(0.4)
+	.Rescale(3, 1)
+	.Blur(20)
+	.Add(noise, templateMask);
+/// [Template]
+	
+/// [Copies]
+var main = HeightMap.Flat(-1);
+
+var angleStep = 360 / Parameters.NumberOfIslands;
+for(var angle = 0; angle < 360; angle += angleStep)
+{
+	var offset = [
+		Parameters.MapWidth / 2 + Cos(DegToRad(angle)) * Parameters.MapWidth * 0.35,
+		Parameters.MapHeight / 2 + Sin(DegToRad(angle)) * Parameters.MapHeight * 0.35];
+
+	var clone = HeightMap.Clone(template)
+		.Rotate(DegToRad(angle + 90))
+		.Move(offset);		
+	
+	main.Unify(clone);
+}
+/// [Copies]
+
+/// [Mask]
+var mask = HeightMap.Clone(main)
+	.ClampHeights(-1, -0.05)
+	.Invert()
+	.Add(-0.05)
+	.Blur(10);
+
+main.Add(noise.Multiply(0.5).Add(0.5), mask);
+
+yield main;
+/// [Mask]

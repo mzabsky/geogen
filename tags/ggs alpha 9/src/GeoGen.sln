@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console", "Console\Console.vcxproj", "{EC6E449D-EDA8-411D-942F-F59BF305C5C4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F} = {80986C68-12DD-4FAB-9124-8859F2B94F5F}
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8} = {5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen", "GeoGen\GeoGen.vcxproj", "{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED} = {7CB85F8B-C519-4390-9996-F30F31CDCEED}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antlr3", "antlr3\antlr3.vcxproj", "{7CB85F8B-C519-4390-9996-F30F31CDCEED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoGen_Tests", "GeoGen_Tests\GeoGen_Tests.vcxproj", "{C7293881-2563-4A3D-A272-8B1492EA4180}"
+	ProjectSection(ProjectDependencies) = postProject
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F} = {80986C68-12DD-4FAB-9124-8859F2B94F5F}
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8} = {5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "lpng1612\projects\visualc71\libpng.vcxproj", "{80986C68-12DD-4FAB-9124-8859F2B94F5F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "examples\Examples.vcxproj", "{44744325-2D00-4AFE-B923-ED018F81D91E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8} = {5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptingDocumentation", "ScriptingDocumentation\ScriptingDocumentation.vcxproj", "{8A65AD4A-EA68-4CFB-984F-99388251B1F5}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC6E449D-EDA8-411D-942F-F59BF305C5C4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EC6E449D-EDA8-411D-942F-F59BF305C5C4}.Debug|Win32.Build.0 = Debug|Win32
+		{EC6E449D-EDA8-411D-942F-F59BF305C5C4}.Debug|x64.ActiveCfg = Debug|Win32
+		{EC6E449D-EDA8-411D-942F-F59BF305C5C4}.Release|Win32.ActiveCfg = Release|Win32
+		{EC6E449D-EDA8-411D-942F-F59BF305C5C4}.Release|Win32.Build.0 = Release|Win32
+		{EC6E449D-EDA8-411D-942F-F59BF305C5C4}.Release|x64.ActiveCfg = Release|Win32
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Debug|Win32.Build.0 = Debug|Win32
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Debug|x64.ActiveCfg = Debug|Win32
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Release|Win32.ActiveCfg = Release|Win32
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Release|Win32.Build.0 = Release|Win32
+		{5EB38BD8-71F9-4E1B-8D7F-416F868C1CE8}.Release|x64.ActiveCfg = Release|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Debug|Win32.Build.0 = Debug|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Debug|x64.ActiveCfg = Debug|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Release|Win32.ActiveCfg = Release|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Release|Win32.Build.0 = Release|Win32
+		{7CB85F8B-C519-4390-9996-F30F31CDCEED}.Release|x64.ActiveCfg = Release|Win32
+		{C7293881-2563-4A3D-A272-8B1492EA4180}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C7293881-2563-4A3D-A272-8B1492EA4180}.Debug|Win32.Build.0 = Debug|Win32
+		{C7293881-2563-4A3D-A272-8B1492EA4180}.Debug|x64.ActiveCfg = Debug|Win32
+		{C7293881-2563-4A3D-A272-8B1492EA4180}.Release|Win32.ActiveCfg = Release|Win32
+		{C7293881-2563-4A3D-A272-8B1492EA4180}.Release|Win32.Build.0 = Release|Win32
+		{C7293881-2563-4A3D-A272-8B1492EA4180}.Release|x64.ActiveCfg = Release|Win32
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F}.Debug|Win32.Build.0 = Debug|Win32
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F}.Debug|x64.ActiveCfg = Debug|Win32
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F}.Release|Win32.ActiveCfg = Release|Win32
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F}.Release|Win32.Build.0 = Release|Win32
+		{80986C68-12DD-4FAB-9124-8859F2B94F5F}.Release|x64.ActiveCfg = Release|Win32
+		{44744325-2D00-4AFE-B923-ED018F81D91E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{44744325-2D00-4AFE-B923-ED018F81D91E}.Debug|x64.ActiveCfg = Debug|Win32
+		{44744325-2D00-4AFE-B923-ED018F81D91E}.Release|Win32.ActiveCfg = Release|Win32
+		{44744325-2D00-4AFE-B923-ED018F81D91E}.Release|Win32.Build.0 = Release|Win32
+		{44744325-2D00-4AFE-B923-ED018F81D91E}.Release|x64.ActiveCfg = Release|Win32
+		{8A65AD4A-EA68-4CFB-984F-99388251B1F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8A65AD4A-EA68-4CFB-984F-99388251B1F5}.Debug|x64.ActiveCfg = Debug|Win32
+		{8A65AD4A-EA68-4CFB-984F-99388251B1F5}.Release|Win32.ActiveCfg = Release|Win32
+		{8A65AD4A-EA68-4CFB-984F-99388251B1F5}.Release|Win32.Build.0 = Release|Win32
+		{8A65AD4A-EA68-4CFB-984F-99388251B1F5}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
