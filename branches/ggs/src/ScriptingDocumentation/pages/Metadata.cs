@@ -124,5 +124,5 @@
 /// RenderHeight     | Number       | Height of the render (after scaling).
 /// RenderScale      | Number       | Render scale (1.0 = 1:1, 0.5 = 2x zoomed out, 2.0 = 2x zoomed in).
 /// 
-/// (doplnit odkaz na popis principu renderování) a na princip škálování
-/// Example
+// (doplnit odkaz na popis principu renderování) a na princip škálování
+// Example
