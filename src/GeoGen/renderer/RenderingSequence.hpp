@@ -1,0 +1,56 @@
+#pragma once
+
+#include <vector>
+
+#include "../Number.hpp"
+#include "../Serializable.hpp"
+
+namespace geogen 
+{
+	namespace renderer
+	{
+		class RenderingStep;
+
+		class RenderingSequence : public Serializable
+		{
+			std::vector<RenderingStep*> steps;
+			unsigned objectTableSize;
+			Scale renderScale;
+
+			// Non-copyable
+			RenderingSequence(RenderingSequence const&) {};
+			RenderingSequence& operator=(RenderingSequence const&) {};
+		public:
+			/// Maximum number of steps allowed to be in the sequence.
+			static const unsigned SIZE_LIMIT;
+
+			typedef std::vector<RenderingStep const*>::const_iterator const_iterator;
+			typedef std::vector<RenderingStep*>::iterator iterator;
+			typedef std::vector<RenderingStep const*>::const_reverse_iterator const_reverse_iterator;
+			typedef std::vector<RenderingStep*>::reverse_iterator reverse_iterator;
+
+			RenderingSequence(Scale renderScale) : renderScale(renderScale), objectTableSize(0){};
+			~RenderingSequence();
+
+			inline Scale GetRenderScale() const { return this->renderScale; }
+
+			inline const_iterator Begin() const { return *(const_iterator*)(&this->steps.begin()); }
+			inline const_iterator End() const { return *(const_iterator*)(&this->steps.end()); }
+			inline iterator Begin() { return this->steps.begin(); }
+			inline iterator End() { return this->steps.end(); }
+
+			inline const_reverse_iterator RBegin() const { return *(const_reverse_iterator*)(&this->steps.rbegin()); }
+			inline const_reverse_iterator REnd() const { return *(const_reverse_iterator*)(&this->steps.rend()); }
+			inline reverse_iterator RBegin() { return this->steps.rbegin(); }
+			inline reverse_iterator REnd() { return this->steps.rend(); }
+
+			inline unsigned Size() const { return this->steps.size(); }
+
+			bool AddStep(RenderingStep* step);
+
+			inline unsigned GetRequiredObjectTableSize() const { return this->objectTableSize; };
+
+			virtual void Serialize(IOStream& stream) const;
+		};
+	}
+}

@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8A65AD4A-EA68-4CFB-984F-99388251B1F5}</ProjectGuid>
+    <RootNamespace>ScriptingDocumentation</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="../../examples\conflux.ggs" />
+	<None Include="../../examples\continents.ggs" />
+	<None Include="../../examples\ouroboros.ggs" />
+	<None Include="../../examples\marshlands.ggs" />
+	<None Include="../../examples\tepui.ggs" />
+	<None Include="../../examples\dunesea.ggs" />
+	
+    <None Include="classes\Array.cs" />
+    <None Include="classes\Boolean.cs" />
+    <None Include="classes\Coordinate.cs" />
+    <None Include="classes\Direction.cs" />
+    <None Include="classes\HeightProfile.cs" />
+    <None Include="classes\StandardLibrary.cs" />
+    <None Include="classes\HeightMap.cs">
+      <FileType>CppHeader</FileType>
+    </None>
+    <None Include="classes\Number.cs" />
+    <None Include="classes\Point.cs" />
+    <None Include="classes\RandomSequence2D.cs" />
+    <None Include="classes\String.cs" />
+    <None Include="Doxyfile" />
+    <None Include="examples\Conflux.cs" />
+    <None Include="examples\DuneSea.cs" />
+    <None Include="examples\Examples.cs" />
+    <None Include="examples\Marshlands.cs" />
+    <None Include="examples\Ouroboros.cs" />
+    <None Include="examples\Tepui.cs" />
+    <None Include="pages\BasicSyntax.cs" />
+    <None Include="pages\ControlStructures.cs" />
+    <None Include="pages\EnumTypes.cs" />
+    <None Include="pages\Functions.cs" />
+    <None Include="pages\LanguageReference.cs" />
+    <None Include="pages\Metadata.cs" />
+    <None Include="pages\Operators.cs" />
+    <None Include="pages\ScriptStructure.cs" />
+    <None Include="pages\TypeSystem.cs" />
+    <None Include="pages\Variables.cs" />
+    <None Include="pages\Yield.cs" />
+    <None Include="tutorials\CombiningMaps.cs" />
+    <None Include="ErrorCodes.cs" />
+    <None Include="tutorials\Console.cs" />
+    <None Include="tutorials\FirstScript.cs" />
+    <None Include="tutorials\HeightMaps.cs" />
+    <None Include="tutorials\Tutorials.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MainPage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="DoxygenLayout.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\examples_dunesea.png" />
+    <Image Include="images\examples_dunesea_noise.png" />
+    <Image Include="images\examples_marshlands.png" />
+    <Image Include="images\examples_marshlands_banks.png" />
+    <Image Include="images\examples_marshlands_marsh.png" />
+    <Image Include="images\examples_marshlands_ridges.png" />
+    <Image Include="images\examples_ouroboros.png" />
+    <Image Include="images\examples_tepui.png" />
+    <Image Include="images\examples_tepui_highland.png" />
+    <Image Include="images\examples_tepui_lowland.png" />
+    <Image Include="images\examples_tepui_mask.png" />
+    <Image Include="images\std_1d_fromarray.png" />
+    <Image Include="images\std_1d_noise_custom.png" />
+    <Image Include="images\std_1d_noise_standard.png" />
+    <Image Include="images\std_2d_abs.png" />
+    <Image Include="images\std_2d_add_map.png" />
+    <Image Include="images\std_2d_add_map_mask.png" />
+    <Image Include="images\std_2d_add_number.png" />
+    <Image Include="images\std_2d_blur.png" />
+    <Image Include="images\std_2d_clampheights.png" />
+    <Image Include="images\std_2d_clone.png" />
+    <Image Include="images\std_2d_combine.png" />
+    <Image Include="images\std_2d_convexitymap.png" />
+    <Image Include="images\std_2d_crop.png" />
+    <Image Include="images\std_2d_cropheights.png" />
+    <Image Include="images\std_2d_distancemap.png" />
+    <Image Include="images\std_2d_distort.png" />
+    <Image Include="images\std_2d_drawline.png" />
+    <Image Include="images\std_2d_fill.png" />
+    <Image Include="images\std_2d_fillrectangle.png" />
+    <Image Include="images\std_2d_flip.png" />
+    <Image Include="images\std_2d_glaciate_100.png" />
+    <Image Include="images\std_2d_glaciate_25.png" />
+    <Image Include="images\std_2d_gradient.png" />
+    <Image Include="images\std_2d_intersect.png" />
+    <Image Include="images\std_2d_invert.png" />
+    <Image Include="images\std_2d_move.png" />
+    <Image Include="images\std_2d_multiply_map.png" />
+    <Image Include="images\std_2d_multiply_number.png" />
+    <Image Include="images\std_2d_noise_custom.png" />
+    <Image Include="images\std_2d_noise_standard.png" />
+    <Image Include="images\std_2d_pattern.png" />
+    <Image Include="images\std_2d_projection.png" />
+    <Image Include="images\std_2d_radial_gradient.png" />
+    <Image Include="images\std_2d_rescale.png" />
+    <Image Include="images\std_2d_rotate.png" />
+    <Image Include="images\std_2d_shear.png" />
+    <Image Include="images\std_2d_shift.png" />
+    <Image Include="images\std_2d_transform.png" />
+    <Image Include="images\std_2d_transformheights.png" />
+    <Image Include="images\std_2d_unify.png" />
+    <Image Include="images\std_createnoiselayers_1_512_20.png" />
+    <Image Include="images\std_createnoiselayers_32_256.png" />
+    <Image Include="images\std_createnoiselayers_64.png" />
+    <Image Include="images\std_createnoiselayers_default.png" />
+    <Image Include="images\tut_combining_1.png" />
+    <Image Include="images\tut_combining_2.png" />
+    <Image Include="images\tut_console_debugger.png" />
+    <Image Include="images\tut_console_empty.png" />
+    <Image Include="images\tut_console_renderer.png" />
+    <Image Include="images\tut_console_run.png" />
+    <Image Include="images\tut_geneva.png" />
+    <Image Include="images\tut_introduction.png" />
+    <Image Include="images\tut_world.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

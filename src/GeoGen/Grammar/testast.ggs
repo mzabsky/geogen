@@ -1,0 +1,86 @@
+metadata {
+	name: "aaa",
+	author: "bbb",
+	2: "ccc",
+	@3: "ddd",
+	rec: {
+		name: "eee",
+		author: "fff"	
+	}
+ }
+
+enum A {
+	aA,
+	aB,
+	aC
+}
+
+function fA (fAa, fAb){
+	fAb+=1;
+	return fAa;
+}
+
+enum B {
+	bA,
+	bB = 1,
+	bC = 2
+}
+
+var map = HeightMap.Empty();
+
+function fA (fAa, fAb)
+{
+	fAb+=1;
+	return fAa;
+}
+
+break;
+
+continue;
+
+var a;
+
+var b = 6;
+
+b += 2;
+
+yield map as "aaaa";
+
+return;
+
+return 5;
+
+while(a < 5) { b += 1; c += 1; }
+
+for(var i = 1; i < 5; i += 1) { b += 1; c += 1; }
+
+for(; i < 5; i += 1) { b += 1; c += 1; }
+
+for(var i = 1; ; i += 1) { b += 1; c += 1; }
+
+for(var i = 1; i < 5; ) { b += 1; c += 1; }
+
+for(; ; ) { b += 1; c += 1; }
+
+if(a == 2) { a += 1; }
+
+if(a == 2) { a += 1; } else { a -= 1;}
+
+switch(a){
+	case 1: a += 1; break;
+	case 2: a += 1; break;
+	case 3:
+	case "aaaa": a += 1; break;
+	case Parameters.FeatureSize: b += 1; break;
+	default: c += 1;
+}
+
+var a = i += j -= k *= l;
+
+var b = i + j - k + l;
+
+var c = a ? b ? c : d ? e : f : g ? h : i;
+
+var d = a.PropA.PropB.PropC[indexA1, indexA2].PropD(argA1, argA2).PropE;
+
+yield map;;

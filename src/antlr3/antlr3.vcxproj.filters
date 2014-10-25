@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="antlr3.h" />
+    <ClInclude Include="antlr3baserecognizer.h" />
+    <ClInclude Include="antlr3basetree.h" />
+    <ClInclude Include="antlr3basetreeadaptor.h" />
+    <ClInclude Include="antlr3bitset.h" />
+    <ClInclude Include="antlr3collections.h" />
+    <ClInclude Include="antlr3commontoken.h" />
+    <ClInclude Include="antlr3commontree.h" />
+    <ClInclude Include="antlr3commontreeadaptor.h" />
+    <ClInclude Include="antlr3commontreenodestream.h" />
+    <ClInclude Include="antlr3convertutf.h" />
+    <ClInclude Include="antlr3cyclicdfa.h" />
+    <ClInclude Include="antlr3debugeventlistener.h" />
+    <ClInclude Include="antlr3defs.h" />
+    <ClInclude Include="antlr3encodings.h" />
+    <ClInclude Include="antlr3errors.h" />
+    <ClInclude Include="antlr3exception.h" />
+    <ClInclude Include="antlr3filestream.h" />
+    <ClInclude Include="antlr3input.h" />
+    <ClInclude Include="antlr3interfaces.h" />
+    <ClInclude Include="antlr3intstream.h" />
+    <ClInclude Include="antlr3lexer.h" />
+    <ClInclude Include="antlr3memory.h" />
+    <ClInclude Include="antlr3parser.h" />
+    <ClInclude Include="antlr3parsetree.h" />
+    <ClInclude Include="antlr3recognizersharedstate.h" />
+    <ClInclude Include="antlr3rewritestreams.h" />
+    <ClInclude Include="antlr3string.h" />
+    <ClInclude Include="antlr3tokenstream.h" />
+    <ClInclude Include="antlr3treeparser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="antlr3baserecognizer.c" />
+    <ClCompile Include="antlr3basetree.c" />
+    <ClCompile Include="antlr3basetreeadaptor.c" />
+    <ClCompile Include="antlr3bitset.c" />
+    <ClCompile Include="antlr3collections.c" />
+    <ClCompile Include="antlr3commontoken.c" />
+    <ClCompile Include="antlr3commontree.c" />
+    <ClCompile Include="antlr3commontreeadaptor.c" />
+    <ClCompile Include="antlr3commontreenodestream.c" />
+    <ClCompile Include="antlr3convertutf.c" />
+    <ClCompile Include="antlr3cyclicdfa.c" />
+    <ClCompile Include="antlr3debughandlers.c" />
+    <ClCompile Include="antlr3encodings.c" />
+    <ClCompile Include="antlr3exception.c" />
+    <ClCompile Include="antlr3filestream.c" />
+    <ClCompile Include="antlr3inputstream.c" />
+    <ClCompile Include="antlr3intstream.c" />
+    <ClCompile Include="antlr3lexer.c" />
+    <ClCompile Include="antlr3parser.c" />
+    <ClCompile Include="antlr3rewritestreams.c" />
+    <ClCompile Include="antlr3string.c" />
+    <ClCompile Include="antlr3tokenstream.c" />
+    <ClCompile Include="antlr3treeparser.c" />
+  </ItemGroup>
+</Project>
