@@ -62,7 +62,8 @@ namespace geogen
 			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 		private:
 			VirtualMachineStatus status;
-			
+			unsigned instructionCounter = 0;
+
 			// Memory manager must be created first and destroyed last.
 			MemoryManager memoryManager;
 
@@ -199,6 +200,8 @@ namespace geogen
 			/// @param instance Instance, if the function is a member method, null otherwise.
 			/// @param numberOfArguments Actual number of arguments to the call.
 			void CallFunction(CodeLocation location, FunctionDefinition const* functionDefintion, ManagedObject* instance, unsigned numberOfArguments);
+
+			unsigned GetInstructionCounter() const { return this->instructionCounter; }
 
 			/// Gets common random sequence.
 			/// @return The common random sequence.

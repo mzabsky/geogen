@@ -121,6 +121,7 @@ VirtualMachineStepResult VirtualMachine::Step()
 
 	CallStackEntry& callStackEntry = this->callStack.Top();
 
+	this->instructionCounter++;
 	CallStackEntryStepResult stepResult = callStackEntry.Step(this);
 	
 	if (stepResult == CALL_STACK_ENTRY_STEP_RESULT_FINISHED)
