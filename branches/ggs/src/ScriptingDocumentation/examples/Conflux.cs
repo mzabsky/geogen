@@ -10,7 +10,7 @@
 /// 
 /// The basic idea is to create a template out of lines and a circle, distort it, turn it into a three-dimensional shape with HeightMap.Distance map and then sprinkle in some noise to make the map look more natural.
 /// 
-/// First step to create the template is to draw lines going from center of the center of the map to points an a circle greater than the map itself (so that end of the line is never seen). Spacing of the points ont he circle is slightly randomized, to make the map less predictable.
+/// First step to create the template is to draw lines going from center of the map to points on a circle greater than the map itself (so that end of the lines is never seen). Spacing of the points on the circle is slightly randomized, to make the map less predictable.
 /// 
 /// A circle with radius based on the `LakeSize` script parameter is then added to the template.
 /// 
@@ -29,7 +29,7 @@
 /// @snippet conflux.ggs Sharpening
 /// @image html examples_conflux_template_sharpened.png
 ///                            
-/// The template is now finished and can be used for the distance map. A small number is subtracted form the distance map to create basins of the rivers and the lake.
+/// The template is now finished and can be used for the distance map. A small number is subtracted from the distance map to create basins of the rivers and the lake.
 /// 
 /// @snippet conflux.ggs DistanceMap
 /// @image html examples_conflux_distancemap.png
