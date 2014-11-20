@@ -19,7 +19,7 @@ void HeightProfileBlurRenderingStep::Step(Renderer* renderer) const
 void HeightProfileBlurRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
 	dynamic_cast<RenderingBounds1D*>(argumentBounds[0])->CombineInterval(
-		Interval::Expand(this->GetRenderingBounds(renderer), this->radius));
+		Interval::Expand(this->GetRenderingBounds(renderer), renderer->GetRenderingSequence().GetScaledSize(this->radius)));
 }
 
 void HeightProfileBlurRenderingStep::SerializeArguments(IOStream& stream) const

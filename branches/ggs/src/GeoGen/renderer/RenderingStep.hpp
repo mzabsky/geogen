@@ -27,7 +27,7 @@ namespace geogen
 			unsigned returnSlot;			
 
 			// Non-copyable
-			RenderingStep(RenderingStep const&) : location(0, 0) {};
+			RenderingStep(RenderingStep const&) : location( 0, 0) {};
 			RenderingStep& operator=(RenderingStep const&) {};
 		protected:
 			void TriggerRenderingBoundsCalculationError(String message) const;			

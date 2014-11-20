@@ -25,7 +25,7 @@ void HeightMapShiftRenderingStep::UpdateRenderingBounds(Renderer* renderer, std:
 	Rectangle thisRect = this->GetRenderingBounds(renderer);
 
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
-		Rectangle::Expand(this->GetRenderingBounds(renderer), this->maxDistance, this->direction));
+		Rectangle::Expand(this->GetRenderingBounds(renderer), renderer->GetRenderingSequence().GetScaledSize(this->maxDistance), this->direction));
 
 	dynamic_cast<RenderingBounds1D*>(argumentBounds[1])->CombineInterval(
 		Interval(
