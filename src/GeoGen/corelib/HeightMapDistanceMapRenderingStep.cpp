@@ -24,7 +24,7 @@ void HeightMapDistanceMapRenderingStep::Step(Renderer* renderer) const
 void HeightMapDistanceMapRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
-		Rectangle::Expand(this->GetRenderingBounds(renderer), this->maxDistance));
+		Rectangle::Expand(this->GetRenderingBounds(renderer), renderer->GetRenderingSequence().GetScaledSize(this->maxDistance)));
 }
 
 void HeightMapDistanceMapRenderingStep::SerializeArguments(IOStream& stream) const

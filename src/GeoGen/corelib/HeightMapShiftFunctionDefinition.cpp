@@ -6,8 +6,10 @@
 #include "SizeOverflowException.hpp"
 #include "HeightMapShiftRenderingStep.hpp"
 #include "NumberTypeDefinition.hpp"
+#include "CoordinateTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
 #include "DirectionTypeDefinition.hpp"
+#include "CoordinateObject.hpp"
 #include "../Direction.hpp"
 
 using namespace std;
@@ -20,24 +22,24 @@ ManagedObject* HeightMapShiftFunctionDefinition::CallNative(CodeLocation locatio
 {
 	HeightProfileTypeDefinition const* heightProfileTypeDefinition = dynamic_cast<HeightProfileTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("HeightProfile")));
 	DirectionTypeDefinition const* directionTypeDefinition = dynamic_cast<DirectionTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Direction")));
-	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
+	CoordinateTypeDefinition const* coordinateTypeDefinition = dynamic_cast<CoordinateTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Coordinate")));
 
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(heightProfileTypeDefinition);
-	expectedTypes.push_back(numberTypeDefinition);
+	expectedTypes.push_back(coordinateTypeDefinition);
 	expectedTypes.push_back(directionTypeDefinition);
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments);
 
-	Number numberMaxDistance = ((NumberObject*)arguments[1])->GetValue();
+	Direction direction = (Direction)NumberToInt(((NumberObject*)arguments[2])->GetValue());
+
+	Number numberMaxDistance = ((CoordinateObject*)arguments[1])->GetAbsoluteCoordinate(vm, location, direction);
 	Size1D maxDistance;
 	if (!TryNumberToSize(numberMaxDistance, maxDistance))
 	{
 		throw SizeOverflowException(location);
 	}
 
-	Direction direction = (Direction)NumberToInt(((NumberObject*)arguments[2])->GetValue());
-	
 	vector<unsigned> argumentSlots;
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(instance));
 	argumentSlots.push_back(vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(arguments[0]));

@@ -23,7 +23,7 @@ void HeightMapConvexityMapRenderingStep::Step(Renderer* renderer) const
 
 Rectangle HeightMapConvexityMapRenderingStep::CalculateRenderingBounds(Renderer* renderer, Rectangle argumentBounds) const
 {
-	return Rectangle::Expand(argumentBounds, this->radius);
+	return Rectangle::Expand(argumentBounds, renderer->GetRenderingSequence().GetScaledSize(this->radius));
 }
 
 void HeightMapConvexityMapRenderingStep::SerializeArguments(IOStream& stream) const

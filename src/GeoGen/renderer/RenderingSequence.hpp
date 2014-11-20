@@ -50,6 +50,8 @@ namespace geogen
 
 			inline unsigned GetRequiredObjectTableSize() const { return this->objectTableSize; };
 
+			inline Size1D GetScaledSize(Size1D size) const { return Size1D(size * this->renderScale); }
+
 			virtual void Serialize(IOStream& stream) const;
 		};
 	}

@@ -25,8 +25,8 @@ void HeightMapStratifyRenderingStep::Step(Renderer* renderer) const
 	}
 	else
 	{
-		profile.ClampHeights(1, HEIGHT_MAX);
-	}
+			profile.ClampHeights(1, HEIGHT_MAX);
+}
 
 	self->TransformHeights(&profile, Interval(0, profile.GetLength()), this->includeNegative ? HEIGHT_MIN : 1, HEIGHT_MAX);
 }

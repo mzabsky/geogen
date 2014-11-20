@@ -22,7 +22,7 @@ void HeightMapDistortRenderingStep::Step(Renderer* renderer) const
 void HeightMapDistortRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
-		Rectangle::Expand(this->GetRenderingBounds(renderer), this->maxDistance));
+		Rectangle::Expand(this->GetRenderingBounds(renderer), renderer->GetRenderingSequence().GetScaledSize(this->maxDistance)));
 
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[1])->CombineRectangle(this->GetRenderingBounds(renderer));
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[2])->CombineRectangle(this->GetRenderingBounds(renderer));

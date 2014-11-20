@@ -565,7 +565,7 @@ public:
     /// @param maximumDistance The maximum shift distance.
     /// @param direction The direction.
     /// @return The height map itself (for call chaining).
-    HeightMap Shift(HeightProfile profile, Number maximumDistance, Direction direction);
+    HeightMap Shift(HeightProfile profile, Coordinate maximumDistance, Direction direction);
 
     /// Distributes the heights among a specified number of strata, creating a terraced terrain.
     /// 
