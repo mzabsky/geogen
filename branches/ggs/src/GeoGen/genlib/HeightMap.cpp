@@ -172,7 +172,7 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 			Size1D window_size = scaledRadius * 2 + 1;
 			long long window_value = (long long)(*this)(0, y) * scaledRadius;
 
-			for (Coordinate x = 0; x < (Coordinate)scaledRadius; x++) {
+			for (Coordinate x = 0; x < (Coordinate)scaledRadius + 1; x++) {
 				window_value += (long long)(*this)(x, y);
 			}
 
@@ -180,11 +180,11 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 			value of rightmost + 1). i represents position of the central cell of the window. */
 			for (Coordinate x = 0; x < (Coordinate)this->GetWidth(); x++) {
 				// If the window is approaching right border, use the rightmost value as fill.
-				if (x < (Coordinate)scaledRadius) {
-					window_value += (long long)(*this)(x + scaledRadius, y) - (long long)(*this)(0, y);
+				if (x < (Coordinate)scaledRadius + 1) {
+					window_value += (long long)(*this)(x + scaledRadius + 1, y) - (long long)(*this)(0, y);
 				}
-				else if (x + scaledRadius < (Coordinate)this->GetWidth()) {
-					window_value += (long long)(*this)(x + scaledRadius, y) - (long long)(*this)(x - scaledRadius, y);
+				else if (x + scaledRadius + 1 < (Coordinate)this->GetWidth()) {
+					window_value += (long long)(*this)(x + scaledRadius + 1, y) - (long long)(*this)(x - scaledRadius, y);
 				}
 				else {
 					window_value += (long long)(*this)(this->GetWidth() - 1, y) - (long long)(*this)(x - scaledRadius, y);
@@ -201,7 +201,7 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 			Size1D window_size = scaledRadius * 2 + 1;
 			long long window_value = (long long)(*this)(x, 0) * scaledRadius;
 
-			for (Size1D y = 0; y < (Coordinate)scaledRadius; y++) {
+			for (Size1D y = 0; y < (Coordinate)scaledRadius + 1; y++) {
 				window_value += (long long)(*this)(x, y);
 			}
 
@@ -209,11 +209,11 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 			value of bottommost + 1). i represents position of the central cell of the window. */
 			for (Coordinate y = 0; y < (Coordinate)this->GetHeight(); y++) {
 				// If the window is approaching right border, use the rightmost value as fill.
-				if (y < (Coordinate)scaledRadius) {
-					window_value += (long long)(*this)(x, y + scaledRadius) - (long long)(*this)(x, 0);
+				if (y < (Coordinate)scaledRadius + 1) {
+					window_value += (long long)(*this)(x, y + scaledRadius + 1) - (long long)(*this)(x, 0);
 				}
-				else if (y + scaledRadius < this->GetHeight()) {
-					window_value += (long long)(*this)(x, y + scaledRadius) - (long long)(*this)(x, y - scaledRadius);
+				else if (y + scaledRadius + 1 < this->GetHeight()) {
+					window_value += (long long)(*this)(x, y + scaledRadius + 1) - (long long)(*this)(x, y - scaledRadius);
 				}
 				else {
 					window_value += (long long)(*this)(x, this->GetHeight() - 1) - (long long)(*this)(x, y - scaledRadius);
@@ -298,13 +298,15 @@ void HeightMap::CropHeights(Height min, Height max, Height replace)
 
 void HeightMap::DistanceMap(Size1D maximumDistance)
 {
+	Size1D scaledMaximumDistance = this->GetScaledSize(maximumDistance);
+
 	// Implementation from http://cs.brown.edu/~pff/dt/
 
 	// Higher than integer precision is required for intermediate results
 	double* heights = new double[this->GetRectangle().GetSize().GetTotalLength()];
 	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
 	{
-		heights[i] = this->heightData[i] <= 0 ? 0 : Square(maximumDistance);
+		heights[i] = this->heightData[i] <= 0 ? 0 : Square(scaledMaximumDistance);
 	}
 
 	// Horizontal
@@ -400,7 +402,7 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 	
 	for (unsigned i = 0; i < this->GetRectangle().GetSize().GetTotalLength(); i++)
 	{
-		this->heightData[i] = Height(sqrt(heights[i]) * double(HEIGHT_MAX) / double(maximumDistance));
+		this->heightData[i] = Height(sqrt(heights[i]) * double(HEIGHT_MAX) / double(scaledMaximumDistance));
 	}
 
 	delete[] heights;
@@ -617,10 +619,11 @@ void HeightMap::Gradient(Point source, Point destination, Height fromHeight, Hei
 
 	FOR_EACH_IN_RECT(x, y, operationRect)
 	{
-		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+		double logicalX = this->GetLogicalX(x);
+		double logicalY = this->GetLogicalY(y);
 
-		long long currentOffsetX = logicalPoint.GetX() - (long long)source.GetX();
-		long long currentOffsetY = logicalPoint.GetY() - (long long)source.GetY();
+		double currentOffsetX = logicalX - (double)source.GetX();
+		double currentOffsetY = logicalY - (double)source.GetY();
 
 		// Get the point on the gradient vector (vector going through both source and destination point) to which is the current point closest.
 		double crossX = (gradientOffsetX * (gradientOffsetX * currentOffsetX + gradientOffsetY * currentOffsetY)) / double(gradientOffsetX * gradientOffsetX + gradientOffsetY * gradientOffsetY);
@@ -697,6 +700,25 @@ void HeightMap::MultiplyMap(HeightMap* factor)
 	}
 }
 
+void HeightMap::Pattern(HeightMap* pattern, Rectangle repeatRectangle)
+{
+	if (repeatRectangle.GetSize().GetTotalLength() == 0)
+	{
+		return;
+	}
+
+	Rectangle physicalRepeatRect = Rectangle::Intersect(pattern->GetPhysicalRectangle(repeatRectangle), pattern->GetPhysicalRectangleUnscaled(pattern->GetRectangle()));
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		Point patternPoint = Point((x + this->GetOriginX()) % physicalRepeatRect.GetSize().GetWidth(), (y + this->GetOriginY()) % physicalRepeatRect.GetSize().GetHeight());
+		if (patternPoint.GetX() < 0) patternPoint += Point(physicalRepeatRect.GetSize().GetWidth(), 0);
+		if (patternPoint.GetY() < 0) patternPoint += Point(0, physicalRepeatRect.GetSize().GetHeight());
+		(*this)(x, y) = (*pattern)(patternPoint + physicalRepeatRect.GetPosition());
+	}
+}
+
 void HeightMap::Projection(HeightProfile* profile, Direction direction)
 {
 	Rectangle profileRect;
@@ -757,25 +779,8 @@ void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, He
 			(*this)(x, y) = fromHeight + (Height)(((long long)toHeight - (long long)fromHeight) * distance / scaledRadius);
 		}
 	}
-}
 
-void HeightMap::Pattern(HeightMap* pattern, Rectangle repeatRectangle)
-{
-	if (repeatRectangle.GetSize().GetTotalLength() == 0)
-	{
-		return;
-	}
-
-	Rectangle physicalRepeatRect = Rectangle::Intersect(pattern->GetPhysicalRectangle(repeatRectangle), pattern->GetPhysicalRectangleUnscaled(pattern->GetRectangle()));
-	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
-
-	FOR_EACH_IN_RECT(x, y, operationRect)
-	{
-		Point patternPoint = Point((x + this->GetOriginX()) % physicalRepeatRect.GetSize().GetWidth(), (y + this->GetOriginY()) % physicalRepeatRect.GetSize().GetHeight());
-		if (patternPoint.GetX() < 0) patternPoint += Point(physicalRepeatRect.GetSize().GetWidth(), 0);
-		if (patternPoint.GetY() < 0) patternPoint += Point(0, physicalRepeatRect.GetSize().GetHeight());
-		(*this)(x, y) = (*pattern)(patternPoint + physicalRepeatRect.GetPosition());
-	}
+	cout << "radient " << (*this)(100, 100) << endl;
 }
 
 void HeightMap::Rescale(Scale horizontalScale, Scale verticalScale)

@@ -26,7 +26,7 @@ metadata
 
 /// [Template]
 var template = HeightMap.Flat(1);
-
+ 
 // Draw the star from lines
 var angleStep = 360 / Parameters.NumberOfRivers;
 var startingAngle = Random(0, 360);
