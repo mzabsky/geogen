@@ -111,6 +111,9 @@ namespace geogen
 			}
 
 			inline Point GetLogicalPoint(Point physicalPoint) const { return (physicalPoint + this->rectangle.GetPosition()) / this->scale; }
+			inline double GetLogicalX(double physicalCoordinate) const { return (physicalCoordinate + this->rectangle.GetPosition().GetX()) / this->scale; }
+			inline double GetLogicalY(double physicalCoordinate) const { return (physicalCoordinate + this->rectangle.GetPosition().GetY()) / this->scale; }
+
 			inline Coordinate GetLogicalCoordinate(Coordinate physicalCoordinate, Direction direction) const 
 			{ 
 				switch (direction)
