@@ -920,16 +920,17 @@ void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed,
 	{
 		FOR_EACH_IN_RECT(x, y, operationRect)
 		{
-			Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+			double logicalX = this->GetLogicalX(x);
+			double logicalY = this->GetLogicalY(y);
 
-			Coordinate coordinateX1 = PreviousMultipleOfInclusive(logicalPoint.GetX(), waveLength);
+			Coordinate coordinateX1 = PreviousMultipleOfInclusive((Coordinate)floor(logicalX), waveLength);
 			Coordinate coordinateX0 = PreviousMultipleOfExclusive(coordinateX1, waveLength);
-			Coordinate coordinateX2 = NextMultipleOfExclusive(logicalPoint.GetX(), waveLength);
+			Coordinate coordinateX2 = NextMultipleOfExclusive((Coordinate)floor(logicalX), waveLength);
 			Coordinate coordinateX3 = NextMultipleOfExclusive(coordinateX2, waveLength);
 
-			Coordinate coordinateY1 = PreviousMultipleOfInclusive(logicalPoint.GetY(), waveLength);
+			Coordinate coordinateY1 = PreviousMultipleOfInclusive((Coordinate)floor(logicalY), waveLength);
 			Coordinate coordinateY0 = PreviousMultipleOfExclusive(coordinateY1, waveLength);
-			Coordinate coordinateY2 = NextMultipleOfExclusive(logicalPoint.GetY(), waveLength);
+			Coordinate coordinateY2 = NextMultipleOfExclusive((Coordinate)floor(logicalY), waveLength);
 			Coordinate coordinateY3 = NextMultipleOfExclusive(coordinateY2, waveLength);
 
 			double height00 = (Height)randomSequence.GetInt(Point(coordinateX0, coordinateY0), -amplitude, +amplitude);
@@ -968,8 +969,8 @@ void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed,
 			double a32 = -.5*height00 + 1.25*height01 - height02 + .25*height03 + 1.5*height10 - 3.75*height11 + 3 * height12 - .75*height13 - 1.5*height20 + 3.75*height21 - 3 * height22 + .75*height23 + .5*height30 - 1.25*height31 + height32 - .25*height33;
 			double a33 = .25*height00 - .75*height01 + .75*height02 - .25*height03 - .75*height10 + 2.25*height11 - 2.25*height12 + .75*height13 + .75*height20 - 2.25*height21 + 2.25*height22 - .75*height23 - .25*height30 + .75*height31 - .75*height32 + .25*height33;
 
-			double remainderX = (logicalPoint.GetX() - coordinateX1) / (double)waveLength;
-			double remainderY = (logicalPoint.GetY() - coordinateY1) / (double)waveLength;
+			double remainderX = (logicalX - coordinateX1) / (double)waveLength;
+			double remainderY = (logicalY - coordinateY1) / (double)waveLength;
 
 			// Calculate value of the bicubic polynomial.
 			double remainderX2 = remainderX * remainderX;
