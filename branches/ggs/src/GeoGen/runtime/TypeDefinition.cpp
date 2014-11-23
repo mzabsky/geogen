@@ -53,7 +53,7 @@ ManagedObject* TypeDefinition::Convert(VirtualMachine* vm, ManagedObject* object
 	}
 	else 
 	{
-		throw InternalErrorException("Invalid type conversion.");
+		throw InternalErrorException(GG_STR("Invalid type conversion."));
 	}
 }
 
@@ -63,25 +63,25 @@ void TypeDefinition::Serialize(IOStream& stream) const
 
 	if (this->GetFunctionDefinitions().Size() > 0)
 	{
-		stream << "FunctionDefinitions: " << endl;
+		stream << GG_STR("FunctionDefinitions: ") << endl;
 		this->GetFunctionDefinitions().SerializeWithTabs(stream, 1);
 	}
 
 	if (this->GetStaticFunctionDefinitions().Size() > 0)
 	{
-		stream << "StaticFunctionDefinitions: " << endl;
+		stream << GG_STR("StaticFunctionDefinitions: ") << endl;
 		this->GetStaticFunctionDefinitions().SerializeWithTabs(stream, 1);
 	}
 
 	if (this->GetVariableDefinitions().Size() > 0)
 	{
-		stream << "VariableDefinitions: " << endl;
+		stream << GG_STR("VariableDefinitions: ") << endl;
 		this->GetVariableDefinitions().SerializeWithTabs(stream, 1);
 	}
 
 	if (this->GetStaticVariableDefinitions().Size() > 0)
 	{
-		stream << "StaticVariableDefinitions: " << endl;
+		stream << GG_STR("StaticVariableDefinitions: ") << endl;
 		this->GetStaticVariableDefinitions().SerializeWithTabs(stream, 1);
 	}
 

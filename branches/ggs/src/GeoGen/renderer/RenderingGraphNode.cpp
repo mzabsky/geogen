@@ -30,7 +30,7 @@ void RenderingGraphNode::AddEdge(RenderingGraphNode* target)
 
 	if (backEdgeMatchCount == 0)
 	{
-		throw InternalErrorException("No rendering graph back edge match.");
+		throw InternalErrorException(GG_STR("No rendering graph back edge match."));
 	}
 }
 

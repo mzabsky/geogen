@@ -56,7 +56,7 @@ void ArrayTypeDefinition::Initialize(VirtualMachine* vm) const
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
-	if (!vm->GetGlobalVariableTable().DeclareVariable(GG_STR(UNSET_KEY_VARIABLE_NAME), numberTypeDefinition->CreateInstance(vm, 0), true))
+	if (!vm->GetGlobalVariableTable().DeclareVariable(UNSET_KEY_VARIABLE_NAME, numberTypeDefinition->CreateInstance(vm, 0), true))
 	{
 		throw InternalErrorException(GG_STR("Could not declare unset key marker."));
 	}

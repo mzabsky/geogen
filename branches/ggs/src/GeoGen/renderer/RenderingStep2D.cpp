@@ -22,7 +22,7 @@ void RenderingStep2D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 	{
 		if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_1D)
 		{
-			this->TriggerRenderingBoundsCalculationError("incorrect rendering step type");
+			this->TriggerRenderingBoundsCalculationError(GG_STR("Incorrect rendering step type"));
 		}
 		else if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_2D)
 		{

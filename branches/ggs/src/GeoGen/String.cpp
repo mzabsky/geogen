@@ -131,9 +131,9 @@ String geogen::AnyStringToString(wstring str)
 
 int geogen::StringToInt(String str)
 {
-#ifdef GGEN_WHCAR
-	char* end;
-	return wcstol(str.c_str(), &end, 10)
+#ifndef GGEN_WCHAR
+	wchar_t* end;
+	return wcstol(str.c_str(), &end, 10);
 #else
 	return atoi(str.c_str());
 #endif

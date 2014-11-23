@@ -333,13 +333,13 @@ ScriptParameters CompiledScript::CreateScriptParameters() const
 			}
 
 			if (
-				name == "MapWidth" || 
-				name == "MapHeight" || 
-				name == "RenderOriginX" || 
-				name == "RenderOriginY" || 
-				name == "RenderWidth" || 
-				name == "RenderHeight" || 
-				name == "RenderScale")
+				name == GG_STR("MapWidth") || 
+				name == GG_STR("MapHeight") ||
+				name == GG_STR("RenderOriginX") ||
+				name == GG_STR("RenderOriginY") ||
+				name == GG_STR("RenderWidth") ||
+				name == GG_STR("RenderHeight") ||
+				name == GG_STR("RenderScale"))
 			{
 				throw compiler::ReservedScriptParameterNameException(location, name);
 			}
