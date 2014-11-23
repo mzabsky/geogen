@@ -138,4 +138,25 @@ namespace geogen
 	/// @link MultipleTiles.cpp Full code @endlink
 	/// 	 
 	/// Whether a map is infinite can be determined by calling runtime::ScriptParameters::IsMapInfinite.
+	
+
+
+
+	/// @page source_code Source code
+	/// This page describes structure of source code of GeoGen.
+	/// 
+	/// The code is organized into following top-level projects:
+	/// 
+	/// - **antlr3** - C code of the [ANTLR 3 runtime](http://www.antlr3.org/). Builds as a static library.
+	/// - **Console** - C++ code of the command line interface. References antlr3, GeoGen, lpng1612 and zlib128. Builds as an executable.  
+	/// - **examples** - C++ code samples demonstrating usage of the GeoGen library. 
+	/// - **GeoGen** - C++ code of the height map generator library itself. References antlr3. Buils as a static library.  
+	/// - **GeoGen_Tests** - A suite of automated C++ tests for the generator library. References antlr3, GeoGen, lpng1612 and zlib128. Builds as an executable.  
+	/// - **lpng1612** - C code of [libpng](http://www.libpng.org/pub/png/libpng.html). Builds as a static library.
+	/// - <b>png++</b> - C++ code of [png++](http://www.nongnu.org/pngpp/), a C++ wrapper for libpng. Headers only (does not build).  
+	/// - **ScriptingDocumentation** - Code of the scripting reference. Compiled using Doxygen.  
+	/// - **zlib128** - C code of [zlib](http://www.zlib.net/). Builds as static library.  
+	/// 
+	/// The copy of the source code can be checked out from public online SVN repository at `http://geogen.googlecode.com/svn/branches/ggs`.
+
 }
