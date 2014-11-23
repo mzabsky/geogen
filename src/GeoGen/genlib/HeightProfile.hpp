@@ -120,6 +120,8 @@ namespace geogen
 			/// @return The projected coordinate.
 			inline Coordinate GetLogicalCoordinate(Coordinate physicalCoordinate) const { return Coordinate((physicalCoordinate + this->interval.GetStart()) / this->scale); }
 
+			inline double GetLogicalCoordinate(double physicalCoordinate) const { return (physicalCoordinate + this->interval.GetStart()) / this->scale; }
+
 			/// Gets size scaled by the scaling factor of the profile.
 			/// @param size The size to scale.
 			/// @return The scaled size.

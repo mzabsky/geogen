@@ -49,7 +49,7 @@
     <TargetName>geogen</TargetName>
     <IncludePath>$(SolutionDir)/antlr3cpp;$(SolutionDir)/libfi/include;$(SolutionDir)/antlr3;$(SolutionDir)/Cpp-FixedPoint/src/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
