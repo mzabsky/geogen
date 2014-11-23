@@ -25,7 +25,7 @@ RenderingSequenceMetadata::RenderingSequenceMetadata(RenderingSequence const& re
 			this->renderingBounds.push_back(new RenderingBounds2D(Rectangle()));
 			break;
 		default:
-			throw InternalErrorException("Invalid rendering step type.");
+			throw InternalErrorException(GG_STR("Invalid rendering step type."));
 		}
 
 		this->objectsIndexesToRelease.push_back(vector<unsigned>());
@@ -52,7 +52,7 @@ unsigned RenderingSequenceMetadata::GetStepNumberByAddress(RenderingStep const* 
 	}
 	else 
 	{
-		throw InternalErrorException("Step not present in the sequence.");
+		throw InternalErrorException(GG_STR("Step not present in the sequence."));
 	}
 }
 

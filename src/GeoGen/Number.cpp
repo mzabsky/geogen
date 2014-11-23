@@ -78,7 +78,7 @@ Height geogen::NumberToHeight(Number n)
 	Height h = 0;
 	if (!TryNumberToHeight(n, h))
 	{
-		throw ApiUsageException("Height overflow.");
+		throw ApiUsageException(GG_STR("Height overflow."));
 	}
 
 	return h;

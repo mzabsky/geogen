@@ -20,7 +20,7 @@ String geogen::renderer::RendererObjectTypeToString(RendererObjectType objectTyp
 	case RENDERER_OBJECT_TYPE_HEIGHT_PROFILE:
 		return GG_STR("HeightProfile");
 	default:
-		throw InternalErrorException("Invalid renderer object type.");
+		throw InternalErrorException(GG_STR("Invalid renderer object type."));
 	}
 }
 

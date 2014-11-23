@@ -27,7 +27,7 @@ bool RenderingSequence::AddStep(RenderingStep* step)
 	{
 		if (step->GetArgumentSlots()[i] >= this->objectTableSize)
 		{
-			throw new InternalErrorException("Rendering step references object slot that doesn't exist yet.");
+			throw new InternalErrorException(GG_STR("Rendering step references object slot that doesn't exist yet."));
 		}
 	}
 
@@ -38,7 +38,7 @@ bool RenderingSequence::AddStep(RenderingStep* step)
 	}
 	else if (step->GetReturnSlot() > this->objectTableSize)
 	{
-		throw new InternalErrorException("Rendering step return slot has too high number (previous slots weren't referenced yet)."); 
+		throw new InternalErrorException(GG_STR("Rendering step return slot has too high number (previous slots weren't referenced yet).")); 
 	}
 
 	this->steps.push_back(step);

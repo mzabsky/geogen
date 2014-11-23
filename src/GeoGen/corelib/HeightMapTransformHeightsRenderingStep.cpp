@@ -32,5 +32,5 @@ void HeightMapTransformHeightsRenderingStep::UpdateRenderingBounds(Renderer* ren
 void HeightMapTransformHeightsRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	this->interval.Serialize(stream);
-	stream << GG_STR(this->minHeight) << GG_STR(this->maxHeight);
+	stream << this->minHeight << this->maxHeight;
 }

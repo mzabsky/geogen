@@ -90,6 +90,6 @@ ManagedObject* CoordinateTypeDefinition::Convert(VirtualMachine* vm, ManagedObje
 	}
 	else 
 	{
-		throw InternalErrorException("Invalid type conversion.");
+		throw InternalErrorException(GG_STR("Invalid type conversion."));
 	}
 }

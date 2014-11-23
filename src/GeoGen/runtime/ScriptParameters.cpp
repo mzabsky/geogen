@@ -104,7 +104,7 @@ bool ScriptParameters::IsMapInfinite(Direction direction) const
 	case DIRECTION_VERTICAL:
 		return this->GetMaxMapHeight() == MAP_SIZE_INFINITE;
 	default:
-		throw ApiUsageException("Invalid direction.");
+		throw ApiUsageException(GG_STR("Invalid direction."));
 	}
 }
 

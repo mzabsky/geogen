@@ -547,7 +547,7 @@ void HeightProfile::Slice(HeightMap* heightMap, Direction direction, Coordinate 
 			physicalInterval = Interval::Intersect(rectInterval, this->GetPhysicalIntervalUnscaled(this->interval));
 		}
 	}
-	else throw ApiUsageException("Invalid direction.");
+	else throw ApiUsageException(GG_STR("Invalid direction."));
 	
 
 	if (direction == DIRECTION_HORIZONTAL)

@@ -29,7 +29,7 @@ Coordinate CoordinateObject::GetAbsoluteCoordinate(runtime::VirtualMachine* vm, 
 		mapSize = vm->GetArguments().GetMapHeight();
 		break;
 	default:
-		throw InternalErrorException("Invalid Direction.");
+		throw InternalErrorException(GG_STR("Invalid Direction."));
 	}
 
 	if (mapSize == MAP_SIZE_INFINITE)

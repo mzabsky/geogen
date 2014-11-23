@@ -120,7 +120,7 @@ void ArrayObject::PopFront(runtime::VirtualMachine* vm, CodeLocation location)
 	HashMap::iterator hashIt = this->hashmap.find(key);
 	if (hashIt == this->hashmap.end())
 	{
-		throw InternalErrorException("Array internal consistency error - item found in list, but not in hash map during PopFront.");
+		throw InternalErrorException(GG_STR("Array internal consistency error - item found in list, but not in hash map during PopFront."));
 	}
 
 	hashIt->first->RemoveRef(vm->GetMemoryManager());
@@ -143,7 +143,7 @@ void ArrayObject::PopBack(runtime::VirtualMachine* vm, CodeLocation location)
 	HashMap::iterator hashIt = this->hashmap.find(key);
 	if (hashIt == this->hashmap.end())
 	{
-		throw InternalErrorException("Array internal consistency error - item found in list, but not in hash map during PopBack.");
+		throw InternalErrorException(GG_STR("Array internal consistency error - item found in list, but not in hash map during PopBack."));
 	}
 
 	hashIt->first->RemoveRef(vm->GetMemoryManager());
@@ -203,7 +203,7 @@ void ArrayObject::RemoveKey(runtime::VirtualMachine* vm, CodeLocation location, 
 
 	if (foundListIterator == this->list.end())
 	{
-		throw InternalErrorException("Array internal consistency error - item found in hash map, but not in list during RemoveKey.");
+		throw InternalErrorException(GG_STR("Array internal consistency error - item found in hash map, but not in list during RemoveKey."));
 	}
 
 	this->list.erase(foundListIterator);

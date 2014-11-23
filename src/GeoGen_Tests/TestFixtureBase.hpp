@@ -34,7 +34,7 @@ using namespace random;
 #define ASSERT_EQUALS(t, expected, actual) AssertEquals<t>(expected, actual, __LINE__)
 
 class TestFixtureBase
-{	
+{	 
 public:
 	typedef void(*TestCase)();
 

@@ -42,7 +42,7 @@ void RenderingStep1D::UpdateRenderingBounds(Renderer* renderer, std::vector<Rend
 		}
 		else if ((*it)->GetRenderingStepType() == RENDERING_STEP_TYPE_2D)
 		{
-			this->TriggerRenderingBoundsCalculationError("incorrect rendering step type");
+			this->TriggerRenderingBoundsCalculationError(GG_STR("incorrect rendering step type"));
 
 			/*RenderingBounds2D* current = dynamic_cast<RenderingBounds2D*>(*it);
 
