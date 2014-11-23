@@ -131,7 +131,7 @@ String geogen::AnyStringToString(wstring str)
 
 int geogen::StringToInt(String str)
 {
-#ifndef GGEN_WCHAR
+#ifdef GEOGEN_WCHAR
 	wchar_t* end;
 	return wcstol(str.c_str(), &end, 10);
 #else
