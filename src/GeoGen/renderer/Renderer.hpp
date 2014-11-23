@@ -106,11 +106,13 @@ namespace geogen
 			/// @return The rendering graph.
 			inline RenderingGraph& GetRenderingGraph() { return this->graph; }
 
+			/// Calculates the rendering sequence metadata (invokes CalculateRenderingBounds and CalculateObjectLifetimes).
 			void CalculateMetadata();
 
 			/// Calculates the rendering bounds for all steps in the RenderingSequence.
 			void CalculateRenderingBounds();
 
+			/// Calculates the liveness ranges for all steps in the RenderingSequence.
 			void CalculateObjectLifetimes();
 
 			/// Executes next step in the rendering sequence. Can only be called if the renderer is in status
@@ -121,6 +123,8 @@ namespace geogen
 			/// Executes steps of the rendering sequence until the renderer finishes or fails.
 			void Run();
 
+			/// Gets current progress of the render.
+			/// @return The progress in range from 0 to 1.
 			double GetProgress() const;
 
 			virtual void Serialize(IOStream& stream) const;
