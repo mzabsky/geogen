@@ -189,7 +189,7 @@
 /// @endcode
 
 /// @page gge1307 GGE1307
-/// An read only expression was used as a left-expression with a assignment operator such as =, += or ++. Only variable references and array item references are legal as left-expression.
+/// A read only expression was used as a left-expression with a assignment operator such as =, += or ++. Only variable references and array item references are legal as left-expression.
 /// 
 /// @code{.cs}
 /// var a = 5;
@@ -226,7 +226,7 @@
 /// @endcode
 
 /// @page gge1310 GGE1310
-/// The script defined an enum item with a numeric value that was not an iteger.
+/// The script defined an enum item with a numeric value that was not an integer.
 /// 
 /// @code{.cs}
 /// enum MyEnum
@@ -257,11 +257,15 @@
 /// @endcode
 
 /// @page gge1401 GGE1401
-/// The script didn't contain a @link yield `yield` statement@endlink returning the primary map. 
+/// The @link metadata script metadata@endlink defined key a key which was already defined under the same node.
 /// 
 /// @code{.cs}
-/// yield HeightMap.Flat() as "SomeName"; // GGE1312 if this is the only yield in the script
-/// @endcode
+/// metadata
+/// {
+///     KeyA: "A",
+///     KeyB: "B",
+///     KeyA: "C" //GGE1401
+/// }
 
 /// @page gge1402 GGE1402
 /// The `Parameters` node of @link metadata script metadata@endlink was not key-value collection node. 
@@ -392,6 +396,26 @@
 /// }
 /// @endcode
 
+/// @page gge1413 GGE1413
+/// The `Type` of an script parameter in @link metadata script metadata@endlink was not valid.
+/// 
+/// Allowed values `Number`, `Boolean` or the name of any @link enum_types enum type@endlink.
+/// 
+/// @code{.cs}
+/// enum MyEnum 
+/// {
+///     A, B, C
+/// }
+/// 		  
+/// metadata
+/// {
+///     Parameters:
+///     {
+///         { Type: MyEnuuum }
+///     }
+/// }
+/// @endcode
+
 /// @page gge2101 GGE2101
 /// An argument passed to a native function was of incorrect type (and was not @link implicit_conversions convertible@endlink to the correct type).
 /// 
@@ -502,7 +526,7 @@
 /// @endcode
 
 /// @page gge2204 GGE2204
-/// The script attempted to define a variable which was already defined in the same context.
+/// The script attempted to define a variable which was already defined in the same scope.
 /// 
 /// See the @link variables variable hiding rules@endlink for details on how variable declarations interact.
 /// 
@@ -661,7 +685,7 @@
 /// Drawing individual pixels with the script is never a good idea, use appropriate functions instead.
 
 /// @page gge2601 GGE2601
-/// An operation required non-empty was called on an empty array.
+/// An operation that requires non-empty was called on an empty array.
 /// 
 /// This error is triggered by functions like Array.Pop and Array.Back.
 /// 
@@ -738,7 +762,7 @@
 /// @endcode
 
 /// @page gge2703 GGE2703
-/// The script attempted to use @link Coordinate relative coordinate@endlink in context to which dimension of the map the coordinate is relative to.
+/// The script attempted to use @link Coordinate relative coordinate@endlink in context to which dimension of the map the coordinate is relative to could not be determined.
 /// 
 /// This means that relative coordinates can't be used with most functions of HeightProfile and some functions for HeightMap, like radius of HeightMap.RadialGradient. Relative coordinates can be converted to absolute coordinates using Number.FromCoordinate (which has an optional argument that specified direction of the coordinate). Point doesn't suffer from this issue, because each of the component coordinates has its direction well defined. HeightProfile.FromArray has a special optional argument only used to determine direction of any relative coordinates in the initialization array.
 /// 

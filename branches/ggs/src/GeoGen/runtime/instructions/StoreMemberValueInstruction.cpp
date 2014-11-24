@@ -25,7 +25,7 @@ InstructionStepResult StoreMemberValueInstruction::Step(VirtualMachine* vm) cons
 	VariableTableItem* variableTableItem = instance->GetMemberVariableTable().GetVariable(this->variableName);
 	if (variableTableItem == NULL)
 	{
-		throw UndefinedSymbolAccessException(GGE2203_UndefinedMemberVariable, this->GetLocation(), this->variableName);
+		throw UndefinedSymbolAccessException(GGE2202_UndefinedVariable, this->GetLocation(), this->variableName);
 	}
 
 	if (!variableTableItem->SetValue(vm, value))
