@@ -145,7 +145,7 @@ namespace geogen
 			/// @param unformattedMessage The unformattedMessage.
 			/// @param arguments The formatting arguments.
 			/// @see @ref tutorial_text_messages
-			static void DefaultScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
+			static void DefaultScriptMessageHandler(VirtualMachine* vm, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 
 			/// Empty script message handler. Discards the script message.
 			/// @param vm The virtual machine.
@@ -154,7 +154,7 @@ namespace geogen
 			/// @param unformattedMessage The unformattedMessage.
 			/// @param arguments The formatting arguments.
 			/// @see @ref	tutorial_text_messages
-			static void EmptyScriptMessageHandler(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
+			static void EmptyScriptMessageHandler(VirtualMachine* vm, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 
 			/// Gets object stack.
 			/// @return The object stack.

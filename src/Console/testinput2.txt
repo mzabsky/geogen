@@ -1,17 +1,1 @@
-﻿var main = HeightMap.Flat(1);
-
-// Draw the star from lines
-var angleStep = 360 / 36;
-for(var angle = 0; angle < 360; angle += angleStep)
-{
-	var maximumAngleDeviation = angleStep / 3;
-	var randomizedAngle = Random(angle - maximumAngleDeviation, angle + maximumAngleDeviation);
-	
-    var point = [
-        500 + Cos(DegToRad(angle)) * 1000,
-        500 + Sin(DegToRad(angle)) * 1000];
-
-    main.DrawLine([500, 500], point, -1);
-}
-
-yield main;
+﻿yield HeightMap.Projection(HeightProfile.Gradient(10, 90, 1, 0), Direction.Vertical);
