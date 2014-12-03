@@ -1,8 +1,12 @@
 var base = HeightMap.DistanceMap(HeightMap.Noise(CreateNoiseLayers(1, 256, 0.2), 2), 250);
 
+//yield base;
+
+var mask = HeightMap.Noise(CreateNoiseLayers(32, 512)).Multiply(0.25).Add(0.25).Add(HeightMap.Clone(base).Blur(20));
+
 //yield HeightMap.Clone(base).CropHeights(0.1, 1, 0).CropHeights(0, 0.2, 1) as "AA";
 
-base.Combine(HeightMap.Clone(base).Blur(30), HeightMap.Clone(base).CropHeights(0.1, 1, 0).CropHeights(0, 0.1, 1).Blur(10));
+base.Combine(HeightMap.Clone(base).Blur(30), mask);
 
 
 var clone = HeightMap.Clone(base)
@@ -11,9 +15,10 @@ var clone = HeightMap.Clone(base)
 	.CropHeights(0.5, 1, 0.2)
 	.Blur(15);
 
-base.Add(HeightMap.Noise().Multiply(0.5), clone).Multiply(1.2);
-base.Glaciate(0.2, true);
+base.Add(HeightMap.Noise().Multiply(0.3), clone).Multiply(1.2);
+base.Glaciate(0.05, true);
 base.Add(HeightMap.Noise(CreateNoiseLayers(256, 4096)).Multiply(0.3));
+base.Glaciate(0.1, true);
 
 
 
