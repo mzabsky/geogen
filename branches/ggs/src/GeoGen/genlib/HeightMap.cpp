@@ -338,8 +338,6 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 			while (z[k + 1] < q)
 				k++;
 
-			//cout << sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) << endl;
-
 			double value = double(Square(q - v[k]) + heights[v[k] + y * this->GetHeight()]);
 			d[q] = double(Square(q - v[k]) + heights[v[k] + y * this->GetHeight()]) /** double(HEIGHT_MAX) / double(distance)*/;
 		}
@@ -383,8 +381,6 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 		for (unsigned q = 0; q <= n - 1; q++) {
 			while (z[k + 1] < q)
 				k++;
-
-			//cout << sqrt(min((double)Square(distance), double(Square(q - v[k]) + (double)old(v[k], y)))) << endl;
 
 			double value = double(Square(q - v[k]) + heights[x + v[k] * this->GetHeight()]);
 			d[q] = double(Square(q - v[k]) + heights[x + v[k] * this->GetHeight()]) /** double(HEIGHT_MAX) / double(distance)*/;
@@ -779,8 +775,6 @@ void HeightMap::RadialGradient(Point point, Size1D radius, Height fromHeight, He
 			(*this)(x, y) = fromHeight + (Height)(((long long)toHeight - (long long)fromHeight) * distance / scaledRadius);
 		}
 	}
-
-	cout << "radient " << (*this)(100, 100) << endl;
 }
 
 void HeightMap::Rescale(Scale horizontalScale, Scale verticalScale)

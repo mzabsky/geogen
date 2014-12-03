@@ -53,10 +53,9 @@ namespace geogen
 	/// @example MultipleTiles.cpp
 
 
-	/// @mainpage
-	/// This is documentation of GeoGen's public C++ API. Basic knowledge of map script writing is assumed.
-	/// @section api_usage Getting started
-	/// The @link tutorial_basic_usage basic usage tutorial@endlink demonstrates how to include GeoGen in your project and how to generate first map using a map script.
+	/// @mainpage Getting started
+	/// 		  
+	/// The @link tutorial_basic_usage basic usage tutorial@endlink demonstrates how to include GeoGen in your project and how to generate first map using a map script. Basic knowledge of map script writing and usage of the generator is assumed.
 	/// 
 	/// Further tutorials:
 	/// @li @link tutorial_error_handling Handling compilation and runtime errors @endlink

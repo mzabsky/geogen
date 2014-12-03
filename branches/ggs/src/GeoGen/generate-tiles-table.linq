@@ -35,7 +35,7 @@ builder.AppendLine(@"
 				});
 			</script>
 			<style>
-			table.red td{outline: 1px solid red; outline-offset: -1px;}
+			table.red td{outline: 10px solid red; outline-offset: -10px;}
 			</style>
 		</header>
 		<body>
