@@ -36,6 +36,7 @@
 #include "HeightMapNoiseFunctionDefinition.hpp"
 #include "HeightMapProjectionFunctionDefinition.hpp"
 #include "HeightMapRadialGradientFunctionDefinition.hpp"
+#include "HeightMapRidgedNoiseFunctionDefinition.hpp"
 #include "HeightMapPatternFunctionDefinition.hpp"
 
 using namespace geogen;
@@ -80,4 +81,5 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapRadialGradientFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapPatternFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapNoiseFunctionDefinition(this));
+	this->GetStaticFunctionDefinitions().AddItem(new HeightMapRidgedNoiseFunctionDefinition(this));
 }

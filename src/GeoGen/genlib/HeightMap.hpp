@@ -167,7 +167,7 @@ namespace geogen
 			void Multiply(double factor);
 			void MultiplyMap(HeightMap* factor);
 			void Noise(NoiseLayers const& layers, random::RandomSeed seed);
-			void NoiseLayer(Size1D waveLength, Height amplitude, random::RandomSeed seed, unsigned seedStep);
+			void NoiseLayer(Size1D waveLength, Height amplitude, random::RandomSeed seed, unsigned seedStep, bool isRidged);
 			//void NormalMap();
 			//void Outline();
 

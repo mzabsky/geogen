@@ -13,10 +13,10 @@ using namespace genlib;
 void HeightMapNoiseRenderingStep::Step(Renderer* renderer) const
 {
 	HeightMap* self = dynamic_cast<HeightMap*>(renderer->GetObjectTable().GetObject(this->GetArgumentSlots()[0])->GetPtr());
-	self->NoiseLayer(this->waveLength, this->amplitude, this->seed, this->seedStep);
+	self->NoiseLayer(this->waveLength, this->amplitude, this->seed, this->seedStep, this->isRidged);
 }
 
 void HeightMapNoiseRenderingStep::SerializeArguments(IOStream& stream) const
 {
-	stream << waveLength << GG_STR(", ") << amplitude << GG_STR(", ") << this->seed << GG_STR(", ") << this->seedStep;
+	stream << waveLength << GG_STR(", ") << amplitude << GG_STR(", ") << this->seed << GG_STR(", ") << this->seedStep << GG_STR(", ") << this->isRidged ;
 }

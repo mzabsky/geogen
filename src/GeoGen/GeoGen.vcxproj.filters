@@ -764,6 +764,7 @@
     <ClCompile Include="utils\StringUtils.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="corelib\HeightMapRidgedNoiseFunctionDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
@@ -1783,6 +1784,7 @@
     <ClInclude Include="corelib\StringFormatException.hpp">
       <Filter>corelib</Filter>
     </ClInclude>
+    <ClInclude Include="corelib\HeightMapRidgedNoiseFunctionDefinition.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
