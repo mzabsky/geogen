@@ -64,7 +64,7 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 	{
 		vector<unsigned> argumentSlots;
 		argumentSlots.push_back(horizontalNoiseSlot);
-		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, horizontalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 0);
+		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, horizontalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 0, false);
 		vm->AddRenderingStep(location, renderingStep);
 	}
 
@@ -79,7 +79,7 @@ ManagedObject* HeightMapDistortFunctionDefinition::CallNative(CodeLocation locat
 	{
 		vector<unsigned> argumentSlots;
 		argumentSlots.push_back(verticalNoiseSlot);
-		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, verticalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 1);
+		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, verticalNoiseSlot, perturbanceSize, HEIGHT_MAX, compositeSeed, 1, false);
 		vm->AddRenderingStep(location, renderingStep);
 	}
 

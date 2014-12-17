@@ -1,4 +1,4 @@
-#include "HeightMapNoiseFunctionDefinition.hpp"
+#include "HeightMapRidgedNoiseFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../genlib/NoiseLayersFactory.hpp"
@@ -7,6 +7,8 @@
 #include "NumberTypeDefinition.hpp"
 #include "HeightMapFlatRenderingStep.hpp"
 #include "HeightMapNoiseRenderingStep.hpp"
+#include "HeightMapInvertRenderingStep.hpp"
+#include "HeightMapAddRenderingStep.hpp"
 #include "ParseNoiseInput.hpp"
 
 using namespace std;
@@ -17,7 +19,7 @@ using namespace geogen::renderer;
 using namespace geogen::random;
 using namespace geogen::genlib;
 
-ManagedObject* HeightMapNoiseFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
+ManagedObject* HeightMapRidgedNoiseFunctionDefinition::CallNative(CodeLocation location, VirtualMachine* vm, ManagedObject* instance, vector<ManagedObject*> arguments) const
 {
 	ArrayTypeDefinition const* arrayTypeDefinition = dynamic_cast<ArrayTypeDefinition const*>(vm->GetTypeDefinition(GG_STR("Array")));
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
@@ -25,7 +27,7 @@ ManagedObject* HeightMapNoiseFunctionDefinition::CallNative(CodeLocation locatio
 	vector<TypeDefinition const*> expectedTypes;
 	expectedTypes.push_back(arrayTypeDefinition);
 	expectedTypes.push_back(numberTypeDefinition);
-	
+
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 0);
 
 	NoiseLayers layers = ParseNoiseInput(vm, location, arguments);
@@ -34,7 +36,7 @@ ManagedObject* HeightMapNoiseFunctionDefinition::CallNative(CodeLocation locatio
 	RandomSeed compositeSeed = CombineSeeds(argumentSeed, vm->GetArguments().GetRandomSeed());
 
 	ManagedObject* returnObject = dynamic_cast<HeightMapTypeDefinition const*>(instance->GetType())->CreateInstance(vm);
-	
+
 	// First create an empty height map
 	unsigned objectSlot = vm->GetRendererObjectSlotTable().GetObjectSlotByAddress(returnObject);
 	RenderingStep* renderingStep = new HeightMapFlatRenderingStep(location, vector<unsigned>(), objectSlot, 0);
@@ -47,10 +49,16 @@ ManagedObject* HeightMapNoiseFunctionDefinition::CallNative(CodeLocation locatio
 	unsigned i = 0;
 	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
 	{
-		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, objectSlot, it->first, it->second, compositeSeed, i, false);
+		RenderingStep* renderingStep = new HeightMapNoiseRenderingStep(location, argumentSlots, objectSlot, it->first, it->second, compositeSeed, i, true);
 		vm->AddRenderingStep(location, renderingStep);
 		i++;
 	}
+
+	RenderingStep* inverseStep = new HeightMapInvertRenderingStep(location, argumentSlots, objectSlot);
+	vm->AddRenderingStep(location, inverseStep);
+
+	RenderingStep* addStep = new HeightMapAddRenderingStep(location, argumentSlots, objectSlot, HEIGHT_MAX);
+	vm->AddRenderingStep(location, addStep);
 
 	return returnObject;
 }

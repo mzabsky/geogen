@@ -18,9 +18,10 @@ namespace geogen
 			Height amplitude;
 			random::RandomSeed seed;
 			unsigned seedStep;
+			bool isRidged;
 		public:
-			HeightMapNoiseRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Size1D waveLength, Height amplitude, random::RandomSeed seed, unsigned seedStep)
-				: RenderingStep2D(location, argumentSlots, returnSlot), waveLength(waveLength), amplitude(amplitude), seed(seed), seedStep(seedStep) {};
+			HeightMapNoiseRenderingStep(CodeLocation location, std::vector<unsigned> const& argumentSlots, unsigned returnSlot, Size1D waveLength, Height amplitude, random::RandomSeed seed, unsigned seedStep, bool isRidged)
+				: RenderingStep2D(location, argumentSlots, returnSlot), waveLength(waveLength), amplitude(amplitude), seed(seed), seedStep(seedStep), isRidged(isRidged) {};
 
 			virtual String GetName() const { return GG_STR("HeightMap.NoiseLayer"); };
 

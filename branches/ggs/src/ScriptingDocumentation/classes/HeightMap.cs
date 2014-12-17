@@ -173,7 +173,23 @@ public:
     /// @return The height map.
     static HeightMap RadialGradient(Point center, Number radius, Number centerHeight, Number rimHeight);
 
-    
+    /// Creates a height map filled with random perlin noise with pronounced ridges.
+    /// 
+    /// See HeightMap.Noise for detailed description of the @a layerDefinitions.
+    /// 
+    /// Simple usage:
+    /// @code{.cs}
+    /// yield HeightMap.RidgedNoise();
+    /// @endcode
+    /// 
+    /// @image html std_2d_ridgednoise.png
+    /// 
+    /// @param layerDefinitions (Optional) Array defining layers of the noise. If not provided, a default array is used. This array can be created using CreateNoiseLayers.
+    /// @param seed (Optional) Random seed. If not provided, 0 is used. This seed is always combined with the main script seed provided in script arguments to the script.
+    /// @return The height map.
+    static HeightMap RidgedNoise(Array layerDefinitions, Number seed);
+
+
     /// Replaces height in each pixel with its absolute value (makes negative heights positive).
     /// 
     /// Example:

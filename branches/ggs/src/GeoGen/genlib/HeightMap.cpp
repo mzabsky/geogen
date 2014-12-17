@@ -882,12 +882,12 @@ void HeightMap::Noise(NoiseLayers const& layers, RandomSeed seed)
 	unsigned i = 0;
 	for (NoiseLayers::const_iterator it = layers.begin(); it != layers.end(); it++)
 	{		
-		this->NoiseLayer(it->first, it->second, seed, i);
+		this->NoiseLayer(it->first, it->second, seed, i, false);
 		i++;
 	}
 }
 
-void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed, unsigned seedStep)
+void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed, unsigned seedStep, bool isRidged)
 {
 	RandomSequence2D randomSequence(seed);
 	for (unsigned i = 0; i < seedStep; i++)
@@ -907,7 +907,14 @@ void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed,
 		{
 			Point logicalPoint = this->GetLogicalPoint(Point(x, y));
 
-			(*this)(x, y) += (Height)randomSequence.GetInt(logicalPoint, -amplitude, +amplitude);
+			if (isRidged)
+			{
+				(*this)(x, y) += abs((Height)randomSequence.GetInt(logicalPoint, -amplitude, +amplitude));
+			}
+			else
+			{
+				(*this)(x, y) += (Height)randomSequence.GetInt(logicalPoint, -amplitude, +amplitude);
+			}
 		}
 	}
 	else if (physicalWaveLength > 1)
@@ -977,7 +984,14 @@ void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed,
 				(a20 + a21 * remainderY + a22 * remainderY2 + a23 * remainderY3) * remainderX2 +
 				(a30 + a31 * remainderY + a32 * remainderY2 + a33 * remainderY3) * remainderX3;
 
-			(*this)(x, y) = (Height)std::max(min(result + (*this)(x, y), (double)HEIGHT_MAX), (double)HEIGHT_MIN);
+			if (isRidged)
+			{
+				(*this)(x, y) = (Height)std::max(min(abs(result) + (*this)(x, y), (double)HEIGHT_MAX), (double)HEIGHT_MIN);
+			}
+			else 
+			{
+				(*this)(x, y) = (Height)std::max(min(result + (*this)(x, y), (double)HEIGHT_MAX), (double)HEIGHT_MIN);
+			}
 		}
 
 		// Don't bother with too short wave lengths
