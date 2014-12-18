@@ -27,6 +27,8 @@
 /// 
 /// Other combination functions include HeightMap.Combine, HeightMap.Intersect, HeightMap.Multiply and HeightMap.Unify.
 /// 
+/// There is also one more noise function: HeightMap.RidgedNoise.
+/// 
 /// 
 /// 
 /// 
