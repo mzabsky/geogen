@@ -1785,6 +1785,11 @@
       <Filter>corelib</Filter>
     </ClInclude>
     <ClInclude Include="corelib\HeightMapRidgedNoiseFunctionDefinition.hpp" />
+    <ClInclude Include="compiler\InvalidBreakException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\InvalidContinueException.hpp" />
+    <ClInclude Include="compiler\InvalidReturnException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
