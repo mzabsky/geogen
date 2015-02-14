@@ -26,6 +26,9 @@ scope BlockScope
 	#include "../../compiler/InvalidSymbolDefinitionException.hpp"
 	#include "../../compiler/SymbolRedefinitionException.hpp"
 	#include "../../compiler/MetadataKeyRedefinitionException.hpp"
+	#include "../../compiler/InvalidReturnException.hpp"
+	#include "../../compiler/InvalidContinueException.hpp"
+	#include "../../compiler/InvalidBreakException.hpp"
 	#include "../../runtime/CompiledScript.hpp"
 	#include "../../runtime/CodeBlock.hpp"
 	#include "../../runtime/MetadataBoolean.hpp"
@@ -363,7 +366,7 @@ statement returns [CodeBlock* returnCodeBlock]
     
     	if(!ctx->isInLoop)
     	{
-    		throw CompilerException(GGE1301_InvalidBreak, location);
+    		throw InvalidBreakException(location);
     	}
     
     	int a = $BlockScope::breakCodeBlockLevel;
@@ -377,7 +380,7 @@ statement returns [CodeBlock* returnCodeBlock]
     	
     	if(!ctx->isInLoop)
     	{
-    		throw CompilerException(GGE1303_InvalidContinue, location);
+    		throw InvalidContinueException(location);
     	}
     
     	$returnCodeBlock = new CodeBlock();  
@@ -502,7 +505,7 @@ returnStatement returns [CodeBlock* returnCodeBlock]
 
 	if(!ctx->isInFunction)
 	{		
-		throw CompilerException(GGE1304_InvalidReturn, location);
+		throw InvalidReturnException(location);
 	}
 
 	$returnCodeBlock->AddInstruction(new instructions::BreakInstruction(location, ctx->codeBlockLevel + 1));
