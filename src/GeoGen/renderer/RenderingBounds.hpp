@@ -15,6 +15,10 @@ namespace geogen
 			/// @return The rendering step type.
 			virtual RenderingStepType GetRenderingStepType() const = 0;
 
+			/// Gets the number of bytes that will be required to allocate object of size specified by these bounds.
+			/// @return The memory size, in bytes.
+			virtual unsigned GetMemorySize() const = 0;
+
 			virtual void Serialize(IOStream& stream) const = 0;
 		};
 	}

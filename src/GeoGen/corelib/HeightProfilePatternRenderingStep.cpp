@@ -26,6 +26,11 @@ void HeightProfilePatternRenderingStep::UpdateRenderingBounds(Renderer* renderer
 		this->repeatInterval);
 }
 
+unsigned HeightProfilePatternRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
 void HeightProfilePatternRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	this->repeatInterval.Serialize(stream);

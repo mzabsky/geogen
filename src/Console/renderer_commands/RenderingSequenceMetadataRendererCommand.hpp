@@ -38,6 +38,7 @@ namespace geogen
 					{
 						debugger->GetOut() << (*it)->ToString() << std::endl;
 						debugger->GetOut() << GG_STR("\tBounds: ") << debugger->GetRenderer()->GetRenderingSequenceMetadata().GetRenderingBounds(*it)->ToString() << std::endl;
+						debugger->GetOut() << GG_STR("\tMemory required: ") << geogen::utils::FormatFileSize(debugger->GetRenderer()->GetRenderingSequenceMetadata().GetMemoryRequirement(*it)) << std::endl;
 
 						debugger->GetOut() << GG_STR("\tObjects to release: ");
 

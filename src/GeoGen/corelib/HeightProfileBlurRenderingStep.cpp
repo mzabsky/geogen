@@ -22,6 +22,12 @@ void HeightProfileBlurRenderingStep::UpdateRenderingBounds(Renderer* renderer, s
 		Interval::Expand(this->GetRenderingBounds(renderer), renderer->GetRenderingSequence().GetScaledSize(this->radius)));
 }
 
+unsigned HeightProfileBlurRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds1D const*>(argumentBounds[0])->GetMemorySize();
+}
+
+
 void HeightProfileBlurRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->radius;

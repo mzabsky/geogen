@@ -19,6 +19,8 @@ namespace geogen
 
 			virtual void Step(renderer::Renderer* renderer) const;
 
+			virtual unsigned GetPeakExtraMemory(renderer::Renderer* renderer, std::vector<renderer::RenderingBounds const*> argumentBounds) const;
+
 			virtual void SerializeArguments(IOStream& stream) const;
 		};
 	}

@@ -20,6 +20,11 @@ void HeightMapGradientRenderingStep::Step(Renderer* renderer) const
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
 
+unsigned HeightMapGradientRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
 void HeightMapGradientRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	this->source.Serialize(stream);

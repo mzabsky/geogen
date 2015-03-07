@@ -28,6 +28,12 @@ void HeightMapTransformRenderingStep::UpdateRenderingBounds(Renderer* renderer, 
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(transformedRectangle);
 }
 
+unsigned HeightMapTransformRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	Rectangle rect = this->matrix.TransformRectangle(dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetRectangle());
+	return HeightMap::GetMemorySize(rect);
+}
+
 void HeightMapTransformRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->matrix.A11 << GG_STR(", ") << this->matrix.A12 << GG_STR(", ") << this->matrix.A21 << GG_STR(", ") << this->matrix.A22;

@@ -50,6 +50,10 @@ namespace geogen
 			/// @param referencingBounds The referencing bounds.
 			virtual void UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const = 0;
 
+			/// Gets number of bytes allocated (and usually released) by this step on top of any other object already allocated by the Renderer.
+			/// @return The number of bytes.
+			virtual unsigned GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const;
+
 			void RenderingStep::Serialize(IOStream& stream) const;
 			virtual void RenderingStep::SerializeArguments(IOStream& stream) const {};
 		};

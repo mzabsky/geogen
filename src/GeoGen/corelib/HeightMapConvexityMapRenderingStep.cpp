@@ -26,6 +26,11 @@ Rectangle HeightMapConvexityMapRenderingStep::CalculateRenderingBounds(Renderer*
 	return Rectangle::Expand(argumentBounds, renderer->GetRenderingSequence().GetScaledSize(this->radius));
 }
 
+unsigned HeightMapConvexityMapRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetMemorySize();
+}
+
 void HeightMapConvexityMapRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->radius;

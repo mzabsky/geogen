@@ -29,6 +29,7 @@ RenderingSequenceMetadata::RenderingSequenceMetadata(RenderingSequence const& re
 		}
 
 		this->objectsIndexesToRelease.push_back(vector<unsigned>());
+		this->memoryRequirements.push_back(1);
 
 		stepNumber++;
 	}
@@ -71,6 +72,16 @@ std::vector<unsigned> const& RenderingSequenceMetadata::GetObjectIndexesToReleas
 	return this->objectsIndexesToRelease[this->GetStepNumberByAddress(step)];
 }
 
+unsigned RenderingSequenceMetadata::GetMemoryRequirement(RenderingStep const* step) const
+{
+	return this->memoryRequirements[this->GetStepNumberByAddress(step)];
+}
+
+void RenderingSequenceMetadata::SetMemoryRequirement(RenderingStep const* step, unsigned memory)
+{
+	this->memoryRequirements[this->GetStepNumberByAddress(step)] = memory;
+}
+
 void RenderingSequenceMetadata::Serialize(IOStream& stream) const
 {
 	for (std::map<RenderingStep const*, unsigned>::const_iterator it = this->stepNumbers.begin(); it != this->stepNumbers.end(); it++)
@@ -79,6 +90,8 @@ void RenderingSequenceMetadata::Serialize(IOStream& stream) const
 		//it->first->Serialize(stream);
 		stream << GG_STR(": bounds ");
 		this->renderingBounds[it->second]->Serialize(stream);
+		stream << GG_STR(",memory ");
+		this->memoryRequirements[it->second];
 		stream << GG_STR(", objects to release ");
 
 		for (vector<unsigned>::const_iterator it2 = this->objectsIndexesToRelease[it->second].begin(); it2 != this->objectsIndexesToRelease[it->second].end(); it2++)

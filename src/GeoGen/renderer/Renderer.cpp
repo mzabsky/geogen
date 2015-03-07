@@ -1,6 +1,9 @@
+#include <numeric>
+
 #include "Renderer.hpp"
 #include "../InternalErrorException.hpp"
 #include "RenderingStep.hpp"
+#include "RenderingBounds.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -8,8 +11,8 @@ using namespace renderer;
 
 const String Renderer::MAP_NAME_MAIN = GG_STR("main");
 
-Renderer::Renderer(RenderingSequence const& renderingSequence)
-: renderingSequence(renderingSequence), nextStep(renderingSequence.Begin()), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY), renderingSequenceMetadata(renderingSequence), graph(renderingSequence)
+Renderer::Renderer(RenderingSequence const& renderingSequence, Configuration configuration)
+: configuration(configuration), renderingSequence(renderingSequence), nextStep(renderingSequence.Begin()), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY), renderingSequenceMetadata(renderingSequence), graph(renderingSequence)
 {
 }
 
@@ -54,6 +57,7 @@ void Renderer::CalculateMetadata()
 {
 	this->CalculateRenderingBounds();
 	this->CalculateObjectLifetimes();
+	this->CalculateMemoryRequirements();
 }
 
 void Renderer::CalculateRenderingBounds()
@@ -85,16 +89,62 @@ void Renderer::CalculateObjectLifetimes()
 			{
 				currentStepObjectIndexesToRelease.push_back(*it2);
 
-				if (*it2 > 100)
-				{
-					throw exception();
-				}
-
 				isObjectAlive[*it2] = false;
 			}
 		}
 	}
 }
+
+void Renderer::CalculateMemoryRequirements()
+{
+	vector<unsigned> allocatedMemoryPerSlot(this->GetObjectTable().GetSize(), 0);
+	vector<bool> isObjectAlive(this->GetObjectTable().GetSize(), false);
+	vector<RenderingBounds const*> currentBounds(this->GetObjectTable().GetSize(), NULL);
+
+	for (RenderingSequence::const_iterator it = this->renderingSequence.Begin(); it != this->renderingSequence.End(); it++)
+	{
+		RenderingStep const* step = *it;
+
+		unsigned returnSlot = step->GetReturnSlot();
+		vector<unsigned>& currentStepObjectIndexesToRelease = this->GetRenderingSequenceMetadata().GetObjectIndexesToRelease(step);
+
+		// Memory already allocated by renderer objects
+		unsigned currentAllocatedSum = std::accumulate(allocatedMemoryPerSlot.begin(), allocatedMemoryPerSlot.end(), 0);
+
+		// Prepare list of argument bounds for extra memory calculation
+		vector<RenderingBounds const*> argumentBounds;
+		for (vector<unsigned>::const_iterator it2 = step->GetArgumentSlots().begin(); it2 != step->GetArgumentSlots().end(); it2++)
+		{
+			argumentBounds.push_back(currentBounds[*it2]);
+		}
+
+		// Memory that will be required by this step beyond the memory allocated by pre-existing renderer objects
+		unsigned stepExtraMemory = (*it)->GetPeakExtraMemory(this, argumentBounds);
+
+		this->GetRenderingSequenceMetadata().SetMemoryRequirement(step, currentAllocatedSum + stepExtraMemory);
+
+		// If an object is being allocated, store its size
+		if (!isObjectAlive[returnSlot]){
+
+			// This is done only once for each object, because the bounds will not be resized even if later operations have smaller bounds
+			// (they can't have larger bounds).
+			currentBounds[returnSlot] = this->GetRenderingSequenceMetadata().GetRenderingBounds(*it);
+			allocatedMemoryPerSlot[returnSlot] = currentBounds[returnSlot]->GetMemorySize();
+			isObjectAlive[returnSlot] = true;
+
+			// TODO: Co s Rescale?
+			// TODO: Fyzicke koordinaty
+		}
+
+		// Released objects don't occupy any memory any more
+		for (vector<unsigned>::iterator it2 = currentStepObjectIndexesToRelease.begin(); it2 != currentStepObjectIndexesToRelease.end(); it2++)
+		{
+			allocatedMemoryPerSlot[*it2] = 0;
+			isObjectAlive[*it2] = false;
+		}
+	}
+}
+
 
 double Renderer::GetProgress() const
 {

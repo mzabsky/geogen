@@ -23,6 +23,11 @@ void HeightProfileCropRenderingStep::UpdateRenderingBounds(Renderer* renderer, s
 		Interval::Intersect(this->GetRenderingBounds(renderer), this->interval));
 }
 
+unsigned HeightProfileCropRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
 void HeightProfileCropRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	this->interval.Serialize(stream);

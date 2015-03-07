@@ -31,7 +31,7 @@ namespace geogen
 			/// Gets X coordinate of a point transformed by this matrix. Preserves floating point precision.
 			/// @param point The point.
 			/// @return The transformed X coordinate.
-			inline double GetTransformedX(Point point)
+			inline double GetTransformedX(Point point) const
 			{
 				return (point.GetX() * this->A11) + (point.GetY() * this->A12);
 			}
@@ -39,7 +39,7 @@ namespace geogen
 			/// Gets Y coordinate of a point transformed by this matrix. Preserves floating point precision.
 			/// @param point The point.
 			/// @return The transformed Y coordinate.
-			inline double GetTransformedY(Point point)
+			inline double GetTransformedY(Point point) const
 			{
 				return (point.GetX() * this->A21) + (point.GetY() * this->A22);
 			}
@@ -47,7 +47,7 @@ namespace geogen
 			/// Transforms the point with this matrix. Discards fractional part of the transformed coordinates.
 			/// @param point The point to transform.
 			/// @return The transformed point.
-			inline Point TransformPoint(Point point)
+			inline Point TransformPoint(Point point) const
 			{
 				return Point(
 					Coordinate(this->GetTransformedX(point)),
@@ -57,7 +57,7 @@ namespace geogen
 			/// Transforms the rectangle with this matrix. Discards fractional part of the transformed coordinates.
 			/// @param point The rectangle to transform.
 			/// @return Bounding rectangle of the transformed rectangle.
-			inline Rectangle TransformRectangle(Rectangle rectangle)
+			inline Rectangle TransformRectangle(Rectangle rectangle) const
 			{
 				double transformedTopLeftX = this->GetTransformedX(rectangle.GetPosition());
 				double transformedTopLeftY = this->GetTransformedY(rectangle.GetPosition());
