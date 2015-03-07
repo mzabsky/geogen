@@ -142,16 +142,17 @@ namespace geogen
 		GGE2715_InvalidStrength = 2715,
 		/// Number of strata passed to function like HeightMap.Stratify was ouside of the supported range (1 to 100).
 		GGE2716_InvalidNumberOfStrata = 2716,
-
 		/// The script finished without yielding the main height map.
 		GGE2801_MainMapNotGenerated = 2801,
+		/// Rendering step requires too much memory.
+		GGE3001_RendererMemoryLimitReached = 3001,
 		/// API usage error - such as incorrect parameter or a method being called in incorrect context).
-		GGE3000_ApiUsageError = 3000,
+		GGE4000_ApiUsageError = 4000,
 		/// An unrecoverable internal error in GeoGen occured. These should be reported as bugs (although an incorrect usage of the API might also be sometimes the cause).
-		GGE4000_InternalError = 4000,
+		GGE5000_InternalError = 5000,
 		/// An error in the intermediate code was detected (such as incorrect state of the stack).
-		GGE4001_IntermediateCodeError = 4001,
+		GGE5001_IntermediateCodeError = 5001,
 		/// An error was triggered using the TriggerError function from a script.
-		GGE5000_UserError = 5000
+		GGE6000_UserError = 6000
 	};
 }

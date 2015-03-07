@@ -326,6 +326,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="random\RandomSequence2D.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="Interval.hpp" />
+    <ClInclude Include="renderer\MemoryLimitException.hpp" />
     <ClInclude Include="renderer\RenderedMap.hpp" />
     <ClInclude Include="renderer\RenderedMapTable.hpp" />
     <ClInclude Include="renderer\Renderer.hpp" />

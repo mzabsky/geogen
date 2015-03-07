@@ -6,7 +6,7 @@ namespace geogen
 {
 	namespace runtime
 	{
-		/// Exception thrown when error geogen::GGE5000_UserError occurs.
+		/// Exception thrown when error geogen::GGE6000_UserError occurs.
 		class UserErrorException : public RuntimeException
 		{
 		private:
@@ -21,7 +21,7 @@ namespace geogen
 			/// @param unformattedUserMessage Unformatted user message.
 			/// @param arguments Formatting arguments.
 			UserErrorException(CodeLocation location, String const& formattedUserMessage, String const& unformattedUserMessage, std::vector<String> const& arguments) :
-				RuntimeException(GGE5000_UserError, location), formattedUserMessage(formattedUserMessage), unformattedUserMessage(unformattedUserMessage), arguments(arguments) {};
+				RuntimeException(GGE6000_UserError, location), formattedUserMessage(formattedUserMessage), unformattedUserMessage(unformattedUserMessage), arguments(arguments) {};
 
 			/// Gets formatted user message.
 			/// @return The formatted user message.

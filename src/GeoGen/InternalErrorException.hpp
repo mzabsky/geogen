@@ -12,7 +12,7 @@ namespace geogen
 		String message;
 	public:
 		explicit InternalErrorException(String const& message) :
-			GeoGenException(GGE4000_InternalError), message(message) {};
+			GeoGenException(GGE5000_InternalError), message(message) {};
 
 		virtual String GetDetailMessage()
 		{

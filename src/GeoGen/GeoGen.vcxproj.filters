@@ -1790,6 +1790,7 @@
     </ClInclude>
     <ClInclude Include="compiler\InvalidContinueException.hpp" />
     <ClInclude Include="compiler\InvalidReturnException.hpp" />
+    <ClInclude Include="renderer\MemoryLimitException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
