@@ -6,4 +6,5 @@ using namespace geogen;
 void Configuration::Serialize(IOStream& stream) const
 {
 	stream << "MainMapIsMandatory: " << this->MainMapIsMandatory << endl;
+	stream << "RendererMemoryLimit: " << this->RendererMemoryLimit << endl;
 }
