@@ -8,14 +8,14 @@ namespace geogen
 {
 	namespace runtime
 	{
-		/// Exception thrown when error geogen::GGE4001_IntermediateCodeError occurs.
+		/// Exception thrown when error geogen::GGE5001_IntermediateCodeError occurs.
 		class IntermediateCodeException : public GeoGenException
 		{
 		private:
 			String message;
 		public:
 			explicit IntermediateCodeException(String const& message) :
-				GeoGenException(GGE4001_IntermediateCodeError) {};
+				GeoGenException(GGE5001_IntermediateCodeError) {};
 
 			virtual String GetDetailMessage()
 			{

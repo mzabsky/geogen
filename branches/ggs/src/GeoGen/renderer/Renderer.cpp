@@ -4,6 +4,7 @@
 #include "../InternalErrorException.hpp"
 #include "RenderingStep.hpp"
 #include "RenderingBounds.hpp"
+#include "MemoryLimitException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -22,6 +23,11 @@ RendererStepResult Renderer::Step()
 	{
 		this->status = RENDERER_STATUS_FINISHED;
 		return RENDERER_STEP_RESULT_FINISHED;
+	}
+
+	if (this->configuration.RendererMemoryLimit < this->GetRenderingSequenceMetadata().GetMemoryRequirement(*this->nextStep))
+	{
+		throw MemoryLimitException(this->configuration.RendererMemoryLimit, this->GetRenderingSequenceMetadata().GetMemoryRequirement(*this->nextStep));
 	}
 
 	(*this->nextStep)->Step(this);
