@@ -5,6 +5,7 @@
 #include "../genlib/HeightMap.hpp"
 #include "../renderer/RenderingBounds2D.hpp"
 
+using namespace std;
 using namespace geogen;
 using namespace renderer;
 using namespace corelib;
@@ -25,6 +26,13 @@ void HeightMapDistanceMapRenderingStep::UpdateRenderingBounds(Renderer* renderer
 {
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[0])->CombineRectangle(
 		Rectangle::Expand(this->GetRenderingBounds(renderer), renderer->GetRenderingSequence().GetScaledSize(this->maxDistance)));
+}
+
+unsigned HeightMapDistanceMapRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	RenderingBounds2D const* bounds = dynamic_cast<RenderingBounds2D const*>(argumentBounds[0]);
+	return bounds->GetMemorySize() + 
+		std::max(bounds->GetRectangle().GetSize().GetWidth(), bounds->GetRectangle().GetSize().GetHeight()) * (2 * sizeof(double)+sizeof(int));
 }
 
 void HeightMapDistanceMapRenderingStep::SerializeArguments(IOStream& stream) const

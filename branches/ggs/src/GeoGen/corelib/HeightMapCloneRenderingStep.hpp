@@ -17,6 +17,8 @@ namespace geogen
 			virtual String GetName() const { return GG_STR("HeightMap.Clone"); };
 
 			virtual void Step(renderer::Renderer* renderer) const;
+
+			virtual unsigned GetPeakExtraMemory(renderer::Renderer* renderer, std::vector<renderer::RenderingBounds const*> argumentBounds) const;
 		};
 	}
 }

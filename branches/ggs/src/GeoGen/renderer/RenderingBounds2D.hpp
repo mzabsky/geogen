@@ -3,6 +3,7 @@
 #include "../Rectangle.hpp"
 #include "RenderingStep.hpp"
 #include "RenderingBounds.hpp"
+#include "../genlib/HeightMap.hpp"
 
 namespace geogen
 {
@@ -20,6 +21,8 @@ namespace geogen
 			inline void CombineRectangle(Rectangle rectangle) { this->rectangle = Rectangle::Combine(rectangle, this->rectangle); }
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_2D; };
+
+			virtual unsigned GetMemorySize() const { return sizeof(genlib::HeightMap) + sizeof(Height) * this->rectangle.GetSize().GetTotalLength(); };
 
 			virtual void Serialize(IOStream& stream) const
 			{

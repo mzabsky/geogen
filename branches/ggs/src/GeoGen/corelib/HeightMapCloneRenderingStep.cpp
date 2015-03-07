@@ -19,3 +19,8 @@ void HeightMapCloneRenderingStep::Step(Renderer* renderer) const
 
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
+
+unsigned HeightMapCloneRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}

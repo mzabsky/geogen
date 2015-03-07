@@ -27,6 +27,14 @@ void HeightMapRescaleRenderingStep::UpdateRenderingBounds(Renderer* renderer, st
 			Size2D((Size1D)RoundAway(thisRect.GetSize().GetWidth() / this->horizontalScale), (Size1D)RoundAway(thisRect.GetSize().GetHeight() / this->verticalScale))));
 }
 
+unsigned HeightMapRescaleRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	Rectangle thisRect = dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetRectangle();
+	Rectangle newRectangle(Point(Coordinate(thisRect.GetPosition().GetX() * horizontalScale), Coordinate(thisRect.GetPosition().GetY() * verticalScale)), Size2D(Size1D(thisRect.GetSize().GetWidth() * horizontalScale), Size1D(thisRect.GetSize().GetHeight() * verticalScale)));
+
+	return HeightMap::GetMemorySize(newRectangle);
+}
+
 void HeightMapRescaleRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->horizontalScale << GG_STR(", ") << this->horizontalScale;

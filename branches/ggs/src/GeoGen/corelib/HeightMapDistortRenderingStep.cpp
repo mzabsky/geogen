@@ -28,6 +28,11 @@ void HeightMapDistortRenderingStep::UpdateRenderingBounds(Renderer* renderer, st
 	dynamic_cast<RenderingBounds2D*>(argumentBounds[2])->CombineRectangle(this->GetRenderingBounds(renderer));
 }
 
+unsigned HeightMapDistortRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return 2 * dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetMemorySize();
+}
+
 void HeightMapDistortRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->maxDistance;

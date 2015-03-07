@@ -13,6 +13,11 @@ void RenderingStep::TriggerRenderingBoundsCalculationError(String message) const
 	throw InternalErrorException(ss.str());
 }
 
+unsigned RenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return 0;
+}
+
 void RenderingStep::Serialize(IOStream& stream) const
 {
 	stream << this->GetReturnSlot() << GG_STR(" <- ") << this->GetName() << GG_STR(" [");

@@ -47,6 +47,15 @@ namespace geogen
 			/// Destructor.
 			~HeightProfile();
 
+			/// Gets memory size of a profile with specified interval.
+			/// @param interval The interval.
+			/// @return The memory size.
+			inline static unsigned GetMemorySize(Interval interval) { return sizeof(HeightProfile)+sizeof(Height)* interval.GetLength(); };
+
+			/// Gets memory size of the profile.
+			/// @return The memory size.
+			virtual unsigned GetMemorySize() const { return GetMemorySize(this->interval); };
+
 			/// Gets the interval.
 			/// @return The interval.
 			inline Interval GetInterval() const { return this->interval; }

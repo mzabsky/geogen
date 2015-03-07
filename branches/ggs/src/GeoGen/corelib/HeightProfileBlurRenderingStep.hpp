@@ -21,6 +21,8 @@ namespace geogen
 
 			virtual void UpdateRenderingBounds(renderer::Renderer* renderer, std::vector<renderer::RenderingBounds*> argumentBounds) const;
 
+			virtual unsigned GetPeakExtraMemory(renderer::Renderer* renderer, std::vector<renderer::RenderingBounds const*> argumentBounds) const;
+
 			virtual void SerializeArguments(IOStream& stream) const;
 		};
 	}

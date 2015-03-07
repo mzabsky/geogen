@@ -26,6 +26,14 @@ void HeightProfileRescaleRenderingStep::UpdateRenderingBounds(Renderer* renderer
 		(Size1D)RoundAway(thisInterval.GetLength() / this->scale)));
 }
 
+unsigned HeightProfileRescaleRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	Interval thisInterval = dynamic_cast<RenderingBounds1D const*>(argumentBounds[0])->GetInterval();
+	Interval newInterval(Coordinate(thisInterval.GetStart() * scale), Size1D(thisInterval.GetLength() * scale));
+
+	return HeightProfile::GetMemorySize(newInterval);
+}
+
 void HeightProfileRescaleRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->scale;

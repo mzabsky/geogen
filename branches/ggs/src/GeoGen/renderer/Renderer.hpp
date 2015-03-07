@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "../Point.hpp"
+#include "../Configuration.hpp"
 #include "RenderingSequence.hpp"
 #include "RendererObjectTable.hpp"
 #include "RenderingSequenceMetadata.hpp"
@@ -40,6 +41,8 @@ namespace geogen
 		class Renderer : public Serializable
 		{
 		private:
+			const Configuration configuration;
+
 			RenderingSequence const& renderingSequence;
 			RenderingSequence::const_iterator nextStep;
 
@@ -47,12 +50,12 @@ namespace geogen
 			RendererStatus status;
 			RenderingSequenceMetadata renderingSequenceMetadata;
 			RenderingGraph graph;
-			RenderedMapTable renderedMapTable;
+			RenderedMapTable renderedMapTable;			
 
 			unsigned stepCounter;
 
 			// Non-copyable
-			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0), renderingSequenceMetadata(*(RenderingSequence*)NULL), graph(*(RenderingSequence*)NULL) {};
+			Renderer(Renderer const&) : renderingSequence(*(RenderingSequence*)NULL), objectTable(0), renderingSequenceMetadata(*(RenderingSequence*)NULL), graph(*(RenderingSequence*)NULL), configuration(Configuration()) {};
 			Renderer& operator=(Renderer const&) {};
 		public:
 			static const String MAP_NAME_MAIN;
@@ -60,7 +63,7 @@ namespace geogen
 			/// Initializes a new instance of the Renderer class.
 			/// @param renderingSequence The rendering sequence to be rendered with this instance. The
 			/// rendering sequence must exist for whole life of the renderer.
-			Renderer(RenderingSequence const& renderingSequence);
+			Renderer(RenderingSequence const& renderingSequence, Configuration configuration = Configuration());
 
 			/// Gets the status of the Renderer.
 			/// @return The status.
@@ -114,6 +117,9 @@ namespace geogen
 
 			/// Calculates the liveness ranges for all steps in the RenderingSequence.
 			void CalculateObjectLifetimes();
+
+			/// Calculates memory requirements for all steps in the RenderingSequence.
+			void CalculateMemoryRequirements();
 
 			/// Executes next step in the rendering sequence. Can only be called if the renderer is in status
 			/// <see cref="RENDERER_STATUS_READY"/>.

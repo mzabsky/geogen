@@ -1,8 +1,10 @@
 #pragma once
 
+#include "../Number.hpp"
 #include "../Interval.hpp"
 #include "RenderingStep.hpp"
 #include "RenderingBounds.hpp"
+#include "../genlib/HeightProfile.hpp"
 
 namespace geogen
 {
@@ -20,6 +22,8 @@ namespace geogen
 			inline void CombineInterval(Interval interval) { this->interval = Interval::Combine(interval, this->interval); }
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
+
+			virtual unsigned GetMemorySize() const { return sizeof(genlib::HeightProfile) + sizeof(Height) * this->interval.GetLength(); };
 
 			virtual void Serialize(IOStream& stream) const
 			{

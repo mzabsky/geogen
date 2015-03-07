@@ -24,6 +24,12 @@ void HeightMapCropRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::
 		Rectangle::Intersect(this->GetRenderingBounds(renderer), this->rectangle));
 }
 
+unsigned HeightMapCropRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
+
 void HeightMapCropRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	this->rectangle.Serialize(stream);

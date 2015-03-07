@@ -19,6 +19,11 @@ void HeightProfileGradientRenderingStep::Step(Renderer* renderer) const
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
 
+unsigned HeightProfileGradientRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
 void HeightProfileGradientRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << this->source << GG_STR(", ") << this->destination << GG_STR(", ") << this->heightFrom << GG_STR(", ") << this->heightTo;

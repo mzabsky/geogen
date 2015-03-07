@@ -32,6 +32,11 @@ void HeightProfileSliceRenderingStep::UpdateRenderingBounds(Renderer* renderer, 
 		Rectangle(Point(this->coordinate, thisInterval.GetStart()), Size2D(1, thisInterval.GetLength())));
 }
 
+unsigned HeightProfileSliceRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
 void HeightProfileSliceRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << DirectionToString(this->direction) << GG_STR(", ") << this->coordinate;

@@ -29,6 +29,11 @@ void HeightMapProjectionRenderingStep::SerializeArguments(IOStream& stream) cons
 	stream << DirectionToString(this->direction);
 }
 
+unsigned HeightMapProjectionRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds2D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
 void HeightMapProjectionRenderingStep::UpdateRenderingBounds(Renderer* renderer, std::vector<RenderingBounds*> argumentBounds) const
 {
 	Point thisPosition = this->GetRenderingBounds(renderer).GetPosition();

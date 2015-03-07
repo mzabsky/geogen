@@ -20,6 +20,11 @@ void HeightProfileFromArrayRenderingStep::Step(Renderer* renderer) const
 	renderer->GetObjectTable().SetObject(this->GetReturnSlot(), object);
 }
 
+unsigned HeightProfileFromArrayRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
+{
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+}
+
 void HeightProfileFromArrayRenderingStep::SerializeArguments(IOStream& stream) const
 {
 	stream << GG_STR("{");
