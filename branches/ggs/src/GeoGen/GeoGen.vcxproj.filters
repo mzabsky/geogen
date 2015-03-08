@@ -764,7 +764,9 @@
     <ClCompile Include="utils\StringUtils.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="corelib\HeightMapRidgedNoiseFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapRidgedNoiseFunctionDefinition.cpp">
+      <Filter>corelib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
@@ -1784,18 +1786,25 @@
     <ClInclude Include="corelib\StringFormatException.hpp">
       <Filter>corelib</Filter>
     </ClInclude>
-    <ClInclude Include="corelib\HeightMapRidgedNoiseFunctionDefinition.hpp" />
     <ClInclude Include="compiler\InvalidBreakException.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
-    <ClInclude Include="compiler\InvalidContinueException.hpp" />
-    <ClInclude Include="compiler\InvalidReturnException.hpp" />
-    <ClInclude Include="renderer\MemoryLimitException.hpp" />
+    <ClInclude Include="corelib\HeightMapRidgedNoiseFunctionDefinition.hpp">
+      <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\InvalidContinueException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\InvalidReturnException.hpp">
+      <Filter>compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\MemoryLimitException.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
     <None Include="generate-tiles-table.linq" />
-    <None Include="Grammar\test.ggs" />
     <None Include="Grammar\output\GeoGenScriptDecls.tokens">
       <Filter>compiler\generated</Filter>
     </None>

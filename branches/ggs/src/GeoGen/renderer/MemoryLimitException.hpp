@@ -6,32 +6,35 @@
 
 namespace geogen
 {
-	/// Exception thrown when the Renderer determines it can't execute a step because it would need to allocate amount of memory greater than Configuration::RendererMemoryLimit.
-	class MemoryLimitException : public GeoGenException
+	namespace renderer
 	{
-	private:
-		unsigned memoryLimit;
-		unsigned memoryRequired;
-	public:
-		explicit MemoryLimitException(unsigned memoryLimit, unsigned memoryRequired) :
-			GeoGenException(GGE3001_RendererMemoryLimitReached), memoryLimit(memoryLimit), memoryRequired(memoryRequired) {};
-
-		unsigned GetMemoryLimit() const 
+		/// Exception thrown when the Renderer determines it can't execute a step because it would need to allocate amount of memory greater than Configuration::RendererMemoryLimit.
+		class MemoryLimitException : public GeoGenException
 		{
-			return this->memoryLimit;
-		}
+		private:
+			unsigned memoryLimit;
+			unsigned memoryRequired;
+		public:
+			explicit MemoryLimitException(unsigned memoryLimit, unsigned memoryRequired) :
+				GeoGenException(GGE3001_RendererMemoryLimitReached), memoryLimit(memoryLimit), memoryRequired(memoryRequired) {};
 
-		unsigned GetMemoryRequired() const
-		{
-			return this->memoryRequired;
-		}
+			unsigned GetMemoryLimit() const
+			{
+				return this->memoryLimit;
+			}
 
-		virtual String GetDetailMessage()
-		{
-			StringStream ss;
-			ss << "Renderer requires " << geogen::utils::FormatFileSize(this->memoryRequired) << " of memory, which is more than it's limit of " << geogen::utils::FormatFileSize(this->memoryLimit) << ".";
+			unsigned GetMemoryRequired() const
+			{
+				return this->memoryRequired;
+			}
 
-			return ss.str();
-		}
-	};
+			virtual String GetDetailMessage()
+			{
+				StringStream ss;
+				ss << "Renderer requires " << geogen::utils::FormatFileSize(this->memoryRequired) << " of memory, which is more than it's limit of " << geogen::utils::FormatFileSize(this->memoryLimit) << ".";
+
+				return ss.str();
+			}
+		};
+	}
 }

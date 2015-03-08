@@ -719,7 +719,6 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <None Include="Grammar\GeoGenScriptDecls.g" />
     <None Include="Grammar\output\GeoGenScript.tokens" />
     <None Include="Grammar\output\GeoGenScriptDecls.tokens" />
-    <None Include="Grammar\test.ggs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
