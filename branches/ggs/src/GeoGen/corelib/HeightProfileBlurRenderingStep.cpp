@@ -24,7 +24,7 @@ void HeightProfileBlurRenderingStep::UpdateRenderingBounds(Renderer* renderer, s
 
 unsigned HeightProfileBlurRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
-	return dynamic_cast<RenderingBounds1D const*>(argumentBounds[0])->GetMemorySize();
+	return dynamic_cast<RenderingBounds1D const*>(argumentBounds[0])->GetMemorySize(renderer->GetRenderingSequence().GetRenderScale());
 }
 
 

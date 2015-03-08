@@ -31,7 +31,7 @@ unsigned HeightProfileRescaleRenderingStep::GetPeakExtraMemory(Renderer* rendere
 	Interval thisInterval = dynamic_cast<RenderingBounds1D const*>(argumentBounds[0])->GetInterval();
 	Interval newInterval(Coordinate(thisInterval.GetStart() * scale), Size1D(thisInterval.GetLength() * scale));
 
-	return HeightProfile::GetMemorySize(newInterval);
+	return HeightProfile::GetMemorySize(newInterval, renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightProfileRescaleRenderingStep::SerializeArguments(IOStream& stream) const

@@ -22,7 +22,7 @@ namespace geogen
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_2D; };
 
-			virtual unsigned GetMemorySize() const { return sizeof(genlib::HeightMap) + sizeof(Height) * this->rectangle.GetSize().GetTotalLength(); };
+			virtual unsigned GetMemorySize(Scale scale) const { return genlib::HeightMap::GetMemorySize(this->rectangle, scale); };
 
 			virtual void Serialize(IOStream& stream) const
 			{

@@ -30,7 +30,7 @@ void HeightMapDistortRenderingStep::UpdateRenderingBounds(Renderer* renderer, st
 
 unsigned HeightMapDistortRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
-	return 2 * dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetMemorySize();
+	return 2 * dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetMemorySize(renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightMapDistortRenderingStep::SerializeArguments(IOStream& stream) const

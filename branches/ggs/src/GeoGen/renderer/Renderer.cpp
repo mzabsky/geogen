@@ -135,7 +135,7 @@ void Renderer::CalculateMemoryRequirements()
 			// This is done only once for each object, because the bounds will not be resized even if later operations have smaller bounds
 			// (they can't have larger bounds).
 			currentBounds[returnSlot] = this->GetRenderingSequenceMetadata().GetRenderingBounds(*it);
-			allocatedMemoryPerSlot[returnSlot] = currentBounds[returnSlot]->GetMemorySize();
+			allocatedMemoryPerSlot[returnSlot] = currentBounds[returnSlot]->GetMemorySize(this->GetRenderingSequence().GetRenderScale());
 			isObjectAlive[returnSlot] = true;
 
 			// TODO: Co s Rescale?

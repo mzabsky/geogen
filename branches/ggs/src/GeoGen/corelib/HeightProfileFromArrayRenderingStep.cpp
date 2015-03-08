@@ -22,7 +22,7 @@ void HeightProfileFromArrayRenderingStep::Step(Renderer* renderer) const
 
 unsigned HeightProfileFromArrayRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
-	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize(renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightProfileFromArrayRenderingStep::SerializeArguments(IOStream& stream) const
