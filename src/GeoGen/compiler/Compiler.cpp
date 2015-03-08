@@ -1,4 +1,4 @@
-#include "../antlr3/antlr3.h"
+#include <antlr3.h>
 
 #include "../InternalErrorException.hpp"
 
