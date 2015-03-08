@@ -28,7 +28,7 @@ void HeightProfilePatternRenderingStep::UpdateRenderingBounds(Renderer* renderer
 
 unsigned HeightProfilePatternRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
-	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize(renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightProfilePatternRenderingStep::SerializeArguments(IOStream& stream) const

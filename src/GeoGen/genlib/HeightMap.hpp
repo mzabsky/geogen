@@ -36,11 +36,11 @@ namespace geogen
 			/// Gets memory size of a height map with specified rectangle.
 			/// @param interval The rectangle.
 			/// @return The memory size.
-			inline static unsigned GetMemorySize(Rectangle rect) { return sizeof(HeightMap)+sizeof(Height)* rect.GetSize().GetTotalLength(); };
+			inline static unsigned GetMemorySize(Rectangle rect, Scale scale) { return sizeof(HeightMap) + sizeof(Height) * (rect * scale).GetSize().GetTotalLength(); };
 
 			/// Gets memory size of the height map.
 			/// @return The memory size.
-			virtual unsigned GetMemorySize() const { return GetMemorySize(this->rectangle); };
+			virtual unsigned GetMemorySize() const { return GetMemorySize(this->rectangle, this->scale); };
 
 			inline Rectangle GetRectangle() const { return this->rectangle; }
 			inline Height* GetHeightDataPtr() { return this->heightData; }

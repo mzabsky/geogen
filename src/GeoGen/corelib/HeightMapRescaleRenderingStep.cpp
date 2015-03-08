@@ -32,7 +32,7 @@ unsigned HeightMapRescaleRenderingStep::GetPeakExtraMemory(Renderer* renderer, s
 	Rectangle thisRect = dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetRectangle();
 	Rectangle newRectangle(Point(Coordinate(thisRect.GetPosition().GetX() * horizontalScale), Coordinate(thisRect.GetPosition().GetY() * verticalScale)), Size2D(Size1D(thisRect.GetSize().GetWidth() * horizontalScale), Size1D(thisRect.GetSize().GetHeight() * verticalScale)));
 
-	return HeightMap::GetMemorySize(newRectangle);
+	return HeightMap::GetMemorySize(newRectangle, renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightMapRescaleRenderingStep::SerializeArguments(IOStream& stream) const

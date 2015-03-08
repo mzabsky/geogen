@@ -34,7 +34,7 @@ void HeightProfileSliceRenderingStep::UpdateRenderingBounds(Renderer* renderer, 
 
 unsigned HeightProfileSliceRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
-	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize();
+	return dynamic_cast<RenderingBounds1D*>(renderer->GetRenderingSequenceMetadata().GetRenderingBounds(this))->GetMemorySize(renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightProfileSliceRenderingStep::SerializeArguments(IOStream& stream) const

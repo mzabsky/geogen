@@ -31,7 +31,7 @@ void HeightMapTransformRenderingStep::UpdateRenderingBounds(Renderer* renderer, 
 unsigned HeightMapTransformRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
 	Rectangle rect = this->matrix.TransformRectangle(dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetRectangle());
-	return HeightMap::GetMemorySize(rect);
+	return HeightMap::GetMemorySize(rect, renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightMapTransformRenderingStep::SerializeArguments(IOStream& stream) const

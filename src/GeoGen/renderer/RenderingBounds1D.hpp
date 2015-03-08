@@ -23,7 +23,7 @@ namespace geogen
 
 			virtual RenderingStepType GetRenderingStepType() const { return RENDERING_STEP_TYPE_1D; };
 
-			virtual unsigned GetMemorySize() const { return sizeof(genlib::HeightProfile) + sizeof(Height) * this->interval.GetLength(); };
+			virtual unsigned GetMemorySize(Scale scale) const { return genlib::HeightProfile::GetMemorySize(this->interval, scale); };
 
 			virtual void Serialize(IOStream& stream) const
 			{

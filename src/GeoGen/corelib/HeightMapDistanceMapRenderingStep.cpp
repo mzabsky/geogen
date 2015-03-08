@@ -30,9 +30,13 @@ void HeightMapDistanceMapRenderingStep::UpdateRenderingBounds(Renderer* renderer
 
 unsigned HeightMapDistanceMapRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
+	Scale scale = renderer->GetRenderingSequence().GetRenderScale();
 	RenderingBounds2D const* bounds = dynamic_cast<RenderingBounds2D const*>(argumentBounds[0]);
-	return bounds->GetMemorySize() + 
-		std::max(bounds->GetRectangle().GetSize().GetWidth(), bounds->GetRectangle().GetSize().GetHeight()) * (2 * sizeof(double)+sizeof(int));
+	return bounds->GetMemorySize(scale) +
+		std::max(
+			(bounds->GetRectangle() * scale).GetSize().GetWidth(), 
+			(bounds->GetRectangle() * scale).GetSize().GetHeight()
+		) * (2 * sizeof(double)+sizeof(int));
 }
 
 void HeightMapDistanceMapRenderingStep::SerializeArguments(IOStream& stream) const

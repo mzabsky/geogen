@@ -28,7 +28,7 @@ Rectangle HeightMapConvexityMapRenderingStep::CalculateRenderingBounds(Renderer*
 
 unsigned HeightMapConvexityMapRenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<RenderingBounds const*> argumentBounds) const
 {
-	return dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetMemorySize();
+	return dynamic_cast<RenderingBounds2D const*>(argumentBounds[0])->GetMemorySize(renderer->GetRenderingSequence().GetRenderScale());
 }
 
 void HeightMapConvexityMapRenderingStep::SerializeArguments(IOStream& stream) const
