@@ -12,7 +12,6 @@
   <ItemGroup>
     <Text Include="testinput2.txt" />
     <Text Include="testinput.txt" />
-    <Text Include="finite.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RuntimeCommand.hpp" />
