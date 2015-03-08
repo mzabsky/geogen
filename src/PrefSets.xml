@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<Prefs>
+  <DocComment>
+    <CommentStyle value="Doxygen" />
+    <Separator value="(none)" />
+    <SeparatorB value="(none)" />
+    <LineHeader2 value="/// " />
+    <AlignBlockStartColumns value="false" />
+    <LineHeader />
+    <SeparatorClipCol value="-1" />
+    <BlanksAbove value="1" />
+    <BlanksAfterRegion value="1" />
+    <BlanksAfterScope value="0" />
+    <BlanksBelow value="0" />
+    <BlanksBetweenEntries value="false" />
+    <WordWrapRelative value="true" />
+    <SimpleFormatForOneLiners value="true" />
+    <SingleLinePrefix value="///&lt; " />
+    <SingleLineSuffix value="(None)" />
+    <SingleLineMinColumn value="0" />
+    <LineCommentOnSameLine value="false" />
+    <ImmediateDelete value="false" />
+    <DateCulture value="" />
+    <WordWrapColumn value="100" />
+    <AutoDocReplacements value="true" />
+    <ThisObjectName value="%classname%" />
+    <DuplicateBaseDocs value="true" />
+    <AddSeeForBases value="false" />
+    <SummaryOnlyForBases value="false" />
+    <AddSeeForOverrides value="false" />
+    <SummaryOnlyForOverrides value="false" />
+    <DocAllAddFileHeader value="true" />
+    <DateFormat value="d" />
+    <LiveCommentUpdate value="true" />
+    <LiveCommentCreation value="true" />
+    <ConvertEntities value="true" />
+    <TidyOnPaste value="true" />
+    <ConvertDoubleSlashComments value="true" />
+    <AddDocTableForEnums value="false" />
+    <LiveSLCommentUpdate value="true" />
+  </DocComment>
+  <Doxygen>
+    <CommandPrefix value="@" />
+    <SuppressBriefTags value="true" />
+    <SuppressPrototypes value="true" />
+    <SuppressAuthor value="true" />
+    <SuppressDate value="true" />
+  </Doxygen>
+  <Format>
+    <EntrySuppressNewlines value="true" />
+    <EntryTag value="Space" />
+    <EntryNewline value="Nothing" />
+    <EntryBody value="Nothing" />
+    <SingleTag value="Space" />
+    <SingleBody value="Space" />
+    <GroupSuppressNewlines value="true" />
+    <GroupTag value="Space" />
+    <GroupNewline value="Nothing" />
+    <GroupBody value="Nothing" />
+    <AlignBlockStartColumns value="false" />
+    <AccessLevelsToComment value="all" />
+    <AccessLevelsApplyToAllCmds value="false" />
+    <DeleteIllegalBlock value="true" />
+  </Format>
+  <Separators>
+    <FileType ext="htm,html,xhtml,xml,xsd,xslt,xaml,config,resx">
+      <Separator value="&lt;!--" />
+      <LineHeader2 value="(None)" />
+      <SeparatorB value="--&gt;" />
+    </FileType>
+    <FileType ext="sql">
+      <Separator value="/* " />
+      <LineHeader2 value=" * " />
+      <SeparatorB value=" */" />
+    </FileType>
+    <FileType ext="lua">
+      <Separator value="-----------------------------------------------------------------------------------------------" />
+      <LineHeader2 value="-- " />
+      <SeparatorB value="-----------------------------------------------------------------------------------------------" />
+    </FileType>
+    <FileType ext="pl,pm,ps1,psc1,psd1,psm1,py,pyc,pyo,rb,tcl">
+      <Separator value="###############################################################################################" />
+      <LineHeader2 value="# " />
+      <SeparatorB value="###############################################################################################" />
+    </FileType>
+    <FileType ext="bat,bas">
+      <Separator value="rem -------------------------------------------------------------------------------------------" />
+      <LineHeader2 value="rem " />
+      <SeparatorB value="rem -------------------------------------------------------------------------------------------" />
+    </FileType>
+  </Separators>
+  <Misc>
+    <RulesPath value="C:\Users\matej_000\Desktop\GeoGen GGS\src" />
+    <UserName value="(Use login name)" />
+    <MMAddDocComment value="true" />
+    <MMDocThisScope value="true" />
+    <MMDocThisFile value="true" />
+    <MMDocThisProject value="true" />
+    <MMDocThisSolution value="true" />
+    <MMDocAll value="true" />
+    <MMDeleteDocsFromFile value="true" />
+    <MMShowDocWindow value="true" />
+    <MMColumnise value="true" />
+    <MMOutlineDocComments value="true" />
+    <MMOutlineAttributes value="true" />
+    <MMOpenSourceOrHeader value="true" />
+    <MMImplementMethod value="true" />
+    <MMAddAccessMethods value="true" />
+    <MMAddProperty value="true" />
+    <MMCopyAsText value="true" />
+    <MMCheckForUpdates value="true" />
+    <CMAddDocComment value="true" />
+    <CMDocThisScope value="false" />
+    <CMDocThisFile value="false" />
+    <CMDocAll value="false" />
+    <CMShowDocWindow value="false" />
+    <CMColumnise value="false" />
+    <CMCopyAsText value="false" />
+    <CMAddProperty value="false" />
+    <CMAddAccessMethods value="false" />
+    <CMImplementMethod value="false" />
+    <CMOpenSourceOrHeader value="false" />
+    <EditXmlInNotepad />
+  </Misc>
+  <DocXml>
+    <BlockFormatNew />
+    <BlockFormatOld />
+    <BlockFormatForGroup />
+    <SuppressAuthorDate value="false" />
+  </DocXml>
+  <Variables>
+    <StyleCop value="false" />
+  </Variables>
+  <OutlineDocComment>
+    <OnOpenDoc value="false" />
+    <SkipFirstLine value="true" />
+    <EatTrailingBlank value="true" />
+  </OutlineDocComment>
+  <OutlineAttr>
+    <OnOpenDoc value="false" />
+    <EatBlanks value="true" />
+  </OutlineAttr>
+  <CopyAsText>
+    <StripIndent value="true" />
+    <TabSize value="4" />
+  </CopyAsText>
+  <AddAccessMethods>
+    <VarTemplate value="varName" />
+    <MemberPrefix />
+    <MultilineAutoProp value="false" />
+    <MethodTemplate value="GetVarName,SetVarName" />
+    <ParamTemplate value="varName" />
+  </AddAccessMethods>
+  <ImplementMethod>
+    <AddDocComment value="true" />
+    <ReturnToOrigDoc value="false" />
+  </ImplementMethod>
+  <Columnise>
+    <MinimiseWhitespace value="true" />
+  </Columnise>
+</Prefs>

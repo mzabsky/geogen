@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7CB85F8B-C519-4390-9996-F30F31CDCEED}</ProjectGuid>
+    <RootNamespace>antlr3</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)../lib/</OutDir>
+    <TargetName>antlr3d</TargetName>
+    <IncludePath>.;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)../lib/</OutDir>
+    <TargetName>antlr3c</TargetName>
+    <IncludePath>.;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="antlr3.h" />
+    <ClInclude Include="antlr3baserecognizer.h" />
+    <ClInclude Include="antlr3basetree.h" />
+    <ClInclude Include="antlr3basetreeadaptor.h" />
+    <ClInclude Include="antlr3bitset.h" />
+    <ClInclude Include="antlr3collections.h" />
+    <ClInclude Include="antlr3commontoken.h" />
+    <ClInclude Include="antlr3commontree.h" />
+    <ClInclude Include="antlr3commontreeadaptor.h" />
+    <ClInclude Include="antlr3commontreenodestream.h" />
+    <ClInclude Include="antlr3convertutf.h" />
+    <ClInclude Include="antlr3cyclicdfa.h" />
+    <ClInclude Include="antlr3debugeventlistener.h" />
+    <ClInclude Include="antlr3defs.h" />
+    <ClInclude Include="antlr3encodings.h" />
+    <ClInclude Include="antlr3errors.h" />
+    <ClInclude Include="antlr3exception.h" />
+    <ClInclude Include="antlr3filestream.h" />
+    <ClInclude Include="antlr3input.h" />
+    <ClInclude Include="antlr3interfaces.h" />
+    <ClInclude Include="antlr3intstream.h" />
+    <ClInclude Include="antlr3lexer.h" />
+    <ClInclude Include="antlr3memory.h" />
+    <ClInclude Include="antlr3parser.h" />
+    <ClInclude Include="antlr3parsetree.h" />
+    <ClInclude Include="antlr3recognizersharedstate.h" />
+    <ClInclude Include="antlr3rewritestreams.h" />
+    <ClInclude Include="antlr3string.h" />
+    <ClInclude Include="antlr3tokenstream.h" />
+    <ClInclude Include="antlr3treeparser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="antlr3baserecognizer.c" />
+    <ClCompile Include="antlr3basetree.c" />
+    <ClCompile Include="antlr3basetreeadaptor.c" />
+    <ClCompile Include="antlr3bitset.c" />
+    <ClCompile Include="antlr3collections.c" />
+    <ClCompile Include="antlr3commontoken.c" />
+    <ClCompile Include="antlr3commontree.c" />
+    <ClCompile Include="antlr3commontreeadaptor.c" />
+    <ClCompile Include="antlr3commontreenodestream.c" />
+    <ClCompile Include="antlr3convertutf.c" />
+    <ClCompile Include="antlr3cyclicdfa.c" />
+    <ClCompile Include="antlr3debughandlers.c" />
+    <ClCompile Include="antlr3encodings.c" />
+    <ClCompile Include="antlr3exception.c" />
+    <ClCompile Include="antlr3filestream.c" />
+    <ClCompile Include="antlr3inputstream.c" />
+    <ClCompile Include="antlr3intstream.c" />
+    <ClCompile Include="antlr3lexer.c" />
+    <ClCompile Include="antlr3parser.c" />
+    <ClCompile Include="antlr3rewritestreams.c" />
+    <ClCompile Include="antlr3string.c" />
+    <ClCompile Include="antlr3tokenstream.c" />
+    <ClCompile Include="antlr3treeparser.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

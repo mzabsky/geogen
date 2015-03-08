@@ -1,0 +1,82 @@
+﻿/// [Metadata]
+enum LakeSizes
+{
+	None,
+	Tiny,
+	Small,
+	Medium,
+	Large,
+	Huge
+}
+
+metadata
+{
+	Width: Finite,
+	Height: Finite,
+	Name: "Conflux",
+	Description: "Several rivers meeting in a central lake.",
+	Author: "Matěj Zábský",
+	Parameters: 
+	{
+		LakeSize: { Type: LakeSizes, Default: Medium },
+		NumberOfRivers: { Min: 2, Max: 16, Default: 6 }
+	}
+}
+
+var map = HeightMap.RadialGradient
+			([500, 500], 500, 0.5, 0); 
+map.Blur(50); 
+var noise = HeightMap.Noise(); 
+map.Add(noise);
+yield map; 
+
+/*
+
+/// [Metadata]
+
+/// [Template]
+var template = HeightMap.Flat(1);
+ 
+// Draw the star from lines
+var angleStep = 360 / Parameters.NumberOfRivers;
+var startingAngle = Random(0, 360);
+for(var angle = startingAngle; angle < startingAngle + 360; angle += angleStep)
+{
+	var maximumAngleDeviation = angleStep / 4;
+	var randomizedAngle = Random(angle - maximumAngleDeviation, angle + maximumAngleDeviation);
+	
+    var point = @[
+        0.5 + Cos(DegToRad(randomizedAngle)),
+        0.5 + Sin(DegToRad(randomizedAngle))];
+
+    template.DrawLine(@[0.5, 0.5], point, -1);
+}
+
+//template.Intersect(HeightMap.RadialGradient(@[0.5, 0.5], Number.FromEnum(Parameters.LakeSize) * 50, -1, 1));
+/// [Template]
+
+/// [Distortion]
+template.Distort(100, 50);
+template.Distort(50, 25);
+/// [Distortion]
+
+/// [Sharpening]
+template.CropHeights(1, 1, 0);
+/// [Sharpening]
+
+/// [DistanceMap]
+var distanceMap = HeightMap.DistanceMap(template, 100)
+	.Blur(15)
+	.Add(-0.07);
+	
+distanceMap.Add(HeightMap.RadialGradient(@[0.5, 0.5], 700, -1, 1));
+	
+yield distanceMap as "DistanceMap";
+
+distanceMap.Multiply(0.5);
+
+distanceMap.Add(HeightMap.RidgedNoise().Multiply(0.45));
+
+distanceMap.Glaciate();
+
+yield distanceMap;*/
