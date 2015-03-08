@@ -16,7 +16,7 @@ namespace geogen
 
 		Configuration() :
 			MainMapIsMandatory(true),
-			RendererMemoryLimit(100 * 1024 * 1024) {}
+			RendererMemoryLimit(100 * 1024 * 1024) {};
 
 		virtual void Serialize(IOStream& stream) const;
 	};
