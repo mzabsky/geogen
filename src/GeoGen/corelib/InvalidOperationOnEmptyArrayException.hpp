@@ -17,6 +17,8 @@ namespace geogen
 			InvalidOperationOnEmptyArrayException(CodeLocation location, String const& operationName) :
 				RuntimeException(GGE2601_InvalidOperationOnEmptyArray, location), operationName(operationName) {};
 
+			virtual ~InvalidOperationOnEmptyArrayException() throw () {}
+
 			inline String GetOperationName()
 			{
 				return this->operationName;

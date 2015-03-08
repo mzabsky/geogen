@@ -26,6 +26,8 @@ namespace geogen
 			IncorrectScriptParameterAttributeTypeException(CodeLocation location, String const& parameterName, String attributeName, String expectedAttributeTypeName, String actualAttributeTypeName) :
 				CompilerException(GGE1406_IncorrectScriptParameterAttributeType, location), parameterName(parameterName), attributeName(attributeName), expectedAttributeTypeName(expectedAttributeTypeName), actualAttributeTypeName(actualAttributeTypeName) {};
 
+			virtual ~IncorrectScriptParameterAttributeTypeException() throw () {}
+
 			/// Gets parameter name.
 			/// @return The parameter name.
 			inline String GetParameterName() const { return this->parameterName; }

@@ -20,6 +20,8 @@ namespace geogen
 			ReservedScriptParameterNameException(CodeLocation location, String const& parameterName) :
 				CompilerException(GGE1405_ReservedScriptParameterNameUsed, location), parameterName(parameterName) {};
 
+			virtual ~ReservedScriptParameterNameException() throw () {}
+
 			/// Gets parameter name.
 			/// @return The parameter name.
 			inline String GetParameterName() const { return this->parameterName; }

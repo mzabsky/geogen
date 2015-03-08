@@ -19,6 +19,8 @@ namespace geogen
 			explicit ReadOnlyWriteException(CodeLocation location, String const& symbolName) :
 				RuntimeException(GGE2108_ReadOnlyWrite, location), symbolName(symbolName) {};
 
+			virtual ~ReadOnlyWriteException() throw () {}
+
 			/// Gets symbol name.
 			/// @return The symbol name.
 			inline String GetSymbolName() const { return this->symbolName; }

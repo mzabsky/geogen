@@ -20,6 +20,8 @@ namespace geogen
 			explicit SymbolDefinitionException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				RuntimeException(code, location), symbolName(symbolName) {};
 
+			virtual ~SymbolDefinitionException() throw () {}
+
 			/// Gets symbol name.
 			/// @return The symbol name.
 			inline String GetSymbolName() const { return this->symbolName; }

@@ -18,6 +18,8 @@ namespace geogen
 			{
 			};
 
+			virtual ~UnexpectedCharacterException() throw () {}
+
 			inline Char GetCharacter() const 
 			{
 				return this->character;

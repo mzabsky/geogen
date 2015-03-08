@@ -16,6 +16,8 @@ namespace geogen
 			InvalidScaleException(CodeLocation location) :
 				RuntimeException(GGE2714_InvalidScale, location) {};
 
+			virtual ~InvalidScaleException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

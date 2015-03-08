@@ -22,6 +22,8 @@ namespace geogen
 			IncorrectEnumScriptParameterTypeException(CodeLocation location, String const& parameterName, String typeName) :
 				CompilerException(GGE1413_IncorrectEnumScriptParameterType, location), parameterName(parameterName), typeName(typeName) {};
 
+			virtual ~IncorrectEnumScriptParameterTypeException() throw () {}
+
 			/// Gets parameter name.
 			/// @return The parameter name.
 			inline String GetParameterName() const { return this->parameterName; }

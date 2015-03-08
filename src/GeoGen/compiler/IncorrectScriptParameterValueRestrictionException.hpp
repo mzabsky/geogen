@@ -22,6 +22,8 @@ namespace geogen
 			IncorrectScriptParameterValueRestrictionException(CodeLocation location, String const& parameterName, String restrictionName) :
 				CompilerException(GGE1407_IncorrectScriptParameterValueRestriction, location), parameterName(parameterName), restrictionName(restrictionName) {};
 
+			virtual ~IncorrectScriptParameterValueRestrictionException() throw () {}
+
 			/// Gets parameter name.
 			/// @return The parameter name.
 			inline String GetParameterName() const { return this->parameterName; }

@@ -20,6 +20,8 @@ namespace geogen
 			explicit CompilerException(ErrorCode code, CodeLocation location) :
 				GeoGenException(code), location(location) {};
 
+			virtual ~CompilerException() throw () {}
+
 			/// Gets the location.
 			/// @return The location.
 			inline CodeLocation GetLocation(){ return this->location; }

@@ -20,6 +20,8 @@ namespace geogen
 			MetadataKeyRedefinitionException(CodeLocation location, String const& key) :
 				CompilerException(GGE1401_MetadataKeyAlreadyDefined, location), key(key) {};
 
+			virtual ~MetadataKeyRedefinitionException() throw () {}
+
 			/// Gets the key.
 			/// @return The key.
 			inline String GetKey() const { return this->key; }

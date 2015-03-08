@@ -20,6 +20,8 @@ namespace geogen
 			{
 			};
 
+			virtual ~MainMapNotSupportedByScriptException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

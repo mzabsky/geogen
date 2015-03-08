@@ -21,6 +21,8 @@ namespace geogen
 			{
 			};
 
+			virtual ~ReadOnlyExpressionWriteException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

@@ -17,6 +17,8 @@ namespace geogen
 			RelativeCoordinateInInfiniteDimensionException(CodeLocation location) :
 				RuntimeException(GGE2704_RelativeCoordinateInInfiniteDimensions, location) {};
 
+			virtual ~RelativeCoordinateInInfiniteDimensionException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

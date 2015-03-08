@@ -17,6 +17,8 @@ namespace geogen
 			StringFormatException(CodeLocation location) :
 				RuntimeException(GGE2701_IncorrectStringFormat, location), keyStringValue(keyStringValue) {};
 
+			virtual ~StringFormatException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

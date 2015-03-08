@@ -14,6 +14,8 @@ namespace geogen
 			explicit NumberOverflowException(CodeLocation location) :
 				RuntimeException(GGE2302_NumberOverflow, location) {};
 
+			virtual ~NumberOverflowException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

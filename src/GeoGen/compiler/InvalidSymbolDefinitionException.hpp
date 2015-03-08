@@ -21,6 +21,8 @@ namespace geogen
 			explicit InvalidSymbolDefinitionException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				CompilerException(code, location), symbolName(symbolName) {};
 
+			virtual ~InvalidSymbolDefinitionException() throw () {}
+
 			/// Gets symbol name.
 			/// @return The symbol name.
 			inline String GetSymbolName() const { return this->symbolName; }

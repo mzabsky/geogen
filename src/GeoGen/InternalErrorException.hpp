@@ -14,6 +14,8 @@ namespace geogen
 		explicit InternalErrorException(String const& message) :
 			GeoGenException(GGE5000_InternalError), message(message) {};
 
+		virtual ~InternalErrorException() throw () {}
+
 		virtual String GetDetailMessage()
 		{
 			StringStream ss;

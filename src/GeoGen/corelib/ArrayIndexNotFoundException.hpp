@@ -22,6 +22,8 @@ namespace geogen
 			ArrayIndexNotFoundException(CodeLocation location, int index) :
 				RuntimeException(GGE2604_ArrayIndexNotFound, location), index(index) {};
 
+			virtual ~ArrayIndexNotFoundException() throw () {}
+
 			/// Gets the index.
 			/// @return The index.
 			inline int GetIndex()

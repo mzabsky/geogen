@@ -23,6 +23,8 @@ namespace geogen
 			UserErrorException(CodeLocation location, String const& formattedUserMessage, String const& unformattedUserMessage, std::vector<String> const& arguments) :
 				RuntimeException(GGE6000_UserError, location), formattedUserMessage(formattedUserMessage), unformattedUserMessage(unformattedUserMessage), arguments(arguments) {};
 
+			virtual ~UserErrorException() throw () {}
+
 			/// Gets formatted user message.
 			/// @return The formatted user message.
 			inline String GetFormattedUserMessage() const { return this->formattedUserMessage; }

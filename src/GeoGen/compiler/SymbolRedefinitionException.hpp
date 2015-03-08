@@ -21,6 +21,8 @@ namespace geogen
 			SymbolRedefinitionException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				CompilerException(code, location), symbolName(symbolName) {};
 
+			virtual ~SymbolRedefinitionException() throw () {}
+
 			/// Gets symbol name.
 			/// @return The symbol name.
 			inline String GetSymbolName() const { return this->symbolName; }

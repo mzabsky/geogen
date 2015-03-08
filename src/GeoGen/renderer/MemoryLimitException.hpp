@@ -18,6 +18,8 @@ namespace geogen
 			explicit MemoryLimitException(unsigned memoryLimit, unsigned memoryRequired) :
 				GeoGenException(GGE3001_RendererMemoryLimitReached), memoryLimit(memoryLimit), memoryRequired(memoryRequired) {};
 
+			virtual ~MemoryLimitException() throw () {}
+
 			unsigned GetMemoryLimit() const
 			{
 				return this->memoryLimit;

@@ -25,6 +25,8 @@ namespace geogen
 			IncorrectMetadataValueTypeException(ErrorCode errorCode, CodeLocation location, String const& valueName, String const& expectedType, String const& actualType) :
 				CompilerException(errorCode, location), valueName(valueName), expectedType(expectedType), actualType(actualType) {};
 
+			virtual ~IncorrectMetadataValueTypeException() throw () {}
+
 			/// Gets value name.
 			/// @return The value name.
 			inline String GetValueName() const { return this->valueName; }

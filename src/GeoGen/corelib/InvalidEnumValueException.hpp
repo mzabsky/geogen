@@ -19,6 +19,8 @@ namespace geogen
 			InvalidEnumValueException(CodeLocation location, Number number, String const& typeName) :
 				RuntimeException(GGE2702_InvalidEnumNumericValue, location), number(number), typeName(typeName) {};
 
+			virtual ~InvalidEnumValueException() throw () {}
+
 			inline String const& GetTypeName()
 			{
 				return this->typeName;

@@ -17,6 +17,8 @@ namespace geogen
 			NullKeyException(CodeLocation location) :
 				RuntimeException(GGE2603_ArrayNullKey, location) {};
 
+			virtual ~NullKeyException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

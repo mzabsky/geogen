@@ -22,6 +22,8 @@ namespace geogen
 			explicit IncorrectTypeException(ErrorCode code, CodeLocation location, String const& expectedTypeName, String const& actualTypeName) :
 				RuntimeException(code, location), expectedTypeName(expectedTypeName), actualTypeName(actualTypeName) {};
 
+			virtual ~IncorrectTypeException() throw () {}
+
 			/// Gets expected type name.
 			/// @return The expected type name.
 			inline String GetExpectedTypeName() const { return this->expectedTypeName; }

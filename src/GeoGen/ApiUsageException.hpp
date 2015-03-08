@@ -11,11 +11,12 @@ namespace geogen
 	private:
 		String message;
 	public:
-
 		/// Constructor.
 		/// @param message The message.
 		explicit ApiUsageException(String const& message) :
 			GeoGenException(GGE4000_ApiUsageError), message(message) {};
+
+		virtual ~ApiUsageException() throw () {}
 
 		virtual String GetDetailMessage()
 		{

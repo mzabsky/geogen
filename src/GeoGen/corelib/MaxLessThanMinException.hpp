@@ -17,6 +17,8 @@ namespace geogen
 			MaxLessThanMinException(CodeLocation location) :
 				RuntimeException(GGE2705_MaxLessThanMin, location) {};
 
+			virtual ~MaxLessThanMinException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

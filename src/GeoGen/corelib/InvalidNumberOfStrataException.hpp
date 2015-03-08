@@ -16,6 +16,8 @@ namespace geogen
 			InvalidNumberOfStrataException(CodeLocation location) :
 				RuntimeException(GGE2716_InvalidNumberOfStrata, location) {};
 
+			virtual ~InvalidNumberOfStrataException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

@@ -22,6 +22,8 @@ namespace geogen
 			{
 			};
 
+			virtual ~InvalidEscapeSequenceException() throw () {}
+
 			/// Gets escape sequence.
 			/// @return The escape sequence.
 			inline String GetEscapeSequence() const

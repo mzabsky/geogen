@@ -26,6 +26,8 @@ namespace geogen
 			{				
 			};
 
+			virtual ~UnexpectedTokenException() throw () {}
+
 			/// Gets expected token name.
 			/// @return The expected token name.
 			inline String GetExpectedTokenName()

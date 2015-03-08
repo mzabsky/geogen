@@ -14,6 +14,8 @@ namespace geogen
 			explicit MainMapNotGeneratedException(CodeLocation location) :
 				RuntimeException(GGE2801_MainMapNotGenerated, location) {};
 
+			virtual ~MainMapNotGeneratedException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

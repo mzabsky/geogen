@@ -16,6 +16,8 @@ namespace geogen
 			InvalidPersistenceException(CodeLocation location) :
 				RuntimeException(GGE2713_InvalidPersistence, location) {};
 
+			virtual ~InvalidPersistenceException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

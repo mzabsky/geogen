@@ -16,6 +16,8 @@ namespace geogen
 			NonpositiveNoiseLayerWaveLengthException(CodeLocation location) :
 				RuntimeException(GGE2710_NonpositiveNoiseLayerWaveLength, location) {};
 
+			virtual ~NonpositiveNoiseLayerWaveLengthException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

@@ -19,6 +19,8 @@ namespace geogen
 			RenderingSequenceTooLongException(CodeLocation location) :
 				RuntimeException(GGE2504_RenderingSequenceTooLong, location) {};
 
+			virtual ~RenderingSequenceTooLongException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

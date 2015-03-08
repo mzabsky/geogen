@@ -16,6 +16,8 @@ namespace geogen
 			NumberOfArgumentsException(CodeLocation location, unsigned expectedNumberOfArguments, unsigned actualNumberOfArguments) :
 				RuntimeException(GGE2103_IncorrectNumberOfArguments, location), expectedNumberOfArguments(expectedNumberOfArguments), actualNumberOfArguments(actualNumberOfArguments) {};
 
+			virtual ~NumberOfArgumentsException() throw () {}
+
 			inline unsigned GetExpectedNumberOfArguments() const { return this->expectedNumberOfArguments; }
 			inline unsigned GetActualNumberOfArguments() const { return this->actualNumberOfArguments; }
 

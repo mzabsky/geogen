@@ -36,6 +36,8 @@ namespace geogen
 			StackOverflowException(ErrorCode code, CodeLocation location, StackType stackType) :
 				RuntimeException(code, location), stackType(stackType) {};
 
+			virtual ~StackOverflowException() throw () {}
+
 			/// Gets stack type.
 			/// @return The stack type.
 			inline StackType GetStackType() const { return this->stackType; }

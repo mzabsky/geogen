@@ -20,6 +20,8 @@ namespace geogen
 			{
 			};
 
+			virtual ~InvalidReturnException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

@@ -14,6 +14,8 @@ namespace geogen
 			DivisionByZeroException(CodeLocation location) :
 				MathDefinitionRangeException(GGE2301_DivisionByZero, location, GG_STR("/"), 0) {};
 
+			virtual ~DivisionByZeroException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				return GG_STR("Attempted to divide by 0.");

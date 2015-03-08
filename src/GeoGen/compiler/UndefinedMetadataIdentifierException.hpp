@@ -16,6 +16,8 @@ namespace geogen
 			UndefinedMetadataIdentifierException(CodeLocation location, String const& identifier) :
 				CompilerException(GGE1410_UndefinedMetadataIdentifier, location), identifier(identifier) {};
 
+			virtual ~UndefinedMetadataIdentifierException() throw () {}
+
 			inline String GetIdentifier() const { return this->identifier; }
 
 			virtual String GetDetailMessage()

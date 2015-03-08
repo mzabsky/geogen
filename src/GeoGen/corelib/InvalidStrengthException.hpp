@@ -16,6 +16,8 @@ namespace geogen
 			InvalidStrengthException(CodeLocation location) :
 				RuntimeException(GGE2715_InvalidStrength, location) {};
 
+			virtual ~InvalidStrengthException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

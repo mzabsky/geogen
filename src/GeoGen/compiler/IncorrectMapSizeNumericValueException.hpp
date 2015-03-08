@@ -22,6 +22,8 @@ namespace geogen
 			IncorrectMapSizeNumericValueException(CodeLocation location, Number actualValue) :
 				CompilerException(GGE1411_IncorrectMapSizeNumericValue, location), actualValue(actualValue) {};
 
+			virtual ~IncorrectMapSizeNumericValueException() throw () {}
+
 			/// Gets actual value.
 			/// @return The actual value.
 			inline Number GetActualValue() const { return this->actualValue; }

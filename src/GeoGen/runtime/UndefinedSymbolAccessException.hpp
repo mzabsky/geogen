@@ -19,6 +19,8 @@ namespace geogen
 			UndefinedSymbolAccessException(ErrorCode code, CodeLocation location, String const& symbolName) :
 				SymbolDefinitionException(code, location, symbolName) {};
 
+			virtual ~UndefinedSymbolAccessException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

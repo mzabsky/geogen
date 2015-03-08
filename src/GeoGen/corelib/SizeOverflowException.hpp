@@ -16,6 +16,8 @@ namespace geogen
 			SizeOverflowException(CodeLocation location) :
 				RuntimeException(GGE2309_SizeOverflow, location) {};
 
+			virtual ~SizeOverflowException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

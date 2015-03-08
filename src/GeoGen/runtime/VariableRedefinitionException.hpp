@@ -14,6 +14,8 @@ namespace geogen
 			VariableRedefinitionException(CodeLocation location, String const& symbolName) :
 				SymbolDefinitionException(GGE2204_VariableAlreadyDefined, location, symbolName) {};
 
+			virtual ~VariableRedefinitionException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

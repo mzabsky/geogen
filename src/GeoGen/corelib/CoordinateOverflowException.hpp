@@ -17,6 +17,8 @@ namespace geogen
 			CoordinateOverflowException(CodeLocation location) :
 				RuntimeException(GGE2304_CoordinateOverflow, location) {};
 
+			virtual ~CoordinateOverflowException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

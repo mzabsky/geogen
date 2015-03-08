@@ -17,6 +17,8 @@ namespace geogen
 			explicit IntermediateCodeException(String const& message) :
 				GeoGenException(GGE5001_IntermediateCodeError) {};
 
+			virtual ~IntermediateCodeException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

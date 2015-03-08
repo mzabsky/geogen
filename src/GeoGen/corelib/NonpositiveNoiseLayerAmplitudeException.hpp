@@ -16,6 +16,8 @@ namespace geogen
 			NonpositiveNoiseLayerAmplitudeException(CodeLocation location) :
 				RuntimeException(GGE2711_NonpositiveNoiseLayerAmplitude, location) {};
 
+			virtual ~NonpositiveNoiseLayerAmplitudeException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

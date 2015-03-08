@@ -18,6 +18,8 @@ namespace geogen
 			ArrayKeyNotFoundException(CodeLocation location, String const& keyStringValue) :
 				RuntimeException(GGE2602_ArrayKeyNotFound, location), keyStringValue(keyStringValue) {};
 
+			virtual ~ArrayKeyNotFoundException() throw () {}
+
 			inline String GetKeyStringValue()
 			{
 				return this->keyStringValue;

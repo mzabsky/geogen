@@ -13,6 +13,8 @@ namespace geogen
 			NullReferenceException(CodeLocation location) :
 				RuntimeException(GGE2106_NullReference, location) {};
 
+			virtual ~NullReferenceException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

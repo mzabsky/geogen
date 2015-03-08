@@ -23,6 +23,8 @@ namespace geogen
 			explicit AssertionFailedException(CodeLocation location, String const& expected, String const& actual) :
 				GeoGenException((ErrorCode)9000), location(location), expected(expected), actual(actual) {};
 
+			virtual ~AssertionFailedException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

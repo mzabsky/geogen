@@ -19,6 +19,8 @@ namespace geogen
 			MathDefinitionRangeException(ErrorCode errorCode, CodeLocation location, String const& operationName, Number number) :
 				RuntimeException(errorCode, location), operationName(operationName), number(number) {};
 
+			virtual ~MathDefinitionRangeException() throw () {}
+
 			inline Number GetNumber()
 			{
 				return this->number;
@@ -28,7 +30,6 @@ namespace geogen
 			{
 				return this->operationName;
 			}
-
 
 			virtual String GetDetailMessage()
 			{

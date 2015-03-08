@@ -14,6 +14,8 @@ namespace geogen
 			explicit NumberUnderflowException(CodeLocation location) :
 				RuntimeException(GGE2308_NumberUnderflow, location) {};
 
+			virtual ~NumberUnderflowException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

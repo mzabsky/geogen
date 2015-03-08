@@ -16,6 +16,8 @@ namespace geogen
 			HeightOverflowException(CodeLocation location) :
 				RuntimeException(GGE2303_HeightOverflow, location) {};
 
+			virtual ~HeightOverflowException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;

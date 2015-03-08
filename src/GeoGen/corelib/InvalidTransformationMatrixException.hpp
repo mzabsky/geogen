@@ -14,12 +14,14 @@ namespace geogen
 		private:
 		public:
 			InvalidTransformationMatrixException(CodeLocation location) :
-			RuntimeException(GGE2712_InvalidTransformationMatrix, location) {};
+				RuntimeException(GGE2712_InvalidTransformationMatrix, location) {};
+
+			virtual ~InvalidTransformationMatrixException() throw () {}
 
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
-				ss << "Transformation matrix was invalid on line " << this->GetLocation().GetLine() << ", column " << this->GetLocation().GetColumn() << ". The transformation matrix must be invertible.";
+				ss << GG_STR("Transformation matrix was invalid on line ") << this->GetLocation().GetLine() << GG_STR(", column ") << this->GetLocation().GetColumn() << GG_STR(". The transformation matrix must be invertible.");
 				return ss.str();
 			}
 		};

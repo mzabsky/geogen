@@ -22,6 +22,8 @@ namespace geogen
 			MinGreaterThanMaxSizeException(CodeLocation location, Direction dimension) :
 				CompilerException(GGE1412_MinGreaterThanMaxMapSize, location), direction(direction) {};
 
+			virtual ~MinGreaterThanMaxSizeException() throw () {}
+
 			/// Gets the dimension.
 			/// @return The dimension.
 			inline Direction GetDimension() const { return this->direction; }

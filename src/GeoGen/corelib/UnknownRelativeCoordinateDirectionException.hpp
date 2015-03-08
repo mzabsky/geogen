@@ -17,6 +17,8 @@ namespace geogen
 			UnknownRelativeCoordinateDirectionException(CodeLocation location) :
 				RuntimeException(GGE2703_UnknownRelativeCoordinateDirection, location) {};
 
+			virtual ~UnknownRelativeCoordinateDirectionException() throw () {}
+
 			virtual String GetDetailMessage()
 			{
 				StringStream ss;
