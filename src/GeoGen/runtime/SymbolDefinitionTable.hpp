@@ -17,7 +17,7 @@ namespace geogen
 		class SymbolDefinitionTable : public Serializable
 		{
 		private:
-			std::map<String, TSymbolBase*> table;
+			typename std::map<String, TSymbolBase*> table;
 
 			// Non-copyable
 			SymbolDefinitionTable(SymbolDefinitionTable const&) {}
@@ -29,7 +29,7 @@ namespace geogen
 
 			inline TSymbolBase const* GetItem(String const& symbolName) const
 			{
-				std::map<String, TSymbolBase*>::const_iterator item = this->table.find(symbolName);
+				typename std::map<String, TSymbolBase*>::const_iterator item = this->table.find(symbolName);
 				
 				if(item == this->table.end()){
 					return NULL;
@@ -84,7 +84,7 @@ namespace geogen
 			{
 				if (TOwning)
 				{
-					for (std::map<String, TSymbolBase*>::iterator it = this->table.begin(); it != this->table.end(); it++)
+					for (typename std::map<String, TSymbolBase*>::iterator it = this->table.begin(); it != this->table.end(); it++)
 					{
 						delete it->second;
 					}
