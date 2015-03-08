@@ -155,7 +155,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="finite.txt" />
     <Text Include="testinput.txt" />
     <Text Include="testinput2.txt">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
