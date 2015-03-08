@@ -22,7 +22,9 @@ namespace geogen
 			message = ss.str();
 		}
 
-		virtual const char* what() const
+		virtual ~GeoGenException() throw () {}
+
+		virtual const char* what() const throw()
 		{
 			return this->message.c_str();
 		}
