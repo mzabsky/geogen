@@ -1,2 +1,2 @@
-﻿var map = HeightMap.RidgedNoise(CreateNoiseLayers(256)).Add(-0.10).Multiply(1.2);
+﻿var map = HeightMap.RidgedNoise(CreateNoiseLayers(256)).Add(-0.10).Multiply(1.2).Rescale(0.1).Rescale(0.1);
 yield map;

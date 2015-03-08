@@ -10,6 +10,7 @@ namespace geogen
 	{
 		typedef std::map<Size1D, Height> NoiseLayers;
 
+		/// Factory class creating well known HeightProfile instances.
 		class CommonProfileFactory
 		{
 		private:

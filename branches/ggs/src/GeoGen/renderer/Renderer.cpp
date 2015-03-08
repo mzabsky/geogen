@@ -105,7 +105,7 @@ void Renderer::CalculateMemoryRequirements()
 {
 	vector<unsigned> allocatedMemoryPerSlot(this->GetObjectTable().GetSize(), 0);
 	vector<bool> isObjectAlive(this->GetObjectTable().GetSize(), false);
-	vector<RenderingBounds const*> currentBounds(this->GetObjectTable().GetSize(), NULL);
+	vector<RenderingBounds*> currentBounds(this->GetObjectTable().GetSize(), NULL);
 
 	for (RenderingSequence::const_iterator it = this->renderingSequence.Begin(); it != this->renderingSequence.End(); it++)
 	{
@@ -129,18 +129,20 @@ void Renderer::CalculateMemoryRequirements()
 
 		this->GetRenderingSequenceMetadata().SetMemoryRequirement(step, currentAllocatedSum + stepExtraMemory);
 
-		// If an object is being allocated, store its size
-		if (!isObjectAlive[returnSlot]){
-
-			// This is done only once for each object, because the bounds will not be resized even if later operations have smaller bounds
-			// (they can't have larger bounds).
-			currentBounds[returnSlot] = this->GetRenderingSequenceMetadata().GetRenderingBounds(*it);
-			allocatedMemoryPerSlot[returnSlot] = currentBounds[returnSlot]->GetMemorySize(this->GetRenderingSequence().GetRenderScale());
+		// Calculate return object's size and memory requirements
+		if (!isObjectAlive[returnSlot])
+		{
+			// Initial bounds are based on the pre-calculated rendering bounds, later they may diverge
+			currentBounds[returnSlot] = this->GetRenderingSequenceMetadata().GetRenderingBounds(step);
 			isObjectAlive[returnSlot] = true;
-
-			// TODO: Co s Rescale?
-			// TODO: Fyzicke koordinaty
 		}
+		else 
+		{
+			// Step's execution may cause change of the bounds (eg. HeightMap.Rescale)
+			step->SimulateOnRenderingBounds(currentBounds[returnSlot]);
+		}
+
+		allocatedMemoryPerSlot[returnSlot] = currentBounds[returnSlot]->GetMemorySize(this->GetRenderingSequence().GetRenderScale());
 
 		// Released objects don't occupy any memory any more
 		for (vector<unsigned>::iterator it2 = currentStepObjectIndexesToRelease.begin(); it2 != currentStepObjectIndexesToRelease.end(); it2++)
