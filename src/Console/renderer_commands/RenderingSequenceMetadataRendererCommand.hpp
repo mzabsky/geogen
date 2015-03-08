@@ -42,7 +42,7 @@ namespace geogen
 
 						debugger->GetOut() << GG_STR("\tObjects to release: ");
 
-						std::vector<unsigned> const& objectIndexesToRelease = debugger->GetRenderer()->GetRenderingSequenceMetadata().GetObjectIndexesToRelease(*it);
+						std::vector<unsigned> const& objectIndexesToRelease = debugger->GetRenderer()->GetRenderingSequenceMetadata().GetObjectIndexesToRelease(*it);						
 						for (std::vector<unsigned>::const_iterator it2 = objectIndexesToRelease.begin(); it2 != objectIndexesToRelease.end(); it2++)
 						{
 							debugger->GetOut() << *it2;
@@ -51,6 +51,11 @@ namespace geogen
 							{
 								debugger->GetOut() << GG_STR(", ");
 							}
+						}
+
+						if (objectIndexesToRelease.size() == 0)
+						{
+							debugger->GetOut() << GG_STR("None");
 						}
 
 						debugger->GetOut() << std::endl;
