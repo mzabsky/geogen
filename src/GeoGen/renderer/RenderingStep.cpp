@@ -18,6 +18,11 @@ unsigned RenderingStep::GetPeakExtraMemory(Renderer* renderer, std::vector<Rende
 	return 0;
 }
 
+void RenderingStep::SimulateOnRenderingBounds(RenderingBounds* renderingBounds) const
+{
+	// Most steps have no effect on the return object's rendering bounds.
+}
+
 void RenderingStep::Serialize(IOStream& stream) const
 {
 	stream << this->GetReturnSlot() << GG_STR(" <- ") << this->GetName() << GG_STR(" [");
