@@ -34,7 +34,7 @@ namespace geogen {
 		/// Adds both components of the two points together separately.
 		/// @param other The other point.
 		/// @return The result.
-		inline Point Point::operator+(const Point& other) const 
+		inline Point operator+(const Point& other) const 
 		{
 			return Point(this->x + other.x, this->y + other.y);
 		}
@@ -42,62 +42,62 @@ namespace geogen {
 		/// Adds both components of the two points together separately.
 		/// @param other The other point.
 		/// @return The result.
-		Point& Point::operator+=(const Point& other)
+		Point& operator+=(const Point& other)
 		{
 			*this = *this + other;
 			return *this;
 		}
 
-		inline Point Point::operator+(const Size2D& other) const
+		inline Point operator+(const Size2D& other) const
 		{
 			return Point(this->x + other.GetWidth(), this->y + other.GetHeight());
 		}
 
-		Point& Point::operator+=(const Size2D& other)
+		Point& operator+=(const Size2D& other)
 		{
 			*this = *this + other;
 			return *this;
 		}
 
-		inline Point Point::operator-(const Point& other) const
+		inline Point operator-(const Point& other) const
 		{
 			return Point(this->x - other.x, this->y - other.y);
 		}
 
-		Point& Point::operator-=(const Point& other)
+		Point& operator-=(const Point& other)
 		{
 			*this = *this - other;
 			return *this;
 		}
 
-		inline Point Point::operator-(const Size2D& other) const
+		inline Point operator-(const Size2D& other) const
 		{
 			return Point(this->x - other.GetWidth(), this->y - other.GetHeight());
 		}
 
-		Point& Point::operator-=(const Size2D& other)
+		Point& operator-=(const Size2D& other)
 		{
 			*this = *this - other;
 			return *this;
 		}
 
-		inline Point Point::operator*(const double other) const
+		inline Point operator*(const double other) const
 		{
 			return Point((Size1D)(this->x * other), (Size1D)(this->y * other));
 		}
 
-		Point& Point::operator*=(const double other)
+		Point& operator*=(const double other)
 		{
 			*this = *this * other;
 			return *this;
 		}
 
-		inline Point Point::operator/(const double other) const
+		inline Point operator/(const double other) const
 		{
 			return Point((Size1D)(this->x / other), (Size1D)(this->y / other));
 		}
 
-		Point& Point::operator/=(const double other)
+		Point& operator/=(const double other)
 		{
 			*this = *this / other;
 			return *this;

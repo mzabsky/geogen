@@ -34,7 +34,7 @@ namespace geogen {
 		/// Moves the entire rectangle by an offset.
 		/// @param other The offset.
 		/// @return The moved rectangle.
-		inline Rectangle Rectangle::operator+(const Point& other) const
+		inline Rectangle operator+(const Point& other) const
 		{
 			return Rectangle(Point(this->position.GetX() + other.GetX(), this->position.GetY() + other.GetY()), this->size);
 		}
@@ -42,7 +42,7 @@ namespace geogen {
 		/// Moves the entire rectangle by an offset.
 		/// @param other The offset.
 		/// @return The moved rectangle.
-		Rectangle& Rectangle::operator+=(const Point& other)
+		Rectangle& operator+=(const Point& other)
 		{
 			*this = *this + other;
 			return *this;
@@ -51,7 +51,7 @@ namespace geogen {
 		/// Increases size of the rectangle by given size.
 		/// @param other The size.
 		/// @return The resized rectangle.
-		inline Rectangle Rectangle::operator+(const Size2D& other) const
+		inline Rectangle operator+(const Size2D& other) const
 		{
 			return Rectangle(this->position, Size2D(this->size.GetWidth() + other.GetWidth(), this->size.GetHeight() + other.GetHeight()));
 		}
@@ -59,7 +59,7 @@ namespace geogen {
 		/// Increases size of the rectangle by given size.
 		/// @param other The size.
 		/// @return The resized rectangle.
-		Rectangle& Rectangle::operator+=(const Size2D& other)
+		Rectangle& operator+=(const Size2D& other)
 		{
 			*this = *this + other;
 			return *this;
@@ -68,7 +68,7 @@ namespace geogen {
 		/// Moves the entire rectangle by an offset.
 		/// @param other The offset.
 		/// @return The moved rectangle.
-		inline Rectangle Rectangle::operator-(const Point& other) const
+		inline Rectangle operator-(const Point& other) const
 		{
 			return Rectangle(Point(this->position.GetX() - other.GetX(), this->position.GetY() - other.GetY()), this->size);
 		}
@@ -76,7 +76,7 @@ namespace geogen {
 		/// Moves the entire rectangle by an offset.
 		/// @param other The offset.
 		/// @return The moved rectangle.
-		Rectangle& Rectangle::operator-=(const Point& other)
+		Rectangle& operator-=(const Point& other)
 		{
 			*this = *this - other;
 			return *this;
@@ -85,7 +85,7 @@ namespace geogen {
 		/// Decreases size of the rectangle by given size.
 		/// @param other The size.
 		/// @return The resized rectangle.
-		inline Rectangle Rectangle::operator-(const Size2D& other) const
+		inline Rectangle operator-(const Size2D& other) const
 		{
 			return Rectangle(this->position, Size2D(this->size.GetWidth() - other.GetWidth(), this->size.GetHeight() - other.GetHeight()));
 		}
@@ -93,7 +93,7 @@ namespace geogen {
 		/// Decreases size of the rectangle by given size.
 		/// @param other The size.
 		/// @return The resized rectangle.
-		Rectangle& Rectangle::operator-=(const Size2D& other)
+		Rectangle& operator-=(const Size2D& other)
 		{
 			*this = *this - other;
 			return *this;
@@ -102,7 +102,7 @@ namespace geogen {
 		/// Multiplies both size and position of the rectangle by a scale.
 		/// @param other The scale.
 		/// @return The resized rectangle.
-		inline Rectangle Rectangle::operator*(const double other) const
+		inline Rectangle operator*(const double other) const
 		{
 			return Rectangle(this->position * other, this->size * other);
 		}
@@ -110,7 +110,7 @@ namespace geogen {
 		/// Multiplies both size and position of the rectangle by a scale.
 		/// @param other The scale.
 		/// @return The resized rectangle.
-		Rectangle& Rectangle::operator*=(const double other)
+		Rectangle& operator*=(const double other)
 		{
 			*this = *this * other;
 			return *this;

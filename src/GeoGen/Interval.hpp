@@ -46,7 +46,7 @@ namespace geogen {
 		/// Moves the entire interval by an offset.
 		/// @param other The offset.
 		/// @return The moved interval.
-		inline Interval Interval::operator+(const Coordinate other) const
+		inline Interval operator+(const Coordinate other) const
 		{
 			return Interval(this->start + other, this->length);
 		}
@@ -54,7 +54,7 @@ namespace geogen {
 		/// Moves the entire interval by an offset.
 		/// @param other The offset.
 		/// @return The moved interval.
-		Interval& Interval::operator+=(const Coordinate other)
+		Interval& operator+=(const Coordinate other)
 		{
 			*this = *this + other;
 			return *this;
@@ -63,7 +63,7 @@ namespace geogen {
 		/// Increases length of the interval by given size.
 		/// @param other The size.
 		/// @return The new interval.
-		inline Interval Interval::operator+(const Size1D other) const
+		inline Interval operator+(const Size1D other) const
 		{
 			return Interval(this->start, this->length + other);
 		}
@@ -71,7 +71,7 @@ namespace geogen {
 		/// Increases length of the interval by given size.
 		/// @param other The size.
 		/// @return The new interval.
-		Interval& Interval::operator+=(const Size1D other)
+		Interval& operator+=(const Size1D other)
 		{
 			*this = *this + other;
 			return *this;
@@ -80,7 +80,7 @@ namespace geogen {
 		/// Moves the entire interval by an offset.
 		/// @param other The offset.
 		/// @return The moved interval.
-		inline Interval Interval::operator-(const Coordinate other) const
+		inline Interval operator-(const Coordinate other) const
 		{
 			return Interval(this->start - other, this->length);
 		}
@@ -88,7 +88,7 @@ namespace geogen {
 		/// Moves the entire interval by an offset.
 		/// @param other The offset.
 		/// @return The moved interval.
-		Interval& Interval::operator-=(const Coordinate other)
+		Interval& operator-=(const Coordinate other)
 		{
 			*this = *this - other;
 			return *this;
@@ -97,7 +97,7 @@ namespace geogen {
 		/// Decreases length of the interval by given size.
 		/// @param other The size.
 		/// @return The new interval.
-		inline Interval Interval::operator-(const Size1D& other) const
+		inline Interval operator-(const Size1D& other) const
 		{
 			return Interval(this->start, this->length - other);
 		}
@@ -105,7 +105,7 @@ namespace geogen {
 		/// Decreases length of the interval by given size.
 		/// @param other The size.
 		/// @return The new interval.
-		Interval& Interval::operator-=(const Size1D& other)
+		Interval& operator-=(const Size1D& other)
 		{
 			*this = *this - other;
 			return *this;
@@ -114,7 +114,7 @@ namespace geogen {
 		/// Multiplies both starting coordinate and length of the rectangle by a scale.
 		/// @param other The scale.
 		/// @return The resized interval.
-		inline Interval Interval::operator*(const double other) const
+		inline Interval operator*(const double other) const
 		{
 			return Interval(Coordinate(this->start * other), Size1D(this->length * other));
 		}
@@ -122,7 +122,7 @@ namespace geogen {
 		/// Multiplies both starting coordinate and length of the rectangle by a scale.
 		/// @param other The scale.
 		/// @return The resized interval.
-		Interval& Interval::operator*=(const double other)
+		Interval& operator*=(const double other)
 		{
 			*this = *this * other;
 			return *this;
@@ -131,7 +131,7 @@ namespace geogen {
 		/// Divides both starting coordinate and length of the rectangle by a scale.
 		/// @param other The scale.
 		/// @return The resized interval.
-		inline Interval Interval::operator/(const double other) const
+		inline Interval operator/(const double other) const
 		{
 			return Interval(Coordinate(this->start / other), Size1D(this->length / other));
 		}
@@ -139,7 +139,7 @@ namespace geogen {
 		/// Divides both starting coordinate and length of the rectangle by a scale.
 		/// @param other The scale.
 		/// @return The resized interval.
-		Interval& Interval::operator/=(const double other)
+		Interval& operator/=(const double other)
 		{
 			*this = *this * other;
 			return *this;

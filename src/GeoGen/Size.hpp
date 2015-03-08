@@ -23,34 +23,34 @@ namespace geogen {
 		/// @param height The height.
 		Size2D(Size1D width, Size1D height) : width(width), height(height) {}
 
-		inline Size2D Size2D::operator+(const Size2D& other) const
+		inline Size2D operator+(const Size2D& other) const
 		{
 			return Size2D(this->width + other.GetWidth(), this->height + other.GetHeight());
 		}
 
-		Size2D& Size2D::operator+=(const Size2D& other)
+		Size2D& operator+=(const Size2D& other)
 		{
 			*this = *this + other;
 			return *this;
 		}
 
-		inline Size2D Size2D::operator-(const Size2D& other) const
+		inline Size2D operator-(const Size2D& other) const
 		{
 			return Size2D(this->width - other.GetWidth(), this->height - other.GetHeight());
 		}
 
-		Size2D& Size2D::operator-=(const Size2D& other)
+		Size2D& operator-=(const Size2D& other)
 		{
 			*this = *this - other;
 			return *this;
 		}
 
-		inline Size2D Size2D::operator*(const double other) const
+		inline Size2D operator*(const double other) const
 		{
 			return Size2D((Size1D)(this->width * other), (Size1D)(this->height * other));
 		}
 
-		Size2D& Size2D::operator*=(const double other)
+		Size2D& operator*=(const double other)
 		{
 			*this = *this * other;
 			return *this;
