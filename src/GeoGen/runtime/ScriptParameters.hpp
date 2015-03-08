@@ -53,13 +53,13 @@ namespace geogen
 			unsigned minMapHeight;
 			unsigned maxMapHeight;
 
-			int renderOriginX = 0;
-			int renderOriginY = 0;
+			int renderOriginX;
+			int renderOriginY;
 
-			unsigned renderWidth = MAP_SIZE_AUTOMATIC;
-			unsigned renderHeight = MAP_SIZE_AUTOMATIC;
+			unsigned renderWidth;
+			unsigned renderHeight;
 
-			double renderScale = 1;
+			double renderScale;
 
 			random::RandomSeed randomSeed;
 
@@ -79,11 +79,11 @@ namespace geogen
 			/// @param maxMapWidth	    The maximum map width.
 			/// @param maxMapHeight	    The maximum map height.
 			ScriptParameters(unsigned defaultMapWidth, unsigned defaultMapHeight, unsigned minMapWidth, unsigned minMapHeight, unsigned maxMapWidth, unsigned maxMapHeight) :
-				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(defaultMapWidth), defaultMapHeight(defaultMapHeight), minMapWidth(minMapWidth), maxMapHeight(maxMapHeight), maxMapWidth(maxMapWidth), minMapHeight(minMapHeight) {}
+				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(defaultMapWidth), defaultMapHeight(defaultMapHeight), minMapWidth(minMapWidth), maxMapHeight(maxMapHeight), maxMapWidth(maxMapWidth), minMapHeight(minMapHeight), renderOriginX(0), renderOriginY(0), renderScale(1), renderWidth(MAP_SIZE_AUTOMATIC), renderHeight(MAP_SIZE_AUTOMATIC) {}
 
 			/// Initializes a new instance of the ScriptParameters class.
 			ScriptParameters() :
-				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(MAP_SIZE_INFINITE), defaultMapHeight(MAP_SIZE_INFINITE), minMapWidth(MAP_SIZE_MIN), minMapHeight(MAP_SIZE_MIN), maxMapHeight(MAP_SIZE_INFINITE), maxMapWidth(MAP_SIZE_INFINITE) {}
+				mapWidth(MAP_SIZE_AUTOMATIC), mapHeight(MAP_SIZE_AUTOMATIC), defaultMapWidth(MAP_SIZE_INFINITE), defaultMapHeight(MAP_SIZE_INFINITE), minMapWidth(MAP_SIZE_MIN), minMapHeight(MAP_SIZE_MIN), maxMapHeight(MAP_SIZE_INFINITE), maxMapWidth(MAP_SIZE_INFINITE), renderOriginX(0), renderOriginY(0), renderScale(1), renderWidth(MAP_SIZE_AUTOMATIC), renderHeight(MAP_SIZE_AUTOMATIC) {}
 
 			/// Copy constructor.
 			/// @param parameter1 The other instance.

@@ -9,10 +9,14 @@ namespace geogen
 	{
 	public:
 		/// If this setting is set to true, the Compiler and VirtualMachine trigger errors if the script doesn't yield the main map. Default: true.
-		bool MainMapIsMandatory = true;
+		bool MainMapIsMandatory;
 
 		/// Maximum sum of memory footprints of all the maps allocated simultaneously by the Renderer, in bytes. Default: 100 MiB.
-		unsigned long RendererMemoryLimit = 100 * 1024 * 1024;
+		unsigned long RendererMemoryLimit;
+
+		Configuration() :
+			MainMapIsMandatory(true),
+			RendererMemoryLimit(100 * 1024 * 1024) {}
 
 		virtual void Serialize(IOStream& stream) const;
 	};
