@@ -37,5 +37,5 @@ unsigned HeightMapRescaleRenderingStep::GetPeakExtraMemory(Renderer* renderer, s
 
 void HeightMapRescaleRenderingStep::SerializeArguments(IOStream& stream) const
 {
-	stream << this->horizontalScale << GG_STR(", ") << this->horizontalScale;
+	stream << this->horizontalScale << GG_STR(", ") << this->verticalScale;
 }
