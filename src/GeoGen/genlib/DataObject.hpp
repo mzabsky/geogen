@@ -11,7 +11,7 @@ namespace geogen
 		{
 		public:
 			/// Destructor.
-			virtual ~DataObject() = 0 {};
+			virtual ~DataObject() {};
 
 			/// Gets memory size of this object, in bytes.
 			/// @return The memory size.
