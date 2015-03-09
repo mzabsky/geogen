@@ -49,7 +49,7 @@ namespace geogen
 			inline iterator ForwardEnd() { return this->edges.end(); }
 
 			inline const_iterator BackBegin() const { std::vector<RenderingGraphNode*>::const_iterator it = this->backEdges.begin(); return (const_iterator&)(it); }
-			inline const_iterator BackEnd() const { std::vector<RenderingGraphNode*>::const_iterator it = this->backEdges.begin(); return (const_iterator&)(it); }
+			inline const_iterator BackEnd() const { std::vector<RenderingGraphNode*>::const_iterator it = this->backEdges.end(); return (const_iterator&)(it); }
 			inline iterator BackBegin() { return this->backEdges.begin(); }
 			inline iterator BackEnd() { return this->backEdges.end(); }
 		};
