@@ -1,5 +1,7 @@
 #pragma once
 
+#include <climits>
+
 #include "Serializable.hpp"
 
 namespace geogen {
