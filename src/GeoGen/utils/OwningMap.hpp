@@ -39,12 +39,12 @@ namespace geogen
 
 			/// Gets an iterator pointing to the first item in the collection (in order by names).
 			/// @return An iterator.
-			inline typename std::map<String, T const*>::const_iterator Begin() const { return *(typename std::map<String, T const*>::const_iterator*)(&this->table.begin()); }
+			inline typename std::map<String, T const*>::const_iterator Begin() const { typename std::map<String, T*>::const_iterator it = this->table.begin(); return (typename std::map<String, T const*>::const_iterator&)(it); }
 
 			/// Gets the ending iterator.
 			/// @return An iterator.
-			inline typename std::map<String, T const*>::const_iterator End() const { return *(typename std::map<String, T const*>::const_iterator*)(&this->table.end()); }
-			
+			inline typename std::map<String, T const*>::const_iterator End() const { typename std::map<String, T*>::const_iterator it = this->table.end(); return (typename std::map<String, T const*>::const_iterator&)(it); }
+
 			/// Gets an iterator pointing to the first item in the collection (in order by names).
 			/// @return An iterator.
 			inline typename std::map<String, T*>::iterator Begin() { return this->table.begin(); }
