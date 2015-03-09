@@ -184,22 +184,22 @@ tokens {
 }
 
 @parser::context {
-	bool inExpression = false;
+	bool inExpression;
 }
 
 script: (decls+=declaration)* (metadata (stmts+=statement | decls+=declaration)* | stmts+=statement (stmts+=statement | decls+=declaration)*)? EOF -> ^(SCRIPT metadata ^(DECLARATIONS $decls*) ^(BLOCK $stmts*));
         
-metadata: 'metadata' keyValueCollection -> ^('metadata' keyValueCollection);
+metadata: METADATA keyValueCollection -> ^(METADATA keyValueCollection);
 
-keyValueCollection: '{' (keyValuePair (',' keyValuePair )*)? '}' -> ^(COLLECTION keyValuePair*);
+keyValueCollection: LEFT_CURLY_BRACKET (keyValuePair (COMMA keyValuePair )*)? RIGHT_CURLY_BRACKET -> ^(COLLECTION keyValuePair*);
 
-simpleCollection: '{' keyValueValue (',' keyValueValue )* '}' -> ^(SIMPLE_COLLECTION keyValueValue*);
+simpleCollection: LEFT_CURLY_BRACKET keyValueValue (COMMA keyValueValue )* RIGHT_CURLY_BRACKET -> ^(SIMPLE_COLLECTION keyValueValue*);
 
 keyValuePair: 
 	IDENTIFIER ':' keyValueValue -> ^(IDENTIFIER keyValueValue)
 	/*| NUMBER ':' keyValueValue -> ^(NUMBER keyValueValue)*/;
 
-keyValueValue: IDENTIFIER | NUMBER | STRING | 'true' | 'false' | keyValueCollection | simpleCollection;
+keyValueValue: IDENTIFIER | NUMBER | STRING | TRUE_LIT | FALSE_LIT | keyValueCollection | simpleCollection;
 
 /*keyValueLiteral:        
 	IDENTIFIER
@@ -211,33 +211,33 @@ keyValueValue: IDENTIFIER | NUMBER | STRING | 'true' | 'false' | keyValueCollect
 
 declaration: enumDeclaration | functionDeclaration;
 
-enumDeclaration: 'enum' IDENTIFIER '{' enumValues? '}' -> ^('enum' IDENTIFIER ^(VALUES enumValues));
+enumDeclaration: ENUM IDENTIFIER LEFT_CURLY_BRACKET enumValues? RIGHT_CURLY_BRACKET -> ^(ENUM IDENTIFIER ^(VALUES enumValues));
 
-enumValues: values+=enumValue (',' values+=enumValue)* -> $values+;
+enumValues: values+=enumValue (COMMA values+=enumValue)* -> $values+;
 
 enumValue: 
-    IDENTIFIER ( '=' NUMBER)? -> ^(IDENTIFIER NUMBER?);
+    IDENTIFIER ( OPERATOR_ASSIGN NUMBER)? -> ^(IDENTIFIER NUMBER?);
 
-functionDeclaration: 'function' IDENTIFIER '(' formalParameters? ')' block -> ^('function' IDENTIFIER ^(PARAMETERS formalParameters) block);
+functionDeclaration: FUNCTION IDENTIFIER LEFT_BRACKET formalParameters? RIGHT_BRACKET block -> ^(FUNCTION IDENTIFIER ^(PARAMETERS formalParameters) block);
 
-formalParameters: IDENTIFIER (',' IDENTIFIER)* -> IDENTIFIER*;
+formalParameters: IDENTIFIER (COMMA IDENTIFIER)* -> IDENTIFIER*;
 
-block: '{' statement* '}' -> ^(BLOCK statement*);
+block: LEFT_CURLY_BRACKET statement* RIGHT_CURLY_BRACKET -> ^(BLOCK statement*);
 
 statement:     
-    BREAK ';'!
-    | CONTINUE ';'!
-    | variableDeclaration ';' -> variableDeclaration
-    | globalVariableDeclaration ';' -> globalVariableDeclaration
-    | expression ';' -> expression
-    | yieldStatement ';' -> yieldStatement
-    | returnStatement ';' -> returnStatement
+    BREAK SEMICOLON!
+    | CONTINUE SEMICOLON!
+    | variableDeclaration SEMICOLON -> variableDeclaration
+    | globalVariableDeclaration SEMICOLON -> globalVariableDeclaration
+    | expression SEMICOLON -> expression
+    | yieldStatement SEMICOLON -> yieldStatement
+    | returnStatement SEMICOLON -> returnStatement
     | whileStatement -> whileStatement
     | forStatement -> forStatement
     | ifStatement -> ifStatement
     | switchStatement -> switchStatement
     | block -> block
-    | ';' -> ;
+    | SEMICOLON -> ;
     
 variableDeclaration: 'var' IDENTIFIER ('=' expression)? -> ^('var' IDENTIFIER expression?);
 
@@ -249,25 +249,25 @@ yieldStatement:
 
 returnStatement: 'return' expression? -> ^(RETURN expression?);
 
-whileStatement: 'while' '(' expression ')' statement -> ^(WHILE expression statement); 
+whileStatement: 'while' LEFT_BRACKET expression RIGHT_BRACKET statement -> ^(WHILE expression statement); 
 
-forStatement: 'for' '(' initExpression? ';' condExpression=expression? ';' updateExpression=expression? ')' statement -> ^(FOR ^(INITIALIZATION_EXPRESSION initExpression?) ^(CONDITION_EXPRESSION $condExpression?) ^(INCREMENT_EXPRESSION $updateExpression?) statement);
+forStatement: 'for' LEFT_BRACKET initExpression? SEMICOLON condExpression=expression? SEMICOLON updateExpression=expression? RIGHT_BRACKET statement -> ^(FOR ^(INITIALIZATION_EXPRESSION initExpression?) ^(CONDITION_EXPRESSION $condExpression?) ^(INCREMENT_EXPRESSION $updateExpression?) statement);
 
 initExpression: 
     'var' IDENTIFIER '=' expression -> ^('var' IDENTIFIER expression)
     | expression -> expression;
 
 ifStatement:
-    ('if' '(' expression ')' statement 'else') =>  'if' '(' expression ')' ifStmt=statement 'else' elseStmt=statement -> ^(IF expression $ifStmt $elseStmt)
-    | 'if' '(' expression ')' statement  -> ^(IF expression statement ^(BLOCK))
+    ('if' LEFT_BRACKET expression RIGHT_BRACKET statement 'else') =>  'if' LEFT_BRACKET expression RIGHT_BRACKET ifStmt=statement 'else' elseStmt=statement -> ^(IF expression $ifStmt $elseStmt)
+    | 'if' LEFT_BRACKET expression RIGHT_BRACKET statement  -> ^(IF expression statement ^(BLOCK))
     /*('else' statement)?*/;
 
 
 switchStatement:
-    'switch' '(' expression ')' '{'
+    'switch' LEFT_BRACKET expression RIGHT_BRACKET LEFT_CURLY_BRACKET
 	normalCase*
         defaultCase?
-    '}' -> ^(SWITCH expression normalCase* defaultCase?);
+    RIGHT_CURLY_BRACKET -> ^(SWITCH expression normalCase* defaultCase?);
 
 normalCase: 'case' label ':' statement* -> ^(CASE label ^(BLOCK statement*));
 defaultCase: 'default' ':' statement* -> ^(DEFAULT ^(BLOCK statement*));
@@ -316,8 +316,8 @@ prio4Expression: prio3Expression (('+' | '-')^ prio3Expression)*;
 //prio3Operator: '*' | '/' | '%';
 prio3Expression: prio2ExpressionPre (('*' | '/' | '%')^ prio2ExpressionPre)*;
 
-prio2PrefixOperator: ('++' -> OPERATOR_INCREMENT_PRE) | ('--' -> OPERATOR_DECREMENT_PRE) | ('!' -> OPERATOR_NOT) | ('+' -> OPERATOR_PLUS_UN) | ('-' -> OPERATOR_MINUS_UN) | ('@' -> OPERATOR_RELATIVE) | {false}? coordinateLiteral;
-prio2PostfixOperator: ('++' -> OPERATOR_INCREMENT_POST) | ('--' -> OPERATOR_DECREMENT_POST) | {false}? coordinateLiteral;
+prio2PrefixOperator: (OPERATOR_INCREMENT -> OPERATOR_INCREMENT_PRE) | (OPERATOR_DECREMENT -> OPERATOR_DECREMENT_PRE) | (OPERATOR_NOT -> OPERATOR_NOT) | (OPERATOR_PLUS -> OPERATOR_PLUS_UN) | (OPERATOR_MINUS -> OPERATOR_MINUS_UN) | (OPERATOR_RELATIVE) | {false}? coordinateLiteral;
+prio2PostfixOperator: (OPERATOR_INCREMENT -> OPERATOR_INCREMENT_POST) | (OPERATOR_DECREMENT -> OPERATOR_DECREMENT_POST) | {false}? coordinateLiteral;
 prio2ExpressionPre: prio2ExpressionPost | prio2PrefixOperator^ prio2ExpressionPre; //((prio2PrefixOperator)^)* prio2ExpressionPost;//(('++' -> OPERATOR_INCREMENT_PRE)/*| '--'  | '!' | '+' | '-'*/)* prio1Expression (('++' -> OPERATOR_INCREMENT_POST))*;  
 
 prio2ExpressionPost: (prio1Expression -> prio1Expression) (prio2PostfixOperator -> ^(prio2PostfixOperator $prio2ExpressionPost))*;//(('++' -> OPERATOR_INCREMENT_PRE)/*| '--'  | '!' | '+' | '-'*/)* prio1Expression (('++' -> OPERATOR_INCREMENT_POST))*;  
@@ -334,36 +334,36 @@ prio2ExpressionPost: (prio1Expression -> prio1Expression) (prio2PostfixOperator 
 prio1Expression:
     prio0Expression (
         '.'^ IDENTIFIER
-        | '('^ (expression (','! expression)*)? ')'!
-        | '['^ (expression (','! expression)*)? ']'!
+        | LEFT_BRACKET^ (expression (COMMA! expression)*)? RIGHT_BRACKET!
+        | LEFT_SQUARE_BRACKET^ (expression (COMMA! expression)*)? RIGHT_SQUARE_BRACKET!
     )*;
 
 prio0Expression: 
-     /*('(') => */('(' expression ')') -> expression
+     /*(LEFT_BRACKET) => */(LEFT_BRACKET expression RIGHT_BRACKET) -> expression
     | IDENTIFIER
     | {ctx->inExpression}? collectionLiteral
     | coordinateLiteral
-    | 'true'
-    | 'false'
+    | TRUE_LIT
+    | FALSE_LIT
     | NUMBER
     | STRING 
     ; // expression!
 
 collectionLiteral: 
-    '{' 
-    	(( collectionLiteralItem (',' collectionLiteralItem)* )? -> ^(COLLECTION collectionLiteralItem*))
-    '}';
+    LEFT_CURLY_BRACKET 
+    	(( collectionLiteralItem (COMMA collectionLiteralItem)* )? -> ^(COLLECTION collectionLiteralItem*))
+    RIGHT_CURLY_BRACKET;
 
 collectionLiteralItem:
-    keyE=expression (':' valueE=expression)? -> ^(COLLECTION_ITEM $keyE $valueE?);
+    keyE=expression (COLON valueE=expression)? -> ^(COLLECTION_ITEM $keyE $valueE?);
 
 coordinateLiteral:
-    '[' expression (',' expression)* ']' -> ^(COORDINATE expression+);
+    LEFT_SQUARE_BRACKET expression (COMMA expression)* RIGHT_SQUARE_BRACKET -> ^(COORDINATE expression+);
 
 label:        
-	IDENTIFIER ('.' IDENTIFIER)* ->  ^(IDENTCHAIN IDENTIFIER+)
-	| 'true'
-        | 'false'
+	IDENTIFIER (OPERATOR_DOT IDENTIFIER)* ->  ^(IDENTCHAIN IDENTIFIER+)
+	| TRUE_LIT
+        | FALSE_LIT
 	| NUMBER
 	| STRING;
 

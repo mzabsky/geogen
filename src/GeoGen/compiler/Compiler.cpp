@@ -40,6 +40,7 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 	AntlrLexerWrapper lex(input);	
 	AntlrTokenStreamWrapper tokens(ANTLR3_SIZE_HINT, lex);
 	AntlrParserWrapper parser(tokens);
+	parser.GetPtr()->inExpression = false;
 
 	GeoGenScriptParser_script_return r = parser.GetPtr()->script(parser.GetPtr());
 
@@ -58,6 +59,9 @@ CompiledScript* Compiler::CompileScript(String const& code) const
 		walker.GetPtr()->vectors = vectorFactory.GetPtr();
 		walker.GetPtr()->rootCodeBlock = rootCodeBlock.get();
 		walker.GetPtr()->lines = StringToLines(code);
+		walker.GetPtr()->isInFunction = false;
+		walker.GetPtr()->isInLoop = false;
+		walker.GetPtr()->codeBlockLevel = 0;
 
 		//printf("Tree : %s\n", r.tree->toString(r.tree)->chars);
 

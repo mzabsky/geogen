@@ -84,9 +84,9 @@ scope BlockScope
 	pANTLR3_BASE_TREE_ADAPTOR	adaptor;
 	pANTLR3_VECTOR_FACTORY		vectors;
 	
-	bool isInFunction = false;
-	bool isInLoop = false;
-	int codeBlockLevel = 0;
+	bool isInFunction;
+	bool isInLoop;
+	int codeBlockLevel;
 	std::vector<String> lines;
 }
 
