@@ -45,27 +45,27 @@ namespace geogen
 			inline Rectangle GetRectangle() const { return this->rectangle; }
 			inline Height* GetHeightDataPtr() { return this->heightData; }
 
-			inline Height& HeightMap::operator() (Coordinate x, Coordinate y)
+			inline Height& operator() (Coordinate x, Coordinate y)
 			{
 				return this->heightData[x + this->rectangle.GetSize().GetWidth() * y];
 			}
 
-			inline Height HeightMap::operator() (Coordinate x, Coordinate y) const
+			inline Height operator() (Coordinate x, Coordinate y) const
 			{
 				return this->heightData[x + this->rectangle.GetSize().GetWidth() * y];
 			}
 
-			inline Height& HeightMap::operator() (Point p)
+			inline Height& operator() (Point p)
 			{
 				return this->heightData[p.GetX() + this->rectangle.GetSize().GetWidth() * p.GetY()];
 			}
 
-			inline Height HeightMap::operator() (Point p) const
+			inline Height operator() (Point p) const
 			{
 				return this->heightData[p.GetX() + this->rectangle.GetSize().GetWidth() * p.GetY()];
 			}
 
-			inline Height HeightMap::operator() (double x, double y)
+			inline Height operator() (double x, double y)
 			{
 				// Rudimentary protection against some floating point math errors
 				if (floor(x) + 0.00005 > x) x = floor(x);
