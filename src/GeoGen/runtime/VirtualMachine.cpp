@@ -25,7 +25,16 @@ using namespace renderer;
 const ScriptParameters VirtualMachine::SCRIPT_PARAMETERS_DEFAULT = ScriptParameters();
 
 VirtualMachine::VirtualMachine(CompiledScript const& compiledScript, ScriptParameters const& arguments)
-: compiledScript(compiledScript), status(VIRTUAL_MACHINE_STATUS_READY), globalVariableTable(&memoryManager), arguments(arguments), renderingSequence(arguments.GetRenderScale()), scriptMessageHandler(DefaultScriptMessageHandler), commonRandomSequence(arguments.GetRandomSeed())
+: 
+	compiledScript(compiledScript), 
+	status(VIRTUAL_MACHINE_STATUS_READY), 
+	globalVariableTable(&memoryManager), 
+	arguments(arguments), 
+	renderingSequence(arguments.GetRenderScale()), 
+	scriptMessageHandler(DefaultScriptMessageHandler), 
+	commonRandomSequence(arguments.GetRandomSeed()),
+	instructionCounter(0),
+	callbackData(NULL)
 {
 	this->ValidateArguments();
 	this->InitializeTypes();

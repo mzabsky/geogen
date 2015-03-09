@@ -62,7 +62,7 @@ namespace geogen
 			typedef void(*ScriptMessageHandler)(VirtualMachine* virtualMachine, CodeLocation location, String const& formattedMessage, String const& unformattedMessage, std::vector<String> arguments);
 		private:
 			VirtualMachineStatus status;
-			unsigned instructionCounter = 0;
+			unsigned instructionCounter;
 
 			// Memory manager must be created first and destroyed last.
 			MemoryManager memoryManager;
@@ -86,10 +86,10 @@ namespace geogen
 			void ValidateArguments();
 
 			// Non-copyable
-			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler), renderingSequence(0), commonRandomSequence(0) {};
+			VirtualMachine(VirtualMachine const&) : globalVariableTable(NULL), compiledScript(compiledScript), scriptMessageHandler(DefaultScriptMessageHandler), renderingSequence(0), commonRandomSequence(0), instructionCounter(0), callbackData(NULL) {};
 			VirtualMachine& operator=(VirtualMachine const&) {};
 
-			void* callbackData = NULL;
+			void* callbackData;
 
 			random::RandomSequence commonRandomSequence;
 
