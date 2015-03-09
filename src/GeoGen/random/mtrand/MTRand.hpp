@@ -48,11 +48,11 @@ namespace mtrand
 	class MTRand_int32 { // Mersenne Twister random number generator
 	public:
 		// default constructor: uses default seed only if this is the first instance
-		MTRand_int32() { state[n] = { 0x0UL }; p = 0; seed(5489UL); init = true; }
+		MTRand_int32() { state[n] = 0x0UL; p = 0; seed(5489UL); init = true; }
 		// constructor with 32 bit int as seed
-		MTRand_int32(unsigned long s) { state[n] = { 0x0UL }; p = 0; seed(s); init = true; }
+		MTRand_int32(unsigned long s) { state[n] = 0x0UL; p = 0; seed(s); init = true; }
 		// constructor with array of size 32 bit ints as seed
-		MTRand_int32(const unsigned long* array, int size) { state[n] = { 0x0UL }; p = 0; seed(array, size); init = true; }
+		MTRand_int32(const unsigned long* array, int size) { state[n] = 0x0UL; p = 0; seed(array, size); init = true; }
 		// the two seed functions
 		void seed(unsigned long); // seed with 32 bit integer
 		void seed(const unsigned long*, int size); // seed with array
