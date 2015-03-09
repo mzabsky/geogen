@@ -43,13 +43,13 @@ namespace geogen
 			/// @param target The taget node.
 			void AddEdge(RenderingGraphNode* target);
 			
-			inline const_iterator ForwardBegin() const { return *(const_iterator*)(&this->edges.begin()); }
-			inline const_iterator ForwardEnd() const { return *(const_iterator*)(&this->edges.end()); }
+			inline const_iterator ForwardBegin() const { std::vector<RenderingGraphNode*>::const_iterator it = this->edges.begin(); return (const_iterator&)(it); }
+			inline const_iterator ForwardEnd() const { std::vector<RenderingGraphNode*>::const_iterator it = this->edges.end(); return (const_iterator&)(it); }
 			inline iterator ForwardBegin() { return this->edges.begin(); }
 			inline iterator ForwardEnd() { return this->edges.end(); }
 
-			inline const_iterator BackBegin() const { return *(const_iterator*)(&this->backEdges.begin()); }
-			inline const_iterator BackEnd() const { return *(const_iterator*)(&this->backEdges.end()); }
+			inline const_iterator BackBegin() const { std::vector<RenderingGraphNode*>::const_iterator it = this->backEdges.begin(); return (const_iterator&)(it); }
+			inline const_iterator BackEnd() const { std::vector<RenderingGraphNode*>::const_iterator it = this->backEdges.begin(); return (const_iterator&)(it); }
 			inline iterator BackBegin() { return this->backEdges.begin(); }
 			inline iterator BackEnd() { return this->backEdges.end(); }
 		};

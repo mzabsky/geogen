@@ -32,17 +32,14 @@ namespace geogen
 
 			virtual ~ArrayObject();
 
-			//inline BackingCollection& GetBackingCollection() { return this->hashmap; }
-			//inline BackingCollection const& GetBackingCollection() const { return this->hashmap; }
-
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->list.begin()); }
-			inline const_iterator End() const { return *(const_iterator*)(&this->list.end()); }
+			inline const_iterator Begin() const { std::list<ManagedObject*>::const_iterator it = this->list.begin(); return (const_iterator&)(it); }
+			inline const_iterator End() const { std::list<ManagedObject*>::const_iterator it = this->list.end(); return (const_iterator&)(it); }
 
 			inline iterator Begin() { return this->list.begin(); }
 			inline iterator End() { return this->list.end(); }
 
-			inline const_reverse_iterator RBegin() const { return *(const_reverse_iterator*)(&this->list.rbegin()); }
-			inline const_reverse_iterator REnd() const { return *(const_reverse_iterator*)(&this->list.rend()); }
+			inline const_reverse_iterator RBegin() const { std::list<ManagedObject*>::const_reverse_iterator it = this->list.rbegin(); return (const_reverse_iterator&)(it); }
+			inline const_reverse_iterator REnd() const { std::list<ManagedObject*>::const_reverse_iterator it = this->list.rend(); return (const_reverse_iterator&)(it); }
 
 			inline reverse_iterator RBegin() { return this->list.rbegin(); }
 			inline reverse_iterator REnd() { return this->list.rend(); }

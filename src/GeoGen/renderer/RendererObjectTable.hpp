@@ -34,8 +34,8 @@ namespace geogen
 			/// @return The size.
 			inline unsigned GetSize() { return this->table.size(); }
 
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
-			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
+			inline const_iterator Begin() const { std::vector<RendererObject*>::const_iterator it = this->table.begin(); return (const_iterator&)(it); }
+			inline const_iterator End() const { std::vector<RendererObject*>::const_iterator it = this->table.end(); return (const_iterator&)(it); }
 			inline iterator Begin() { return this->table.begin(); }
 			inline iterator End() { return this->table.end(); }
 
@@ -51,7 +51,7 @@ namespace geogen
 
 			/// Stores the object into the specified slot.
 			/// @param slot			   The slot.
-			/// @param [in,out] object The object.
+			/// @param object The object.
 			void SetObject(unsigned slot, RendererObject* object);
 
 			/// Releases the object stored in the specified slot.

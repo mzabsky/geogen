@@ -74,11 +74,11 @@ namespace geogen
 
 			/// Gets an iterator pointing to the alphabetically first variable in the table.
 			/// @return An iterator.
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
+			inline const_iterator Begin() const { std::map<String, VariableTableItem>::const_iterator it = this->table.begin(); return (const_iterator&)(it); }
 
 			/// Gets an ending iterator.
 			/// @return An iterator.
-			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
+			inline const_iterator End() const { std::map<String, VariableTableItem>::const_iterator it = this->table.end(); return (const_iterator&)(it); }
 
 			/// Gets an iterator pointing to the alphabetically first variable in the table.
 			/// @return An iterator.

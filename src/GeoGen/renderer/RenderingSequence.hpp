@@ -34,13 +34,13 @@ namespace geogen
 
 			inline Scale GetRenderScale() const { return this->renderScale; }
 
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->steps.begin()); }
-			inline const_iterator End() const { return *(const_iterator*)(&this->steps.end()); }
+			inline const_iterator Begin() const { std::vector<RenderingStep*>::const_iterator it = this->steps.begin(); return (const_iterator&)(it); }
+			inline const_iterator End() const { std::vector<RenderingStep*>::const_iterator it = this->steps.end(); return (const_iterator&)(it); }
 			inline iterator Begin() { return this->steps.begin(); }
 			inline iterator End() { return this->steps.end(); }
 
-			inline const_reverse_iterator RBegin() const { return *(const_reverse_iterator*)(&this->steps.rbegin()); }
-			inline const_reverse_iterator REnd() const { return *(const_reverse_iterator*)(&this->steps.rend()); }
+			inline const_reverse_iterator RBegin() const { std::vector<RenderingStep*>::const_reverse_iterator it = this->steps.rbegin(); return (const_reverse_iterator&)(it); }
+			inline const_reverse_iterator REnd() const { std::vector<RenderingStep*>::const_reverse_iterator it = this->steps.rend(); return (const_reverse_iterator&)(it); }
 			inline reverse_iterator RBegin() { return this->steps.rbegin(); }
 			inline reverse_iterator REnd() { return this->steps.rend(); }
 

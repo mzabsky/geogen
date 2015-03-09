@@ -68,8 +68,8 @@ namespace geogen
 
 			inline unsigned Size() const { return this->table.size(); }
 
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
-			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
+			inline const_iterator Begin() const { typename std::map<String, TSymbolBase*>::const_iterator it = this->table.begin(); return (const_iterator&)(it); }
+			inline const_iterator End() const { typename std::map<String, TSymbolBase*>::const_iterator it = this->table.end(); return (const_iterator&)(it); }
 
 			virtual void Serialize(IOStream& stream) const
 			{

@@ -33,11 +33,11 @@ namespace geogen
 
 			/// Gets an iterator pointing to the first item in the list or the end iterator, if the list is empty.
 			/// @return An iterator.
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->table.begin()); }
+			inline const_iterator Begin() const { std::vector<MetadataValue*>::const_iterator it = this->table.begin(); return (const_iterator&)(it); }
 
 			/// Gets the end iterator.
 			/// @return An iterator.
-			inline const_iterator End() const { return *(const_iterator*)(&this->table.end()); }
+			inline const_iterator End() const { std::vector<MetadataValue*>::const_iterator it = this->table.end(); return (const_iterator&)(it); }
 
 			virtual MetadataType GetType() const { return METADATA_LIST; };
 

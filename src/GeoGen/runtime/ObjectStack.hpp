@@ -62,11 +62,11 @@ namespace geogen
 
 			/// Gets an iterator pointing to the first (bottommost) item on the stack or the end iterator, if the stack is empty.
 			/// @return An iterator.
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->stack.begin()); }
+			inline const_iterator Begin() const { std::deque<ManagedObject*>::const_iterator it = this->stack.begin(); return (const_iterator&)(it); }
 
 			/// Gets the end iterator.
 			/// @return An iterator.
-			inline const_iterator End() const { return *(const_iterator*)(&this->stack.end()); }
+			inline const_iterator End() const { std::deque<ManagedObject*>::const_iterator it = this->stack.end(); return (const_iterator&)(it); }
 
 			/// Gets an iterator pointing to the first (bottommost) item on the stack.
 			/// @return An iterator.
@@ -78,11 +78,11 @@ namespace geogen
 
 			/// Gets a reverse iterator pointing to the last (topmost) item on the stack.
 			/// @return An iterator.
-			inline const_reverse_iterator RBegin() const { return *(const_reverse_iterator*)(&this->stack.rbegin()); }
+			inline const_reverse_iterator RBegin() const { std::deque<ManagedObject*>::const_reverse_iterator it = this->stack.rbegin(); return (const_reverse_iterator&)(it); }
 
 			/// Gets the reverse end iterator.
 			/// @return An iterator.
-			inline const_reverse_iterator REnd() const { return *(const_reverse_iterator*)(&this->stack.rend()); }
+			inline const_reverse_iterator REnd() const { std::deque<ManagedObject*>::const_reverse_iterator it = this->stack.rend(); return (const_reverse_iterator&)(it); }
 
 			/// Gets a reverse iterator pointing to the last (topmost) item on the stack.
 			/// @return An iterator.
