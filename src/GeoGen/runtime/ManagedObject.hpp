@@ -28,7 +28,7 @@ namespace geogen
 
 			TypeDefinition const* type;
 			ObjectId objectId;
-			unsigned refCount = 0;
+			unsigned refCount;
 
 			VariableTable memberVariableTable;
 		protected:
