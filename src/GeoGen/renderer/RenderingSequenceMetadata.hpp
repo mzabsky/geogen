@@ -19,7 +19,7 @@ namespace geogen
 		private:
 			std::map<RenderingStep const*, unsigned> stepNumbers;
 			std::vector<RenderingBounds*> renderingBounds;
-			std::vector<std::vector<unsigned>> objectsIndexesToRelease;
+			std::vector<std::vector<unsigned> > objectsIndexesToRelease;
 			std::vector<unsigned> memoryRequirements;
 			
 			// Non-copyable

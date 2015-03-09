@@ -10,7 +10,7 @@ using namespace renderer;
 
 RenderingGraph::RenderingGraph(RenderingSequence const& renderingSequence) : renderingSequence(renderingSequence)
 {
-	map<unsigned, vector<RenderingGraphNode*>> openNodes;
+	map<unsigned, vector<RenderingGraphNode*> > openNodes;
 	for (RenderingSequence::const_reverse_iterator it = renderingSequence.RBegin(); it != renderingSequence.REnd(); it++)
 	{
 		RenderingStep const* step = *it;
