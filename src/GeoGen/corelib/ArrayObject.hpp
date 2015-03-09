@@ -10,7 +10,7 @@ namespace geogen
 {
 	namespace corelib
 	{
-		/// Implementation of a reference to Array item script object.
+		/// Implementation of a reference to Array item script object (a hybrid data structure combining a sorted list and an unsorted associative array).
 		class ArrayObject : public runtime::ManagedObject
 		{
 		public:
