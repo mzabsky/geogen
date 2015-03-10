@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "RendererTypeDefinition.hpp"
 #include "../runtime/RendererObjectStub.hpp"
 #include "../InternalErrorException.hpp"

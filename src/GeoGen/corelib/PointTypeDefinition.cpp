@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "PointTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"

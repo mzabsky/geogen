@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "CoordinateTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"

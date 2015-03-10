@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "RandomSequence2DTypeDefinition.hpp"
 #include "../runtime/RendererObjectStub.hpp"
 #include "../InternalErrorException.hpp"

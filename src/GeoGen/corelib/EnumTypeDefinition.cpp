@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "EnumTypeDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../InternalErrorException.hpp"

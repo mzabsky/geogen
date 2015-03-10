@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "StringTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"

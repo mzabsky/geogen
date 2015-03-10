@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "NumberTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "../Number.hpp"

@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "BooleanTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "../runtime/ManagedObject.hpp"
