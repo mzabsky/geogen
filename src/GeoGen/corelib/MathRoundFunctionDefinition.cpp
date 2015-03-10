@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "MathRoundFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
@@ -43,16 +45,16 @@ ManagedObject* MathRoundFunctionDefinition::CallNative(CodeLocation location, ru
 	switch (this->function)
 	{
 	case ROUND:
-		result = round(input);
+		result = input > 0 ? std::floor(input + 0.5) : std::ceil(input - 0.5); // C++98 doesn't have std::round
 		break;
 	case FLOOR:
-		result = floor(input);
+		result = std::floor(input);
 		break;
 	case CEIL:
-		result = ceil(input);
+		result = std::ceil(input);
 		break;
 	case ABS:
-		result = abs(input);
+		result = std::abs(input);
 		break;
 	default:
 		throw InternalErrorException(GG_STR("Unknown method."));
