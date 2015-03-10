@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "MathTrigonometricFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
@@ -51,24 +53,24 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 	switch (this->function)
 	{
 	case SIN:
-		result = sin(input);
+		result = std::sin(input);
 		break;
 	case COS:
-		result = cos(input);
+		result = std::cos(input);
 		break;
 	case TAN:
-		result = tan(input);
+		result = std::tan(input);
 		break;
 	case ASIN:
-		if (abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideTrigonometricFunctionDefinitionRange, location, this->GetName(), input);
-		result = asin(input);
+		if (std::abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideTrigonometricFunctionDefinitionRange, location, this->GetName(), input);
+		result = std::asin(input);
 		break;
 	case ACOS:
-		if (abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideTrigonometricFunctionDefinitionRange, location, this->GetName(), input);
-		result = acos(input);
+		if (std::abs(input) >= 1) throw MathDefinitionRangeException(GGE2305_OutsideTrigonometricFunctionDefinitionRange, location, this->GetName(), input);
+		result = std::acos(input);
 		break;
 	case ATAN:
-		result = atan(input);
+		result = std::atan(input);
 		break;
 	case DEG_TO_RAD:
 		result = input * NUMBER_PI / 180.;
