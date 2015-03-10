@@ -61,8 +61,8 @@ namespace geogen
 			/// @param renderingBounds Reference to the rendering bounds to update with the simulated bounds.
 			virtual void SimulateOnRenderingBounds(RenderingBounds* renderingBounds) const;
 
-			void RenderingStep::Serialize(IOStream& stream) const;
-			virtual void RenderingStep::SerializeArguments(IOStream& stream) const {};
+			void Serialize(IOStream& stream) const;
+			virtual void SerializeArguments(IOStream& stream) const {};
 		};
 	}
 }
