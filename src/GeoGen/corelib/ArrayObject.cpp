@@ -16,6 +16,19 @@ using namespace geogen::corelib;
 using namespace geogen::runtime;
 using namespace geogen::random;
 
+class ArrayValueSorter
+{
+public:
+	VirtualMachine* vm;
+	ArrayObject* array;
+	bool operator() (ManagedObject* keyA, ManagedObject* keyB)
+	{
+		ManagedObject* valueA = array->Get(this->vm, CodeLocation(0, 0), keyA);
+		ManagedObject* valueB = array->Get(this->vm, CodeLocation(0, 0), keyB);
+		return valueA->GetType()->InstanceLessThan(valueA, valueB);
+	}
+};
+
 ArrayObject::~ArrayObject()
 {
 	// Don't remove refs if the MM is already deleting everything anyways (could remove refs on already released object).
@@ -255,22 +268,9 @@ void ArrayObject::SortByKeys(runtime::VirtualMachine* vm, CodeLocation location)
 
 void ArrayObject::SortByValues(runtime::VirtualMachine* vm, CodeLocation location)
 {
-	class Sorter
-	{
-	public:
-		VirtualMachine* vm;
-		ArrayObject* array;
-		bool operator() (ManagedObject* keyA, ManagedObject* keyB) 
-		{ 
-			ManagedObject* valueA = array->Get(this->vm, CodeLocation(0, 0), keyA);
-			ManagedObject* valueB = array->Get(this->vm, CodeLocation(0, 0), keyB);
-			return valueA->GetType()->InstanceLessThan(valueA, valueB);
-		}
-	};
-	
 	std::vector<ManagedObject*> working(this->list.begin(), this->list.end());
 
-	Sorter sorter;
+	ArrayValueSorter sorter;
 	sorter.vm = vm;
 	sorter.array = this;
 
