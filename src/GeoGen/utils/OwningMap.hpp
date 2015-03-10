@@ -56,7 +56,7 @@ namespace geogen
 			/// Gets an iterator pointing to an item with given name, or an ending iterator if the collection doesn't contain item with than name.
 			/// @param key The name.
 			/// @return An iterator.
-			inline typename std::map<String, T const*>::const_iterator FindItem(String const& key) const { return *(typename std::map<String, T const*>::const_iterator*)(&this->table.find(key)); }
+			inline typename std::map<String, T const*>::const_iterator FindItem(String const& key) const { typename std::map<String, T*>::const_iterator it = this->table.find(key); return (typename std::map<String, T const*>::const_iterator&)(it); }
 			
 			/// Gets an iterator pointing to an item with given name, or an ending iterator if the collection doesn't contain item with than name.
 			/// @param key The name.
