@@ -42,7 +42,7 @@ namespace geogen
 			/// Assignment operator.
 			/// @param other The other.
 			/// @return A copy of this HeightProfile.
-			HeightProfile& operator=(HeightProfile& other);
+			HeightProfile& operator=(HeightProfile const& other);
 
 			/// Destructor.
 			~HeightProfile();

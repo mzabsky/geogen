@@ -60,7 +60,7 @@ HeightMap::HeightMap(HeightMap const& other, Rectangle cutoutRect)
 	}
 }
 
-HeightMap& HeightMap::operator=(HeightMap& other)
+HeightMap& HeightMap::operator=(HeightMap const& other)
 {
 	this->rectangle = other.rectangle;
 	this->scale = other.scale;

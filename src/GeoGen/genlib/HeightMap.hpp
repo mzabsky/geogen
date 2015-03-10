@@ -31,7 +31,7 @@ namespace geogen
 			~HeightMap();
 			HeightMap(HeightMap const& other);
 			HeightMap(HeightMap const& other, Rectangle cutoutRect);
-			HeightMap& operator=(HeightMap& other);
+			HeightMap& operator=(HeightMap const& other);
 
 			/// Gets memory size of a height map with specified rectangle.
 			/// @param interval The rectangle.

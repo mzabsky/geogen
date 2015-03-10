@@ -57,7 +57,7 @@ HeightProfile::HeightProfile(HeightProfile const& other, Interval cutoutInterval
 	}
 }
 
-HeightProfile& HeightProfile::operator=(HeightProfile& other)
+HeightProfile& HeightProfile::operator=(HeightProfile const& other)
 {
 	this->interval = other.interval;
 	this->scale = other.scale;
