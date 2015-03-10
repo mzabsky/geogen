@@ -1,4 +1,7 @@
 #include <algorithm>
+#include <cstring>
+#include <cmath>
+#include <memory>
 
 #include "HeightProfile.hpp"
 #include "../random/RandomSequence2D.hpp"

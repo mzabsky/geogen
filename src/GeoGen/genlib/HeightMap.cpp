@@ -1,5 +1,8 @@
 ﻿#include <vector>
 #include <algorithm>
+#include <cstring>
+#include <cmath>
+#include <memory>
 
 #include "HeightMap.hpp"
 #include "../ApiUsageException.hpp"
