@@ -1033,7 +1033,7 @@ void HeightMap::TransformHeights(HeightProfile* function, Interval interval, Hei
 		Height oldHeight = (*this)(x, y);
 		if (oldHeight >= min && oldHeight <= max)
 		{
-			double functionFraction = (long long(oldHeight) - long long(min)) / double(long long(max) - long long(min));
+			double functionFraction = ((long long)(oldHeight) - (long long)(min)) / double((long long)(max) - (long long)(min));
 			double functionCoordinate = interval.GetStart() + functionFraction * double(interval.GetLength() - 1);
 
 			Height functionHeight = (*function)(functionCoordinate);
