@@ -7,7 +7,7 @@ lib/*
 *.sdf
 *.opensdf
 *.suo
-*.vsxproj.user
+*.vcxproj.user
 Debug/
 Release/
 Win32_LIB_Debug/
