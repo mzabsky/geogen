@@ -1735,9 +1735,6 @@
     <ClInclude Include="runtime\instructions\StoreGlobalValueInstruction.hpp">
       <Filter>runtime\instructions</Filter>
     </ClInclude>
-    <ClInclude Include="corelib\SizeOverflowException.hpp">
-      <Filter>runtime\instructions</Filter>
-    </ClInclude>
     <ClInclude Include="compiler\ScriptParameterTypeNotSpecifiedException.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
@@ -1800,6 +1797,9 @@
     </ClInclude>
     <ClInclude Include="renderer\MemoryLimitException.hpp">
       <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="corelib\SizeOverflowException.hpp">
+      <Filter>corelib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
