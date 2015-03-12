@@ -1,0 +1,15 @@
+bin/*
+!bin/zlib1.dll
+include/*
+documentation/*
+!documentation/ScriptingLanguage/ggs reference.html
+lib/*
+*.sdf
+*.opensdf
+*.suo
+*.vsxproj.user
+Debug/
+Release/
+Win32_LIB_Debug/
+src/GeoGen_Tests/*.png
+*.o
