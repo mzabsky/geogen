@@ -6,6 +6,7 @@
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "MathDefinitionRangeException.hpp"
+#include "../runtime/NumberOverflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -47,8 +48,6 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
-	//RuntimeMathCheckInit();
-
 	Number result;
 	switch (this->function)
 	{
@@ -74,15 +73,23 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 		break;
 	case DEG_TO_RAD:
 		result = input * NUMBER_PI / 180.;
+
+		if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+		{
+			throw NumberOverflowException(location);
+		}
 		break;
 	case RAD_TO_DEG:
 		result = input * 180. / NUMBER_PI;
+
+		if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+		{
+			throw NumberOverflowException(location);
+		}
 		break;
 	default:
 		throw InternalErrorException(GG_STR("Unknown method."));
 	}
-
-	//RuntimeMathCheck(location);
 
 	return numberTypeDefinition->CreateInstance(vm, result);
 }

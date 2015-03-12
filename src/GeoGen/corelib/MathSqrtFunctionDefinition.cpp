@@ -1,11 +1,10 @@
 #include "MathSqrtFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
-#include "../runtime/NumberOfArgumentsException.hpp"
 #include "../InternalErrorException.hpp"
-#include "../runtime/IncorrectTypeException.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "MathDefinitionRangeException.hpp"
+#include "../runtime/NumberUnderflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -23,13 +22,14 @@ ManagedObject* MathSqrtFunctionDefinition::CallNative(CodeLocation location, Vir
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
-	//RuntimeMathCheckInit();
-
 	if (input < 0) throw MathDefinitionRangeException(GGE2307_OutsideSqrtFunctionDefinitionRange, location, this->GetName(), input);
 
-	//RuntimeMathCheck(location);
-	
 	Number result = sqrt(input);
+
+	if (input != 0 && result == 0)
+	{
+		throw NumberUnderflowException(location);
+	}
 
 	return numberTypeDefinition->CreateInstance(vm, result);
 }

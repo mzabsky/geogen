@@ -6,6 +6,7 @@
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "DivisionByZeroException.hpp"
 #include "../InternalErrorException.hpp"
+#include "../runtime/NumberOverflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -44,8 +45,6 @@ ManagedObject* IncrementDecrementOperatorFunctionDefinition::CallNative(CodeLoca
 	Number resultNumber;
 	Number returnNumber;
 
-	//RuntimeMathCheckInit();
-
 	switch (op)
 	{
 	case PLUS_PLUS_PRE: resultNumber = number + 1; returnNumber = resultNumber; break;
@@ -55,7 +54,10 @@ ManagedObject* IncrementDecrementOperatorFunctionDefinition::CallNative(CodeLoca
 	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 
-	//RuntimeMathCheck(location);
+	if (resultNumber == numeric_limits<Number>::infinity() || resultNumber == -numeric_limits<Number>::infinity())
+	{
+		throw NumberOverflowException(location);
+	}
 
 	reference->SetReferencedObject(location, vm, numberTypeDefinition->CreateInstance(vm, resultNumber));
 

@@ -4,6 +4,8 @@
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "..\InternalErrorException.hpp"
 #include "MathDefinitionRangeException.hpp"
+#include "../runtime/NumberOverflowException.hpp"
+#include "../runtime/NumberUnderflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -35,23 +37,37 @@ ManagedObject* MathLogPowFunctionDefinition::CallNative(CodeLocation location, r
 	Number arg1 = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 	Number arg2 = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
 
-	//RuntimeMathCheckInit();
-
 	Number result;
 	switch (this->function)
 	{
 	case LOG:
 		if (arg1 <= 0 || arg2 <= 0) throw MathDefinitionRangeException(GGE2306_OutsideLogFunctionDefinitionRange, location, this->GetName(), arg1);
 		result = log(arg1) / log(arg2);
+
+		if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+		{
+			throw NumberOverflowException(location);
+		}
+		else if (result == 0)
+		{
+			throw NumberUnderflowException(location);
+		}
 		break;
 	case POW:
 		result = pow(arg1, arg2);
+
+		if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+		{
+			throw NumberOverflowException(location);
+		}
+		else if (arg1 != 0 && result == 0)
+		{
+			throw NumberUnderflowException(location);
+		}
 		break;
 	default:
 		throw InternalErrorException(GG_STR("Unknown method."));
 	}
-
-	///RuntimeMathCheck(location);
 
 	return numberTypeDefinition->CreateInstance(vm, result);
 }

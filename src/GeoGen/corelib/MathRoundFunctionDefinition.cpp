@@ -4,8 +4,9 @@
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 #include "MathDefinitionRangeException.hpp"
+#include "../runtime/NumberOverflowException.hpp"
 
 using namespace std;
 using namespace geogen;
@@ -56,6 +57,11 @@ ManagedObject* MathRoundFunctionDefinition::CallNative(CodeLocation location, ru
 		break;
 	default:
 		throw InternalErrorException(GG_STR("Unknown method."));
+	}
+
+	if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+	{
+		throw NumberOverflowException(location);
 	}
 
 	return numberTypeDefinition->CreateInstance(vm, result);
