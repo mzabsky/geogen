@@ -47,7 +47,7 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
-	RuntimeMathCheckInit();
+	//RuntimeMathCheckInit();
 
 	Number result;
 	switch (this->function)
@@ -82,7 +82,7 @@ ManagedObject* MathTrigonometricFunctionDefinition::CallNative(CodeLocation loca
 		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
-	RuntimeMathCheck(location);
+	//RuntimeMathCheck(location);
 
 	return numberTypeDefinition->CreateInstance(vm, result);
 }

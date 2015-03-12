@@ -1,3 +1,6 @@
+#include <cmath>
+#include <limits>
+
 #include "BinaryArithmeticOperatorFunctionDefinition.hpp"
 #include "../runtime/VirtualMachine.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
@@ -40,11 +43,11 @@ ManagedObject* BinaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocati
 	NumberObject* a = dynamic_cast<NumberObject*>(arguments[0]);
 	NumberObject* b = dynamic_cast<NumberObject*>(arguments[1]);
 
-	RuntimeMathCheckInit();
+	//RuntimeMathCheckInit();
 
 	Number result = this->function(location, a->GetValue(), b->GetValue());
 
-	RuntimeMathCheck(location);
+	//RuntimeMathCheck(location);
 
     ManagedObject* returnObject = numberTypeDefinition->CreateInstance(vm, result);
 	return returnObject;
@@ -52,7 +55,17 @@ ManagedObject* BinaryArithmeticOperatorFunctionDefinition::CallNative(CodeLocati
 
 Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorMultiplication(CodeLocation location, Number a, Number b)
 {
-	return a * b;
+	Number result = a * b;
+	if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+	{
+		throw NumberOverflowException(location);
+	}
+	else if (a != 0 && b != 0 && result == 0)
+	{
+		throw NumberUnderflowException(location);
+	}
+
+	return result;
 }
 
 Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorDivision(CodeLocation location, Number a, Number b)
@@ -62,7 +75,18 @@ Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorDivision(CodeLoca
 		throw DivisionByZeroException(location);
 	}
 
-	return a / b;
+	Number result = a / b;
+
+	if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+	{
+		throw NumberOverflowException(location);
+	}
+	else if (a != 0 && result == 0)
+	{
+		throw NumberUnderflowException(location);
+	}
+
+	return result;
 }
 
 Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorModulo(CodeLocation location, Number a, Number b)
@@ -72,25 +96,54 @@ Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorModulo(CodeLocati
 		throw DivisionByZeroException(location);
 	}
 
+	if (a > numeric_limits<int>::max() || a < numeric_limits<int>::min() || b > numeric_limits<int>::max() || b < numeric_limits<int>::min())
+	{
+		throw NumberOverflowException(location);
+	}
+
 	return (int)a % (int)b;
 }
 
 Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorAddition(CodeLocation location, Number a, Number b)
 {
-	return a + b;
+	Number result = a + b;
+
+	if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+	{
+		throw NumberOverflowException(location);
+	}
+
+	return result;
 }
 
 Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorSubtraction(CodeLocation location, Number a, Number b)
 {
-	return a - b;
+	Number result = a - b;
+
+	if (result == numeric_limits<Number>::infinity() || result == -numeric_limits<Number>::infinity())
+	{
+		throw NumberOverflowException(location);
+	}
+
+	return result;
 }
 
 Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorBitShiftLeft(CodeLocation location, Number a, Number b)
 {
+	if (a > numeric_limits<int>::max() || a < numeric_limits<int>::min() || b > numeric_limits<int>::max() || b < numeric_limits<int>::min())
+	{
+		throw NumberOverflowException(location);
+	}
+
 	return (int)a << (int)b;
 }
 
 Number BinaryArithmeticOperatorFunctionDefinition::CallOperatorBitShiftRight(CodeLocation location, Number a, Number b)
 {
+	if (a > numeric_limits<int>::max() || a < numeric_limits<int>::min() || b > numeric_limits<int>::max() || b < numeric_limits<int>::min())
+	{
+		throw NumberOverflowException(location);
+	}
+
 	return (int)a >> (int)b;
 }

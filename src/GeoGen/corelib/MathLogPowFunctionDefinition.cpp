@@ -35,7 +35,7 @@ ManagedObject* MathLogPowFunctionDefinition::CallNative(CodeLocation location, r
 	Number arg1 = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 	Number arg2 = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
 
-	RuntimeMathCheckInit();
+	//RuntimeMathCheckInit();
 
 	Number result;
 	switch (this->function)
@@ -51,7 +51,7 @@ ManagedObject* MathLogPowFunctionDefinition::CallNative(CodeLocation location, r
 		throw InternalErrorException(GG_STR("Unknown method."));
 	}
 
-	RuntimeMathCheck(location);
+	///RuntimeMathCheck(location);
 
 	return numberTypeDefinition->CreateInstance(vm, result);
 }

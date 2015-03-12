@@ -81,12 +81,6 @@ namespace geogen
 		return val * val;
 	}
 
-	/// Starts a zone of checked floating point math.
-	void RuntimeMathCheckInit();
-	
-	/// Closes a zone of checked floating point math and throws an exception if an error was detected. Any operation that would result in infinity or NaN is considered to be erroneous.
-	void RuntimeMathCheck(CodeLocation location);
-
 	/// Linear interpolation between two values on two 1D coordinates. The two coordinates must not be the same. 
 	/// @param fromCoord From coordinate (x0).
 	/// @param toCoord To coordinate (x1).

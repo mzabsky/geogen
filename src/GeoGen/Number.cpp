@@ -1,4 +1,4 @@
-#include <cfenv>
+//#include <cfenv>
 
 #include "String.hpp"
 #include "Number.hpp"
@@ -83,7 +83,7 @@ Height geogen::NumberToHeight(Number n)
 
 	return h;
 }
-
+/*
 void geogen::RuntimeMathCheckInit()
 {
 	feclearexcept(FE_ALL_EXCEPT);
@@ -99,4 +99,4 @@ void geogen::RuntimeMathCheck(CodeLocation location)
 	{
 		throw runtime::NumberUnderflowException(location);
 	}
-}
+}*/

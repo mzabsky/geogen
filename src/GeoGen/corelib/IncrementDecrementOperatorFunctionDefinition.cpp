@@ -44,7 +44,7 @@ ManagedObject* IncrementDecrementOperatorFunctionDefinition::CallNative(CodeLoca
 	Number resultNumber;
 	Number returnNumber;
 
-	RuntimeMathCheckInit();
+	//RuntimeMathCheckInit();
 
 	switch (op)
 	{
@@ -55,7 +55,7 @@ ManagedObject* IncrementDecrementOperatorFunctionDefinition::CallNative(CodeLoca
 	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 
-	RuntimeMathCheck(location);
+	//RuntimeMathCheck(location);
 
 	reference->SetReferencedObject(location, vm, numberTypeDefinition->CreateInstance(vm, resultNumber));
 

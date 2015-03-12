@@ -49,7 +49,7 @@ ManagedObject* ArithmeticAssignmentOperatorFunctionDefinition::CallNative(CodeLo
 	Number input = dynamic_cast<NumberObject*>(referencedObject)->GetValue();
 	Number argument = dynamic_cast<NumberObject*>(arguments[1])->GetValue();
 
-	RuntimeMathCheckInit();
+	//RuntimeMathCheckInit();
 
 	Number result;
 
@@ -65,7 +65,7 @@ ManagedObject* ArithmeticAssignmentOperatorFunctionDefinition::CallNative(CodeLo
 	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
 
-	RuntimeMathCheck(location);
+	//RuntimeMathCheck(location);
 
 
 	ManagedObject* returnObject = numberTypeDefinition->CreateInstance(vm, result);

@@ -39,8 +39,6 @@ ManagedObject* MathRoundFunctionDefinition::CallNative(CodeLocation location, ru
 
 	Number input = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
 
-	RuntimeMathCheckInit();
-
 	Number result;
 	switch (this->function)
 	{
@@ -59,8 +57,6 @@ ManagedObject* MathRoundFunctionDefinition::CallNative(CodeLocation location, ru
 	default:
 		throw InternalErrorException(GG_STR("Unknown method."));
 	}
-
-	RuntimeMathCheck(location);
 
 	return numberTypeDefinition->CreateInstance(vm, result);
 }

@@ -52,8 +52,6 @@ ManagedObject* BitLogicAssignmentOperatorFunctionDefinition::CallNative(CodeLoca
 	Number input = returnsNumber ? dynamic_cast<NumberObject*>(referencedObject)->GetValue() : (dynamic_cast<BooleanObject*>(referencedObject)->GetValue() ? 1 : 0);
 	Number argument = returnsNumber ? dynamic_cast<NumberObject*>(arguments[1])->GetValue() : (dynamic_cast<BooleanObject*>(arguments[1])->GetValue() ? 1 : 0);
 
-	RuntimeMathCheckInit();
-
 	Number result;
 
 	switch (this->op)
@@ -62,8 +60,6 @@ ManagedObject* BitLogicAssignmentOperatorFunctionDefinition::CallNative(CodeLoca
 	case OR: result = int(input) | int(argument); break;
 	default: throw InternalErrorException(GG_STR("Unknown operator type."));
 	}
-
-	RuntimeMathCheck(location);
 
 	ManagedObject* returnObject;
 	if (returnsNumber)
