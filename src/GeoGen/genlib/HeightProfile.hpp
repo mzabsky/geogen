@@ -1,3 +1,19 @@
+/* GeoGen - Programmable height map generator
+Copyright (C) 2015  Matej Zabsky
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+
 #pragma once
 
 #include <vector>
@@ -167,7 +183,7 @@ namespace geogen
 			void ClampHeights(Height min, Height max);
 
 			/// Replaces heights in each pixel with a height blended from that height and corresponding height from another height profile. 
-			/// The blending will be done according to the height in the mask – 1 will mean 100% of the current height profile’s height will be used, 0 will mean 100% of the height from the other height profile will be used. Any heights in between will cause the two heights to be blended linearly. Heights less than 0 from the mask are considered to be 0.
+			/// The blending will be done according to the height in the mask ï¿½ 1 will mean 100% of the current height profileï¿½s height will be used, 0 will mean 100% of the height from the other height profile will be used. Any heights in between will cause the two heights to be blended linearly. Heights less than 0 from the mask are considered to be 0.
 			/// @param other The other profile.
 			/// @param mask The mask.
 			void Combine(HeightProfile* other, HeightProfile* mask);
@@ -212,7 +228,7 @@ namespace geogen
 			/// Flips the sign of each height in the height profile.
 			void Invert();
 
-			/// Moves the entire height profile by offset – a pixel at coordinate [x] will now be located at [x + offset].
+			/// Moves the entire height profile by offset ï¿½ a pixel at coordinate [x] will now be located at [x + offset].
 			/// @param offset The offset.
 			void Move(Coordinate offset);
 
