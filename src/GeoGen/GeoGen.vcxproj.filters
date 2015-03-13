@@ -1459,9 +1459,6 @@
     <ClInclude Include="runtime\MetadataIdentifier.hpp">
       <Filter>runtime</Filter>
     </ClInclude>
-    <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp">
-      <Filter>runtime</Filter>
-    </ClInclude>
     <ClInclude Include="runtime\MetadataKeyValueCollection.hpp">
       <Filter>runtime</Filter>
     </ClInclude>
@@ -1800,6 +1797,9 @@
     </ClInclude>
     <ClInclude Include="corelib\SizeOverflowException.hpp">
       <Filter>corelib</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp">
+      <Filter>compiler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
