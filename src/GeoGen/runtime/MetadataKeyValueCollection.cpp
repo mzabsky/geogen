@@ -24,7 +24,10 @@ using namespace geogen::runtime;
 
 void MetadataKeyValueCollection::MoveKeyValuesFrom(MetadataKeyValueCollection& another)
 {
-	std::move(another.table.begin(), another.table.end(), std::inserter(this->table, this->table.end()));
+	for (std::map<String, MetadataValue*>::iterator it = another.table.begin(); it != another.table.end(); it++)
+	{
+		this->table[it->first] = it->second;
+	}
 
 	another.table.clear();
 }
