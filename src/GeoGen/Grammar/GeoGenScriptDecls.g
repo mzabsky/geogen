@@ -208,7 +208,7 @@ script: ^(SCRIPT metadata? ^(DECLARATIONS declaration*) block)
 	delete $block.returnCodeBlock; 
 };
         
-metadata: ^('metadata' metadataKeyValueCollection) 
+metadata: ^(METADATA metadataKeyValueCollection) 
 { 
 	ctx->compiledScript->GetMetadata().MoveKeyValuesFrom(*dynamic_cast<MetadataKeyValueCollection*>($metadataKeyValueCollection.value));
 	delete $metadataKeyValueCollection.value;
@@ -348,8 +348,6 @@ functionDeclaration
 		        codeBlock.AddInstruction(new instructions::StoreScopeValueInstruction(location, (Char*)tree->getText(tree)->chars));	
 		        codeBlock.AddInstruction(new instructions::PopInstruction(location));	
 		}
-	             	
-	        codeBlock.MoveInstructionsFrom(CodeBlock()); // todo: WTF?
 	}
 	
 	codeBlock.MoveInstructionsFrom(*$block.returnCodeBlock);
@@ -690,11 +688,11 @@ expression returns [CodeBlock* returnCodeBlock, CodeBlock* refCodeBlock]
 	| ^(op='>=' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
 	| ^(op='<<' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
 	| ^(op='>>' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
-	| ^(op='+' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
-	| ^(op='-' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
-	| ^(op='*' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
-	| ^(op='/' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
-	| ^(op='%' e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_PLUS e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_MINUS e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_TIMES e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_DIVIDE e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
+	| ^(op=OPERATOR_MODULO e1=expression e2=expression) { binaryOperator(ctx, $op, $e1.returnCodeBlock, $e2.returnCodeBlock, $e1.refCodeBlock, $e2.refCodeBlock, $returnCodeBlock);}
 	| ^(op=OPERATOR_INCREMENT_PRE e1=expression) { unaryRefOperator(ctx, $op, "++pre", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}	
 	| ^(op=OPERATOR_INCREMENT_POST e1=expression) { unaryRefOperator(ctx, $op, "++post", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}		
 	| ^(op=OPERATOR_DECREMENT_PRE e1=expression) { unaryRefOperator(ctx, $op, "--pre", $e1.returnCodeBlock, $e1.refCodeBlock, $returnCodeBlock);}	
@@ -783,7 +781,7 @@ coordinateExpression returns[CodeBlock* returnCodeBlock]
 callExpression returns [CodeBlock* returnCodeBlock]
 @init { $returnCodeBlock = new CodeBlock(); std::vector<CodeBlock*> argumentCodeBlocks; } 
 :
-^('(' IDENTIFIER (expression { argumentCodeBlocks.push_back($expression.returnCodeBlock); } )*) 
+^(LEFT_BRACKET IDENTIFIER (expression { argumentCodeBlocks.push_back($expression.returnCodeBlock); } )*) 
 {
 	CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
 
@@ -799,7 +797,7 @@ callExpression returns [CodeBlock* returnCodeBlock]
 	$returnCodeBlock->AddInstruction(new instructions::CallGlobalInstruction(location, (Char*)$IDENTIFIER.text->chars, argumentCodeBlocks.size()));
 }
 |	
-^('(' ^('.' e1=expression IDENTIFIER) (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock);if($e2.refCodeBlock != NULL) delete $e2.refCodeBlock; } )*) 
+^(LEFT_BRACKET ^(OPERATOR_DOT e1=expression IDENTIFIER) (e2=expression { argumentCodeBlocks.push_back($e2.returnCodeBlock);if($e2.refCodeBlock != NULL) delete $e2.refCodeBlock; } )*) 
 {
 	CodeLocation location($IDENTIFIER.line, $IDENTIFIER.pos);
 
@@ -963,8 +961,8 @@ prio8Expression: ;*/
 
 
 /*prio1Expression:
-    ^('.' prio0Expression prio0Expression)
-    | ^('(' prio0Expression expression*)
+    ^(OPERATOR_DOT prio0Expression prio0Expression)
+    | ^(LEFT_BRACKET prio0Expression expression*)
     | ^('[' prio0Expression expression*);*/
 
 /*prio0Expression:  
@@ -1012,8 +1010,8 @@ collectionLiteralItem returns [CodeBlock* returnCodeBlock]
 
 label:        
 	^(IDENTCHAIN IDENTIFIER+)
-	| 'true'
-        | 'false'
+	| TRUE_LIT
+        | FALSE_LIT
 	| NUMBER
 	| STRING;
 	
