@@ -88,6 +88,15 @@ static	  pANTLR3_STRING    to8_UTF16		(pANTLR3_STRING string);
 static	pANTLR3_STRING		toUTF8_8	(pANTLR3_STRING string);
 static	pANTLR3_STRING		toUTF8_UTF16	(pANTLR3_STRING string);
 
+// C++98 doesn't have strdup, custom implementation is needed
+char* antlr3_strdup(const char *s)
+{
+	unsigned len = strlen(s);
+	char* news = (char*)malloc(len * sizeof(char*));
+	memcpy(news, s, len * sizeof(char*));
+	return news;
+}
+
 /* Local helpers
  */
 static	void			stringInit8	(pANTLR3_STRING string);

@@ -142,6 +142,7 @@
 #include    <sys/types.h>
 #include    <sys/stat.h>
 #include    <stdarg.h>
+#include    <string.h>
 
 #define	ANTLR3_API      __declspec(dllexport)
 #define	ANTLR3_CDECL    __cdecl
@@ -483,11 +484,15 @@ typedef ANTLR3_UINT32		ANTLR3_INTKEY;
 ///
 #define	ANTLR3_FREE_FUNC		free
 #endif
+
+// C++98 doesn't have strdup, custom implementation is needed
+char* antlr3_strdup(const char *s);
+
 #ifndef ANTLR3_STRDUP
 /// Default definition of ANTLR3_STRDUP. You can override this before including
 /// antlr3.h if you wish to use your own implementation.
 ///
-#define	ANTLR3_STRDUP(instr)		(pANTLR3_UINT8)(strdup  ((const char *)(instr)))
+#define	ANTLR3_STRDUP(instr)		(pANTLR3_UINT8)(antlr3_strdup  ((const char *)(instr)))
 #endif
 #ifndef ANTLR3_MEMCPY
 /// Default definition of ANTLR3_MEMCPY. You can override this before including
