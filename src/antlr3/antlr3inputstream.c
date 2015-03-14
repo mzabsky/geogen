@@ -32,6 +32,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include    <antlr3input.h>
+#include <ctype.h>
 
 // -----------------------------------
 // Generic 8 bit input such as latin-1

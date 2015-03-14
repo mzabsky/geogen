@@ -32,6 +32,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include    <antlr3string.h>
+#include <ctype.h>
 
 /* Factory API
  */

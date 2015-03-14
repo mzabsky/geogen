@@ -38,6 +38,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include    <antlr3lexer.h>
+#include <ctype.h>
 
 static void					mTokens						(pANTLR3_LEXER lexer);
 static void					setCharStream				(pANTLR3_LEXER lexer,  pANTLR3_INPUT_STREAM input);
