@@ -42,8 +42,8 @@ namespace geogen
 			CommandTable() {};
 			~CommandTable();
 
-			inline const_iterator Begin() const { return *(const_iterator*)(&this->ownedCommands.begin()); }
-			inline const_iterator End() const { return *(const_iterator*)(&this->ownedCommands.end()); }
+			inline const_iterator Begin() const { return this->ownedCommands.begin(); }
+			inline const_iterator End() const { return this->ownedCommands.end(); }
 
 			inline iterator Begin() { return this->ownedCommands.begin(); }
 			inline iterator End() { return this->ownedCommands.end(); }
