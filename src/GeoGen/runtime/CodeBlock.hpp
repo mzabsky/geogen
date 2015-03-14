@@ -58,7 +58,7 @@ namespace geogen
 			/// @param instruction The instruction.
 			void AddInstruction(instructions::Instruction const* instruction);
 
-			/// Move all instructions from another code block. Ownership of all the instruction is transferred to this code block.
+			/// Move all instructions from another code block. Ownership of all the instructions is transferred to this code block.
 			/// @param another The other code block.
 			void MoveInstructionsFrom(CodeBlock& another);
 
