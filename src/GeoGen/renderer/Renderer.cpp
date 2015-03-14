@@ -43,7 +43,7 @@ RendererStepResult Renderer::Step()
 
 	if (this->configuration.RendererMemoryLimit < this->GetRenderingSequenceMetadata().GetMemoryRequirement(*this->nextStep))
 	{
-		throw MemoryLimitException(this->configuration.RendererMemoryLimit, this->GetRenderingSequenceMetadata().GetMemoryRequirement(*this->nextStep));
+		throw MemoryLimitException((*this->nextStep)->GetLocation(), this->configuration.RendererMemoryLimit, this->GetRenderingSequenceMetadata().GetMemoryRequirement(*this->nextStep));
 	}
 
 	(*this->nextStep)->Step(this);

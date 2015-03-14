@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #pragma once
 
 #include "../ErrorCode.hpp"
-#include "../GeoGenException.hpp"
+#include "RendererException.hpp"
 #include "../utils/StringUtils.hpp"
 
 namespace geogen
@@ -25,14 +25,14 @@ namespace geogen
 	namespace renderer
 	{
 		/// Exception thrown when the Renderer determines it can't execute a step because it would need to allocate amount of memory greater than Configuration::RendererMemoryLimit.
-		class MemoryLimitException : public GeoGenException
+		class MemoryLimitException : public RendererException
 		{
 		private:
 			unsigned memoryLimit;
 			unsigned memoryRequired;
 		public:
-			explicit MemoryLimitException(unsigned memoryLimit, unsigned memoryRequired) :
-				GeoGenException(GGE3001_RendererMemoryLimitReached), memoryLimit(memoryLimit), memoryRequired(memoryRequired) {};
+			explicit MemoryLimitException(CodeLocation location, unsigned memoryLimit, unsigned memoryRequired) :
+				RendererException(GGE3001_RendererMemoryLimitReached, location), memoryLimit(memoryLimit), memoryRequired(memoryRequired) {};
 
 			virtual ~MemoryLimitException() throw () {}
 

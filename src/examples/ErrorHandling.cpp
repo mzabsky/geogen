@@ -51,10 +51,21 @@ void Example_ErrorHandling()
 		return;
 	}
 
-	renderer::Renderer renderer(vm.GetRenderingSequence());
-	renderer.Run();
+	// All renderer exceptions extend renderer::RendererException.
+	try
+	{
+		renderer::Renderer renderer(vm.GetRenderingSequence());
+		renderer.Run();
 
-	genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(renderer::Renderer::MAP_NAME_MAIN);
+		genlib::HeightMap* heightMap = renderer.GetRenderedMapTable().GetItem(renderer::Renderer::MAP_NAME_MAIN);
+	}
+	catch (runtime::RuntimeException& ex)
+	{
+		cout << "Error GGE" << ex.GetErrorCode() << ": " << ex.GetDetailMessage() << endl;
+		return;
+	}
+
+	// Alternatively, all GeoGen exceptions can be handled by catching GeoGenException.
 
 	cout << "Finished!" << endl;
 	/// [Body]

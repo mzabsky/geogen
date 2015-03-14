@@ -1801,6 +1801,9 @@
     <ClInclude Include="compiler\MetadataKeyRedefinitionException.hpp">
       <Filter>compiler</Filter>
     </ClInclude>
+    <ClInclude Include="renderer\RendererException.hpp">
+      <Filter>renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />
