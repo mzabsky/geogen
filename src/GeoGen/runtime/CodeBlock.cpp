@@ -64,12 +64,12 @@ void CodeBlock::AddInstruction(instructions::Instruction const* instruction)
 
 void CodeBlock::MoveInstructionsFrom(CodeBlock& another)
 {
-	std::move(another.instructions.begin(), another.instructions.end(), back_inserter(this->instructions));
+	//std::move(another.instructions.begin(), another.instructions.end(), back_inserter(this->instructions));
 
-	/*for(std::vector<instructions::Instruction const*>::iterator it = another.instructions.begin(); it != another.instructions.end(); it++)
+	for(std::vector<instructions::Instruction const*>::iterator it = another.instructions.begin(); it != another.instructions.end(); it++)
 	{
 		this->instructions.push_back(*it);
-	}*/
+	}
 
 	another.instructions.clear();
 }
