@@ -55,8 +55,10 @@ bool EnumScriptParameter::EqualsTo(ScriptParameter const* other) const
 }
 
 EnumScriptParameter::EnumScriptParameter(EnumScriptParameter const& other)
-: EnumScriptParameter(other.GetName(), other.GetLabel(), other.GetDescription(), other.GetEnumType(), other.GetDefaultValue())
+: ScriptParameter(other.name, other.label, other.description)
 {
+	this->enumType = other.enumType;
+	this->defaultValue = other.defaultValue;
 	this->value = other.GetValue();
 }
 

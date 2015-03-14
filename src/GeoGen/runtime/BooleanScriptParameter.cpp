@@ -37,9 +37,10 @@ bool BooleanScriptParameter::EqualsTo(ScriptParameter const* other) const
 }
 
 BooleanScriptParameter::BooleanScriptParameter(BooleanScriptParameter const& other)
-: BooleanScriptParameter(other.GetName(), other.GetLabel(), other.GetDescription(), other.GetDefaultValue())
+: ScriptParameter(other.name, other.label, other.description)
 {
-	this->value = other.GetValue();
+	this->defaultValue = other.defaultValue;
+	this->value = other.value;
 }
 
 BooleanScriptParameter& BooleanScriptParameter::operator=(BooleanScriptParameter const& other)

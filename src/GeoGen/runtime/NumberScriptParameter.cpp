@@ -59,9 +59,13 @@ bool NumberScriptParameter::EqualsTo(ScriptParameter const* other) const
 }
 
 NumberScriptParameter::NumberScriptParameter(NumberScriptParameter const& other)
-: NumberScriptParameter(other.GetName(), other.GetLabel(), other.GetDescription(), other.GetDefaultValue(), other.GetMin(), other.GetMax(), other.GetRestriction())
+: ScriptParameter(other.name, other.label, other.description)
 {
-	this->value = other.GetValue();
+	this->defaultValue = other.defaultValue;
+	this->min = other.min;
+	this->max = other.max;
+	this->restriction = other.restriction;
+	this->value = other.value;
 }
 
 NumberScriptParameter& NumberScriptParameter::operator=(NumberScriptParameter const& other)

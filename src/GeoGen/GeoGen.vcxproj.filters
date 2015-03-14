@@ -83,9 +83,6 @@
     <ClCompile Include="corelib\BitLogicOperatorFunctionDefinition.cpp">
       <Filter>corelib</Filter>
     </ClCompile>
-    <ClCompile Include="runtime\BooleanScriptParameter.cpp">
-      <Filter>corelib</Filter>
-    </ClCompile>
     <ClCompile Include="corelib\BooleanTypeDefinition.cpp">
       <Filter>corelib</Filter>
     </ClCompile>
@@ -767,6 +764,9 @@
     <ClCompile Include="corelib\HeightMapRidgedNoiseFunctionDefinition.cpp">
       <Filter>corelib</Filter>
     </ClCompile>
+    <ClCompile Include="runtime\BooleanScriptParameter.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
@@ -869,9 +869,6 @@
       <Filter>corelib</Filter>
     </ClInclude>
     <ClInclude Include="corelib\BitLogicOperatorFunctionDefinition.hpp">
-      <Filter>corelib</Filter>
-    </ClInclude>
-    <ClInclude Include="runtime\BooleanScriptParameter.hpp">
       <Filter>corelib</Filter>
     </ClInclude>
     <ClInclude Include="corelib\BooleanTypeDefinition.hpp">
@@ -1803,6 +1800,9 @@
     </ClInclude>
     <ClInclude Include="renderer\RendererException.hpp">
       <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\BooleanScriptParameter.hpp">
+      <Filter>runtime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
