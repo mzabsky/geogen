@@ -38,9 +38,9 @@ namespace geogen
 
 			String outputDirectory;
 
-			unsigned numberOfShownLines = NUMBER_OF_SHOWN_LINES_DEFAULT;
+			unsigned numberOfShownLines;
 
-			bool aborted = false;
+			bool aborted;
 
 			// Non-copyable
 			Debugger(Debugger const&) : vm(*(runtime::CompiledScript*)NULL, *(runtime::ScriptParameters*)NULL), in(Cin), out(Cout) {};

@@ -70,6 +70,9 @@ Debugger::Debugger(geogen::IStream& in, geogen::OStream& out, runtime::CompiledS
 	commandTable.AddCommand(new StepRuntimeCommand());
 	commandTable.AddCommand(new StopRuntimeCommand());
 	commandTable.AddCommand(new SupportedMapsRuntimeCommand());
+
+	this->numberOfShownLines = NUMBER_OF_SHOWN_LINES_DEFAULT;
+	this->aborted = false;
 }
 
 void Debugger::ShowCodeContext() const
