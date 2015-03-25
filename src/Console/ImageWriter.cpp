@@ -87,7 +87,8 @@ void geogen::console::WriteImage(genlib::DataObject* object, renderer::RendererO
 	{
 		HeightProfile* heightProfile = dynamic_cast<HeightProfile*>(object);
 
-		OFStream stream(filename + GG_STR(".csv"));
+		String filenameWithExtension = filename + GG_STR(".csv");
+		OFStream stream(filenameWithExtension.c_str());
 
 		stream << GG_STR("Coordinate;Height") << endl;
 		
