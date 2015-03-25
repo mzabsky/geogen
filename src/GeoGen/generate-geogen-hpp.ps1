@@ -50,4 +50,5 @@ foreach ($file in $files)
 	copy $sourceFile $destinationFile
 }
 
-$str | out-file -filepath "$ProjectDir/../../include/GeoGen/GeoGen.hpp"
+$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding($False)
+[System.IO.File]::WriteAllLines("$ProjectDir/../../include/GeoGen/GeoGen.hpp", $str, $Utf8NoBomEncoding)
