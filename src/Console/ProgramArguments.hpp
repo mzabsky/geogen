@@ -28,13 +28,23 @@ namespace geogen
 	{
 		struct ProgramArguments
 		{
-			bool debug = false;
-			bool displayHelp = false;
-			bool isNonInteractive = false;
-			String inputFile = GG_STR("");
-			String outputDirectory = GG_STR(".");
-			String seed = GG_STR("");
+			bool debug;
+			bool displayHelp;
+			bool isNonInteractive;
+			String inputFile;
+			String outputDirectory;
+			String seed;
 			std::map<String, String> scriptArgumentsStrings;
+
+			ProgramArguments()
+			{
+				this->debug = false;
+				this->displayHelp = false;
+				this->isNonInteractive = false;
+				this->inputFile = GG_STR("");
+				this->outputDirectory = GG_STR("");
+				this->seed = GG_STR("");
+			}
 		};
 	}
 }

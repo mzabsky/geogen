@@ -47,6 +47,9 @@ using namespace instructions;
 RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, renderer::RenderingSequence const& sequence, String outputDirectory)
 : renderer(sequence), in(in), out(out), outputDirectory(outputDirectory)
 {
+	this->currentStepNumber = 0;
+	this->lastStepTime = 0;
+
 	this->commandTable.AddCommand(new AutosaveRendererCommand());
 	this->commandTable.AddCommand(new DumpRendererCommand());
 	this->commandTable.AddCommand(new HelpRendererCommand());

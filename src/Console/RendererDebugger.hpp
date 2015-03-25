@@ -39,9 +39,9 @@ namespace geogen
 			bool aborted = false;
 			bool autosave = false;
 
-			unsigned currentStepNumber = 0;
+			unsigned currentStepNumber;
 
-			double lastStepTime = 0;
+			double lastStepTime;
 
 			// Non-copyable
 			RendererDebugger(RendererDebugger const&) : renderer(*(renderer::RenderingSequence*)NULL), in(Cin), out(Cout) {};
