@@ -61,7 +61,7 @@ namespace geogen
 					}
 					else 
 					{
-						code = StringStream(arguments);
+						code << arguments;
 					}					
 
 					loader->SetCompiledScript("", loader->GetCompiler()->CompileScript(code.str()));
