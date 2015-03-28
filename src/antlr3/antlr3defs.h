@@ -244,9 +244,11 @@ typedef struct sockaddr		ANTLR3_SOCKADDRC, * pANTLR3_SOCKADDRC;	// Type used for
 
 /* Include configure generated header file
  */
-#include	<antlr3config.h>
+//#include	<antlr3config.h>
 
+#include <cstdlib>
 #include <stdio.h>
+#include <cstring>
 
 #if HAVE_STDINT_H
 # include <stdint.h>
@@ -367,7 +369,7 @@ typedef	int	SOCKET;
  typedef int		    ANTLR3_SALENT;
 
 #else
-
+/*
 # if defined(_AIX) || __GNUC__ > 3 
 
    typedef  socklen_t   ANTLR3_SALENT;
@@ -380,7 +382,7 @@ typedef	int	SOCKET;
 
    typedef struct sockaddr_in   ANTLR3_SOCKADDRT, * pANTLR3_SOCKADDRT;	// Type used for socket address declaration
    typedef struct sockaddr	* pANTLR3_SOCKADDRC;                    // Type used for cast on accept()
-
+   */
 #endif
 
 #define INVALID_SOCKET      ((SOCKET)-1)

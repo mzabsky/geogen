@@ -368,7 +368,9 @@ antlr3read8Bit(pANTLR3_INPUT_STREAM    input, pANTLR3_UINT8 fileName)
 
 	/* It was there, so we can read the bytes now
 	*/
-	fSize   = antlr3Fsize(fileName);	/* Size of input file	*/
+
+	// File streams are disabled (GeoGen doesn't need them)
+	fSize = 0; // antlr3Fsize(fileName);	/* Size of input file	*/
 
 	/* Allocate buffer for this input set   
 	*/
@@ -414,7 +416,7 @@ antlr3Fclose(ANTLR3_FDSC fd)
 {
     fclose(fd);
 }
-ANTLR3_API ANTLR3_UINT32
+/*ANTLR3_API ANTLR3_UINT32
 antlr3Fsize(pANTLR3_UINT8 fileName)
 {   
     struct _stat	statbuf;
@@ -422,7 +424,7 @@ antlr3Fsize(pANTLR3_UINT8 fileName)
     _stat((const char *)fileName, &statbuf);
 
     return (ANTLR3_UINT32)statbuf.st_size;
-}
+}*/
 
 ANTLR3_API ANTLR3_UINT32
 antlr3Fread(ANTLR3_FDSC fdsc, ANTLR3_UINT32 count,  void * data)
