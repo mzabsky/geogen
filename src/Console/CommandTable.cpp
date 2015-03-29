@@ -17,8 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "CommandTable.hpp"
 #include "Command.hpp"
 
-#include <GeoGen/GeoGen.hpp>
-
 using namespace geogen;
 using namespace console;
 

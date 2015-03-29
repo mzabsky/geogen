@@ -36,8 +36,8 @@ namespace geogen
 
 			String outputDirectory;
 
-			bool aborted = false;
-			bool autosave = false;
+			bool aborted;
+			bool autosave;
 
 			unsigned currentStepNumber;
 

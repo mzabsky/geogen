@@ -49,6 +49,8 @@ RendererDebugger::RendererDebugger(geogen::IStream& in, geogen::OStream& out, re
 {
 	this->currentStepNumber = 0;
 	this->lastStepTime = 0;
+	this->aborted = false;
+	this->autosave = false;
 
 	this->commandTable.AddCommand(new AutosaveRendererCommand());
 	this->commandTable.AddCommand(new DumpRendererCommand());
