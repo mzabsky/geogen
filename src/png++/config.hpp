@@ -35,6 +35,9 @@
 #if defined(__GLIBC__)
 
 #include <endian.h>
+#elif defined(__CYGWIN32__)
+
+#include <endian.h>
 
 #elif defined(_WIN32)
 
