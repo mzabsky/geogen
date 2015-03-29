@@ -48,11 +48,11 @@ void geogen::console::HandleIntSignal(int sig)
 	if (ignoreNext)
 	{
 		ignoreNext = false;
-		return true;
+		return;
 	}
 
 	abortFlag = true;
-	return true;
+	return;
 }
 #endif
 
