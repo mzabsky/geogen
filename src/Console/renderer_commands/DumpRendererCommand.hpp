@@ -50,7 +50,7 @@ namespace geogen
 
 					String filename = debugger->GetOutputDirectory() + GG_STR("/") + arguments;
 
-					OFStream dumpStream(filename);
+					OFStream dumpStream(filename.c_str());
 					dumpStream << debugger->GetRenderer()->ToString();
 					dumpStream.flush();
 

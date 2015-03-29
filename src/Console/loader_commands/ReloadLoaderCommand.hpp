@@ -45,7 +45,8 @@ namespace geogen
 
 				virtual void Run(Loader* loader, String arguments) const
 				{
-					IFStream readStream(loader->GetCurrentFileName());
+					String filename = loader->GetCurrentFileName();
+					IFStream readStream(filename.c_str());
 
 					std::string str((std::istreambuf_iterator<char>(readStream)),
 						std::istreambuf_iterator<char>());

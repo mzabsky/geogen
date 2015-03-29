@@ -50,7 +50,7 @@ namespace geogen
 						return;
 					}
 
-					IFStream readStream(arguments);
+					IFStream readStream(arguments.c_str());
 
 					std::string str((std::istreambuf_iterator<char>(readStream)),
 						std::istreambuf_iterator<char>());
