@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "VariableTable.hpp"
 #include "ManagedObject.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 
 using namespace geogen;
 using namespace geogen::runtime;

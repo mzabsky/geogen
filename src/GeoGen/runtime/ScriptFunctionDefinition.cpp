@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "ScriptFunctionDefinition.hpp"
 #include "VirtualMachine.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 #include "NumberOfArgumentsException.hpp"
 
 using namespace std;

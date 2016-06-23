@@ -15,13 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "StoreMemberValueInstruction.hpp"
-#include "..\CodeBlockStackEntry.hpp"
-#include "..\VirtualMachine.hpp"
-#include "..\..\InternalErrorException.hpp"
-#include "..\NullReferenceException.hpp"
-#include "..\ManagedObject.hpp"
-#include "..\UndefinedSymbolAccessException.hpp"
-#include "..\ReadOnlyWriteException.hpp"
+#include "../CodeBlockStackEntry.hpp"
+#include "../VirtualMachine.hpp"
+#include "../../InternalErrorException.hpp"
+#include "../NullReferenceException.hpp"
+#include "../ManagedObject.hpp"
+#include "../UndefinedSymbolAccessException.hpp"
+#include "../ReadOnlyWriteException.hpp"
 
 using namespace std;
 using namespace geogen::runtime;

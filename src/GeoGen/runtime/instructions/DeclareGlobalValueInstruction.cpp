@@ -15,10 +15,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "DeclareGlobalValueInstruction.hpp"
-#include "..\CodeBlockStackEntry.hpp"
-#include "..\VirtualMachine.hpp"
-#include "..\..\InternalErrorException.hpp"
-#include "..\VariableRedefinitionException.hpp"
+#include "../CodeBlockStackEntry.hpp"
+#include "../VirtualMachine.hpp"
+#include "../../InternalErrorException.hpp"
+#include "../VariableRedefinitionException.hpp"
 
 using namespace std;
 using namespace geogen::runtime;

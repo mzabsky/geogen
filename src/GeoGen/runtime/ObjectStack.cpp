@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "ObjectStack.hpp"
 #include "ManagedObject.hpp"
-#include "..\InternalErrorException.hpp"
-#include "..\CodeLocation.hpp"
+#include "../InternalErrorException.hpp"
+#include "../CodeLocation.hpp"
 #include "StackOverflowException.hpp"
 #include "VirtualMachine.hpp"
 

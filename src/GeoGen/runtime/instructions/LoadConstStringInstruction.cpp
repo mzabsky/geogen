@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "LoadConstStringInstruction.hpp"
 #include "../VirtualMachine.hpp"
 #include "../../InternalErrorException.hpp"
-#include "../../corelib\StringTypeDefinition.hpp"
+#include "../../corelib/StringTypeDefinition.hpp"
 
 using namespace std;
 using namespace geogen::runtime;

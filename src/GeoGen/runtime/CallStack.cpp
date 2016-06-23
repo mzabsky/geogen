@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "CallStack.hpp"
 #include "CallStackEntry.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 #include "StackOverflowException.hpp"
 
 using namespace geogen;

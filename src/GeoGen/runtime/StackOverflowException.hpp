@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include <stdexcept>
 
 #include "RuntimeException.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 
 namespace geogen
 {

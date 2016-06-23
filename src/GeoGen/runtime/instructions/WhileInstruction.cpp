@@ -18,8 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include <sstream>
 
 #include "WhileInstruction.hpp"
-#include "..\CodeBlockStackEntry.hpp"
-#include "..\VirtualMachine.hpp"
+#include "../CodeBlockStackEntry.hpp"
+#include "../VirtualMachine.hpp"
 
 using namespace geogen;
 using namespace runtime;

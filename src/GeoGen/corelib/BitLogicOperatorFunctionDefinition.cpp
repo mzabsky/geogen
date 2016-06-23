@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "../corelib/NumberTypeDefinition.hpp"
 #include "../corelib/BooleanTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
-#include "..\runtime\IncorrectTypeException.hpp"
+#include "../runtime/IncorrectTypeException.hpp"
 
 using namespace std;
 using namespace geogen;

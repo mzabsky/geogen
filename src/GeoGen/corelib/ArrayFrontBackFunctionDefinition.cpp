@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "ArrayObject.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 
 using namespace std;
 using namespace geogen;

@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "MemoryManager.hpp"
 #include "VariableDefinition.hpp"
 #include "TypeDefinition.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 #include "VirtualMachine.hpp"
 
 using namespace std;

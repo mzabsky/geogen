@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "../runtime/VirtualMachine.hpp"
 #include "../runtime/ManagedObject.hpp"
 #include "../corelib/NumberTypeDefinition.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 #include "MathDefinitionRangeException.hpp"
 #include "../runtime/NumberOverflowException.hpp"
 #include "../runtime/NumberUnderflowException.hpp"

@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "LoadConstNumberInstruction.hpp"
 #include "../CodeBlockStackEntry.hpp"
 #include "../VirtualMachine.hpp"
-#include "../..\InternalErrorException.hpp"
+#include "../../InternalErrorException.hpp"
 #include "../../corelib/NumberTypeDefinition.hpp"
 
 using namespace std;

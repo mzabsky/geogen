@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "CallStackEntry.hpp"
 #include "IntermediateCodeException.hpp"
-#include "..\InternalErrorException.hpp"
+#include "../InternalErrorException.hpp"
 #include "VirtualMachine.hpp"
 #include "ScriptFunctionDefinition.hpp"
 #include "CodeBlockStackEntry.hpp"

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "../runtime/ManagedObject.hpp"
 #include "../runtime/NumberOfArgumentsException.hpp"
 #include "../InternalErrorException.hpp"
-#include "..\runtime\IncorrectTypeException.hpp"
+#include "../runtime/IncorrectTypeException.hpp"
 #include "NumberTypeDefinition.hpp"
 #include "HeightProfileTypeDefinition.hpp"
 #include "HeightProfileFlatRenderingStep.hpp"

@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "../runtime/VariableDefinition.hpp"
 #include "../runtime/SymbolDefinitionTable.hpp"
 #include "../runtime/CodeBlock.hpp"
-#include "../Grammar/output\GeoGenScriptLexer.h"
-#include "../Grammar/output\GeoGenScriptParser.h"
-#include "../Grammar/output\GeoGenScriptDecls.h"
+#include "../Grammar/output/GeoGenScriptLexer.h"
+#include "../Grammar/output/GeoGenScriptParser.h"
+#include "../Grammar/output/GeoGenScriptDecls.h"
 
 namespace geogen
 {
