@@ -40,7 +40,7 @@ namespace geogen
 			bool debug;
 			String currentFile;
 			String outputDirectory;
-			runtime::CompiledScript* compiledScript;
+			runtime::CompiledScript* compiledScript = NULL;
 			//String code;
 			String dump;
 			bool isInteractive;
