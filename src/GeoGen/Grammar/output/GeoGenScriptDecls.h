@@ -179,6 +179,7 @@ has the callable functions (rules) shown below,
 
 	#include <memory>
 	#include <limits>	
+	#include <stdint.h>
 
 	#undef max
 

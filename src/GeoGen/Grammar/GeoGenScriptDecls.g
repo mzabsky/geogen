@@ -32,6 +32,7 @@ scope BlockScope
 @includes {
 	#include <memory>
 	#include <limits>	
+	#include <stdint.h>	
 
 	#undef max
 
