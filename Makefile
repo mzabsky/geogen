@@ -1,5 +1,5 @@
 CPP_FILES := $(shell find src/GeoGen src/Console -type f -iname '*.cpp')
-C_FILES := $(shell find src/GeoGen src/antlr3 src\lpng1612 -type f -iname '*.c')
+C_FILES := $(shell find src/GeoGen src/antlr3 src/lpng1612 -type f -iname '*.c')
 CPPOBJ_FILES := $(patsubst %.cpp, %.o, $(CPP_FILES:.cpp=.o))
 COBJ_FILES := $(patsubst %.c, %.o, $(C_FILES:.c=.o))
 CPP_FLAGS := -std=c++98 -Isrc/antlr3 -Iinclude -Isrc/png++ -Isrc/lpng1612 -v -g
