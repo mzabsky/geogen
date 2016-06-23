@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "../corelib/StringTypeDefinition.hpp"
 #include "../InternalErrorException.hpp"
 #include "MathDefinitionRangeException.hpp"
-#include "../runtime\UserErrorException.hpp"
+#include "../runtime/UserErrorException.hpp"
 #include "StringFormatException.hpp"
 #include "../String.hpp"
 
