@@ -13,3 +13,4 @@ Release/
 Win32_LIB_Debug/
 src/GeoGen_Tests/*.png
 *.o
+geogen.exe
