@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "../Number.hpp"
 #include "../CodeLocation.hpp"
 #include "../ErrorCode.hpp"
-#include "../runtime\RuntimeException.hpp"
+#include "../runtime/RuntimeException.hpp"
 
 namespace geogen
 {
