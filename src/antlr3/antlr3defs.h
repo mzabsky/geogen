@@ -135,6 +135,8 @@
 #define	_CRT_SECURE_NO_DEPRECATE 
 #endif
 
+
+#include <stdint.h>
 #include    <windows.h>
 #include    <stdlib.h>
 #include    <winsock.h>
