@@ -5,10 +5,16 @@ COBJ_FILES := $(patsubst %.c, %.o, $(C_FILES:.c=.o))
 CPP_FLAGS := -std=c++98 -Isrc/antlr3 -Iinclude -Isrc/png++ -Isrc/lpng1612 -Iinclude -v  -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H  -g
 C_FLAGS := -std=c++98 -Isrc/antlr3 -fpermissive -w -DANTLR3_NODEBUGGER -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H -g
 
-all:geogen
+all:geogen headers
 
 geogen: $(COBJ_FILES) $(CPPOBJ_FILES)
 	g++ -o $@ $^ -lz -g
+	
+headers:
+	rm -rf include/GeoGen
+	mkdir -p include/GeoGen	
+	find src/GeoGen -name \*.hpp | sed 's/^...........//' | sed /AntlrRaiiWrappers/d | sed "1s;^;#pragma once\n\n/// @file GeoGen.hpp Header file used for including GeoGen into other projects.\n// Machine generated file, do not edit.\n\n;" > include/GeoGen/GeoGen.hpp
+	find src/GeoGen -name \*.hpp -exec cp {} include/GeoGen \;
 
 %.o: %.cpp
 	g++ $(CPP_FLAGS) -c -o $@ $<
