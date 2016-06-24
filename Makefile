@@ -13,9 +13,8 @@ geogen: $(COBJ_FILES) $(CPPOBJ_FILES)
 headers:
 	rm -rf include/GeoGen
 	mkdir -p include/GeoGen	
-	find src/GeoGen -name \*.hpp | sed 's/^...........//' | sed /AntlrRaiiWrappers/d | sed 's/^/#include "/' | sed 's/.*/&"/' | sed "1s;^;#pragma once\n\n/// @file GeoGen.hpp Header file used for including GeoGen into other projects.\n// Machine generated file, do not edit.\n\n;" > include/GeoGen/GeoGen.hpp
-	find src/GeoGen -name \*.hpp -exec cp {} include/GeoGen \;
-
+	find src/GeoGen -name \*.hpp | sed 's/^...........//' | sed /AntlrRaiiWrappers/d | sed 's/^/#include "/' | sed 's/.*/&"/' | sort | sed "1s;^;#pragma once\n\n/// @file GeoGen.hpp Header file used for including GeoGen into other projects.\n// Machine generated file, do not edit.\n\n;" > include/GeoGen/GeoGen.hpp
+	cd src/GeoGen && find . -name \*.hpp -exec cp -u --parents {} ../../include/GeoGen \;
 %.o: %.cpp
 	g++ $(CPP_FLAGS) -c -o $@ $<
 	
