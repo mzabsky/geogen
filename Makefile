@@ -16,6 +16,7 @@ geogen: $(COBJ_FILES) $(CPPOBJ_FILES)
 
 geogen_tests: $(COBJ_FILES) $(CPPOBJ_TESTS_FILES)
 	g++ -o $@ $^ -lz -g
+	./geogen_tests
 	
 headers:
 	rm -rf include/GeoGen
