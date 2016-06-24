@@ -79,7 +79,7 @@ public:
 			yield heightMap; \n\
 		");
 
-		vector<pair<Coordinate, Coordinate>> positions;
+		vector<pair<Coordinate, Coordinate> > positions;
 		positions.push_back(pair<Coordinate, Coordinate>(0, 0));
 		positions.push_back(pair<Coordinate, Coordinate>(0, 250));
 		positions.push_back(pair<Coordinate, Coordinate>(0, 500));
@@ -90,7 +90,7 @@ public:
 		positions.push_back(pair<Coordinate, Coordinate>(500, 250));
 		positions.push_back(pair<Coordinate, Coordinate>(500, 500));
 
-		for (vector<pair<Coordinate, Coordinate>>::iterator it = positions.begin(); it != positions.end(); it++)
+		for (vector<pair<Coordinate, Coordinate> >::iterator it = positions.begin(); it != positions.end(); it++)
 		{
 			ScriptParameters parameters = compiledScript->CreateScriptParameters();
 			parameters.SetRenderWidth(250);
@@ -121,7 +121,7 @@ public:
 			yield heightMap; \n\
 		");
 
-		vector<pair<Coordinate, Coordinate>> positions;
+		vector<pair<Coordinate, Coordinate> > positions;
 		positions.push_back(pair<Coordinate, Coordinate>(0, 0));
 		positions.push_back(pair<Coordinate, Coordinate>(0, 250));
 		positions.push_back(pair<Coordinate, Coordinate>(0, 500));
@@ -132,7 +132,7 @@ public:
 		positions.push_back(pair<Coordinate, Coordinate>(500, 250));
 		positions.push_back(pair<Coordinate, Coordinate>(500, 500));
 
-		for (vector<pair<Coordinate, Coordinate>>::iterator it = positions.begin(); it != positions.end(); it++)
+		for (vector<pair<Coordinate, Coordinate> >::iterator it = positions.begin(); it != positions.end(); it++)
 		{
 			ScriptParameters parameters = compiledScript->CreateScriptParameters();
 			parameters.SetRenderWidth(250);
