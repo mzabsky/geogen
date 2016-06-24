@@ -26,6 +26,8 @@ public:
 	NoExceptionException(geogen::String exceptionType) :
 		GeoGenException((geogen::ErrorCode)9000), exceptionType(exceptionType) {};
 
+	virtual ~NoExceptionException() throw () {}
+
 	virtual geogen::String GetDetailMessage()
 	{
 		geogen::StringStream ss;
