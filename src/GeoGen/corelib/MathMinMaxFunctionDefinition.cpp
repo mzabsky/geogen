@@ -69,7 +69,7 @@ ManagedObject* MathMinMaxFunctionDefinition::CallNative(CodeLocation location, r
 {
 	NumberTypeDefinition const* numberTypeDefinition = vm->GetNumberTypeDefinition();
 
-	int parameterCount = max(2u, arguments.size());
+	int parameterCount = std::max(static_cast<size_t>(2u), arguments.size());
 	vector<TypeDefinition const*> expectedParameterTypes;
 
 	for (int i = 0; i < parameterCount; i++)
