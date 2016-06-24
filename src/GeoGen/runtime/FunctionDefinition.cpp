@@ -64,7 +64,7 @@ vector<ManagedObjectHolder> FunctionDefinition::CheckArguments(VirtualMachine* v
 	}	
 	else 
 	{
-		CheckArguments(location, max((unsigned)requiredArgumentCount, min(expectedTypes.size(), actualArguments.size())), actualArguments);
+		CheckArguments(location, max(static_cast<size_t>(requiredArgumentCount), min(expectedTypes.size(), actualArguments.size())), actualArguments);
 	}
 
 	vector<ManagedObjectHolder> holders;
