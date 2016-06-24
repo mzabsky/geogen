@@ -5,7 +5,7 @@ COBJ_FILES := $(patsubst %.c, %.o, $(C_FILES:.c=.o))
 CPP_FLAGS := -std=c++98 -Isrc/antlr3 -Iinclude -Isrc/png++ -Isrc/lpng1612 -Iinclude -v  -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H  -g
 C_FLAGS := -std=c++98 -Isrc/antlr3 -fpermissive -w -DANTLR3_NODEBUGGER -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H -g
 
-all:geogen headers
+all:headers geogen 
 
 geogen: $(COBJ_FILES) $(CPPOBJ_FILES)
 	g++ -o $@ $^ -lz -g
