@@ -41,7 +41,7 @@ public:
 
 		if (vm.GetStatus() != VIRTUAL_MACHINE_STATUS_FINISHED)
 		{
-			throw exception("VM finished in incorrect status.");
+			throw runtime_error("VM finished in incorrect status.");
 		}
 
 		ASSERT_EQUALS(bool, true, vm.GetGlobalVariableTable().IsVariableDeclared(GG_STR("a")));
@@ -75,7 +75,7 @@ public:
 
 		if (vm.GetStatus() != VIRTUAL_MACHINE_STATUS_FINISHED)
 		{
-			throw exception("VM finished in incorrect status.");
+			throw runtime_error("VM finished in incorrect status.");
 		}
 
 		ASSERT_EQUALS(bool, true, vm.GetGlobalVariableTable().IsVariableDeclared(GG_STR("a1")));

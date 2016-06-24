@@ -1,13 +1,20 @@
 CPP_FILES := $(shell find src/GeoGen src/Console -type f -iname '*.cpp')
+CPP_TESTS_FILES := $(shell find src/GeoGen src/GeoGen_Tests -type f -iname '*.cpp')
 C_FILES := $(shell find src/GeoGen src/antlr3 src/lpng1612 -type f -iname '*.c')
 CPPOBJ_FILES := $(patsubst %.cpp, %.o, $(CPP_FILES:.cpp=.o))
+CPPOBJ_TESTS_FILES := $(patsubst %.cpp, %.o, $(CPP_TESTS_FILES:.cpp=.o))
 COBJ_FILES := $(patsubst %.c, %.o, $(C_FILES:.c=.o))
 CPP_FLAGS := -std=c++98 -Isrc/antlr3 -Iinclude -Isrc/png++ -Isrc/lpng1612 -Iinclude -v  -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H  -g
 C_FLAGS := -std=c++98 -Isrc/antlr3 -fpermissive -w -DANTLR3_NODEBUGGER -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H -g
 
-all:headers geogen 
+all:headers geogen geogen_tests
+
+test:headers geogen_tests
 
 geogen: $(COBJ_FILES) $(CPPOBJ_FILES)
+	g++ -o $@ $^ -lz -g
+
+geogen_tests: $(COBJ_FILES) $(CPPOBJ_TESTS_FILES)
 	g++ -o $@ $^ -lz -g
 	
 headers:
@@ -22,4 +29,4 @@ headers:
 	g++ $(C_FLAGS) -c -o $@ $<
 
 clean:
-	@rm $(COBJ_FILES) $(CPPOBJ_FILES)
+	@rm $(COBJ_FILES) $(CPPOBJ_FILES) $(CPPOBJ_TESTS_FILES)

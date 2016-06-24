@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #pragma once
 
 #include <map>
+#include <string.h>
+#include <memory>
 
 #include <GeoGen/GeoGen.hpp>
 #include "NoExceptionException.hpp"
@@ -159,7 +161,7 @@ protected:
 
 		if (vm.GetStatus() != VIRTUAL_MACHINE_STATUS_FINISHED)
 		{
-			throw exception("VM finished in incorrect status.");
+			throw runtime_error("VM finished in incorrect status.");
 		}
 	}
 
@@ -173,7 +175,7 @@ protected:
 
 		if (vm.GetStatus() != VIRTUAL_MACHINE_STATUS_FINISHED)
 		{
-			throw exception("VM finished in incorrect status.");
+			throw runtime_error("VM finished in incorrect status.");
 		}
 	}
 
