@@ -266,6 +266,7 @@ void HeightMap::CellNoise(Size1D meanCellSize, RandomSeed seed)
 		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
 		Point gridPoint = logicalPoint.GetGridPoint(gridSize, gridSize);
 
+		// TODO: Optimization: Precalculate random points for each cell touching the physical rect
 		// Determine top left coordinates of the current cell and the 8 surrounding cells
 		// We don't need to consider any other cells, because the nearest random point will be in one of those cells (at least one of those points will always by closer than points from any other cells).
 		Point gridPoints [9] =
@@ -290,6 +291,7 @@ void HeightMap::CellNoise(Size1D meanCellSize, RandomSeed seed)
 				randomSequenceY.GetInt(gridPoints[i], 0, gridSize - 1)
 			);
 
+			// TODO: Optimization: Fast distance
 			double distance = logicalPoint.GetDistanceTo(randomPoint);
 
 			if(distance < currentClosestDistance)
