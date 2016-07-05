@@ -249,6 +249,59 @@ void HeightMap::Blur(Size1D radius, Direction direction)
 	this->heightData = new_data;
 }
 
+void HeightMap::CellNoise(Size1D meanCellSize, RandomSeed seed)
+{
+	RandomSequence2D randomSequenceX(seed);
+	RandomSequence2D randomSequenceY(CreateSeed(seed));
+
+	// Place one random point in each cell of a regular grid. Set height according to distance of the nearest random point.
+	int gridSize = meanCellSize; // Signed, because it gets minus-ed later
+
+	// The nearest cell point can be at most 1 cell diagonals away. We will use this to determine heights from distances (distance of 1 diagonal = max height)
+	double maximumDistance = sqrt(2 * (double)gridSize * (double)gridSize); 
+	
+	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);
+	FOR_EACH_IN_RECT(x, y, operationRect)
+	{
+		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
+		Point gridPoint = logicalPoint.GetGridPoint(gridSize, gridSize);
+
+		// Determine top left coordinates of the current cell and the 8 surrounding cells
+		// We don't need to consider any other cells, because the nearest random point will be in one of those cells (at least one of those points will always by closer than points from any other cells).
+		Point gridPoints [9] =
+		{
+			gridPoint + Point(-gridSize, -gridSize), // Top left
+			gridPoint + Point(0, -gridSize), // Top
+			gridPoint + Point(gridSize, -gridSize), // Top right
+			gridPoint + Point(-gridSize, 0), // Left
+			gridPoint + Point(0, 0), // Current
+			gridPoint + Point(gridSize, 0), // Right
+			gridPoint + Point(-gridSize, gridSize), // Bottom left
+			gridPoint + Point(0, gridSize), // Bottom
+			gridPoint + Point(gridSize, gridSize), // Bottom right
+		};
+
+		double currentClosestDistance = maximumDistance;
+		for (int i = 0; i < 9; i++)
+		{
+
+			Point randomPoint = gridPoints[i] + Point(
+				randomSequenceX.GetInt(gridPoints[i], 0, gridSize - 1),
+				randomSequenceY.GetInt(gridPoints[i], 0, gridSize - 1)
+			);
+
+			double distance = logicalPoint.GetDistanceTo(randomPoint);
+
+			if(distance < currentClosestDistance)
+			{
+				currentClosestDistance = distance;
+			}
+		}
+
+		(*this)(x, y) = currentClosestDistance * HEIGHT_MAX / maximumDistance;
+	}
+}
+
 void HeightMap::ClampHeights(Height min, Height max)
 {
 	Rectangle operationRect = this->GetPhysicalRectangleUnscaled(this->rectangle);

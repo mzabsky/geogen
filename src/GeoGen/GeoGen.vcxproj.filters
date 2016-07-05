@@ -767,6 +767,8 @@
     <ClCompile Include="runtime\BooleanScriptParameter.cpp">
       <Filter>runtime</Filter>
     </ClCompile>
+    <ClCompile Include="corelib\HeightMapCellNoiseFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapCellNoiseRenderingStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
@@ -1804,6 +1806,8 @@
     <ClInclude Include="runtime\BooleanScriptParameter.hpp">
       <Filter>runtime</Filter>
     </ClInclude>
+    <ClInclude Include="corelib\HeightMapCellNoiseFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapCellNoiseRenderingStep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />

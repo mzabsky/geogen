@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "HeightMapAbsFunctionDefinition.hpp"
 #include "HeightMapAddFunctionDefinition.hpp"
 #include "HeightMapBlurFunctionDefinition.hpp"
+#include "HeightMapCellNoiseFunctionDefinition.hpp"
 #include "HeightMapClampHeightsFunctionDefinition.hpp"
 #include "HeightMapCombineFunctionDefinition.hpp"
 #include "HeightMapCropFunctionDefinition.hpp"
@@ -88,6 +89,7 @@ HeightMapTypeDefinition::HeightMapTypeDefinition() : RendererTypeDefinition(GG_S
 	this->GetFunctionDefinitions().AddItem(new HeightMapTransformHeightsFunctionDefinition(this));
 	this->GetFunctionDefinitions().AddItem(new HeightMapUnifyFunctionDefinition(this));
 
+	this->GetStaticFunctionDefinitions().AddItem(new HeightMapCellNoiseFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapCloneFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapConvexityMapFunctionDefinition(this));
 	this->GetStaticFunctionDefinitions().AddItem(new HeightMapDistanceMapFunctionDefinition(this));

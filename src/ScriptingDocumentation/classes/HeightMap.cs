@@ -1,3 +1,5 @@
+using System.Globalization;
+
 /// Two-dimensional height map.
 /// X coordinates go from left (negative) to right (positive) in the horizontal direction and Y coordinates go from top (negative) to bottom (positive) in the vertical direction.
 /// 
@@ -5,6 +7,12 @@
 class HeightMap
 {
 public:
+    
+	/// Creates a height map with constant @a height.
+	/// @param meanCellSize Mean width/height of each cell. Must be greater than 0.
+	/// @param seed (Optional) Random seed. If not provided, 0 is used. This seed is always combined with the main script seed provided in script arguments to the script.
+	/// @return The height map.
+	static HeightMap CellNoise(Number meanCellSize, Number seed);
 
     /// Creates a deep copy of another height map.
     /// 

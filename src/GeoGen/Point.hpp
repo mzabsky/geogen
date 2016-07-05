@@ -142,6 +142,15 @@ namespace geogen {
 			return sqrt((double)((long long)this->x * (long long)this->x + (long long)this->y * (long long)this->y));
 		}
 
+		/// Gets top left point of a grid cell to which this point belongs to.
+		/// @param gridCellWidth Grid cell width.
+		/// @param gridCellHeight Grid cell height.
+		/// @return The distance.
+		inline Point GetGridPoint(unsigned gridCellWidth, unsigned gridCellHeight)
+		{
+			return Point(this->x - this->x % gridCellWidth, this->y - this->y % gridCellHeight);
+		}
+
 		void Serialize(IOStream& stream) const
 		{
 			stream << GG_STR("[") << this->x << GG_STR(", ") << this->y << GG_STR("]");

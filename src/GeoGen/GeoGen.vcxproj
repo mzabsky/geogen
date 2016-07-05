@@ -150,6 +150,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\HeightMapAddRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapBlurFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapBlurRenderingStep.hpp" />
+    <ClInclude Include="corelib\HeightMapCellNoiseFunctionDefinition.hpp" />
+    <ClInclude Include="corelib\HeightMapCellNoiseRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapClampHeightsFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapClampHeightsRenderingStep.hpp" />
     <ClInclude Include="corelib\HeightMapCloneFunctionDefinition.hpp" />
@@ -464,6 +466,8 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\HeightMapAddRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapBlurFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapBlurRenderingStep.cpp" />
+    <ClCompile Include="corelib\HeightMapCellNoiseFunctionDefinition.cpp" />
+    <ClCompile Include="corelib\HeightMapCellNoiseRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapClampHeightsFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapClampHeightsRenderingStep.cpp" />
     <ClCompile Include="corelib\HeightMapCloneFunctionDefinition.cpp" />

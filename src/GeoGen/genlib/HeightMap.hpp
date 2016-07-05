@@ -175,6 +175,7 @@ namespace geogen
 			void AddMapMasked(HeightMap* addend, HeightMap* mask);
 			void Blur(Size1D radius);
 			void Blur(Size1D radius, Direction direction);
+			void CellNoise(Size1D meanCellSize, random::RandomSeed seed);
 			void ClampHeights(Height min, Height max);
 			void Combine(HeightMap* other, HeightMap* mask);
 			void ConvexityMap(Size1D radius);

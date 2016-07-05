@@ -45,7 +45,7 @@ ManagedObject* HeightMapStratifyFunctionDefinition::CallNative(CodeLocation loca
 
 	vector<ManagedObjectHolder> convertedObjectHolders = this->CheckArguments(vm, location, expectedTypes, arguments, 1);
 
-	int numberOfStrata = dynamic_cast<NumberObject*>(arguments[0])->GetValue();
+	int numberOfStrata = static_cast<int>(dynamic_cast<NumberObject*>(arguments[0])->GetValue());
 
 	if (numberOfStrata < 1 || numberOfStrata > 100)
 	{
