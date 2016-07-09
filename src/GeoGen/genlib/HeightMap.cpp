@@ -480,7 +480,9 @@ void HeightMap::DistanceMap(Size1D maximumDistance)
 
 void HeightMap::Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalDistortionMap, Size1D maxDistance)
 {
-	Rectangle contraction = Rectangle::Contract(this->rectangle, maxDistance);
+	Size1D scaledMaximumDistance = this->GetScaledSize(maxDistance);
+
+	Rectangle contraction = Rectangle::Contract(this->rectangle, scaledMaximumDistance);
 	Rectangle logicalRect = Rectangle::Intersect(contraction, Rectangle::Intersect(verticalDistortionMap->rectangle, horizontalDistortionMap->rectangle));
 	Rectangle physicalRect = this->GetPhysicalRectangleUnscaled(logicalRect);
 
@@ -491,10 +493,10 @@ void HeightMap::Distort(HeightMap* horizontalDistortionMap, HeightMap* verticalD
 	FOR_EACH_IN_RECT(x, y, physicalRect)
 	{		
 		Height horizontalDistortionMapHeight = (*horizontalDistortionMap)(x + horizontalOffset.GetX(), y + horizontalOffset.GetY());
-		double sourceOffsetX = horizontalDistortionMapHeight * (double)maxDistance / (double)HEIGHT_MAX;
+		double sourceOffsetX = horizontalDistortionMapHeight * (double)scaledMaximumDistance / (double)HEIGHT_MAX;
 
 		Height verticalDistortionMapHeight = (*verticalDistortionMap)(x + verticalOffset.GetX(), y + verticalOffset.GetY());
-		double sourceOffsetY = verticalDistortionMapHeight * (double)maxDistance / (double)HEIGHT_MAX;
+		double sourceOffsetY = verticalDistortionMapHeight * (double)scaledMaximumDistance / (double)HEIGHT_MAX;
 
 		(*this)(x, y) = copy(x + sourceOffsetX, y + sourceOffsetY);
 	}
