@@ -13,7 +13,7 @@
 /// 
 /// @image html tut_console_run.png
 /// 
-/// Command `rr` reloads any modifications made to the last loaded script and runs it (effectively combining above two commands into one, accelerating script development).
+/// Command `rl` reloads any modifications to the script, `rr` reloads and also runs the script (effectively combining above two commands into one, accelerating script development).
 ///
 ///
 /// @section console_script_parameters Script parameters
@@ -23,14 +23,20 @@
 /// Command name | Cue/shorthand       | Description
 /// -------------|---------------------|--------------------------------------------------------
 /// Render size  | @verbatim rs [width] [height]@endverbatim | Sets render size of the map. If only one argument is passed, that number is used as both width and height. Use "auto" to let the program determine the size automatically (default value of 1000 will be used, usually).
-/// Render origin | @verbatim ro [x] [y]@endverbatim | Sets position of the render origin. If no arguments are passed, displays current render origin. [0, 0] is used if not set. Use "auto" to let the program determine the size automatically (default value of 1000 will be used, usually).
+/// Render origin | @verbatim ro [x] [y]@endverbatim | Sets position of the render origin (top left corner of the render). If only one argument is passed, that number is used as both X and Y. [0, 0] is used if not set. 
 /// Render scale | @verbatim rsc [scale]@endverbatim | Sets render scale (0.5 = 2x zoomed out, 2.0 = 2x zoomed in). 1 is used if not set.
-/// Map size     | @verbatim ms [width] [height]@endverbatim | Sets reference size of the map. If only one argument is passed, that number is used as both width and height. Use "auto" to let the program determine the size automatically (render size will be used, usually). If the map is infinite, this will be ignored.
+/// Map size     | @verbatim ms [width] [height]@endverbatim | Sets reference size of the map. If only one argument is passed, that number is used as both width and height. Use "auto" to let the program determine the size automatically - render size scaled by render scale will be used, usually. Therefore it is only necessary to specify map size if only a part of the map is being rendered. If the map is infinite, this will be ignored.
 /// Random seed  | @verbatim rseed [seed]@endverbatim | Sets random seed. If the seed is a number, that number will be used. If it is a string, a hash of that string will be used.
 /// Parameter    | @verbatim param [name] [value]@endverbatim | Sets value of a script parameter with given name. If the script doesn't support parameter with that name, it will be ignored.
 ///
 /// All of these commands will print the current value of that attribute when invoked without any arguments.
-/// 
+///
+/// Render origin and render size are applied after scaling. For example, if you want to render bottom left quarter of a 500x500 hundred map at 50% scale, use the following sequence of commands:
+/// @verbatim ms 500
+/// rsc 0.5
+/// ro 0 125
+/// rs 125@endverbatim
+///  
 /// Values set with all these commands will remain effective until changed once again with that command (throughout multiple execution of the script and even after loading another script).
 /// 	   
 /// @section console_debugger Debugging scripts
