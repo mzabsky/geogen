@@ -49,13 +49,7 @@ release: geogen docs
 		sed -i "N;/^\n$$/d;P;D" "$$file";\
 	done;
 	
-	cd release && zip -r geogen.zip geogen
-	
-examples:
-	mkdir -p examples
-	cp src/examples/*.ggs examples
-	sed -i /\/\/\//d 
-	find examples -name \*.ggs -exec sed -i "/\/\/\//d " {} \;
+	cd release && zip -r geogen.zip geogen	
 	
 %.o: %.cpp
 	g++ $(CPP_FLAGS) -c -o $@ $<
