@@ -65,3 +65,4 @@ examples:
 
 clean:
 	@rm $(COBJ_FILES) $(CPPOBJ_FILES) $(CPPOBJ_TESTS_FILES)
+	@rm -rf release
