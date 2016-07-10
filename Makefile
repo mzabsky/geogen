@@ -9,14 +9,14 @@ C_FLAGS := -std=c++98 -Isrc/antlr3 -fpermissive -w -DANTLR3_NODEBUGGER -DHAVE_ST
 
 .PHONY: examples release
 
-all:headers geogen geogen_tests docs
+all:geogen_tests docs
 
-test:headers geogen_tests
+test:geogen_tests
 
-geogen: $(COBJ_FILES) $(CPPOBJ_FILES)
+geogen: headers $(COBJ_FILES) $(CPPOBJ_FILES)
 	g++ -o $@ $^ -lz -g
 
-geogen_tests: $(COBJ_FILES) $(CPPOBJ_TESTS_FILES)
+geogen_tests: headers $(COBJ_FILES) $(CPPOBJ_FILES) $(CPPOBJ_TESTS_FILES)
 	g++ -o $@ $^ -lz -g
 	./geogen_tests
 	
@@ -60,3 +60,6 @@ release: geogen docs
 clean:
 	@rm $(COBJ_FILES) $(CPPOBJ_FILES) $(CPPOBJ_TESTS_FILES)
 	@rm -rf release
+	@rm -rf documentation/ScriptingLanguage/html
+	@rm -rf documentation/CppApi/html
+	@rm -rf include
