@@ -7,17 +7,19 @@ COBJ_FILES := $(patsubst %.c, %.o, $(C_FILES:.c=.o))
 CPP_FLAGS := -std=c++98 -Isrc/antlr3 -Iinclude -Isrc/png++ -Isrc/lpng1612 -Iinclude -v  -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H  -g
 C_FLAGS := -std=c++98 -Isrc/antlr3 -fpermissive -w -DANTLR3_NODEBUGGER -DHAVE_STDINT_H -DSTDC_HEADERS -DHAVE_STRING_H -DHAVE_STRINGS_H -g
 
-.PHONY: examples release
+.PHONY: release run_tests
 
-all:geogen_tests docs
+all:headers geogen geogen_tests docs
 
-test:geogen_tests
+test:headers geogen_tests run_tests
 
-geogen: headers $(COBJ_FILES) $(CPPOBJ_FILES)
+geogen: $(COBJ_FILES) $(CPPOBJ_FILES)
 	g++ -o $@ $^ -lz -g
 
-geogen_tests: headers $(COBJ_FILES) $(CPPOBJ_FILES) $(CPPOBJ_TESTS_FILES)
-	g++ -o $@ $^ -lz -g
+geogen_tests: $(COBJ_FILES) $(CPPOBJ_TESTS_FILES)
+	g++ -o $@ $^ -lz -g	
+	
+run_tests:
 	./geogen_tests
 	
 headers:
@@ -30,7 +32,7 @@ docs:
 	doxygen Doxyfile
 	cd src/ScriptingDocumentation && doxygen Doxyfile
 
-release: geogen docs
+release: headers geogen docs
 	rm -rf release/geogen
 	mkdir -p release/geogen
 	
