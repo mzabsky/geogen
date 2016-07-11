@@ -29,9 +29,6 @@ map.Blur(50);
 var noise = HeightMap.Noise(); 
 map.Add(noise);
 yield map; 
-
-/*
-
 /// [Metadata]
 
 /// [Template]
@@ -70,13 +67,15 @@ var distanceMap = HeightMap.DistanceMap(template, 100)
 	.Add(-0.07);
 	
 distanceMap.Add(HeightMap.RadialGradient(@[0.5, 0.5], 700, -1, 1));
-	
-yield distanceMap as "DistanceMap";
+/// [DistanceMap]
 
+/// [Combination]
 distanceMap.Multiply(0.5);
-
 distanceMap.Add(HeightMap.RidgedNoise().Multiply(0.45));
+/// [Combination]
 
+/// [Glaciation]
 distanceMap.Glaciate();
+/// [Glaciation]
 
-yield distanceMap;*/
+yield distanceMap;
