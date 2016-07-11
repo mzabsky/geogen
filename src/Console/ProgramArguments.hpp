@@ -42,7 +42,7 @@ namespace geogen
 				this->displayHelp = false;
 				this->isNonInteractive = false;
 				this->inputFile = GG_STR("");
-				this->outputDirectory = GG_STR("");
+				this->outputDirectory = GG_STR(".");
 				this->seed = GG_STR("");
 			}
 		};
