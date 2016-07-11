@@ -165,7 +165,7 @@
 /// @code{.cs}
 /// return HeightMap.Flat(); // GGE1304
 /// @endcode
-     
+
 /// @page gge1306 GGE1306
 /// The script has declared a function which with a name which was already used by another function (either predefined or defined previously by the script).
 /// 
@@ -900,14 +900,13 @@
 /// map.Glaciate(-0.1); // GGE2715
 /// @endcode
 
-/// @page gge2716 GGE2717
+/// @page gge2716 GGE2716
 /// Number of strata passed to function like HeightMap.Stratify was ouside of the supported range (1 to 100).
 /// 
 /// @code{.cs}
 /// var map = HeightMap.Noise();
-/// map.Stratify(0); // GGE2717
+/// map.Stratify(0); // GGE2716
 /// @endcode
-
 
 /// @page gge2801 GGE2801
 /// The script finished without @link yield yielding@endlink the main height map.
