@@ -266,6 +266,7 @@
 ///     KeyB: "B",
 ///     KeyA: "C" //GGE1401
 /// }
+/// @endcode
 
 /// @page gge1402 GGE1402
 /// The `Parameters` node of @link metadata script metadata@endlink was not key-value collection node. 
