@@ -109,7 +109,6 @@
 /// 
 /// Following parameter names are reserved and must not be used:
 /// @verbatim Width, Height, RenderOriginX, RenderOriginY, RenderWidth, RenderHeight @endverbatim
-/// 
 /// @section accessing_parameters Accessing script parameters from code
 /// All script parameters, including map dimensions and additional render parameters can be accesses via the Parameters global object.
 /// This object has following predefined properties in addition to any user parameters declared by the script:

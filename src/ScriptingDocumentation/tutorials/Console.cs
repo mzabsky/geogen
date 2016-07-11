@@ -8,7 +8,6 @@
 /// Command `load` (shorthand `l`) can be used to load a script:
 /// 
 /// @verbatim load myScript.ggs@endverbatim
-/// 
 /// This command loads the script and compiles it (and prints any compilation errors if necessary). Command `run` (`r`) can then be used to execute the script. A script can be executed as many times as you wish.
 /// 
 /// @image html tut_console_run.png
@@ -17,7 +16,6 @@
 ///
 ///
 /// @section console_script_parameters Script parameters
-///
 /// Following commands can be used to adjust execution of the scripts:
 ///
 /// Command name | Cue/shorthand       | Description
@@ -36,7 +34,6 @@
 /// rsc 0.5
 /// ro 0 125
 /// rs 125@endverbatim
-///  
 /// Values set with all these commands will remain effective until changed once again with that command (throughout multiple execution of the script and even after loading another script).
 /// 	   
 /// @section console_debugger Debugging scripts
@@ -60,7 +57,6 @@
 /// When the script finishes executing successfully it will automatically switch to the renderer debugger.
 /// 
 /// @section console_renderer Renderer debugger
-///
 /// Renderer debugger allows manual control over the rendering process. It works similar to the script debugger, except each `step` (or enter) advances the process by one rendering step instead of one instruction (`run`/`r` also works). Most other commands are different than in the loader or debugger context though.
 /// 
 /// @image html tut_console_renderer.png

@@ -16,7 +16,6 @@
 /// Following keywords are reserved by the language and cannot be used as identifiers in any context:
 /// 
 /// @verbatim as, break, case, continue, default, else, false, if, is, for, metadata, null, return, true, var, while, yield@endverbatim
-/// 
 /// All keywords are case-sensitive.
 ///
 /// @section whitespace Whitespace

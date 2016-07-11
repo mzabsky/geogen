@@ -870,7 +870,6 @@
 /// The transformation matrix must be [invertible](http://en.wikipedia.org/wiki/Invertible_matrix). An invertible matrix always has non-zero [determinant](http://en.wikipedia.org/wiki/Determinant), which can be calculated using following formula:
 /// 
 /// @verbatim determinant = a11 * a22 - a12 * a21@endverbatim
-/// 
 /// Non-invertible (singular) matrices usually have their rows/columns related in an unnatural way (for example two rows/columns are the same or a multiple of each other) or have a row/column composed exclusively from zeroes.
 /// 
 /// @code{.cs}
