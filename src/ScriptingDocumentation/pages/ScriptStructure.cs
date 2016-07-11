@@ -22,4 +22,5 @@
 /// var map = HeightMap.Empty();
 /// yield map;
 /// @endcode
-///         
+///
+

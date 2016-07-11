@@ -49,3 +49,4 @@
 /// Bit operators which return Number or Boolean will return Boolean as long as both the operands are of type Boolean, otherwise Number will be returned. Both of the operands must be of the same type (eg. `2 & true` is not legal).
 /// 
 /// Operator @ returns Point as long as its operand was a Point, otherwise it returns a Coordinate.
+

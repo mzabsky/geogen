@@ -18,3 +18,4 @@
 /// A user function can be defined at any location in the top level block in the script body, before or after @link metadata metadata@endlink. A function may be called in code above its definitions (forward declarations are not required).
 /// 
 /// Function overloading is not supported - multiple functions must not share names.
+

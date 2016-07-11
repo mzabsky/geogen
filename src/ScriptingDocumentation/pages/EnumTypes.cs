@@ -69,3 +69,4 @@
 /// 
 /// var value = KindOfFruit.FromNumber(4); // value will be KindOfFruit.Orange
 /// @endcode
+
