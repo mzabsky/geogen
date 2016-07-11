@@ -8,7 +8,18 @@ class HeightMap
 {
 public:
     
-	/// Creates a height map with constant @a height.
+    /// Creates a map filled with cell (Worley) noise.
+    /// 
+    /// Example:
+    /// @code{.cs}
+    /// var main = HeightMap.CellNoise(200);
+    /// yield main;
+    /// @endcode           
+    /// 
+    /// @image html std_2d_cellnoise.png
+    /// 
+    /// @see [Worley noise](https://en.wikipedia.org/wiki/Worley_noise)
+    /// 
 	/// @param meanCellSize Mean width/height of each cell. Must be greater than 0.
 	/// @param seed (Optional) Random seed. If not provided, 0 is used. This seed is always combined with the main script seed provided in script arguments to the script.
 	/// @return The height map.
@@ -26,7 +37,7 @@ public:
     /// 
     /// @image html std_2d_clone.png
     /// 
-	/// @param heightMap (Optional) The map to copy.
+	/// @param heightMap The map to copy.
 	/// @return The height map.
 	static HeightMap Clone(HeightMap heightMap);
 
