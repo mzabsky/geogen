@@ -975,7 +975,7 @@ void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed,
 
 	Size1D physicalWaveLength = this->GetScaledSize(waveLength);
 
-	if (physicalWaveLength == 1)
+	if (physicalWaveLength <= 1)
 	{
 		// For wave length 1 no interpolation is necessary.
 
