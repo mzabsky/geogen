@@ -29,7 +29,7 @@ using namespace renderer;
 const String Renderer::MAP_NAME_MAIN = GG_STR("main");
 
 Renderer::Renderer(RenderingSequence const& renderingSequence, Configuration configuration)
-: configuration(configuration), renderingSequence(renderingSequence), nextStep(renderingSequence.Begin()), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY), renderingSequenceMetadata(renderingSequence), graph(renderingSequence)
+: configuration(configuration), renderingSequence(renderingSequence), nextStep(renderingSequence.Begin()), objectTable(renderingSequence.GetRequiredObjectTableSize()), status(RENDERER_STATUS_READY), renderingSequenceMetadata(renderingSequence), graph(renderingSequence), stepCounter(0)
 {
 }
 
