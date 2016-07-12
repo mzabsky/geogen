@@ -91,7 +91,7 @@ namespace geogen
 
 						renderer.Step();
 
-						loader->GetOut() << round(renderer.GetProgress()*10)/10 << "% ";
+						loader->GetOut() << round(renderer.GetProgress()*10)/10 << "% " << std::flush;
 
 						i++;
 					}
