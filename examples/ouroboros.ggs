@@ -21,7 +21,7 @@ var templateMask = HeightMap.RadialGradient([0,0], Parameters.MapWidth * (0.14 -
 	.Multiply(5)
 	.Blur(50);
 
-var template = HeightMap.RadialGradient([0,0], Parameters.MapWidth * (0.14 - Parameters.NumberOfIslands * 0.01), 1, -1)
+var template = HeightMap.RadialGradient([0,0], Parameters.MapWidth * (0.13 - Parameters.NumberOfIslands * 0.01), 1, -1)
 	.Multiply(3)
 	.Multiply(0.4)
 	.Rescale(3, 1)
