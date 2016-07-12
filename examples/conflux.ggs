@@ -22,18 +22,11 @@ metadata
 		NumberOfRivers: { Min: 2, Max: 16, Default: 6 }
 	}
 }
-
-var map = HeightMap.RadialGradient
-			([500, 500], 500, 0.5, 0); 
-map.Blur(50); 
-var noise = HeightMap.Noise(); 
-map.Add(noise);
-yield map; 
 /// [Metadata]
 
 /// [Template]
 var template = HeightMap.Flat(1);
- 
+
 // Draw the star from lines
 var angleStep = 360 / Parameters.NumberOfRivers;
 var startingAngle = Random(0, 360);
@@ -49,7 +42,7 @@ for(var angle = startingAngle; angle < startingAngle + 360; angle += angleStep)
     template.DrawLine(@[0.5, 0.5], point, -1);
 }
 
-//template.Intersect(HeightMap.RadialGradient(@[0.5, 0.5], Number.FromEnum(Parameters.LakeSize) * 50, -1, 1));
+template.Intersect(HeightMap.RadialGradient(@[0.5, 0.5], Number.FromEnum(Parameters.LakeSize) * 50, -1, 1));
 /// [Template]
 
 /// [Distortion]
@@ -62,20 +55,31 @@ template.CropHeights(1, 1, 0);
 /// [Sharpening]
 
 /// [DistanceMap]
-var distanceMap = HeightMap.DistanceMap(template, 100)
-	.Blur(15)
+var distanceMap = HeightMap.DistanceMap(template, 200)
+	.Blur(5)
 	.Add(-0.07);
-	
-distanceMap.Add(HeightMap.RadialGradient(@[0.5, 0.5], 700, -1, 1));
 /// [DistanceMap]
 
 /// [Combination]
-distanceMap.Multiply(0.5);
-distanceMap.Add(HeightMap.RidgedNoise().Multiply(0.45));
+var noise = HeightMap.Noise(CreateNoiseLayers(128), 2)
+	.Abs()
+	.Add(0.05);
+
+var mask = HeightMap.Clone(distanceMap)
+	.ClampHeights(0, 1)
+	.Multiply(0.3)
+	.ClampHeights(0.01, 1)
+	.Multiply(5)
+	.Blur(20);
+
+var final = HeightMap.Clone(distanceMap)
+	.ClampHeights(-1, 0)
+	.Blur(5)
+	.Add(noise, mask);
 /// [Combination]
 
 /// [Glaciation]
-distanceMap.Glaciate();
-/// [Glaciation]
+final.Glaciate(0.1);
 
-yield distanceMap;
+yield final;
+/// [Glaciation]
