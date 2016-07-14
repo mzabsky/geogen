@@ -769,6 +769,7 @@
     </ClCompile>
     <ClCompile Include="corelib\HeightMapCellNoiseFunctionDefinition.cpp" />
     <ClCompile Include="corelib\HeightMapCellNoiseRenderingStep.cpp" />
+    <ClCompile Include="genlib\fastnoise\FastNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeLocation.hpp" />
@@ -1808,6 +1809,7 @@
     </ClInclude>
     <ClInclude Include="corelib\HeightMapCellNoiseFunctionDefinition.hpp" />
     <ClInclude Include="corelib\HeightMapCellNoiseRenderingStep.hpp" />
+    <ClInclude Include="genlib\fastnoise\FastNoise.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generate-geogen-hpp.ps1" />

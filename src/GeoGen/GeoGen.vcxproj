@@ -281,6 +281,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClInclude Include="corelib\ParseNoiseInput.hpp" />
     <ClInclude Include="corelib\InvalidTransformationMatrixException.hpp" />
     <ClInclude Include="genlib\CommonProfileFactory.hpp" />
+    <ClInclude Include="genlib\fastnoise\FastNoise.h" />
     <ClInclude Include="genlib\NoiseLayersFactory.hpp" />
     <ClInclude Include="corelib\NullKeyException.hpp" />
     <ClInclude Include="corelib\NumberFromCoordinateFunctionDefinition.hpp" />
@@ -589,6 +590,7 @@ powershell -version 2.0 -NoLogo -NonInteractive -Command .'$(ProjectDir)generate
     <ClCompile Include="corelib\RandomSequence2DGetNumberFunctionDefinition.cpp" />
     <ClCompile Include="corelib\RandomSequence2DTypeDefinition.cpp" />
     <ClCompile Include="genlib\CommonProfileFactory.cpp" />
+    <ClCompile Include="genlib\fastnoise\FastNoise.cpp" />
     <ClCompile Include="genlib\HeightMap.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="corelib\RelativeCoordinateOperatorFunctionDefinition.cpp" />
