@@ -19,3 +19,5 @@ geogen_tests.exe
 out/*
 Test*.png
 **/Thumbs.db
+*.pch
+*.tlog
