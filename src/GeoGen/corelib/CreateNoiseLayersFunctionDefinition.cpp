@@ -81,7 +81,7 @@ ManagedObject* CreateNoiseLayersFunctionDefinition::CallNative(CodeLocation loca
 	map<Size1D, Number> layers;
 	Size1D currentWaveLength = maximumFeatureSize;
 	Number currentAmplitude = 1;
-	while (currentWaveLength > minimumFeatureSize)
+	while (currentWaveLength >= minimumFeatureSize && currentWaveLength > 0)
 	{
 		layers[currentWaveLength] = currentAmplitude;
 
