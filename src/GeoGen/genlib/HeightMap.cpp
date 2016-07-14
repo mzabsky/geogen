@@ -979,11 +979,11 @@ void HeightMap::NoiseLayer(Size1D waveLength, Height amplitude, RandomSeed seed,
 		Point logicalPoint = this->GetLogicalPoint(Point(x, y));
 		if(isRidged)
 		{
-			(*this)(x, y) += abs(amplitude * fastNoise.GetNoise(logicalPoint.GetX(), logicalPoint.GetY()));
+			(*this)(x, y) += abs(amplitude * fastNoise.GetNoise(logicalPoint.GetX(), logicalPoint.GetY(), 0));
 		}
 		else
 		{
-			(*this)(x, y) += amplitude * fastNoise.GetNoise(logicalPoint.GetX(), logicalPoint.GetY());
+			(*this)(x, y) += amplitude * fastNoise.GetNoise(logicalPoint.GetX(), logicalPoint.GetY(), 0);
 		}
 	}
 }
