@@ -155,6 +155,7 @@
     <ClInclude Include="renderer_commands\QuitRendererCommand.hpp">
       <Filter>renderer_commands</Filter>
     </ClInclude>
+    <ClInclude Include="loader_commands\ProfileLoaderCommand.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="runtime_commands">

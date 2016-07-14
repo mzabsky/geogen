@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #include "loader_commands/RenderScaleLoaderCommand.hpp"
 #include "loader_commands/RenderSizeLoaderCommand.hpp"
 #include "loader_commands/RunLoaderCommand.hpp"
+#include "loader_commands/ProfileLoaderCommand.hpp"
 
 using namespace geogen;
 using namespace compiler;
@@ -67,6 +68,7 @@ Loader::Loader(geogen::IStream& in, geogen::OStream& out, ProgramArguments progr
 	this->commandTable.AddCommand(new RenderScaleLoaderCommand());
 	this->commandTable.AddCommand(new RenderSizeLoaderCommand());
 	this->commandTable.AddCommand(new RunLoaderCommand());
+	this->commandTable.AddCommand(new ProfileLoaderCommand());
 }
 
 void Loader::Run()
